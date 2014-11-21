@@ -20,10 +20,11 @@ public class RandomMaze : MonoBehaviour
     private List<Vector3> NodesPos = new List<Vector3>();
     public static List<WayPoint> Nodes = new List<WayPoint>();
 
+	public static float planewidthS;
     //Use this for initialization
     void Awake()
     {
-
+		planewidthS = planewidth;
         //Generate floors
         GenerateFloor();
         //Generate walls
@@ -254,7 +255,9 @@ public class RandomMaze : MonoBehaviour
             return 0;
     }
 
-
+	public static float getPlaneWidth(){
+		return planewidthS;
+	}
 
 
 }
