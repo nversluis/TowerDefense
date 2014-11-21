@@ -90,7 +90,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camDis: 6
-  Player: {fileID: 100000, guid: 048f9b43b53072a44814788470f6f6df, type: 2}
+  Player: {fileID: 100002, guid: 048f9b43b53072a44814788470f6f6df, type: 2}
 --- !u!124 &12400000
 Behaviour:
   m_ObjectHideFlags: 1

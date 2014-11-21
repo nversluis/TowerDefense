@@ -58,11 +58,14 @@ public class CameraController : MonoBehaviour {
         // create a vector from the player to the camera
         Vector3 relativePos = transform.position - new Vector3(0f, camOffset, 0f) - (Player.transform.position);
 
+        RaycastHit[] hits;
+
         // casting a ray from player to camera and checking if it hit something
         if (Physics.Raycast(Player.transform.position + new Vector3(0f,camOffset,0f), relativePos, out hit, camDis + 0.5f))
         {
+            hits = Physics.RaycastAll(Player.transform.position + new Vector3(0f, camOffset, 0f), relativePos, camDis + 0.5f);
             // setting an offset of the camera so it doesnt go through a wall
-            distanceOffset = camDis - hit.distance + 0.8f;
+            distanceOffset = camDis - hits[0].distance + 0.8f;
             distanceOffset = Mathf.Clamp(distanceOffset, 0f, camDis);
         }
          // else a normal distance offset

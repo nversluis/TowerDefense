@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     public GameObject camera;
     public GameObject Bullet;
 
-    private float playerSpeed = 0.2f;
+    private float playerSpeed = 1f;
     private float BulletSpeed = 3000f;
     private float closestCorrection = 3f;
     public float camAngleX;
@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
         float inVert = playerSpeed * Input.GetAxisRaw("Vertical");
         
         //return the movement of the player according to camera rotation and input
-        Vector3 movement = new Vector3((Mathf.Cos(camAngleY * Mathf.Deg2Rad) * inHorz + Mathf.Sin(camAngleY * Mathf.Deg2Rad) * inVert), 0f, (-Mathf.Sin(camAngleY * Mathf.Deg2Rad) * inHorz + Mathf.Cos(camAngleY * Mathf.Deg2Rad) * inVert));
+        Vector3 movement = new Vector3((Mathf.Cos(camAngleY * Mathf.Deg2Rad) * inHorz + Mathf.Sin(camAngleY * Mathf.Deg2Rad) * inVert), 0f, (-Mathf.Sin(camAngleY * Mathf.Deg2Rad) * inHorz + Mathf.Cos(camAngleY * Mathf.Deg2Rad) * inVert)).normalized;
         return movement;
 
     }
@@ -32,15 +32,24 @@ public class PlayerController : MonoBehaviour
     // Method for moving the player
     private void playerMovement()
     {
-        // moving player according to playerInput
-        rigidbody.position = rigidbody.position + playerInput();
+        float distance = Vector3.Distance(rigidbody.transform.position + playerInput(), transform.rigidbody.position);
+        if (distance != 0)
+        {
+            Debug.DrawRay(rigidbody.transform.position, playerInput());
+            if (!Physics.Raycast(rigidbody.transform.position, playerInput(), distance))
+            {
+                // moving player according to playerInput
+                rigidbody.position = rigidbody.position + playerInput();
+            }
+
+
+        }
 
         // setting rotation of player in the direction of the camera
         transform.rotation = Quaternion.Euler(0f, camera.transform.rotation.eulerAngles.y, 0f);
 
         // bring x and z veloctities to zero
         rigidbody.velocity = new Vector3(0f, rigidbody.velocity.y, 0f);
-
     }
 
     // Method that runs when left button is pressed
