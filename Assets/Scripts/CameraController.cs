@@ -91,7 +91,12 @@ public class CameraController : MonoBehaviour {
         if (Physics.Raycast(transform.position + new Vector3(0f, camOffset, 0f), transform.forward, out hit))
         {
             hitObject = hit.collider.gameObject;
+			Debug.Log (hitObject.name);
         }
 
+	}
+	// Return the object which the camera
+	public static GameObject getHitObject(){
+		return hitObject;
 	}
 }

@@ -32,7 +32,7 @@ public class TowerScript : MonoBehaviour {
 		}
 
 		//Delete hotspots
-        if (gameObject == CameraController.hitObject && gameObject.tag.Equals("Tower")) 	
+        if (gameObject == CameraController.getHitObject() && gameObject.tag.Equals("Tower")) 	
 			WallScript.DestroyHotSpots ();
 
 		//change hotspots according to distance
