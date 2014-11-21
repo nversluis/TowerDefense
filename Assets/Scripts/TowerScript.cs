@@ -8,7 +8,8 @@ public class TowerScript : MonoBehaviour {
 	Color transparentred = new Color(255,0,0,0.1f);
 
 	public void BuildTower(){
-			GameObject tower = (GameObject)Instantiate (TowerVariables.curTower,transform.position, transform.rotation);
+		GameObject tower = (GameObject)Instantiate (TowerVariables.curTower,transform.position, transform.rotation);
+		tower.gameObject.transform.localScale=new Vector3(RandomMaze.getPlaneWidth()/2,RandomMaze.getPlaneWidth()/2,RandomMaze.getPlaneWidth()/100);
 			tower.tag = "Tower";
 			tower.collider.isTrigger = false;
 			Destroy (gameObject);
@@ -32,7 +33,7 @@ public class TowerScript : MonoBehaviour {
 		}
 
 		//Delete hotspots
-        if (gameObject == CameraController.hitObject && gameObject.tag.Equals("Tower")) 	
+        if (gameObject == CameraController.getHitObject() && gameObject.tag.Equals("Tower")) 	
 			WallScript.DestroyHotSpots ();
 
 		//change hotspots according to distance

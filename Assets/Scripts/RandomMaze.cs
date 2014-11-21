@@ -20,10 +20,11 @@ public class RandomMaze : MonoBehaviour
     private List<Vector3> NodesPos = new List<Vector3>();
     public static List<WayPoint> Nodes = new List<WayPoint>();
 
+	public static float planewidthS;
     //Use this for initialization
     void Awake()
     {
-
+		planewidthS = planewidth;
         //Generate floors
         GenerateFloor();
         //Generate walls
@@ -202,7 +203,7 @@ public class RandomMaze : MonoBehaviour
                     GameObject node2 = (GameObject)Instantiate(node, new Vector3(curPos[0] * planewidth + (n - planewidth/2), 0, curPos[1] * planewidth + (e - planewidth/2)), Quaternion.identity);
                     //node2.transform.parent = gameObject.transform;
                     //node2.name = "Node";
-                    Debug.Log(e);
+                    
                     if (!NodesPos.Contains(node2.transform.position))
                     {
                         NodesPos.Add(node2.transform.position);
@@ -254,7 +255,9 @@ public class RandomMaze : MonoBehaviour
             return 0;
     }
 
-
+	public static float getPlaneWidth(){
+		return planewidthS;
+	}
 
 
 }

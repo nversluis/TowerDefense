@@ -91,10 +91,18 @@ public class CameraController : MonoBehaviour {
         CamCollide();
 
         // casting a ray to see what object is in front of the camera
-        if (Physics.Raycast(transform.position + new Vector3(0f, camOffset, 0f), transform.forward, out hit))
+        if (Physics.Raycast(transform.position + new Vector3(0f, 0f, 0f), transform.forward, out hit))
         {
             hitObject = hit.collider.gameObject;
+			Debug.Log (hitObject.name);
         }
 
+		//Set cursor to center of screen
+		Screen.lockCursor = true;
+
+	}
+	// Return the object which the camera
+	public static GameObject getHitObject(){
+		return hitObject;
 	}
 }
