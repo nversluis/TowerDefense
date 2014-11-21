@@ -1,0 +1,27 @@
+﻿using UnityEngine;
+using System.Collections;
+
+// Class for determining where to spawn the player
+public class PlayerSpawner : MonoBehaviour
+{
+
+    // Player and camera prefabs
+    public GameObject player;
+    public GameObject camera;
+    public GameObject Gui;
+
+    // when starting the game
+    void Start()
+    {
+        // create player and camera
+        GameObject Player = (GameObject)Instantiate(player, transform.position + new Vector3(0f,2f,0f), Quaternion.identity);
+        Player.name = "Player";
+        GameObject MainCamera = (GameObject)Instantiate(camera, transform.position + new Vector3(0f, 2f, 0f), Quaternion.identity);
+        MainCamera.name = "Main Camera";
+        GameObject MainGui = (GameObject)Instantiate(Gui, transform.position, Quaternion.identity);
+        MainGui.name = "GUI";
+
+
+    }
+
+}
