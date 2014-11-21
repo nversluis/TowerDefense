@@ -3,26 +3,52 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class WayPoint {
-	private Vector3 position;
-	private List<WayPoint> destinations;
-	private ArrayList availableNodes;
+    private Vector3 position;
+    private WayPoint previous;
+    private List<WayPoint> destinations;
+    private string state;
+    private float cost = 0;
 
-	 public WayPoint(Vector3 position){
-		this.position = position;
-		destinations=new List<WayPoint>();	
-	}
+    public WayPoint(Vector3 pos, string stt = "unexplored") {
+        position = pos;
+        state = stt;
+        destinations = new List<WayPoint>();
+    }
 
-	public void AddNode(WayPoint node){
-		destinations.Add (node);
-	}
+    public List<WayPoint> getDestinations() {
+        return destinations;
+    }
 
-	public List<WayPoint> getDestinations(){
-		return destinations;
-	}
+    public Vector3 getPosition() {
+        return position;
+    }
 
-	public Vector3 getPosition(){
-				return position;
-		}
+    public WayPoint getPrevious() {
+        return previous;
+    }
 
+    public string getState() {
+        return state;
+    }
+
+    public float getCost() {
+        return cost;
+    }
+
+    public void setPrevious(WayPoint wp) {
+        previous = wp;
+    }
+
+    public void setState(string stt) {
+        state = stt;
+    }
+
+    public void setCost(float cst) {
+        cost = cst;
+    }
+
+    public void AddNode(WayPoint node) {
+        destinations.Add(node);
+    }
 
 }
