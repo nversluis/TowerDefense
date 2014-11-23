@@ -8,23 +8,37 @@ public class PlayerController : MonoBehaviour
     public GameObject camera;
     public GameObject Bullet;
 
-    private float playerSpeed = 1f;
+    private float playerSpeed = 0.4f;
     private float BulletSpeed = 3000f;
     private float closestCorrection = 3f;
-    public float camAngleX;
+    private float camAngleX;
     private float camAngleY;
     private float distortion;
+    private float turnSpeed = 0.5f;
+    private float jumpSpeed = 8;
+    private bool jumping;
+
 
     // Method for getting player input
     private Vector3 playerInput()
     {
+        // initializing the player controller
+        CharacterController charController = GetComponent<CharacterController>();
+
         // determining the camera angle around origin y and the inputs of the user
         camAngleY = camera.transform.rotation.eulerAngles.y;
-        float inHorz = playerSpeed * Input.GetAxisRaw("Horizontal");
-        float inVert = playerSpeed * Input.GetAxisRaw("Vertical");
-        
+        float inHorz = Input.GetAxisRaw("Horizontal");
+        float inVert = Input.GetAxisRaw("Vertical");
+
+        // Movements of player
+        float moveX = Mathf.Cos(camAngleY * Mathf.Deg2Rad) * inHorz + Mathf.Sin(camAngleY * Mathf.Deg2Rad) * inVert;
+        float moveY = 0f;
+        float moveZ = -Mathf.Sin(camAngleY * Mathf.Deg2Rad) * inHorz + Mathf.Cos(camAngleY * Mathf.Deg2Rad) * inVert;
+
+        // creating a movement vector
+        Vector3 movement = new Vector3(moveX, moveY, moveZ);
+
         //return the movement of the player according to camera rotation and input
-        Vector3 movement = new Vector3((Mathf.Cos(camAngleY * Mathf.Deg2Rad) * inHorz + Mathf.Sin(camAngleY * Mathf.Deg2Rad) * inVert), 0f, (-Mathf.Sin(camAngleY * Mathf.Deg2Rad) * inHorz + Mathf.Cos(camAngleY * Mathf.Deg2Rad) * inVert)).normalized;
         return movement;
 
     }
@@ -32,24 +46,20 @@ public class PlayerController : MonoBehaviour
     // Method for moving the player
     private void playerMovement()
     {
-        float distance = Vector3.Distance(rigidbody.transform.position + playerInput(), transform.rigidbody.position);
-        if (distance != 0)
+
+        // initializing the player controller
+        CharacterController charController = GetComponent<CharacterController>();
+
+        if (charController.velocity != Vector3.zero)
         {
-            Debug.DrawRay(rigidbody.transform.position, playerInput());
-            if (!Physics.Raycast(rigidbody.transform.position, playerInput(), distance))
-            {
-                // moving player according to playerInput
-                rigidbody.position = rigidbody.position + playerInput();
-            }
-
-
+            // setting rotation of player in the direction of the speed of the player
+            transform.rotation = Quaternion.Slerp(transform.rotation,Quaternion.Euler(0f,Quaternion.LookRotation(playerInput()*playerSpeed).eulerAngles.y,0f), turnSpeed);
         }
 
-        // setting rotation of player in the direction of the camera
-        transform.rotation = Quaternion.Euler(0f, camera.transform.rotation.eulerAngles.y, 0f);
+        // moving the player according to input
+        charController.Move(playerInput()*playerSpeed);
 
-        // bring x and z veloctities to zero
-        rigidbody.velocity = new Vector3(0f, rigidbody.velocity.y, 0f);
+
     }
 
     // Method that runs when left button is pressed
@@ -92,6 +102,9 @@ public class PlayerController : MonoBehaviour
         // add the force to the bullet
         bullet.rigidbody.AddForce(new Vector3(bulletForceX, bulletForceY, bulletForceZ));
         BulletDistortion();
+
+        // looking in the direction of the camera
+        transform.rotation = Quaternion.Euler(0f, camera.transform.rotation.eulerAngles.y,0f);
     }
     
     // Method that distorts the direction of the bullet
@@ -108,6 +121,8 @@ public class PlayerController : MonoBehaviour
         Screen.showCursor = false;
         camera = GameObject.Find("Main Camera");
 
+
+
     }
     
     // Update void which updates every frame
@@ -120,6 +135,7 @@ public class PlayerController : MonoBehaviour
             OnLeftMouseDown();
         }
 
+        jumping = Input.GetButtonDown("Jump");  
     }
     // Updates 60 times per second and not per frame
     void FixedUpdate()
