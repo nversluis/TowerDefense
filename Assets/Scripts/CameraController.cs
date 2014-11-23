@@ -9,11 +9,12 @@ public class CameraController : MonoBehaviour {
 
     // initializing camera properties
     public float camDis = 6;
-    public static float camOffset = 2;
+    private float camOffset = 2;
     private float distanceOffset;
     private float scrollSpeed = 4;
     private float maxCamHeight = 10;
-    private float minCamHeight = 3;
+    private float minCamHeight = 0;
+    private float mouseSpeed = 2;
 
     // initializing Player gameobject
     public GameObject Player;
@@ -34,10 +35,10 @@ public class CameraController : MonoBehaviour {
     {
         // change camera height according to input from mouse scrollwheel and setting limits
         camDis = Mathf.Clamp(camDis-Input.GetAxisRaw("Mouse ScrollWheel") * scrollSpeed, minCamHeight, maxCamHeight);
-        
+
         // determining input from mouse axis
-        float mousex = Input.GetAxisRaw("Mouse X");
-        float mousey = Input.GetAxisRaw("Mouse Y");
+        float mousex = Input.GetAxisRaw("Mouse X") * mouseSpeed;
+        float mousey = Input.GetAxisRaw("Mouse Y") * mouseSpeed;
 
         // updating x and y with mouse movement. Limiting the y movement.
         x = x + mousex;
@@ -48,24 +49,33 @@ public class CameraController : MonoBehaviour {
         transform.rotation = camRot;
 
         // calculating position of camera and setting position of camera
-        Vector3 position = camRot * new Vector3(0f, 0f, -camDis + distanceOffset) + Player.transform.position + new Vector3(0f,camOffset,0f);
+        Vector3 probPosition = camRot * new Vector3(0f, 0f, -camDis) + Player.transform.position + new Vector3(0f,camOffset,0f);
+        // Checking for collision from camera with objects with method
+        CamCollide(probPosition);
+
+        // calculating position of camera and setting position of camera
+        Vector3 position = camRot * new Vector3(0f, 0f, -camDis + distanceOffset) + Player.transform.position + new Vector3(0f, camOffset, 0f);
+
         transform.position = position;
     }
 
     // method for determining if the camera got through an object
-    private void CamCollide()
+    private void CamCollide(Vector3 Position)
     {
         // create a vector from the player to the camera
-        Vector3 relativePos = transform.position - new Vector3(0f, camOffset, 0f) - (Player.transform.position);
+        Vector3 relativePos = Position  - (Player.transform.position);
 
         RaycastHit[] hits;
 
+        Debug.DrawRay(Player.transform.position , relativePos);
+
+
         // casting a ray from player to camera and checking if it hit something
-        if (Physics.Raycast(Player.transform.position + new Vector3(0f,camOffset,0f), relativePos, out hit, camDis + 0.5f))
+        if (Physics.Raycast(Player.transform.position , relativePos, out hit, camDis + 0.5f))
         {
-            hits = Physics.RaycastAll(Player.transform.position + new Vector3(0f, camOffset, 0f), relativePos, camDis + 0.5f);
+            hits = Physics.RaycastAll(Player.transform.position, relativePos, camDis + 0.5f);
             // setting an offset of the camera so it doesnt go through a wall
-            distanceOffset = camDis - hits[0].distance + 0.8f;
+            distanceOffset = camDis - hit.distance + 0.8f;
             distanceOffset = Mathf.Clamp(distanceOffset, 0f, camDis);
         }
          // else a normal distance offset
@@ -73,6 +83,7 @@ public class CameraController : MonoBehaviour {
         {
             distanceOffset = 0f;
         }
+
     }
 
     void LateUpdate()
@@ -80,18 +91,20 @@ public class CameraController : MonoBehaviour {
         // Moving camera with method
         CamMov();
 
-
     }
-   
+
+    void Update()
+    {
+      
+    }
 
 	// Update is called once per frame
 	void FixedUpdate () {
 
-        // Checking for collision from camera with objects with method
-        CamCollide();
+
 
         // casting a ray to see what object is in front of the camera
-        if (Physics.Raycast(transform.position + new Vector3(0f, 0f, 0f), transform.forward, out hit))
+        if (Physics.Raycast(transform.position, transform.forward, out hit))
         {
             hitObject = hit.collider.gameObject;
         }
@@ -100,6 +113,7 @@ public class CameraController : MonoBehaviour {
 		Screen.lockCursor = true;
 
 	}
+
 	// Return the object which the camera
 	public static GameObject getHitObject(){
 		return hitObject;
