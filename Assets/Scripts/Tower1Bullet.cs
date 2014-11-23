@@ -8,13 +8,13 @@ public class Tower1Bullet : MonoBehaviour {
 	private GameObject bullet;  // the prefab of the bullet
 	public float speed;
 	void Awake(){
-		//target = Tower1.targetObject;
+		target = Tower1.targetObject;
 		}
 
 	//todo, damage the target
+	//only triggers somehow when target is moving.
 	void OnTriggerEnter(Collider col){
-				if (col.gameObject.name.Equals (target.gameObject.name))
-						Destroy (gameObject);
+		Destroy (gameObject);
 		}
 
 	// Use this for initialization
@@ -25,6 +25,10 @@ public class Tower1Bullet : MonoBehaviour {
 	void Update () {
 		float step = speed * Time.deltaTime;
 		gameObject.transform.position = Vector3.MoveTowards (transform.position, target.transform.position,step);
+
+		if (Vector3.Distance (gameObject.transform.position, target.transform.position) <= 1f) {
+						Destroy (gameObject);
+				}
 
 	}
 }

@@ -12,9 +12,9 @@ GameObject:
   - 199: {fileID: 19900000}
   - 114: {fileID: 11400000}
   - 135: {fileID: 13500000}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Tower1Bullet
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

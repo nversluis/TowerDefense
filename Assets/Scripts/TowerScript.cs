@@ -10,9 +10,10 @@ public class TowerScript : MonoBehaviour {
 	public void BuildTower(){
 		GameObject tower = (GameObject)Instantiate (TowerVariables.curTower,transform.position, transform.rotation);
 		tower.gameObject.transform.localScale=new Vector3(RandomMaze.getPlaneWidth()/2,RandomMaze.getPlaneWidth()/2,RandomMaze.getPlaneWidth()/100);
-			tower.tag = "Tower";
-			tower.collider.isTrigger = false;
-			Destroy (gameObject);
+		tower.tag = "Tower";
+		tower.collider.isTrigger = false;
+		Destroy (gameObject);
+		tower.SetActiveRecursively (true);
 	}
 
 	void OnMouseOver(){
@@ -23,10 +24,6 @@ public class TowerScript : MonoBehaviour {
 	}
 
 	void Update(){
-		BaseUpdate ();
-		}
-
-	public void BaseUpdate(){
 		//check for click to build tower
 		if (Input.GetMouseButtonUp (0) && gameObject.tag.Equals ("TowerHotSpot")) {
 			BuildTower ();

@@ -65,46 +65,44 @@ public class PlayerController : MonoBehaviour
     // Method that runs when left button is pressed
     private void OnLeftMouseDown()
     {
-        // determining Angles of the camera with origin
-        camAngleX = camera.transform.rotation.eulerAngles.x;
-        camAngleY = camera.transform.rotation.eulerAngles.y;
+		if (TowerVariables.hasMagic) {
+						// determining Angles of the camera with origin
+						camAngleX = camera.transform.rotation.eulerAngles.x;
+						camAngleY = camera.transform.rotation.eulerAngles.y;
 
-        // initializing correctionAngle and hit
-        float yAngle;
-        float xzMag;
-        float yMag;
-        RaycastHit hit;
+						// initializing correctionAngle and hit
+						float yAngle;
+						float xzMag;
+						float yMag;
+						RaycastHit hit;
 
-        // creating a bullet in front of 1 unit away from Player
-        GameObject bullet = (GameObject)Instantiate(Bullet, transform.position + new Vector3((Mathf.Sin(camAngleY * Mathf.Deg2Rad)), 0f, Mathf.Cos(camAngleY * Mathf.Deg2Rad)), Quaternion.identity);
+						// creating a bullet in front of 1 unit away from Player
+						GameObject bullet = (GameObject)Instantiate (Bullet, transform.position + new Vector3 ((Mathf.Sin (camAngleY * Mathf.Deg2Rad)), 0f, Mathf.Cos (camAngleY * Mathf.Deg2Rad)), Quaternion.identity);
 
-        // Casting a ray and storing information to hit
-        if (!Physics.Raycast(camera.transform.position, camera.transform.forward, out hit))
-        {
-            xzMag = BulletController.maxBulletDistance;
-            yMag = -Mathf.Tan(camAngleX*Mathf.Deg2Rad)*(BulletController.maxBulletDistance+10);
-        }
+						// Casting a ray and storing information to hit
+						if (!Physics.Raycast (camera.transform.position, camera.transform.forward, out hit)) {
+								xzMag = BulletController.maxBulletDistance;
+								yMag = -Mathf.Tan (camAngleX * Mathf.Deg2Rad) * (BulletController.maxBulletDistance + 10);
+						} else {
+								Vector3 camShootDistance = hit.point - (transform.position + new Vector3 ((Mathf.Sin (camAngleY * Mathf.Deg2Rad)), 0f, Mathf.Cos (camAngleY * Mathf.Deg2Rad)));
+								xzMag = new Vector2 (camShootDistance.x, camShootDistance.z).magnitude;
+								yMag = camShootDistance.y;
+						}
 
-        else
-        {
-            Vector3 camShootDistance = hit.point - (transform.position + new Vector3((Mathf.Sin(camAngleY * Mathf.Deg2Rad)), 0f, Mathf.Cos(camAngleY * Mathf.Deg2Rad)));
-            xzMag = new Vector2(camShootDistance.x, camShootDistance.z).magnitude;
-            yMag = camShootDistance.y;
-        }
+						// correct angle of bullet to where crosshair is
+						yAngle = Mathf.Rad2Deg * Mathf.Atan (yMag / xzMag);
 
-        // correct angle of bullet to where crosshair is
-        yAngle = Mathf.Rad2Deg * Mathf.Atan(yMag / xzMag);
+						float bulletForceX = Mathf.Sin (camAngleY * Mathf.Deg2Rad + Mathf.Deg2Rad * 2f * (Random.value - 0.5f) * distortion) * BulletSpeed;
+						float bulletForceY = Mathf.Tan (((yAngle) * Mathf.Deg2Rad + Mathf.Deg2Rad * 2f * (Random.value - 0.5f) * distortion)) * BulletSpeed;
+						float bulletForceZ = Mathf.Cos (camAngleY * Mathf.Deg2Rad + Mathf.Deg2Rad * 2f * (Random.value - 0.5f) * distortion) * BulletSpeed;
 
-        float bulletForceX = Mathf.Sin(camAngleY * Mathf.Deg2Rad + Mathf.Deg2Rad * 2f * (Random.value - 0.5f) * distortion) * BulletSpeed;
-        float bulletForceY = Mathf.Tan(((yAngle) * Mathf.Deg2Rad + Mathf.Deg2Rad * 2f * (Random.value - 0.5f) * distortion)) * BulletSpeed;
-        float bulletForceZ = Mathf.Cos(camAngleY * Mathf.Deg2Rad + Mathf.Deg2Rad * 2f * (Random.value - 0.5f) * distortion) * BulletSpeed;
+						// add the force to the bullet
+						bullet.rigidbody.AddForce (new Vector3 (bulletForceX, bulletForceY, bulletForceZ));
+						BulletDistortion ();
 
-        // add the force to the bullet
-        bullet.rigidbody.AddForce(new Vector3(bulletForceX, bulletForceY, bulletForceZ));
-        BulletDistortion();
-
-        // looking in the direction of the camera
-        transform.rotation = Quaternion.Euler(0f, camera.transform.rotation.eulerAngles.y,0f);
+						// looking in the direction of the camera
+						transform.rotation = Quaternion.Euler (0f, camera.transform.rotation.eulerAngles.y, 0f);
+				}
     }
     
     // Method that distorts the direction of the bullet

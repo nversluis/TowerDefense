@@ -29,10 +29,12 @@ public class TowerVariables : MonoBehaviour {
 		if (Input.GetKey ("2")&&(curTower==null||!curTower.Equals(Tower1))) {
 			curTower = Tower1;
 			WallScript.DestroyHotSpots();
+			hasMagic=false;
 				}
 		if (Input.GetKey ("3")&&(curTower==null||!curTower.Equals(Tower2))) {
 			curTower = Tower2;
 			WallScript.DestroyHotSpots ();
+			hasMagic=false;
 				}
 
 	}

@@ -1,19 +1,33 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Tower1 : TowerScript {
+//Deze moeten toegevoegd worden aan de triggers van de towers
+//Attach TowerScript op Prefab van de towers
+//Geef deze triggers ook een IgnoreRaycast layer
+public class Tower1 : MonoBehaviour {
+	public string targetName;
+	public GameObject Tower1Bullet;
+	public int spawnTime; //Frames tussen twee bullets. Todo, veranderen met tower upgrads
 
-	void OnCollisionStay(Collision col){
-		col.gameObject.transform.Rotate(new Vector3(0, 180,0));
+	public static GameObject targetObject;
+
+	private int timer;
+
+	void OnTriggerStay(Collider col){
+		if (timer%spawnTime==0&&col.gameObject.name.Equals (targetName)) {
+			targetObject=col.gameObject;
+			Instantiate (Tower1Bullet,transform.position, transform.rotation);
+				}
 		}
 
 	// Use this for initialization
 	void Start () {
-	
+		timer = 0;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		BaseUpdate ();
+		timer++;
+		timer=timer%spawnTime;
 	}
 }
