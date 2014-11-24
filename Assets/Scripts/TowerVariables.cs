@@ -10,31 +10,22 @@ public class TowerVariables : MonoBehaviour {
 
 	public static float Distance;
 	public static GameObject curTower;
-	public static bool hasMagic;
 
 	// Use this for initialization
 	void Start () {
 		Distance = maxDistance;
-		curTower = null;
-		hasMagic = true;
+		curTower = Tower1;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKey ("1")) {
-			curTower = null;
-			hasMagic = true;
-				}
-
-		if (Input.GetKey ("2")&&(curTower==null||!curTower.Equals(Tower1))) {
+		if (Input.GetKey ("1")&&!curTower.Equals(Tower1)) {
 			curTower = Tower1;
 			WallScript.DestroyHotSpots();
-			hasMagic=false;
 				}
-		if (Input.GetKey ("3")&&(curTower==null||!curTower.Equals(Tower2))) {
+		if (Input.GetKey ("2")&&!curTower.Equals(Tower2)) {
 			curTower = Tower2;
 			WallScript.DestroyHotSpots ();
-			hasMagic=false;
 				}
 
 	}
