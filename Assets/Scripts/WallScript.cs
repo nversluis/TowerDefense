@@ -12,7 +12,7 @@ public class WallScript : MonoBehaviour {
 		
 			GameObject TowerPrefab = TowerVariables.curTower;
 			if (TowerPrefab != null) {
-				Vector3 TowerOffset = new Vector3 (Mathf.Sin (transform.eulerAngles.y / 180 * Mathf.PI), 0, Mathf.Cos (transform.eulerAngles.y / 180 * Mathf.PI)) * RandomMaze.getPlaneWidth()/20;
+				Vector3 TowerOffset = new Vector3 (Mathf.Sin (transform.eulerAngles.y / 180 * Mathf.PI), 0, Mathf.Cos (transform.eulerAngles.y / 180 * Mathf.PI)) * RandomMaze.getPlaneWidth()/50;
 				GameObject tower = (GameObject)Instantiate (TowerPrefab, transform.position + TowerOffset, transform.rotation);
 				tower.gameObject.transform.localScale=new Vector3(RandomMaze.getPlaneWidth()/2,RandomMaze.getPlaneWidth()/2,RandomMaze.getPlaneWidth()/100);
 				tower.renderer.material.color = transparentgreen;
