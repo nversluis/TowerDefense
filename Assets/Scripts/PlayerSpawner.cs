@@ -15,6 +15,7 @@ public class PlayerSpawner : MonoBehaviour
     {
         // create player and camera
         GameObject Player = (GameObject)Instantiate(player, transform.position + new Vector3(0f,2f,0f), Quaternion.identity);
+		Player.gameObject.transform.localScale = new Vector3(0.05f,0.05f,0.05f) ;
         Player.name = "Player";
         GameObject MainCamera = (GameObject)Instantiate(camera, transform.position + new Vector3(0f, 2f, 0f), Quaternion.identity);
         MainCamera.name = "Main Camera";

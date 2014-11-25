@@ -30,9 +30,9 @@ public class RandomMaze : MonoBehaviour
         GenerateFloor();
         //Generate walls
         GenerateWall();
-        SpawnNodes();
+       // SpawnNodes();
         //generate Nodes;
-        DrawNodeLines();
+        //DrawNodeLines();
 
     }
 

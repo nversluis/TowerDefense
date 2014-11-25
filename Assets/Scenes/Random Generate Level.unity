@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDistance: 50
-  Tower1: {fileID: 100000, guid: 6d4700a332dedb54db84bc11b19ee862, type: 2}
+  Tower1: {fileID: 100002, guid: 4436194f15a428b449982220c491fa6f, type: 2}
   Tower2: {fileID: 100000, guid: 18729838d1e1feb438d79a8c8eb8d072, type: 2}
 --- !u!4 &238715494
 Transform:
@@ -176,6 +176,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d78b195a82bc98846aca5a3907a8250d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 100002, guid: 048f9b43b53072a44814788470f6f6df, type: 2}
+  player: {fileID: 100040, guid: b50f5ca26d0309344a23669c169a7c48, type: 2}
   camera: {fileID: 100000, guid: dd773a3570af80e458efc1407d736bdc, type: 2}
   Gui: {fileID: 100000, guid: 8024b87a1ed91d1428251d98e7b6ea61, type: 2}
