@@ -13,6 +13,7 @@ public class Tower1 : MonoBehaviour {
 
 	private int timer;
 
+	//Instantiate bullet at center of prefab if the target is in the trigger.
 	void OnTriggerStay(Collider col){
 		if (timer%spawnTime==0&&col.gameObject.name.Equals (targetName)) {
 			targetObject=col.gameObject;
@@ -26,7 +27,7 @@ public class Tower1 : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 		timer++;
 		timer=timer%spawnTime;
 	}
