@@ -20,7 +20,7 @@ public class CameraController : MonoBehaviour {
     public GameObject Player;
 
     // initializing raycasthit
-    RaycastHit hit;
+    public static RaycastHit hit;
 
     // creating properties for determining which object is pointed to
     public static GameObject hitObject;
@@ -107,10 +107,5 @@ public class CameraController : MonoBehaviour {
 		//Set cursor to center of screen
 		Screen.lockCursor = true;
 
-	}
-
-	// Return the object which the camera
-	public static GameObject getHitObject(){
-		return hitObject;
 	}
 }

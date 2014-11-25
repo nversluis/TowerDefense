@@ -8,7 +8,7 @@ public class WallScript : MonoBehaviour {
 	Color transparentgreen = new Color(0,255,0,0.1f); //Color of the green hotspot
 	
 	void Update(){
-		if (gameObject == CameraController.getHitObject()) { //if the object you are looking at is the wall
+		if (gameObject == CameraController.hitObject) { //if the object you are looking at is the wall
 			
 			DestroyHotSpots (); //Destroy all objects
 		
