@@ -5,7 +5,9 @@ public class BidarraSpawner : MonoBehaviour {
 
     public GameObject biddaro;
     public float SpawnRate = 1f;
-    private float spawnRange;
+    private float spawnRange = 10;
+    public float maxX;
+    public float maxZ;
 
 	// Use this for initialization
     void Start()
@@ -21,8 +23,13 @@ public class BidarraSpawner : MonoBehaviour {
         float rand=Random.value;
         if (rand < 1/SpawnRate)
         {
-            //GameObject Biddaro = (GameObject)Instantiate(biddaro, transform.position + new Vector3(Random.Range(-spawnRange / 2, spawnRange / 2) / (spawnRange + 0.1f * spawnRange), 0f, Random.Range(-spawnRange / 2, spawnRange / 2) / (spawnRange + 0.1f * spawnRange)), Quaternion.identity);
-            //Biddaro.name = "biddaro";
+
+
+            float randX = Random.Range(-maxX / 2, maxX / 2);
+            float randZ = Random.Range(-maxZ / 2, maxZ / 2);
+
+            GameObject Biddaro = (GameObject)Instantiate(biddaro, transform.position + new Vector3(randX, 0f, randZ), Quaternion.identity);
+            Biddaro.name = "biddaro";
         }
 
     }

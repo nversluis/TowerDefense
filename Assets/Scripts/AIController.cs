@@ -11,18 +11,16 @@ public class AIController : MonoBehaviour {
         if(other.gameObject.tag == "Bullet"){
             Destroy(this.gameObject);
         }
-
     }
 
 	// Use this for initialization
 	void Start () {
-
-
+        agent = GetComponent<NavMeshAgent>();
+        target = GameObject.Find("Goal").transform;
 	}
 	
 	// Update is called once per frame
-	void Update () {
-
-	
+	void FixedUpdate () {
+        agent.SetDestination(target.position);
 	}
 }

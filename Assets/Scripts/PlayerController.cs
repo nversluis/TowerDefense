@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
         // if player presses Mouse0
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            if (TowerVariables.hasMagic)
+            if (WeaponController.weapon == 1)
             {
                 // determining Angles of the camera with origin
                 camAngleX = camera.transform.rotation.eulerAngles.x;
@@ -103,6 +103,16 @@ public class PlayerController : MonoBehaviour
 
                 // looking in the direction of the camera
                 transform.rotation = Quaternion.Euler(0f, camera.transform.rotation.eulerAngles.y, 0f);
+
+            }
+
+            if (WeaponController.weapon == 1)
+            {
+                if (CameraController.hitObject.name == "Cube1")
+                {
+                    
+                }
+
             }
         }
     }
