@@ -4,7 +4,14 @@ using System.Collections.Generic;
 
 public class Navigator : MonoBehaviour {
 
-    public float gridSize;
+    public float gridSize = 2;
+
+    void Start() {
+        float a = RoundUp(-3.1f);
+        float b = RoundDown(-3.1f);
+        Debug.Log(a);
+        Debug.Log(b);
+    }
 
     public List<Vector3> Path(Vector3 startPoint, Vector3 endPoint) {
 
@@ -111,18 +118,48 @@ public class Navigator : MonoBehaviour {
 
     /** FUNCTIONS **/
 
-    // Function that rounds up a certain number to the grid size
-    float RoundUp(float toRound) {
-        return (gridSize - toRound % gridSize) + toRound;
+    //// Function that rounds up a certain number to the grid size
+    //float RoundUp(float toRound) {
+    //    return (gridSize - Mathf.Abs(toRound) % gridSize) + Mathf.Abs(toRound);
+    //}
+    //// Function that rounds down a certain number to the grid size
+    //float RoundDown(float toRound) {
+    //    return Mathf.Abs(toRound) - Mathf.Abs(toRound) % gridSize;
+    //}
+
+    float RoundUp(float num) {
+        float step = gridSize;
+        float ans = 0;
+        if(num >= 0) {
+            ans = Mathf.Floor((num + step / 2) / step) * step;
+        }
+        else {
+            ans = Mathf.Ceil((num - step / 2) / step) * step;
+        }
+        if(num < 0) {
+            ans += step;
+        }
+        return ans;
     }
-    // Function that rounds down a certain number to the grid size
-    float RoundDown(float toRound) {
-        return toRound - toRound % gridSize;
+
+    float RoundDown(float num) {
+        float step = gridSize;
+        float ans = 0;
+        if(num >= 0) {
+             ans = Mathf.Ceil((num + step / 2) / step) * step;
+        } else {
+            ans = Mathf.Floor((num - step / 2) / step) * step;
+        }
+        if(num < 0) {
+            ans += step;
+        }
+        return ans;
     }
+
     // Function that checks if the given waypoint is close enough to the end point to navigate to it without using the grid
     bool CloseEnoughToDestination(WayPoint wp, Vector3 end) {
         Vector3 pos = wp.getPosition();
-        if((!Physics.Raycast(pos,end,(pos-end).magnitude)) && Mathf.Abs(pos.x - end.x) <= gridSize &&  Mathf.Abs(pos.z - end.z) <= gridSize) {
+        if((!Physics.Raycast(pos, end, (pos - end).magnitude)) && Mathf.Abs(pos.x - end.x) <= gridSize && Mathf.Abs(pos.z - end.z) <= gridSize) {
             return true;
         }
         return false;
