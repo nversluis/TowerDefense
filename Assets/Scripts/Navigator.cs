@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class Navigator : MonoBehaviour {
 
-    float gridSize = 2;
+    public float gridSize;
 
     public List<Vector3> Path(Vector3 startPoint, Vector3 endPoint) {
 
@@ -13,13 +13,11 @@ public class Navigator : MonoBehaviour {
         // Load the grid
         List<WayPoint> grid = RandomMaze.Nodes;
         // Create a new (empty) route
-        List<WayPoint> route = new List<WayPoint>();
         List<Vector3> path = new List<Vector3>();
-        // Create a new waypoint for the starting position
-        WayPoint startWP = new WayPoint(startPoint, "start");
-        // Initiate best cost so far and estimate total expected cost using Manhattan distance
-        float costSoFar = 0;
-        float estimatedCost = costSoFar + ManhattanDist(startPoint, endPoint);
+        // Create a new waypoint for the starting and end position
+        WayPoint startWP = new WayPoint(startPoint, "closed");
+        startWP.setCost(0);
+        WayPoint endWP = new WayPoint(endPoint);
 
         // Find the nearest possible destination nodes and add them to the destinations of the starting node
 
@@ -44,86 +42,131 @@ public class Navigator : MonoBehaviour {
         bool openDestinationsExist = false;
         for(int i = 0; i < 8; i++) {
             if(!Physics.Raycast(startPoint, startNodes[i], (startPoint - startNodes[i]).magnitude)) {
-                startWP.AddNode(new WayPoint(startNodes[i], "open"));
+                // Add node to destination if it's reachable
+                WayPoint newDest = FindWayPointAt(startNodes[i], grid);
+                newDest.setCost(CalculateGCost(startWP, newDest));
+                startWP.AddNode(newDest);
                 // There are still open destinations
                 openDestinationsExist = true;
             }
         }
-        // Set state to closed (we don't want to go back to the starting node)
-        startWP.setState("closed");
 
         // Our current WP is the starting WP
         WayPoint currentWP = startWP;
 
         /** ROUTE CALCULATION **/
+
         while(openDestinationsExist) {
             // Set the cheapest possible destination as the next destination
-            WayPoint cheapestWP = new WayPoint(new Vector3(0, 0, 0));
-            cheapestWP.setCost(float.MaxValue);
+            // Initialize cheapest point so far to be as expensive as possible
+            WayPoint cheapestWP = new WayPoint(new Vector3(0, 0, 0), "closed");
+            float cheapest = float.MaxValue;
+            // Find the cheapest destination
             for(int i = 0; i < currentWP.getDestinations().Count; i++) {
                 WayPoint destination = currentWP.getDestinations()[i];
-                if(destination.getCost() < cheapestWP.getCost() && destination.getState().Equals("open")) {
-                    cheapestWP = currentWP.getDestinations()[i];
+                if(destination.getState().Equals("open")) {
+                    float fCost = CalculateFCost(currentWP, destination, endWP);
+                    if(fCost <= cheapest) {
+                        cheapestWP = destination;
+                    }
                 }
             }
-            cheapestWP.setPrevious(currentWP);
+            if(cheapest == float.MaxValue) {
+                Debug.LogError("Error: route stuck with no destinations, empty path returned");
+                break;
+            }
+
+            // Move to new WP and set it as closed
             currentWP = cheapestWP;
+            currentWP.setState("closed");
 
             // If the current waypoint is the endpoint, stop searching and build the route
-            if(CloseEnoughToDestination(currentWP)) {
-                route.Add(new WayPoint(endPoint));
-                path = ReconstructPath(route, currentWP);
+            if(CloseEnoughToDestination(currentWP, endPoint)) {
+                path = ReconstructPath(startPoint, endWP);
                 openDestinationsExist = false;
                 break;
             }
-            // Close current waypoint so we can't go back to it
-            currentWP.setState("closed");
 
             // Find unexplored nodes and open them if they seem useful
             for(int i = 0; i < currentWP.getDestinations().Count; i++) {
                 WayPoint neighbour = currentWP.getDestinations()[i];
                 // Don't even try if it's closed
                 if(!neighbour.getState().Equals("closed")) {
-                    float potentialCost = costSoFar + (currentWP.getPosition() - neighbour.getPosition()).magnitude;
-                    // Explore unexplored if it is interesting (cheap)
-                    if(neighbour.getState().Equals("unexplored") || potentialCost < neighbour.getCost()) {
-                        // If interesting, add to open list
+                    float potential_g_Cost = currentWP.getCost() + (currentWP.getPosition() - neighbour.getPosition()).magnitude;
+                    // If a cheaper g cost is found via the current WayPoint, update it
+                    if(potential_g_Cost < neighbour.getCost()) {
+                        neighbour.setCost(potential_g_Cost);
                         neighbour.setPrevious(currentWP);
-                        route.Add(neighbour);
-                        costSoFar = potentialCost;
-                        estimatedCost = costSoFar + ManhattanDist(neighbour.getPosition(), endPoint);
+                    }
+                    if(neighbour.getState().Equals("unexplored")) {
+                        neighbour.setCost(CalculateGCost(currentWP, neighbour));
                         neighbour.setState("open");
+                        neighbour.setPrevious(currentWP);
                     }
                 }
             }
         }
         return path;
-
     }
 
+    /** FUNCTIONS **/
+
+    // Function that rounds up a certain number to the grid size
     float RoundUp(float toRound) {
         return (gridSize - toRound % gridSize) + toRound;
     }
-
+    // Function that rounds down a certain number to the grid size
     float RoundDown(float toRound) {
         return toRound - toRound % gridSize;
     }
-
-    bool CloseEnoughToDestination(WayPoint wp) {
+    // Function that checks if the given waypoint is close enough to the end point to navigate to it without using the grid
+    bool CloseEnoughToDestination(WayPoint wp, Vector3 end) {
+        Vector3 pos = wp.getPosition();
+        if((!Physics.Raycast(pos,end,(pos-end).magnitude)) && Mathf.Abs(pos.x - end.x) <= gridSize &&  Mathf.Abs(pos.z - end.z) <= gridSize) {
+            return true;
+        }
         return false;
     }
-
+    // Function that calculates the Manhattan distance between two points
     float ManhattanDist(Vector3 p1, Vector3 p2) {
         return Mathf.Abs(p1.x - p2.x) + Mathf.Abs(p1.z - p2.z);
     }
-
-    List<Vector3> ReconstructPath(List<WayPoint> path, WayPoint currWP) {
+    // Function that can reconstruct the path from an A* route
+    List<Vector3> ReconstructPath(Vector3 startPos, WayPoint endWP) {
         List<Vector3> bestPath = new List<Vector3>();
-        bestPath.Add(currWP.getPosition());
-        foreach(WayPoint WP in path){
+        WayPoint currWP = endWP;
+        bestPath.Add(endWP.getPosition());
+        while(true) {
             currWP = currWP.getPrevious();
+            if(currWP.getPosition() == startPos) {
+                bestPath.Add(startPos);
+                break;
+            }
             bestPath.Add(currWP.getPosition());
         }
         return bestPath;
     }
+    // Function that calculates the g-cost between two waypoints (cost based on distance from start point)
+    float CalculateGCost(WayPoint current, WayPoint destination) {
+        return current.getCost() + (current.getPosition() - destination.getPosition()).magnitude;
+    }
+    // Function that calculates the f-cost between two waypoints (cost based on distance from both start and end point)
+    float CalculateFCost(WayPoint current, WayPoint destination, WayPoint endpoint) {
+        // Distance from current node to destination
+        float g_cost = current.getCost() + (current.getPosition() - destination.getPosition()).magnitude;
+        // Heuristic, in our case the Manhattan distance
+        float h_cost = ManhattanDist(current.getPosition(), endpoint.getPosition());
+        return g_cost + h_cost;
+    }
+    // Function that can find a Waypoint at a certain location
+    WayPoint FindWayPointAt(Vector3 position, List<WayPoint> grid) {
+        foreach(WayPoint wp in grid) {
+            if(wp.getPosition() == position) {
+                return wp;
+            }
+        }
+        Debug.LogError("No waypoint exists at given position, returning null!");
+        return null;
+    }
+
 }
