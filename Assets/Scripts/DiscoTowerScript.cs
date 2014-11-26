@@ -1,54 +1,90 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class DiscoTowerScript : MonoBehaviour {
 
+    private List<GameObject> enemysInRange;
+    public GameObject bullet;
+    public int bulletSpeed;
+    public float shootSpeed;
+    private Vector3 previous;
+    private Vector3 current;
+    private Vector3 speed;
+    float begin;
 
-    public bool curTargeting = false;
-    private GameObject target;
-    public GameObject magicBullet;
-    public int counter;
 
-    void OnTriggerEnter(Collider other)
+    void Start()
     {
-
-        if (other.tag == "Bidarro" && !curTargeting)
+        enemysInRange = new List<GameObject>();
+        InvokeRepeating("Shooting", 0f, shootSpeed);
+    }
+    void OnTriggerEnter(Collider col)
+    {
+        if (col.gameObject.tag == ("Bidarro"))
         {
-            target = other.gameObject;
-            
+            enemysInRange.Add(col.gameObject);
         }
     }
 
-    void OnTriggerStay(Collider other)
+    void OnTriggerExit(Collider col)
     {
-        target = other.gameObject;
-        if (curTargeting)
+        if (col.gameObject.tag == ("Bidarro"))
         {
-     
+            enemysInRange.Remove(col.gameObject);
         }
     }
 
-  
-
-    void OnTriggerExit(Collider other)
+    void Update()
     {
-        if (other.tag == "Bidarro" && curTargeting)
+        if (enemysInRange.Contains(BulletController.hitObject))
         {
-
-            curTargeting = false;
+            enemysInRange.Remove(BulletController.hitObject);
         }
     }
-
-	// Use this for initialization
-	void Start () {
-
-        InvokeRepeating("Shooting", 3f, 1f);
-	}
 
     void Shooting()
     {
-        GameObject bullet = (GameObject)Instantiate(magicBullet, transform.position, Quaternion.identity);
-        Debug.DrawLine(target.transform.position, transform.position);
-        bullet.rigidbody.AddForce((target.transform.position - transform.position).normalized * 100);
+        if (enemysInRange.Contains(BulletController.hitObject))
+        {
+            enemysInRange.Remove(BulletController.hitObject);
+        }
+        if (enemysInRange.Count > 0) 
+        {
+            RaycastHit hit;
+            int i = 0;
+            bool justHit;
+            do{
+                if (enemysInRange.Contains(BulletController.hitObject))
+                {
+                    enemysInRange.Remove(BulletController.hitObject);
+                    return;
+                }
+
+                if (enemysInRange.Count == 0)
+                {
+                    return;
+                }
+                Debug.Log(i);
+                justHit = Physics.Raycast(transform.position, enemysInRange[i].transform.position - transform.position,out hit);
+
+                i++;
+
+            } while(justHit && hit.collider.tag != "Bidarro" && i<enemysInRange.Count);
+            i--;
+            current = enemysInRange[i].transform.position;
+            float eind = Time.realtimeSinceStartup;
+            speed = (current - previous);
+            Debug.DrawRay(transform.position, (hit.point - transform.position) + speed);
+            GameObject Bullet = (GameObject)Instantiate(bullet, transform.position, Quaternion.identity);
+            Vector3 dir = (hit.point - transform.position) + (speed)*(hit.point -transform.position).magnitude/2;
+            
+            Bullet.rigidbody.AddForce(dir.normalized*bulletSpeed);
+            Debug.Log(dir);
+
+            previous = enemysInRange[i].transform.position;
+            begin = Time.realtimeSinceStartup;
+               
+        }
     }
 }

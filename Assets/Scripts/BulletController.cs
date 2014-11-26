@@ -5,9 +5,9 @@ public class BulletController : MonoBehaviour
 {
 
     Transform Player;
-    string hitObject;
     Vector3 PrevItLoc;
     public static float maxBulletDistance = 200;
+    public static GameObject hitObject;
 
     void GotThrough()
     {
@@ -15,7 +15,7 @@ public class BulletController : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(PrevItLoc, transform.position - PrevItLoc, out hit, (PrevItLoc - transform.position).magnitude))
         {
-
+            hitObject = hit.collider.gameObject;
             Destroy(this.gameObject);
             if (hit.collider.tag == "Bidarro")
             {
