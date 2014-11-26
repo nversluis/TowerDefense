@@ -5,52 +5,21 @@ using System.Collections.Generic;
 public class Enemy : MonoBehaviour {
 
     private List<int> stats;
-<<<<<<< HEAD
-=======
     private int totalStatPoints = 600;
     private string type;
 
     // Stats van een enemy
->>>>>>> Tiamur
     private int health;
     private int meleeAttack;
     private int rangeAttack;
     private int meleeDefense;
     private int rangeDefense;
     private int speed;
-<<<<<<< HEAD
-    private int totalPoints = 600;
-    
-    public List<int> randomNumberGenerator(int aantalStats)
-    {
-        List<int> randomNumbers = new List<int>();
-
-        for (int i = 0; i < aantalStats - 1; i++)
-        {
-            int randomInt = Random.Range(0, totalPoints);
-            randomNumbers.Add(randomInt);
-        }
-
-        randomNumbers.Add(0);
-        randomNumbers.Add(totalPoints);
-
-        randomNumbers.Sort();
-
-        List<int> result = new List<int>();
-
-        for (int i = 0; i < randomNumbers.Count - 1; i++)
-        {
-            result.Add(randomNumbers[i + 1] - randomNumbers[i]);
-        }
-
-        return randomNumbers;
-=======
 
     // Damage output van een enemy
     private float DamageToBase;
     private float DamageToPlayer;
     private float DamageToTower;
-
 
     public Enemy()
     {
@@ -92,16 +61,11 @@ public class Enemy : MonoBehaviour {
 
         // De lijst bevat nu n willekeurige getallen die opsommen tot sum.
         return result;
->>>>>>> Tiamur
     }
-
+    
     public void generateEnemy()
     {
-<<<<<<< HEAD
-        this.stats = randomNumberGenerator(6);
-=======
         this.stats = randomNumberGenerator(6, totalStatPoints);
->>>>>>> Tiamur
         this.health = stats[0];
         this.meleeAttack = stats[1];
         this.rangeAttack = stats[2];
@@ -110,18 +74,6 @@ public class Enemy : MonoBehaviour {
         this.speed = stats[5];
     }
 
-<<<<<<< HEAD
-    public Enemy()
-    {
-        generateEnemy();
-    }
-
-    public void fitness() {
-
-    }
-
-    public void mutate()
-=======
     public float fitness() {
         if (type.Equals("BaseAttacker"))
         {
@@ -155,13 +107,11 @@ public class Enemy : MonoBehaviour {
     }
 
     void calculateDamageOnTower()
->>>>>>> Tiamur
+
     {
 
     }
 
-<<<<<<< HEAD
-=======
     /// <summary>
     /// Muteert een enemy door x willekeurige stats te verhogen en n - x te verlagen
     /// </summary>
@@ -212,7 +162,6 @@ public class Enemy : MonoBehaviour {
     {
 
     }
->>>>>>> Tiamur
 
     public float getHealth() {
         return health;
@@ -247,8 +196,6 @@ public class Enemy : MonoBehaviour {
 	void Update () {
 	
 	}
-
-
 
 }
 
