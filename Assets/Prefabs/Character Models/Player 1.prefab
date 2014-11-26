@@ -313,6 +313,7 @@ GameObject:
   - 114: {fileID: 11400000}
   - 64: {fileID: 6400000}
   - 143: {fileID: 14300000}
+  - 114: {fileID: 11400002}
   m_Layer: 0
   m_Name: Player 1
   m_TagString: Player
@@ -585,7 +586,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100040}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 28.0387726, y: 34.7167435, z: 52.6300621}
+  m_LocalPosition: {x: 4.5999999, y: -8.5, z: 5.69999981}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400038}
@@ -633,6 +634,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camera: {fileID: 100000, guid: dd773a3570af80e458efc1407d736bdc, type: 2}
   Bullet: {fileID: 100000, guid: 1b2fbfa5bc2ebc9428f28105eca1c5c9, type: 2}
+--- !u!114 &11400002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaea5210c47d5e6499666061457c1bfe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxDistance: 50
+  Tower1: {fileID: 100002, guid: 4436194f15a428b449982220c491fa6f, type: 2}
+  Tower2: {fileID: 100000, guid: 0f60e255c935b89428a9f7f2729173a3, type: 2}
 --- !u!137 &13700000
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -689,13 +704,13 @@ CharacterController:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100040}
   serializedVersion: 2
-  m_Height: 2
-  m_Radius: .5
+  m_Height: 50
+  m_Radius: 10
   m_SlopeLimit: 45
   m_StepOffset: .5
   m_SkinWidth: .0799999982
   m_MinMoveDistance: 0
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 27.1000004, z: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

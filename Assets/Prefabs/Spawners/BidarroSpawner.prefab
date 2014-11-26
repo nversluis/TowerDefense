@@ -39,8 +39,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cd03e2f2d4809d459c7503ccef87f74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  biddaro: {fileID: 100000, guid: 9471a4a6bfc25b44f9dac9b32c4be545, type: 2}
+  bidarro: {fileID: 100000, guid: 9471a4a6bfc25b44f9dac9b32c4be545, type: 2}
   SpawnRate: 60
+  maxX: 0
+  maxZ: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

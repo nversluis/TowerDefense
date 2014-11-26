@@ -98,12 +98,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 238715492}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8ad2e609a1aa0540ae03780213717a7, type: 3}
+  m_Script: {fileID: 11500000, guid: aaea5210c47d5e6499666061457c1bfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxDistance: 50
   Tower1: {fileID: 100002, guid: 4436194f15a428b449982220c491fa6f, type: 2}
-  Tower2: {fileID: 100000, guid: 18729838d1e1feb438d79a8c8eb8d072, type: 2}
+  Tower2: {fileID: 100000, guid: 0f60e255c935b89428a9f7f2729173a3, type: 2}
 --- !u!4 &238715494
 Transform:
   m_ObjectHideFlags: 0

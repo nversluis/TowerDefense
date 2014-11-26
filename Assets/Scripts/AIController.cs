@@ -8,12 +8,12 @@ public class AIController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        agent = GetComponent<NavMeshAgent>();
-        target = GameObject.Find("Goal").transform;
+       // agent = GetComponent<NavMeshAgent>();
+        //target = GameObject.Find("Goal").transform;
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-        agent.SetDestination(target.position);
+        //agent.SetDestination(target.position);
 	}
 }

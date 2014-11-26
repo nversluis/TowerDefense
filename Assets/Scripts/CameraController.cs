@@ -9,7 +9,7 @@ public class CameraController : MonoBehaviour {
 
     // initializing camera properties
     public float camDis = 6;
-    private float camOffset = 2;
+    private float camOffset = 4;
     private float distanceOffset;
     private float scrollSpeed = 4;
     private float maxCamHeight = 10;
