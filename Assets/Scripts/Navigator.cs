@@ -7,9 +7,14 @@ public class Navigator : MonoBehaviour {
     public float gridSize = 2;
 
     void Start() {
-        float a = RoundUp(-3.1f);
-        float b = RoundDown(-3.1f);
+        float x = -3.1f;
+        Debug.Log("x = ");
+        Debug.Log(x);
+        float a = RoundUp(x);
+        float b = RoundDown(x);
+        Debug.Log("Up: ");
         Debug.Log(a);
+        Debug.Log("Down: ");
         Debug.Log(b);
     }
 
@@ -118,42 +123,33 @@ public class Navigator : MonoBehaviour {
 
     /** FUNCTIONS **/
 
-    //// Function that rounds up a certain number to the grid size
-    //float RoundUp(float toRound) {
-    //    return (gridSize - Mathf.Abs(toRound) % gridSize) + Mathf.Abs(toRound);
-    //}
-    //// Function that rounds down a certain number to the grid size
-    //float RoundDown(float toRound) {
-    //    return Mathf.Abs(toRound) - Mathf.Abs(toRound) % gridSize;
-    //}
-
-    float RoundUp(float num) {
-        float step = gridSize;
-        float ans = 0;
-        if(num >= 0) {
-            ans = Mathf.Floor((num + step / 2) / step) * step;
+    // function that rounds up a certain number to the grid size
+    float RoundUp(float toRound) {
+        float res;
+        if(toRound % gridSize != 0) {
+            res = gridSize - toRound % gridSize + toRound;
+            if(toRound < 0) {
+                res -= gridSize;
+            }
         }
         else {
-            ans = Mathf.Ceil((num - step / 2) / step) * step;
+            res = toRound;
         }
-        if(num < 0) {
-            ans += step;
-        }
-        return ans;
+        return res;
     }
-
-    float RoundDown(float num) {
-        float step = gridSize;
-        float ans = 0;
-        if(num >= 0) {
-             ans = Mathf.Ceil((num + step / 2) / step) * step;
-        } else {
-            ans = Mathf.Floor((num - step / 2) / step) * step;
+    // function that rounds down a certain number to the grid size
+    float RoundDown(float toRound) {
+        float res;
+        if(toRound % gridSize != 0) {
+            res = toRound - toRound % gridSize;
+            if(toRound < 0) {
+               res -= gridSize;
+            }
         }
-        if(num < 0) {
-            ans += step;
+        else {
+            res = toRound;
         }
-        return ans;
+        return res;
     }
 
     // Function that checks if the given waypoint is close enough to the end point to navigate to it without using the grid
