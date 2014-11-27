@@ -17,7 +17,6 @@ public class PlayerAnimator : MonoBehaviour {
         Debug.Log(PlayerController.moving);
         if (PlayerController.moving)
         {
-            Debug.Log("walking");
             animator.SetBool("Walking", true);
         }
         else
