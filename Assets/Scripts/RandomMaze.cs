@@ -22,9 +22,12 @@ public class RandomMaze : MonoBehaviour
     public static List<WayPoint> Nodes = new List<WayPoint>(); //List with all Nodes
 
 	public static float planewidthS; //Variable to share planewidth in other scripts
+    public static float gridSize;
+
     //Use this for initialization
     void Awake()
     {
+        gridSize = nodeSize;
 		planewidthS = planewidth;
         //Generate floors
         GenerateFloor();
@@ -33,7 +36,20 @@ public class RandomMaze : MonoBehaviour
         SpawnNodes();
         //generate Nodes;
         DrawNodeLines();
-
+        //Navigator.Test();
+        Vector3 start = Nodes[4].getPosition();
+        start.x += Random.value;
+        start.z += Random.value;
+        Debug.Log("start: ");
+        Debug.Log(start);
+        Vector3 end = Nodes[20].getPosition();
+        end.x += Random.value;
+        end.z += Random.value;
+        Debug.Log("end: ");
+        Debug.Log(end);
+        List<Vector3> testPath = Navigator.Path(start, end);
+        Debug.Log("Path found!");
+        Debug.Log(testPath);
     }
 
     //generate floors

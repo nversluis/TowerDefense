@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Enemy : MonoBehaviour {
+public class EnemyStats : MonoBehaviour {
 
     private List<int> stats;
     private int totalStatPoints = 600;
@@ -21,9 +21,9 @@ public class Enemy : MonoBehaviour {
     private float DamageToPlayer;
     private float DamageToTower;
 
-    public Enemy()
+    public EnemyStats()
     {
-        generateEnemy();
+        generateEnemyStats();
     }
     
     /// <summary>
@@ -63,7 +63,7 @@ public class Enemy : MonoBehaviour {
         return result;
     }
     
-    public void generateEnemy()
+    public void generateEnemyStats()
     {
         this.stats = randomNumberGenerator(6, totalStatPoints);
         this.health = stats[0];
@@ -77,17 +77,14 @@ public class Enemy : MonoBehaviour {
     public float fitness() {
         if (type.Equals("BaseAttacker"))
         {
-            calculateDamageOnTower();
             return DamageToBase;
         }
         else if (type.Equals("PlayerAttacker"))
         {
-            calculateDamageToPlayer();
             return DamageToPlayer;
         }
         else if (type.Equals("TowerAttacker"))
         {
-            calculateDamageOnTower();
             return DamageToTower;
         }
         else
@@ -96,21 +93,6 @@ public class Enemy : MonoBehaviour {
         }
     }
 
-    void calculateDamageToBase()
-    {
-
-    }
-
-    void calculateDamageToPlayer()
-    {
-
-    }
-
-    void calculateDamageOnTower()
-
-    {
-
-    }
 
     /// <summary>
     /// Muteert een enemy door x willekeurige stats te verhogen en n - x te verlagen
@@ -199,13 +181,5 @@ public class Enemy : MonoBehaviour {
 
 }
 
-public class baseAttacker : Enemy
-{
 
-    public void genereateBaseAttacker()
-    {
-
-    }
-
-}
 
