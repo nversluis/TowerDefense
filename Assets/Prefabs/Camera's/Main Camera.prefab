@@ -89,7 +89,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebb051e7fcd11a44fa8ba7ed5c0a132e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camDis: 6
+  camOffset: 3
   Player: {fileID: 100002, guid: 048f9b43b53072a44814788470f6f6df, type: 2}
 --- !u!124 &12400000
 Behaviour:

@@ -153,7 +153,6 @@ MonoBehaviour:
   planePrefab: {fileID: 100000, guid: eb0912c352095c645a4cc637dd9257b0, type: 2}
   wallPrefab: {fileID: 100000, guid: 464fd5ab3d95c01418f6b9aa86db178f, type: 2}
   node: {fileID: 100000, guid: b339f52a71c03094ab6a979385311b2f, type: 2}
-  bidarraSpawnerPrefab: {fileID: 100000, guid: c3a351ed1e54c354c99c7d460d83aa16, type: 2}
 --- !u!4 &917609580
 Transform:
   m_ObjectHideFlags: 0

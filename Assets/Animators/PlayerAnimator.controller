@@ -24,7 +24,7 @@ AnimatorController:
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
-    m_DefaultBool: 1
+    m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 3
@@ -45,7 +45,7 @@ BlendTree:
   m_PrefabInternal: {fileID: 0}
   m_Name: Blend Tree
   m_Childs:
-  - m_Motion: {fileID: 7400010, guid: e5570de106f1e45ecae5b331c556d82e, type: 3}
+  - m_Motion: {fileID: 7400000, guid: f82213c556c525b4ca7d48eaea016234, type: 2}
     m_Threshold: 0
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -70,10 +70,6 @@ Transition:
   m_TransitionDuration: .0250000004
   m_TransitionOffset: 0
   m_Conditions:
-  - m_ConditionMode: 3
-    m_ConditionEvent: Speed
-    m_EventTreshold: .100000001
-    m_ExitTime: .975000024
   - m_ConditionMode: 1
     m_ConditionEvent: Walking
     m_EventTreshold: .100000001
@@ -111,7 +107,7 @@ State:
   m_Speed: 1
   m_CycleOffset: 0
   m_Motions:
-  - {fileID: 7400008, guid: e5570de106f1e45ecae5b331c556d82e, type: 3}
+  - {fileID: 7400000, guid: 819352cf0a0d5084a83b665996bd88c8, type: 2}
   m_ParentStateMachine: {fileID: 110700000}
   m_Position: {x: 156, y: -24, z: 0}
   m_IKOnFeet: 0
@@ -123,7 +119,7 @@ State:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Walking
-  m_Speed: 1
+  m_Speed: 3
   m_CycleOffset: 0
   m_Motions:
   - {fileID: 20600000}
