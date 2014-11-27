@@ -15,7 +15,7 @@ public class RandomMaze : MonoBehaviour
     public GameObject planePrefab; //Floor prefab
     public GameObject wallPrefab; //Wall prefab
     public GameObject node; //Node prefab
-    public GameObject bidarraSpawnerPrefab; //Prefab to spawn enemy´s
+    //public GameObject bidarraSpawnerPrefab; //Prefab to spawn enemy´s
 
     private ArrayList positions = new ArrayList(); //Positions of the floors
     private List<Vector3> NodesPos = new List<Vector3>(); //Positions of the waypoints/nodes
@@ -125,9 +125,9 @@ public class RandomMaze : MonoBehaviour
         GameObject floor2 = (GameObject)Instantiate(planePrefab, new Vector3(endPos[0] * planewidth, 0, endPos[1] * planewidth), Quaternion.identity); //Generate floor at end position
         floor2.gameObject.transform.localScale = new Vector3(planewidth, 0.1f, planewidth);
         floor2.transform.parent = gameObject.transform;
-        GameObject bidarraSpawner = (GameObject)Instantiate(bidarraSpawnerPrefab, new Vector3(endPos[0], 1.6f, endPos[1]) * planewidth, Quaternion.identity); //Spawn bidarraSpawner
-        bidarraSpawner.transform.parent = gameObject.transform;
-        bidarraSpawner.name = "bidarraSpawner";
+        //GameObject bidarraSpawner = (GameObject)Instantiate(bidarraSpawnerPrefab, new Vector3(endPos[0], 1.6f, endPos[1]) * planewidth, Quaternion.identity); //Spawn bidarraSpawner
+        //bidarraSpawner.transform.parent = gameObject.transform;
+        //bidarraSpawner.name = "bidarraSpawner";
 
         positions.Add(endPos); //Add the end position to position
 

@@ -8,8 +8,8 @@ public class CameraController : MonoBehaviour {
     private float y;
 
     // initializing camera properties
-    public float camDis = 6;
-    private float camOffset = 4;
+    private float camDis = 6;
+    public float camOffset = 4;
     private float distanceOffset;
     private float scrollSpeed = 4;
     private float maxCamHeight = 10;
@@ -49,14 +49,14 @@ public class CameraController : MonoBehaviour {
         transform.rotation = camRot;
 
         // calculating position of camera and setting position of camera
-        Vector3 probPosition = camRot * new Vector3(0f, 0f, -camDis) + Player.transform.position + new Vector3(0f,camOffset,0f);
+        Vector3 probPosition = camRot * new Vector3(0f, 0f, -camDis) + Player.transform.position;
         // Checking for collision from camera with objects with method
         CamCollide(probPosition);
 
         // calculating position of camera and setting position of camera
-        Vector3 position = camRot * new Vector3(0f, 0f, -camDis + distanceOffset) + Player.transform.position + new Vector3(0f, camOffset, 0f);
+        Vector3 position = camRot * new Vector3(0f, 0f, -camDis + distanceOffset) + Player.transform.position;
 
-        transform.position = position;
+        transform.position = position + new Vector3(0f, camOffset, 0f);
     }
 
     // method for determining if the camera got through an object
@@ -67,11 +67,11 @@ public class CameraController : MonoBehaviour {
 
         RaycastHit[] hits;
 
-        Debug.DrawRay(Player.transform.position , relativePos);
+        Debug.DrawRay(Player.transform.position+ new Vector3(0f, camOffset, 0f) , relativePos);
 
 
         // casting a ray from player to camera and checking if it hit something
-        if (Physics.Raycast(Player.transform.position , relativePos, out hit, camDis + 0.5f))
+        if (Physics.Raycast(Player.transform.position + new Vector3(0f, camOffset, 0f), relativePos, out hit, camDis + 0.5f))
         {
             hits = Physics.RaycastAll(Player.transform.position, relativePos, camDis + 0.5f);
             // setting an offset of the camera so it doesnt go through a wall

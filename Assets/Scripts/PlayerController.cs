@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     private float camAngleY;
     private float distortion;
     private float turnSpeed = 0.5f;
+    public static bool moving;
 
     // Method for getting player input
     private Vector3 playerInput()
@@ -49,7 +50,10 @@ public class PlayerController : MonoBehaviour
         {
             // setting rotation of player in the direction of the speed of the player
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0f, Quaternion.LookRotation(playerInput() * playerSpeed).eulerAngles.y, 0f), turnSpeed);
+            moving = true;
         }
+        else
+            moving = false;
 
         // moving the player according to input
         charController.Move(playerInput() * playerSpeed);
@@ -105,8 +109,6 @@ public class PlayerController : MonoBehaviour
 
 
             }
-
-
 
             if (WeaponController.weapon == 2)
             {
