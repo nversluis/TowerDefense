@@ -71,7 +71,7 @@ public class DiscoTowerScript : MonoBehaviour {
                     {
                         enemysInRange.Remove(enemysInRange[i]);
                     }
-                   
+
                     if(enemysInRange.Count>i)
                         {
                             justHit = Physics.Raycast(transform.position, enemysInRange[i].transform.position - transform.position, out hit);
