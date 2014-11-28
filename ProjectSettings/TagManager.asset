@@ -4,13 +4,17 @@
 TagManager:
   tags:
   - 
-  - Bidarro
+  - Enemy
   - Bullet
   - TowerHotSpot
   - HotSpotRed
   - Tower
   - 
   - World Object
+  - 
+  - 
+  - 
+  - 
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX

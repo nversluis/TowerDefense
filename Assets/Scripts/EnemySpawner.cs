@@ -2,9 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class BidarraSpawner : MonoBehaviour {
+public class EnemySpawner : MonoBehaviour {
 
-    public GameObject bidarro;
+    public GameObject enemy;
     public float SpawnRate = 1f;
     private float spawnRange = 10;
     public float maxX;
@@ -26,14 +26,14 @@ public class BidarraSpawner : MonoBehaviour {
             float randX = Random.Range(-maxX / 2, maxX / 2);
             float randZ = Random.Range(-maxZ / 2, maxZ / 2);
             
-            GameObject Bidarro = (GameObject)Instantiate(bidarro, transform.position + new Vector3(randX, 0f, randZ), Quaternion.identity);
-            Bidarro.name = "bidarro";
+            GameObject Enemy = (GameObject)Instantiate(enemy, transform.position + new Vector3(randX, 0f, randZ), Quaternion.identity);
+            Enemy.name = "enemy";
         }
     }
 
     void Spawning()
     {
-        if(SpawnRate>1)
+        if(SpawnRate>5)
         SpawnRate = SpawnRate -1;
     }
 }

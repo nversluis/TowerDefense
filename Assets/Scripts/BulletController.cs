@@ -17,7 +17,7 @@ public class BulletController : MonoBehaviour
         {
             hitObject = hit.collider.gameObject;
             Destroy(this.gameObject);
-            if (hit.collider.tag == "Bidarro")
+            if (hit.collider.tag == "Enemy")
             {
                 Destroy(hit.collider.gameObject);
             }

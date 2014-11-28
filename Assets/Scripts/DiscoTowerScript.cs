@@ -8,8 +8,6 @@ public class DiscoTowerScript : MonoBehaviour {
     public GameObject bullet;
     public int bulletSpeed;
     public float coolDownTime;
-    private Vector3 prevLoc;
-    float timeSince;
     GameObject enemy;
     Vector3 enemyVel;
 
@@ -20,7 +18,7 @@ public class DiscoTowerScript : MonoBehaviour {
     }
     void OnTriggerEnter(Collider col)
     {
-        if (col.gameObject.tag == ("Bidarro"))
+        if (col.gameObject.tag == ("Enemy"))
         {
             enemysInRange.Add(col.gameObject);
         }
@@ -28,7 +26,7 @@ public class DiscoTowerScript : MonoBehaviour {
 
     void OnTriggerExit(Collider col)
     {
-        if (col.gameObject.tag == ("Bidarro"))
+        if (col.gameObject.tag == ("Enemy"))
         {
             enemysInRange.Remove(col.gameObject);
         }
@@ -49,11 +47,6 @@ public class DiscoTowerScript : MonoBehaviour {
             bool justHit;
             do
             {
-                if (enemysInRange.Contains(BulletController.hitObject))
-                {
-                    enemysInRange.Remove(BulletController.hitObject);
-                    return;
-                }
 
                 if (enemysInRange.Count == 0)
                 {
@@ -67,24 +60,31 @@ public class DiscoTowerScript : MonoBehaviour {
 
                 else
                 {
-                    enemysInRange.Remove(enemysInRange[i]);
-                    return;
-                }
-                if (enemy == null || !enemy.Equals(enemysInRange[i]))
-                {
-                    enemy = enemysInRange[i];
-                    enemyVel = EnemyVelocity(enemy);
-                    Debug.Log("change");
-                    return;
+                    while (enemysInRange.Count > i && enemysInRange[i] == null)
+                    {
+                        enemysInRange.Remove(enemysInRange[i]);
                     }
+                    Debug.Log("Ai");
+                    if(enemysInRange.Count>i)
+                        {
+                            justHit = Physics.Raycast(transform.position, enemysInRange[i].transform.position - transform.position, out hit);
+                        }
+                    else
+                    {
+                        return;
+                    }
+
+                }
+               
+                enemy = enemysInRange[i];
 
                 i++;
 
-            } while (justHit && hit.collider.tag != "Bidarro" && i < enemysInRange.Count);
+            } while (justHit && hit.collider.tag != "Enemy" && i < enemysInRange.Count);
 
             i--;
             Vector3 toTarget = enemy.transform.position - transform.position;
-            enemyVel = EnemyVelocity(enemy);
+            StartCoroutine(EnemyVelocity(enemy));
             Vector3 enemyDir = (enemyVel.normalized);
 
             float a = Vector3.Dot(enemyVel, enemyVel) - (bulletSpeed * bulletSpeed);
@@ -113,30 +113,22 @@ public class DiscoTowerScript : MonoBehaviour {
             Vector3 target = enemy.transform.position + enemyVel * t;
             Vector3 shootDir = (target - transform.position).normalized;
             Vector3 Shoot = shootDir * bulletSpeed;
-            if (Physics.Raycast(transform.position, Shoot, out hit)) 
-            {
-                Debug.Log(hit.collider.tag);
-                GameObject Bullet = (GameObject)Instantiate(bullet, transform.position, Quaternion.identity);
-                Bullet.rigidbody.velocity = Shoot;
-            }
-            //Debug.Log(enemyVel);
-            //Debug.Log(t);
-            //Debug.Log(enemyVel * t);
 
+            GameObject Bullet = (GameObject)Instantiate(bullet, transform.position, Quaternion.identity);
+            Bullet.rigidbody.velocity = Shoot;
             Debug.DrawRay(transform.position, Shoot);
+
 
         }
     }
 
-    Vector3 EnemyVelocity(GameObject enemy)
+    IEnumerator EnemyVelocity(GameObject enemy)
     {
-        float timeNow = Time.realtimeSinceStartup;
-        Vector3 curLoc = enemy.transform.position;
-        Vector3 velocity = (curLoc - prevLoc) / (timeNow - timeSince);
-        timeSince = Time.realtimeSinceStartup;
-        Debug.Log(curLoc - prevLoc);
-        prevLoc = curLoc;
-        return velocity;
+        Vector3 prevLoc = enemy.transform.position;
+        yield return new WaitForEndOfFrame();
+
+        enemyVel = -(prevLoc - enemy.transform.position) / Time.deltaTime;
+
 
     }
 }

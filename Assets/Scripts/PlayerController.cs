@@ -115,7 +115,8 @@ public class PlayerController : MonoBehaviour
 
                 if (CameraController.hitObject.name == "Cube1")
                 {
-                    Instantiate(WeaponController.curTower, CameraController.hit.point + new Vector3(0f, 7.413f - 0.5f, 0f), Quaternion.Euler(0f,90f,0f));
+                    GameObject tower = (GameObject)Instantiate(WeaponController.curTower, CameraController.hit.point + new Vector3(0f, 7.413f - 0.5f, 0f), Quaternion.Euler(0f,90f,0f));
+                    tower.gameObject.transform.localScale = new Vector3(1f, 14f, 1f);
                 }
 
             }
