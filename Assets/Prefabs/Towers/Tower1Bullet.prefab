@@ -14,7 +14,6 @@ GameObject:
   - 198: {fileID: 19800000}
   - 199: {fileID: 19900000}
   - 108: {fileID: 10800000}
-  - 114: {fileID: 11400000}
   m_Layer: 0
   m_Name: Tower1Bullet
   m_TagString: Bullet
@@ -111,18 +110,6 @@ Light:
   m_ShadowAngle: 0
   m_IndirectIntensity: 1
   m_AreaSize: {x: 1, y: 1}
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bff766b019e5e7242b65f4afd9d1340d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 20
 --- !u!198 &19800000
 ParticleSystem:
   m_ObjectHideFlags: 1

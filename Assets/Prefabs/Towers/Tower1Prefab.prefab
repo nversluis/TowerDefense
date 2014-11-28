@@ -9,11 +9,12 @@ GameObject:
   m_Component:
   - 4: {fileID: 400000}
   - 33: {fileID: 3300000}
-  - 65: {fileID: 6500000}
   - 23: {fileID: 2300000}
-  m_Layer: 2
-  m_Name: Cube
-  m_TagString: Untagged
+  - 64: {fileID: 6400000}
+  - 114: {fileID: 11400000}
+  m_Layer: 0
+  m_Name: Tower1Prefab
+  m_TagString: TowerHotSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27,25 +28,26 @@ GameObject:
   m_Component:
   - 4: {fileID: 400002}
   - 136: {fileID: 13600000}
-  - 114: {fileID: 11400000}
+  - 114: {fileID: 11400004}
   m_Layer: 2
-  m_Name: ProtoType DiscoTower
-  m_TagString: Tower
+  m_Name: Tower1Trigger
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &400000
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 400002}
+  m_LocalRotation: {x: -6.12323426e-17, y: 1, z: -2.18556941e-08, w: 1.33827531e-24}
+  m_LocalPosition: {x: -5.58402443, y: -.657624245, z: 21.1414757}
+  m_LocalScale: {x: 5, y: 5, z: .100000001}
+  m_Children:
+  - {fileID: 400002}
+  m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &400002
 Transform:
@@ -53,12 +55,11 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
-  m_LocalRotation: {x: 0, y: .707106829, z: 0, w: .707106829}
-  m_LocalPosition: {x: -0, y: 0, z: -35.7000008}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 400000}
-  m_Father: {fileID: 0}
+  m_LocalRotation: {x: 6.12323426e-17, y: -1, z: 2.18556941e-08, w: 1.33827531e-24}
+  m_LocalPosition: {x: 0, y: 0, z: .0483417511}
+  m_LocalScale: {x: .100000001, y: .100000001, z: 1}
+  m_Children: []
+  m_Father: {fileID: 400000}
   m_RootOrder: 0
 --- !u!23 &2300000
 Renderer:
@@ -72,7 +73,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: 3d84f376d8cacdc48a78a7d6fa6926cb, type: 2}
+  - {fileID: 2100000, guid: 063d9e440c4ec78478c7f7049de2d538, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -86,20 +87,32 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &6500000
-BoxCollider:
+  m_Mesh: {fileID: 4300000, guid: 51b7365053505c4418b9e9d450dc06b2, type: 3}
+--- !u!64 &6400000
+MeshCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_SmoothSphereCollisions: 0
+  m_Convex: 0
+  m_Mesh: {fileID: 4300000, guid: 51b7365053505c4418b9e9d450dc06b2, type: 3}
 --- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6994542f5ffe91c4ab37b5ccc97b9b8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -110,10 +123,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa1bf77d30d275e4491651488a749678, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet: {fileID: 100000, guid: 1b2fbfa5bc2ebc9428f28105eca1c5c9, type: 2}
-  bulletSpeed: 40
-  coolDownTime: .5
-  enemyTag: Enemy
+  bullet: {fileID: 100000, guid: bc45d264039cd0f4db6079abe05d927d, type: 2}
+  bulletSpeed: 50
+  coolDownTime: .300000012
+  enemyTag: Player
 --- !u!136 &13600000
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -123,8 +136,8 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 20.9599991
-  m_Height: .262958854
+  m_Radius: .300000012
+  m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &100100000
@@ -136,6 +149,6 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 100002}
+  m_RootGameObject: {fileID: 100000}
   m_IsPrefabParent: 1
   m_IsExploded: 1

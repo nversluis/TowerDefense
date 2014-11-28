@@ -8,8 +8,11 @@ public class DiscoTowerScript : MonoBehaviour {
     public GameObject bullet;
     public int bulletSpeed;
     public float coolDownTime;
+	public string enemyTag;
+    
     GameObject enemy;
     Vector3 enemyVel;
+
 
     void Start()
     {
@@ -18,7 +21,8 @@ public class DiscoTowerScript : MonoBehaviour {
     }
     void OnTriggerEnter(Collider col)
     {
-        if (col.gameObject.tag == ("Enemy"))
+        if (col.gameObject.tag == (enemyTag))
+
         {
             enemysInRange.Add(col.gameObject);
         }
@@ -26,7 +30,9 @@ public class DiscoTowerScript : MonoBehaviour {
 
     void OnTriggerExit(Collider col)
     {
-        if (col.gameObject.tag == ("Enemy"))
+
+        if (col.gameObject.tag == (enemyTag))
+
         {
             enemysInRange.Remove(col.gameObject);
         }
@@ -60,11 +66,12 @@ public class DiscoTowerScript : MonoBehaviour {
 
                 else
                 {
+
                     while (enemysInRange.Count > i && enemysInRange[i] == null)
                     {
                         enemysInRange.Remove(enemysInRange[i]);
                     }
-                    Debug.Log("Ai");
+                   
                     if(enemysInRange.Count>i)
                         {
                             justHit = Physics.Raycast(transform.position, enemysInRange[i].transform.position - transform.position, out hit);
@@ -72,6 +79,7 @@ public class DiscoTowerScript : MonoBehaviour {
                     else
                     {
                         return;
+
                     }
 
                 }
@@ -80,7 +88,8 @@ public class DiscoTowerScript : MonoBehaviour {
 
                 i++;
 
-            } while (justHit && hit.collider.tag != "Enemy" && i < enemysInRange.Count);
+            } while (justHit && hit.collider.tag != enemyTag && i < enemysInRange.Count);
+
 
             i--;
             Vector3 toTarget = enemy.transform.position - transform.position;
@@ -124,11 +133,11 @@ public class DiscoTowerScript : MonoBehaviour {
 
     IEnumerator EnemyVelocity(GameObject enemy)
     {
+
         Vector3 prevLoc = enemy.transform.position;
         yield return new WaitForEndOfFrame();
-
-        enemyVel = -(prevLoc - enemy.transform.position) / Time.deltaTime;
-
-
+		if (enemy != null) {
+			enemyVel = -(prevLoc - enemy.transform.position) / Time.deltaTime;
+		}
     }
 }
