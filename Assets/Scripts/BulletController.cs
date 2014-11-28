@@ -13,7 +13,7 @@ public class BulletController : MonoBehaviour
     {
 
         RaycastHit hit;
-        if (Physics.Raycast(PrevItLoc, transform.position - PrevItLoc, out hit, (PrevItLoc - transform.position).magnitude))
+        if (Physics.Raycast(PrevItLoc, transform.position - PrevItLoc, out hit, (PrevItLoc - transform.position).magnitude+0.2f))
         {
             hitObject = hit.collider.gameObject;
             Destroy(this.gameObject);

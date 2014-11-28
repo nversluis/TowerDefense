@@ -7,17 +7,16 @@ public class DiscoTowerScript : MonoBehaviour {
     private List<GameObject> enemysInRange;
     public GameObject bullet;
     public int bulletSpeed;
-    public float shootSpeed;
-    private Vector3 previous;
-    private Vector3 current;
-    private Vector3 speed;
-    float begin;
-
+    public float coolDownTime;
+    private Vector3 prevLoc;
+    float timeSince;
+    GameObject enemy;
+    Vector3 enemyVel;
 
     void Start()
     {
         enemysInRange = new List<GameObject>();
-        InvokeRepeating("Shooting", 0f, shootSpeed);
+        InvokeRepeating("Shooting", 0f, coolDownTime);
     }
     void OnTriggerEnter(Collider col)
     {
@@ -37,24 +36,19 @@ public class DiscoTowerScript : MonoBehaviour {
 
     void Update()
     {
-        if (enemysInRange.Contains(BulletController.hitObject))
-        {
-            enemysInRange.Remove(BulletController.hitObject);
-        }
+
     }
 
     void Shooting()
     {
-        if (enemysInRange.Contains(BulletController.hitObject))
-        {
-            enemysInRange.Remove(BulletController.hitObject);
-        }
+
         if (enemysInRange.Count > 0) 
         {
             RaycastHit hit;
             int i = 0;
             bool justHit;
-            do{
+            do
+            {
                 if (enemysInRange.Contains(BulletController.hitObject))
                 {
                     enemysInRange.Remove(BulletController.hitObject);
@@ -65,26 +59,84 @@ public class DiscoTowerScript : MonoBehaviour {
                 {
                     return;
                 }
-                Debug.Log(i);
-                justHit = Physics.Raycast(transform.position, enemysInRange[i].transform.position - transform.position,out hit);
+
+                if (enemysInRange[i] != null)
+                {
+                    justHit = Physics.Raycast(transform.position, enemysInRange[i].transform.position - transform.position, out hit);
+                }
+
+                else
+                {
+                    enemysInRange.Remove(enemysInRange[i]);
+                    return;
+                }
+                if (enemy == null || !enemy.Equals(enemysInRange[i]))
+                {
+                    enemy = enemysInRange[i];
+                    enemyVel = EnemyVelocity(enemy);
+                    Debug.Log("change");
+                    return;
+                    }
 
                 i++;
 
-            } while(justHit && hit.collider.tag != "Bidarro" && i<enemysInRange.Count);
-            i--;
-            current = enemysInRange[i].transform.position;
-            float eind = Time.realtimeSinceStartup;
-            speed = (current - previous);
-            Debug.DrawRay(transform.position, (hit.point - transform.position) + speed);
-            GameObject Bullet = (GameObject)Instantiate(bullet, transform.position, Quaternion.identity);
-            Vector3 dir = (hit.point - transform.position) + (speed)*(hit.point -transform.position).magnitude/2;
-            
-            Bullet.rigidbody.AddForce(dir.normalized*bulletSpeed);
-            Debug.Log(dir);
+            } while (justHit && hit.collider.tag != "Bidarro" && i < enemysInRange.Count);
 
-            previous = enemysInRange[i].transform.position;
-            begin = Time.realtimeSinceStartup;
-               
+            i--;
+            Vector3 toTarget = enemy.transform.position - transform.position;
+            enemyVel = EnemyVelocity(enemy);
+            Vector3 enemyDir = (enemyVel.normalized);
+
+            float a = Vector3.Dot(enemyVel, enemyVel) - (bulletSpeed * bulletSpeed);
+            float b = 2 * Vector3.Dot(enemyVel, toTarget);
+            float c = Vector3.Dot(toTarget, toTarget);
+
+            float d = (b * b) - 4 * a * c;
+
+            if (d < 0)
+                return;
+
+            float t1 = (-b - Mathf.Sqrt(d)) / (2 * a);
+            float t2 = (-b + Mathf.Sqrt(d)) / (2 * a);
+
+            float t;
+
+            if (t1 > t2 && t2 > 0)
+            {
+                t = t2;
+            }
+            else
+            {
+                t = t1;
+            }
+
+            Vector3 target = enemy.transform.position + enemyVel * t;
+            Vector3 shootDir = (target - transform.position).normalized;
+            Vector3 Shoot = shootDir * bulletSpeed;
+            if (Physics.Raycast(transform.position, Shoot, out hit)) 
+            {
+                Debug.Log(hit.collider.tag);
+                GameObject Bullet = (GameObject)Instantiate(bullet, transform.position, Quaternion.identity);
+                Bullet.rigidbody.velocity = Shoot;
+            }
+            //Debug.Log(enemyVel);
+            //Debug.Log(t);
+            //Debug.Log(enemyVel * t);
+
+            Debug.DrawRay(transform.position, Shoot);
+
         }
+    }
+
+    Vector3 EnemyVelocity(GameObject enemy)
+    {
+        float timeNow = Time.realtimeSinceStartup;
+        Vector3 curLoc = enemy.transform.position;
+        Vector3 velocity = (curLoc - prevLoc) / (timeNow - timeSince);
+        timeSince = Time.realtimeSinceStartup;
+        Debug.Log(curLoc - prevLoc);
+        prevLoc = curLoc;
+        return velocity;
+
     }
 }
