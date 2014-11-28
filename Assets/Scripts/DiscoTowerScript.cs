@@ -8,10 +8,12 @@ public class DiscoTowerScript : MonoBehaviour {
     public GameObject bullet;
     public int bulletSpeed;
     public float coolDownTime;
+	public string enemyTag;
     private Vector3 prevLoc;
     float timeSince;
     GameObject enemy;
     Vector3 enemyVel;
+
 
     void Start()
     {
@@ -20,7 +22,7 @@ public class DiscoTowerScript : MonoBehaviour {
     }
     void OnTriggerEnter(Collider col)
     {
-        if (col.gameObject.tag == ("Bidarro"))
+        if (col.gameObject.tag == (enemyTag))
         {
             enemysInRange.Add(col.gameObject);
         }
@@ -28,7 +30,7 @@ public class DiscoTowerScript : MonoBehaviour {
 
     void OnTriggerExit(Collider col)
     {
-        if (col.gameObject.tag == ("Bidarro"))
+        if (col.gameObject.tag == (enemyTag))
         {
             enemysInRange.Remove(col.gameObject);
         }
@@ -41,7 +43,7 @@ public class DiscoTowerScript : MonoBehaviour {
 
     void Shooting()
     {
-
+		Debug.Log (enemysInRange.Count);
         if (enemysInRange.Count > 0) 
         {
             RaycastHit hit;
@@ -74,13 +76,12 @@ public class DiscoTowerScript : MonoBehaviour {
                 {
                     enemy = enemysInRange[i];
                     enemyVel = EnemyVelocity(enemy);
-                    Debug.Log("change");
                     return;
                     }
 
                 i++;
 
-            } while (justHit && hit.collider.tag != "Bidarro" && i < enemysInRange.Count);
+            } while (justHit && hit.collider.tag != enemyTag && i < enemysInRange.Count);
 
             i--;
             Vector3 toTarget = enemy.transform.position - transform.position;
@@ -115,7 +116,6 @@ public class DiscoTowerScript : MonoBehaviour {
             Vector3 Shoot = shootDir * bulletSpeed;
             if (Physics.Raycast(transform.position, Shoot, out hit)) 
             {
-                Debug.Log(hit.collider.tag);
                 GameObject Bullet = (GameObject)Instantiate(bullet, transform.position, Quaternion.identity);
                 Bullet.rigidbody.velocity = Shoot;
             }
@@ -134,7 +134,6 @@ public class DiscoTowerScript : MonoBehaviour {
         Vector3 curLoc = enemy.transform.position;
         Vector3 velocity = (curLoc - prevLoc) / (timeNow - timeSince);
         timeSince = Time.realtimeSinceStartup;
-        Debug.Log(curLoc - prevLoc);
         prevLoc = curLoc;
         return velocity;
 
