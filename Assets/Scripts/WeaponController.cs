@@ -7,13 +7,18 @@ public class WeaponController : MonoBehaviour
 	// initializing constants
 	public float maxDistance;
 	//max distance you can put towers
+	public static int trapGridSize; //The amount of traps you can place in the length of a one planewidth. >0
+
 	public GameObject Tower1;
 	// First Tower prefab
 	public GameObject Tower2;
 	// Second Tower prefab
+	public GameObject FloorTower1;
+	//First FloorTower prefab
 
 	public static float Distance;
 	public static GameObject curTower;
+	public static GameObject curFloorTower;
 	//current Tower selected
 	public static int weapon;
 
@@ -22,7 +27,9 @@ public class WeaponController : MonoBehaviour
 	{
 		Distance = maxDistance;
 		curTower = null;
+		curFloorTower = null;
 		weapon = 1;
+		trapGridSize = 1;
 	}
 
 	// Update is called once per frame
@@ -33,12 +40,15 @@ public class WeaponController : MonoBehaviour
 
 		if (Input.GetKey ("1")) {
 			curTower = null;
+			curFloorTower = null;
 			weapon = 1;
 			WallScript.DestroyHotSpots ();
 		}
 		//If 2 pressed, building tower will be tower 1, cant cast magic.
 		if (Input.GetKey ("2") && (curTower == null || !curTower.Equals (Tower1))) {
 			curTower = Tower1;
+			curFloorTower = FloorTower1;
+			trapGridSize = 2;
 			WallScript.DestroyHotSpots ();
 			weapon = 2;
 		}

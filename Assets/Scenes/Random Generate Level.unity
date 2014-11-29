@@ -104,6 +104,7 @@ MonoBehaviour:
   maxDistance: 50
   Tower1: {fileID: 100000, guid: 96dfe76670364bb408c40825fe24ca29, type: 2}
   Tower2: {fileID: 100000, guid: 0f60e255c935b89428a9f7f2729173a3, type: 2}
+  FloorTower1: {fileID: 100000, guid: 83fa44f557a4e614fa772e1d77a0f12b, type: 2}
 --- !u!4 &238715494
 Transform:
   m_ObjectHideFlags: 0

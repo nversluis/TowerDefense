@@ -12,10 +12,17 @@ public class TowerScript : MonoBehaviour {
 
 	//Method to build a tower. Will destroy the prefab and build a new tower there.
 	public void BuildTower(){
-		GameObject tower = (GameObject)Instantiate (WeaponController.curTower,transform.position, transform.rotation); //The instantiantion of the tower
-		tower.gameObject.transform.localScale=new Vector3(RandomMaze.getPlaneWidth()/2,RandomMaze.getPlaneWidth()/2,RandomMaze.getPlaneWidth()/100)*100; //Scaling the tower
-		tower.tag = "Tower"; //Give tower a new tag, so it wont be destroyed because its a hotspot
-		tower.collider.isTrigger = false; //remove the trigger, cant walk trough it
+		GameObject tower;
+		if (CameraController.hitObject.name.Contains("Tower")) {
+			tower = (GameObject)Instantiate (WeaponController.curTower, transform.position, transform.rotation); //The instantiantion of the tower
+			tower.gameObject.transform.localScale = new Vector3 (RandomMaze.getPlaneWidth () / 2, RandomMaze.getPlaneWidth () / 2, RandomMaze.getPlaneWidth () / 100) * 100; //Scaling the tower
+		} else {
+			tower = (GameObject)Instantiate (WeaponController.curFloorTower, transform.position, transform.rotation); //The instantiantion of the tower
+			tower.gameObject.transform.localScale = new Vector3 (RandomMaze.getPlaneWidth () / 4, RandomMaze.getPlaneWidth () / 100, RandomMaze.getPlaneWidth () / 4) * 100; //Scaling the tower
+		}
+			tower.tag = "Tower"; //Give tower a new tag, so it wont be destroyed because its a hotspot
+		
+			tower.collider.isTrigger = false; //remove the trigger, cant walk trough it
 		Destroy (gameObject); // Destroy all hotspots
 		tower.SetActiveRecursively (true); //Active its children (the trigger)
 	}
