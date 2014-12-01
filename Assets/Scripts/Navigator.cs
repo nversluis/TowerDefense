@@ -7,8 +7,10 @@ public class Navigator : MonoBehaviour {
     static float gridSize = RandomMaze.gridSize;
 
     public static List<Vector3> Path(Vector3 startPoint, Vector3 endPoint) {
-
+        float startTime = Time.realtimeSinceStartup;
         /** INITIALIZATION **/
+
+        Debug.DrawLine(startPoint, endPoint, Color.yellow, Mathf.Infinity, false);
 
         // Load the grid
         List<WayPoint> grid = RandomMaze.Nodes;
@@ -32,13 +34,13 @@ public class Navigator : MonoBehaviour {
         else if(start_z % gridSize == 0) {
             start_z += 0.1f * Random.value;
         }
-
+        // Find surrounding node coordinates
         float x1 = RoundUp(start_x, gridSize);
         float x2 = RoundDown(start_x, gridSize);
         float z1 = RoundUp(start_z, gridSize);
         float z2 = RoundDown(start_z, gridSize);
 
-        // Also include diagonal destinations, making for a total of 8 possible destinations
+        // Add potential node locations to a list.
         List<Vector3> startNodes = new List<Vector3>();
         startNodes.Add(new Vector3(x1, 0, z1));
         startNodes.Add(new Vector3(x1, 0, z2));
@@ -74,18 +76,20 @@ public class Navigator : MonoBehaviour {
             float cheapest = float.MaxValue;
             // Find the cheapest destination
             WayPoint cheapestWP = new WayPoint(new Vector3(0, 0, 0));
-            Debug.Log("Number of destinations found: ");
-            Debug.Log(currentWP.getDestinations().Count);
             for(int i = 0; i < currentWP.getDestinations().Count; i++) {
                 WayPoint destination = currentWP.getDestinations()[i];
                 if(destination.getState() == "open") {
                     float fCost = CalculateFCost(currentWP, destination, endWP);
+                    //Debug.Log("fCost = ");
+                    //Debug.Log(fCost);
                     if(fCost <= cheapest) {
                         cheapest = fCost;
                         cheapestWP = destination;
                     }
                 }
             }
+            //Debug.Log("Chosen fCost =");
+            //Debug.Log(cheapest);
             if(cheapest == float.MaxValue) {
                 Debug.LogError("Error: route stuck with no destinations, empty path returned");
                 break;
@@ -95,13 +99,13 @@ public class Navigator : MonoBehaviour {
             cheapestWP.setPrevious(currentWP);
             currentWP = cheapestWP;
             currentWP.setState("closed");
-            Debug.Log("Current location:");
-            Debug.Log(currentWP.getPosition());
-            Debug.DrawLine(cheapestWP.getPosition(), cheapestWP.getPrevious().getPosition(), Color.red);
+            // Debug.Log("Current location:");
+            // Debug.Log(currentWP.getPosition());
+            Debug.DrawLine(cheapestWP.getPosition(), cheapestWP.getPrevious().getPosition(), Color.red, Mathf.Infinity, false);
 
             // If the current waypoint is the endpoint, stop searching and build the route
             if(CloseEnoughToDestination(currentWP, endPoint)) {
-                Debug.Log("Destination found!");
+                //Debug.Log("Destination found!");
                 endWP.setPrevious(currentWP);
                 path = ReconstructPath(startPoint, endWP);
                 openDestinationsExist = false;
@@ -127,6 +131,9 @@ public class Navigator : MonoBehaviour {
                 }
             }
         }
+        float timeSpent = Time.realtimeSinceStartup - startTime;
+        Debug.Log("Time spent calculating:");
+        Debug.Log(timeSpent);
         return path;
     }
 
@@ -174,18 +181,19 @@ public class Navigator : MonoBehaviour {
     }
     // Function that calculates the Manhattan distance between two points
     static float ManhattanDist(Vector3 p1, Vector3 p2) {
-        return Mathf.Abs(p1.x - p2.x) + Mathf.Abs(p1.z - p2.z);
+        return Mathf.Abs(p1.x - p2.x) + Mathf.Abs(p1.y - p2.y) + Mathf.Abs(p1.z - p2.z);
     }
     // Function that can reconstruct the path from an A* route
     static List<Vector3> ReconstructPath(Vector3 startPos, WayPoint endWP) {
         List<Vector3> bestPath = new List<Vector3>();
         WayPoint currWP = endWP;
         bestPath.Add(endWP.getPosition());
-        Debug.Log("Start routing back!");
+        // Debug.Log("Start routing back!");
         while(true) {
+            Debug.DrawLine(currWP.getPosition(), currWP.getPrevious().getPosition(), Color.blue, Mathf.Infinity, false);
             currWP = currWP.getPrevious();
-            Debug.Log("Next position:");
-            Debug.Log(currWP.getPosition());
+           // Debug.Log("Next position:");
+           // Debug.Log(currWP.getPosition());
             if(currWP.getPosition() == startPos) {
                 bestPath.Add(startPos);
                 break;
@@ -201,15 +209,15 @@ public class Navigator : MonoBehaviour {
     // Function that calculates the f-cost between two waypoints (cost based on distance from both start and end point)
     static float CalculateFCost(WayPoint current, WayPoint destination, WayPoint endpoint) {
         // Distance from current node to destination
-        float g_cost = current.getCost() + (current.getPosition() - destination.getPosition()).magnitude;
+        float g_cost = CalculateGCost(current, destination);
         // Heuristic, in our case the Manhattan distance
-        float h_cost = ManhattanDist(current.getPosition(), endpoint.getPosition());
+        float h_cost = ManhattanDist(destination.getPosition(), endpoint.getPosition());
         return g_cost + h_cost;
     }
     // Function that can find a Waypoint at a certain location
     static WayPoint FindWayPointAt(Vector3 position, List<WayPoint> grid) {
-        Debug.Log("Searching for waypoint at position:");
-        Debug.Log(position);
+        // Debug.Log("Searching for waypoint at position:");
+        // Debug.Log(position);
         foreach(WayPoint wp in grid) {
             if(wp.getPosition() == position) {
                 return wp;
