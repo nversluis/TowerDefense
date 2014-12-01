@@ -24,14 +24,14 @@ Material:
         first:
           name: _BumpMap
         second:
-          m_Texture: {fileID: 2800000, guid: 2532d94c55d6ab04aa9b1e4a327a9492, type: 3}
+          m_Texture: {fileID: 2800000, guid: f20fbe0eab966d746a9b28c45939a6a8, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
           name: _ParallaxMap
         second:
-          m_Texture: {fileID: 2800000, guid: 2532d94c55d6ab04aa9b1e4a327a9492, type: 3}
+          m_Texture: {fileID: 2800000, guid: f20fbe0eab966d746a9b28c45939a6a8, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -41,16 +41,16 @@ Material:
         second: .0529225022
       data:
         first:
+          name: _Parallax
+        second: .0357142873
+      data:
+        first:
           name: _EdgeLength
-        second: 26.5
+        second: 3
       data:
         first:
           name: _Smoothness
         second: .5
-      data:
-        first:
-          name: _Parallax
-        second: .0178571437
     m_Colors:
       data:
         first:

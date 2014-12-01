@@ -123,8 +123,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa1bf77d30d275e4491651488a749678, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet: {fileID: 100000, guid: bc45d264039cd0f4db6079abe05d927d, type: 2}
-  bulletSpeed: 50
+  bullet: {fileID: 100000, guid: 1b2fbfa5bc2ebc9428f28105eca1c5c9, type: 2}
+  bulletSpeed: 20
   coolDownTime: .300000012
   enemyTag: Player
 --- !u!136 &13600000

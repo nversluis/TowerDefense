@@ -309,10 +309,10 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400040}
-  - 95: {fileID: 9500000}
-  - 114: {fileID: 11400000}
   - 143: {fileID: 14300000}
   - 114: {fileID: 11400002}
+  - 95: {fileID: 9500000}
+  - 114: {fileID: 11400000}
   m_Layer: 0
   m_Name: MainChar_wSword
   m_TagString: Player
@@ -585,7 +585,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100040}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 29.9044914, y: -1.00171852, z: 17.6018295}
+  m_LocalPosition: {x: -46.7373924, y: 7.06636143, z: 68.2633286}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400038}
@@ -600,14 +600,25 @@ Animator:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100040}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: e5570de106f1e45ecae5b331c556d82e, type: 3}
+  m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: e15cce6bc32563b448db1ec6783c93ee, type: 2}
   m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_UpdateMode: 1
+  m_ApplyRootMotion: 0
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e12acd797ed0ab469abdaa69a117d8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -620,17 +631,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camera: {fileID: 100000, guid: dd773a3570af80e458efc1407d736bdc, type: 2}
   Bullet: {fileID: 100000, guid: 1b2fbfa5bc2ebc9428f28105eca1c5c9, type: 2}
---- !u!114 &11400002
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100040}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e12acd797ed0ab469abdaa69a117d8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!137 &13700000
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -678,7 +678,7 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 400034}
   m_AABB:
-    m_Center: {x: .472259402, y: .0827391148, z: 1.17590904}
+    m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 2.26432943, y: 1.04505837, z: 2.04923058}
   m_DirtyAABB: 0
 --- !u!143 &14300000
@@ -688,13 +688,13 @@ CharacterController:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100040}
   serializedVersion: 2
-  m_Height: 49.2000008
-  m_Radius: 7.11999989
+  m_Height: 2
+  m_Radius: .5
   m_SlopeLimit: 45
   m_StepOffset: .300000012
   m_SkinWidth: .0799999982
   m_MinMoveDistance: 0
-  m_Center: {x: 0, y: 26.8299999, z: 0}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
