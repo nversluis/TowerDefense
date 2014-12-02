@@ -31,7 +31,7 @@ Material:
         first:
           name: _ParallaxMap
         second:
-          m_Texture: {fileID: 2800000, guid: 3a0700d3659869549a9666d4f7454996, type: 3}
+          m_Texture: {fileID: 2800000, guid: d17496ed448a3494f8a42b5b04b6ef6d, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -42,7 +42,7 @@ Material:
       data:
         first:
           name: _Parallax
-        second: .0535714291
+        second: .214285716
       data:
         first:
           name: _EdgeLength
