@@ -24,7 +24,7 @@ public class Navigator : MonoBehaviour {
         //drawTime3 = 0;
 
         //float temp = Time.realtimeSinceStartup;
-        //Debug.DrawLine(startPoint, endPoint, Color.yellow, Mathf.Infinity, false);
+        Debug.DrawLine(startPoint, endPoint, Color.yellow, Mathf.Infinity, false);
         //drawTime1 = Time.realtimeSinceStartup - temp;
         /* DEBUG */
 
@@ -43,18 +43,35 @@ public class Navigator : MonoBehaviour {
         float start_x = startPoint.x;
         float start_z = startPoint.z;
 
-        // Add small noise to the coordinates if they are already exactly on the grid, ensuring 8 unique locations.
+        // Add small noise to the coordinates if they are already exactly on the grid, ensuring unique locations.
         if(start_x % gridSize == 0) {
-            start_x += 0.1f * Random.value;
+            start_x += 0.01f * Random.value;
         }
         else if(start_z % gridSize == 0) {
-            start_z += 0.1f * Random.value;
+            start_z += 0.01f * Random.value;
         }
+        
+        /* DEBUG */
+        Debug.Log("First node position =" + grid[0].getPosition());
+        /* DEBUG */
+        
         // Find surrounding node coordinates
         float x1 = RoundUp(start_x, gridSize);
         float x2 = RoundDown(start_x, gridSize);
         float z1 = RoundUp(start_z, gridSize);
         float z2 = RoundDown(start_z, gridSize);
+
+        // Compensate for offset
+
+        float x_offset = Mathf.Abs(grid[0].getPosition().x % gridSize);
+        float z_offset = Mathf.Abs(grid[0].getPosition().z % gridSize);
+        Debug.Log("X offset =" + x_offset);
+        Debug.Log("Z offset =" + z_offset);
+
+        x1 += x_offset;
+        x2 += x_offset;
+        z1 += z_offset;
+        z2 += z_offset;
 
         // Add potential node locations to a list.
         List<Vector3> startNodes = new List<Vector3>();
@@ -62,6 +79,14 @@ public class Navigator : MonoBehaviour {
         startNodes.Add(new Vector3(x1, 0, z2));
         startNodes.Add(new Vector3(x2, 0, z1));
         startNodes.Add(new Vector3(x2, 0, z2));
+
+        /* DEBUG */
+        Debug.Log("Locations to look for nodes:");
+        for(int i = 0; i < startNodes.Count; i++) {
+            Debug.Log("Node " + i + ": " + startNodes[i]);
+            Debug.DrawLine(startPoint, startNodes[i], Color.white, Mathf.Infinity, false);
+        }
+        /* DEBUG */
 
         // Add found nodes to destination list of start node if they are visible and set their state to open
         bool openDestinationsExist = false;
@@ -218,7 +243,7 @@ public class Navigator : MonoBehaviour {
         while(true) {
             /* DEBUG */
             //float temp = Time.realtimeSinceStartup;
-            //Debug.DrawLine(currWP.getPosition(), currWP.getPrevious().getPosition(), Color.blue, Mathf.Infinity, false);
+            Debug.DrawLine(currWP.getPosition(), currWP.getPrevious().getPosition(), Color.blue, Mathf.Infinity, false);
             //drawTime3 += Time.realtimeSinceStartup - temp;
             /* DEBUG */
             currWP = currWP.getPrevious();
@@ -250,6 +275,7 @@ public class Navigator : MonoBehaviour {
     }
     // Function that can find a Waypoint at a certain location
     static WayPoint FindWayPointAt(Vector3 position, List<WayPoint> grid) {
+        Debug.Log("Looking for waypoint at position: " + position);
         foreach(WayPoint wp in grid) {
             if(wp.getPosition() == position) {
                 return wp;
