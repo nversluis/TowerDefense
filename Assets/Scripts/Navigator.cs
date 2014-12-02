@@ -103,8 +103,8 @@ public class Navigator : MonoBehaviour {
                 }
             }
             if(cheapest == float.MaxValue) {
-                Debug.LogError("Error: route stuck with no destinations, empty path returned");
-                break;
+                Debug.Log("Error: route stuck with no destinations, empty path returned");
+                return null;
             }
 
             // Move to new WP and set it as closed

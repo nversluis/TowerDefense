@@ -15,6 +15,7 @@ public class RandomMaze : MonoBehaviour
     public GameObject planePrefab; //Floor prefab
     public GameObject wallPrefab; //Wall prefab
     public GameObject node; //Node prefab
+    public GameObject EnemySpawner;
     //public GameObject bidarraSpawnerPrefab; //Prefab to spawn enemy´s
 
     private ArrayList positions = new ArrayList(); //Positions of the floors
@@ -66,7 +67,10 @@ public class RandomMaze : MonoBehaviour
 
         testPath = Navigator.Path(start, end);
 
-        //for(int ii = 0; ii < testPath.Count; ii++){
+        //Debug.Log(start);
+        //Debug.Log(end);
+        //for (int ii = 0; ii < testPath.Count; ii++)
+        //{
         //    Debug.Log("Path position " + ii + " =" + testPath[ii]);
         //}
 
@@ -187,6 +191,7 @@ public class RandomMaze : MonoBehaviour
                 }
 
             }
+
         }
 
         GameObject floor2 = (GameObject)Instantiate(planePrefab, new Vector3(endPos[0] * planewidth, 0, endPos[1] * planewidth), Quaternion.identity); //Generate floor at end position
@@ -197,6 +202,7 @@ public class RandomMaze : MonoBehaviour
         //bidarraSpawner.name = "bidarraSpawner";
 
         positions.Add(endPos); //Add the end position to position
+        GameObject enemySpawner = (GameObject)Instantiate(EnemySpawner, new Vector3(endPos.x*planewidth, 0f, endPos.y*planewidth), Quaternion.identity);    
 
     }
 	//Method to generate walls

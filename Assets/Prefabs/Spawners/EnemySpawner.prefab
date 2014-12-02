@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 400000}
   - 114: {fileID: 11400000}
   m_Layer: 0
-  m_Name: BidarroSpawner
+  m_Name: EnemySpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -39,7 +39,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cd03e2f2d4809d459c7503ccef87f74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bidarro: {fileID: 100000, guid: 9471a4a6bfc25b44f9dac9b32c4be545, type: 2}
+  enemy: {fileID: 100052, guid: 8a2e017a33dbf9748ad510b090cfb8be, type: 2}
   SpawnRate: 60
   maxX: 0
   maxZ: 0
