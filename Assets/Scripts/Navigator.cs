@@ -214,7 +214,7 @@ public class Navigator : MonoBehaviour {
                 bestPath.Insert(0,startPos);
                 break;
             }
-            bestPath.Add(currWP.getPosition());
+            bestPath.Insert(0,currWP.getPosition());
         }
         return bestPath;
     }
