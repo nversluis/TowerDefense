@@ -66,9 +66,9 @@ public class RandomMaze : MonoBehaviour
 
         testPath = Navigator.Path(start, end);
 
-        for(int ii = 0; ii < testPath.Count; ii++){
-            Debug.Log("Path position " + ii + " =" + testPath[ii]);
-        }
+        //for(int ii = 0; ii < testPath.Count; ii++){
+        //    Debug.Log("Path position " + ii + " =" + testPath[ii]);
+        //}
 
         //enemy = GameObject.CreatePrimitive(PrimitiveType.Cube);
         //enemyTr = enemy.GetComponent<Transform>();
