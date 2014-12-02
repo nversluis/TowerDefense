@@ -6,11 +6,26 @@ public class Navigator : MonoBehaviour {
 
     static float gridSize = RandomMaze.gridSize;
 
+    /* DEBUG */
+    //static float drawTime1;
+    //static float drawTime2;
+    //static float drawTime3;
+    /* DEBUG */
+
     public static List<Vector3> Path(Vector3 startPoint, Vector3 endPoint) {
-        float startTime = Time.realtimeSinceStartup;
         /** INITIALIZATION **/
 
+        /* DEBUG */
+        //float startTime = Time.realtimeSinceStartup;
+
+        //drawTime1 = 0;
+        //drawTime2 = 0;
+        //drawTime3 = 0;
+
+        //float temp = Time.realtimeSinceStartup;
         Debug.DrawLine(startPoint, endPoint, Color.yellow, Mathf.Infinity, false);
+        //drawTime1 = Time.realtimeSinceStartup - temp;
+        /* DEBUG */
 
         // Load the grid
         List<WayPoint> grid = RandomMaze.Nodes;
@@ -80,16 +95,12 @@ public class Navigator : MonoBehaviour {
                 WayPoint destination = currentWP.getDestinations()[i];
                 if(destination.getState() == "open") {
                     float fCost = CalculateFCost(currentWP, destination, endWP);
-                    //Debug.Log("fCost = ");
-                    //Debug.Log(fCost);
                     if(fCost <= cheapest) {
                         cheapest = fCost;
                         cheapestWP = destination;
                     }
                 }
             }
-            //Debug.Log("Chosen fCost =");
-            //Debug.Log(cheapest);
             if(cheapest == float.MaxValue) {
                 Debug.LogError("Error: route stuck with no destinations, empty path returned");
                 break;
@@ -99,13 +110,15 @@ public class Navigator : MonoBehaviour {
             cheapestWP.setPrevious(currentWP);
             currentWP = cheapestWP;
             currentWP.setState("closed");
-            // Debug.Log("Current location:");
-            // Debug.Log(currentWP.getPosition());
-            Debug.DrawLine(cheapestWP.getPosition(), cheapestWP.getPrevious().getPosition(), Color.red, Mathf.Infinity, false);
+
+            /* DEBUG */
+            //temp = Time.realtimeSinceStartup;
+            //Debug.DrawLine(cheapestWP.getPosition(), cheapestWP.getPrevious().getPosition(), Color.red, Mathf.Infinity, false);
+            //drawTime2 += temp - Time.realtimeSinceStartup;
+            /* DEBUG */
 
             // If the current waypoint is the endpoint, stop searching and build the route
             if(CloseEnoughToDestination(currentWP, endPoint)) {
-                //Debug.Log("Destination found!");
                 endWP.setPrevious(currentWP);
                 path = ReconstructPath(startPoint, endWP);
                 openDestinationsExist = false;
@@ -131,9 +144,11 @@ public class Navigator : MonoBehaviour {
                 }
             }
         }
-        float timeSpent = Time.realtimeSinceStartup - startTime;
-        Debug.Log("Time spent calculating:");
-        Debug.Log(timeSpent);
+        /* DEBUG */
+        //float timeSpent = Time.realtimeSinceStartup - startTime - drawTime1 - drawTime2;
+        //Debug.Log("Time spent calculating:");
+        //Debug.Log(timeSpent);
+        /* DEBUG */
         return path;
     }
 
@@ -153,7 +168,7 @@ public class Navigator : MonoBehaviour {
         }
         return res;
     }
-    // function that rounds down a certain number to the grid size
+    // Function that rounds down a certain number to the grid size
     static float RoundDown(float toRound, float nearest) {
         float res;
         if(toRound % nearest != 0) {
@@ -188,17 +203,18 @@ public class Navigator : MonoBehaviour {
         List<Vector3> bestPath = new List<Vector3>();
         WayPoint currWP = endWP;
         bestPath.Add(endWP.getPosition());
-        // Debug.Log("Start routing back!");
         while(true) {
+            /* DEBUG */
+            //float temp = Time.realtimeSinceStartup;
             Debug.DrawLine(currWP.getPosition(), currWP.getPrevious().getPosition(), Color.blue, Mathf.Infinity, false);
+            //drawTime3 += Time.realtimeSinceStartup - temp;
+            /* DEBUG */
             currWP = currWP.getPrevious();
-           // Debug.Log("Next position:");
-           // Debug.Log(currWP.getPosition());
             if(currWP.getPosition() == startPos) {
-                bestPath.Add(startPos);
+                bestPath.Insert(0,startPos);
                 break;
             }
-            bestPath.Add(currWP.getPosition());
+            bestPath.Insert(0,currWP.getPosition());
         }
         return bestPath;
     }
@@ -210,14 +226,13 @@ public class Navigator : MonoBehaviour {
     static float CalculateFCost(WayPoint current, WayPoint destination, WayPoint endpoint) {
         // Distance from current node to destination
         float g_cost = CalculateGCost(current, destination);
+
         // Heuristic, in our case the Manhattan distance
         float h_cost = ManhattanDist(destination.getPosition(), endpoint.getPosition());
         return g_cost + h_cost;
     }
     // Function that can find a Waypoint at a certain location
     static WayPoint FindWayPointAt(Vector3 position, List<WayPoint> grid) {
-        // Debug.Log("Searching for waypoint at position:");
-        // Debug.Log(position);
         foreach(WayPoint wp in grid) {
             if(wp.getPosition() == position) {
                 return wp;
