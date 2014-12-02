@@ -233,6 +233,7 @@ public class RandomMaze : MonoBehaviour
                 }
             }
         }
+		RemoveNodes ();
     }
 
 	//Method to find all Nodes around a current node
@@ -275,10 +276,39 @@ public class RandomMaze : MonoBehaviour
             return 0;
     }
 
+	public void RemoveNodes(){
+		for(float l=-0.5f;l<=length;l++){
+			for (float w = -width / 2-0.5f; w <= width / 2 + 1; w ++) {
+				int amountPlanesAround = 0;
+				for(float x=-1;x<=1;x+=2){
+					for(float y=-1;y<=1;y+=2){
+						//Debug.Log(new Vector4(l,x,w,y));
+						//Debug.Log(new Vector3(l+x,w+y,ConvertBool(positions.Contains(new Vector2(l+x/2,w+y/2)))));
+						//Debug.Log(new Vector2(x,y));
+						amountPlanesAround+=ConvertBool(positions.Contains(new Vector2(l+x*1/2,w+y*1/2)));
+					}
+				}
+				//Debug.Log (amountPlanesAround);
+				if (amountPlanesAround == 3) {
+					int index =NodesPos.IndexOf (new Vector3(l*planewidth, 0, w*planewidth));
+					NodesPos.RemoveAt (index);
+					Nodes.RemoveAt (index);
+
+				}
+			}
+		}
+	}
+
+
+
+
 	//method to retrun the planewidth for use in other scripts
 	public static float getPlaneWidth(){
 		return planewidthS;
 	}
+
+
+
 
 
 }
