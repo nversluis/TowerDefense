@@ -9,14 +9,19 @@ public class WallScript : MonoBehaviour {
 	
 	void Update(){
 		if (gameObject == CameraController.hitObject) { //if the object you are looking at is the wall
-
+			Vector3 normal = CameraController.hit.normal;
 			DestroyHotSpots (); //Destroy all objects
 		
 			GameObject TowerPrefab = WeaponController.curTower;
 			if (TowerPrefab != null) { 
+				Vector3 normalToWall = CameraController.hit.normal;
+				Debug.Log (normalToWall);
+				Debug.Log(Quaternion.Euler(normalToWall));
 				Vector3 TowerOffset = new Vector3 (Mathf.Sin (transform.eulerAngles.y / 180 * Mathf.PI), 0, Mathf.Cos (transform.eulerAngles.y / 180 * Mathf.PI)) * RandomMaze.getPlaneWidth()/50;
-				GameObject tower = (GameObject)Instantiate (TowerPrefab, transform.position + TowerOffset, transform.rotation);
+				GameObject tower = (GameObject)Instantiate (TowerPrefab, transform.position, transform.rotation);
 				tower.gameObject.transform.localScale=new Vector3(RandomMaze.getPlaneWidth()/2,RandomMaze.getPlaneWidth()/2,RandomMaze.getPlaneWidth()/100)*100;
+				tower.gameObject.transform.Rotate(new Vector3 (-90, 0, 0));
+				tower.gameObject.transform.position += tower.gameObject.transform.forward/RandomMaze.getPlaneWidth();
 				tower.renderer.material.color = transparentgreen;
 				tower.renderer.material.shader = Shader.Find ("Transparent/Diffuse");
 			}

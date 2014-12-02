@@ -128,9 +128,11 @@ public class RandomMaze : MonoBehaviour
                     {
                         positions.Add(curPos); //add current position to arraylist
                         GameObject floor = (GameObject)Instantiate(planePrefab, new Vector3(curPos[0] * planewidth, 0, curPos[1] * planewidth), Quaternion.identity); //Instantiate a floor at current position
-                        floor.gameObject.transform.localScale = new Vector3(planewidth, 0.1f, planewidth); //Scale the floor
+                        floor.gameObject.transform.localScale = new Vector3(planewidth/10, 0.1f, planewidth/10); //Scale the floor
                         floor.transform.parent = gameObject.transform; //Set the floor to the gameObject.
                         floor.name = "Floor"; //name the floor Floor
+						GameObject ceil = (GameObject)Instantiate(planePrefab, new Vector3(curPos[0] * planewidth, 2*planewidth, curPos[1] * planewidth), Quaternion.identity); //Instantiate a floor at current position
+
 
                         if (ba % 2 == 0) //if ba is even generate a light at current position
                         {
@@ -190,7 +192,7 @@ public class RandomMaze : MonoBehaviour
         }
 
         GameObject floor2 = (GameObject)Instantiate(planePrefab, new Vector3(endPos[0] * planewidth, 0, endPos[1] * planewidth), Quaternion.identity); //Generate floor at end position
-        floor2.gameObject.transform.localScale = new Vector3(planewidth, 0.1f, planewidth);
+		floor2.gameObject.transform.localScale = new Vector3(planewidth/10, planewidth/10, planewidth/10);
         floor2.transform.parent = gameObject.transform;
         //GameObject bidarraSpawner = (GameObject)Instantiate(bidarraSpawnerPrefab, new Vector3(endPos[0], 1.6f, endPos[1]) * planewidth, Quaternion.identity); //Spawn bidarraSpawner
         //bidarraSpawner.transform.parent = gameObject.transform;
@@ -210,31 +212,31 @@ public class RandomMaze : MonoBehaviour
                 {
                     if (!positions.Contains(new Vector2(l + 1, w))) //If there no floor east, create a wall east
                     {
-                        GameObject wall = (GameObject)Instantiate(wallPrefab, new Vector3((l + 0.5f) * planewidth, planewidth / 2, w * planewidth), Quaternion.Euler(0, 270, 0));
-                        wall.gameObject.transform.localScale = new Vector3(planewidth, planewidth, 0.1f);
+						GameObject wall = (GameObject)Instantiate(wallPrefab, new Vector3((l + 0.5f) * planewidth, planewidth / 2, w * planewidth), Quaternion.Euler(90, -90, 0));
+						wall.gameObject.transform.localScale = new Vector3(planewidth/10, planewidth*2, planewidth/10);
                         wall.transform.parent = gameObject.transform;
                         wall.name = "Wall";
                     }
                     if (!positions.Contains(new Vector2(l - 1, w))) //If there is no floor west, create a wall west
                     {
-                        GameObject wall = (GameObject)Instantiate(wallPrefab, new Vector3((l - 0.5f) * planewidth, planewidth / 2, w * planewidth), Quaternion.Euler(0, 90, 0));
-                        wall.gameObject.transform.localScale = new Vector3(planewidth, planewidth, 0.1f);
+						GameObject wall = (GameObject)Instantiate(wallPrefab, new Vector3((l - 0.5f) * planewidth, planewidth / 2, w * planewidth), Quaternion.Euler(90, 90, 0));
+						wall.gameObject.transform.localScale = new Vector3(planewidth/10, planewidth*2, planewidth/10);
                         wall.transform.parent = gameObject.transform;
                         wall.name = "Wall";
 
                     }
 					if (!positions.Contains(new Vector2(l, w + 1))) //If there is no floor north, create a wall north
                     {
-                        GameObject wall = (GameObject)Instantiate(wallPrefab, new Vector3(l * planewidth, planewidth / 2, (w + 0.5f) * planewidth), Quaternion.Euler(0, 180, 0));
-                        wall.gameObject.transform.localScale = new Vector3(planewidth, planewidth, 0.1f);
+						GameObject wall = (GameObject)Instantiate(wallPrefab, new Vector3(l * planewidth, planewidth / 2, (w + 0.5f) * planewidth), Quaternion.Euler(-90, 0, 0));
+						wall.gameObject.transform.localScale = new Vector3(planewidth/10, planewidth*2,planewidth/10);
                         wall.transform.parent = gameObject.transform;
                         wall.name = "Wall";
 
                     }
 					if (!positions.Contains(new Vector2(l, w - 1))) //If there is no floor south, create a wall south
                     {
-                        GameObject wall = (GameObject)Instantiate(wallPrefab, new Vector3(l * planewidth, planewidth / 2, (w - 0.5f) * planewidth), Quaternion.Euler(0, 0, 0));
-                        wall.gameObject.transform.localScale = new Vector3(planewidth, planewidth, 0.1f);
+                        GameObject wall = (GameObject)Instantiate(wallPrefab, new Vector3(l * planewidth, planewidth / 2, (w - 0.5f) * planewidth), Quaternion.Euler(90, 0, 0));
+						wall.gameObject.transform.localScale = new Vector3(planewidth/10, planewidth*2, planewidth/10);
                         wall.transform.parent = gameObject.transform;
                         wall.name = "Wall";
 
