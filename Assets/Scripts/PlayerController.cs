@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     private float turnSpeed = 0.5f;
     public static bool moving;
     public AudioClip magic;
+    public static Vector3 location;
 
     // Method for getting player input
     private Vector3 playerInput()
@@ -160,6 +161,8 @@ public class PlayerController : MonoBehaviour
     {
         // Run this method
         OnLeftMouseDown();
+        location = transform.position;
+
     }
 
     // Updates 60 times per second and not per frame
