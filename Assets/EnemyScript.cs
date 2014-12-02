@@ -32,8 +32,8 @@ public class EnemyScript : MonoBehaviour {
         }
         else
         {
-            Path = Navigator.Path(transform.FindChild("Floor").transform.position + new Vector3(-0.1f, 0, 0.1f), PlayerController.location - new Vector3(0f, PlayerController.location.y, 0f));
-            Debug.Log("kut");
+            //Path = Navigator.Path(transform.FindChild("Floor").transform.position + new Vector3(-0.1f, 0, 0.1f), PlayerController.location - new Vector3(0f, PlayerController.location.y, 0f));
+            //Debug.Log("kut");
         }
     }
 
