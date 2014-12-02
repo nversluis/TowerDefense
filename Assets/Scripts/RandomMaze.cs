@@ -25,18 +25,18 @@ public class RandomMaze : MonoBehaviour
     public static float gridSize;
 
     /* NAVIGATOR TEST CODE */
-    static GameObject enemy;
-    static Transform enemyTr;
+    //static GameObject enemy;
+    //static Transform enemyTr;
     static List<Vector3> testPath;
     static Vector3 start;
     static Vector3 end;
-    static Vector3 prevPos;
-    static Vector3 currPos;
-    static float startTime;
-    static float speed = .05f;
-    static float navLength;
-    static float smooth = .5f;
-    static int i;
+    //static Vector3 prevPos;
+    //static Vector3 currPos;
+    //static float startTime;
+    //static float speed = .05f;
+    //static float navLength;
+    //static float smooth = .5f;
+    //static int i;
     /* NAVIGATOR TEST CODE */
 
     //Use this for initialization
@@ -66,36 +66,40 @@ public class RandomMaze : MonoBehaviour
 
         testPath = Navigator.Path(start, end);
 
-        enemy = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        enemyTr = enemy.GetComponent<Transform>();
+        for(int ii = 0; ii < testPath.Count; ii++){
+            Debug.Log("Path position " + ii + " =" + testPath[ii]);
+        }
 
-        enemyTr.position = start;
-        currPos = start;
-        i = 1;
+        //enemy = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        //enemyTr = enemy.GetComponent<Transform>();
+
+        //enemyTr.position = start;
+        //currPos = start;
+        //i = 1;
         /* NAVIGATOR TEST CODE */
     }
 
     void Update() {
     /* NAVIGATOR TEST CODE */
-        if(Time.realtimeSinceStartup > 2 && i < testPath.Count){
-            navLength = (testPath[i - 1] - testPath[i]).magnitude;
-            Debug.Log("Section length = " + navLength);
-            float distTravelled = (Time.time - startTime) * speed;
-            float fracJourney = distTravelled / navLength;
-            prevPos = currPos;
-            currPos = Vector3.Lerp(prevPos, testPath[i], fracJourney);
-            enemyTr.position = currPos;
-            Debug.Log("fracJourney = " + fracJourney);
-            if(fracJourney == 1) {
-                Debug.Log("Position " + i + " is:");
-                Debug.Log(testPath[i]);
-                startTime = Time.time;
-                i++;
-            }
-        }
-        else {
-            startTime = Time.time;
-        }
+    //    if(Time.realtimeSinceStartup > 2 && i < testPath.Count){
+    //        navLength = (testPath[i - 1] - testPath[i]).magnitude;
+    //        Debug.Log("Section length = " + navLength);
+    //        float distTravelled = (Time.time - startTime) * speed;
+    //        float fracJourney = distTravelled / navLength;
+    //        prevPos = currPos;
+    //        currPos = Vector3.Lerp(prevPos, testPath[i], fracJourney);
+    //        enemyTr.position = currPos;
+    //        Debug.Log("fracJourney = " + fracJourney);
+    //        if(fracJourney == 1) {
+    //            Debug.Log("Position " + i + " is:");
+    //            Debug.Log(testPath[i]);
+    //            startTime = Time.time;
+    //            i++;
+    //        }
+    //    }
+    //    else {
+    //        startTime = Time.time;
+    //    }
     }
     /* NAVIGATOR TEST CODE */
 
