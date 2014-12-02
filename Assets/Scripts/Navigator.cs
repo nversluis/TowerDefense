@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class Navigator : MonoBehaviour {
 
     static float gridSize = RandomMaze.gridSize;
+    public static float D = 0.1f;
 
     /* DEBUG */
     //static float drawTime1;
@@ -23,7 +24,7 @@ public class Navigator : MonoBehaviour {
         //drawTime3 = 0;
 
         //float temp = Time.realtimeSinceStartup;
-        Debug.DrawLine(startPoint, endPoint, Color.yellow, Mathf.Infinity, false);
+        //Debug.DrawLine(startPoint, endPoint, Color.yellow, Mathf.Infinity, false);
         //drawTime1 = Time.realtimeSinceStartup - temp;
         /* DEBUG */
 
@@ -149,6 +150,7 @@ public class Navigator : MonoBehaviour {
         //Debug.Log("Time spent calculating:");
         //Debug.Log(timeSpent);
         /* DEBUG */
+
         return path;
     }
 
@@ -194,10 +196,20 @@ public class Navigator : MonoBehaviour {
         }
         return false;
     }
-    // Function that calculates the Manhattan distance between two points
-    static float ManhattanDist(Vector3 p1, Vector3 p2) {
-        return Mathf.Abs(p1.x - p2.x) + Mathf.Abs(p1.y - p2.y) + Mathf.Abs(p1.z - p2.z);
+
+    // Function that calculates the Chebyshev distance betweent two points
+    static float Heuristic(Vector3 p1, Vector3 p2) {
+        // Current heuristic: Diagonal shortcut
+        float dx = Mathf.Abs(p1.x - p2.x);
+        float dy = Mathf.Abs(p1.z - p2.z);
+        if(dx > dy) {
+            return 14 * dy + 10 * (dx - dy);
+        }
+        else {
+            return 14 * dx + 10 * (dy - dx);
+        }
     }
+
     // Function that can reconstruct the path from an A* route
     static List<Vector3> ReconstructPath(Vector3 startPos, WayPoint endWP) {
         List<Vector3> bestPath = new List<Vector3>();
@@ -206,7 +218,7 @@ public class Navigator : MonoBehaviour {
         while(true) {
             /* DEBUG */
             //float temp = Time.realtimeSinceStartup;
-            Debug.DrawLine(currWP.getPosition(), currWP.getPrevious().getPosition(), Color.blue, Mathf.Infinity, false);
+            //Debug.DrawLine(currWP.getPosition(), currWP.getPrevious().getPosition(), Color.blue, Mathf.Infinity, false);
             //drawTime3 += Time.realtimeSinceStartup - temp;
             /* DEBUG */
             currWP = currWP.getPrevious();
@@ -227,9 +239,14 @@ public class Navigator : MonoBehaviour {
         // Distance from current node to destination
         float g_cost = CalculateGCost(current, destination);
 
-        // Heuristic, in our case the Manhattan distance
-        float h_cost = ManhattanDist(destination.getPosition(), endpoint.getPosition());
-        return g_cost + h_cost;
+        // Heuristic, in our case the Diagonal Shortcut
+        float h_cost = Heuristic(destination.getPosition(), endpoint.getPosition());
+        
+        //Debug.Log("g-cost: " + g_cost);
+        //Debug.Log("h-cost: " + D * h_cost);
+
+        // Balance heuristic influence using D (the higher D, the faster the calculation, but the lower the accuracy);
+        return g_cost + D * h_cost;
     }
     // Function that can find a Waypoint at a certain location
     static WayPoint FindWayPointAt(Vector3 position, List<WayPoint> grid) {
