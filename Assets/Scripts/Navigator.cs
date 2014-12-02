@@ -5,10 +5,28 @@ using System.Collections.Generic;
 public class Navigator : MonoBehaviour {
 
     static float gridSize = RandomMaze.gridSize;
+    public static float D = 0.1f;
+
+    /* DEBUG */
+    //static float drawTime1;
+    //static float drawTime2;
+    //static float drawTime3;
+    /* DEBUG */
 
     public static List<Vector3> Path(Vector3 startPoint, Vector3 endPoint) {
-
         /** INITIALIZATION **/
+
+        /* DEBUG */
+        //float startTime = Time.realtimeSinceStartup;
+
+        //drawTime1 = 0;
+        //drawTime2 = 0;
+        //drawTime3 = 0;
+
+        //float temp = Time.realtimeSinceStartup;
+        Debug.DrawLine(startPoint, endPoint, Color.yellow, Mathf.Infinity, false);
+        //drawTime1 = Time.realtimeSinceStartup - temp;
+        /* DEBUG */
 
         // Load the grid
         List<WayPoint> grid = RandomMaze.Nodes;
@@ -25,25 +43,50 @@ public class Navigator : MonoBehaviour {
         float start_x = startPoint.x;
         float start_z = startPoint.z;
 
-        // Add small noise to the coordinates if they are already exactly on the grid, ensuring 8 unique locations.
+        // Add small noise to the coordinates if they are already exactly on the grid, ensuring unique locations.
         if(start_x % gridSize == 0) {
-            start_x += 0.1f * Random.value;
+            start_x += 0.01f * Random.value;
         }
         else if(start_z % gridSize == 0) {
-            start_z += 0.1f * Random.value;
+            start_z += 0.01f * Random.value;
         }
-
+        
+        /* DEBUG */
+        Debug.Log("First node position =" + grid[0].getPosition());
+        /* DEBUG */
+        
+        // Find surrounding node coordinates
         float x1 = RoundUp(start_x, gridSize);
         float x2 = RoundDown(start_x, gridSize);
         float z1 = RoundUp(start_z, gridSize);
         float z2 = RoundDown(start_z, gridSize);
 
-        // Also include diagonal destinations, making for a total of 8 possible destinations
+        // Compensate for offset
+
+        float x_offset = Mathf.Abs(grid[0].getPosition().x % gridSize);
+        float z_offset = Mathf.Abs(grid[0].getPosition().z % gridSize);
+        Debug.Log("X offset =" + x_offset);
+        Debug.Log("Z offset =" + z_offset);
+
+        x1 += x_offset;
+        x2 += x_offset;
+        z1 += z_offset;
+        z2 += z_offset;
+
+        // Add potential node locations to a list.
         List<Vector3> startNodes = new List<Vector3>();
         startNodes.Add(new Vector3(x1, 0, z1));
         startNodes.Add(new Vector3(x1, 0, z2));
         startNodes.Add(new Vector3(x2, 0, z1));
         startNodes.Add(new Vector3(x2, 0, z2));
+
+        /* DEBUG */
+        Debug.Log("Locations to look for nodes:");
+        for(int i = 0; i < startNodes.Count; i++) {
+            Debug.Log("Node " + i + ": " + startNodes[i]);
+            Debug.DrawLine(startPoint, startNodes[i], Color.white, Mathf.Infinity, false);
+        }
+        /* DEBUG */
 
         // Add found nodes to destination list of start node if they are visible and set their state to open
         bool openDestinationsExist = false;
@@ -74,8 +117,6 @@ public class Navigator : MonoBehaviour {
             float cheapest = float.MaxValue;
             // Find the cheapest destination
             WayPoint cheapestWP = new WayPoint(new Vector3(0, 0, 0));
-            Debug.Log("Number of destinations found: ");
-            Debug.Log(currentWP.getDestinations().Count);
             for(int i = 0; i < currentWP.getDestinations().Count; i++) {
                 WayPoint destination = currentWP.getDestinations()[i];
                 if(destination.getState() == "open") {
@@ -87,21 +128,23 @@ public class Navigator : MonoBehaviour {
                 }
             }
             if(cheapest == float.MaxValue) {
-                Debug.LogError("Error: route stuck with no destinations, empty path returned");
-                break;
+                Debug.Log("Error: route stuck with no destinations, empty path returned");
+                return null;
             }
 
             // Move to new WP and set it as closed
             cheapestWP.setPrevious(currentWP);
             currentWP = cheapestWP;
             currentWP.setState("closed");
-            Debug.Log("Current location:");
-            Debug.Log(currentWP.getPosition());
-            Debug.DrawLine(cheapestWP.getPosition(), cheapestWP.getPrevious().getPosition(), Color.red);
+
+            /* DEBUG */
+            //temp = Time.realtimeSinceStartup;
+            //Debug.DrawLine(cheapestWP.getPosition(), cheapestWP.getPrevious().getPosition(), Color.red, Mathf.Infinity, false);
+            //drawTime2 += temp - Time.realtimeSinceStartup;
+            /* DEBUG */
 
             // If the current waypoint is the endpoint, stop searching and build the route
             if(CloseEnoughToDestination(currentWP, endPoint)) {
-                Debug.Log("Destination found!");
                 endWP.setPrevious(currentWP);
                 path = ReconstructPath(startPoint, endWP);
                 openDestinationsExist = false;
@@ -127,6 +170,12 @@ public class Navigator : MonoBehaviour {
                 }
             }
         }
+        /* DEBUG */
+        //float timeSpent = Time.realtimeSinceStartup - startTime - drawTime1 - drawTime2;
+        //Debug.Log("Time spent calculating:");
+        //Debug.Log(timeSpent);
+        /* DEBUG */
+
         return path;
     }
 
@@ -146,7 +195,7 @@ public class Navigator : MonoBehaviour {
         }
         return res;
     }
-    // function that rounds down a certain number to the grid size
+    // Function that rounds down a certain number to the grid size
     static float RoundDown(float toRound, float nearest) {
         float res;
         if(toRound % nearest != 0) {
@@ -172,25 +221,37 @@ public class Navigator : MonoBehaviour {
         }
         return false;
     }
-    // Function that calculates the Manhattan distance between two points
-    static float ManhattanDist(Vector3 p1, Vector3 p2) {
-        return Mathf.Abs(p1.x - p2.x) + Mathf.Abs(p1.z - p2.z);
+
+    // Function that calculates the Chebyshev distance betweent two points
+    static float Heuristic(Vector3 p1, Vector3 p2) {
+        // Current heuristic: Diagonal shortcut
+        float dx = Mathf.Abs(p1.x - p2.x);
+        float dy = Mathf.Abs(p1.z - p2.z);
+        if(dx > dy) {
+            return 14 * dy + 10 * (dx - dy);
+        }
+        else {
+            return 14 * dx + 10 * (dy - dx);
+        }
     }
+
     // Function that can reconstruct the path from an A* route
     static List<Vector3> ReconstructPath(Vector3 startPos, WayPoint endWP) {
         List<Vector3> bestPath = new List<Vector3>();
         WayPoint currWP = endWP;
         bestPath.Add(endWP.getPosition());
-        Debug.Log("Start routing back!");
         while(true) {
+            /* DEBUG */
+            //float temp = Time.realtimeSinceStartup;
+            Debug.DrawLine(currWP.getPosition(), currWP.getPrevious().getPosition(), Color.blue, Mathf.Infinity, false);
+            //drawTime3 += Time.realtimeSinceStartup - temp;
+            /* DEBUG */
             currWP = currWP.getPrevious();
-            Debug.Log("Next position:");
-            Debug.Log(currWP.getPosition());
             if(currWP.getPosition() == startPos) {
-                bestPath.Add(startPos);
+                bestPath.Insert(0,startPos);
                 break;
             }
-            bestPath.Add(currWP.getPosition());
+            bestPath.Insert(0,currWP.getPosition());
         }
         return bestPath;
     }
@@ -201,15 +262,20 @@ public class Navigator : MonoBehaviour {
     // Function that calculates the f-cost between two waypoints (cost based on distance from both start and end point)
     static float CalculateFCost(WayPoint current, WayPoint destination, WayPoint endpoint) {
         // Distance from current node to destination
-        float g_cost = current.getCost() + (current.getPosition() - destination.getPosition()).magnitude;
-        // Heuristic, in our case the Manhattan distance
-        float h_cost = ManhattanDist(current.getPosition(), endpoint.getPosition());
-        return g_cost + h_cost;
+        float g_cost = CalculateGCost(current, destination);
+
+        // Heuristic, in our case the Diagonal Shortcut
+        float h_cost = Heuristic(destination.getPosition(), endpoint.getPosition());
+        
+        //Debug.Log("g-cost: " + g_cost);
+        //Debug.Log("h-cost: " + D * h_cost);
+
+        // Balance heuristic influence using D (the higher D, the faster the calculation, but the lower the accuracy);
+        return g_cost + D * h_cost;
     }
     // Function that can find a Waypoint at a certain location
     static WayPoint FindWayPointAt(Vector3 position, List<WayPoint> grid) {
-        Debug.Log("Searching for waypoint at position:");
-        Debug.Log(position);
+        Debug.Log("Looking for waypoint at position: " + position);
         foreach(WayPoint wp in grid) {
             if(wp.getPosition() == position) {
                 return wp;

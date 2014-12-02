@@ -98,6 +98,7 @@ public class DiscoTowerScript : MonoBehaviour {
             EnemyVelocity(enemy);
             Vector3 enemyDir = (enemyVel.normalized);
 
+
             float a = Vector3.Dot(enemyVel, enemyVel) - (bulletSpeed * bulletSpeed);
             float b = 2 * Vector3.Dot(enemyVel, toTarget);
             float c = Vector3.Dot(toTarget, toTarget);

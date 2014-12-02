@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+[RequireComponent(typeof(AudioSource))]
 
 // Class that controls the player movements
 public class PlayerController : MonoBehaviour
@@ -15,6 +16,8 @@ public class PlayerController : MonoBehaviour
     private float distortion;
     private float turnSpeed = 0.5f;
     public static bool moving;
+    public AudioClip magic;
+    public static Vector3 location;
 
     // Method for getting player input
     private Vector3 playerInput()
@@ -106,6 +109,7 @@ public class PlayerController : MonoBehaviour
 
                 // looking in the direction of the camera
                 transform.rotation = Quaternion.Euler(0f, camera.transform.rotation.eulerAngles.y, 0f);
+                audio.PlayOneShot(magic,15f);
 
 
             }
@@ -157,6 +161,8 @@ public class PlayerController : MonoBehaviour
     {
         // Run this method
         OnLeftMouseDown();
+        location = transform.position;
+
     }
 
     // Updates 60 times per second and not per frame

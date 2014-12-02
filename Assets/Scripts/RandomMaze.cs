@@ -15,6 +15,7 @@ public class RandomMaze : MonoBehaviour
     public GameObject planePrefab; //Floor prefab
     public GameObject wallPrefab; //Wall prefab
     public GameObject node; //Node prefab
+    public GameObject EnemySpawner;
     //public GameObject bidarraSpawnerPrefab; //Prefab to spawn enemy´s
 
     private ArrayList positions = new ArrayList(); //Positions of the floors
@@ -23,6 +24,21 @@ public class RandomMaze : MonoBehaviour
 
 	public static float planewidthS; //Variable to share planewidth in other scripts
     public static float gridSize;
+
+    /* NAVIGATOR TEST CODE */
+    //static GameObject enemy;
+    //static Transform enemyTr;
+    static List<Vector3> testPath;
+    static Vector3 start;
+    static Vector3 end;
+    //static Vector3 prevPos;
+    //static Vector3 currPos;
+    //static float startTime;
+    //static float speed = .05f;
+    //static float navLength;
+    //static float smooth = .5f;
+    //static int i;
+    /* NAVIGATOR TEST CODE */
 
     //Use this for initialization
     void Awake()
@@ -36,21 +52,60 @@ public class RandomMaze : MonoBehaviour
         SpawnNodes();
         //generate Nodes;
         DrawNodeLines();
-        //Navigator.Test();
-        Vector3 start = Nodes[4].getPosition();
+    }
+
+    void Start() {
+        /* NAVIGATOR TEST CODE */
+        start = Nodes[4].getPosition();
         start.x += Random.value;
         start.z += Random.value;
-        Debug.Log("start: ");
-        Debug.Log(start);
-        Vector3 end = Nodes[20].getPosition();
+
+        int val = (int)Mathf.Ceil(Nodes.Count / 2);
+        end = Nodes[val].getPosition();
         end.x += Random.value;
         end.z += Random.value;
-        Debug.Log("end: ");
-        Debug.Log(end);
-        List<Vector3> testPath = Navigator.Path(start, end);
-        Debug.Log("Path found!");
-        Debug.Log(testPath);
+
+        testPath = Navigator.Path(start, end);
+
+        //Debug.Log(start);
+        //Debug.Log(end);
+        //for (int ii = 0; ii < testPath.Count; ii++)
+        //{
+        //    Debug.Log("Path position " + ii + " =" + testPath[ii]);
+        //}
+
+        //enemy = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        //enemyTr = enemy.GetComponent<Transform>();
+
+        //enemyTr.position = start;
+        //currPos = start;
+        //i = 1;
+        /* NAVIGATOR TEST CODE */
     }
+
+    void Update() {
+    /* NAVIGATOR TEST CODE */
+    //    if(Time.realtimeSinceStartup > 2 && i < testPath.Count){
+    //        navLength = (testPath[i - 1] - testPath[i]).magnitude;
+    //        Debug.Log("Section length = " + navLength);
+    //        float distTravelled = (Time.time - startTime) * speed;
+    //        float fracJourney = distTravelled / navLength;
+    //        prevPos = currPos;
+    //        currPos = Vector3.Lerp(prevPos, testPath[i], fracJourney);
+    //        enemyTr.position = currPos;
+    //        Debug.Log("fracJourney = " + fracJourney);
+    //        if(fracJourney == 1) {
+    //            Debug.Log("Position " + i + " is:");
+    //            Debug.Log(testPath[i]);
+    //            startTime = Time.time;
+    //            i++;
+    //        }
+    //    }
+    //    else {
+    //        startTime = Time.time;
+    //    }
+    }
+    /* NAVIGATOR TEST CODE */
 
     //generate floors
     private void GenerateFloor()
@@ -77,9 +132,11 @@ public class RandomMaze : MonoBehaviour
                     {
                         positions.Add(curPos); //add current position to arraylist
                         GameObject floor = (GameObject)Instantiate(planePrefab, new Vector3(curPos[0] * planewidth, 0, curPos[1] * planewidth), Quaternion.identity); //Instantiate a floor at current position
-                        floor.gameObject.transform.localScale = new Vector3(planewidth, 0.1f, planewidth); //Scale the floor
+                        floor.gameObject.transform.localScale = new Vector3(planewidth/10, 0.1f, planewidth/10); //Scale the floor
                         floor.transform.parent = gameObject.transform; //Set the floor to the gameObject.
                         floor.name = "Floor"; //name the floor Floor
+						GameObject ceil = (GameObject)Instantiate(planePrefab, new Vector3(curPos[0] * planewidth, 2*planewidth, curPos[1] * planewidth), Quaternion.identity); //Instantiate a floor at current position
+
 
                         if (ba % 2 == 0) //if ba is even generate a light at current position
                         {
@@ -136,16 +193,18 @@ public class RandomMaze : MonoBehaviour
                 }
 
             }
+
         }
 
         GameObject floor2 = (GameObject)Instantiate(planePrefab, new Vector3(endPos[0] * planewidth, 0, endPos[1] * planewidth), Quaternion.identity); //Generate floor at end position
-        floor2.gameObject.transform.localScale = new Vector3(planewidth, 0.1f, planewidth);
+		floor2.gameObject.transform.localScale = new Vector3(planewidth/10, planewidth/10, planewidth/10);
         floor2.transform.parent = gameObject.transform;
         //GameObject bidarraSpawner = (GameObject)Instantiate(bidarraSpawnerPrefab, new Vector3(endPos[0], 1.6f, endPos[1]) * planewidth, Quaternion.identity); //Spawn bidarraSpawner
         //bidarraSpawner.transform.parent = gameObject.transform;
         //bidarraSpawner.name = "bidarraSpawner";
 
         positions.Add(endPos); //Add the end position to position
+        GameObject enemySpawner = (GameObject)Instantiate(EnemySpawner, new Vector3(endPos.x*planewidth, 0f, endPos.y*planewidth), Quaternion.identity);    
 
     }
 	//Method to generate walls
@@ -159,31 +218,31 @@ public class RandomMaze : MonoBehaviour
                 {
                     if (!positions.Contains(new Vector2(l + 1, w))) //If there no floor east, create a wall east
                     {
-                        GameObject wall = (GameObject)Instantiate(wallPrefab, new Vector3((l + 0.5f) * planewidth, planewidth / 2, w * planewidth), Quaternion.Euler(0, 270, 0));
-                        wall.gameObject.transform.localScale = new Vector3(planewidth, planewidth, 0.1f);
+						GameObject wall = (GameObject)Instantiate(wallPrefab, new Vector3((l + 0.5f) * planewidth, planewidth / 2, w * planewidth), Quaternion.Euler(90, -90, 0));
+						wall.gameObject.transform.localScale = new Vector3(planewidth/10, planewidth*2, planewidth/10);
                         wall.transform.parent = gameObject.transform;
                         wall.name = "Wall";
                     }
                     if (!positions.Contains(new Vector2(l - 1, w))) //If there is no floor west, create a wall west
                     {
-                        GameObject wall = (GameObject)Instantiate(wallPrefab, new Vector3((l - 0.5f) * planewidth, planewidth / 2, w * planewidth), Quaternion.Euler(0, 90, 0));
-                        wall.gameObject.transform.localScale = new Vector3(planewidth, planewidth, 0.1f);
+						GameObject wall = (GameObject)Instantiate(wallPrefab, new Vector3((l - 0.5f) * planewidth, planewidth / 2, w * planewidth), Quaternion.Euler(90, 90, 0));
+						wall.gameObject.transform.localScale = new Vector3(planewidth/10, planewidth*2, planewidth/10);
                         wall.transform.parent = gameObject.transform;
                         wall.name = "Wall";
 
                     }
 					if (!positions.Contains(new Vector2(l, w + 1))) //If there is no floor north, create a wall north
                     {
-                        GameObject wall = (GameObject)Instantiate(wallPrefab, new Vector3(l * planewidth, planewidth / 2, (w + 0.5f) * planewidth), Quaternion.Euler(0, 180, 0));
-                        wall.gameObject.transform.localScale = new Vector3(planewidth, planewidth, 0.1f);
+						GameObject wall = (GameObject)Instantiate(wallPrefab, new Vector3(l * planewidth, planewidth / 2, (w + 0.5f) * planewidth), Quaternion.Euler(-90, 0, 0));
+						wall.gameObject.transform.localScale = new Vector3(planewidth/10, planewidth*2,planewidth/10);
                         wall.transform.parent = gameObject.transform;
                         wall.name = "Wall";
 
                     }
 					if (!positions.Contains(new Vector2(l, w - 1))) //If there is no floor south, create a wall south
                     {
-                        GameObject wall = (GameObject)Instantiate(wallPrefab, new Vector3(l * planewidth, planewidth / 2, (w - 0.5f) * planewidth), Quaternion.Euler(0, 0, 0));
-                        wall.gameObject.transform.localScale = new Vector3(planewidth, planewidth, 0.1f);
+                        GameObject wall = (GameObject)Instantiate(wallPrefab, new Vector3(l * planewidth, planewidth / 2, (w - 0.5f) * planewidth), Quaternion.Euler(90, 0, 0));
+						wall.gameObject.transform.localScale = new Vector3(planewidth/10, planewidth*2, planewidth/10);
                         wall.transform.parent = gameObject.transform;
                         wall.name = "Wall";
 
@@ -233,6 +292,7 @@ public class RandomMaze : MonoBehaviour
                 }
             }
         }
+		RemoveNodes ();
     }
 
 	//Method to find all Nodes around a current node
@@ -275,10 +335,39 @@ public class RandomMaze : MonoBehaviour
             return 0;
     }
 
+	public void RemoveNodes(){
+		for(float l=-0.5f;l<=length;l++){
+			for (float w = -width / 2-0.5f; w <= width / 2 + 1; w ++) {
+				int amountPlanesAround = 0;
+				for(float x=-1;x<=1;x+=2){
+					for(float y=-1;y<=1;y+=2){
+						//Debug.Log(new Vector4(l,x,w,y));
+						//Debug.Log(new Vector3(l+x,w+y,ConvertBool(positions.Contains(new Vector2(l+x/2,w+y/2)))));
+						//Debug.Log(new Vector2(x,y));
+						amountPlanesAround+=ConvertBool(positions.Contains(new Vector2(l+x*1/2,w+y*1/2)));
+					}
+				}
+				//Debug.Log (amountPlanesAround);
+				if (amountPlanesAround == 3) {
+					int index =NodesPos.IndexOf (new Vector3(l*planewidth, 0, w*planewidth));
+					NodesPos.RemoveAt (index);
+					Nodes.RemoveAt (index);
+
+				}
+			}
+		}
+	}
+
+
+
+
 	//method to retrun the planewidth for use in other scripts
 	public static float getPlaneWidth(){
 		return planewidthS;
 	}
+
+
+
 
 
 }
