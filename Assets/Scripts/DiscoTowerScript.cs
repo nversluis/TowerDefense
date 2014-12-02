@@ -12,6 +12,7 @@ public class DiscoTowerScript : MonoBehaviour {
     
     GameObject enemy;
     Vector3 enemyVel;
+    CharacterController EnemyCharController;
 
 
     void Start()
@@ -85,6 +86,7 @@ public class DiscoTowerScript : MonoBehaviour {
                 }
                
                 enemy = enemysInRange[i];
+                EnemyCharController = enemy.GetComponent<CharacterController>();
 
                 i++;
 
@@ -93,7 +95,7 @@ public class DiscoTowerScript : MonoBehaviour {
 
             i--;
             Vector3 toTarget = enemy.transform.position - transform.position;
-            StartCoroutine(EnemyVelocity(enemy));
+            EnemyVelocity(enemy);
             Vector3 enemyDir = (enemyVel.normalized);
 
             float a = Vector3.Dot(enemyVel, enemyVel) - (bulletSpeed * bulletSpeed);
@@ -131,13 +133,11 @@ public class DiscoTowerScript : MonoBehaviour {
         }
     }
 
-    IEnumerator EnemyVelocity(GameObject enemy)
+    void EnemyVelocity(GameObject enemy)
     {
 
-        Vector3 prevLoc = enemy.transform.position;
-        yield return new WaitForEndOfFrame();
-		if (enemy != null) {
-			enemyVel = -(prevLoc - enemy.transform.position) / Time.deltaTime;
-		}
+
+        enemyVel = EnemyCharController.velocity;
+
     }
 }
