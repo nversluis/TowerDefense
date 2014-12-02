@@ -151,8 +151,8 @@ MonoBehaviour:
   planewidth: 8
   nodeSize: 4
   NumberOfPaths: 3
-  planePrefab: {fileID: 100000, guid: eb0912c352095c645a4cc637dd9257b0, type: 2}
-  wallPrefab: {fileID: 100000, guid: 464fd5ab3d95c01418f6b9aa86db178f, type: 2}
+  planePrefab: {fileID: 100000, guid: d5eadb88565f06840a15d6822a88b64d, type: 2}
+  wallPrefab: {fileID: 100000, guid: e3e7c39751284344492a03bc74fc55f0, type: 2}
   node: {fileID: 100000, guid: b339f52a71c03094ab6a979385311b2f, type: 2}
 --- !u!4 &917609580
 Transform:
