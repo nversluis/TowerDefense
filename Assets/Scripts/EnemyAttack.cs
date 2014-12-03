@@ -10,14 +10,15 @@ public class EnemyAttack : MonoBehaviour {
 
     GameObject player;
     PlayerHealth playerHealth;
+    EnemyHealth enemyHealth;
     bool playerInRange;
     float timer;
 
     void Awake()
     {
-        enemyHealth = GetComponent<EnemyHealth>();
         player = GameObject.Find("Player");
         playerHealth = player.GetComponent<PlayerHealth>();
+        enemyHealth = player.GetComponent<EnemyHealth>();
     }
 
     void SetPlayerInRange(float playerDistance)
