@@ -16,16 +16,15 @@ public class AIController : MonoBehaviour {
         }
     }
 
-	// Use this for initialization
-	void Start () {
-        agent = GetComponent<NavMeshAgent>();
-        target = GameObject.Find("Goal").transform;
-	}
+    //// Use this for initialization
+    //void Start () {
+    //    agent = GetComponent<NavMeshAgent>();
+    //    target = GameObject.Find("Player").transform;
+    //}
 	
-	// Update is called once per frame
-	void FixedUpdate () {
-        agent.SetDestination(target.position);
-
-	}
+    //// Update is called once per frame
+    //void FixedUpdate () {
+    //    agent.SetDestination(target.position);
+    //}
 
 }

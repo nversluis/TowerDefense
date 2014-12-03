@@ -5,8 +5,8 @@ using System.Collections.Generic;
 public class WaveSpawner : MonoBehaviour
 {
     public GameObject enemy;
-    public int numOfEnemies;
-    List<GameObject> enemies;
+    private int maxEnemies = 5;
+    private int aantalEnemies = 0;
     public float SpawnRate = 1f;
     private float spawnRange = 10;
     public float maxX;
@@ -27,26 +27,23 @@ public class WaveSpawner : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        float rand=Random.value;
-        if (rand < 1/SpawnRate && spawning)
+        float rand = Random.value;
+        if (spawning)
         {
-            float randX = Random.Range(-maxX / 2, maxX / 2);
-            float randZ = Random.Range(-maxZ / 2, maxZ / 2);
+            if (rand < 1 / SpawnRate && aantalEnemies < maxEnemies)
+            {
+                float randX = Random.Range(-maxX / 2, maxX / 2);
+                float randZ = Random.Range(-maxZ / 2, maxZ / 2);
 
-            GameObject Enemy = (GameObject)Instantiate(enemy, transform.position + new Vector3(randX, 0f, randZ), Quaternion.identity);
-            Enemy.name = "enemy";   
-            enemies.Add(Enemy);
+                GameObject Enemy = (GameObject)Instantiate(enemy, transform.position + new Vector3(randX, 0f, randZ), Quaternion.identity);
+                Enemy.name = "enemy";
+                aantalEnemies++;
+            }
+            else
+            {
+                spawning = false;
+            }
         }
-
-        if (enemies.Count < numOfEnemies) {
-            spawning = false;
-        }
-    }
-
-    void Spawning()
-    {
-        if (SpawnRate > 5)
-            SpawnRate = SpawnRate - 1;
     }
 
 }
