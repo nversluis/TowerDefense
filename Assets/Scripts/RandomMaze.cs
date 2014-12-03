@@ -59,16 +59,16 @@ public class RandomMaze : MonoBehaviour
 
     void Start() {
         /* NAVIGATOR TEST CODE */
-        start = Nodes[4].getPosition();
-        start.x += Random.value;
-        start.z += Random.value;
+        //start = Nodes[4].getPosition();
+        //start.x += Random.value;
+        //start.z += Random.value;
 
-        int val = (int)Mathf.Ceil(Nodes.Count / 2);
-        end = Nodes[val].getPosition();
-        end.x += Random.value;
-        end.z += Random.value;
+        //int val = (int)Mathf.Ceil(Nodes.Count / 2);
+        //end = Nodes[val].getPosition();
+        //end.x += Random.value;
+        //end.z += Random.value;
 
-        testPath = Navigator.Path(start, end);
+        //testPath = Navigator.Path(start, end);
 
         //Debug.Log(start);
         //Debug.Log(end);
