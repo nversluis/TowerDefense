@@ -21,24 +21,24 @@ public class EnemySpawner : MonoBehaviour
         Enemy.transform.FindChild("Floor").transform.position = transform.position;
     }
 
-    //    // Update is called once per frame
-    //    void FixedUpdate()
+    //// Update is called once per frame
+    //void FixedUpdate()
+    //{
+    //    float rand=Random.value;
+    //    if (rand < 1/SpawnRate)
     //    {
-    //        float rand=Random.value;
-    //        if (rand < 1/SpawnRate)
-    //        {
-    //            float randX = Random.Range(-maxX / 2, maxX / 2);
-    //            float randZ = Random.Range(-maxZ / 2, maxZ / 2);
+    //        float randX = Random.Range(-maxX / 2, maxX / 2);
+    //        float randZ = Random.Range(-maxZ / 2, maxZ / 2);
 
-    //            GameObject Enemy = (GameObject)Instantiate(enemy, transform.position + new Vector3(randX, 0f, randZ), Quaternion.identity);
-    //            Enemy.name = "enemy";
-    //        }
-    //    }
-
-    //    void Spawning()
-    //    {
-    //        if(SpawnRate>5)
-    //        SpawnRate = SpawnRate -1;
+    //        GameObject Enemy = (GameObject)Instantiate(enemy, transform.position + new Vector3(randX, 0f, randZ), Quaternion.identity);
+    //        Enemy.name = "enemy";
     //    }
     //}
+
+    //void Spawning()
+    //{
+    //    if(SpawnRate>5)
+    //    SpawnRate = SpawnRate -1;
+    //}
+    
 }

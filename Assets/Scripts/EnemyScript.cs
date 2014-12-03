@@ -13,11 +13,13 @@ public class EnemyScript : MonoBehaviour {
 	void Start () {
 
         characterController = GetComponent<CharacterController>();
+
 	}
 	
 	// Update is called once per frame
     void FixedUpdate()
     {
+        Path = Navigator.Path(transform.FindChild("Floor").transform.position + new Vector3(0.1f, 0f, 0f), PlayerController.location - new Vector3(0f, PlayerController.location.y, 0f));
 
         Debug.Log(Path);
         if (Path != null)
@@ -30,11 +32,7 @@ public class EnemyScript : MonoBehaviour {
             }
             transform.LookAt(Path[i] + new Vector3(0f, transform.position.y, 0f));
         }
-        else
-        {
-            //Path = Navigator.Path(transform.FindChild("Floor").transform.position + new Vector3(-0.1f, 0, 0.1f), PlayerController.location - new Vector3(0f, PlayerController.location.y, 0f));
-            //Debug.Log("kut");
-        }
+
     }
 
    
