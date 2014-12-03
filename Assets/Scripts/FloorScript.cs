@@ -22,10 +22,10 @@ public class FloorScript : MonoBehaviour {
 				float zOffset= ((Mathf.Round ((Az-z) / (2 * z)) * 2 + 1) * z);
 				Debug.Log (transform.position.x-planeW/2-xOffset);
 				//Debug.Log (transform.position.x - planeW / 2);
-				Vector3 loc = new Vector3(-transform.position.x+planeW/2+xOffset,hitpoint.y,planeW/2+zOffset-transform.position.z);
+				Vector3 loc = new Vector3(-transform.position.x+planeW/2+xOffset,hitpoint.y+2,planeW/2+zOffset-transform.position.z);
 				//Debug.Log (loc);
 				GameObject tower = (GameObject)Instantiate (TowerPrefab, loc, transform.rotation);
-				tower.gameObject.transform.localScale=new Vector3( planeW/4, planeW/100, planeW/4)*100;
+				tower.gameObject.transform.localScale=new Vector3( planeW, planeW, planeW)*7f;
 				tower.renderer.material.color = transparentgreen;
 				tower.renderer.material.shader = Shader.Find ("Transparent/Diffuse");
 			}
