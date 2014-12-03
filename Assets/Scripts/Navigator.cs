@@ -17,6 +17,8 @@ public class Navigator : MonoBehaviour {
         /** INITIALIZATION **/
 
         /* DEBUG */
+        //Debug.Log("Start point: " + startPoint);
+
         //float startTime = Time.realtimeSinceStartup;
 
         //drawTime1 = 0;
@@ -24,7 +26,7 @@ public class Navigator : MonoBehaviour {
         //drawTime3 = 0;
 
         //float temp = Time.realtimeSinceStartup;
-        Debug.DrawLine(startPoint, endPoint, Color.yellow, Mathf.Infinity, false);
+        //Debug.DrawLine(startPoint, endPoint, Color.yellow, Mathf.Infinity, false);
         //drawTime1 = Time.realtimeSinceStartup - temp;
         /* DEBUG */
 
@@ -44,15 +46,16 @@ public class Navigator : MonoBehaviour {
         float start_z = startPoint.z;
 
         // Add small noise to the coordinates if they are already exactly on the grid, ensuring unique locations.
-        if(start_x % gridSize == 0) {
+        if((start_x % gridSize) == 0) {
             start_x += 0.01f * Random.value;
         }
-        else if(start_z % gridSize == 0) {
+        else if((start_z % gridSize) == 0) {
             start_z += 0.01f * Random.value;
         }
-        
+
+
         /* DEBUG */
-        Debug.Log("First node position =" + grid[0].getPosition());
+        //Debug.Log("First node position =" + grid[0].getPosition());
         /* DEBUG */
         
         // Find surrounding node coordinates
@@ -81,26 +84,27 @@ public class Navigator : MonoBehaviour {
         startNodes.Add(new Vector3(x2, 0, z2));
 
         /* DEBUG */
-        Debug.Log("Locations to look for nodes:");
-        for(int i = 0; i < startNodes.Count; i++) {
-            Debug.Log("Node " + i + ": " + startNodes[i]);
-            Debug.DrawLine(startPoint, startNodes[i], Color.white, Mathf.Infinity, false);
-        }
+        //Debug.Log("There are " + startNodes.Count + " locations to look for nodes:");
+        //for(int i = 0; i < startNodes.Count; i++) {
+        //    Debug.Log("Node " + i + ": " + startNodes[i]);
+        //    Debug.DrawLine(startPoint, startNodes[i], Color.white, Mathf.Infinity, false);
+        //}
         /* DEBUG */
 
         // Add found nodes to destination list of start node if they are visible and set their state to open
         bool openDestinationsExist = false;
+        Debug.Log("There are " + startNodes.Count + " locations to look for nodes:");
         for(int i = 0; i < startNodes.Count; i++) {
-            if(startPoint != startNodes[i]) {
-                if(!Physics.Raycast(startPoint, startNodes[i] - startPoint, (startPoint - startNodes[i]).magnitude)) {
-                    // Add node to destination if it's reachable
-                    WayPoint newDest = FindWayPointAt(startNodes[i], grid);
-                    newDest.setCost(CalculateGCost(startWP, newDest));
-                    newDest.setState("open");
-                    startWP.AddNode(newDest);
-                    // There are still open destinations
-                    openDestinationsExist = true;
-                }
+            Debug.Log("Now checking if Node " + i + " is reachable...");
+            if(startPoint != startNodes[i] && !Physics.Raycast(startPoint, startNodes[i] - startPoint, (startPoint - startNodes[i]).magnitude + .1f)) {
+                // Add node to destination if it's reachable
+                Debug.Log("It is.");
+                WayPoint newDest = FindWayPointAt(startNodes[i], grid);
+                newDest.setCost(CalculateGCost(startWP, newDest));
+                newDest.setState("open");
+                startWP.AddNode(newDest);
+                // There are still open destinations
+                openDestinationsExist = true;
             }
         }
 
@@ -128,7 +132,7 @@ public class Navigator : MonoBehaviour {
                 }
             }
             if(cheapest == float.MaxValue) {
-                Debug.Log("Error: route stuck with no destinations, empty path returned");
+                Debug.LogError("Error: route stuck with no destinations, empty path returned");
                 return null;
             }
 
@@ -243,7 +247,7 @@ public class Navigator : MonoBehaviour {
         while(true) {
             /* DEBUG */
             //float temp = Time.realtimeSinceStartup;
-            Debug.DrawLine(currWP.getPosition(), currWP.getPrevious().getPosition(), Color.blue, Mathf.Infinity, false);
+            //Debug.DrawLine(currWP.getPosition(), currWP.getPrevious().getPosition(), Color.blue, Mathf.Infinity, false);
             //drawTime3 += Time.realtimeSinceStartup - temp;
             /* DEBUG */
             currWP = currWP.getPrevious();
@@ -267,15 +271,19 @@ public class Navigator : MonoBehaviour {
         // Heuristic, in our case the Diagonal Shortcut
         float h_cost = Heuristic(destination.getPosition(), endpoint.getPosition());
         
+        /* DEBUG */
         //Debug.Log("g-cost: " + g_cost);
         //Debug.Log("h-cost: " + D * h_cost);
+        /* DEBUG */
 
         // Balance heuristic influence using D (the higher D, the faster the calculation, but the lower the accuracy);
         return g_cost + D * h_cost;
     }
     // Function that can find a Waypoint at a certain location
     static WayPoint FindWayPointAt(Vector3 position, List<WayPoint> grid) {
-        Debug.Log("Looking for waypoint at position: " + position);
+        /* DEBUG */
+        //Debug.Log("Looking for waypoint at position: " + position);
+        /* DEBUG */
         foreach(WayPoint wp in grid) {
             if(wp.getPosition() == position) {
                 return wp;
