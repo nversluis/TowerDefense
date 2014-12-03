@@ -5,14 +5,14 @@ using System.Collections.Generic;
 public class EnemyStats : MonoBehaviour {
 
     private List<int> stats;
-    private int totalStatPoints = 10000;
+    private int totalStatPoints = 100;
     private string type;
 
     // Stats van een enemy
-    private int health;
-    private int attack;
-    private int defense;
-    private int speed;
+    public int health;
+    public int attack;
+    public int defense;
+    public int speed;
 
     // Damage output van een enemy
     private float DamageToBase;
@@ -58,7 +58,7 @@ public class EnemyStats : MonoBehaviour {
     
     public void generateEnemyStats()
     {
-        this.stats = randomNumberGenerator(6, totalStatPoints);
+        this.stats = randomNumberGenerator(4, totalStatPoints);
         this.health = stats[0];
         this.attack = stats[1];
         this.defense = stats[2];
@@ -134,25 +134,6 @@ public class EnemyStats : MonoBehaviour {
     public void crossover()
     {
 
-    }
-
-    public float getHealth() {
-        return health;
-    }
-
-    public float getAttack()
-    {
-        return attack;
-    }
-
-    public float getDefense()
-    {
-        return defense;
-    }
-
-    public float getSpeed() 
-    {
-        return speed;
     }
 
      void Awake()
