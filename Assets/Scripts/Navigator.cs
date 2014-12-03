@@ -5,6 +5,8 @@ using System.Collections.Generic;
 public class Navigator : MonoBehaviour {
 
     static float gridSize = RandomMaze.gridSize;
+    static LayerMask layerMask;
+    public static float D = 0.2f;
 
     /* DEBUG */
     //static float drawTime1;
@@ -16,6 +18,8 @@ public class Navigator : MonoBehaviour {
         /** INITIALIZATION **/
 
         /* DEBUG */
+        //Debug.Log("Start point: " + startPoint);
+
         //float startTime = Time.realtimeSinceStartup;
 
         //drawTime1 = 0;
@@ -27,14 +31,22 @@ public class Navigator : MonoBehaviour {
         //drawTime1 = Time.realtimeSinceStartup - temp;
         /* DEBUG */
 
-        // Load the grid
+        // Load the grid and clear any leftovers from possible previous navigation attempts.
         List<WayPoint> grid = RandomMaze.Nodes;
+        foreach(WayPoint wp in grid) {
+            wp.setState("unexplored");
+            wp.setCost(0);
+            wp.setPrevious(null);
+        }
+
         // Create a new (empty) route
         List<Vector3> path = new List<Vector3>();
         // Create a new waypoint for the starting and end position
         WayPoint startWP = new WayPoint(startPoint, "closed");
         startWP.setCost(0);
         WayPoint endWP = new WayPoint(endPoint);
+        // Set wall layer, which is the only layer in which this script is allowed to check for collision
+        layerMask = 1<<10;
 
         // Find the nearest possible destination nodes and add them to the destinations of the starting node
 
@@ -42,18 +54,39 @@ public class Navigator : MonoBehaviour {
         float start_x = startPoint.x;
         float start_z = startPoint.z;
 
-        // Add small noise to the coordinates if they are already exactly on the grid, ensuring 8 unique locations.
-        if(start_x % gridSize == 0) {
-            start_x += 0.1f * Random.value;
+        // Add small noise to the coordinates if they are already exactly on the grid, ensuring unique locations.
+        if((start_x % gridSize) == 0) {
+            start_x += 0.01f * Random.value;
         }
-        else if(start_z % gridSize == 0) {
-            start_z += 0.1f * Random.value;
+        else if((start_z % gridSize) == 0) {
+            start_z += 0.01f * Random.value;
         }
+
+
+        /* DEBUG */
+        //Debug.Log("First node position =" + grid[0].getPosition());
+        /* DEBUG */
+        
         // Find surrounding node coordinates
         float x1 = RoundUp(start_x, gridSize);
         float x2 = RoundDown(start_x, gridSize);
         float z1 = RoundUp(start_z, gridSize);
         float z2 = RoundDown(start_z, gridSize);
+
+        // Compensate for offset
+
+        float x_offset = Mathf.Abs(grid[0].getPosition().x % gridSize);
+        float z_offset = Mathf.Abs(grid[0].getPosition().z % gridSize);
+        
+        /* DEBUG */
+        //Debug.Log("X offset =" + x_offset);
+        //Debug.Log("Z offset =" + z_offset);
+        /* DEBUG */
+
+        x1 += x_offset;
+        x2 += x_offset;
+        z1 += z_offset;
+        z2 += z_offset;
 
         // Add potential node locations to a list.
         List<Vector3> startNodes = new List<Vector3>();
@@ -62,19 +95,25 @@ public class Navigator : MonoBehaviour {
         startNodes.Add(new Vector3(x2, 0, z1));
         startNodes.Add(new Vector3(x2, 0, z2));
 
+        /* DEBUG */
+        Debug.Log("There are " + startNodes.Count + " locations to look for nodes:");
+        for(int i = 0; i < startNodes.Count; i++) {
+            Debug.Log("Node " + i + ": " + startNodes[i]);
+            Debug.DrawLine(startPoint, startNodes[i], Color.white, Mathf.Infinity, false);
+        }
+        /* DEBUG */
+
         // Add found nodes to destination list of start node if they are visible and set their state to open
         bool openDestinationsExist = false;
         for(int i = 0; i < startNodes.Count; i++) {
-            if(startPoint != startNodes[i]) {
-                if(!Physics.Raycast(startPoint, startNodes[i] - startPoint, (startPoint - startNodes[i]).magnitude)) {
-                    // Add node to destination if it's reachable
-                    WayPoint newDest = FindWayPointAt(startNodes[i], grid);
-                    newDest.setCost(CalculateGCost(startWP, newDest));
-                    newDest.setState("open");
-                    startWP.AddNode(newDest);
-                    // There are still open destinations
-                    openDestinationsExist = true;
-                }
+            if(startPoint != startNodes[i] && !Physics.Raycast(startPoint, startNodes[i] - startPoint, (startPoint - startNodes[i]).magnitude + .1f, layerMask)) {
+                // Add node to destination if it's reachable
+                WayPoint newDest = FindWayPointAt(startNodes[i], grid);
+                newDest.setCost(CalculateGCost(startWP, newDest));
+                newDest.setState("open");
+                startWP.AddNode(newDest);
+                // There are still open destinations
+                openDestinationsExist = true;
             }
         }
 
@@ -103,7 +142,7 @@ public class Navigator : MonoBehaviour {
             }
             if(cheapest == float.MaxValue) {
                 Debug.LogError("Error: route stuck with no destinations, empty path returned");
-                break;
+                return null;
             }
 
             // Move to new WP and set it as closed
@@ -113,7 +152,7 @@ public class Navigator : MonoBehaviour {
 
             /* DEBUG */
             //temp = Time.realtimeSinceStartup;
-            //Debug.DrawLine(cheapestWP.getPosition(), cheapestWP.getPrevious().getPosition(), Color.red, Mathf.Infinity, false);
+            Debug.DrawLine(cheapestWP.getPosition(), cheapestWP.getPrevious().getPosition(), Color.red, Mathf.Infinity, false);
             //drawTime2 += temp - Time.realtimeSinceStartup;
             /* DEBUG */
 
@@ -149,6 +188,7 @@ public class Navigator : MonoBehaviour {
         //Debug.Log("Time spent calculating:");
         //Debug.Log(timeSpent);
         /* DEBUG */
+
         return path;
     }
 
@@ -189,15 +229,25 @@ public class Navigator : MonoBehaviour {
         if(pos == end) {
             return true;
         } 
-        else if((!Physics.Raycast(pos, end - pos, (pos - end).magnitude)) && Mathf.Abs(pos.x - end.x) <= gridSize && Mathf.Abs(pos.z - end.z) <= gridSize) {
+        else if((!Physics.Raycast(pos, end - pos, (pos - end).magnitude, layerMask)) && Mathf.Abs(pos.x - end.x) <= gridSize && Mathf.Abs(pos.z - end.z) <= gridSize) {
             return true;
         }
         return false;
     }
-    // Function that calculates the Manhattan distance between two points
-    static float ManhattanDist(Vector3 p1, Vector3 p2) {
-        return Mathf.Abs(p1.x - p2.x) + Mathf.Abs(p1.y - p2.y) + Mathf.Abs(p1.z - p2.z);
+
+    // Function that calculates the Chebyshev distance betweent two points
+    static float Heuristic(Vector3 p1, Vector3 p2) {
+        // Current heuristic: Diagonal shortcut
+        float dx = Mathf.Abs(p1.x - p2.x);
+        float dy = Mathf.Abs(p1.z - p2.z);
+        if(dx > dy) {
+            return 14 * dy + 10 * (dx - dy);
+        }
+        else {
+            return 14 * dx + 10 * (dy - dx);
+        }
     }
+
     // Function that can reconstruct the path from an A* route
     static List<Vector3> ReconstructPath(Vector3 startPos, WayPoint endWP) {
         List<Vector3> bestPath = new List<Vector3>();
@@ -227,12 +277,22 @@ public class Navigator : MonoBehaviour {
         // Distance from current node to destination
         float g_cost = CalculateGCost(current, destination);
 
-        // Heuristic, in our case the Manhattan distance
-        float h_cost = ManhattanDist(destination.getPosition(), endpoint.getPosition());
-        return g_cost + h_cost;
+        // Heuristic, in our case the Diagonal Shortcut
+        float h_cost = Heuristic(destination.getPosition(), endpoint.getPosition());
+        
+        /* DEBUG */
+        //Debug.Log("g-cost: " + g_cost);
+        //Debug.Log("h-cost: " + D * h_cost);
+        /* DEBUG */
+
+        // Balance heuristic influence using D (the higher D, the faster the calculation, but the lower the accuracy);
+        return g_cost + D * h_cost;
     }
     // Function that can find a Waypoint at a certain location
     static WayPoint FindWayPointAt(Vector3 position, List<WayPoint> grid) {
+        /* DEBUG */
+        //Debug.Log("Looking for waypoint at position: " + position);
+        /* DEBUG */
         foreach(WayPoint wp in grid) {
             if(wp.getPosition() == position) {
                 return wp;

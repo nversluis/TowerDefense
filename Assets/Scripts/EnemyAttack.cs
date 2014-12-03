@@ -3,34 +3,31 @@ using System.Collections;
 
 public class EnemyAttack : MonoBehaviour {
 
-    public float timeBetweenAttacks = 0.5f;
-    public int attackDamage = 10;
+    public float timeBetweenAttacks = 5f;
+    public int attackDamage = 1;
+    public int attackThreshold = 2;
+    public float playerDistance;
 
     GameObject player;
     PlayerHealth playerHealth;
-    //EnemyHealth enemyhealth;
+    EnemyHealth enemyHealth;
     bool playerInRange;
     float timer;
 
     void Awake()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = GameObject.Find("Player");
         playerHealth = player.GetComponent<PlayerHealth>();
-        //enemyHealth = player.GetComponent<EnemyHealth>();
+        enemyHealth = player.GetComponent<EnemyHealth>();
     }
 
-
-    void OnTriggerEnter(Collider other)
+    void SetPlayerInRange(float playerDistance)
     {
-        if (other.gameObject == player)
+        if (playerDistance < attackThreshold)
         {
             playerInRange = true;
         }
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject == player)
+        else
         {
             playerInRange = false;
         }
@@ -38,7 +35,7 @@ public class EnemyAttack : MonoBehaviour {
 
     void Attack()
     {
-        if (playerHealth.currentHealth > 0)
+        if (playerHealth.currentHealth > 0 && playerInRange)
         {
             playerHealth.TakeDamage(attackDamage);
         }
@@ -48,6 +45,8 @@ public class EnemyAttack : MonoBehaviour {
 	void Update () 
     {
         timer += Time.deltaTime;
+        playerDistance = Vector3.Distance(player.transform.position, this.transform.position);
+        SetPlayerInRange(playerDistance);
 
         if (timer >= timeBetweenAttacks && playerInRange)
         {

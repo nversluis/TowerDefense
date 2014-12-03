@@ -3,11 +3,11 @@ using System.Collections;
 
 public class PlayerHealth : MonoBehaviour {
 
-    public int startingHealth = 100;
+    private int startingHealth = 10000;
     public int currentHealth;
 
-    bool isDead;
-    bool damaged;
+    bool isDead = false;
+    bool damaged = false;
 
     void Awake()
     {
@@ -15,14 +15,15 @@ public class PlayerHealth : MonoBehaviour {
     }
 
 	// Use this for initialization
-	void Start () {
+	void Start () 
+    {
 	
 	}
 	
 	// Update is called once per frame
     void Update()
     {
-
+        
     }
 
     internal void TakeDamage(int amount)
@@ -38,6 +39,7 @@ public class PlayerHealth : MonoBehaviour {
     void Death()
     {
         isDead = true;
+        Destroy(this.gameObject);
     }
 
 }
