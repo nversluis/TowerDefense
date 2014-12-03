@@ -4,11 +4,13 @@ using System.Collections;
 public class EnemyAttack : MonoBehaviour {
 
     public float timeBetweenAttacks = 0.5f;
-    public int attackDamage = 10;
+    public int attackDamage = 1;
+    public int attackThreshold = 5;
+    public float playerDistance;
 
     GameObject player;
     PlayerHealth playerHealth;
-    //EnemyHealth enemyhealth;
+    EnemyHealth enemyHealth;
     bool playerInRange;
     float timer;
 
@@ -16,11 +18,22 @@ public class EnemyAttack : MonoBehaviour {
     {
         player = GameObject.FindGameObjectWithTag("Player");
         playerHealth = player.GetComponent<PlayerHealth>();
-        //enemyHealth = player.GetComponent<EnemyHealth>();
+        enemyHealth = player.GetComponent<EnemyHealth>();
     }
 
+    void SetPlayerInRange(float playerDistance)
+    {
+        if (playerDistance < attackThreshold)
+        {
+            playerInRange = true;
+        }
+        else
+        {
+            playerInRange = false;
+        }
+    }
 
-    void OnTriggerEnter(Collider other)
+    /*void OnTriggerEnter(Collider other)
     {
         if (other.gameObject == player)
         {
@@ -34,11 +47,11 @@ public class EnemyAttack : MonoBehaviour {
         {
             playerInRange = false;
         }
-    }
+    }*/
 
     void Attack()
     {
-        if (playerHealth.currentHealth > 0)
+        if (playerHealth.currentHealth > 0 && playerInRange)
         {
             playerHealth.TakeDamage(attackDamage);
         }
@@ -48,6 +61,12 @@ public class EnemyAttack : MonoBehaviour {
 	void Update () 
     {
         timer += Time.deltaTime;
+
+        playerDistance = Vector3.Distance(player.transform.position, this.transform.position);
+
+        SetPlayerInRange(playerDistance);
+        Debug.Log("Is player in range? " + playerInRange);
+
 
         if (timer >= timeBetweenAttacks && playerInRange)
         {
