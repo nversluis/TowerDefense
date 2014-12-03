@@ -5,7 +5,8 @@ using System.Collections.Generic;
 public class Navigator : MonoBehaviour {
 
     static float gridSize = RandomMaze.gridSize;
-    public static float D = 0.1f;
+    static LayerMask layerMask;
+    public static float D = 0.2f;
 
     /* DEBUG */
     //static float drawTime1;
@@ -26,18 +27,26 @@ public class Navigator : MonoBehaviour {
         //drawTime3 = 0;
 
         //float temp = Time.realtimeSinceStartup;
-        //Debug.DrawLine(startPoint, endPoint, Color.yellow, Mathf.Infinity, false);
+        Debug.DrawLine(startPoint, endPoint, Color.yellow, Mathf.Infinity, false);
         //drawTime1 = Time.realtimeSinceStartup - temp;
         /* DEBUG */
 
-        // Load the grid
+        // Load the grid and clear any leftovers from possible previous navigation attempts.
         List<WayPoint> grid = RandomMaze.Nodes;
+        foreach(WayPoint wp in grid) {
+            wp.setState("unexplored");
+            wp.setCost(0);
+            wp.setPrevious(null);
+        }
+
         // Create a new (empty) route
         List<Vector3> path = new List<Vector3>();
         // Create a new waypoint for the starting and end position
         WayPoint startWP = new WayPoint(startPoint, "closed");
         startWP.setCost(0);
         WayPoint endWP = new WayPoint(endPoint);
+        // Set wall layer, which is the only layer in which this script is allowed to check for collision
+        layerMask = 1<<10;
 
         // Find the nearest possible destination nodes and add them to the destinations of the starting node
 
@@ -68,8 +77,11 @@ public class Navigator : MonoBehaviour {
 
         float x_offset = Mathf.Abs(grid[0].getPosition().x % gridSize);
         float z_offset = Mathf.Abs(grid[0].getPosition().z % gridSize);
-        Debug.Log("X offset =" + x_offset);
-        Debug.Log("Z offset =" + z_offset);
+        
+        /* DEBUG */
+        //Debug.Log("X offset =" + x_offset);
+        //Debug.Log("Z offset =" + z_offset);
+        /* DEBUG */
 
         x1 += x_offset;
         x2 += x_offset;
@@ -84,21 +96,18 @@ public class Navigator : MonoBehaviour {
         startNodes.Add(new Vector3(x2, 0, z2));
 
         /* DEBUG */
-        //Debug.Log("There are " + startNodes.Count + " locations to look for nodes:");
-        //for(int i = 0; i < startNodes.Count; i++) {
-        //    Debug.Log("Node " + i + ": " + startNodes[i]);
-        //    Debug.DrawLine(startPoint, startNodes[i], Color.white, Mathf.Infinity, false);
-        //}
+        Debug.Log("There are " + startNodes.Count + " locations to look for nodes:");
+        for(int i = 0; i < startNodes.Count; i++) {
+            Debug.Log("Node " + i + ": " + startNodes[i]);
+            Debug.DrawLine(startPoint, startNodes[i], Color.white, Mathf.Infinity, false);
+        }
         /* DEBUG */
 
         // Add found nodes to destination list of start node if they are visible and set their state to open
         bool openDestinationsExist = false;
-        Debug.Log("There are " + startNodes.Count + " locations to look for nodes:");
         for(int i = 0; i < startNodes.Count; i++) {
-            Debug.Log("Now checking if Node " + i + " is reachable...");
-            if(startPoint != startNodes[i] && !Physics.Raycast(startPoint, startNodes[i] - startPoint, (startPoint - startNodes[i]).magnitude + .1f)) {
+            if(startPoint != startNodes[i] && !Physics.Raycast(startPoint, startNodes[i] - startPoint, (startPoint - startNodes[i]).magnitude + .1f, layerMask)) {
                 // Add node to destination if it's reachable
-                Debug.Log("It is.");
                 WayPoint newDest = FindWayPointAt(startNodes[i], grid);
                 newDest.setCost(CalculateGCost(startWP, newDest));
                 newDest.setState("open");
@@ -143,7 +152,7 @@ public class Navigator : MonoBehaviour {
 
             /* DEBUG */
             //temp = Time.realtimeSinceStartup;
-            //Debug.DrawLine(cheapestWP.getPosition(), cheapestWP.getPrevious().getPosition(), Color.red, Mathf.Infinity, false);
+            Debug.DrawLine(cheapestWP.getPosition(), cheapestWP.getPrevious().getPosition(), Color.red, Mathf.Infinity, false);
             //drawTime2 += temp - Time.realtimeSinceStartup;
             /* DEBUG */
 
@@ -220,7 +229,7 @@ public class Navigator : MonoBehaviour {
         if(pos == end) {
             return true;
         } 
-        else if((!Physics.Raycast(pos, end - pos, (pos - end).magnitude)) && Mathf.Abs(pos.x - end.x) <= gridSize && Mathf.Abs(pos.z - end.z) <= gridSize) {
+        else if((!Physics.Raycast(pos, end - pos, (pos - end).magnitude, layerMask)) && Mathf.Abs(pos.x - end.x) <= gridSize && Mathf.Abs(pos.z - end.z) <= gridSize) {
             return true;
         }
         return false;
@@ -247,7 +256,7 @@ public class Navigator : MonoBehaviour {
         while(true) {
             /* DEBUG */
             //float temp = Time.realtimeSinceStartup;
-            //Debug.DrawLine(currWP.getPosition(), currWP.getPrevious().getPosition(), Color.blue, Mathf.Infinity, false);
+            Debug.DrawLine(currWP.getPosition(), currWP.getPrevious().getPosition(), Color.blue, Mathf.Infinity, false);
             //drawTime3 += Time.realtimeSinceStartup - temp;
             /* DEBUG */
             currWP = currWP.getPrevious();

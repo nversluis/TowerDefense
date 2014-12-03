@@ -17,7 +17,7 @@ public class RandomMaze : MonoBehaviour
     public GameObject wallPrefab; //Wall prefab
     public GameObject node; //Node prefab
     public GameObject EnemySpawner;
-    //public GameObject bidarraSpawnerPrefab; //Prefab to spawn enemy´s
+	public GameObject Minimapcamera;
 
     private ArrayList positions = new ArrayList(); //Positions of the floors
     private List<Vector3> NodesPos = new List<Vector3>(); //Positions of the waypoints/nodes
@@ -53,20 +53,22 @@ public class RandomMaze : MonoBehaviour
         SpawnNodes();
         //generate Nodes;
        	MakeNodeList();
+		//create the minimap camera
+		createMMCamera ();
     }
 
     void Start() {
         /* NAVIGATOR TEST CODE */
-        start = Nodes[4].getPosition();
-        start.x += Random.value;
-        start.z += Random.value;
+        //start = Nodes[4].getPosition();
+        //start.x += Random.value;
+        //start.z += Random.value;
 
-        int val = (int)Mathf.Ceil(Nodes.Count / 2);
-        end = Nodes[val].getPosition();
-        end.x += Random.value;
-        end.z += Random.value;
+        //int val = (int)Mathf.Ceil(Nodes.Count / 2);
+        //end = Nodes[val].getPosition();
+        //end.x += Random.value;
+        //end.z += Random.value;
 
-        testPath = Navigator.Path(start, end);
+        //testPath = Navigator.Path(start, end);
 
         //Debug.Log(start);
         //Debug.Log(end);
@@ -133,19 +135,19 @@ public class RandomMaze : MonoBehaviour
                     {
                         positions.Add(curPos); //add current position to arraylist
                         GameObject floor = (GameObject)Instantiate(planePrefab, new Vector3(curPos[0] * planewidth, 0, curPos[1] * planewidth), Quaternion.identity); //Instantiate a floor at current position
-                        floor.gameObject.transform.localScale = new Vector3(planewidth/10, 0.1f, planewidth/10); //Scale the floor
+						floor.gameObject.transform.localScale = new Vector3(planewidth/10, 0, planewidth/10); //Scale the floor
                         floor.transform.parent = gameObject.transform; //Set the floor to the gameObject.
                         floor.name = "Floor"; //name the floor Floor
 						GameObject ceil = (GameObject)Instantiate(planePrefab, new Vector3(curPos[0] * planewidth, height*planewidth, curPos[1] * planewidth), Quaternion.identity); //Instantiate a floor at current position
 						ceil.transform.Rotate (new Vector3 (180, 0, 0));
-						ceil.gameObject.transform.localScale = new Vector3(planewidth/10, 0.1f, planewidth/10); //Scale the floor
+						ceil.gameObject.transform.localScale = new Vector3(planewidth/10, 0, planewidth/10); //Scale the floor
 
                         if (ba % 2 == 0) //if ba is even generate a light at current position
                         {
                             GameObject lightGameObject = new GameObject("Light");
                             lightGameObject.AddComponent<Light>();
 
-                            lightGameObject.transform.position = new Vector3(curPos[0] * planewidth, 5, curPos[1] * planewidth);
+							lightGameObject.transform.position = new Vector3(curPos[0] * planewidth, height*0.7f, curPos[1] * planewidth);
                             lightGameObject.transform.parent = gameObject.transform;
                         }
                     }
@@ -199,9 +201,12 @@ public class RandomMaze : MonoBehaviour
         }
 
         GameObject floor2 = (GameObject)Instantiate(planePrefab, new Vector3(endPos[0] * planewidth, 0, endPos[1] * planewidth), Quaternion.identity); //Generate floor at end position
-		floor2.gameObject.transform.localScale = new Vector3(planewidth/10, planewidth/10, planewidth/10);
-
+		floor2.gameObject.transform.localScale = new Vector3(planewidth/10,0, planewidth/10);
         floor2.transform.parent = gameObject.transform;
+		GameObject ceil2 = (GameObject)Instantiate(planePrefab, new Vector3(endPos[0] * planewidth, height*planewidth, endPos[1] * planewidth), Quaternion.identity); //Instantiate a floor at current position
+		ceil2.transform.Rotate (new Vector3 (180, 0, 0));
+		ceil2.gameObject.transform.localScale = new Vector3(planewidth/10, 0, planewidth/10); //Scale the floor
+
         //GameObject bidarraSpawner = (GameObject)Instantiate(bidarraSpawnerPrefab, new Vector3(endPos[0], 1.6f, endPos[1]) * planewidth, Quaternion.identity); //Spawn bidarraSpawner
         //bidarraSpawner.transform.parent = gameObject.transform;
         //bidarraSpawner.name = "bidarraSpawner";
@@ -363,6 +368,10 @@ public class RandomMaze : MonoBehaviour
 
 
 
+	public void createMMCamera(){
+		GameObject cam = (GameObject)Instantiate(Minimapcamera,new Vector3(length/2,Mathf.Max(width,length),0)*planewidth,Quaternion.Euler(90,0,0));
+	
+	}
 
 	//method to retrun the planewidth for use in other scripts
 	public static float getPlaneWidth(){
