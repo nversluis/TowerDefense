@@ -6,7 +6,7 @@ public class Navigator : MonoBehaviour {
 
     static float gridSize = RandomMaze.gridSize;
     static LayerMask layerMask;
-    public static float D = 0.2f;
+    public static float D = 0.1f;
 
     /* DEBUG */
     //static float drawTime1;
@@ -96,9 +96,9 @@ public class Navigator : MonoBehaviour {
         startNodes.Add(new Vector3(x2, 0, z2));
 
         /* DEBUG */
-        Debug.Log("There are " + startNodes.Count + " locations to look for nodes:");
+        //Debug.Log("There are " + startNodes.Count + " locations to look for nodes:");
         for(int i = 0; i < startNodes.Count; i++) {
-            Debug.Log("Node " + i + ": " + startNodes[i]);
+            //Debug.Log("Node " + i + ": " + startNodes[i]);
             Debug.DrawLine(startPoint, startNodes[i], Color.white, Mathf.Infinity, false);
         }
         /* DEBUG */
