@@ -4,21 +4,20 @@ using System.Collections;
 public class EnemyAttack : MonoBehaviour {
 
     public float timeBetweenAttacks = 5f;
-    public int attackDamage = 1;
+    public int attackDamage;
     public int attackThreshold = 2;
     public float playerDistance;
 
     GameObject player;
     PlayerHealth playerHealth;
-    EnemyHealth enemyHealth;
     bool playerInRange;
     float timer;
 
     void Awake()
     {
+        enemyHealth = GetComponent<EnemyHealth>();
         player = GameObject.Find("Player");
         playerHealth = player.GetComponent<PlayerHealth>();
-        enemyHealth = player.GetComponent<EnemyHealth>();
     }
 
     void SetPlayerInRange(float playerDistance)
