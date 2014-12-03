@@ -5,26 +5,19 @@ using System.Collections.Generic;
 public class EnemyStats : MonoBehaviour {
 
     private List<int> stats;
-    private int totalStatPoints = 600;
+    private int totalStatPoints = 10000;
     private string type;
 
     // Stats van een enemy
     private int health;
-    private int meleeAttack;
-    private int rangeAttack;
-    private int meleeDefense;
-    private int rangeDefense;
+    private int attack;
+    private int defense;
     private int speed;
 
     // Damage output van een enemy
     private float DamageToBase;
     private float DamageToPlayer;
     private float DamageToTower;
-
-    public EnemyStats()
-    {
-        generateEnemyStats();
-    }
     
     /// <summary>
     /// Genereert een lijst van n random numbers die opsommen tot sum.
@@ -67,11 +60,9 @@ public class EnemyStats : MonoBehaviour {
     {
         this.stats = randomNumberGenerator(6, totalStatPoints);
         this.health = stats[0];
-        this.meleeAttack = stats[1];
-        this.rangeAttack = stats[2];
-        this.meleeDefense = stats[3];
-        this.rangeDefense = stats[4];
-        this.speed = stats[5];
+        this.attack = stats[1];
+        this.defense = stats[2];
+        this.speed = stats[3];
     }
 
     public float fitness() {
@@ -149,25 +140,25 @@ public class EnemyStats : MonoBehaviour {
         return health;
     }
 
-     public float getMeleeAttack() {
-        return meleeAttack;
+    public float getAttack()
+    {
+        return attack;
     }
 
-     public float getRangeAttack() {
-        return rangeAttack;
+    public float getDefense()
+    {
+        return defense;
     }
 
-     public float getMeleeDefense() {
-        return meleeDefense;
-    }
-
-     public float getRangeSpeed() {
-        return rangeDefense;
-    }
-
-     public float getSpeed() {
+    public float getSpeed() 
+    {
         return speed;
     }
+
+     void Awake()
+     {
+         generateEnemyStats();
+     }
 
 	// Use this for initialization
 	void Start () {
