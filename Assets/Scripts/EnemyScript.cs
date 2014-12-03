@@ -13,7 +13,8 @@ public class EnemyScript : MonoBehaviour {
 	void Start () {
 
         characterController = GetComponent<CharacterController>();
-        Path = Navigator.Path(transform.FindChild("Floor").transform.position + new Vector3(0.1f, 0f, 0f), PlayerController.location - new Vector3(0f, PlayerController.location.y, 0f));
+
+        Path = Navigator.Path(transform.FindChild("Floor").transform.position, PlayerController.location - new Vector3(0f, PlayerController.location.y, 0f));
 
 	}
 	
@@ -30,6 +31,16 @@ public class EnemyScript : MonoBehaviour {
                 i++;
             }
             transform.LookAt(Path[i] + new Vector3(0f, transform.position.y, 0f));
+        }
+        else
+        {
+            i = 0;
+        }
+        if (Input.GetKeyDown(KeyCode.Space) || Path == null)
+        {
+            Debug.Log("Space Ingedrukt");
+            Path = Navigator.Path(transform.FindChild("Floor").transform.position, PlayerController.location - new Vector3(0f, PlayerController.location.y, 0f));
+            i = 0;
         }
 
     }

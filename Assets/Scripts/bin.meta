@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Scripts/bin.meta
 guid: fcf573f35e6da564082a7259ec7215bb
+=======
+guid: de4cc27babb567e48aac2c7ad5d9810d
+>>>>>>> b0c909080a1da1c3f6e204a91d44767b61d549f9:Assets/Scripts/bin.meta
 folderAsset: yes
 DefaultImporter:
   userData: 
