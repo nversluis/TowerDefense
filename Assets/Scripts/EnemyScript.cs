@@ -13,15 +13,14 @@ public class EnemyScript : MonoBehaviour {
 	void Start () {
 
         characterController = GetComponent<CharacterController>();
+        Path = Navigator.Path(transform.FindChild("Floor").transform.position + new Vector3(0.1f, 0f, 0f), PlayerController.location - new Vector3(0f, PlayerController.location.y, 0f));
 
 	}
 	
 	// Update is called once per frame
     void FixedUpdate()
     {
-        Path = Navigator.Path(transform.FindChild("Floor").transform.position + new Vector3(0.1f, 0f, 0f), PlayerController.location - new Vector3(0f, PlayerController.location.y, 0f));
 
-        Debug.Log(Path);
         if (Path != null)
         {
             Vector3 dir = (Path[i] - transform.FindChild("Floor").position).normalized * walkSpeed;
