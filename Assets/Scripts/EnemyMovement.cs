@@ -18,9 +18,9 @@ public class EnemyMovement : MonoBehaviour
 
     void Awake()
     {
-        gate = GameObject.FindGameObjectWithTag("Gate").transform;
-        player = GameObject.FindGameObjectWithTag("Player").transform;
-        tower = GameObject.FindGameObjectWithTag("Tower").transform;
+        //gate = GameObject.FindGameObjectWithTag("Gate").transform;
+        player = GameObject.Find("Player").transform;
+        //tower = GameObject.FindGameObjectWithTag("Tower").transform;
         playerHealth = player.GetComponent<PlayerHealth>();
         enemyHealth = GetComponent<EnemyHealth>();
         nav = GetComponent<NavMeshAgent>();
@@ -35,17 +35,18 @@ public class EnemyMovement : MonoBehaviour
 	// Update is called once per frame
 	void Update () {
 
-        if (enemyHealth.currentHealth > 0 && playerHealth.currentHealth > 0)
-        {
-            gateDistance = Vector3.Distance(gate.transform.position, this.transform.position);
+        //if (enemyHealth.currentHealth > 0 && playerHealth.currentHealth > 0)
+        //if (playerHealth.currentHealth > 0)
+       // {
+            //gateDistance = Vector3.Distance(gate.transform.position, this.transform.position);
             playerDistance = Vector3.Distance(player.transform.position, this.transform.position);
-            towerDistance = Vector3.Distance(tower.transform.position, this.transform.position);
+            //towerDistance = Vector3.Distance(tower.transform.position, this.transform.position);
 
             nav.SetDestination(player.position);
-        }
-        else
-        {
-            nav.enabled = false;
-        }
+       // }
+        //else
+        //{
+        //    nav.enabled = false;
+        //}
 	}
 }
