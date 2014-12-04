@@ -25,6 +25,8 @@ public class CameraController : MonoBehaviour {
     // creating properties for determining which object is pointed to
     public static GameObject hitObject;
 
+	private LayerMask mask = ~1<<9; //layer to ignore
+
     private void Start()
     {
         Player = GameObject.Find("Player");
@@ -99,9 +101,9 @@ public class CameraController : MonoBehaviour {
 
 
         // casting a ray to see what object is in front of the camera
-        if (Physics.Raycast(transform.position, transform.forward, out hit))
+		if (Physics.Raycast (transform.position, transform.forward, out hit))
         {
-            hitObject = hit.collider.gameObject;
+			hitObject = hit.collider.gameObject;
         }
 
 		//Set cursor to center of screen
