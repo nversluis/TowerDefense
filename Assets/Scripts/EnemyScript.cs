@@ -10,7 +10,7 @@ public class EnemyScript : MonoBehaviour {
     CharacterController characterController;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 
         characterController = GetComponent<CharacterController>();
 
