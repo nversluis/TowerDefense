@@ -8,6 +8,7 @@ public class EnemyMovement : MonoBehaviour
     public Transform tower;
     public PlayerHealth playerHealth;
     public EnemyHealth enemyHealth;
+    public EnemyStats enemyStats;
 
     public int randomInt;
     public float gateDistance;
@@ -24,12 +25,13 @@ public class EnemyMovement : MonoBehaviour
         playerHealth = player.GetComponent<PlayerHealth>();
         enemyHealth = GetComponent<EnemyHealth>();
         nav = GetComponent<NavMeshAgent>();
+        enemyStats = GetComponent<EnemyStats>();
     }
 
 	// Use this for initialization
 	void Start () 
     {
-        nav.speed = 20;
+        nav.speed = enemyStats.speed;
 	}
 	
 	// Update is called once per frame

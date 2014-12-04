@@ -11,6 +11,7 @@ public class EnemyAttack : MonoBehaviour {
     GameObject player;
     PlayerHealth playerHealth;
     EnemyHealth enemyHealth;
+    EnemyStats enemyStats;
     bool playerInRange;
     float timer;
 
@@ -18,7 +19,9 @@ public class EnemyAttack : MonoBehaviour {
     {
         player = GameObject.Find("Player");
         playerHealth = player.GetComponent<PlayerHealth>();
-        enemyHealth = player.GetComponent<EnemyHealth>();
+        enemyHealth = GetComponent<EnemyHealth>();
+        enemyStats = GetComponent<EnemyStats>();
+        attackDamage = enemyStats.attack;
     }
 
     void SetPlayerInRange(float playerDistance)
@@ -32,6 +35,24 @@ public class EnemyAttack : MonoBehaviour {
             playerInRange = false;
         }
     }
+
+   /* void OnCollisionEnter(Collision other)
+    {
+        Debug.Log(other.gameObject.tag);
+        if (other.gameObject.tag == "Player")
+        {
+            playerInRange = true;
+        }
+        
+    }
+
+    void OnCollisionExit(Collision other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            playerInRange = false;
+        }
+    }*/
 
     void Attack()
     {
@@ -51,6 +72,7 @@ public class EnemyAttack : MonoBehaviour {
         if (timer >= timeBetweenAttacks && playerInRange)
         {
             Attack();
+            Debug.Log("attackDamage = " + attackDamage);
         }
 	}
 }
