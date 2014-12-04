@@ -13,9 +13,13 @@ public class EnemyHealth : MonoBehaviour {
     void Awake()
     {
         enemyStats = GetComponent<EnemyStats>();
+    }
+
+    void Start()
+    {
         startingHealth = enemyStats.health;
-        currentHealth = startingHealth;
         defense = enemyStats.defense;
+        currentHealth = startingHealth;
     }
 
     public void TakeDamage(int amount)
@@ -35,11 +39,6 @@ public class EnemyHealth : MonoBehaviour {
         isDead = true;
         Destroy(this.gameObject);
     }
-
-	// Use this for initialization
-	void Start () {
-	    
-	}
 	
 	// Update is called once per frame
 	void Update () {

@@ -151,6 +151,11 @@ public class EnemyStats : MonoBehaviour {
 	
 	}
 
+    public int getAttack()
+    {
+        return attack;
+    }
+
 }
 
 

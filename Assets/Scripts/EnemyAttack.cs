@@ -21,6 +21,10 @@ public class EnemyAttack : MonoBehaviour {
         playerHealth = player.GetComponent<PlayerHealth>();
         enemyHealth = GetComponent<EnemyHealth>();
         enemyStats = GetComponent<EnemyStats>();
+    }
+
+    void Start()
+    {
         attackDamage = enemyStats.attack;
     }
 
@@ -72,7 +76,6 @@ public class EnemyAttack : MonoBehaviour {
         if (timer >= timeBetweenAttacks && playerInRange)
         {
             Attack();
-            Debug.Log("attackDamage = " + attackDamage);
         }
 	}
 }
