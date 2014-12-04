@@ -21,6 +21,7 @@ public class WaveSpawner : MonoBehaviour
         //InvokeRepeating("Spawning", 0, 3);
         GameObject Enemy = (GameObject)Instantiate(enemy, transform.position + new Vector3(0f, orcHeigthSpawn, 0f), Quaternion.identity);
         Enemy.name = "enemy";
+        Enemy.transform.FindChild("Floor").transform.position = transform.position;
     }
 
     // Update is called once per frame

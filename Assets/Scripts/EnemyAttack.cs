@@ -4,14 +4,13 @@ using System.Collections;
 public class EnemyAttack : MonoBehaviour {
 
     public float timeBetweenAttacks = 5f;
-    public int attackDamage;
+    public int attackDamage = 1;
     public int attackThreshold = 2;
     public float playerDistance;
 
     GameObject player;
     PlayerHealth playerHealth;
     EnemyHealth enemyHealth;
-    EnemyStats enemyStats;
     bool playerInRange;
     float timer;
 
@@ -19,9 +18,7 @@ public class EnemyAttack : MonoBehaviour {
     {
         player = GameObject.Find("Player");
         playerHealth = player.GetComponent<PlayerHealth>();
-        enemyHealth = GetComponent<EnemyHealth>();
-        enemyStats = GetComponent<EnemyStats>();
-        attackDamage = enemyStats.attack;
+        enemyHealth = player.GetComponent<EnemyHealth>();
     }
 
     void SetPlayerInRange(float playerDistance)
@@ -35,24 +32,6 @@ public class EnemyAttack : MonoBehaviour {
             playerInRange = false;
         }
     }
-
-   /* void OnCollisionEnter(Collision other)
-    {
-        Debug.Log(other.gameObject.tag);
-        if (other.gameObject.tag == "Player")
-        {
-            playerInRange = true;
-        }
-        
-    }
-
-    void OnCollisionExit(Collision other)
-    {
-        if (other.gameObject.tag == "Player")
-        {
-            playerInRange = false;
-        }
-    }*/
 
     void Attack()
     {
@@ -72,7 +51,6 @@ public class EnemyAttack : MonoBehaviour {
         if (timer >= timeBetweenAttacks && playerInRange)
         {
             Attack();
-            Debug.Log("attackDamage = " + attackDamage);
         }
 	}
 }

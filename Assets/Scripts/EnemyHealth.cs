@@ -3,26 +3,21 @@ using System.Collections;
 
 public class EnemyHealth : MonoBehaviour {
 
-    public int startingHealth;
+    public int startingHealth = 100;
     public int currentHealth;
-    public int defense;
-    public EnemyStats enemyStats;
 
     bool isDead;
 
     void Awake()
     {
-        enemyStats = GetComponent<EnemyStats>();
-        startingHealth = enemyStats.health;
         currentHealth = startingHealth;
-        defense = enemyStats.defense;
     }
 
     public void TakeDamage(int amount)
     {
         if (isDead)
             return;
-        currentHealth -= amount/defense;
+        currentHealth -= amount;
 
         if (currentHealth <= 0)
         {

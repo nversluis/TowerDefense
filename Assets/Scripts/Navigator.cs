@@ -4,44 +4,38 @@ using System.Collections.Generic;
 
 public class Navigator : MonoBehaviour {
 
-    // Create a list containing the open Nodes
-    static List<WayPoint> openNodes = new List<WayPoint>();
-    // Retrieve gridSize
     static float gridSize = RandomMaze.gridSize;
-    // Make a layer mask for the ray casts
-    static LayerMask layerMask = 1<<10;
-    // Create the D-factor that is used to balance the importance of g- and h-cost.
-    public static float D = 0.1f;
+    static LayerMask layerMask;
+    public static float D = 0.2f;
 
     /* DEBUG */
-    static float drawTime1;
-    static float drawTime2;
-    static float drawTime3;
+    //static float drawTime1;
+    //static float drawTime2;
+    //static float drawTime3;
     /* DEBUG */
 
     public static List<Vector3> Path(Vector3 startPoint, Vector3 endPoint) {
         /** INITIALIZATION **/
 
         /* DEBUG */
-        Debug.Log("Start point: " + startPoint);
+        //Debug.Log("Start point: " + startPoint);
 
-        float startTime = Time.realtimeSinceStartup;
+        //float startTime = Time.realtimeSinceStartup;
 
-        drawTime1 = 0;
-        drawTime2 = 0;
-        drawTime3 = 0;
+        //drawTime1 = 0;
+        //drawTime2 = 0;
+        //drawTime3 = 0;
 
-        float temp = Time.realtimeSinceStartup;
+        //float temp = Time.realtimeSinceStartup;
         Debug.DrawLine(startPoint, endPoint, Color.yellow, Mathf.Infinity, false);
-        drawTime1 = Time.realtimeSinceStartup - temp;
+        //drawTime1 = Time.realtimeSinceStartup - temp;
         /* DEBUG */
 
         // Load the grid and clear any leftovers from possible previous navigation attempts.
         List<WayPoint> grid = RandomMaze.Nodes;
         foreach(WayPoint wp in grid) {
             wp.setState("unexplored");
-            wp.setGCost(0);
-            wp.setFCost(0);
+            wp.setCost(0);
             wp.setPrevious(null);
         }
 
@@ -49,8 +43,10 @@ public class Navigator : MonoBehaviour {
         List<Vector3> path = new List<Vector3>();
         // Create a new waypoint for the starting and end position
         WayPoint startWP = new WayPoint(startPoint, "closed");
-        startWP.setGCost(0);
+        startWP.setCost(0);
         WayPoint endWP = new WayPoint(endPoint);
+        // Set wall layer, which is the only layer in which this script is allowed to check for collision
+        layerMask = 1<<10;
 
         // Find the nearest possible destination nodes and add them to the destinations of the starting node
 
@@ -65,7 +61,7 @@ public class Navigator : MonoBehaviour {
         else if((start_z % gridSize) == 0) {
             start_z += 0.01f * Random.value;
         }
-        Debug.Log("Made it past line 68!");
+
 
         /* DEBUG */
         //Debug.Log("First node position =" + grid[0].getPosition());
@@ -100,54 +96,66 @@ public class Navigator : MonoBehaviour {
         startNodes.Add(new Vector3(x2, 0, z2));
 
         /* DEBUG */
-        //Debug.Log("There are " + startNodes.Count + " locations to look for nodes:");
+        Debug.Log("There are " + startNodes.Count + " locations to look for nodes:");
         for(int i = 0; i < startNodes.Count; i++) {
-            //Debug.Log("Node " + i + ": " + startNodes[i]);
+            Debug.Log("Node " + i + ": " + startNodes[i]);
             Debug.DrawLine(startPoint, startNodes[i], Color.white, Mathf.Infinity, false);
         }
         /* DEBUG */
-        Debug.Log("Made it past line 109!");
+
         // Add found nodes to destination list of start node if they are visible and set their state to open
         bool openDestinationsExist = false;
         for(int i = 0; i < startNodes.Count; i++) {
             if(startPoint != startNodes[i] && !Physics.Raycast(startPoint, startNodes[i] - startPoint, (startPoint - startNodes[i]).magnitude + .1f, layerMask)) {
                 // Add node to destination if it's reachable
                 WayPoint newDest = FindWayPointAt(startNodes[i], grid);
-                newDest.setGCost(CalculateGCost(startWP, newDest));
-                newDest.setFCost(CalculateFCost(startWP, newDest, endWP));
+                newDest.setCost(CalculateGCost(startWP, newDest));
                 newDest.setState("open");
                 startWP.AddNode(newDest);
-                AddToOpenNodes(newDest);
                 // There are still open destinations
                 openDestinationsExist = true;
             }
         }
-        Debug.Log("Made it past line 125!");
+
         // Our current WP is the starting WP
         WayPoint currentWP = startWP;
         path.Add(currentWP.getPosition());
 
         /** ROUTE CALCULATION **/
-        Debug.Log("Made it past Initialization!");
+
         while(openDestinationsExist) {
-            // There should not be a scenario in which there are no more open destinations, but still:            
-            if(openNodes.Count == 0) {
-                Debug.Log("Error: route stuck with no destinations, empty path returned");
+            // Set the cheapest possible destination as the next destination
+            // Initialize cheapest point so far to be as expensive as possible
+            
+            float cheapest = float.MaxValue;
+            // Find the cheapest destination
+            WayPoint cheapestWP = new WayPoint(new Vector3(0, 0, 0));
+            for(int i = 0; i < currentWP.getDestinations().Count; i++) {
+                WayPoint destination = currentWP.getDestinations()[i];
+                if(destination.getState() == "open") {
+                    float fCost = CalculateFCost(currentWP, destination, endWP);
+                    if(fCost <= cheapest) {
+                        cheapest = fCost;
+                        cheapestWP = destination;
+                    }
+                }
+            }
+            if(cheapest == float.MaxValue) {
+                Debug.LogError("Error: route stuck with no destinations, empty path returned");
                 return null;
             }
-            Debug.Log("Made it past line 138!");
-            // Move to cheapest WP and set it as closed
-            openNodes[0].setPrevious(currentWP);
-            currentWP = openNodes[0];
+
+            // Move to new WP and set it as closed
+            cheapestWP.setPrevious(currentWP);
+            currentWP = cheapestWP;
             currentWP.setState("closed");
-            openNodes.Remove(currentWP);
-            Debug.Log("Made it past line 144!");
+
             /* DEBUG */
-            temp = Time.realtimeSinceStartup;
-            Debug.DrawLine(currentWP.getPosition(), currentWP.getPrevious().getPosition(), Color.red, Mathf.Infinity, false);
-            drawTime2 += temp - Time.realtimeSinceStartup;
+            //temp = Time.realtimeSinceStartup;
+            Debug.DrawLine(cheapestWP.getPosition(), cheapestWP.getPrevious().getPosition(), Color.red, Mathf.Infinity, false);
+            //drawTime2 += temp - Time.realtimeSinceStartup;
             /* DEBUG */
-            Debug.Log("Made it past line 150!");
+
             // If the current waypoint is the endpoint, stop searching and build the route
             if(CloseEnoughToDestination(currentWP, endPoint)) {
                 endWP.setPrevious(currentWP);
@@ -155,7 +163,7 @@ public class Navigator : MonoBehaviour {
                 openDestinationsExist = false;
                 break;
             }
-            Debug.Log("Made it past line 157!");
+
             // Find unexplored nodes and open them if they seem useful
             for(int i = 0; i < currentWP.getDestinations().Count; i++) {
                 WayPoint neighbour = currentWP.getDestinations()[i];
@@ -163,25 +171,22 @@ public class Navigator : MonoBehaviour {
                 if(!(neighbour.getState() == "closed")) {
                     float potential_g_Cost = CalculateGCost(currentWP, neighbour);
                     // If a cheaper g cost is found via the current WayPoint, update it
-                    if(neighbour.getState() == "open" && potential_g_Cost < neighbour.getGCost()) {
-                        neighbour.setGCost(potential_g_Cost);
-                        neighbour.setFCost(CalculateFCost(currentWP, neighbour, endWP));
+                    if(neighbour.getState() == "open" && potential_g_Cost < neighbour.getCost()) {
+                        neighbour.setCost(potential_g_Cost);
                         neighbour.setPrevious(currentWP);
                     }
                     if(neighbour.getState() == "unexplored") {
-                        neighbour.setGCost(CalculateGCost(currentWP, neighbour));
-                        neighbour.setFCost(CalculateFCost(currentWP, neighbour, endWP));
-                        neighbour.setPrevious(currentWP);
+                        neighbour.setCost(CalculateGCost(currentWP, neighbour));
                         neighbour.setState("open");
-                        AddToOpenNodes(neighbour);
+                        neighbour.setPrevious(currentWP);
                     }
                 }
             }
         }
-        Debug.Log("Made it past line 181!");
         /* DEBUG */
-        float timeSpent = Time.realtimeSinceStartup - startTime - drawTime1 - drawTime2;
-        Debug.Log("Time spent calculating:" + timeSpent);
+        //float timeSpent = Time.realtimeSinceStartup - startTime - drawTime1 - drawTime2;
+        //Debug.Log("Time spent calculating:");
+        //Debug.Log(timeSpent);
         /* DEBUG */
 
         return path;
@@ -203,7 +208,6 @@ public class Navigator : MonoBehaviour {
         }
         return res;
     }
-
     // Function that rounds down a certain number to the grid size
     static float RoundDown(float toRound, float nearest) {
         float res;
@@ -251,9 +255,9 @@ public class Navigator : MonoBehaviour {
         bestPath.Add(endWP.getPosition());
         while(true) {
             /* DEBUG */
-            float temp = Time.realtimeSinceStartup;
+            //float temp = Time.realtimeSinceStartup;
             Debug.DrawLine(currWP.getPosition(), currWP.getPrevious().getPosition(), Color.blue, Mathf.Infinity, false);
-            drawTime3 += Time.realtimeSinceStartup - temp;
+            //drawTime3 += Time.realtimeSinceStartup - temp;
             /* DEBUG */
             currWP = currWP.getPrevious();
             if(currWP.getPosition() == startPos) {
@@ -264,12 +268,10 @@ public class Navigator : MonoBehaviour {
         }
         return bestPath;
     }
-
     // Function that calculates the g-cost between two waypoints (cost based on distance from start point)
     static float CalculateGCost(WayPoint current, WayPoint destination) {
-        return current.getGCost() + (current.getPosition() - destination.getPosition()).magnitude;
+        return current.getCost() + (current.getPosition() - destination.getPosition()).magnitude;
     }
-
     // Function that calculates the f-cost between two waypoints (cost based on distance from both start and end point)
     static float CalculateFCost(WayPoint current, WayPoint destination, WayPoint endpoint) {
         // Distance from current node to destination
@@ -286,7 +288,6 @@ public class Navigator : MonoBehaviour {
         // Balance heuristic influence using D (the higher D, the faster the calculation, but the lower the accuracy);
         return g_cost + D * h_cost;
     }
-
     // Function that can find a Waypoint at a certain location
     static WayPoint FindWayPointAt(Vector3 position, List<WayPoint> grid) {
         /* DEBUG */
@@ -299,19 +300,6 @@ public class Navigator : MonoBehaviour {
         }
         Debug.LogError("No waypoint exists at given position, returning null!");
         return null;
-    }
-
-    // Fuction that adds a WayPoint to the list of open nodes, while keeping the list sorted by lowest cost.
-    static void AddToOpenNodes(WayPoint newWp) {
-        float newFCost = newWp.getFCost();
-        if(openNodes.Count == 0) {
-            openNodes.Add(newWp);
-        }
-        for(int i = 0; i < openNodes.Count; i++){
-            if(newFCost < openNodes[i].getFCost()) {
-                openNodes.Insert(i, newWp);
-            }
-        }
     }
 
 }
