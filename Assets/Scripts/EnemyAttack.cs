@@ -18,7 +18,17 @@ public class EnemyAttack : MonoBehaviour {
     {
         player = GameObject.Find("Player");
         playerHealth = player.GetComponent<PlayerHealth>();
+<<<<<<< HEAD
         enemyHealth = player.GetComponent<EnemyHealth>();
+=======
+        enemyHealth = GetComponent<EnemyHealth>();
+        enemyStats = GetComponent<EnemyStats>();
+    }
+
+    void Start()
+    {
+        attackDamage = enemyStats.attack;
+>>>>>>> c1dd732e0360c23fe7b90f070df2ed0988fd4266
     }
 
     void SetPlayerInRange(float playerDistance)

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class WaveSpawner : MonoBehaviour
 {
     public GameObject enemy;
-    private int maxEnemies = 5;
+    private int maxEnemies = 1;
     private int aantalEnemies = 0;
     public float SpawnRate = 1f;
     private float spawnRange = 10;
