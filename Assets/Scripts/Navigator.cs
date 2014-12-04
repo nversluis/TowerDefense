@@ -11,7 +11,7 @@ public class Navigator : MonoBehaviour {
     // Make a layer mask for the ray casts
     static LayerMask layerMask = 1<<10;
     // Create the D-factor that is used to balance the importance of g- and h-cost.
-    public static float D = 0.1f;
+    public static float D = 0.05f;
 
     /* DEBUG */
     static float drawTime1;
@@ -24,6 +24,8 @@ public class Navigator : MonoBehaviour {
 
         /* DEBUG */
         Debug.Log("Start point: " + startPoint);
+
+        List<WayPoint> openNodesClone = openNodes;
 
         float startTime = Time.realtimeSinceStartup;
 
@@ -65,7 +67,6 @@ public class Navigator : MonoBehaviour {
         else if((start_z % gridSize) == 0) {
             start_z += 0.01f * Random.value;
         }
-        Debug.Log("Made it past line 68!");
 
         /* DEBUG */
         //Debug.Log("First node position =" + grid[0].getPosition());
@@ -106,7 +107,6 @@ public class Navigator : MonoBehaviour {
             Debug.DrawLine(startPoint, startNodes[i], Color.white, Mathf.Infinity, false);
         }
         /* DEBUG */
-        Debug.Log("Made it past line 109!");
         // Add found nodes to destination list of start node if they are visible and set their state to open
         bool openDestinationsExist = false;
         for(int i = 0; i < startNodes.Count; i++) {
@@ -122,32 +122,33 @@ public class Navigator : MonoBehaviour {
                 openDestinationsExist = true;
             }
         }
-        Debug.Log("Made it past line 125!");
         // Our current WP is the starting WP
         WayPoint currentWP = startWP;
         path.Add(currentWP.getPosition());
 
         /** ROUTE CALCULATION **/
-        Debug.Log("Made it past Initialization!");
         while(openDestinationsExist) {
+
             // There should not be a scenario in which there are no more open destinations, but still:            
             if(openNodes.Count == 0) {
                 Debug.Log("Error: route stuck with no destinations, empty path returned");
                 return null;
             }
-            Debug.Log("Made it past line 138!");
+
             // Move to cheapest WP and set it as closed
-            openNodes[0].setPrevious(currentWP);
+            /* DEBUG */
+            WayPoint previousWP = currentWP;
+            /* DEBUG */
             currentWP = openNodes[0];
             currentWP.setState("closed");
             openNodes.Remove(currentWP);
-            Debug.Log("Made it past line 144!");
+
             /* DEBUG */
             temp = Time.realtimeSinceStartup;
-            Debug.DrawLine(currentWP.getPosition(), currentWP.getPrevious().getPosition(), Color.red, Mathf.Infinity, false);
+            Debug.DrawLine(currentWP.getPosition(), previousWP.getPosition(), Color.red, Mathf.Infinity, false);
             drawTime2 += temp - Time.realtimeSinceStartup;
             /* DEBUG */
-            Debug.Log("Made it past line 150!");
+
             // If the current waypoint is the endpoint, stop searching and build the route
             if(CloseEnoughToDestination(currentWP, endPoint)) {
                 endWP.setPrevious(currentWP);
@@ -155,7 +156,7 @@ public class Navigator : MonoBehaviour {
                 openDestinationsExist = false;
                 break;
             }
-            Debug.Log("Made it past line 157!");
+
             // Find unexplored nodes and open them if they seem useful
             for(int i = 0; i < currentWP.getDestinations().Count; i++) {
                 WayPoint neighbour = currentWP.getDestinations()[i];
@@ -163,13 +164,13 @@ public class Navigator : MonoBehaviour {
                 if(!(neighbour.getState() == "closed")) {
                     float potential_g_Cost = CalculateGCost(currentWP, neighbour);
                     // If a cheaper g cost is found via the current WayPoint, update it
-                    if(neighbour.getState() == "open" && potential_g_Cost < neighbour.getGCost()) {
+                    if(neighbour.getState() == "open" && potential_g_Cost < neighbour.getFCost()) {
                         neighbour.setGCost(potential_g_Cost);
                         neighbour.setFCost(CalculateFCost(currentWP, neighbour, endWP));
                         neighbour.setPrevious(currentWP);
                     }
                     if(neighbour.getState() == "unexplored") {
-                        neighbour.setGCost(CalculateGCost(currentWP, neighbour));
+                        neighbour.setGCost(potential_g_Cost);
                         neighbour.setFCost(CalculateFCost(currentWP, neighbour, endWP));
                         neighbour.setPrevious(currentWP);
                         neighbour.setState("open");
@@ -178,7 +179,7 @@ public class Navigator : MonoBehaviour {
                 }
             }
         }
-        Debug.Log("Made it past line 181!");
+
         /* DEBUG */
         float timeSpent = Time.realtimeSinceStartup - startTime - drawTime1 - drawTime2;
         Debug.Log("Time spent calculating:" + timeSpent);
@@ -279,8 +280,8 @@ public class Navigator : MonoBehaviour {
         float h_cost = Heuristic(destination.getPosition(), endpoint.getPosition());
         
         /* DEBUG */
-        //Debug.Log("g-cost: " + g_cost);
-        //Debug.Log("h-cost: " + D * h_cost);
+        Debug.Log("g-cost: " + g_cost);
+        Debug.Log("h-cost: " + D * h_cost);
         /* DEBUG */
 
         // Balance heuristic influence using D (the higher D, the faster the calculation, but the lower the accuracy);
@@ -310,6 +311,7 @@ public class Navigator : MonoBehaviour {
         for(int i = 0; i < openNodes.Count; i++){
             if(newFCost < openNodes[i].getFCost()) {
                 openNodes.Insert(i, newWp);
+                break;
             }
         }
     }
