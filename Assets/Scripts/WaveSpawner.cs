@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class WaveSpawner : MonoBehaviour
 {
     public GameObject enemy;
-    private int maxEnemies = 5;
+    private int maxEnemies = 1;
     private int aantalEnemies = 0;
     public float SpawnRate = 1f;
     private float spawnRange = 10;
@@ -21,6 +21,7 @@ public class WaveSpawner : MonoBehaviour
         //InvokeRepeating("Spawning", 0, 3);
         GameObject Enemy = (GameObject)Instantiate(enemy, transform.position + new Vector3(0f, orcHeigthSpawn, 0f), Quaternion.identity);
         Enemy.name = "enemy";
+        Enemy.transform.FindChild("Floor").transform.position = transform.position;
     }
 
     // Update is called once per frame
