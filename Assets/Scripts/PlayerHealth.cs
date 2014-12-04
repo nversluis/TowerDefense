@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PlayerHealth : MonoBehaviour {
 
-    private int startingHealth = 10000;
+    private int startingHealth = 100000;
     public int currentHealth;
 
     bool isDead = false;

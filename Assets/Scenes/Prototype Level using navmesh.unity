@@ -412,6 +412,7 @@ GameObject:
   - 143: {fileID: 425345257}
   - 114: {fileID: 425345259}
   - 114: {fileID: 425345256}
+  - 54: {fileID: 425345260}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -493,6 +494,21 @@ MonoBehaviour:
   Tower1: {fileID: 100002, guid: 5ad838e3c1e22cb4e9db103623b00c46, type: 2}
   Tower2: {fileID: 0}
   FloorTower1: {fileID: 0}
+--- !u!54 &425345260
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 425345254}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: .0500000007
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &674659576
 GameObject:
   m_ObjectHideFlags: 0
@@ -632,7 +648,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 4294966783
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

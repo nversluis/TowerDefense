@@ -5,26 +5,19 @@ using System.Collections.Generic;
 public class EnemyStats : MonoBehaviour {
 
     private List<int> stats;
-    private int totalStatPoints = 600;
+    private int totalStatPoints = 100;
     private string type;
 
     // Stats van een enemy
-    private int health;
-    private int meleeAttack;
-    private int rangeAttack;
-    private int meleeDefense;
-    private int rangeDefense;
-    private int speed;
+    public int health;
+    public int attack;
+    public int defense;
+    public int speed;
 
     // Damage output van een enemy
     private float DamageToBase;
     private float DamageToPlayer;
     private float DamageToTower;
-
-    public EnemyStats()
-    {
-        generateEnemyStats();
-    }
     
     /// <summary>
     /// Genereert een lijst van n random numbers die opsommen tot sum.
@@ -65,13 +58,11 @@ public class EnemyStats : MonoBehaviour {
     
     public void generateEnemyStats()
     {
-        this.stats = randomNumberGenerator(6, totalStatPoints);
+        this.stats = randomNumberGenerator(4, totalStatPoints);
         this.health = stats[0];
-        this.meleeAttack = stats[1];
-        this.rangeAttack = stats[2];
-        this.meleeDefense = stats[3];
-        this.rangeDefense = stats[4];
-        this.speed = stats[5];
+        this.attack = stats[1];
+        this.defense = stats[2];
+        this.speed = stats[3];
     }
 
     public float fitness() {
@@ -145,29 +136,10 @@ public class EnemyStats : MonoBehaviour {
 
     }
 
-    public float getHealth() {
-        return health;
-    }
-
-     public float getMeleeAttack() {
-        return meleeAttack;
-    }
-
-     public float getRangeAttack() {
-        return rangeAttack;
-    }
-
-     public float getMeleeDefense() {
-        return meleeDefense;
-    }
-
-     public float getRangeSpeed() {
-        return rangeDefense;
-    }
-
-     public float getSpeed() {
-        return speed;
-    }
+     void Awake()
+     {
+         generateEnemyStats();
+     }
 
 	// Use this for initialization
 	void Start () {
