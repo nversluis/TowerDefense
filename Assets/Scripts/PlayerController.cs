@@ -10,20 +10,25 @@ public class PlayerController : MonoBehaviour
     public GameObject Bullet;
 
     private float playerSpeed = 0.4f;
-    private float BulletSpeed = 3000f;
+    private float BulletSpeed = 30f;
     private float camAngleX;
     private float camAngleY;
     private float distortion;
     private float turnSpeed = 0.5f;
+    private float jumpSpeed = 1.5f;
+    private float gravity = 2f;
+    private float moveY;
+    private CharacterController charController;
     public static bool moving;
     public AudioClip magic;
     public static Vector3 location;
+
 
     // Method for getting player input
     private Vector3 playerInput()
     {
         // initializing the player controller
-        CharacterController charController = GetComponent<CharacterController>();
+        charController = GetComponent<CharacterController>();
 
         // determining the camera angle around origin y and the inputs of the user
         camAngleY = camera.transform.rotation.eulerAngles.y;
@@ -32,11 +37,15 @@ public class PlayerController : MonoBehaviour
 
         // Movements of player
         float moveX = Mathf.Cos(camAngleY * Mathf.Deg2Rad) * inHorz + Mathf.Sin(camAngleY * Mathf.Deg2Rad) * inVert;
-        float moveY = 0f;
+        moveY = Ymovement(moveY);
         float moveZ = -Mathf.Sin(camAngleY * Mathf.Deg2Rad) * inHorz + Mathf.Cos(camAngleY * Mathf.Deg2Rad) * inVert;
 
+        // Jumping movements of player
+
         // creating a movement vector
-        Vector3 movement = new Vector3(moveX, moveY, moveZ);
+        Vector3 movement = new Vector3(moveX, 0f, moveZ).normalized;
+        movement = movement + new Vector3(0, moveY, 0);
+
 
         //return the movement of the player according to camera rotation and input
         return movement;
@@ -48,7 +57,6 @@ public class PlayerController : MonoBehaviour
     {
         // initializing the player controller
         CharacterController charController = GetComponent<CharacterController>();
-
         if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
         {
             // setting rotation of player in the direction of the speed of the player
@@ -99,12 +107,14 @@ public class PlayerController : MonoBehaviour
                 // correct angle of bullet to where crosshair is
                 yAngle = Mathf.Rad2Deg * Mathf.Atan(yMag / xzMag);
 
-                float bulletForceX = Mathf.Sin(camAngleY * Mathf.Deg2Rad + Mathf.Deg2Rad * 2f * (Random.value - 0.5f) * distortion) * BulletSpeed;
-                float bulletForceY = Mathf.Tan(((yAngle) * Mathf.Deg2Rad + Mathf.Deg2Rad * 2f * (Random.value - 0.5f) * distortion)) * BulletSpeed;
-                float bulletForceZ = Mathf.Cos(camAngleY * Mathf.Deg2Rad + Mathf.Deg2Rad * 2f * (Random.value - 0.5f) * distortion) * BulletSpeed;
+                float bulletForceX = Mathf.Sin(camAngleY * Mathf.Deg2Rad + Mathf.Deg2Rad * 2f * (Random.value - 0.5f) * distortion);
+                float bulletForceY = Mathf.Tan(((yAngle) * Mathf.Deg2Rad + Mathf.Deg2Rad * 2f * (Random.value - 0.5f) * distortion));
+                float bulletForceZ = Mathf.Cos(camAngleY * Mathf.Deg2Rad + Mathf.Deg2Rad * 2f * (Random.value - 0.5f) * distortion);
+
+                Vector3 bulletForce = new Vector3(bulletForceX, bulletForceY, bulletForceZ).normalized;
 
                 // add the force to the bullet
-                bullet.rigidbody.AddForce(new Vector3(bulletForceX, bulletForceY, bulletForceZ));
+                bullet.rigidbody.velocity = bulletForce * BulletSpeed;
                 AddBulletDistortion();
 
                 // looking in the direction of the camera
@@ -130,21 +140,42 @@ public class PlayerController : MonoBehaviour
     // Method that distorts the direction of the bullet
     private void AddBulletDistortion()
     {
-        distortion = distortion + 4f;
+        if (distortion <= 10)
+        {
+            distortion = distortion + 4f;
+        }
 
     }
 
     // Decrease bullet distortion over time
     private void DecreaseBulletDistortion()
     {
-        if (distortion > 0)
+        if (distortion > 0 )
         {
             distortion = distortion / 1.1f;
         }
-        else
+
+    }
+
+    private float Ymovement(float moveY)
+    {
+
+        Debug.Log(charController.isGrounded);
+        if (charController.isGrounded && moveY<=0)
         {
-            distortion = 0;
+            moveY = 0;
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                moveY = moveY + jumpSpeed;
+
+            }
         }
+
+        moveY = moveY - gravity*Time.fixedDeltaTime;
+
+        return moveY;
+
     }
 
     // Use this for initialization
@@ -171,8 +202,9 @@ public class PlayerController : MonoBehaviour
         // Move player with this method
         playerMovement();
 
-        // Decreas bullet distortion
+        // Decrease bullet distortion
         DecreaseBulletDistortion();
+
     }
 }
     

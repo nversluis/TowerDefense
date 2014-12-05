@@ -35,6 +35,7 @@ public class EnemyScript : MonoBehaviour {
             //Path = Navigator.Path(transform.FindChild("Floor").transform.position, PlayerController.location - new Vector3(0f, PlayerController.location.y, 0f));
             //i = 0;
         //}
+
     }
 
 	void BuildPath(){
