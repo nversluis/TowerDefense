@@ -10,8 +10,8 @@ public class Navigator : MonoBehaviour {
     static float gridSize = RandomMaze.gridSize;
     // Make a layer mask for the ray casts
     static LayerMask layerMask = 1<<10;
-    // Create the D-factor that is used to balance the importance of g- and h-cost.
-    public static float D = 0.5f;
+    // The higher the D-factor, the faster, but less accurate the algorithm becomes
+    public static float D = 0.15f;
 
     /* DEBUG */
     static float drawTime1;
@@ -46,6 +46,8 @@ public class Navigator : MonoBehaviour {
             wp.setFCost(0);
             wp.setPrevious(null);
         }
+
+        openNodes.Clear();
 
         // Create a new (empty) route
         List<Vector3> path = new List<Vector3>();
@@ -145,9 +147,9 @@ public class Navigator : MonoBehaviour {
             openNodes.Remove(currentWP);
 
             /* DEBUG */
-            temp = Time.realtimeSinceStartup;
-            Debug.DrawLine(currentWP.getPosition(), previousWP.getPosition(), Color.red, Mathf.Infinity, false);
-            drawTime2 += temp - Time.realtimeSinceStartup;
+            //temp = Time.realtimeSinceStartup;
+            //Debug.DrawLine(currentWP.getPosition(), previousWP.getPosition(), Color.red, Mathf.Infinity, false);
+            //drawTime2 += temp - Time.realtimeSinceStartup;
             /* DEBUG */
 
             // If the current waypoint is the endpoint, stop searching and build the route
