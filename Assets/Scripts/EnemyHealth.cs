@@ -12,7 +12,6 @@ public class EnemyHealth : MonoBehaviour {
 
     void Awake()
     {
-
         enemyStats = GetComponent<EnemyStats>();
     }
 
@@ -27,7 +26,7 @@ public class EnemyHealth : MonoBehaviour {
     {
         if (isDead)
             return;
-        currentHealth -= amount;
+        currentHealth -= amount/defense;
 
         if (currentHealth <= 0)
         {

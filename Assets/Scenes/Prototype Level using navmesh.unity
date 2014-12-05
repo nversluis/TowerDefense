@@ -153,7 +153,7 @@ GameObject:
   - 4: {fileID: 94825293}
   - 33: {fileID: 94825292}
   - 23: {fileID: 94825291}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Capsule
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -262,6 +262,7 @@ MonoBehaviour:
   maxX: 0
   maxZ: 0
   spawning: 1
+  aantalWaves: 10
 --- !u!1 &377363377
 GameObject:
   m_ObjectHideFlags: 0
@@ -632,7 +633,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 4294966783
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -768,6 +769,10 @@ Prefab:
       propertyPath: camera
       value: 
       objectReference: {fileID: 721757288}
+    - target: {fileID: 100000, guid: 048f9b43b53072a44814788470f6f6df, type: 2}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 048f9b43b53072a44814788470f6f6df, type: 2}
   m_RootGameObject: {fileID: 425345254}
