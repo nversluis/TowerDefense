@@ -147,9 +147,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   length: 20
   width: 10
-  planewidth: 16
+  planewidth: 10
   height: 2
-  nodeSize: 4
+  nodeSize: 2.5
   NumberOfPaths: 3
   planePrefab: {fileID: 100000, guid: d5eadb88565f06840a15d6822a88b64d, type: 2}
   wallPrefab: {fileID: 100000, guid: e3e7c39751284344492a03bc74fc55f0, type: 2}
@@ -157,6 +157,7 @@ MonoBehaviour:
   EnemySpawner: {fileID: 100000, guid: c3a351ed1e54c354c99c7d460d83aa16, type: 2}
   Minimapcamera: {fileID: 100000, guid: ea52609adf144e449bfeac563da51684, type: 2}
   Gate: {fileID: 100000, guid: 16cf1baaf1edf034dadc94eb5ac10fa5, type: 2}
+  torch: {fileID: 100012, guid: 3abc6258d3b3848199581033a47549d6, type: 2}
 --- !u!4 &917609580
 Transform:
   m_ObjectHideFlags: 0
