@@ -206,7 +206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7639b90c112fece41a823f9cf6864193, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  realTrap: {fileID: 100004, guid: af1557cab2eec0e4bb7de35579e830cd, type: 2}
+  realTrap: {fileID: 100004, guid: 752927e6d91a7084e99b73b8b2d8ffac, type: 2}
   redTrap: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:

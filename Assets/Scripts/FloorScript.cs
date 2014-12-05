@@ -19,7 +19,6 @@ public class FloorScript : MonoBehaviour {
 				float xOffset= ((Mathf.Round ((Ax-z) / (2 * z)) * 2 + 1) * z);
 				float Az = transform.position.z - planeW / 2 + hitpoint.z;
 				float zOffset= ((Mathf.Round ((Az-z) / (2 * z)) * 2 + 1) * z);
-				Debug.Log (transform.position.x-planeW/2-xOffset);
 				//Debug.Log (transform.position.x - planeW / 2);
 				Vector3 loc = new Vector3(-transform.position.x+planeW/2+xOffset,hitpoint.y+planeW/20,planeW/2+zOffset-transform.position.z);
 				//Debug.Log (loc);
