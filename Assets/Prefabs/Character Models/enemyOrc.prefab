@@ -406,7 +406,7 @@ GameObject:
   - 114: {fileID: 11400006}
   m_Layer: 0
   m_Name: enemyOrc
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -886,8 +886,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeBetweenAttacks: 5
   attackDamage: 1
-  attackThreshold: 2
   playerDistance: 0
+  player: {fileID: 0}
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 0

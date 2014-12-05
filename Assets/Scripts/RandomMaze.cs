@@ -180,8 +180,13 @@ public class RandomMaze : MonoBehaviour
 
 
 	private void GenerateTorche (float n, float w, float angle){
+		float torchGrootte = 2;
 		GameObject torchObj = (GameObject)Instantiate (torch, new Vector3 (n*planewidth, height * planewidth / 8, w*planewidth), Quaternion.Euler (0, angle, 0));
-		torchObj.transform.localScale = new Vector3 (1, 1, 1) * planewidth/50;
+		torchObj.transform.localScale = new Vector3 (1, 1, 1) * planewidth*torchGrootte/50;
+		torchObj.transform.GetChild (3).gameObject.transform.GetChild (1).gameObject.light.range *= planewidth*torchGrootte/10;
+		torchObj.transform.GetChild (3).gameObject.transform.GetChild (0).gameObject.particleSystem.startSize *= planewidth*torchGrootte/2;
+		torchObj.transform.GetChild (3).gameObject.transform.GetChild (0).gameObject.particleSystem.startSpeed *= planewidth*torchGrootte/2;
+
 	}
 
 	//Method to generate walls
@@ -264,16 +269,15 @@ public class RandomMaze : MonoBehaviour
 
                 for (float e = estart; e <= planewidth - eend; e = e + nodeSize)
                 {
-                    Vector2 curPos = (Vector2)positions[i];
-                    GameObject node2 = (GameObject)Instantiate(node, new Vector3(curPos[0] * planewidth + (n - planewidth/2), 0, curPos[1] * planewidth + (e - planewidth/2)), Quaternion.identity);
-                    
-                    if (!NodesPos.Contains(node2.transform.position))
+                    Vector2 curPos = (Vector2)positions[i];                   
+					Vector3 WPpos = new Vector3 (curPos [0] * planewidth + (n - planewidth / 2), 0, curPos [1] * planewidth + (e - planewidth / 2));
+
+                    if (!NodesPos.Contains(WPpos))
                     {
-                        NodesPos.Add(node2.transform.position); //Add instantiated node position to NodePos
-                        Nodes.Add(new WayPoint(node2.transform.position)); //Add Instantiated node as waypoint to Nodes
+                        NodesPos.Add(WPpos); //Add instantiated node position to NodePos
+                        Nodes.Add(new WayPoint(WPpos)); //Add Instantiated node as waypoint to Nodes
                     }
-                    else
-                        Destroy(node2); //Destroy the node if there already is a node at that position
+                   
                 }
             }
         }
