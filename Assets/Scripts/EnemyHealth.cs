@@ -5,13 +5,14 @@ public class EnemyHealth : MonoBehaviour {
 
     public int startingHealth = 100;
     public int currentHealth;
+	public int defense;
+	public EnemyStats enemyStats;
 
     bool isDead;
 
     void Awake()
     {
-<<<<<<< HEAD
-=======
+
         enemyStats = GetComponent<EnemyStats>();
     }
 
@@ -19,7 +20,6 @@ public class EnemyHealth : MonoBehaviour {
     {
         startingHealth = enemyStats.health;
         defense = enemyStats.defense;
->>>>>>> c1dd732e0360c23fe7b90f070df2ed0988fd4266
         currentHealth = startingHealth;
     }
 
