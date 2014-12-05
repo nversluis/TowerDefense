@@ -105,7 +105,6 @@ public class CameraController : MonoBehaviour {
 		if (Physics.Raycast (transform.position, transform.forward, out hit,Mathf.Infinity,mask))
         {
 			hitObject = hit.collider.gameObject;
-			Debug.Log (hitObject.name);
         }
 
 		//Set cursor to center of screen

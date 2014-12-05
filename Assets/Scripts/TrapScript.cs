@@ -17,7 +17,6 @@ public class TrapScript : MonoBehaviour {
 
 	void Update(){
 		if (Input.GetMouseButtonUp (0)) {
-			Debug.Log (4);
 			BuildTrap ();
 		}
 	}

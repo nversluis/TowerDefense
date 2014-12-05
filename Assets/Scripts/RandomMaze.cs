@@ -19,6 +19,7 @@ public class RandomMaze : MonoBehaviour
     public GameObject EnemySpawner;
 	public GameObject Minimapcamera;
 	public GameObject Gate;
+	public GameObject torch;
 
     private ArrayList positions = new ArrayList(); //Positions of the floors
     private List<Vector3> NodesPos = new List<Vector3>(); //Positions of the waypoints/nodes
@@ -103,15 +104,15 @@ public class RandomMaze : MonoBehaviour
 						ceil.transform.Rotate (new Vector3 (180, 0, 0));
 						ceil.gameObject.transform.localScale = new Vector3(planewidth/10, 0.1f, planewidth/10); //Scale the floor
 
-                        if (ba % 2 == 0) //if ba is even generate a light at current position
-                        {
-                            GameObject lightGameObject = new GameObject("Light");
-                            lightGameObject.AddComponent<Light>();
-
-							lightGameObject.transform.position = new Vector3(curPos[0] * planewidth, height*0.7f, curPos[1] * planewidth);
-                            lightGameObject.transform.parent = gameObject.transform;
-                        }
-                    }
+//                        if (ba % 2 == 0) //if ba is even generate a light at current position
+//                        {
+//                            GameObject lightGameObject = new GameObject("Light");
+//                            lightGameObject.AddComponent<Light>();
+//
+//							lightGameObject.transform.position = new Vector3(curPos[0] * planewidth, height*0.7f, curPos[1] * planewidth);
+//                            lightGameObject.transform.parent = gameObject.transform;
+//                        }
+	                    }
 
                     //next position
 					//Is biased to go east. Can go west
@@ -176,6 +177,13 @@ public class RandomMaze : MonoBehaviour
         GameObject enemySpawner = (GameObject)Instantiate(EnemySpawner, new Vector3(endPos.x*planewidth, 0f, endPos.y*planewidth), Quaternion.identity);    
 
     }
+
+
+	private void GenerateTorche (float n, float w, float angle){
+		GameObject torchObj = (GameObject)Instantiate (torch, new Vector3 (n*planewidth, height * planewidth / 8, w*planewidth), Quaternion.Euler (0, angle, 0));
+		torchObj.transform.localScale = new Vector3 (1, 1, 1) * planewidth/50;
+	}
+
 	//Method to generate walls
     private void GenerateWall()
     {
@@ -187,6 +195,8 @@ public class RandomMaze : MonoBehaviour
                 {
                     if (!positions.Contains(new Vector2(l + 1, w))) //If there no floor east, create a wall east
                     {
+						if((l+w)%2==0)
+						GenerateTorche(l + 0.5f, w , 90);
 						GameObject wall = (GameObject)Instantiate(wallPrefab, new Vector3((l + 0.5f) * planewidth, height*planewidth / 2, w * planewidth), Quaternion.Euler(90, -90, 0));
                         wall.gameObject.transform.localScale = new Vector3(planewidth / 10 + .001f, height * planewidth, height * planewidth / 10 + .001f);
                         wall.transform.parent = gameObject.transform;
@@ -194,6 +204,8 @@ public class RandomMaze : MonoBehaviour
                     }
 					if (!positions.Contains(new Vector2(l - 1, w))&&new Vector2(l,w)!=new Vector2(0,0)&&new Vector2(l,w)!=new Vector2(0,-1)) //If there is no floor west, create a wall west
                     {
+						if((l+w)%2==0)
+						GenerateTorche (l - 0.5f, w , -90);
 						GameObject wall = (GameObject)Instantiate(wallPrefab, new Vector3((l - 0.5f) * planewidth, height*planewidth / 2, w * planewidth), Quaternion.Euler(90, 90, 0));
                         wall.gameObject.transform.localScale = new Vector3(planewidth / 10 + .001f, height * planewidth, height * planewidth / 10 + .001f);
                         wall.transform.parent = gameObject.transform;
@@ -202,6 +214,8 @@ public class RandomMaze : MonoBehaviour
                     }
 					if (!positions.Contains(new Vector2(l, w + 1))) //If there is no floor north, create a wall north
                     {
+						if((l+w)%2==1)
+						GenerateTorche (l, w+0.5f , 0);
 						GameObject wall = (GameObject)Instantiate(wallPrefab, new Vector3(l * planewidth, height*planewidth / 2, (w + 0.5f) * planewidth), Quaternion.Euler(-90, 0, 0));
                         wall.gameObject.transform.localScale = new Vector3(planewidth / 10 + .001f, height * planewidth, height * planewidth / 10 + .001f);
                         wall.transform.parent = gameObject.transform;
@@ -210,6 +224,8 @@ public class RandomMaze : MonoBehaviour
                     }
 					if (!positions.Contains(new Vector2(l, w - 1))) //If there is no floor south, create a wall south
                     {
+						if((l+w)%2==1)
+						GenerateTorche (l,w-0.5f , 180);
 						GameObject wall = (GameObject)Instantiate(wallPrefab, new Vector3(l * planewidth, height*planewidth / 2, (w - 0.5f) * planewidth), Quaternion.Euler(90, 0, 0));
                         wall.gameObject.transform.localScale = new Vector3(planewidth / 10 + .001f, height * planewidth, height * planewidth / 10 + .001f);
                         wall.transform.parent = gameObject.transform;
