@@ -5,6 +5,7 @@ public class PlayerHealth : MonoBehaviour {
 
     private int startingHealth = 10000;
     public int currentHealth;
+    public int defence = 10;
 
     bool isDead = false;
     bool damaged = false;
@@ -29,7 +30,7 @@ public class PlayerHealth : MonoBehaviour {
     internal void TakeDamage(int amount)
     {
         damaged = true;
-        currentHealth -= amount;
+        currentHealth -= amount/defence;
         if (currentHealth <= 0 && !isDead)
         {
             Death();
