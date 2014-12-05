@@ -126,7 +126,7 @@ MonoBehaviour:
   bullet: {fileID: 100000, guid: 1b2fbfa5bc2ebc9428f28105eca1c5c9, type: 2}
   bulletSpeed: 20
   coolDownTime: .300000012
-  enemyTag: Player
+  enemyTag: Enemy
 --- !u!136 &13600000
 CapsuleCollider:
   m_ObjectHideFlags: 1
