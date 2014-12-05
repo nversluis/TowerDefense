@@ -14,6 +14,8 @@ public class WaveSpawner : MonoBehaviour
     float orcHeigthSpawn = 3.27f;
     public bool spawning = true;
 
+    public int aantalWaves = 10;
+
 
     // Use this for initialization
     void Start()
@@ -26,21 +28,24 @@ public class WaveSpawner : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        float rand = Random.value;
-        if (spawning)
+        for (int i = 0; i < aantalEnemies; i++)
         {
-            if (rand < 1 / SpawnRate && aantalEnemies < maxEnemies)
+            float rand = Random.value;
+            if (spawning)
             {
-                float randX = Random.Range(-maxX / 2, maxX / 2);
-                float randZ = Random.Range(-maxZ / 2, maxZ / 2);
+                if (rand < 1 / SpawnRate && aantalEnemies < maxEnemies)
+                {
+                    float randX = Random.Range(-maxX / 2, maxX / 2);
+                    float randZ = Random.Range(-maxZ / 2, maxZ / 2);
 
-                GameObject Enemy = (GameObject)Instantiate(enemy, transform.position + new Vector3(randX, 0f, randZ), Quaternion.identity);
-                Enemy.name = "enemy";
-                aantalEnemies++;
-            }
-            else
-            {
-                spawning = false;
+                    GameObject Enemy = (GameObject)Instantiate(enemy, transform.position + new Vector3(randX, 0f, randZ), Quaternion.identity);
+                    Enemy.name = "enemy";
+                    aantalEnemies++;
+                }
+                else
+                {
+                    spawning = false;
+                }
             }
         }
     }

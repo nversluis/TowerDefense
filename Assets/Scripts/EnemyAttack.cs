@@ -40,9 +40,9 @@ public class EnemyAttack : MonoBehaviour {
         }
     }
 
-   /* void OnCollisionEnter(Collision other)
+   /*void OnCollisionEnter(Collision other)
     {
-        Debug.Log(other.gameObject.tag);
+        Debug.Log("Functie OnCollisionEnter wordt doorlopen");
         if (other.gameObject.tag == "Player")
         {
             playerInRange = true;
