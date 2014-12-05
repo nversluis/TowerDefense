@@ -36,7 +36,7 @@ public class EnemyScript : MonoBehaviour {
         {
             i = 0;
         }
-        if (Input.GetKeyDown(KeyCode.Space) || Path == null)
+        if (Path == null)
         {
             Debug.Log("Space Ingedrukt");
             Path = Navigator.Path(transform.FindChild("Floor").transform.position, PlayerController.location - new Vector3(0f, PlayerController.location.y, 0f));
