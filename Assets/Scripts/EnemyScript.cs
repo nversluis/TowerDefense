@@ -17,7 +17,7 @@ public class EnemyScript : MonoBehaviour {
 		InvokeRepeating ("BuildPath", 0, 0.1f);
 	}
 
-	// Update is called once per frame
+	 //Update is called once per frame
     void FixedUpdate()
     {
 

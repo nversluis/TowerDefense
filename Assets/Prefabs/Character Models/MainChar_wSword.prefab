@@ -752,7 +752,7 @@ MonoBehaviour:
   magic: {fileID: 8300000, guid: b87f856579306f4479099fc0301b292f, type: 3}
 --- !u!114 &11400004
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100040}
