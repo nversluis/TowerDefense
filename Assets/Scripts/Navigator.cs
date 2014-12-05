@@ -14,9 +14,9 @@ public class Navigator : MonoBehaviour {
     public static float D = 0.15f;
 
     /* DEBUG */
-    static float drawTime1;
-    static float drawTime2;
-    static float drawTime3;
+    //static float drawTime1;
+    //static float drawTime2;
+    //static float drawTime3;
     /* DEBUG */
 
     public static List<Vector3> Path(Vector3 startPoint, Vector3 endPoint) {
@@ -27,15 +27,15 @@ public class Navigator : MonoBehaviour {
 
         //List<WayPoint> openNodesClone = openNodes;
 
-        float startTime = Time.realtimeSinceStartup;
+        //float startTime = Time.realtimeSinceStartup;
 
-        drawTime1 = 0;
-        drawTime2 = 0;
-        drawTime3 = 0;
+        //drawTime1 = 0;
+        //drawTime2 = 0;
+        //drawTime3 = 0;
 
-        float temp = Time.realtimeSinceStartup;
-        Debug.DrawLine(startPoint, endPoint, Color.yellow, Mathf.Infinity, false);
-        drawTime1 = Time.realtimeSinceStartup - temp;
+        //float temp = Time.realtimeSinceStartup;
+        //Debug.DrawLine(startPoint, endPoint, Color.yellow, Mathf.Infinity, false);
+        //drawTime1 = Time.realtimeSinceStartup - temp;
         /* DEBUG */
 
         // Load the grid and clear any leftovers from possible previous navigation attempts.
@@ -104,10 +104,10 @@ public class Navigator : MonoBehaviour {
 
         /* DEBUG */
         //Debug.Log("There are " + startNodes.Count + " locations to look for nodes:");
-        for(int i = 0; i < startNodes.Count; i++) {
-            //Debug.Log("Node " + i + ": " + startNodes[i]);
-            Debug.DrawLine(startPoint, startNodes[i], Color.white, Mathf.Infinity, false);
-        }
+        //for(int i = 0; i < startNodes.Count; i++) {
+        //    //Debug.Log("Node " + i + ": " + startNodes[i]);
+        //    Debug.DrawLine(startPoint, startNodes[i], Color.white, Mathf.Infinity, false);
+        //}
         /* DEBUG */
         // Add found nodes to destination list of start node if they are visible and set their state to open
         bool openDestinationsExist = false;
@@ -134,13 +134,13 @@ public class Navigator : MonoBehaviour {
 
             // There should not be a scenario in which there are no more open destinations, but still:            
             if(openNodes.Count == 0) {
-                Debug.LogError("Error: route stuck with no destinations, empty path returned");
+                Debug.Log("Route stuck with no destinations, empty path returned");
                 return null;
             }
 
             // Move to cheapest WP and set it as closed
             /* DEBUG */
-            WayPoint previousWP = currentWP;
+            //WayPoint previousWP = currentWP;
             /* DEBUG */
             currentWP = openNodes[0];
             currentWP.setState("closed");
@@ -187,8 +187,8 @@ public class Navigator : MonoBehaviour {
         }
 
         /* DEBUG */
-        float timeSpent = Time.realtimeSinceStartup - startTime - drawTime1 - drawTime2;
-        Debug.Log("Time spent calculating:" + timeSpent);
+        //float timeSpent = Time.realtimeSinceStartup - startTime - drawTime1 - drawTime2;
+        //Debug.Log("Time spent calculating:" + timeSpent);
         /* DEBUG */
 
         return path;
@@ -262,9 +262,9 @@ public class Navigator : MonoBehaviour {
             }
             bestPath.Insert(0, currWP.getPosition());
             /* DEBUG */
-            float temp = Time.realtimeSinceStartup;
-            Debug.DrawLine(currWP.getPosition(), currWP.getPrevious().getPosition(), Color.blue, Mathf.Infinity, false);
-            drawTime3 += Time.realtimeSinceStartup - temp;
+            //float temp = Time.realtimeSinceStartup;
+            //Debug.DrawLine(currWP.getPosition(), currWP.getPrevious().getPosition(), Color.blue, Mathf.Infinity, false);
+            //drawTime3 += Time.realtimeSinceStartup - temp;
             /* DEBUG */
             currWP = currWP.getPrevious();
         }
