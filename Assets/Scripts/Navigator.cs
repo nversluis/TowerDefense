@@ -10,8 +10,8 @@ public class Navigator : MonoBehaviour {
     static float gridSize = RandomMaze.gridSize;
     // Make a layer mask for the ray casts
     static LayerMask layerMask = 1<<10;
-    // Create the D-factor that is used to balance the importance of g- and h-cost.
-    public static float D = 0.05f;
+    // The higher the D-factor, the faster, but less accurate the algorithm becomes
+    public static float D = 0.15f;
 
     /* DEBUG */
     static float drawTime1;
@@ -23,9 +23,9 @@ public class Navigator : MonoBehaviour {
         /** INITIALIZATION **/
 
         /* DEBUG */
-        Debug.Log("Start point: " + startPoint);
+        //Debug.Log("Start point: " + startPoint);
 
-        List<WayPoint> openNodesClone = openNodes;
+        //List<WayPoint> openNodesClone = openNodes;
 
         float startTime = Time.realtimeSinceStartup;
 
@@ -46,6 +46,8 @@ public class Navigator : MonoBehaviour {
             wp.setFCost(0);
             wp.setPrevious(null);
         }
+
+        openNodes.Clear();
 
         // Create a new (empty) route
         List<Vector3> path = new List<Vector3>();
@@ -115,6 +117,7 @@ public class Navigator : MonoBehaviour {
                 WayPoint newDest = FindWayPointAt(startNodes[i], grid);
                 newDest.setGCost(CalculateGCost(startWP, newDest));
                 newDest.setFCost(CalculateFCost(startWP, newDest, endWP));
+                newDest.setPrevious(startWP);
                 newDest.setState("open");
                 startWP.AddNode(newDest);
                 AddToOpenNodes(newDest);
@@ -131,7 +134,7 @@ public class Navigator : MonoBehaviour {
 
             // There should not be a scenario in which there are no more open destinations, but still:            
             if(openNodes.Count == 0) {
-                Debug.Log("Error: route stuck with no destinations, empty path returned");
+                Debug.LogError("Error: route stuck with no destinations, empty path returned");
                 return null;
             }
 
@@ -144,9 +147,9 @@ public class Navigator : MonoBehaviour {
             openNodes.Remove(currentWP);
 
             /* DEBUG */
-            temp = Time.realtimeSinceStartup;
-            Debug.DrawLine(currentWP.getPosition(), previousWP.getPosition(), Color.red, Mathf.Infinity, false);
-            drawTime2 += temp - Time.realtimeSinceStartup;
+            //temp = Time.realtimeSinceStartup;
+            //Debug.DrawLine(currentWP.getPosition(), previousWP.getPosition(), Color.red, Mathf.Infinity, false);
+            //drawTime2 += temp - Time.realtimeSinceStartup;
             /* DEBUG */
 
             // If the current waypoint is the endpoint, stop searching and build the route
@@ -164,10 +167,13 @@ public class Navigator : MonoBehaviour {
                 if(!(neighbour.getState() == "closed")) {
                     float potential_g_Cost = CalculateGCost(currentWP, neighbour);
                     // If a cheaper g cost is found via the current WayPoint, update it
-                    if(neighbour.getState() == "open" && potential_g_Cost < neighbour.getFCost()) {
+                    if(neighbour.getState() == "open" && potential_g_Cost < neighbour.getGCost()) {
                         neighbour.setGCost(potential_g_Cost);
                         neighbour.setFCost(CalculateFCost(currentWP, neighbour, endWP));
                         neighbour.setPrevious(currentWP);
+                        // Remove and re-add to keep the list sorted
+                        openNodes.Remove(neighbour);
+                        AddToOpenNodes(neighbour);
                     }
                     if(neighbour.getState() == "unexplored") {
                         neighbour.setGCost(potential_g_Cost);
@@ -226,7 +232,7 @@ public class Navigator : MonoBehaviour {
         if(pos == end) {
             return true;
         } 
-        else if((!Physics.Raycast(pos, end - pos, (pos - end).magnitude, layerMask)) && Mathf.Abs(pos.x - end.x) <= gridSize && Mathf.Abs(pos.z - end.z) <= gridSize) {
+        else if((!Physics.Raycast(pos, end - pos, (pos - end).magnitude + .1f, layerMask)) && Mathf.Abs(pos.x - end.x) <= gridSize && Mathf.Abs(pos.z - end.z) <= gridSize) {
             return true;
         }
         return false;
@@ -249,19 +255,18 @@ public class Navigator : MonoBehaviour {
     static List<Vector3> ReconstructPath(Vector3 startPos, WayPoint endWP) {
         List<Vector3> bestPath = new List<Vector3>();
         WayPoint currWP = endWP;
-        bestPath.Add(endWP.getPosition());
         while(true) {
+            if(currWP.getPosition() == startPos) {
+                bestPath.Insert(0, startPos);
+                break;
+            }
+            bestPath.Insert(0, currWP.getPosition());
             /* DEBUG */
             float temp = Time.realtimeSinceStartup;
             Debug.DrawLine(currWP.getPosition(), currWP.getPrevious().getPosition(), Color.blue, Mathf.Infinity, false);
             drawTime3 += Time.realtimeSinceStartup - temp;
             /* DEBUG */
             currWP = currWP.getPrevious();
-            if(currWP.getPosition() == startPos) {
-                bestPath.Insert(0,startPos);
-                break;
-            }
-            bestPath.Insert(0,currWP.getPosition());
         }
         return bestPath;
     }
@@ -280,8 +285,8 @@ public class Navigator : MonoBehaviour {
         float h_cost = Heuristic(destination.getPosition(), endpoint.getPosition());
         
         /* DEBUG */
-        Debug.Log("g-cost: " + g_cost);
-        Debug.Log("h-cost: " + D * h_cost);
+        //Debug.Log("g-cost: " + g_cost);
+        //Debug.Log("h-cost: " + D * h_cost);
         /* DEBUG */
 
         // Balance heuristic influence using D (the higher D, the faster the calculation, but the lower the accuracy);
@@ -308,12 +313,13 @@ public class Navigator : MonoBehaviour {
         if(openNodes.Count == 0) {
             openNodes.Add(newWp);
         }
-        for(int i = 0; i < openNodes.Count; i++){
+        for(int i = 0; i < openNodes.Count; i++) {
             if(newFCost < openNodes[i].getFCost()) {
                 openNodes.Insert(i, newWp);
-                break;
+                return;
             }
         }
+        // If the code reaches this line, the new WP has the highest value so far, so add it to the list's end.
+        openNodes.Add(newWp);
     }
-
 }

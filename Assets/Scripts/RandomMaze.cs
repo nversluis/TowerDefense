@@ -28,18 +28,9 @@ public class RandomMaze : MonoBehaviour
     public static float gridSize;
 
     /* NAVIGATOR TEST CODE */
-    //static GameObject enemy;
-    //static Transform enemyTr;
-    static List<Vector3> testPath;
-    static Vector3 start;
-    static Vector3 end;
-    //static Vector3 prevPos;
-    //static Vector3 currPos;
-    //static float startTime;
-    //static float speed = .05f;
-    //static float navLength;
-    //static float smooth = .5f;
-    //static int i;
+    //static List<Vector3> testPath;
+    //static Vector3 start;
+    //static Vector3 end;
     /* NAVIGATOR TEST CODE */
 
     //Use this for initialization
@@ -77,39 +68,8 @@ public class RandomMaze : MonoBehaviour
         //{
         //    Debug.Log("Path position " + ii + " =" + testPath[ii]);
         //}
-
-        //enemy = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        //enemyTr = enemy.GetComponent<Transform>();
-
-        //enemyTr.position = start;
-        //currPos = start;
-        //i = 1;
         /* NAVIGATOR TEST CODE */
     }
-
-    void Update() {
-    /* NAVIGATOR TEST CODE */
-    //    if(Time.realtimeSinceStartup > 2 && i < testPath.Count){
-    //        navLength = (testPath[i - 1] - testPath[i]).magnitude;
-    //        Debug.Log("Section length = " + navLength);
-    //        float distTravelled = (Time.time - startTime) * speed;
-    //        float fracJourney = distTravelled / navLength;
-    //        prevPos = currPos;
-    //        currPos = Vector3.Lerp(prevPos, testPath[i], fracJourney);
-    //        enemyTr.position = currPos;
-    //        Debug.Log("fracJourney = " + fracJourney);
-    //        if(fracJourney == 1) {
-    //            Debug.Log("Position " + i + " is:");
-    //            Debug.Log(testPath[i]);
-    //            startTime = Time.time;
-    //            i++;
-    //        }
-    //    }
-    //    else {
-    //        startTime = Time.time;
-    //    }
-    }
-    /* NAVIGATOR TEST CODE */
 
     //generate floors
     private void GenerateFloor()
@@ -228,14 +188,14 @@ public class RandomMaze : MonoBehaviour
                     if (!positions.Contains(new Vector2(l + 1, w))) //If there no floor east, create a wall east
                     {
 						GameObject wall = (GameObject)Instantiate(wallPrefab, new Vector3((l + 0.5f) * planewidth, height*planewidth / 2, w * planewidth), Quaternion.Euler(90, -90, 0));
-						wall.gameObject.transform.localScale = new Vector3(planewidth/10, height*planewidth, height*planewidth/10);
+                        wall.gameObject.transform.localScale = new Vector3(planewidth / 10 + .001f, height * planewidth, height * planewidth / 10 + .001f);
                         wall.transform.parent = gameObject.transform;
                         wall.name = "Wall";
                     }
 					if (!positions.Contains(new Vector2(l - 1, w))&&new Vector2(l,w)!=new Vector2(0,0)&&new Vector2(l,w)!=new Vector2(0,-1)) //If there is no floor west, create a wall west
                     {
 						GameObject wall = (GameObject)Instantiate(wallPrefab, new Vector3((l - 0.5f) * planewidth, height*planewidth / 2, w * planewidth), Quaternion.Euler(90, 90, 0));
-						wall.gameObject.transform.localScale = new Vector3(planewidth/10, height*planewidth, height*planewidth/10);
+                        wall.gameObject.transform.localScale = new Vector3(planewidth / 10 + .001f, height * planewidth, height * planewidth / 10 + .001f);
                         wall.transform.parent = gameObject.transform;
                         wall.name = "Wall";
 
@@ -243,7 +203,7 @@ public class RandomMaze : MonoBehaviour
 					if (!positions.Contains(new Vector2(l, w + 1))) //If there is no floor north, create a wall north
                     {
 						GameObject wall = (GameObject)Instantiate(wallPrefab, new Vector3(l * planewidth, height*planewidth / 2, (w + 0.5f) * planewidth), Quaternion.Euler(-90, 0, 0));
-						wall.gameObject.transform.localScale = new Vector3(planewidth/10, height*planewidth,height*planewidth/10);
+                        wall.gameObject.transform.localScale = new Vector3(planewidth / 10 + .001f, height * planewidth, height * planewidth / 10 + .001f);
                         wall.transform.parent = gameObject.transform;
                         wall.name = "Wall";
 
@@ -251,7 +211,7 @@ public class RandomMaze : MonoBehaviour
 					if (!positions.Contains(new Vector2(l, w - 1))) //If there is no floor south, create a wall south
                     {
 						GameObject wall = (GameObject)Instantiate(wallPrefab, new Vector3(l * planewidth, height*planewidth / 2, (w - 0.5f) * planewidth), Quaternion.Euler(90, 0, 0));
-						wall.gameObject.transform.localScale = new Vector3(planewidth/10, height*planewidth, height*planewidth/10);
+                        wall.gameObject.transform.localScale = new Vector3(planewidth / 10 + .001f, height * planewidth, height * planewidth / 10 + .001f);
                         wall.transform.parent = gameObject.transform;
                         wall.name = "Wall";
 
@@ -328,7 +288,7 @@ public class RandomMaze : MonoBehaviour
                 {
                     int r = NodesPos.IndexOf(dir + (Vector3)NodesPos[i]);
                     Nodes[i].AddNode(Nodes[r]);
-                    Debug.DrawLine((Vector3)NodesPos[i], dir + (Vector3)NodesPos[i], Color.green, 200f, false);
+                    //Debug.DrawLine((Vector3)NodesPos[i], dir + (Vector3)NodesPos[i], Color.green, 200f, false);
 
                 }
             }
