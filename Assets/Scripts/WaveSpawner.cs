@@ -23,13 +23,12 @@ public class WaveSpawner : MonoBehaviour
         //InvokeRepeating("Spawning", 0, 3);
         GameObject Enemy = (GameObject)Instantiate(enemy, transform.position + new Vector3(0f, orcHeigthSpawn, 0f), Quaternion.identity);
         Enemy.name = "enemy";
-        Enemy.transform.FindChild("Floor").transform.position = transform.position;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        for (int i = 0; i < aantalEnemies; i++)
+        for (int i = 0; i < aantalWaves; i++)
         {
             float rand = Random.value;
             if (spawning)
