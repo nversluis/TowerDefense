@@ -5,10 +5,10 @@ public class EnemyAttack : MonoBehaviour {
 
     public float timeBetweenAttacks = 5f;
     public int attackDamage = 1;
-    public int attackThreshold = 2;
+    private int attackThreshold = 10;
     public float playerDistance;
 
-    GameObject player;
+    public GameObject player;
     PlayerHealth playerHealth;
     EnemyHealth enemyHealth;
 	EnemyStats enemyStats;
@@ -17,15 +17,20 @@ public class EnemyAttack : MonoBehaviour {
 
     void Awake()
     {
-        player = GameObject.Find("Player");
-		playerHealth = player.GetComponent <PlayerHealth>();
-
-        enemyHealth = GetComponent<EnemyHealth>();
-        enemyStats = GetComponent<EnemyStats>();
+        //player = GameObject.FindGameObjectWithTag("Player");
+        //Debug.Log(player);
+        //playerHealth = player.GetComponent <PlayerHealth>();
+        //enemyHealth = GetComponent<EnemyHealth>();
+        //enemyStats = GetComponent<EnemyStats>();
     }
 
     void Start()
     {
+        player = GameObject.Find("Player");
+        Debug.Log(player);
+        playerHealth = player.GetComponent<PlayerHealth>();
+        enemyHealth = GetComponent<EnemyHealth>();
+        enemyStats = GetComponent<EnemyStats>();
         attackDamage = enemyStats.attack;
     }
 
@@ -55,6 +60,8 @@ public class EnemyAttack : MonoBehaviour {
         timer += Time.deltaTime;
         playerDistance = Vector3.Distance(player.transform.position, this.transform.position);
         SetPlayerInRange(playerDistance);
+        Debug.Log(playerInRange);
+
 
         if (timer >= timeBetweenAttacks && playerInRange)
         {

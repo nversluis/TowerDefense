@@ -19,7 +19,7 @@ public class BulletController : MonoBehaviour
 
             if (enemyHealth != null)
             {
-                Debug.Log("Ik hit de enemy");
+                Debug.Log("Ik hit de enemy!");
                 Debug.Log("Current enemy health: " + enemyHealth.currentHealth);
                 enemyHealth.TakeDamage(damagePerShot);
             }
