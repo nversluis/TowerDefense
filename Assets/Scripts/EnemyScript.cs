@@ -10,15 +10,14 @@ public class EnemyScript : MonoBehaviour {
     CharacterController characterController;
 
 	// Use this for initialization
-	void Awake () {
+	void Start () {
 
         characterController = GetComponent<CharacterController>();
-
         Path = Navigator.Path(transform.FindChild("Floor").transform.position, PlayerController.location - new Vector3(0f, PlayerController.location.y, 0f));
-
+		InvokeRepeating ("BuildPath", 0, 0.1f);
 	}
-	
-	// Update is called once per frame
+
+	 //Update is called once per frame
     void FixedUpdate()
     {
 
@@ -32,18 +31,16 @@ public class EnemyScript : MonoBehaviour {
             }
             transform.LookAt(Path[i] + new Vector3(0f, transform.position.y, 0f));
         }
-        else
-        {
-            i = 0;
-        }
-        if (Path == null)
-        {
-            Debug.Log("Space Ingedrukt");
-            Path = Navigator.Path(transform.FindChild("Floor").transform.position, PlayerController.location - new Vector3(0f, PlayerController.location.y, 0f));
-            i = 0;
-        }
+        //if(Input.GetKeyDown(KeyCode.Q)) {
+            //Path = Navigator.Path(transform.FindChild("Floor").transform.position, PlayerController.location - new Vector3(0f, PlayerController.location.y, 0f));
+            //i = 0;
+        //}
 
     }
 
+	void BuildPath(){
+		Path = Navigator.Path(transform.FindChild("Floor").transform.position, PlayerController.location - new Vector3(0f, PlayerController.location.y, 0f));
+		i = 0;
+	}
    
 }

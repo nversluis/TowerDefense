@@ -401,6 +401,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingHealth: 100
   currentHealth: 0
+  defense: 0
+  enemyStats: {fileID: 0}
 --- !u!114 &11400008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -412,6 +414,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c928c7d5088d06b4cb70a96bac54f291, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 0
+  attack: 0
+  defense: 0
+  speed: 0
 --- !u!136 &13600000
 CapsuleCollider:
   m_ObjectHideFlags: 1

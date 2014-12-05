@@ -25,10 +25,13 @@ public class CameraController : MonoBehaviour {
     // creating properties for determining which object is pointed to
     public static GameObject hitObject;
 
+	private LayerMask mask = ~(1<<9); //ignore layer 9
+
+
     private void Start()
     {
         Player = GameObject.Find("Player");
-    }
+	}
 
     // Method for determining mouse input to calculate the camera position
     private void CamMov()
@@ -99,9 +102,9 @@ public class CameraController : MonoBehaviour {
 
 
         // casting a ray to see what object is in front of the camera
-        if (Physics.Raycast(transform.position, transform.forward, out hit))
+		if (Physics.Raycast (transform.position, transform.forward, out hit,Mathf.Infinity,mask))
         {
-            hitObject = hit.collider.gameObject;
+			hitObject = hit.collider.gameObject;
         }
 
 		//Set cursor to center of screen

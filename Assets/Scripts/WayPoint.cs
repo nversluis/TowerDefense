@@ -7,7 +7,8 @@ public class WayPoint {
     private WayPoint previous;
     private List<WayPoint> destinations;
     private string state;
-    private float cost = 0;
+    private float g_cost = 0;
+    private float f_cost = 0;
 
     public WayPoint(Vector3 pos, string stt = "unexplored") {
         position = pos;
@@ -31,8 +32,12 @@ public class WayPoint {
         return state;
     }
 
-    public float getCost() {
-        return cost;
+    public float getGCost() {
+        return g_cost;
+    }
+
+    public float getFCost() {
+        return f_cost;
     }
 
     public void setPrevious(WayPoint wp) {
@@ -43,8 +48,12 @@ public class WayPoint {
         state = stt;
     }
 
-    public void setCost(float cst) {
-        cost = cst;
+    public void setGCost(float cst) {
+        g_cost = cst;
+    }
+
+    public void setFCost(float cst) {
+        f_cost = cst;
     }
 
     public void AddNode(WayPoint node) {

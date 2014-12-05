@@ -3,26 +3,30 @@ using System.Collections;
 
 public class EnemyHealth : MonoBehaviour {
 
-    public int startingHealth;
+    public int startingHealth = 100;
     public int currentHealth;
-    public int defense;
-    public EnemyStats enemyStats;
+	public int defense;
+	public EnemyStats enemyStats;
 
     bool isDead;
 
     void Awake()
     {
         enemyStats = GetComponent<EnemyStats>();
+    }
+
+    void Start()
+    {
         startingHealth = enemyStats.health;
-        currentHealth = startingHealth;
         defense = enemyStats.defense;
+        currentHealth = startingHealth;
     }
 
     public void TakeDamage(int amount)
     {
         if (isDead)
             return;
-        currentHealth -= amount/defense;
+        currentHealth -= amount/(defense+1);
 
         if (currentHealth <= 0)
         {
@@ -35,11 +39,6 @@ public class EnemyHealth : MonoBehaviour {
         isDead = true;
         Destroy(this.gameObject);
     }
-
-	// Use this for initialization
-	void Start () {
-	    
-	}
 	
 	// Update is called once per frame
 	void Update () {
