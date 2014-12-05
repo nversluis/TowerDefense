@@ -26,7 +26,7 @@ public class EnemyHealth : MonoBehaviour {
     {
         if (isDead)
             return;
-        currentHealth -= amount/defense;
+        currentHealth -= amount/(defense+1);
 
         if (currentHealth <= 0)
         {
