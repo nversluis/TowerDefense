@@ -6,7 +6,7 @@ public class EnemySpawner : MonoBehaviour
 {
 
     public GameObject enemy;
-    public float SpawnRate = 1f;
+    public float SpawnRate = 120f;
     private float spawnRange = 10;
     public float maxX;
     public float maxZ;
@@ -19,22 +19,24 @@ public class EnemySpawner : MonoBehaviour
         GameObject Enemy = (GameObject)Instantiate(enemy, transform.position+new Vector3(0f,orcHeigthSpawn,0f), Quaternion.identity);
         Enemy.name = "enemy";
         Enemy.transform.FindChild("Floor").transform.position = transform.position;
+
     }
 
-    // Update is called once per frame
-//    void FixedUpdate()
-//    {
-//        float rand=Random.value;
-//        if (rand < 1/SpawnRate)
-//        {
-//            float randX = Random.Range(-maxX / 2, maxX / 2);
-//            float randZ = Random.Range(-maxZ / 2, maxZ / 2);
-//
-//			GameObject Enemy = (GameObject)Instantiate(enemy, transform.position+new Vector3(0f,orcHeigthSpawn,0f), Quaternion.identity);
-//            Enemy.name = "enemy";
-//        }
-//    }
-//
+     //Update is called once per frame
+    void FixedUpdate()
+    {
+        float rand=Random.value;
+        if (rand < 1/SpawnRate)
+        {
+            float randX = Random.Range(-maxX / 2, maxX / 2);
+            float randZ = Random.Range(-maxZ / 2, maxZ / 2);
+
+            GameObject Enemy = (GameObject)Instantiate(enemy, transform.position + new Vector3(0f, orcHeigthSpawn, 0f), Quaternion.identity);
+            Enemy.name = "enemy";
+            Enemy.transform.FindChild("Floor").transform.position = transform.position;
+        }
+    }
+
     //void Spawning()
     //{
     //    if(SpawnRate>5)

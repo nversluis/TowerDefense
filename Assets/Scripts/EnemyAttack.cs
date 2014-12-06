@@ -27,7 +27,6 @@ public class EnemyAttack : MonoBehaviour {
     void Start()
     {
         player = GameObject.Find("Player");
-        Debug.Log(player);
         playerHealth = player.GetComponent<PlayerHealth>();
         enemyHealth = GetComponent<EnemyHealth>();
         enemyStats = GetComponent<EnemyStats>();
@@ -60,8 +59,6 @@ public class EnemyAttack : MonoBehaviour {
         timer += Time.deltaTime;
         playerDistance = Vector3.Distance(player.transform.position, this.transform.position);
         SetPlayerInRange(playerDistance);
-        Debug.Log(playerInRange);
-
 
         if (timer >= timeBetweenAttacks && playerInRange)
         {

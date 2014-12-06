@@ -187,7 +187,7 @@ public class Navigator : MonoBehaviour {
         }
 
         /* DEBUG */
-        //float timeSpent = Time.realtimeSinceStartup - startTime - drawTime1 - drawTime2;
+        //float timeSpent = Time.realtimeSinceStartup - startTime;
         //Debug.Log("Time spent calculating:" + timeSpent);
         /* DEBUG */
 

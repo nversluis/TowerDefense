@@ -16,11 +16,11 @@ public class BulletController : MonoBehaviour
         if (Physics.Raycast(PrevItLoc, transform.position - PrevItLoc, out hit, (PrevItLoc - transform.position).magnitude+0.2f))
         {
             EnemyHealth enemyHealth = hit.collider.GetComponent<EnemyHealth>();
-
+            Destroy(this.gameObject);
             if (enemyHealth != null)
             {
-                Debug.Log("Ik hit de enemy!");
-                Debug.Log("Current enemy health: " + enemyHealth.currentHealth);
+                //Debug.Log("Ik hit de enemy!");
+                //Debug.Log("Current enemy health: " + enemyHealth.currentHealth);
                 enemyHealth.TakeDamage(damagePerShot);
             }
 

@@ -160,7 +160,6 @@ public class PlayerController : MonoBehaviour
     private float Ymovement(float moveY)
     {
 
-        Debug.Log(charController.isGrounded);
         if (charController.isGrounded && moveY<=0)
         {
             moveY = 0;
@@ -193,6 +192,9 @@ public class PlayerController : MonoBehaviour
         // Run this method
         OnLeftMouseDown();
         location = transform.position;
+        
+        //GameObject[] enemys = GameObject.FindGameObjectsWithTag("Enemy");
+        //Debug.Log(enemys.Length);
 
     }
 
