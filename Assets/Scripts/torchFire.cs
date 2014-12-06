@@ -8,8 +8,8 @@ public class torchFire : MonoBehaviour {
 	private float startIntensity; //start intensity of the lamp
 	private float shakyness;
 	void Start(){
-		startlifetime = transform.transform.GetChild (1).light.intensity;
-		startIntensity = transform.transform.GetChild (0).particleSystem.startSpeed;
+		startIntensity = transform.transform.GetChild (1).light.intensity;
+		startlifetime = transform.transform.GetChild (0).particleSystem.startSize;
 		shakyness = 0.04f;
 		InvokeRepeating ("MoveLight", 0, 0.1f);
 	}
@@ -19,8 +19,7 @@ public class torchFire : MonoBehaviour {
 		//Debug.Log (NormalDist (orPos.x, shakyness));
 		float x = NormalDist ();
 		transform.transform.GetChild (1).light.intensity = startIntensity * (1 + 5*x);
-		transform.transform.GetChild (0).particleSystem.startSpeed = startlifetime*(1 + x);
-
+		transform.transform.GetChild (0).particleSystem.startSize = startlifetime*(1 + 5*x);
 	}
 
 
