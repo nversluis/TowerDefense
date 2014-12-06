@@ -25,7 +25,7 @@ public class CameraController : MonoBehaviour {
     // creating properties for determining which object is pointed to
     public static GameObject hitObject;
 
-	private LayerMask mask = ~(1<<9); //ignore layer 9
+	public static LayerMask ignoreMask = ~(1<<9); //ignore layer 9
 
 
     private void Start()
@@ -102,7 +102,7 @@ public class CameraController : MonoBehaviour {
 
 
         // casting a ray to see what object is in front of the camera
-		if (Physics.Raycast (transform.position, transform.forward, out hit,Mathf.Infinity,mask))
+		if (Physics.Raycast (transform.position, transform.forward, out hit,Mathf.Infinity,ignoreMask))
         {
 			hitObject = hit.collider.gameObject;
         }
