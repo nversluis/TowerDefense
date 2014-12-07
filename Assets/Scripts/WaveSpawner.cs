@@ -5,18 +5,14 @@ using System.Collections.Generic;
 public class WaveSpawner : MonoBehaviour
 {
     public GameObject enemy;
-    private int maxEnemies = 2;
-    private int aantalEnemies;
-    public float SpawnRate = 1f;
-    //private float spawnRange = 10;
+    public int maxEnemies = 1;
     public float maxX;
     public float maxZ;
     float orcHeigthSpawn = 3.27f;
     public bool spawning = true;
-    public bool spawningWave = false;
 
     public int maxWaves = 5;
-    public int currentWave = 0;
+    public int currentWave = 1;
 
     public ArrayList enemies;
 
@@ -24,82 +20,51 @@ public class WaveSpawner : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        //aantalEnemies = 0;
-        //InvokeRepeating("Spawning", 0, 3);
-        //GameObject Enemy = (GameObject)Instantiate(enemy, transform.position + new Vector3(0f, orcHeigthSpawn, 0f), Quaternion.identity);
-        //Enemy.name = "enemy";
         enemies = new ArrayList();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        float rand = Random.value;
-
-        if (spawning)
+        if (currentWave <= maxWaves)
         {
-            /*while (enemies.Count < maxEnemies)
+            if (spawning)
             {
-                SpawnEnemy();
-            }
-
-            for (int i = 0; i < enemies.Count; i++)
-            {
-                if ((GameObject)(enemies[i]) == null)
+                if (enemies.Count < maxEnemies)
                 {
-                    enemies.Remove(enemies[i]);
-                }
-            }*/
-
-            if (currentWave <= maxWaves)
-            {
-                if (spawningWave)
-                {
-                    if (enemies.Count < maxEnemies)
-                    {
-                        SpawnEnemy();
-                    }
-                }
-                if (enemies.Count == 0)
-                {
-                    spawningWave = true;
-                    currentWave++;
-                }
-                if (aantalEnemies == maxEnemies)
-                {
-                    spawningWave = false;
-                }
-            }
-
-            /*if (spawning)
-            {
-                if (rand < 1 / SpawnRate && enemies.Count < maxEnemies)
-                {
+                    // Spawn enemies tot het maximale aantal enemies wordt bereikt
                     SpawnEnemy();
                 }
                 else
                 {
                     spawning = false;
                 }
-
-
-                if (currentWave < maxWaves)
+            }
+            else
+            {
+                for (int i = 0; i < enemies.Count; i++)
                 {
-                    if (spawningWave)
+                    if ((GameObject)(enemies[i]) == null)
                     {
-                        SpawnEnemy();
-                    }
-                    if (aantalEnemies == 0)
-                    {
-                        spawningWave = true;
-                        currentWave++;
-                    }
-                    if (aantalEnemies == maxEnemies)
-                    {
-                        spawningWave = false;
+                        // Verwijder een enemy uit de lijst van enemies als die dood is
+                        enemies.Remove(enemies[i]);
                     }
                 }
-            }*/
+
+                if (enemies.Count == 0)
+                {
+                    // Als alle enemies dood zijn, ga naar de volgende wave
+                    currentWave++;
+                    // Spawn een extra enemy voor de volgende wave
+                    maxEnemies++;
+                    // Enemies mogen weer gespawnd worden
+                    spawning = true;
+                }
+            }
+        }
+        else
+        {
+            Debug.Log("Congratulations! You've succesfully defeated all waves of enemies!");
         }
     }
 
@@ -110,7 +75,6 @@ public class WaveSpawner : MonoBehaviour
 
         GameObject Enemy = (GameObject)Instantiate(enemy, transform.position + new Vector3(randX, 0f, randZ), Quaternion.identity);
         Enemy.name = "enemy";
-        aantalEnemies++;
         enemies.Add(Enemy);
         //Debug.Log(enemies.Count);
     }
