@@ -3,9 +3,9 @@ using System.Collections;
 
 public class EnemyMovement : MonoBehaviour 
 {
-    public Transform gate;
+    //public Transform gate;
     public Transform player;
-    public Transform tower;
+    //public Transform tower;
     public PlayerHealth playerHealth;
     public EnemyHealth enemyHealth;
 
@@ -35,18 +35,17 @@ public class EnemyMovement : MonoBehaviour
 	// Update is called once per frame
 	void Update () {
 
-        //if (enemyHealth.currentHealth > 0 && playerHealth.currentHealth > 0)
-        //if (playerHealth.currentHealth > 0)
-       // {
+        if (enemyHealth.currentHealth > 0 && playerHealth.currentHealth > 0)
+        {
             //gateDistance = Vector3.Distance(gate.transform.position, this.transform.position);
             playerDistance = Vector3.Distance(player.transform.position, this.transform.position);
             //towerDistance = Vector3.Distance(tower.transform.position, this.transform.position);
 
             nav.SetDestination(player.position);
-       // }
-        //else
-        //{
-        //    nav.enabled = false;
-        //}
+        }
+        else
+        {
+            nav.enabled = false;
+        }
 	}
 }

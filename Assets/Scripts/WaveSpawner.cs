@@ -8,7 +8,7 @@ public class WaveSpawner : MonoBehaviour
     public int maxEnemies = 1;
     public float maxX;
     public float maxZ;
-    float orcHeigthSpawn = 3.27f;
+    //float orcHeigthSpawn = 3.27f;
     public bool spawning = true;
 
     public int maxWaves = 5;
@@ -42,14 +42,7 @@ public class WaveSpawner : MonoBehaviour
             }
             else
             {
-                for (int i = 0; i < enemies.Count; i++)
-                {
-                    if ((GameObject)(enemies[i]) == null)
-                    {
-                        // Verwijder een enemy uit de lijst van enemies als die dood is
-                        enemies.Remove(enemies[i]);
-                    }
-                }
+                UpdateEnemyCount();
 
                 if (enemies.Count == 0)
                 {
@@ -77,6 +70,18 @@ public class WaveSpawner : MonoBehaviour
         Enemy.name = "enemy";
         enemies.Add(Enemy);
         //Debug.Log(enemies.Count);
+    }
+
+    void UpdateEnemyCount()
+    {
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            if ((GameObject)(enemies[i]) == null)
+            {
+                // Verwijder een enemy uit de lijst van enemies als die dood is
+                enemies.Remove(enemies[i]);
+            }
+        }
     }
 
 }

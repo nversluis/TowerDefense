@@ -8,7 +8,7 @@ public class EnemyHealth : MonoBehaviour {
 	public int defense;
 	public EnemyStats enemyStats;
 
-    bool isDead;
+    bool isDead = false;
 
     void Awake()
     {
@@ -22,13 +22,22 @@ public class EnemyHealth : MonoBehaviour {
         currentHealth = startingHealth;
     }
 
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
     public void TakeDamage(int amount)
     {
         if (isDead)
+        {
             return;
-        currentHealth -= amount/(defense+1);
+        }
 
-        if (currentHealth <= 0)
+        currentHealth -= amount/defense;
+
+        if (currentHealth <= 0 && !isDead)
         {
             Death();
         }
@@ -39,9 +48,5 @@ public class EnemyHealth : MonoBehaviour {
         isDead = true;
         Destroy(this.gameObject);
     }
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
 }

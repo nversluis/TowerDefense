@@ -3,12 +3,11 @@ using System.Collections;
 
 public class PlayerHealth : MonoBehaviour {
 
-    private int startingHealth = 10000;
+    private int startingHealth = 5000;
     public int currentHealth;
     public int defence = 10;
 
     bool isDead = false;
-    bool damaged = false;
 
     void Awake()
     {
@@ -27,9 +26,13 @@ public class PlayerHealth : MonoBehaviour {
         
     }
 
-    internal void TakeDamage(int amount)
+    public void TakeDamage(int amount)
     {
-        damaged = true;
+        if (isDead)
+        {
+            return;
+        }
+
         currentHealth -= amount/defence;
         if (currentHealth <= 0 && !isDead)
         {

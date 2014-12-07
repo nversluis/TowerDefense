@@ -15,9 +15,9 @@ public class EnemyStats : MonoBehaviour {
     public int speed;
 
     // Damage output van een enemy
-    private float DamageToBase;
-    private float DamageToPlayer;
-    private float DamageToTower;
+    //private float DamageToBase;
+    //private float DamageToPlayer;
+    //private float DamageToTower;
     
     /// <summary>
     /// Genereert een lijst van n random numbers die opsommen tot sum.
@@ -29,16 +29,22 @@ public class EnemyStats : MonoBehaviour {
     {
         List<int> randomNumbers = new List<int>();
 
-        // Kies n - 1 random getallen en voeg deze toe in de lijst
-        for (int i = 0; i < n - 1; i++)
-        {
-            int randomInt = Random.Range(0, sum);
-            randomNumbers.Add(randomInt);
-        }
-
         // Voeg 0 en sum toe aan de lijst
         randomNumbers.Add(0);
         randomNumbers.Add(sum);
+
+        int i = 0;
+        // Kies n - 1 random getallen tussen 0 en sum en voeg deze toe in de lijst
+        while (i < n - 1)
+        {
+            int randomInt = Random.Range(0, sum);
+            // Voeg alleen toe als de random waarde nog niet voorkomt in de lijst
+            if (!randomNumbers.Contains(randomInt))
+            {
+                randomNumbers.Add(randomInt);
+                i++;
+            }
+        }
 
         // Sorteer de lijst
         randomNumbers.Sort();
@@ -46,10 +52,10 @@ public class EnemyStats : MonoBehaviour {
         // Maak een nieuwe lijst aan
         List<int> result = new List<int>();
 
-        for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
         {
-            // Voeg het vershil van de elementen toe aan de nieuwe lijst
-            result.Add(randomNumbers[i + 1] - randomNumbers[i]);
+            // Voeg het vershil van de elementen toe aan de nieuwe lijst, het verschil is nooit 0 omdat elk getal in de lijst verschillend is.
+            result.Add(randomNumbers[j + 1] - randomNumbers[j]);
         }
 
         // De lijst bevat nu n willekeurige getallen die opsommen tot sum.
@@ -65,7 +71,7 @@ public class EnemyStats : MonoBehaviour {
         this.speed = stats[3];
     }
 
-    public float fitness() {
+    /*public float fitness() {
         if (type.Equals("BaseAttacker"))
         {
             return DamageToBase;
@@ -82,7 +88,7 @@ public class EnemyStats : MonoBehaviour {
         {
             return 0;
         }
-    }
+    }*/
 
 
     /// <summary>
