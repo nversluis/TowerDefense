@@ -87,12 +87,12 @@ public class PlayerController : MonoBehaviour
                 float xzMag;
                 float yMag;
                 RaycastHit hit;
-
+			
                 // creating a bullet in front of 1 unit away from Player
                 GameObject bullet = (GameObject)Instantiate(Bullet, transform.position + new Vector3((Mathf.Sin(camAngleY * Mathf.Deg2Rad)), 0f, Mathf.Cos(camAngleY * Mathf.Deg2Rad)), Quaternion.identity);
 
                 // Casting a ray and storing information to hit
-                if (!Physics.Raycast(camera.transform.position, camera.transform.forward, out hit,Mathf.Infinity,CameraController.ignoreMask))
+                if (!Physics.Raycast(camera.transform.position, camera.transform.forward, out hit))
                 {
                     xzMag = BulletController.maxBulletDistance;
                     yMag = -Mathf.Tan(camAngleX * Mathf.Deg2Rad) * (BulletController.maxBulletDistance + 10);
