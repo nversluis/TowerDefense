@@ -74,9 +74,9 @@ public class CameraController : MonoBehaviour {
 
 
         // casting a ray from player to camera and checking if it hit something
-        if (Physics.Raycast(Player.transform.position + new Vector3(0f, camOffset, 0f), relativePos, out hit, camDis + 0.5f))
+		if (Physics.Raycast(Player.transform.position + new Vector3(0f, camOffset, 0f), relativePos, out hit, camDis + 0.5f))
         {
-            hits = Physics.RaycastAll(Player.transform.position, relativePos, camDis + 0.5f);
+			hits = Physics.RaycastAll(Player.transform.position, relativePos, camDis + 0.5f);
             // setting an offset of the camera so it doesnt go through a wall
             distanceOffset = camDis - hit.distance + 0.8f;
             distanceOffset = Mathf.Clamp(distanceOffset, 0f, camDis);
@@ -102,7 +102,7 @@ public class CameraController : MonoBehaviour {
 
 
         // casting a ray to see what object is in front of the camera
-		if (Physics.Raycast (transform.position, transform.forward, out hit,Mathf.Infinity,ignoreMask))
+		if (Physics.Raycast (transform.position, transform.forward, out hit))
         {
 			hitObject = hit.collider.gameObject;
         }
