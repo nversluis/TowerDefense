@@ -44,6 +44,7 @@ MonoBehaviour:
   SpawnRate: 60
   maxX: 0
   maxZ: 0
+  multipleSpawns: 0
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -55,7 +56,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 944f66ad451dba04eb2086e397509f88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 0}
+  enemy: {fileID: 100052, guid: 8a2e017a33dbf9748ad510b090cfb8be, type: 2}
   maxEnemies: 5
   maxX: 0
   maxZ: 0

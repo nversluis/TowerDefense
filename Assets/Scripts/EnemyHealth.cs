@@ -12,6 +12,8 @@ public class EnemyHealth : MonoBehaviour {
 
     public bool isDead = false;
 
+	private GameObject textObject;
+
     void Awake()
     {
         enemyStats = GetComponent<EnemyStats>();
@@ -23,6 +25,7 @@ public class EnemyHealth : MonoBehaviour {
         defense = enemyStats.defense;
         currentHealth = startingHealth;
         startPosition = new Vector3(50, 50, 50);
+		textObject = gameObject.transform.GetChild (4).gameObject;
     }
 
     // Update is called once per frame
@@ -38,8 +41,9 @@ public class EnemyHealth : MonoBehaviour {
             return;
         }
 
-		currentHealth -= amount/(defense+1);
-
+		currentHealth -= amount/(defense);
+		textObject.SetActive (true);
+		textObject.GetComponent<TextMesh>().text = (amount/defense + "/"+currentHealth).ToString();
         if (currentHealth <= 0 && !isDead)
         {
             Death();
