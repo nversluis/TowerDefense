@@ -13,7 +13,7 @@ GameObject:
   - 114: {fileID: 11400000}
   - 65: {fileID: 6500000}
   m_Layer: 0
-  m_Name: TrapHotSpot
+  m_Name: PoisionTrapHotSpot
   m_TagString: TowerHotSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -138,7 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7639b90c112fece41a823f9cf6864193, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  realTrap: {fileID: 100004, guid: 5eeab821c266140c29d2d3654a690e34, type: 2}
+  realTrap: {fileID: 100004, guid: 00395c20601754c63bd039223cee03ff, type: 2}
   redTrap: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
