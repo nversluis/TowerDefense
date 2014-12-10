@@ -34,7 +34,7 @@ public class Navigator : MonoBehaviour {
         //drawTime3 = 0;
 
         //float temp = Time.realtimeSinceStartup;
-        Debug.DrawLine(startPoint, endPoint, Color.yellow, 2, false);
+        //Debug.DrawLine(startPoint, endPoint, Color.yellow, 2, false);
         //drawTime1 = Time.realtimeSinceStartup - temp;
         /* DEBUG */
 
@@ -98,7 +98,7 @@ public class Navigator : MonoBehaviour {
 
             // Move to cheapest WP and set it as closed
             /* DEBUG */
-            WayPoint previousWP = currentWP;
+            //WayPoint previousWP = currentWP;
             /* DEBUG */
 
             currentWP = openNodes[0];
@@ -222,7 +222,7 @@ public class Navigator : MonoBehaviour {
             bestPath.Insert(0, currWP.getPosition());
             /* DEBUG */
             //float temp = Time.realtimeSinceStartup;
-            Debug.DrawLine(currWP.getPosition(), currWP.getPrevious().getPosition(), Color.blue, 2, false);
+            //Debug.DrawLine(currWP.getPosition(), currWP.getPrevious().getPosition(), Color.blue, 2, false);
             //drawTime3 += Time.realtimeSinceStartup - temp;
             /* DEBUG */
             currWP = currWP.getPrevious();
