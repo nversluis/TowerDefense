@@ -9,6 +9,8 @@ public class EnemyAttack : MonoBehaviour
     private int attackThreshold = 5;
     public float playerDistance;
 
+    public int totalDamage;
+
     public GameObject player;
     PlayerHealth playerHealth;
     EnemyHealth enemyHealth;
@@ -18,6 +20,7 @@ public class EnemyAttack : MonoBehaviour
 
     void Start()
     {
+        totalDamage = 0;
         player = GameObject.Find("Player");
         playerHealth = player.GetComponent<PlayerHealth>();
         enemyHealth = GetComponent<EnemyHealth>();
@@ -43,6 +46,7 @@ public class EnemyAttack : MonoBehaviour
         if (playerHealth.currentHealth > 0 && playerInRange)
         {
             playerHealth.TakeDamage(attackDamage);
+            totalDamage += attackDamage;
         }
     }
 

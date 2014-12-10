@@ -14,11 +14,28 @@ public class EnemyStats : MonoBehaviour {
     public int defense;
     public int speed;
 
-    // Damage output van een enemy
-    //private float DamageToBase;
-    //private float DamageToPlayer;
-    //private float DamageToTower;
-    
+    EnemyAttack enemyAttack;
+
+    public int totalDamage;
+
+    void Awake()
+    {
+        generateEnemyStats();
+        enemyAttack = GetComponent<EnemyAttack>();
+    }
+
+    // Use this for initialization
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
     /// <summary>
     /// Genereert een lijst van n random numbers die opsommen tot sum.
     /// </summary>
@@ -71,24 +88,10 @@ public class EnemyStats : MonoBehaviour {
         this.speed = stats[3];
     }
 
-    /*public float fitness() {
-        if (type.Equals("BaseAttacker"))
-        {
-            return DamageToBase;
-        }
-        else if (type.Equals("PlayerAttacker"))
-        {
-            return DamageToPlayer;
-        }
-        else if (type.Equals("TowerAttacker"))
-        {
-            return DamageToTower;
-        }
-        else
-        {
-            return 0;
-        }
-    }*/
+    public int fitness()
+    {
+        return enemyAttack.totalDamage;
+    }
 
 
     /// <summary>
@@ -142,21 +145,7 @@ public class EnemyStats : MonoBehaviour {
 
     }
 
-     void Awake()
-     {
-         generateEnemyStats();
-     }
-
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
+    
     public int getAttack()
     {
         return attack;

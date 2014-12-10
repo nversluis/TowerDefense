@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class WaveSpawner : MonoBehaviour
+public class GAWaveSpawner : MonoBehaviour
 {
     public GameObject enemy;
     public int maxEnemies = 5;
@@ -14,7 +14,8 @@ public class WaveSpawner : MonoBehaviour
     public int maxWaves = 5;
     public int currentWave = 1;
 
-    public ArrayList enemies;
+    public ArrayList currentGen;
+    public ArrayList nextGen;
 
     EnemyAttack enemyAttack;
 
@@ -26,7 +27,8 @@ public class WaveSpawner : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        enemies = new ArrayList();
+        currentGen = new ArrayList();
+        nextGen = new ArrayList();
     }
 
     // Update is called once per frame
@@ -36,7 +38,7 @@ public class WaveSpawner : MonoBehaviour
         {
             if (spawning)
             {
-                if (enemies.Count < maxEnemies)
+                if (currentGen.Count < maxEnemies)
                 {
                     // Spawn enemies tot het maximale aantal enemies wordt bereikt
                     SpawnEnemy();
@@ -50,7 +52,7 @@ public class WaveSpawner : MonoBehaviour
             {
                 UpdateEnemyCount();
 
-                if (enemies.Count == 0)
+                if (currentGen.Count == 0)
                 {
                     // Als alle enemies dood zijn, ga naar de volgende wave
                     currentWave++;
@@ -74,21 +76,20 @@ public class WaveSpawner : MonoBehaviour
 
         GameObject Enemy = (GameObject)Instantiate(enemy, transform.position + new Vector3(randX, 0f, randZ), Quaternion.identity);
         Enemy.name = "enemy";
-        enemies.Add(Enemy);
+        currentGen.Add(Enemy);
         //Debug.Log(enemies.Count);
     }
 
     void UpdateEnemyCount()
     {
-        for (int i = 0; i < enemies.Count; i++)
+        for (int i = 0; i < currentGen.Count; i++)
         {
-            if ((GameObject)(enemies[i]) == null)
+            if ((GameObject)(currentGen[i]) == null)
             {
                 // Verwijder een enemy uit de lijst van enemies als die dood is
-                enemies.Remove(enemies[i]);
+                currentGen.Remove(currentGen[i]);
             }
         }
     }
 
 }
-
