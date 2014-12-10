@@ -15,6 +15,7 @@ public class WeaponController : MonoBehaviour
 	// Second Tower prefab
 	public GameObject FloorTower1;
 	//First FloorTower prefab
+	public GameObject FloorTower2;
 
 	public static float Distance;
 	public static GameObject curTower;
@@ -55,8 +56,11 @@ public class WeaponController : MonoBehaviour
 		//If 3 pressed, building tower will be tower 2, cant cast magic.
 		if (Input.GetKey ("3") && (curTower == null || !curTower.Equals (Tower2))) {
 			curTower = Tower2;
+			curFloorTower = FloorTower2;
+				trapGridSize=2;
 			WallScript.DestroyHotSpots ();
 			weapon = 3; 
+
 		}
 
 
