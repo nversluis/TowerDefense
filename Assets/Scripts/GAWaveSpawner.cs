@@ -10,6 +10,9 @@ public class GAWaveSpawner : MonoBehaviour
     public float maxZ;
     //float orcHeigthSpawn = 3.27f;
     public bool spawning = true;
+    public bool spawnFirstWave = true;
+
+    //public int toenameStatsPerWave = 20;
 
     public int maxWaves = 5;
     public int currentWave = 1;
@@ -18,10 +21,14 @@ public class GAWaveSpawner : MonoBehaviour
     public ArrayList nextGen;
 
     EnemyAttack enemyAttack;
+    EnemyStats enemyStats;
+    EnemyHealth enemyHealth;
 
     void Awake()
     {
         enemyAttack = GetComponent<EnemyAttack>();
+        enemyStats = GetComponent<EnemyStats>();
+        enemyHealth = GetComponent<EnemyHealth>();
     }
 
     // Use this for initialization
@@ -34,39 +41,71 @@ public class GAWaveSpawner : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (currentWave <= maxWaves)
+        if (currentWave <= maxWaves) 
         {
-            if (spawning)
+            if (spawnFirstWave)
             {
                 if (currentGen.Count < maxEnemies)
                 {
-                    // Spawn enemies tot het maximale aantal enemies wordt bereikt
                     SpawnEnemy();
                 }
                 else
                 {
-                    spawning = false;
+                    spawnFirstWave = false;
                 }
             }
             else
             {
                 UpdateEnemyCount();
+                Debug.Log(currentGen.Count);
 
                 if (currentGen.Count == 0)
                 {
-                    // Als alle enemies dood zijn, ga naar de volgende wave
                     currentWave++;
-                    // Spawn een extra enemy voor de volgende wave
-                    maxEnemies++;
-                    // Enemies mogen weer gespawnd worden
-                    spawning = true;
+                    //SpawnNextGen();
+                    // currentGen = nextGen;
+                    spawnFirstWave = true;
+
                 }
             }
+
+            //if (spawning)
+            //{
+            //    if (currentGen.Count < maxEnemies)
+            //    {
+            //        // Spawn enemies tot het maximale aantal enemies wordt bereikt
+            //        SpawnEnemy();
+            //    }
+            //    else
+            //    {
+            //        spawning = false;
+            //    }
+            //}
+            //else
+            //{
+            //    UpdateEnemyCount();
+
+            //    if (currentGen.Count == 0)
+            //    {
+            //        Debug.Log("if (currentGen.Count == 0) wordt doorlopen");
+            //        // Als alle enemies dood zijn, ga naar de volgende wave
+            //        currentWave++;
+            //        // Totale stats van enemies nemen per wave toe
+            //        // enemyStats.totalStatPoints += toenameStatsPerWave;
+            //        // Spawn een extra enemy voor de volgende wave
+            //        // maxEnemies++;
+            //        // Enemies mogen weer gespawnd worden
+            //        // spawning = true;
+            //        SpawnNextGen();
+            //        currentGen = nextGen;
+            //    }
+            //}
         }
         else
         {
-            Debug.Log("Congratulations! You've succesfully defeated all waves of enemies!");
+            //Debug.Log("Congratulations! You've succesfully defeated all waves of enemies!");
         }
+        
     }
 
     void SpawnEnemy()
@@ -84,10 +123,28 @@ public class GAWaveSpawner : MonoBehaviour
     {
         for (int i = 0; i < currentGen.Count; i++)
         {
-            if ((GameObject)(currentGen[i]) == null)
+            Debug.Log(currentGen.Count);
+            //Debug.Log(((GameObject)currentGen[i]).GetComponent<EnemyHealth>().currentHealth);
+            if (((GameObject)currentGen[i]).GetComponent<EnemyHealth>().isDead)
             {
-                // Verwijder een enemy uit de lijst van enemies als die dood is
+                // Voeg de enemy toe aan de volgende generatie
+                nextGen.Add(currentGen[i]);
+                // Verwijder de enemy uit de huidige genertatie als die dood is
                 currentGen.Remove(currentGen[i]);
+            }
+        }
+    }
+
+    void SpawnNextGen()
+    {
+        float randX = Random.Range(-maxX / 2, maxX / 2);
+        float randZ = Random.Range(-maxZ / 2, maxZ / 2);
+
+        if (nextGen.Count == 5)
+        {
+            for (int i = 0; i < nextGen.Count; i++)
+            {
+                Instantiate((GameObject)nextGen[i], transform.position + new Vector3(randX, 0f, randZ), Quaternion.identity);
             }
         }
     }

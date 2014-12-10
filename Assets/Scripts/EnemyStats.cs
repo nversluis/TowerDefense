@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class EnemyStats : MonoBehaviour {
 
     private List<int> stats;
-    private int totalStatPoints = 100;
+    public int totalStatPoints = 100;
     private string type;
 
     // Stats van een enemy
@@ -13,10 +13,9 @@ public class EnemyStats : MonoBehaviour {
     public int attack;
     public int defense;
     public int speed;
+    public int totalDamage;
 
     EnemyAttack enemyAttack;
-
-    public int totalDamage;
 
     void Awake()
     {
@@ -33,7 +32,21 @@ public class EnemyStats : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        totalDamage = enemyAttack.totalDamage;
+    }
 
+    public void generateEnemyStats()
+    {
+        this.stats = randomNumberGenerator(4, totalStatPoints);
+        this.health = stats[0];
+        this.attack = stats[1];
+        this.defense = stats[2];
+        this.speed = stats[3];
+    }
+
+    public int fitness()
+    {
+        return totalDamage;
     }
 
     /// <summary>
@@ -78,21 +91,6 @@ public class EnemyStats : MonoBehaviour {
         // De lijst bevat nu n willekeurige getallen die opsommen tot sum.
         return result;
     }
-    
-    public void generateEnemyStats()
-    {
-        this.stats = randomNumberGenerator(4, totalStatPoints);
-        this.health = stats[0];
-        this.attack = stats[1];
-        this.defense = stats[2];
-        this.speed = stats[3];
-    }
-
-    public int fitness()
-    {
-        return enemyAttack.totalDamage;
-    }
-
 
     /// <summary>
     /// Muteert een enemy door x willekeurige stats te verhogen en n - x te verlagen
@@ -138,17 +136,6 @@ public class EnemyStats : MonoBehaviour {
             // Verlaag de stats
             stats[verlaagIndices[i]] -= statverlaging[i];
         }
-    }
-
-    public void crossover()
-    {
-
-    }
-
-    
-    public int getAttack()
-    {
-        return attack;
     }
 
 }
