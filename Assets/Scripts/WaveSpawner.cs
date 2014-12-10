@@ -8,7 +8,7 @@ public class WaveSpawner : MonoBehaviour
     public int maxEnemies = 5;
     public float maxX;
     public float maxZ;
-    //float orcHeigthSpawn = 3.27f;
+    float orcHeigthSpawn = 3.27f;
     public bool spawning = true;
 
     private int maxWaves = 5;
@@ -72,8 +72,9 @@ public class WaveSpawner : MonoBehaviour
         float randX = Random.Range(-maxX / 2, maxX / 2);
         float randZ = Random.Range(-maxZ / 2, maxZ / 2);
 
-        GameObject Enemy = (GameObject)Instantiate(enemy, transform.position + new Vector3(randX, 0f, randZ), Quaternion.identity);
+        GameObject Enemy = (GameObject)Instantiate(enemy, transform.position + new Vector3(randX, orcHeigthSpawn, randZ), Quaternion.identity);
         Enemy.name = "enemy";
+        Enemy.transform.FindChild("Floor").transform.position = transform.position;
         enemies.Add(Enemy);
         //Debug.Log(enemies.Count);
     }
