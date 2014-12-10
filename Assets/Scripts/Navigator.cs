@@ -19,7 +19,7 @@ public class Navigator : MonoBehaviour {
     //static float drawTime3;
     /* DEBUG */
 
-    public static List<Vector3> Path(Vector3 startPoint, Vector3 endPoint, int optimalness) {
+    public static List<Vector3> Path(Vector3 startPoint, Vector3 endPoint) {
         /** INITIALIZATION **/
 
         /* DEBUG */
@@ -34,7 +34,7 @@ public class Navigator : MonoBehaviour {
         //drawTime3 = 0;
 
         //float temp = Time.realtimeSinceStartup;
-        //Debug.DrawLine(startPoint, endPoint, Color.yellow, Mathf.Infinity, false);
+        Debug.DrawLine(startPoint, endPoint, Color.yellow, 2, false);
         //drawTime1 = Time.realtimeSinceStartup - temp;
         /* DEBUG */
 
@@ -45,6 +45,10 @@ public class Navigator : MonoBehaviour {
             wp.setGCost(0);
             wp.setFCost(0);
             wp.setPrevious(null);
+            float penalty = wp.getPenalty();
+            if(penalty > 0) {
+                wp.setPenalty(penalty - 1);
+            }
         }
 
         openNodes.Clear();
@@ -56,74 +60,28 @@ public class Navigator : MonoBehaviour {
         startWP.setGCost(0);
         WayPoint endWP = new WayPoint(endPoint);
 
-        // Find the nearest possible destination nodes and add them to the destinations of the starting node
-
-        // Do this by rounding the current coordinates to the grid step size, thus finding the 4 nearest nodes
-        float start_x = startPoint.x;
-        float start_z = startPoint.z;
-
-        // Add small noise to the coordinates if they are already exactly on the grid, ensuring unique locations.
-        if((start_x % gridSize) == 0) {
-            start_x += 0.01f * Random.value;
-        }
-        else if((start_z % gridSize) == 0) {
-            start_z += 0.01f * Random.value;
-        }
-
-        /* DEBUG */
-        //Debug.Log("First node position =" + grid[0].getPosition());
-        /* DEBUG */
-        
-        // Find surrounding node coordinates
-        float x1 = RoundUp(start_x, gridSize);
-        float x2 = RoundDown(start_x, gridSize);
-        float z1 = RoundUp(start_z, gridSize);
-        float z2 = RoundDown(start_z, gridSize);
-
-        // Compensate for offset
-
-        float x_offset = Mathf.Abs(grid[0].getPosition().x % gridSize);
-        float z_offset = Mathf.Abs(grid[0].getPosition().z % gridSize);
-        
-        /* DEBUG */
-        //Debug.Log("X offset =" + x_offset);
-        //Debug.Log("Z offset =" + z_offset);
-        /* DEBUG */
-
-        x1 += x_offset;
-        x2 += x_offset;
-        z1 += z_offset;
-        z2 += z_offset;
-
-        // Add potential node locations to a list.
-        List<Vector3> startNodes = new List<Vector3>();
-        startNodes.Add(new Vector3(x1, 0, z1));
-        startNodes.Add(new Vector3(x1, 0, z2));
-        startNodes.Add(new Vector3(x2, 0, z1));
-        startNodes.Add(new Vector3(x2, 0, z2));
-
         /* DEBUG */
         //Debug.Log("There are " + startNodes.Count + " locations to look for nodes:");
         //for(int i = 0; i < startNodes.Count; i++) {
         //    //Debug.Log("Node " + i + ": " + startNodes[i]);
-        //    Debug.DrawLine(startPoint, startNodes[i], Color.white, Mathf.Infinity, false);
+        //    Debug.DrawLine(startPoint, startNodes[i], Color.white, 2, false);
         //}
         /* DEBUG */
+
         // Add found nodes to destination list of start node if they are visible and set their state to open
         bool openDestinationsExist = false;
+ 
+        List<WayPoint> startNodes = FindWayPointsNear(startPoint, grid);
         for(int i = 0; i < startNodes.Count; i++) {
-            if(startPoint != startNodes[i] && !Physics.Raycast(startPoint, startNodes[i] - startPoint, (startPoint - startNodes[i]).magnitude + .1f, layerMask)) {
-                // Add node to destination if it's reachable
-                WayPoint newDest = FindWayPointAt(startNodes[i], grid);
-                newDest.setGCost(CalculateGCost(startWP, newDest));
-                newDest.setFCost(CalculateFCost(startWP, newDest, endWP));
-                newDest.setPrevious(startWP);
-                newDest.setState("open");
-                startWP.AddNode(newDest);
-                AddToOpenNodes(newDest);
+                WayPoint dest = startNodes[i];
+                dest.setGCost(CalculateGCost(startWP, dest));
+                dest.setFCost(CalculateFCost(startWP, dest, endWP));
+                dest.setPrevious(startWP);
+                dest.setState("open");
+                startWP.AddNode(dest);
+                AddToOpenNodes(dest);
                 // There are still open destinations
                 openDestinationsExist = true;
-            }
         }
         // Our current WP is the starting WP
         WayPoint currentWP = startWP;
@@ -140,22 +98,16 @@ public class Navigator : MonoBehaviour {
 
             // Move to cheapest WP and set it as closed
             /* DEBUG */
-            //WayPoint previousWP = currentWP;
+            WayPoint previousWP = currentWP;
             /* DEBUG */
-            if(openNodes.Count >= optimalness) {
-                currentWP = openNodes[optimalness];
-                currentWP.setState("closed");
-                openNodes.Remove(currentWP);
-            }
-            else {
-                currentWP = openNodes[openNodes.Count];
-                currentWP.setState("closed");
-                openNodes.Remove(currentWP);
-            }
+
+            currentWP = openNodes[0];
+            currentWP.setState("closed");
+            openNodes.Remove(currentWP);
 
             /* DEBUG */
             //temp = Time.realtimeSinceStartup;
-            //Debug.DrawLine(currentWP.getPosition(), previousWP.getPosition(), Color.red, Mathf.Infinity, false);
+            //Debug.DrawLine(currentWP.getPosition(), previousWP.getPosition(), Color.red, Mathf.2, false);
             //drawTime2 += temp - Time.realtimeSinceStartup;
             /* DEBUG */
 
@@ -270,7 +222,7 @@ public class Navigator : MonoBehaviour {
             bestPath.Insert(0, currWP.getPosition());
             /* DEBUG */
             //float temp = Time.realtimeSinceStartup;
-            //Debug.DrawLine(currWP.getPosition(), currWP.getPrevious().getPosition(), Color.blue, Mathf.Infinity, false);
+            Debug.DrawLine(currWP.getPosition(), currWP.getPrevious().getPosition(), Color.blue, 2, false);
             //drawTime3 += Time.realtimeSinceStartup - temp;
             /* DEBUG */
             currWP = currWP.getPrevious();
@@ -280,7 +232,7 @@ public class Navigator : MonoBehaviour {
 
     // Function that calculates the g-cost between two waypoints (cost based on distance from start point)
     static float CalculateGCost(WayPoint current, WayPoint destination) {
-        return current.getGCost() + (current.getPosition() - destination.getPosition()).magnitude;
+        return current.getGCost() + (current.getPosition() - destination.getPosition()).magnitude + destination.getPenalty();
     }
 
     // Function that calculates the f-cost between two waypoints (cost based on distance from both start and end point)
@@ -300,6 +252,56 @@ public class Navigator : MonoBehaviour {
         return g_cost + D * h_cost;
     }
 
+    static List<Vector3> FindGridPositionsNear(Vector3 point, List<WayPoint> grid){
+        // Find the nearest possible destination nodes and add them to the destinations of the starting node
+
+        // Do this by rounding the current coordinates to the grid step size, thus finding the 4 nearest nodes
+        float start_x = point.x;
+        float start_z = point.z;
+
+        // Add small noise to the coordinates if they are already exactly on the grid, ensuring unique locations.
+        if((start_x % gridSize) == 0) {
+            start_x += 0.01f * Random.value;
+        }
+        else if((start_z % gridSize) == 0) {
+            start_z += 0.01f * Random.value;
+        }
+
+        /* DEBUG */
+        //Debug.Log("First node position =" + grid[0].getPosition());
+        /* DEBUG */
+
+        // Find surrounding node coordinates
+        float x1 = RoundUp(start_x, gridSize);
+        float x2 = RoundDown(start_x, gridSize);
+        float z1 = RoundUp(start_z, gridSize);
+        float z2 = RoundDown(start_z, gridSize);
+
+        // Compensate for offset
+
+        float x_offset = Mathf.Abs(grid[0].getPosition().x % gridSize);
+        float z_offset = Mathf.Abs(grid[0].getPosition().z % gridSize);
+
+        /* DEBUG */
+        //Debug.Log("X offset =" + x_offset);
+        //Debug.Log("Z offset =" + z_offset);
+        /* DEBUG */
+
+        x1 += x_offset;
+        x2 += x_offset;
+        z1 += z_offset;
+        z2 += z_offset;
+
+        // Add potential node locations to a list.
+        List<Vector3> nearNodes = new List<Vector3>();
+        nearNodes.Add(new Vector3(x1, 0, z1));
+        nearNodes.Add(new Vector3(x1, 0, z2));
+        nearNodes.Add(new Vector3(x2, 0, z1));
+        nearNodes.Add(new Vector3(x2, 0, z2));
+
+        return nearNodes;
+    }
+
     // Function that can find a Waypoint at a certain location
     static WayPoint FindWayPointAt(Vector3 position, List<WayPoint> grid) {
         /* DEBUG */
@@ -312,6 +314,19 @@ public class Navigator : MonoBehaviour {
         }
         Debug.LogError("No waypoint exists at given position, returning null!");
         return null;
+    }
+
+    public static List<WayPoint> FindWayPointsNear(Vector3 position, List<WayPoint> grid){
+        List<WayPoint> wayPointsNear = new List<WayPoint>();
+        List<Vector3> nearNodes = FindGridPositionsNear(position, grid);     
+        for(int i = 0; i < nearNodes.Count; i++) {
+            if(position != nearNodes[i] && !Physics.Raycast(position, nearNodes[i] - position, (position - nearNodes[i]).magnitude + .1f, layerMask)) {
+                // Add node to destination if it's reachable
+                WayPoint newDest = FindWayPointAt(nearNodes[i], grid);
+                wayPointsNear.Add(newDest);
+            }
+        }
+        return wayPointsNear;
     }
 
     // Fuction that adds a WayPoint to the list of open nodes, while keeping the list sorted by lowest cost.
@@ -330,3 +345,4 @@ public class Navigator : MonoBehaviour {
         openNodes.Add(newWp);
     }
 }
+

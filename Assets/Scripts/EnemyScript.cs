@@ -14,7 +14,7 @@ public class EnemyScript : MonoBehaviour {
 	void Start () {
 
         characterController = GetComponent<CharacterController>();
-        Path = Navigator.Path(transform.FindChild("Floor").transform.position, PlayerController.location - new Vector3(0f, PlayerController.location.y, 0f),0);
+        Path = Navigator.Path(transform.FindChild("Floor").transform.position, PlayerController.location - new Vector3(0f, PlayerController.location.y, 0f));
         if (automaticPathUpdating)
         {
             InvokeRepeating("BuildPath", 0, 0.5f);
@@ -61,7 +61,7 @@ public class EnemyScript : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Q) && !automaticPathUpdating)
         {
-            Path = Navigator.Path(transform.FindChild("Floor").transform.position, PlayerController.location - new Vector3(0f, PlayerController.location.y, 0f),0);
+            Path = Navigator.Path(transform.FindChild("Floor").transform.position, PlayerController.location - new Vector3(0f, PlayerController.location.y, 0f));
             i = 0;
         }
 
@@ -69,7 +69,7 @@ public class EnemyScript : MonoBehaviour {
 
 	void BuildPath(){
 
-		Path = Navigator.Path(transform.FindChild("Floor").transform.position, PlayerController.location - new Vector3(0f, PlayerController.location.y, 0f),0);
+		Path = Navigator.Path(transform.FindChild("Floor").transform.position, PlayerController.location - new Vector3(0f, PlayerController.location.y, 0f));
 		i = 0;
 
 	}

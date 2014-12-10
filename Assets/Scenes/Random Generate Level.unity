@@ -213,7 +213,7 @@ MonoBehaviour:
   planewidth: 10
   height: 5
   nodeSize: 2.5
-  NumberOfPaths: 3
+  NumberOfPaths: 5
   planePrefab: {fileID: 100000, guid: d5eadb88565f06840a15d6822a88b64d, type: 2}
   wallPrefab: {fileID: 100000, guid: e3e7c39751284344492a03bc74fc55f0, type: 2}
   node: {fileID: 100000, guid: b339f52a71c03094ab6a979385311b2f, type: 2}

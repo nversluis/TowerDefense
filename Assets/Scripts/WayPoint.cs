@@ -9,6 +9,7 @@ public class WayPoint {
     private string state;
     private float g_cost = 0;
     private float f_cost = 0;
+    private float penalty = 0;
 
     public WayPoint(Vector3 pos, string stt = "unexplored") {
         position = pos;
@@ -40,6 +41,10 @@ public class WayPoint {
         return f_cost;
     }
 
+    public float getPenalty() {
+        return penalty;
+    }
+
     public void setPrevious(WayPoint wp) {
         previous = wp;
     }
@@ -54,6 +59,10 @@ public class WayPoint {
 
     public void setFCost(float cst) {
         f_cost = cst;
+    }
+
+    public void setPenalty(float pnlt) {
+        penalty = pnlt;
     }
 
     public void AddNode(WayPoint node) {
