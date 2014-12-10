@@ -104,7 +104,7 @@ MonoBehaviour:
   maxDistance: 50
   Tower1: {fileID: 100000, guid: 96dfe76670364bb408c40825fe24ca29, type: 2}
   Tower2: {fileID: 100000, guid: 0f60e255c935b89428a9f7f2729173a3, type: 2}
-  FloorTower1: {fileID: 100004, guid: 6673624505511354c9baabb604981040, type: 2}
+  FloorTower1: {fileID: 100000, guid: 893d831a349101a46bc73c1d7f9f5692, type: 2}
 --- !u!4 &238715494
 Transform:
   m_ObjectHideFlags: 0
@@ -214,7 +214,7 @@ MonoBehaviour:
   height: 5
   nodeSize: 2.5
   NumberOfPaths: 3
-  planePrefab: {fileID: 100000, guid: d5eadb88565f06840a15d6822a88b64d, type: 2}
+  planePrefab: {fileID: 100016, guid: eb0912c352095c645a4cc637dd9257b0, type: 2}
   wallPrefab: {fileID: 100000, guid: e3e7c39751284344492a03bc74fc55f0, type: 2}
   node: {fileID: 100000, guid: b339f52a71c03094ab6a979385311b2f, type: 2}
   EnemySpawner: {fileID: 100000, guid: c3a351ed1e54c354c99c7d460d83aa16, type: 2}

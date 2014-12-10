@@ -35,7 +35,7 @@ public class EnemyHealth : MonoBehaviour {
             return;
         }
 
-        currentHealth -= amount/defense;
+		currentHealth -= amount/(defense+1);
 
         if (currentHealth <= 0 && !isDead)
         {

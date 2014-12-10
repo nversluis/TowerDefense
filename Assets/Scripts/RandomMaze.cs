@@ -95,15 +95,15 @@ public class RandomMaze : MonoBehaviour
                 {
                     if (!positions.Contains(curPos)) //Continue only if curPos is not yet in positions
                     {
-                        positions.Add(curPos); //add current position to arraylist
-                        GameObject floor = (GameObject)Instantiate(planePrefab, new Vector3(curPos[0] * planewidth, 0, curPos[1] * planewidth), Quaternion.identity); //Instantiate a floor at current position
-						floor.gameObject.transform.localScale = new Vector3(planewidth/10, 0.1f, planewidth/10); //Scale the floor
-                        floor.transform.parent = gameObject.transform; //Set the floor to the gameObject.
-                        floor.name = "Floor"; //name the floor Floor
-						GameObject ceil = (GameObject)Instantiate(planePrefab, new Vector3(curPos[0] * planewidth, height*planewidth, curPos[1] * planewidth), Quaternion.identity); //Instantiate a floor at current position
-						ceil.transform.Rotate (new Vector3 (180, 0, 0));
-						ceil.gameObject.transform.localScale = new Vector3(planewidth/10, 0.1f, planewidth/10); //Scale the floor
-
+                        		positions.Add(curPos); //add current position to arraylist								
+								GameObject floor = (GameObject)Instantiate (planePrefab, new Vector3 ((curPos[0]) * planewidth, 0, (curPos [1]) * planewidth), Quaternion.identity); //Instantiate a floor at current position
+								floor.gameObject.transform.localScale = new Vector3 (planewidth / 20, 0.1f, planewidth / 20); //Scale the floor
+								floor.transform.parent = gameObject.transform; //Set the floor to the gameObject.
+								floor.name = "Floor"; //name the floor Floor
+								GameObject ceil = (GameObject)Instantiate (planePrefab, new Vector3 ((curPos [0]) * planewidth, height * planewidth, (curPos [1]) * planewidth), Quaternion.identity); //Instantiate a floor at current position
+								ceil.transform.Rotate (new Vector3 (180, 0, 0));
+								ceil.gameObject.transform.localScale = new Vector3 (planewidth / 20, 0.1f, planewidth / 20); //Scale the floor
+							
 //                        if (ba % 2 == 0) //if ba is even generate a light at current position
 //                        {
 //                            GameObject lightGameObject = new GameObject("Light");
@@ -361,10 +361,6 @@ public class RandomMaze : MonoBehaviour
 	public static float getPlaneWidth(){
 		return planewidthS;
 	}
-
-
-
-
 
 }
 
