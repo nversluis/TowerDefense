@@ -19,7 +19,7 @@ public class Navigator : MonoBehaviour {
     //static float drawTime3;
     /* DEBUG */
 
-    public static List<Vector3> Path(Vector3 startPoint, Vector3 endPoint) {
+    public static List<Vector3> Path(Vector3 startPoint, Vector3 endPoint, int optimalness) {
         /** INITIALIZATION **/
 
         /* DEBUG */
@@ -142,9 +142,16 @@ public class Navigator : MonoBehaviour {
             /* DEBUG */
             //WayPoint previousWP = currentWP;
             /* DEBUG */
-            currentWP = openNodes[0];
-            currentWP.setState("closed");
-            openNodes.Remove(currentWP);
+            if(openNodes.Count >= optimalness) {
+                currentWP = openNodes[optimalness];
+                currentWP.setState("closed");
+                openNodes.Remove(currentWP);
+            }
+            else {
+                currentWP = openNodes[openNodes.Count];
+                currentWP.setState("closed");
+                openNodes.Remove(currentWP);
+            }
 
             /* DEBUG */
             //temp = Time.realtimeSinceStartup;
