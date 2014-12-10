@@ -7,8 +7,10 @@ public class EnemyHealth : MonoBehaviour {
     public int currentHealth;
 	public int defense;
 	public EnemyStats enemyStats;
+    public Vector3 startPosition;
+    EnemyMovement enemyMovement;
 
-    bool isDead = false;
+    public bool isDead = false;
 
     void Awake()
     {
@@ -20,6 +22,7 @@ public class EnemyHealth : MonoBehaviour {
         startingHealth = enemyStats.health;
         defense = enemyStats.defense;
         currentHealth = startingHealth;
+        startPosition = new Vector3(50, 50, 50);
     }
 
     // Update is called once per frame
@@ -46,7 +49,9 @@ public class EnemyHealth : MonoBehaviour {
     void Death()
     {
         isDead = true;
-        Destroy(this.gameObject);
+        currentHealth = startingHealth;
+        transform.position = startPosition;
+        Debug.Log("Ik ben dood");
     }
 
 }

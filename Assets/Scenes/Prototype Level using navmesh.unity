@@ -211,6 +211,7 @@ GameObject:
   - 4: {fileID: 249075104}
   - 114: {fileID: 249075103}
   - 114: {fileID: 249075105}
+  - 114: {fileID: 249075106}
   m_Layer: 0
   m_Name: EnemySpawner
   m_TagString: Untagged
@@ -234,6 +235,7 @@ MonoBehaviour:
   SpawnRate: 60
   maxX: 48
   maxZ: 5
+  multipleSpawns: 0
 --- !u!4 &249075104
 Transform:
   m_ObjectHideFlags: 0
@@ -252,7 +254,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 249075102}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 944f66ad451dba04eb2086e397509f88, type: 3}
   m_Name: 
@@ -262,7 +264,25 @@ MonoBehaviour:
   maxX: 0
   maxZ: 0
   spawning: 1
-  maxWaves: 2
+  currentWave: 1
+--- !u!114 &249075106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 249075102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19f02f54558312d42b259d7bf2b2bef6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 100010, guid: 0d1617b599881044c8731c04c7439a71, type: 2}
+  maxEnemies: 5
+  maxX: 0
+  maxZ: 0
+  spawning: 1
+  spawnFirstWave: 1
+  maxWaves: 5
   currentWave: 1
 --- !u!1001 &256499063
 Prefab:
@@ -3316,7 +3336,16 @@ Prefab:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 11400002, guid: c3a351ed1e54c354c99c7d460d83aa16, type: 2}
+      propertyPath: enemy
+      value: 
+      objectReference: {fileID: 100010, guid: 0d1617b599881044c8731c04c7439a71, type: 2}
+    - target: {fileID: 11400002, guid: c3a351ed1e54c354c99c7d460d83aa16, type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 11400002, guid: c3a351ed1e54c354c99c7d460d83aa16, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: c3a351ed1e54c354c99c7d460d83aa16, type: 2}
   m_RootGameObject: {fileID: 249075102}
   m_IsPrefabParent: 0
