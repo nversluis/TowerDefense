@@ -22,7 +22,7 @@ public class EnemyHealth : MonoBehaviour {
         startingHealth = enemyStats.health;
         defense = enemyStats.defense;
         currentHealth = startingHealth;
-        startPosition = new Vector3(50, 50, 50);
+        startPosition = new Vector3(500, 500, 500);
     }
 
     // Update is called once per frame
@@ -49,9 +49,11 @@ public class EnemyHealth : MonoBehaviour {
     void Death()
     {
         isDead = true;
-        currentHealth = startingHealth;
-        transform.position = startPosition;
-        Debug.Log("Ik ben dood");
+        Destroy(this.gameObject);   
+        //Destroy(this.gameObject);
+        //currentHealth = startingHealth;
+        // transform.position = startPosition;
+        //Debug.Log("Ik ben dood");
     }
 
 }

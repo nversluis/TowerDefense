@@ -35,7 +35,7 @@ public class EnemyMovement : MonoBehaviour
 	// Update is called once per frame
 	void Update () {
 
-        if (enemyHealth.currentHealth > 0 && playerHealth.currentHealth > 0)
+        if (enemyHealth.currentHealth > 0)
         {
             //gateDistance = Vector3.Distance(gate.transform.position, this.transform.position);
             playerDistance = Vector3.Distance(player.transform.position, this.transform.position);
