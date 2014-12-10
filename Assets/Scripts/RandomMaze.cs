@@ -61,7 +61,7 @@ public class RandomMaze : MonoBehaviour
         //end.x += Random.value;
         //end.z += Random.value;
 
-        //testPath = Navigator.Path(start, end);
+        //testPath = Navigator.Path(start, end, 0);
 
         //Debug.Log(start);
         //Debug.Log(end);
