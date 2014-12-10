@@ -11,6 +11,7 @@ public class EnemySpawner : MonoBehaviour
     public float maxX;
     public float maxZ;
     float orcHeigthSpawn = 3.27f;
+    public bool multipleSpawns;
 
     // Use this for initialization
     void Start()
@@ -26,7 +27,7 @@ public class EnemySpawner : MonoBehaviour
     void FixedUpdate()
     {
         float rand=Random.value;
-        if (rand < 1/SpawnRate)
+        if (rand < 1/SpawnRate && multipleSpawns)
         {
             float randX = Random.Range(-maxX / 2, maxX / 2);
             float randZ = Random.Range(-maxZ / 2, maxZ / 2);

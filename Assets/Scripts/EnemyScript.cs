@@ -8,13 +8,17 @@ public class EnemyScript : MonoBehaviour {
     float walkSpeed = 10f;
     float orcHeigthSpawn = 3.27f;
     CharacterController characterController;
+    public bool automaticPathUpdating;
 
 	// Use this for initialization
 	void Start () {
 
         characterController = GetComponent<CharacterController>();
         Path = Navigator.Path(transform.FindChild("Floor").transform.position, PlayerController.location - new Vector3(0f, PlayerController.location.y, 0f));
-		InvokeRepeating ("BuildPath", 0, 0.5f);
+        if (automaticPathUpdating)
+        {
+            InvokeRepeating("BuildPath", 0, 0.5f);
+        }
 	}
 
 	 //Update is called once per frame
@@ -41,9 +45,7 @@ public class EnemyScript : MonoBehaviour {
             rigidbody.angularVelocity = Vector3.zero;
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir.normalized), Time.deltaTime * 5f);
             transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
-            //transform.rotation = Quaternion.LookRotation(dir);
 
-            Debug.DrawRay( transform.FindChild("Floor").position, Path[i] - transform.FindChild("Floor").position, Color.red);
             if ((Path[i] - transform.FindChild("Floor").position).magnitude < 1f && i < Path.Count - 1)
             {
                 i++;
@@ -55,10 +57,13 @@ public class EnemyScript : MonoBehaviour {
 
             }
         }
-        //if(Input.GetKeyDown(KeyCode.Q)) {
-            //Path = Navigator.Path(transform.FindChild("Floor").transform.position, PlayerController.location - new Vector3(0f, PlayerController.location.y, 0f));
-            //i = 0;
-        //}
+
+
+        if (Input.GetKeyDown(KeyCode.Q) && !automaticPathUpdating)
+        {
+            Path = Navigator.Path(transform.FindChild("Floor").transform.position, PlayerController.location - new Vector3(0f, PlayerController.location.y, 0f));
+            i = 0;
+        }
 
     }
 
