@@ -40,10 +40,12 @@ public class EnemyHealth : MonoBehaviour {
         {
             return;
         }
-
-		currentHealth -= amount/(defense);
+		int damageDone = amount / defense;
+		if (damageDone <= 1)
+			damageDone = 1;
+		currentHealth -= damageDone;
 		textObject.SetActive (true);
-		textObject.GetComponent<TextMesh>().text = (amount/defense + "/"+currentHealth).ToString();
+		textObject.GetComponent<TextMesh>().text = (damageDone + "/"+currentHealth).ToString();
         if (currentHealth <= 0 && !isDead)
         {
             Death();
