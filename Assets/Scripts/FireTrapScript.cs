@@ -27,7 +27,6 @@ public class FireTrapScript : MonoBehaviour
 	{
 		EnemyHealth enemyHealth = enemy.collider.GetComponent<EnemyHealth> ();
 		enemyHealth.TakeDamage (damagePerShot);
-		Debug.Log (123);
 	}
 
 	// Use this for initialization
