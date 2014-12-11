@@ -55,9 +55,11 @@ public class EnemyHealth : MonoBehaviour {
     void Death()
     {
         isDead = true;
-        currentHealth = startingHealth;
-        transform.position = startPosition;
-        Debug.Log("Ik ben dood");
+        Destroy(this.gameObject);
+
+        //currentHealth = startingHealth;
+        //transform.position = startPosition;
+        //Debug.Log("Ik ben dood");
     }
 
 }
