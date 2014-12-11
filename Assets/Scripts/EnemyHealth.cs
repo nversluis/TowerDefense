@@ -40,6 +40,7 @@ public class EnemyHealth : MonoBehaviour {
             return;
         }
 		int damageDone = amount / defense;
+        Debug.Log(damageDone);
 		if (damageDone <= 1)
 			damageDone = 1;
 		currentHealth -= damageDone;
