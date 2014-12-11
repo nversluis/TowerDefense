@@ -47,7 +47,7 @@ public class Navigator : MonoBehaviour {
             wp.setPrevious(null);
             float penalty = wp.getPenalty();
             if(penalty > 0) {
-                wp.setPenalty(penalty - 1);
+                wp.setPenalty(penalty - 0.1f);
             }
         }
 

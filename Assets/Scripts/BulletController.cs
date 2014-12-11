@@ -21,7 +21,7 @@ public class BulletController : MonoBehaviour
             {
                 //Debug.Log("Ik hit de enemy!");
                 //Debug.Log("Current enemy health: " + enemyHealth.currentHealth);
-                enemyHealth.TakeDamage(damagePerShot);
+				enemyHealth.TakeDamage(damagePerShot,"magic");
             }
 
             /*hitObject = hit.collider.gameObject;
