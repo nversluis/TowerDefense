@@ -10,7 +10,6 @@ public class GAWaveSpawner : MonoBehaviour
     public float maxZ;
     //float orcHeigthSpawn = 3.27f;
     public bool spawning = true;
-    public bool spawnFirstWave;
 
     //public int toenameStatsPerWave = 20;
 
@@ -36,7 +35,6 @@ public class GAWaveSpawner : MonoBehaviour
     {
         currentGen = new ArrayList();
         nextGen = new ArrayList();
-        spawnFirstWave = true;
     }
 
     // Update is called once per frame
@@ -63,13 +61,13 @@ public class GAWaveSpawner : MonoBehaviour
 
                 if (AllEnemiesDead())
                 {
-                    Debug.Log("Worden alle enemies gespawnd?");
+                    //Debug.Log("Worden alle enemies gespawnd?");
                     // Als alle enemies dood zijn, ga naar de volgende wave
                     currentWave++;
                     // Spawn een extra enemy voor de volgende wave
-                    // maxEnemies++;
+                    maxEnemies++;
                     // Enemies mogen weer gespawnd worden
-                    Respawn();
+                    spawning = true;
                 }
             }
         

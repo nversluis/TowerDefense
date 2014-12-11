@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class FireTrapScript : MonoBehaviour
 {
 
-	private int damagePerShot = 50;
+	private int damagePerShot = 1000;
 	private string enemyTag = ("Enemy");
 	//private GameObject enemy;
 	private List<GameObject> enemyOnTrap = new List<GameObject> ();
@@ -31,7 +31,7 @@ public class FireTrapScript : MonoBehaviour
 		foreach (GameObject enemy in enemyOnTrap) {
 			if (enemy != null) {
 				EnemyHealth enemyHealth = enemy.collider.GetComponent<EnemyHealth> ();
-				enemyHealth.TakeDamage (damagePerShot);
+				enemyHealth.TakeDamage (damagePerShot,"physical");
 
 			}
 		} 
