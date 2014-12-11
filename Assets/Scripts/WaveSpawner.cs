@@ -10,17 +10,19 @@ public class WaveSpawner : MonoBehaviour
     public float maxZ;
     float orcHeigthSpawn = 3.27f;
     public bool spawning = true;
+    public int delta = 50;
 
-    private int maxWaves = 5;
+    public int maxWaves = 5;
     public int currentWave = 1;
 
     public ArrayList enemies;
 
     EnemyAttack enemyAttack;
+    EnemyStats enemyStats;
 
     void Awake()
     {
-        enemyAttack = GetComponent<EnemyAttack>();
+        enemyStats = enemy.GetComponent<EnemyStats>();
     }
 
     // Use this for initialization
@@ -56,6 +58,10 @@ public class WaveSpawner : MonoBehaviour
                     currentWave++;
                     // Spawn een extra enemy voor de volgende wave
                     maxEnemies++;
+
+                    //Debug.Log("Total stat points enemy: " + enemyStats.getTotalStatPoints());
+                    
+                    //Debug.Log("Total stat points enemy: " + enemyStats.getTotalStatPoints());
                     // Enemies mogen weer gespawnd worden
                     spawning = true;
                 }
@@ -76,6 +82,8 @@ public class WaveSpawner : MonoBehaviour
         Enemy.name = "enemy";
         Enemy.transform.FindChild("Floor").transform.position = transform.position;
         enemies.Add(Enemy);
+        //enemyStats = Enemy.GetComponent<EnemyStats>();
+        //enemyAttack = Enemy.GetComponent<EnemyAttack>();
         //Debug.Log(enemies.Count);
     }
 
