@@ -7,12 +7,16 @@ public class FireTrapScript : MonoBehaviour
 
 	private int damagePerShot = 1000;
 	private string enemyTag = ("Enemy");
+	private float particleStartSize;
+	private GameObject partSys;
 	//private GameObject enemy;
 	private List<GameObject> enemyOnTrap = new List<GameObject> ();
 
 	void OnTriggerEnter (Collider col)
 	{
-		if (col.gameObject.tag == (enemyTag)) {
+		if (col.gameObject.tag == (enemyTag)&&!enemyOnTrap.Contains(col.gameObject)) {
+			if(gameObject.transform.GetChild (2).gameObject.activeSelf==false)
+				gameObject.transform.GetChild (2).gameObject.SetActive (true);
 			enemyOnTrap.Add (col.gameObject);
 			if (enemyOnTrap.Count ==1)
 				InvokeRepeating ("DoDamage", 0.1f, 0.33f);
@@ -25,6 +29,8 @@ public class FireTrapScript : MonoBehaviour
 			enemyOnTrap.Remove (col.gameObject);
 		}
 	}
+
+
 
 	void DoDamage ()
 	{
@@ -41,13 +47,18 @@ public class FireTrapScript : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-	
+		partSys = gameObject.transform.GetChild (2).gameObject;
+		particleStartSize=partSys.particleSystem.startSize*RandomMaze.getPlaneWidth()/10;
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-		if (enemyOnTrap.Count == 0)
+		enemyOnTrap.RemoveAll (item => item == null);
+		if (enemyOnTrap.Count == 0) {
 			CancelInvoke ();
+			partSys.particleSystem.startSize = particleStartSize/10;
+		} else
+			partSys.particleSystem.startSize = particleStartSize*3;
 	}
 }
