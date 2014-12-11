@@ -9,26 +9,23 @@ public class PlayerController : MonoBehaviour
     public GameObject camera;
     public GameObject Bullet;
 
-    private float playerSpeed = 0.4f;
-    private float BulletSpeed = 30f;
+    private float playerSpeed = 15f;
+    private float BulletSpeed = 100f;
     private float camAngleX;
     private float camAngleY;
     private float distortion;
     private float turnSpeed = 0.5f;
-    private float jumpSpeed = 1.5f;
-    private float gravity = 2f;
-    private float moveY;
-    private CharacterController charController;
+    private float jumpSpeed = 10f;
+    private float moveY=0;
     public static bool moving;
     public AudioClip magic;
     public static Vector3 location;
+    Vector3 startPosition;
 
 
     // Method for getting player input
     private Vector3 playerInput()
     {
-        // initializing the player controller
-        charController = GetComponent<CharacterController>();
 
         // determining the camera angle around origin y and the inputs of the user
         camAngleY = camera.transform.rotation.eulerAngles.y;
@@ -43,9 +40,8 @@ public class PlayerController : MonoBehaviour
         // Jumping movements of player
 
         // creating a movement vector
-        Vector3 movement = new Vector3(moveX, 0f, moveZ).normalized;
-        movement = movement + new Vector3(0, moveY, 0);
-
+        Vector3 movement = new Vector3(moveX, 0f, moveZ).normalized * playerSpeed;
+        movement += new Vector3(0f, moveY, 0f);
 
         //return the movement of the player according to camera rotation and input
         return movement;
@@ -55,8 +51,6 @@ public class PlayerController : MonoBehaviour
     // Method for moving the player
     private void playerMovement()
     {
-        // initializing the player controller
-        CharacterController charController = GetComponent<CharacterController>();
         if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
         {
             // setting rotation of player in the direction of the speed of the player
@@ -67,8 +61,37 @@ public class PlayerController : MonoBehaviour
             moving = false;
 
         // moving the player according to input
-        charController.Move(playerInput() * playerSpeed);
+        rigidbody.velocity = (playerInput() );
     }
+
+    private float Ymovement(float moveY)
+    {
+
+        moveY += Physics.gravity.y*Time.fixedDeltaTime;
+
+        if (isGrounded())
+        {
+            moveY = 0;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded())
+        {
+            moveY = jumpSpeed;
+
+        }
+
+
+        return moveY;
+    }
+
+    bool isGrounded()
+    {
+        BoxCollider collider = GetComponent<BoxCollider>();
+        float distance = collider.center.y * transform.localScale.y - (collider.center.y * transform.localScale.y-collider.size.y/2*transform.localScale.y);
+        Debug.DrawRay(new Vector3(collider.center.x * transform.localScale.x, collider.center.y * transform.localScale.y, collider.center.z * transform.localScale.z) + transform.position,new Vector3(0, -1, 0)*distance,Color.red);
+        return Physics.Raycast(new Vector3(collider.center.x * transform.localScale.x, collider.center.y * transform.localScale.y, collider.center.z * transform.localScale.z) + transform.position, new Vector3(0,-1,0), distance);
+    }
+
 
     // Method that runs when left button is pressed
     private void OnLeftMouseDown()
@@ -157,32 +180,14 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    private float Ymovement(float moveY)
-    {
-
-        if (charController.isGrounded && moveY<=0)
-        {
-            moveY = 0;
-
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                moveY = moveY + jumpSpeed;
-
-            }
-        }
-
-        moveY = moveY - gravity*Time.fixedDeltaTime;
-
-        return moveY;
-
-    }
-
     // Use this for initialization
     void Start()
     {
         // Do not display cursor
         Screen.showCursor = false;
         camera = GameObject.Find("Main Camera");
+        startPosition = transform.position;
+        
 
     }
 
