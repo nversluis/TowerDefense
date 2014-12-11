@@ -15,8 +15,6 @@ public class EnemyStats : MonoBehaviour {
     public int speed;
     public int totalDamage;
     public int delta;
-
-    WaveSpawner waveSpawner;
     EnemyAttack enemyAttack;
 
     void Awake()

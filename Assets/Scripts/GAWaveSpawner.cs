@@ -61,13 +61,13 @@ public class GAWaveSpawner : MonoBehaviour
 
                 if (AllEnemiesDead())
                 {
-                    Debug.Log("Worden alle enemies gespawnd?");
+                    //Debug.Log("Worden alle enemies gespawnd?");
                     // Als alle enemies dood zijn, ga naar de volgende wave
                     currentWave++;
                     // Spawn een extra enemy voor de volgende wave
-                    // maxEnemies++;
+                    maxEnemies++;
                     // Enemies mogen weer gespawnd worden
-                    Respawn();
+                    spawning = true;
                 }
             }
         
