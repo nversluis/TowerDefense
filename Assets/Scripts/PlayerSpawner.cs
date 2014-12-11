@@ -20,8 +20,7 @@ public class PlayerSpawner : MonoBehaviour
         GameObject MainCamera = (GameObject)Instantiate(camera, transform.position + new Vector3(0f, 0f, 0f), Quaternion.identity);
         MainCamera.name = "Main Camera";
         GameObject MainGui = (GameObject)Instantiate(Gui, transform.position, Quaternion.identity);
-        MainGui.name = "GUI";
-
+        MainGui.name = "GUI";   
 
     }
 
