@@ -11,7 +11,7 @@ public class WaveSpawner : MonoBehaviour
     float orcHeigthSpawn = 3.27f;
     public bool spawning = true;
 
-    private int maxWaves = 5;
+	public int maxWaves;
     public int currentWave = 1;
 
     public ArrayList enemies;

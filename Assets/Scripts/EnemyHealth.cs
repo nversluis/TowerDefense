@@ -12,7 +12,7 @@ public class EnemyHealth : MonoBehaviour {
 
     public bool isDead = false;
 
-	private GameObject textObject;
+	public GameObject textObject;
 
     void Awake()
     {
@@ -25,7 +25,6 @@ public class EnemyHealth : MonoBehaviour {
         defense = enemyStats.defense;
         currentHealth = startingHealth;
         startPosition = new Vector3(50, 50, 50);
-		textObject = gameObject.transform.GetChild (4).gameObject;
     }
 
     // Update is called once per frame
@@ -44,8 +43,10 @@ public class EnemyHealth : MonoBehaviour {
 		if (damageDone <= 1)
 			damageDone = 1;
 		currentHealth -= damageDone;
-		textObject.SetActive (true);
-		textObject.GetComponent<TextMesh>().text = (damageDone + "/"+currentHealth).ToString();
+		if (currentHealth < 0)
+			currentHealth = 0;
+		GameObject textObj = (GameObject)Instantiate (textObject, transform.position, Quaternion.identity);
+		textObj.GetComponent<TextMesh>().text = (damageDone + "/"+currentHealth).ToString();
         if (currentHealth <= 0 && !isDead)
         {
             Death();

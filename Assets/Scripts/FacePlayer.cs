@@ -11,6 +11,7 @@ public class FacePlayer : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		transform.rotation=Quaternion.LookRotation(Vector3.RotateTowards(transform.forward,-(PlayerPrefab.transform.position-transform.position),6,0));
+		transform.position += new Vector3 (0, 1, 0)/10;
 	}
 
 	void OnEnable(){
@@ -18,7 +19,7 @@ public class FacePlayer : MonoBehaviour {
 	}
 
 	void DestroyAfterSeconds(){
-		gameObject.SetActive (false);
+		Destroy (gameObject);
 		CancelInvoke();
 	}
 
