@@ -53,7 +53,6 @@ public class EnemyHealth : MonoBehaviour {
             return;
         }
 		int damageDone = amount / defense;
-        Debug.Log(damageDone);
 		if (damageDone <= 1)
 			damageDone = 1;
 		currentHealth -= damageDone;
@@ -83,9 +82,7 @@ public class EnemyHealth : MonoBehaviour {
 			TakeDamage ((int)poisonAmount,"poison");
 			poisonAmount *= 0.5f;
 			if (poisonAmount <= 1) {
-				Debug.Log (poisonAmount);
 				isPoisoned = false;
-				Debug.Log (isPoisoned);
 			}
 		}
 	}

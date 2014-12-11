@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PoisonTrap : MonoBehaviour {
 
-	private int damagePerShot=100;
+	private int damagePerShot=500;
 	private string enemyTag = ("Enemy");
 	private GameObject enemy;
 
