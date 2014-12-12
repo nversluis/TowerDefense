@@ -72,8 +72,8 @@ public class Navigator : MonoBehaviour {
         List<WayPoint> startNodes = FindWayPointsNear(startPoint, grid);
         for(int i = 0; i < startNodes.Count; i++) {
                 WayPoint dest = startNodes[i];
-                dest.setGCost(CalculateGCost(startWP, dest));
-                dest.setFCost(CalculateFCost(startWP, dest, endWP));
+                dest.setGCost(CalculateGCost(startWP, dest, D));
+                dest.setFCost(CalculateFCost(startWP, dest, endWP, D));
                 dest.setPrevious(startWP);
                 dest.setState("open");
                 startWP.AddNode(dest);
@@ -122,11 +122,11 @@ public class Navigator : MonoBehaviour {
                 WayPoint neighbour = currentWP.getDestinations()[i];
                 // Don't even try if it's closed
                 if(!(neighbour.getState() == "closed")) {
-                    float potential_g_Cost = CalculateGCost(currentWP, neighbour);
+                    float potential_g_Cost = CalculateGCost(currentWP, neighbour, D);
                     // If a cheaper g cost is found via the current WayPoint, update it
                     if(neighbour.getState() == "open" && potential_g_Cost < neighbour.getGCost()) {
                         neighbour.setGCost(potential_g_Cost);
-                        neighbour.setFCost(CalculateFCost(currentWP, neighbour, endWP));
+                        neighbour.setFCost(CalculateFCost(currentWP, neighbour, endWP, D));
                         neighbour.setPrevious(currentWP);
                         // Remove and re-add to keep the list sorted
                         openNodes.Remove(neighbour);
@@ -134,7 +134,7 @@ public class Navigator : MonoBehaviour {
                     }
                     if(neighbour.getState() == "unexplored") {
                         neighbour.setGCost(potential_g_Cost);
-                        neighbour.setFCost(CalculateFCost(currentWP, neighbour, endWP));
+                        neighbour.setFCost(CalculateFCost(currentWP, neighbour, endWP, D));
                         neighbour.setPrevious(currentWP);
                         neighbour.setState("open");
                         AddToOpenNodes(neighbour);
@@ -229,14 +229,14 @@ public class Navigator : MonoBehaviour {
     }
 
     // Function that calculates the g-cost between two waypoints (cost based on distance from start point)
-    static float CalculateGCost(WayPoint current, WayPoint destination) {
+    static float CalculateGCost(WayPoint current, WayPoint destination, float D) {
         return current.getGCost() + (current.getPosition() - destination.getPosition()).magnitude + destination.getPenalty();
     }
 
     // Function that calculates the f-cost between two waypoints (cost based on distance from both start and end point)
-    static float CalculateFCost(WayPoint current, WayPoint destination, WayPoint endpoint) {
+    static float CalculateFCost(WayPoint current, WayPoint destination, WayPoint endpoint, float D) {
         // Distance from current node to destination
-        float g_cost = CalculateGCost(current, destination);
+        float g_cost = CalculateGCost(current, destination, D);
 
         // Heuristic, in our case the Diagonal Shortcut
         float h_cost = Heuristic(destination.getPosition(), endpoint.getPosition());
