@@ -34,24 +34,22 @@ public class EnemyScript : MonoBehaviour {
         if (Path != null)
         {
             Vector3 dir;
-            if (i != 0)
-            {
-                dir = (Path[i] - transform.FindChild("Floor").position).normalized * walkSpeed;
+			if (i != 0) {
+				dir = (Path [i] - transform.FindChild ("Floor").position).normalized * walkSpeed;
 
 
-            }
+			} else if (Path.Count != 1) {
+				dir = (Path [i + 1] - transform.FindChild ("Floor").position).normalized * walkSpeed;
 
-            else
-            {
-                dir = (Path[i+1] - transform.FindChild("Floor").position).normalized * walkSpeed;
-
-            }
+			} else
+				dir = Vector3.zero;
 
             rigidbody.velocity = (dir);
             rigidbody.angularVelocity = Vector3.zero;
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir.normalized), Time.deltaTime * 5f);
-            transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
-
+			if (dir != Vector3.zero) {
+				transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.LookRotation (dir.normalized), Time.deltaTime * 5f);
+				transform.rotation = Quaternion.Euler (0f, transform.rotation.eulerAngles.y, 0f);
+			}
             if ((Path[i] - transform.FindChild("Floor").position).magnitude < 1f && i < Path.Count - 1)
             {
                 i++;

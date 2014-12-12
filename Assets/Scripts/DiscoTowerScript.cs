@@ -5,12 +5,15 @@ using System.Collections.Generic;
 
 public class DiscoTowerScript : MonoBehaviour {
 
+	private GameObject ResourceManagerObj;
+	private ResourceManager resourceManager;
+
     private List<GameObject> enemysInRange;
-    public GameObject bullet;
-    public int bulletSpeed;
-    public float coolDownTime;
-	public string enemyTag;
-	public AudioClip magic;
+   	private GameObject bullet;
+    private int bulletSpeed;
+    private float coolDownTime;
+	private string enemyTag;
+	private AudioClip magic;
     
     GameObject enemy;
     Vector3 enemyVel;
@@ -19,8 +22,17 @@ public class DiscoTowerScript : MonoBehaviour {
 
     void Start()
     {
+		ResourceManagerObj = GameObject.Find ("ResourceManager");
+		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
         enemysInRange = new List<GameObject>();
-        InvokeRepeating("Shooting", 0f, coolDownTime);
+        
+
+		bullet = resourceManager.magicBullet;
+		magic = resourceManager.magicBulletSound;
+		enemyTag = resourceManager.enemyTag;
+		bulletSpeed = resourceManager.bulletSpeed;
+		coolDownTime = resourceManager.coolDownTimeTower1;
+		InvokeRepeating("Shooting", 0f, coolDownTime);
     }
     void OnTriggerEnter(Collider col)
     {
