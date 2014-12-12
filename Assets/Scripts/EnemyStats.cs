@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class EnemyStats : MonoBehaviour {
 
     private List<int> stats;
-    private int totalStatPoints =100;
+    public int totalStatPoints;
     private string type;
 
     // Stats van een enemy
@@ -14,25 +14,22 @@ public class EnemyStats : MonoBehaviour {
     public int defense;
     public int speed;
     public int totalDamage;
-    public int delta;
-    EnemyAttack enemyAttack;
 
     void Awake()
     {
         generateEnemyStats();
-        enemyAttack = GetComponent<EnemyAttack>();
     }
 
     // Use this for initialization
     void Start()
     {
-        //totalStatPoints = 100;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        totalDamage = enemyAttack.totalDamage;
+        
     }
 
     public void generateEnemyStats()
