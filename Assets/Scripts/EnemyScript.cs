@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class EnemyScript : MonoBehaviour {
     List<Vector3> Path;
     int i = 0;
-    float walkSpeed;
+    float walkSpeed=20;
     float orcHeigthSpawn = 3.27f;
     CharacterController characterController;
     public bool automaticPathUpdating;
@@ -19,7 +19,7 @@ public class EnemyScript : MonoBehaviour {
         Path = Navigator.Path(transform.position, PlayerController.location - new Vector3(0f, PlayerController.location.y, 0f));
 
         enemystats = GetComponent<EnemyStats>();
-        walkSpeed = enemystats.speed/10 + 3;
+        //walkSpeed = enemystats.speed/10 + 3;
 
         if (automaticPathUpdating)
         {
@@ -61,7 +61,6 @@ public class EnemyScript : MonoBehaviour {
                 rigidbody.velocity = Vector3.zero;
 
             }
-            Debug.Log(dir);
 
         }
 
