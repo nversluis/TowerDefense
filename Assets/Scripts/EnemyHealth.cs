@@ -8,18 +8,18 @@ public class EnemyHealth : MonoBehaviour {
     public int currentHealth;
 	public int defense;
 	public EnemyStats enemyStats;
-    public Vector3 startPosition;
     EnemyMovement enemyMovement;
-
     public bool isDead = false;
 	public bool isPoisoned;
 	public float poisonAmount = 0;
 
+    Vector3 deathPosition;
 	public GameObject textObject;
 
     void Awake()
     {
         enemyStats = GetComponent<EnemyStats>();
+        deathPosition = new Vector3(0, 100, 0);
     }
 
     void Start()
@@ -27,7 +27,6 @@ public class EnemyHealth : MonoBehaviour {
         startingHealth = enemyStats.health*10;
         defense = enemyStats.defense;
         currentHealth = startingHealth;
-        startPosition = new Vector3(50, 50, 50);
 		InvokeRepeating ("doPoisonDamage", 0, 5);
     }
 
@@ -100,10 +99,7 @@ public class EnemyHealth : MonoBehaviour {
 		}
 		isDead = true;
 		Destroy(this.gameObject);
-
-        //currentHealth = startingHealth;
-        //transform.position = startPosition;
-        //Debug.Log("Ik ben dood");
+        //this.transform.position = deathPosition;
     }
 
 }

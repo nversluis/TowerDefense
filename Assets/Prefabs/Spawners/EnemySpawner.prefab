@@ -9,6 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400000}
   - 114: {fileID: 11400000}
+  - 114: {fileID: 11400002}
   m_Layer: 0
   m_Name: EnemySpawner
   m_TagString: Untagged
@@ -41,11 +42,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemy: {fileID: 100052, guid: 8a2e017a33dbf9748ad510b090cfb8be, type: 2}
   maxEnemies: 5
-  maxX: 0
-  maxZ: 0
   spawning: 1
   maxWaves: 5
   currentWave: 1
+  maxX: 0
+  maxZ: 0
+  currentTotalStatPoints: 100
+  delta: 50
+--- !u!114 &11400002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19f02f54558312d42b259d7bf2b2bef6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 100052, guid: 8a2e017a33dbf9748ad510b090cfb8be, type: 2}
+  maxEnemies: 5
+  spawning: 1
+  maxWaves: 10
+  currentWave: 1
+  maxX: 0
+  maxZ: 0
+  currentTotalStatPoints: 100
+  delta: 50
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

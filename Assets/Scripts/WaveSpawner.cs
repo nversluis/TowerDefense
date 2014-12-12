@@ -8,7 +8,7 @@ public class WaveSpawner : MonoBehaviour
     public int maxEnemies = 5;
     public bool spawning = true;
 
-	public int maxWaves;
+	public int maxWaves = 10;
     public int currentWave = 1;
 
     public float maxX;
@@ -20,7 +20,6 @@ public class WaveSpawner : MonoBehaviour
 
     public ArrayList enemies;
     EnemyStats enemyStats;
-
 
     // Use this for initialization
     void Start()
