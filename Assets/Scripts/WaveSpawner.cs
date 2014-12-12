@@ -17,9 +17,11 @@ public class WaveSpawner : MonoBehaviour
     public ArrayList enemies;
 
     EnemyAttack enemyAttack;
+    GameObject player;
 
     void Awake()
     {
+      
         enemyAttack = GetComponent<EnemyAttack>();
     }
 
@@ -75,9 +77,7 @@ public class WaveSpawner : MonoBehaviour
         GameObject Enemy = (GameObject)Instantiate(enemy, transform.position + new Vector3(randX, orcHeigthSpawn, randZ), Quaternion.identity);
        
         Enemy.name = "enemy";
-        Enemy.transform.FindChild("Floor").transform.position = transform.position;
         enemies.Add(Enemy);
-        //Debug.Log(enemies.Count);
     }
 
     void UpdateEnemyCount()
