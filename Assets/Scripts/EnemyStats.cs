@@ -5,8 +5,7 @@ using System.Collections.Generic;
 public class EnemyStats : MonoBehaviour {
 
     private List<int> stats;
-    public int totalStatPoints;
-    private string type;
+    public int totalStatPoints = 100;
 
     // Stats van een enemy
     public int health;
