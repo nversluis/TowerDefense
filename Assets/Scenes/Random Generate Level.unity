@@ -74,6 +74,130 @@ NavMeshSettings:
     widthInaccuracy: 16.666666
     heightInaccuracy: 10
   m_NavMesh: {fileID: 0}
+--- !u!1 &14726752
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+  m_PrefabInternal: {fileID: 100362672}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 14726754}
+  - 114: {fileID: 14726753}
+  m_Layer: 0
+  m_Name: ResourceManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &14726753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854,
+    type: 2}
+  m_PrefabInternal: {fileID: 100362672}
+  m_GameObject: {fileID: 14726752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7321a888faeaae47875ca40443ccd1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  planePrefab: {fileID: 100016, guid: eb0912c352095c645a4cc637dd9257b0, type: 2}
+  wallPrefab: {fileID: 100000, guid: e3e7c39751284344492a03bc74fc55f0, type: 2}
+  EnemySpawner: {fileID: 100000, guid: c3a351ed1e54c354c99c7d460d83aa16, type: 2}
+  Minimapcamera: {fileID: 100000, guid: ea52609adf144e449bfeac563da51684, type: 2}
+  Gate: {fileID: 100000, guid: 16cf1baaf1edf034dadc94eb5ac10fa5, type: 2}
+  torch: {fileID: 100012, guid: 3abc6258d3b3848199581033a47549d6, type: 2}
+  length: 10
+  width: 10
+  planewidth: 10
+  height: 3
+  nodeSize: 5
+  NumberOfPaths: 3
+  enemyTag: Enemy
+  enemyGuyant: {fileID: 100052, guid: 6a25f25271f527644ab0b18b0e7c536e, type: 2}
+  enemyGwarf: {fileID: 0}
+  enemyGrobble: {fileID: 0}
+  maxWaves: 5
+  currentWave: 1
+  maxTowerDistance: 50
+  tower1: {fileID: 100000, guid: 96dfe76670364bb408c40825fe24ca29, type: 2}
+  coolDownTimeTower1: .300000012
+  tower2: {fileID: 0}
+  poisonTrap: {fileID: 100004, guid: 00395c20601754c63bd039223cee03ff, type: 2}
+  fireTrap: {fileID: 100004, guid: 5eeab821c266140c29d2d3654a690e34, type: 2}
+  poisonTrapHotspot: {fileID: 100000, guid: 8365e323f860a6a44afec633d361c549, type: 2}
+  fireTrapHotspot: {fileID: 100000, guid: 893d831a349101a46bc73c1d7f9f5692, type: 2}
+  camOffset: 3
+  mainCamera: {fileID: 100000, guid: dd773a3570af80e458efc1407d736bdc, type: 2}
+  player: {fileID: 100040, guid: 3587cf6677cfb8c479dd075b07e7540f, type: 2}
+  magicBullet: {fileID: 100000, guid: 1b2fbfa5bc2ebc9428f28105eca1c5c9, type: 2}
+  bulletSpeed: 20
+  magicBulletSound: {fileID: 8300000, guid: b87f856579306f4479099fc0301b292f, type: 3}
+  backgroundMusic: {fileID: 8300000, guid: d27975801f9078a498ff2b86f1b7b508, type: 3}
+  damageText: {fileID: 100000, guid: 2173d4d4ee922db4a92d3e0e7293b9c8, type: 2}
+  gui: {fileID: 100000, guid: 8024b87a1ed91d1428251d98e7b6ea61, type: 2}
+  editorPlane: {fileID: 0}
+--- !u!4 &14726754
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+  m_PrefabInternal: {fileID: 100362672}
+  m_GameObject: {fileID: 14726752}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 42.2823257, y: 77.3980255, z: 60.808609}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+--- !u!1001 &100362672
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 42.2823257
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 77.3980255
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 60.808609
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: enemyGuyant
+      value: 
+      objectReference: {fileID: 100052, guid: 6a25f25271f527644ab0b18b0e7c536e, type: 2}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+  m_RootGameObject: {fileID: 14726752}
+  m_IsPrefabParent: 0
+  m_IsExploded: 1
 --- !u!1 &238715492
 GameObject:
   m_ObjectHideFlags: 0
@@ -101,11 +225,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaea5210c47d5e6499666061457c1bfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDistance: 50
-  Tower1: {fileID: 100000, guid: 96dfe76670364bb408c40825fe24ca29, type: 2}
-  Tower2: {fileID: 100000, guid: 0f60e255c935b89428a9f7f2729173a3, type: 2}
-  FloorTower1: {fileID: 100000, guid: 893d831a349101a46bc73c1d7f9f5692, type: 2}
-  FloorTower2: {fileID: 100000, guid: 575d5d4077c404a45b83931662f27016, type: 2}
 --- !u!4 &238715494
 Transform:
   m_ObjectHideFlags: 0
@@ -144,7 +263,7 @@ Light:
   serializedVersion: 3
   m_Type: 1
   m_Color: {r: 1, g: .823529422, b: .823529422, a: 1}
-  m_Intensity: .0799999982
+  m_Intensity: .280000001
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -209,19 +328,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dc8a47dd2fedcf4fa2c185728227ab2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  length: 10
-  width: 10
-  planewidth: 10
-  height: 5
-  nodeSize: 2.5
-  NumberOfPaths: 5
-  planePrefab: {fileID: 100016, guid: eb0912c352095c645a4cc637dd9257b0, type: 2}
-  wallPrefab: {fileID: 100000, guid: e3e7c39751284344492a03bc74fc55f0, type: 2}
-  node: {fileID: 100000, guid: b339f52a71c03094ab6a979385311b2f, type: 2}
-  EnemySpawner: {fileID: 100000, guid: c3a351ed1e54c354c99c7d460d83aa16, type: 2}
-  Minimapcamera: {fileID: 100000, guid: ea52609adf144e449bfeac563da51684, type: 2}
-  Gate: {fileID: 100000, guid: 16cf1baaf1edf034dadc94eb5ac10fa5, type: 2}
-  torch: {fileID: 100012, guid: 3abc6258d3b3848199581033a47549d6, type: 2}
 --- !u!4 &917609580
 Transform:
   m_ObjectHideFlags: 0
@@ -245,6 +351,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d78b195a82bc98846aca5a3907a8250d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 100040, guid: 3587cf6677cfb8c479dd075b07e7540f, type: 2}
-  camera: {fileID: 100000, guid: dd773a3570af80e458efc1407d736bdc, type: 2}
-  Gui: {fileID: 100000, guid: 8024b87a1ed91d1428251d98e7b6ea61, type: 2}
