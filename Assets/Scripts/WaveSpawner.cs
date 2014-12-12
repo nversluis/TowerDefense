@@ -17,12 +17,12 @@ public class WaveSpawner : MonoBehaviour
     public float maxZ;
     float orcHeigthSpawn = 3.27f;
 
+
     public int currentTotalStatPoints = 100;
     public int delta = 50;
 
     public ArrayList enemies;
     EnemyStats enemyStats;
-
 
     // Use this for initialization
     void Start()
@@ -83,7 +83,6 @@ public class WaveSpawner : MonoBehaviour
         GameObject Enemy = (GameObject)Instantiate(enemy, transform.position + new Vector3(randX, orcHeigthSpawn, randZ), Quaternion.identity);
        
         Enemy.name = "enemy";
-        Enemy.transform.FindChild("Floor").transform.position = transform.position;
         enemyStats = enemy.GetComponent<EnemyStats>();
         // Genereer enemies met toenemende stats per wave
         enemyStats.totalStatPoints = currentTotalStatPoints;
