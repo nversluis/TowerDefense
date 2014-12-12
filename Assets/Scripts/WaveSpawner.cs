@@ -6,22 +6,21 @@ public class WaveSpawner : MonoBehaviour
 {
     public GameObject enemy;
     public int maxEnemies = 5;
-    public float maxX;
-    public float maxZ;
-    float orcHeigthSpawn = 3.27f;
     public bool spawning = true;
 
 	public int maxWaves;
     public int currentWave = 1;
 
+    public float maxX;
+    public float maxZ;
+    float orcHeigthSpawn = 3.27f;
+
+    public int currentTotalStatPoints = 100;
+    public int delta = 50;
+
     public ArrayList enemies;
+    EnemyStats enemyStats;
 
-    EnemyAttack enemyAttack;
-
-    void Awake()
-    {
-        enemyAttack = GetComponent<EnemyAttack>();
-    }
 
     // Use this for initialization
     void Start()
@@ -54,6 +53,8 @@ public class WaveSpawner : MonoBehaviour
                 {
                     // Als alle enemies dood zijn, ga naar de volgende wave
                     currentWave++;
+                    // Verhoog de totale stat points
+                    currentTotalStatPoints += delta;
                     // Spawn een extra enemy voor de volgende wave
                     maxEnemies++;
                     // Enemies mogen weer gespawnd worden
@@ -76,8 +77,10 @@ public class WaveSpawner : MonoBehaviour
        
         Enemy.name = "enemy";
         Enemy.transform.FindChild("Floor").transform.position = transform.position;
+        enemyStats = enemy.GetComponent<EnemyStats>();
+        // Genereer enemies met toenemende stats per wave
+        enemyStats.totalStatPoints = currentTotalStatPoints;
         enemies.Add(Enemy);
-        //Debug.Log(enemies.Count);
     }
 
     void UpdateEnemyCount()
