@@ -10,24 +10,30 @@ public class Cooldown : MonoBehaviour {
     float cooldownTime;
 
 	private Image image;
-    public Text text;
+    private Text text;
+    private int i;
 
 	// Use this for initialization
 	void Start () {
 		image = GetComponent<Image>();
-        text = GetComponent<Text>();
+        text = GetComponentInChildren<Text>();
 		image.fillClockwise = false;
 		cdPercentage = 100;
 		currentMana = 30;
 		neededMana = 20;
-        cooldownTime = 10;
+        cooldownTime = 4;
         text.enabled = false;
+        i = 0;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if(cdPercentage > 0){
-			cdPercentage--;
+            if(i == 2) {
+                cdPercentage--;
+                i = 0;
+            }
+            i++;
 		}
 
 		if (currentMana < neededMana) {
@@ -37,9 +43,14 @@ public class Cooldown : MonoBehaviour {
 		}
 		else{
             text.enabled = true;
-            float timeRemaining = cdPercentage * cooldownTime;
+            float timeRemaining = cdPercentage * cooldownTime / 100;
             if(timeRemaining < 1) {
-                text.text = timeRemaining.ToString("0.00");
+                if(timeRemaining == 0) {
+                    text.enabled = false;
+                }
+                else {
+                    text.text = timeRemaining.ToString("0.0");
+                }
             }
             else {
                 text.text = Mathf.RoundToInt(timeRemaining).ToString();
