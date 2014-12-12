@@ -3,13 +3,16 @@ using System.Collections;
 
 public class CameraController : MonoBehaviour {
 
+	private GameObject ResourceManagerObj;
+	private ResourceManager resourceManager;
+
     // initializing mouse position floats
     private float x;
     private float y;
 
     // initializing camera properties
     private float camDis = 6;
-    public float camOffset = 4;
+    private float camOffset = 4;
     private float distanceOffset;
     private float scrollSpeed = 4;
     private float maxCamHeight = 10;
@@ -17,7 +20,7 @@ public class CameraController : MonoBehaviour {
     private float mouseSpeed = 2;
 
     // initializing Player gameobject
-    public GameObject Player;
+    private GameObject Player;
 
     // initializing raycasthit
     public static RaycastHit hit;
@@ -30,7 +33,10 @@ public class CameraController : MonoBehaviour {
 
     private void Start()
     {
+		ResourceManagerObj = GameObject.Find ("ResourceManager");
+		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
         Player = GameObject.Find("Player");
+		camOffset = resourceManager.camOffset;
 	}
 
     // Method for determining mouse input to calculate the camera position

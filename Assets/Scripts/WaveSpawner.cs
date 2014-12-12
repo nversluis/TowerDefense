@@ -4,15 +4,17 @@ using System.Collections.Generic;
 
 public class WaveSpawner : MonoBehaviour
 {
-    public GameObject enemy;
+	private GameObject ResourceManagerObj;
+	private ResourceManager resourceManager;
+    private GameObject enemy;
     public int maxEnemies = 5;
     public float maxX;
     public float maxZ;
     float orcHeigthSpawn = 3.27f;
     public bool spawning = true;
 
-	public int maxWaves;
-    public int currentWave = 1;
+	private int maxWaves;
+	private int currentWave;
 
     public ArrayList enemies;
 
@@ -26,6 +28,11 @@ public class WaveSpawner : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+		ResourceManagerObj = GameObject.Find ("ResourceManager");
+		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
+		enemy = resourceManager.enemyGuyant;
+		maxWaves = resourceManager.maxWaves;
+		currentWave = resourceManager.currentWave;
         enemies = new ArrayList();
     }
 
