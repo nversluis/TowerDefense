@@ -10,8 +10,6 @@ public class Navigator : MonoBehaviour {
     static float gridSize = RandomMaze.gridSize;
     // Make a layer mask for the ray casts
     static LayerMask layerMask = 1<<10;
-    // The higher the D-factor, the faster, but less accurate the algorithm becomes
-    public static float D = 0.15f;
 
     /* DEBUG */
     //static float drawTime1;
@@ -19,7 +17,7 @@ public class Navigator : MonoBehaviour {
     //static float drawTime3;
     /* DEBUG */
 
-    public static List<Vector3> Path(Vector3 startPoint, Vector3 endPoint) {
+    public static List<Vector3> Path(Vector3 startPoint, Vector3 endPoint, float D = 0.15f) {
         /** INITIALIZATION **/
 
         /* DEBUG */
