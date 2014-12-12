@@ -5,17 +5,21 @@ using System.Collections.Generic;
 public class EnemyScript : MonoBehaviour {
     List<Vector3> Path;
     int i = 0;
-    float walkSpeed = 20;
+    float walkSpeed;
     float orcHeigthSpawn = 3.27f;
     CharacterController characterController;
     public bool automaticPathUpdating;
     EnemyStats enemystats;
 
+    
 	// Use this for initialization
 	void Start () {
 
         characterController = GetComponent<CharacterController>();
         Path = Navigator.Path(transform.position, PlayerController.location - new Vector3(0f, PlayerController.location.y, 0f));
+
+        enemystats = GetComponent<EnemyStats>();
+        walkSpeed = enemystats.speed/10 + 3;
 
         if (automaticPathUpdating)
         {

@@ -39,13 +39,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 944f66ad451dba04eb2086e397509f88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 100052, guid: 542ce7d63d2ec46408eeb6e3ea9fceb5, type: 2}
-  maxEnemies: 1
+  enemy: {fileID: 100040, guid: 3587cf6677cfb8c479dd075b07e7540f, type: 2}
+  maxEnemies: 5
+  spawning: 1
+  maxWaves: 50
+  currentWave: 1
   maxX: 0
   maxZ: 0
-  spawning: 1
-  maxWaves: 1
-  currentWave: 1
+  currentTotalStatPoints: 100
+  delta: 50
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
