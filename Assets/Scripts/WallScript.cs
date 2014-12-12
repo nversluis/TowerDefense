@@ -6,7 +6,16 @@ using System.Collections;
 public class WallScript : MonoBehaviour {
 			
 	Color transparentgreen = new Color(0,255,0,0.1f); //Color of the green hotspot
-	
+	private GameObject ResourceManagerObj;
+	private ResourceManager resourceManager;
+	float planeW;
+
+	void Start(){
+		ResourceManagerObj = GameObject.Find ("ResourceManager");
+		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
+		planeW = resourceManager.planewidth;
+	}
+
 	void Update(){
 		if (gameObject == CameraController.hitObject) { //if the object you are looking at is the wall
 			Vector3 normal = CameraController.hit.normal;
@@ -15,11 +24,11 @@ public class WallScript : MonoBehaviour {
 			GameObject TowerPrefab = WeaponController.curTower;
 			if (TowerPrefab != null) { 
 				Vector3 normalToWall = CameraController.hit.normal;
-				Vector3 TowerOffset = new Vector3 (Mathf.Sin (transform.eulerAngles.y / 180 * Mathf.PI), 0, Mathf.Cos (transform.eulerAngles.y / 180 * Mathf.PI)) * RandomMaze.getPlaneWidth()/50;
-				GameObject tower = (GameObject)Instantiate (TowerPrefab, new Vector3(transform.position.x,RandomMaze.getPlaneWidth()/2,transform.position.z), transform.rotation);
-				tower.gameObject.transform.localScale=new Vector3(RandomMaze.getPlaneWidth()/2,RandomMaze.getPlaneWidth()/2,RandomMaze.getPlaneWidth()/100)*100;
+				Vector3 TowerOffset = new Vector3 (Mathf.Sin (transform.eulerAngles.y / 180 * Mathf.PI), 0, Mathf.Cos (transform.eulerAngles.y / 180 * Mathf.PI)) * planeW/50;
+				GameObject tower = (GameObject)Instantiate (TowerPrefab, new Vector3(transform.position.x,planeW/2,transform.position.z), transform.rotation);
+				tower.gameObject.transform.localScale = new Vector3 (50, 50, 1) * planeW;
 				tower.gameObject.transform.Rotate(new Vector3 (-90, 0, 0));
-				tower.gameObject.transform.position += tower.gameObject.transform.forward*RandomMaze.getPlaneWidth()/58;
+				tower.gameObject.transform.position += tower.gameObject.transform.forward*planeW/58;
 				tower.renderer.material.color = transparentgreen;
 				tower.renderer.material.shader = Shader.Find ("Transparent/Diffuse");
 			}

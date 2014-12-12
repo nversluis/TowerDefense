@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 public class EnemyHealth : MonoBehaviour {
 
+	private GameObject ResourceManagerObj;
+	private ResourceManager resourceManager;
+
     public int startingHealth = 100;
     public int currentHealth;
 	public int defense;
@@ -15,7 +18,7 @@ public class EnemyHealth : MonoBehaviour {
 	public bool isPoisoned;
 	public float poisonAmount = 0;
 
-	public GameObject textObject;
+	private GameObject textObject;
 
     void Awake()
     {
@@ -24,11 +27,14 @@ public class EnemyHealth : MonoBehaviour {
 
     void Start()
     {
+		ResourceManagerObj = GameObject.Find ("ResourceManager");
+		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
         startingHealth = enemyStats.health*10;
         defense = enemyStats.defense;
         currentHealth = startingHealth;
         startPosition = new Vector3(50, 50, 50);
 		InvokeRepeating ("doPoisonDamage", 0, 5);
+		textObject = resourceManager.damageText;
     }
 
     // Update is called once per frame

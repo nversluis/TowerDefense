@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class PoisonTrap : MonoBehaviour {
-
+	private GameObject ResourceManagerObj;
+	private ResourceManager resourceManager;
 	private int damagePerShot=500;
 	private string enemyTag = ("Enemy");
 	private GameObject enemy;
@@ -28,8 +29,11 @@ public class PoisonTrap : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
+		ResourceManagerObj = GameObject.Find ("ResourceManager");
+		resourceManager = ResourceManagerObj.GetComponent<ResourceManager>();
 		partSys = gameObject.transform.GetChild (2).gameObject;
-		particleStartSize=partSys.particleSystem.startSize*RandomMaze.getPlaneWidth()/5;;
+		particleStartSize=partSys.particleSystem.startSize*resourceManager.planewidth/5;
+
 	}
 	
 	// Update is called once per frame

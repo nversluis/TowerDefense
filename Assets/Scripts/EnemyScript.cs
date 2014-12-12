@@ -34,6 +34,7 @@ public class EnemyScript : MonoBehaviour {
         if (Path != null)
         {
             Vector3 dir;
+
             if (i != 0)
             {
                 dir = (Path[i] - transform.position).normalized * walkSpeed;
@@ -52,6 +53,7 @@ public class EnemyScript : MonoBehaviour {
             Vector3 nextPointDistance = (Path[i] - transform.position);
             nextPointDistance.y = 0;
             if (nextPointDistance.magnitude < 1f && i < Path.Count - 1)
+
             {
                 i++;
             }

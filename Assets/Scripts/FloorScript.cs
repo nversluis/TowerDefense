@@ -3,7 +3,12 @@ using System.Collections;
 
 public class FloorScript : MonoBehaviour {
 	private int i;
-	void Start(){i = 0;}
+	private GameObject ResourceManagerObj;
+	private ResourceManager resourceManager;
+	void Start(){i = 0;
+		ResourceManagerObj = GameObject.Find ("ResourceManager");
+		resourceManager = ResourceManagerObj.GetComponent<ResourceManager>();
+	}
 	void Update(){
 		//Debug.Log (CameraController.hitObject.name);
 		if (gameObject == CameraController.hitObject) { //if the object you are looking at is the floor
@@ -11,7 +16,7 @@ public class FloorScript : MonoBehaviour {
 			int aantalPerPlane = WeaponController.trapGridSize;
 			GameObject TowerPrefab = WeaponController.curFloorTower;
 			if (TowerPrefab != null) { 
-				float planeW = RandomMaze.getPlaneWidth ();
+				float planeW =resourceManager.planewidth;
 				GameObject tower = (GameObject)Instantiate (TowerPrefab, transform.position+new Vector3(0,planeW/1000,0), transform.rotation);
 				tower.gameObject.transform.Rotate(270, 0, 0);
 				tower.gameObject.transform.localScale=new Vector3( planeW, planeW, planeW)/4.444f;

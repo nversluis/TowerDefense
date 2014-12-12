@@ -5,9 +5,12 @@ using System.Collections;
 // Class that controls the player movements
 public class PlayerController : MonoBehaviour
 {
+	private GameObject ResourceManagerObj;
+	private ResourceManager resourceManager;
+
     // initializing some global variables
-    public GameObject camera;
-    public GameObject Bullet;
+    private GameObject camera;
+    private GameObject Bullet;
 
     private float playerSpeed = 15f;
     private float BulletSpeed = 100f;
@@ -18,7 +21,7 @@ public class PlayerController : MonoBehaviour
     private float jumpSpeed = 10f;
     private float moveY=0;
     public static bool moving;
-    public AudioClip magic;
+    private AudioClip magic;
     public static Vector3 location;
     Vector3 startPosition;
 
@@ -183,10 +186,15 @@ public class PlayerController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+		ResourceManagerObj = GameObject.Find ("ResourceManager");
+		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
         // Do not display cursor
         Screen.showCursor = false;
         camera = GameObject.Find("Main Camera");
         startPosition = transform.position;
+		Bullet = resourceManager.magicBullet;
+		magic = resourceManager.magicBulletSound;
+
         
 
     }

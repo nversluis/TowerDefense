@@ -3,21 +3,23 @@ using System.Collections;
 
 public class WeaponController : MonoBehaviour
 {
-
+	private GameObject ResourceManagerObj;
+	private ResourceManager resourceManager;
+	float planeW;
 	// initializing constants
-	public float maxDistance;
-	//max distance you can put towers
+
+
 	public static int trapGridSize; //The amount of traps you can place in the length of a one planewidth. >0
 
-	public GameObject Tower1;
+	private GameObject Tower1;
 	// First Tower prefab
-	public GameObject Tower2;
+	private GameObject Tower2;
 	// Second Tower prefab
-	public GameObject FloorTower1;
+	private GameObject FloorTower1;
 	//First FloorTower prefab
-	public GameObject FloorTower2;
+	private GameObject FloorTower2;
 
-	public static float Distance;
+
 	public static GameObject curTower;
 	public static GameObject curFloorTower;
 	//current Tower selected
@@ -26,7 +28,13 @@ public class WeaponController : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		Distance = maxDistance;
+		ResourceManagerObj = GameObject.Find ("ResourceManager");
+		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
+
+		Tower1 = resourceManager.tower1;
+		Tower2 = resourceManager.tower2;
+		FloorTower1 = resourceManager.fireTrapHotspot;
+		FloorTower2 = resourceManager.poisonTrapHotspot;
 		curTower = null;
 		curFloorTower = null;
 		weapon = 1;
