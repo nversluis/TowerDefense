@@ -47,12 +47,12 @@ MonoBehaviour:
   torch: {fileID: 100012, guid: 3abc6258d3b3848199581033a47549d6, type: 2}
   length: 10
   width: 10
-  planewidth: 20
+  planewidth: 10
   height: 3
   nodeSize: 2.5
   NumberOfPaths: 3
   enemyTag: Enemy
-  enemyGuyant: {fileID: 100052, guid: 8a2e017a33dbf9748ad510b090cfb8be, type: 2}
+  enemyGuyant: {fileID: 100052, guid: 6a25f25271f527644ab0b18b0e7c536e, type: 2}
   enemyGwarf: {fileID: 0}
   enemyGrobble: {fileID: 0}
   maxWaves: 5
@@ -67,7 +67,7 @@ MonoBehaviour:
   fireTrapHotspot: {fileID: 100000, guid: 893d831a349101a46bc73c1d7f9f5692, type: 2}
   camOffset: 3
   mainCamera: {fileID: 100000, guid: dd773a3570af80e458efc1407d736bdc, type: 2}
-  player: {fileID: 100040, guid: 3587cf6677cfb8c479dd075b07e7540f, type: 2}
+  player: {fileID: 100002, guid: 9edc1a7a41b114241945f4f7e510d868, type: 2}
   startPos: {x: 0, y: 0}
   endPos: {x: 0, y: 0}
   magicBullet: {fileID: 100000, guid: 1b2fbfa5bc2ebc9428f28105eca1c5c9, type: 2}

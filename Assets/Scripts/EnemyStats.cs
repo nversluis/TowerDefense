@@ -5,8 +5,7 @@ using System.Collections.Generic;
 public class EnemyStats : MonoBehaviour {
 
     private List<int> stats;
-    public int totalStatPoints;
-    private string type;
+    public int totalStatPoints = 100;
 
     // Stats van een enemy
     public int health;
@@ -14,6 +13,7 @@ public class EnemyStats : MonoBehaviour {
     public int defense;
     public int speed;
     public int totalDamage;
+    public float dfactor;
 
     void Awake()
     {
@@ -39,6 +39,7 @@ public class EnemyStats : MonoBehaviour {
         this.attack = stats[1];
         this.defense = stats[2];
         this.speed = stats[3];
+        this.dfactor = Random.RandomRange(0.10f, 0.50f);
     }
 
     public int fitness()

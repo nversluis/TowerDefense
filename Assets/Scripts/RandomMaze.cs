@@ -69,7 +69,7 @@ public class RandomMaze : MonoBehaviour
 		//generate Nodes;
 		//MakeNodeList (nodeSize,NodesPos,Nodes);
 		//create the minimap camera
-
+		resourceManager.Nodes = Nodes;
 	
 	}
 

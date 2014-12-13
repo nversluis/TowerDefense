@@ -41,13 +41,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemy: {fileID: 100052, guid: 8a2e017a33dbf9748ad510b090cfb8be, type: 2}
   maxEnemies: 5
-  spawning: 1
-  maxWaves: 50
-  currentWave: 1
   maxX: 0
   maxZ: 0
-  currentTotalStatPoints: 100
-  delta: 50
+  spawning: 1
+  maxWaves: 5
+  currentWave: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

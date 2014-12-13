@@ -406,7 +406,7 @@ GameObject:
   - 54: {fileID: 5400000}
   - 65: {fileID: 6500000}
   m_Layer: 0
-  m_Name: enemyOrc
+  m_Name: enemyOrcWithWep7.prefab.LOCAL.14792
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
