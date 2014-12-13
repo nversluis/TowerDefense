@@ -15,12 +15,6 @@ public class Navigator : MonoBehaviour
 	// Make a layer mask for the ray casts
 	static LayerMask layerMask = 1 << 10;
 
-	/* DEBUG */
-	//static float drawTime1;
-	//static float drawTime2;
-	//static float drawTime3;
-	/* DEBUG */
-
 	void Start ()
 	{
 		ResourceManagerObj = GameObject.Find ("ResourceManager");
@@ -85,7 +79,9 @@ public class Navigator : MonoBehaviour
 		for (int i = 0; i < startNodes.Count; i++) {
 			WayPoint dest = startNodes [i];
 			dest.setGCost (CalculateGCost (startWP, dest, D));
-			dest.setFCost (CalculateFCost (startWP, dest, endWP, D));
+			float FCost = CalculateFCost(startWP, dest, endWP, D);
+			if (FCost == -1)
+				return null;
 			dest.setPrevious (startWP);
 			dest.setState ("open");
 			startWP.AddNode (dest);
@@ -245,7 +241,14 @@ public class Navigator : MonoBehaviour
 	// Function that calculates the g-cost between two waypoints (cost based on distance from start point)
 	static float CalculateGCost (WayPoint current, WayPoint destination, float D)
 	{
-		return current.getGCost () + (current.getPosition () - destination.getPosition ()).magnitude + destination.getPenalty ();
+		try
+		{
+			return current.getGCost() + (current.getPosition() - destination.getPosition()).magnitude + destination.getPenalty();
+		}
+		catch(System.Exception e)
+		{
+			return -1;
+		}   
 	}
 
 	// Function that calculates the f-cost between two waypoints (cost based on distance from both start and end point)
@@ -253,10 +256,12 @@ public class Navigator : MonoBehaviour
 	{
 		// Distance from current node to destination
 		float g_cost = CalculateGCost (current, destination, D);
-
+		if (g_cost == -1){
+			return -1;
+		}
 		// Heuristic, in our case the Diagonal Shortcut
 		float h_cost = Heuristic (destination.getPosition (), endpoint.getPosition ());
-        
+
 		/* DEBUG */
 		//Debug.Log("g-cost: " + g_cost);
 		//Debug.Log("h-cost: " + D * h_cost);
@@ -326,7 +331,7 @@ public class Navigator : MonoBehaviour
 				return wp;
 			}
 		}
-		Debug.LogError ("No waypoint exists at given position, returning null!");
+		Debug.Log ("No waypoint exists at given position, returning null!");
 		return null;
 	}
 
@@ -363,4 +368,3 @@ public class Navigator : MonoBehaviour
 		openNodes.Add (newWp);
 	}
 }
-
