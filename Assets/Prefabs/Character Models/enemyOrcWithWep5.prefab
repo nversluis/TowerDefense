@@ -403,9 +403,6 @@ GameObject:
   - 114: {fileID: 11400000}
   - 54: {fileID: 5400000}
   - 136: {fileID: 13600000}
-  - 114: {fileID: 11400002}
-  - 114: {fileID: 11400004}
-  - 114: {fileID: 11400006}
   m_Layer: 0
   m_Name: enemyOrcWithWep5
   m_TagString: Untagged
@@ -862,59 +859,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   automaticPathUpdating: 1
---- !u!114 &11400002
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100052}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26b5135980ce2394aba3dc8f300c1357, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timeBetweenAttacks: 5
-  attackDamage: 1
-  playerDistance: 0
-  totalDamage: 0
-  player: {fileID: 100040, guid: 3587cf6677cfb8c479dd075b07e7540f, type: 2}
---- !u!114 &11400004
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100052}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d220dc3be3ccdf547bdbe56c65a29fe0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startingHealth: 100
-  currentHealth: 0
-  defense: 0
-  enemyStats: {fileID: 0}
-  startPosition: {x: 0, y: 0, z: 0}
-  isDead: 0
-  isPoisoned: 0
-  poisonAmount: 0
-  textObject: {fileID: 100000, guid: 2173d4d4ee922db4a92d3e0e7293b9c8, type: 2}
---- !u!114 &11400006
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100052}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c928c7d5088d06b4cb70a96bac54f291, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  totalStatPoints: 100
-  health: 0
-  attack: 0
-  defense: 0
-  speed: 0
-  totalDamage: 0
 --- !u!136 &13600000
 CapsuleCollider:
   m_ObjectHideFlags: 1

@@ -6,29 +6,22 @@ public class GAWaveSpawner : MonoBehaviour
 {
     public GameObject enemy;
     public int maxEnemies = 5;
-    public float maxX;
-    public float maxZ;
-    //float orcHeigthSpawn = 3.27f;
     public bool spawning = true;
 
-    //public int toenameStatsPerWave = 20;
-
-    public int maxWaves = 5;
+    public int maxWaves = 10;
     public int currentWave = 1;
+
+    public float maxX;
+    public float maxZ;
+    float orcHeigthSpawn = 3.27f;
+
+    public int currentTotalStatPoints = 100;
+    public int delta = 50;
 
     public ArrayList currentGen;
     public ArrayList nextGen;
-
-    EnemyAttack enemyAttack;
     EnemyStats enemyStats;
-    EnemyHealth enemyHealth;
 
-    void Awake()
-    {
-        enemyAttack = GetComponent<EnemyAttack>();
-        enemyStats = GetComponent<EnemyStats>();
-        enemyHealth = GetComponent<EnemyHealth>();
-    }
 
     // Use this for initialization
     void Start()
@@ -56,57 +49,18 @@ public class GAWaveSpawner : MonoBehaviour
             }
             else
             {
-                //UpdateEnemyCount();
-                //Debug.Log(nextGen.Count);
-
                 if (AllEnemiesDead())
                 {
-                    //Debug.Log("Worden alle enemies gespawnd?");
                     // Als alle enemies dood zijn, ga naar de volgende wave
                     currentWave++;
-                    // Spawn een extra enemy voor de volgende wave
-                    maxEnemies++;
                     // Enemies mogen weer gespawnd worden
                     spawning = true;
                 }
             }
-        
-
-            //if (spawning)
-            //{
-            //    if (currentGen.Count < maxEnemies)
-            //    {
-            //        // Spawn enemies tot het maximale aantal enemies wordt bereikt
-            //        SpawnEnemy();
-            //    }
-            //    else
-            //    {
-            //        spawning = false;
-            //    }
-            //}
-            //else
-            //{
-            //    UpdateEnemyCount();
-
-            //    if (currentGen.Count == 0)
-            //    {
-            //        Debug.Log("if (currentGen.Count == 0) wordt doorlopen");
-            //        // Als alle enemies dood zijn, ga naar de volgende wave
-            //        currentWave++;
-            //        // Totale stats van enemies nemen per wave toe
-            //        // enemyStats.totalStatPoints += toenameStatsPerWave;
-            //        // Spawn een extra enemy voor de volgende wave
-            //        // maxEnemies++;
-            //        // Enemies mogen weer gespawnd worden
-            //        // spawning = true;
-            //        SpawnNextGen();
-            //        currentGen = nextGen;
-            //    }
-            //}
         }
         else
         {
-            //Debug.Log("Congratulations! You've succesfully defeated all waves of enemies!");
+            Debug.Log("Congratulations! You've succesfully defeated all waves of enemies!");
         }
         
     }
@@ -116,10 +70,14 @@ public class GAWaveSpawner : MonoBehaviour
         float randX = Random.Range(-maxX / 2, maxX / 2);
         float randZ = Random.Range(-maxZ / 2, maxZ / 2);
 
-        GameObject Enemy = (GameObject)Instantiate(enemy, transform.position + new Vector3(randX, 0f, randZ), Quaternion.identity);
+        GameObject Enemy = (GameObject)Instantiate(enemy, transform.position + new Vector3(randX, orcHeigthSpawn, randZ), Quaternion.identity);
+
         Enemy.name = "enemy";
+        Enemy.transform.FindChild("Floor").transform.position = transform.position;
+        enemyStats = enemy.GetComponent<EnemyStats>();
+        // Genereer enemies met toenemende stats per wave
+        enemyStats.totalStatPoints = currentTotalStatPoints;
         currentGen.Add(Enemy);
-        //Debug.Log(enemies.Count);
     }
 
 

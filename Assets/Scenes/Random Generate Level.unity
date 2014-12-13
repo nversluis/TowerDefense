@@ -115,7 +115,7 @@ MonoBehaviour:
   nodeSize: 5
   NumberOfPaths: 3
   enemyTag: Enemy
-  enemyGuyant: {fileID: 100052, guid: 8a2e017a33dbf9748ad510b090cfb8be, type: 2}
+  enemyGuyant: {fileID: 100052, guid: 6a25f25271f527644ab0b18b0e7c536e, type: 2}
   enemyGwarf: {fileID: 0}
   enemyGrobble: {fileID: 0}
   maxWaves: 5
@@ -137,7 +137,7 @@ MonoBehaviour:
   backgroundMusic: {fileID: 8300000, guid: d27975801f9078a498ff2b86f1b7b508, type: 3}
   damageText: {fileID: 100000, guid: 2173d4d4ee922db4a92d3e0e7293b9c8, type: 2}
   gui: {fileID: 100000, guid: 8024b87a1ed91d1428251d98e7b6ea61, type: 2}
-  levelGeneratePlane: {fileID: 0}
+  editorPlane: {fileID: 0}
 --- !u!4 &14726754
 Transform:
   m_ObjectHideFlags: 0
@@ -189,6 +189,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: enemyGuyant
+      value: 
+      objectReference: {fileID: 100052, guid: 6a25f25271f527644ab0b18b0e7c536e, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
   m_RootGameObject: {fileID: 14726752}
