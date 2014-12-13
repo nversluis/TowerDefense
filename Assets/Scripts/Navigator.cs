@@ -73,7 +73,10 @@ public class Navigator : MonoBehaviour {
         for(int i = 0; i < startNodes.Count; i++) {
                 WayPoint dest = startNodes[i];
                 dest.setGCost(CalculateGCost(startWP, dest, D));
-                dest.setFCost(CalculateFCost(startWP, dest, endWP, D));
+                float FCost = CalculateFCost(startWP, dest, endWP, D);
+                if (FCost == -1)
+                    return null;
+                dest.setFCost(FCost);
                 dest.setPrevious(startWP);
                 dest.setState("open");
                 startWP.AddNode(dest);
@@ -230,13 +233,25 @@ public class Navigator : MonoBehaviour {
 
     // Function that calculates the g-cost between two waypoints (cost based on distance from start point)
     static float CalculateGCost(WayPoint current, WayPoint destination, float D) {
-        return current.getGCost() + (current.getPosition() - destination.getPosition()).magnitude + destination.getPenalty();
+
+        try
+        {
+            return current.getGCost() + (current.getPosition() - destination.getPosition()).magnitude + destination.getPenalty();
+        }
+        catch(System.Exception e)
+        {
+            return -1;
+        }   
     }
 
     // Function that calculates the f-cost between two waypoints (cost based on distance from both start and end point)
     static float CalculateFCost(WayPoint current, WayPoint destination, WayPoint endpoint, float D) {
         // Distance from current node to destination
         float g_cost = CalculateGCost(current, destination, D);
+
+        if (g_cost == -1){
+            return -1;
+        }
 
         // Heuristic, in our case the Diagonal Shortcut
         float h_cost = Heuristic(destination.getPosition(), endpoint.getPosition());
@@ -310,7 +325,7 @@ public class Navigator : MonoBehaviour {
                 return wp;
             }
         }
-        Debug.LogError("No waypoint exists at given position, returning null!");
+        Debug.Log("No waypoint exists at given position, returning null!");
         return null;
     }
 

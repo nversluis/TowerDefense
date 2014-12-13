@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     private float camAngleY;
     private float distortion;
     private float turnSpeed = 0.5f;
-    private float jumpSpeed = 10f;
+    private float jumpSpeed = 8.78f;
     private float moveY=0;
     public static bool moving;
     private AudioClip magic;
@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
 
         // creating a movement vector
         Vector3 movement = new Vector3(moveX, 0f, moveZ).normalized * playerSpeed;
-        movement += new Vector3(0f, moveY, 0f);
+        movement += new Vector3(0f, moveY + rigidbody.velocity.y, 0f);
 
         //return the movement of the player according to camera rotation and input
         return movement;
@@ -64,13 +64,13 @@ public class PlayerController : MonoBehaviour
             moving = false;
 
         // moving the player according to input
-        rigidbody.velocity = (playerInput() );
+
+        rigidbody.velocity = playerInput();
     }
 
     private float Ymovement(float moveY)
     {
-
-        moveY += Physics.gravity.y*Time.fixedDeltaTime;
+        moveY = 0;
 
         if (isGrounded())
         {
@@ -89,10 +89,12 @@ public class PlayerController : MonoBehaviour
 
     bool isGrounded()
     {
-        BoxCollider collider = GetComponent<BoxCollider>();
-        float distance = collider.center.y * transform.localScale.y - (collider.center.y * transform.localScale.y-collider.size.y/2*transform.localScale.y);
-        Debug.DrawRay(new Vector3(collider.center.x * transform.localScale.x, collider.center.y * transform.localScale.y, collider.center.z * transform.localScale.z) + transform.position,new Vector3(0, -1, 0)*distance,Color.red);
-        return Physics.Raycast(new Vector3(collider.center.x * transform.localScale.x, collider.center.y * transform.localScale.y, collider.center.z * transform.localScale.z) + transform.position, new Vector3(0,-1,0), distance);
+        CapsuleCollider collider = GetComponent<CapsuleCollider>();
+        float colliderCenterLoc = collider.center.y * transform.localScale.y;
+        float colliderOriginDistance = (collider.center.y * transform.localScale.y-collider.height/2*transform.localScale.y);
+        float distance = colliderCenterLoc - colliderOriginDistance;
+        Ray ray = new Ray(new Vector3(collider.center.x * transform.localScale.x, collider.center.y * transform.localScale.y, collider.center.z * transform.localScale.z) + transform.position, new Vector3(0,-1,0));
+        return Physics.Raycast(ray, distance+0.1f);
     }
 
 

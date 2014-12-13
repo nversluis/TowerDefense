@@ -28,7 +28,7 @@ public class CameraController : MonoBehaviour {
     // creating properties for determining which object is pointed to
     public static GameObject hitObject;
 
-	public static LayerMask ignoreMask = ~(1<<9); //ignore layer 9
+	public static LayerMask ignoreMask = ~((1<<11) | (1<<12)); //ignore layer 9
 
 
     private void Start()
@@ -80,7 +80,7 @@ public class CameraController : MonoBehaviour {
 
 
         // casting a ray from player to camera and checking if it hit something
-		if (Physics.Raycast(Player.transform.position + new Vector3(0f, camOffset, 0f), relativePos, out hit, camDis + 0.5f))
+		if (Physics.Raycast(Player.transform.position + new Vector3(0f, camOffset, 0f), relativePos, out hit, camDis + 0.5f,ignoreMask))
         {
 			hits = Physics.RaycastAll(Player.transform.position, relativePos, camDis + 0.5f);
             // setting an offset of the camera so it doesnt go through a wall

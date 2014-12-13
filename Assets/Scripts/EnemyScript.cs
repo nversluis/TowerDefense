@@ -45,8 +45,8 @@ public class EnemyScript : MonoBehaviour {
                 dir = (Path[i+1] - transform.position).normalized * walkSpeed;
 
             }
-            dir.y = rigidbody.velocity.y -20* Time.fixedDeltaTime;
-            rigidbody.velocity = (dir);
+            
+            rigidbody.velocity = (dir+new Vector3(0f,rigidbody.velocity.y,0f));
             rigidbody.angularVelocity = Vector3.zero;
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir.normalized), Time.deltaTime * 5f);
             transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
