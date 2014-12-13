@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: de98117258cf6fa4b9bc65e596261cea
+guid: bad2d35172989f445aeccb40c33fbf51
 ModelImporter:
   serializedVersion: 16
   fileIDToRecycleName:
@@ -59,7 +59,8 @@ ModelImporter:
     400052: upperLeg_R
     4300000: Cube
     7400000: Default Take
-    7400002: Idle
+    7400002: Attack
+    7400004: Idle
     9500000: //RootNode
     13700000: Cube
   materials:

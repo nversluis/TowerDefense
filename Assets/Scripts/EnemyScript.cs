@@ -3,6 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class EnemyScript : MonoBehaviour {
+
+	private GameObject ResourceManagerObj;
+	private ResourceManager resourceManager;
+	private float nodeSize;
+	private List<WayPoint> grid;
     List<Vector3> Path;
     int i = 0;
     float walkSpeed;
@@ -14,17 +19,23 @@ public class EnemyScript : MonoBehaviour {
     
 	// Use this for initialization
 	void Start () {
+		ResourceManagerObj = GameObject.Find ("ResourceManager");
+		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
+		grid = resourceManager.Nodes;
+		float nodeSize = resourceManager.nodeSize;
 
         characterController = GetComponent<CharacterController>();
-        Path = Navigator.Path(transform.FindChild("Floor").transform.position, PlayerController.location - new Vector3(0f, PlayerController.location.y, 0f));
-
+		Path = Navigator.Path(new Vector3(transform.position.x,0,transform.position.z), PlayerController.location - new Vector3(0f, PlayerController.location.y,0f),nodeSize,grid);
+	
         enemystats = GetComponent<EnemyStats>();
         walkSpeed = enemystats.speed/10 + 3;
+
 
         if (automaticPathUpdating)
         {
             InvokeRepeating("BuildPath", 0, 0.5f);
         }
+
 	}
 
 	 //Update is called once per frame
@@ -65,7 +76,7 @@ public class EnemyScript : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Q) && !automaticPathUpdating)
         {
-            Path = Navigator.Path(transform.FindChild("Floor").transform.position, PlayerController.location - new Vector3(0f, PlayerController.location.y, 0f));
+			Path = Navigator.Path(transform.FindChild("Floor").transform.position, PlayerController.location - new Vector3(0f, PlayerController.location.y, 0f),nodeSize,grid);
             i = 0;
         }
 
@@ -73,7 +84,7 @@ public class EnemyScript : MonoBehaviour {
 
 	void BuildPath(){
 
-		Path = Navigator.Path(transform.FindChild("Floor").transform.position, PlayerController.location - new Vector3(0f, PlayerController.location.y, 0f));
+		Path = Navigator.Path(transform.FindChild("Floor").transform.position, PlayerController.location - new Vector3(0f, PlayerController.location.y, 0f),resourceManager.nodeSize,resourceManager.Nodes);
 		i = 0;
 
 	}

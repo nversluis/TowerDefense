@@ -19,6 +19,7 @@ public class EnemyHealth : MonoBehaviour {
 	public float poisonAmount = 0;
 
 	private GameObject textObject;
+	private float nodeSize;
 
     void Awake()
     {
@@ -35,6 +36,7 @@ public class EnemyHealth : MonoBehaviour {
         startPosition = new Vector3(50, 50, 50);
 		InvokeRepeating ("doPoisonDamage", 0, 5);
 		textObject = resourceManager.damageText;
+		nodeSize = resourceManager.nodeSize;
     }
 
     // Update is called once per frame
@@ -98,12 +100,12 @@ public class EnemyHealth : MonoBehaviour {
     void Death()
     {
        
-		List<WayPoint> WPoints = new List<WayPoint> ();
-		WPoints=Navigator.FindWayPointsNear (transform.position, RandomMaze.Nodes);
-		foreach (WayPoint wp in WPoints) {
-			float newPenalty = wp.getPenalty ()+100;
-			wp.setPenalty (newPenalty);
-		}
+		//List<WayPoint> WPoints = new List<WayPoint> ();
+		//WPoints=Navigator.FindWayPointsNear (transform.position, ResourceManager.Nodes,nodeSize);
+		//foreach (WayPoint wp in WPoints) {
+		//	float newPenalty = wp.getPenalty ()+100;
+		//	wp.setPenalty (newPenalty);
+		//}
 		isDead = true;
 		Destroy(this.gameObject);
 

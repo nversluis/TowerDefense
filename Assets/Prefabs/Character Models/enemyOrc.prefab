@@ -787,7 +787,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100052}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12.5239325, y: -.671898365, z: 1.95995533}
+  m_LocalPosition: {x: 62.3848381, y: 37.1057129, z: 154.62796}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400050}
@@ -803,7 +803,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100054}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -199.887085, y: -16.1919918, z: -5.17152309}
+  m_LocalPosition: {x: 0, y: -3.21000004, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400052}
@@ -936,7 +936,8 @@ MonoBehaviour:
   enemyStats: {fileID: 0}
   startPosition: {x: 0, y: 0, z: 0}
   isDead: 0
-  textObject: {fileID: 100000, guid: 2173d4d4ee922db4a92d3e0e7293b9c8, type: 2}
+  isPoisoned: 0
+  poisonAmount: 0
 --- !u!137 &13700000
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
