@@ -326,6 +326,7 @@ public class RandomMaze : MonoBehaviour
 		//Minimap camera
 		GameObject cam = (GameObject)Instantiate (Minimapcamera, new Vector3 (length / 2, Mathf.Max (width, length), 0) * planewidth, Quaternion.Euler (90, 0, 0));
 		cam.camera.rect = new Rect (0.8f, 0.7f, 0.3f, 0.3f);
+		cam.camera.orthographicSize = Mathf.Max (length, width) * planewidth / 3 * 2;
 		//Gate
 		//GameObject GateObj = (GameObject)Instantiate (Gate, new Vector3 (-planewidth / 2, height * planewidth / 2, -planewidth / 2), Quaternion.identity);
 		//GateObj.transform.localScale = new Vector3 (planewidth * 0.028f, planewidth * height / 150, planewidth);
