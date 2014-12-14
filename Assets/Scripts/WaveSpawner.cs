@@ -71,7 +71,6 @@ public class WaveSpawner : MonoBehaviour
         }
         else
         {
-            Debug.Log("Congratulations! You've succesfully defeated all waves of enemies!");
         }
     }
 

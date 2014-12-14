@@ -11,7 +11,7 @@ GameObject:
   - 33: {fileID: 3300000}
   - 65: {fileID: 6500000}
   - 23: {fileID: 2300000}
-  m_Layer: 2
+  m_Layer: 13
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28,7 +28,7 @@ GameObject:
   - 4: {fileID: 400002}
   - 136: {fileID: 13600000}
   - 114: {fileID: 11400000}
-  m_Layer: 2
+  m_Layer: 13
   m_Name: ProtoType DiscoTower
   m_TagString: Tower
   m_Icon: {fileID: 0}
@@ -110,10 +110,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa1bf77d30d275e4491651488a749678, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet: {fileID: 100000, guid: 1b2fbfa5bc2ebc9428f28105eca1c5c9, type: 2}
-  bulletSpeed: 40
-  coolDownTime: .5
-  enemyTag: Enemy
 --- !u!136 &13600000
 CapsuleCollider:
   m_ObjectHideFlags: 1
