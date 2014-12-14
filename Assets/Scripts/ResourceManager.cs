@@ -28,6 +28,7 @@ public class ResourceManager : MonoBehaviour {
 	public GameObject enemyGuyant;
 	public GameObject enemyGwarf;
 	public GameObject enemyGrobble;
+	public List<WayPoint> Nodes;
 
 	[Header("Waves")]
 	public int maxWaves;
@@ -47,10 +48,12 @@ public class ResourceManager : MonoBehaviour {
 	public GameObject poisonTrapHotspot;
 	public GameObject fireTrapHotspot;
 
-	[Header("Camera&Player")]
+	[Header("Spawners")]
 	public float camOffset;
 	public GameObject mainCamera;
 	public GameObject player;
+	public Vector2 startPos;
+	public Vector2 endPos;
 
 	[Header("Bullets")]
 	public GameObject magicBullet;
@@ -63,7 +66,7 @@ public class ResourceManager : MonoBehaviour {
 	[Header("HitSplash")]
 	public GameObject damageText;
 
-	[Header("HitSplash")]
+	[Header("UI")]
 	public GameObject gui;
 
 	[Header("Level Editor")]
