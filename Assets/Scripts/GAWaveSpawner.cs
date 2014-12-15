@@ -56,13 +56,20 @@ public class GAWaveSpawner : MonoBehaviour
                 currentWave++;
                 if (currentWave <= maxWaves)
                 {
+                    // Verhoog de totale stat points
                     currentTotalStatPoints += toenameTotalStatsPerWave;
+                    // Spawn een extra enemy voor de volgende wave
                     maxEnemies++;
+                    // Versterk de huidige enemies
                     BuffEnemies();
+                    // nextGenRoulette();
+                    // Respawn de enemies
                     Respawn();
+
                     if (currentGen.Count < maxEnemies) {
                         int difference = maxEnemies - currentGen.Count;
                         for (int i = 0; i < difference; i++) {
+                            // Spawn meer enemies als er niet genoeg zijn in de huidige generatie
                             SpawnEnemy();
                         }
                     }
@@ -71,13 +78,6 @@ public class GAWaveSpawner : MonoBehaviour
                 {
                     Debug.Log("Congratulations! You've succesfully defeated all waves of enemies!");
                 }
-                // Als alle enemies dood zijn, ga naar de volgende wave
-                // Verhoog de totale stat points
-                
-                // Spawn een extra enemy voor de volgende wave
-                // SpawnNextGen();
-                // maxEnemies++;
-                // Enemies mogen weer gespawnd worden
             }
         }
     }
@@ -94,6 +94,7 @@ public class GAWaveSpawner : MonoBehaviour
         enemyHealth = Enemy.GetComponent<EnemyHealth>();
         // Genereer enemies met toenemende stats per wave
         enemyStats.totalStatPoints = currentTotalStatPoints;
+        // Genereer stats van de enemy
         enemyStats.generateEnemyStats();
         enemyHealth.spawnPosition = Enemy.transform.position;
         currentGen.Add(Enemy);
@@ -114,24 +115,35 @@ public class GAWaveSpawner : MonoBehaviour
         }
     }
 
-    void SpawnNextGen()
+    public void selection(List<float> chances)
     {
-        float randX = Random.Range(-maxX / 2, maxX / 2);
-        float randZ = Random.Range(-maxZ / 2, maxZ / 2);
+        float randomFloat;
 
-        if (nextGen.Count == maxEnemies)
+        for (int i = 0; i < currentGen.Count; i++)
         {
-            for (int i = 0; i < nextGen.Count; i++)
+            randomFloat = Random.Range(0, 1) * chances[chances.Count - 1];
+            int indexOfCurrentGen = 0;
+            /*while (randomFloat > chances[indexOfCurrentGen])
             {
-                nextGenEnemy = (GameObject)Instantiate((GameObject)nextGen[i], transform.position + new Vector3(randX, 7.34f / 2, randZ), Quaternion.identity);
-                currentGen.Add(nextGenEnemy);
-            }
+                indexOfCurrentGen++;
+            }*/
+            nextGen.Add(currentGen[indexOfCurrentGen]);
         }
+        currentGen = nextGen;
+    }
 
-        for (int i = 0; i < nextGen.Count; i++)
+    public void nextGenRoulette()
+    {
+        float total = 0;
+        List<float> chances = new List<float>();
+
+        for (int i = 0; i < currentGen.Count; i++)
         {
-            nextGen.Remove(nextGen[i]);
+            total += ((GameObject)currentGen[i]).GetComponent<EnemyStats>().fitness();
+            // upper limit on the roulette wheel of current enemy
+            chances.Add(total);
         }
+        selection(chances);
     }
 
     void Respawn()
@@ -145,8 +157,8 @@ public class GAWaveSpawner : MonoBehaviour
             ((GameObject)currentGen[i]).GetComponent<EnemyHealth>().isDead = false;
             ((GameObject)currentGen[i]).GetComponent<EnemyHealth>().currentHealth = ((GameObject)currentGen[i]).GetComponent<EnemyHealth>().startingHealth;
             ((GameObject)currentGen[i]).transform.position = ((GameObject)currentGen[i]).GetComponent<EnemyHealth>().spawnPosition;
-            Debug.Log(((GameObject)currentGen[i]).GetComponent<EnemyHealth>().spawnPosition);
-            //((GameObject)currentGen[i]).transform.position = new Vector3(0, 7.34f / 2, randZ);
+            //Debug.Log(((GameObject)currentGen[i]).GetComponent<EnemyHealth>().spawnPosition);
+            //((GameObject)currentGen[i]).GetComponent<EnemyStats>().mutate(4);
         }
     }
 
