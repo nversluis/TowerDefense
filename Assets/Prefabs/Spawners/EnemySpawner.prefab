@@ -9,6 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400000}
   - 114: {fileID: 11400000}
+  - 114: {fileID: 11415504}
   m_Layer: 0
   m_Name: EnemySpawner
   m_TagString: Untagged
@@ -34,18 +35,39 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 944f66ad451dba04eb2086e397509f88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 100052, guid: 8a2e017a33dbf9748ad510b090cfb8be, type: 2}
   maxEnemies: 5
+  spawning: 1
   maxX: 0
   maxZ: 0
+  currentTotalStatPoints: 100
+  delta: 50
+--- !u!114 &11415504
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19f02f54558312d42b259d7bf2b2bef6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 100052, guid: 6a25f25271f527644ab0b18b0e7c536e, type: 2}
+  nextGenEnemy: {fileID: 0}
+  maxEnemies: 5
   spawning: 1
-  maxWaves: 5
+  maxWaves: 3
   currentWave: 1
+  maxX: 0
+  maxZ: 0
+  currentTotalStatPoints: 100
+  toenameTotalStatsPerWave: 50
+  spawnPosition: {x: 0, y: 0, z: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
