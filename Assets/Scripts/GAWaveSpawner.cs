@@ -51,15 +51,14 @@ public class GAWaveSpawner : MonoBehaviour
         }
         else
         {
-            UpdateEnemyCount();
-
             if (AllEnemiesDead())
             {
                 currentWave++;
-                maxEnemies++;
-
                 if (currentWave <= maxWaves)
                 {
+                    currentTotalStatPoints += toenameTotalStatsPerWave;
+                    maxEnemies++;
+                    BuffEnemies();
                     Respawn();
                     if (currentGen.Count < maxEnemies) {
                         int difference = maxEnemies - currentGen.Count;
@@ -74,7 +73,7 @@ public class GAWaveSpawner : MonoBehaviour
                 }
                 // Als alle enemies dood zijn, ga naar de volgende wave
                 // Verhoog de totale stat points
-                // currentTotalStatPoints += toenameTotalStatsPerWave;
+                
                 // Spawn een extra enemy voor de volgende wave
                 // SpawnNextGen();
                 // maxEnemies++;
@@ -91,10 +90,11 @@ public class GAWaveSpawner : MonoBehaviour
         GameObject Enemy = (GameObject)Instantiate(enemy, transform.position + new Vector3(randX, 7.34f / 2, randZ), Quaternion.identity);
 
         Enemy.name = "enemy";
-        enemyStats = enemy.GetComponent<EnemyStats>();
-        enemyHealth = enemy.GetComponent<EnemyHealth>();
+        enemyStats = Enemy.GetComponent<EnemyStats>();
+        enemyHealth = Enemy.GetComponent<EnemyHealth>();
         // Genereer enemies met toenemende stats per wave
         enemyStats.totalStatPoints = currentTotalStatPoints;
+        enemyStats.generateEnemyStats();
         enemyHealth.spawnPosition = Enemy.transform.position;
         currentGen.Add(Enemy);
     }
@@ -141,6 +141,7 @@ public class GAWaveSpawner : MonoBehaviour
             float randX = Random.Range(-maxX / 2, maxX / 2);
             float randZ = Random.Range(-maxZ / 2, maxZ / 2);
 
+            ((GameObject)currentGen[i]).GetComponent<EnemyStats>().totalStatPoints = currentTotalStatPoints;
             ((GameObject)currentGen[i]).GetComponent<EnemyHealth>().isDead = false;
             ((GameObject)currentGen[i]).GetComponent<EnemyHealth>().currentHealth = ((GameObject)currentGen[i]).GetComponent<EnemyHealth>().startingHealth;
             ((GameObject)currentGen[i]).transform.position = ((GameObject)currentGen[i]).GetComponent<EnemyHealth>().spawnPosition;
@@ -161,6 +162,18 @@ public class GAWaveSpawner : MonoBehaviour
             }
         }
         return (aantal == maxEnemies);
+    }
+
+    void BuffEnemies()
+    {
+        for (int i = 0; i < currentGen.Count; i++)
+        {
+            List<int> toenameStats = enemyStats.randomNumberGenerator(4, toenameTotalStatsPerWave);
+            ((GameObject)currentGen[i]).GetComponent<EnemyStats>().health += toenameStats[0];
+            ((GameObject)currentGen[i]).GetComponent<EnemyStats>().attack += toenameStats[1];
+            ((GameObject)currentGen[i]).GetComponent<EnemyStats>().defense += toenameStats[2];
+            ((GameObject)currentGen[i]).GetComponent<EnemyStats>().speed += toenameStats[3];
+        }
     }
 
 
