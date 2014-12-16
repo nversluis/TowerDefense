@@ -38,6 +38,7 @@ public class LevelEditor : MonoBehaviour
 	private bool playing;
 	private int currentPage;
 	private int maxPages;
+	private string currentFileSelected;
 	//colors
 	private Color cNoPlane;
 	private Color cStartEnd;
@@ -60,6 +61,9 @@ public class LevelEditor : MonoBehaviour
 	public Text ErrorText;
 	public GameObject loadMapsPanel;
 	public Button loadButton;
+	public Button cancelButton;
+	public Button submitLoadButton;
+	public Button deleteButton;
 
 
 
@@ -125,6 +129,13 @@ public class LevelEditor : MonoBehaviour
 
 		loadLayout.onClick.AddListener (delegate {
 			ShowSavedMaps ();
+		});
+		submitLoadButton.onClick.AddListener (delegate {
+			loadMapFromFile (currentFileSelected);
+		});
+
+		deleteButton.onClick.AddListener (delegate {
+			deleteFile (currentFileSelected);
 		});
 		amountOfEnds = 0;
 		amountOfStarts = 0;
@@ -447,8 +458,8 @@ public class LevelEditor : MonoBehaviour
 			if (child.gameObject.name.Contains ("load"))
 				Destroy (child.gameObject);
 		}
-		int rows = 10;
-		int columns = 3;
+		int rows = 17;
+		int columns = 1;
 		int filesPerPage = rows * columns;
 		loadMapsPanel.gameObject.SetActive (true);
 		//create a list with the names of all layouts.
@@ -459,12 +470,13 @@ public class LevelEditor : MonoBehaviour
 				dirFiles [i] = dirFiles [i].Replace (Application.dataPath + "/MapLayouts/", "");
 				dirFiles [i] = dirFiles [i].Replace (".txt", "");
 				int j = i % filesPerPage;
-				Button but = (Button)Instantiate (loadButton, loadMapsPanel.transform.position + new Vector3 ((Mathf.Floor (j / rows) - 1) * 150, 130 - 30 * (j % rows), 0), Quaternion.identity);
+				Button but = (Button)Instantiate (loadButton, loadMapsPanel.transform.position + new Vector3 ((Mathf.Floor (j / rows) - 1) * 150, 150 - 20 * (j % rows), 0), Quaternion.identity);
 				but.transform.SetParent (loadMapsPanel.gameObject.transform);
-				but.GetComponentInChildren<Text> ().text = "Load: " + dirFiles [i];
+				but.GetComponentInChildren<Text> ().text = dirFiles [i];
+				but.transform.localScale = new Vector3 (1, 1, 1);
 				string fileName = dirFiles [i];
 				but.onClick.AddListener (delegate {
-					loadMapFromFile (fileName);
+					selectFileName (fileName);
 				});
 			}
 		}
@@ -473,6 +485,15 @@ public class LevelEditor : MonoBehaviour
 
 	}
 
+
+	private void selectFileName (string fileName){
+		currentFileSelected = fileName;
+	}
+
+	private void deleteFile(string fileName){
+		File.Delete (Application.dataPath + "/MapLayouts/" + fileName + ".txt");
+		ShowSavedMaps();
+	}
 
 
 	//methods to display errortext
