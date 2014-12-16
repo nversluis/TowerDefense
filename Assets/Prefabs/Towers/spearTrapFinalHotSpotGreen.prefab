@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 400000}
   - 33: {fileID: 3300000}
   - 23: {fileID: 2300000}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Spears
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ GameObject:
   - 4: {fileID: 400002}
   - 33: {fileID: 3300002}
   - 23: {fileID: 2300002}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,7 +46,7 @@ GameObject:
   - 23: {fileID: 2300004}
   - 114: {fileID: 11400000}
   - 65: {fileID: 6500000}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: spearTrapFinalHotSpotGreen
   m_TagString: TowerHotSpot
   m_Icon: {fileID: 0}
@@ -142,7 +142,7 @@ Renderer:
   m_GameObject: {fileID: 100004}
   m_Enabled: 1
   m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_ReceiveShadows: 0
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
@@ -206,8 +206,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7639b90c112fece41a823f9cf6864193, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  realTrap: {fileID: 100004, guid: 752927e6d91a7084e99b73b8b2d8ffac, type: 2}
-  redTrap: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

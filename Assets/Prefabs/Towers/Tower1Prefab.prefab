@@ -12,7 +12,7 @@ GameObject:
   - 23: {fileID: 2300000}
   - 64: {fileID: 6400000}
   - 114: {fileID: 11400000}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Tower1Prefab
   m_TagString: TowerHotSpot
   m_Icon: {fileID: 0}
@@ -30,7 +30,7 @@ GameObject:
   - 136: {fileID: 13600000}
   - 114: {fileID: 11400004}
   - 82: {fileID: 8200002}
-  m_Layer: 2
+  m_Layer: 13
   m_Name: Tower1Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,7 +46,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400004}
   - 82: {fileID: 8200000}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Audio Source
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -269,11 +269,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa1bf77d30d275e4491651488a749678, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet: {fileID: 100000, guid: 1b2fbfa5bc2ebc9428f28105eca1c5c9, type: 2}
-  bulletSpeed: 20
-  coolDownTime: .300000012
-  enemyTag: Enemy
-  magic: {fileID: 8300000, guid: b87f856579306f4479099fc0301b292f, type: 3}
 --- !u!136 &13600000
 CapsuleCollider:
   m_ObjectHideFlags: 1

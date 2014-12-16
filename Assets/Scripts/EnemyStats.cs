@@ -15,9 +15,11 @@ public class EnemyStats : MonoBehaviour {
     public int totalDamage;
     public float dfactor;
 
+    public int statsMutation = 1;
+
     void Awake()
     {
-        generateEnemyStats();
+        //generateEnemyStats();
     }
 
     // Use this for initialization
@@ -44,7 +46,7 @@ public class EnemyStats : MonoBehaviour {
 
     public int fitness()
     {
-        return totalDamage;
+        return totalDamage + 1;
     }
 
     /// <summary>
@@ -95,7 +97,7 @@ public class EnemyStats : MonoBehaviour {
     /// </summary>
     /// <param name="n"></param> Het aantal stats van een enemy
     /// <param name="delta"></param> De toename van een stat
-    public void mutate(int n, int delta)
+    public void mutate(int n)
     {
         // Het aantal stats dat verhoogd moet worden
         int aantal = Random.Range(1, n - 1);
@@ -123,17 +125,26 @@ public class EnemyStats : MonoBehaviour {
         for (int i = 0; i < verhoogIndices.Count; i++)
         {
             // Verhoog de stats 
-            stats[verhoogIndices[i]] += delta;
+            stats[verhoogIndices[i]] += statsMutation;
         }
 
         // Bepaald hoeveel elk stat wordt verlaagd, de som van de statverlagingen is gelijk aan die van de statverhogingen
-        List<int> statverlaging = randomNumberGenerator(n - aantal, aantal * delta);
+        List<int> statverlaging = randomNumberGenerator(n - aantal, aantal * statsMutation);
 
         for (int i = 0; i < verlaagIndices.Count; i++)
         {
             // Verlaag de stats
             stats[verlaagIndices[i]] -= statverlaging[i];
         }
+        this.health = stats[0];
+        this.attack = stats[1];
+        this.defense = stats[2];
+        this.speed = stats[3];
+    }
+
+    public void mutate(int n, int delta)
+    {
+
     }
 
 }

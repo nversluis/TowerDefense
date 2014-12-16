@@ -11,7 +11,8 @@ public class EnemyHealth : MonoBehaviour {
     public int currentHealth;
 	public int defense;
 	public EnemyStats enemyStats;
-    public Vector3 startPosition;
+    public Vector3 spawnPosition;
+    public Vector3 deathPosition;
     EnemyMovement enemyMovement;
 
     public bool isDead = false;
@@ -33,7 +34,7 @@ public class EnemyHealth : MonoBehaviour {
         startingHealth = enemyStats.health*10;
         defense = enemyStats.defense;
         currentHealth = startingHealth;
-        startPosition = new Vector3(50, 50, 50);
+        deathPosition = new Vector3(0, 100, 0);
 		InvokeRepeating ("doPoisonDamage", 0, 5);
 		textObject = resourceManager.damageText;
 		nodeSize = resourceManager.nodeSize;
@@ -107,7 +108,8 @@ public class EnemyHealth : MonoBehaviour {
 		//	wp.setPenalty (newPenalty);
 		//}
 		isDead = true;
-		Destroy(this.gameObject);
+		//Destroy(this.gameObject);
+        this.transform.position = deathPosition;
 
         //currentHealth = startingHealth;
         //transform.position = startPosition;

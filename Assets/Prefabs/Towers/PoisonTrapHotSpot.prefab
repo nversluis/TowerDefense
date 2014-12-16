@@ -12,7 +12,7 @@ GameObject:
   - 23: {fileID: 2300000}
   - 114: {fileID: 11400000}
   - 65: {fileID: 6500000}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: PoisonTrapHotSpot
   m_TagString: TowerHotSpot
   m_Icon: {fileID: 0}
@@ -29,7 +29,7 @@ GameObject:
   - 4: {fileID: 400002}
   - 33: {fileID: 3300002}
   - 23: {fileID: 2300002}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
