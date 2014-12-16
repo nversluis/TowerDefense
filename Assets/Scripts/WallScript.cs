@@ -31,6 +31,8 @@ public class WallScript : MonoBehaviour {
 				tower.gameObject.transform.position += tower.gameObject.transform.forward*planeW/58;
 				tower.renderer.material.color = transparentgreen;
 				tower.renderer.material.shader = Shader.Find ("Transparent/Diffuse");
+                tower.layer = 14;
+
 			}
 		}
 
