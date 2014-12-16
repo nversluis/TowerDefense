@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
     public static Vector3 location;
     Vector3 startPosition;
 
-    private LayerMask ignoreMaskPlayer = ~(1 << 11);
+    private LayerMask ignoreMaskBullet = ~((1 << 11) | (1 << 13));
     private LayerMask ignoreMaskTraps = ~(1 << 13);
 
     // Method for getting player input
@@ -109,7 +109,7 @@ public class PlayerController : MonoBehaviour
                 GameObject bullet = (GameObject)Instantiate(Bullet, transform.position + new Vector3((Mathf.Sin(camAngleY * Mathf.Deg2Rad)), 0f, Mathf.Cos(camAngleY * Mathf.Deg2Rad)) + tijdelijk, Quaternion.identity);
 
                 // Casting a ray and storing information to hit
-                if (!Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, Mathf.Infinity, ignoreMaskPlayer))
+                if (!Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, Mathf.Infinity, ignoreMaskBullet))
                 {
                     camShootDistance = transform.forward;
                     Debug.DrawRay(transform.position + tijdelijk, camera.transform.forward*15);
