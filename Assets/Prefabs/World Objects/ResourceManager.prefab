@@ -78,6 +78,11 @@ MonoBehaviour:
   damageText: {fileID: 100000, guid: 2173d4d4ee922db4a92d3e0e7293b9c8, type: 2}
   gui: {fileID: 100002, guid: 8024b87a1ed91d1428251d98e7b6ea61, type: 2}
   editorPlane: {fileID: 100000, guid: 4399a3da2ea28304bae6812a147e5855, type: 2}
+  noPlane: {r: 0, g: 0, b: 0, a: 0}
+  startOrEnd: {r: 0, g: .672145188, b: .816176474, a: 0}
+  connected: {r: 1, g: 1, b: 1, a: 0}
+  notConnected: {r: 1, g: 0, b: 0, a: 0}
+  highlighted: {r: 0, g: .886274517, b: 0, a: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

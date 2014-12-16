@@ -297,7 +297,7 @@ public class RandomMaze : MonoBehaviour
 				if (NodesPos.Contains (dir + (Vector3)NodesPos [i])) {
 					int r = NodesPos.IndexOf (dir + (Vector3)NodesPos [i]);
 					Nodes [i].AddNode (Nodes [r]);
-                    //Debug.DrawLine((Vector3)NodesPos[i], dir + (Vector3)NodesPos[i], Color.green, 200f, false);
+                    Debug.DrawLine((Vector3)NodesPos[i], dir + (Vector3)NodesPos[i], Color.green, 200f, false);
 
 				}
 			}
