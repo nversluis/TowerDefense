@@ -15,6 +15,8 @@ public class EnemyScript : MonoBehaviour {
 	CharacterController characterController;
 	public bool automaticPathUpdating;
 	EnemyStats enemystats;
+    List<float> oldList = new List<float>();
+    List<WayPoint> WaypointsNearNow = new List<WayPoint>();
 
 
 	// Use this for initialization
@@ -72,28 +74,40 @@ public class EnemyScript : MonoBehaviour {
 			if ((Path[i] - transform.position).magnitude < 1f && i == Path.Count - 1)
 			{
 				rigidbody.velocity = Vector3.zero;
-
 			}
-
 		}
 
 
 		if (Input.GetKeyDown(KeyCode.Q) && !automaticPathUpdating)
 		{
 			Path = Navigator.Path(transform.position, PlayerController.location,nodeSize,grid);
-
 			i = 0;
 		}
 
-
+        for (int k = 0; k < Path.Count - 1; k++)
+        {
+            Debug.DrawLine(Path[k], Path[k + 1]);
+        }
 	}
 
-	void BuildPath(){
+    void BuildPath()
+    {
+        Path = Navigator.Path(transform.position, PlayerController.location, resourceManager.nodeSize, resourceManager.Nodes);
+        i = 0;
+        int j = 0;
 
-		Path = Navigator.Path(transform.position, PlayerController.location,resourceManager.nodeSize,resourceManager.Nodes);
 
-		i = 0;
 
-	}
+        foreach (WayPoint waypoint in WaypointsNearNow)
+        {
+            waypoint.setPenalty(oldList[j]);
+            j=j+1;
+        }
 
+        WaypointsNearNow = Navigator.FindWayPointsNear(transform.position,RandomMaze.Nodes,resourceManager.nodeSize);
+        foreach(WayPoint waypoint in WaypointsNearNow){
+            oldList.Add(waypoint.getPenalty());
+            waypoint.setPenalty(waypoint.getPenalty() + 10);
+        }
+    }
 }

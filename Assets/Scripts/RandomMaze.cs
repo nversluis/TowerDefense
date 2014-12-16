@@ -35,6 +35,7 @@ public class RandomMaze : MonoBehaviour
 	//Positions of the waypoints/nodes
 	public static List<WayPoint> Nodes = new List<WayPoint> ();
 	//List with all Nodes
+    private static bool drawNavigationGrid;
 
 
 
@@ -58,6 +59,7 @@ public class RandomMaze : MonoBehaviour
 		Minimapcamera = resourceManager.Minimapcamera;
 		Gate = resourceManager.Gate;
 		torch = resourceManager.torch;
+        drawNavigationGrid = resourceManager.drawNavigationGrid;
 
 
 		//Generate floors
@@ -297,8 +299,11 @@ public class RandomMaze : MonoBehaviour
 				if (NodesPos.Contains (dir + (Vector3)NodesPos [i])) {
 					int r = NodesPos.IndexOf (dir + (Vector3)NodesPos [i]);
 					Nodes [i].AddNode (Nodes [r]);
-                    Debug.DrawLine((Vector3)NodesPos[i], dir + (Vector3)NodesPos[i], Color.green, 200f, false);
 
+                    if (drawNavigationGrid)
+                    {
+                        Debug.DrawLine((Vector3)NodesPos[i], dir + (Vector3)NodesPos[i], Color.green, 200f, false);
+                    }
 				}
 			}
 		}
