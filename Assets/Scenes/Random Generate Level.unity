@@ -213,6 +213,10 @@ Prefab:
       propertyPath: bulletSpeed
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: nodeSize
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
   m_RootGameObject: {fileID: 14726752}
@@ -361,7 +365,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 917609580}
   - 114: {fileID: 917609579}
-  - 114: {fileID: 917609581}
   m_Layer: 0
   m_Name: LevelGenerator
   m_TagString: Untagged
@@ -392,6 +395,8 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+<<<<<<< HEAD
+=======
 --- !u!114 &917609581
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -403,6 +408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d78b195a82bc98846aca5a3907a8250d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+>>>>>>> Tiamur
 --- !u!115 &966728257
 MonoScript:
   m_ObjectHideFlags: 0

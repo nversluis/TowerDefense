@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System.IO;
 
 public class LevelEditor : MonoBehaviour
 {
@@ -35,6 +36,8 @@ public class LevelEditor : MonoBehaviour
 	private Vector2 startPos;
 	private Vector2 endPos;
 	private bool playing;
+	private int currentPage;
+	private int maxPages;
 
 
 	public InputField lengthInput;
@@ -44,7 +47,13 @@ public class LevelEditor : MonoBehaviour
 	public Button selectStart;
 	public Button selectEnd;
 	public Button selectNormal;
+	public InputField fileNameInput;
+	public Button saveLayout;
+	public Button loadLayout;
 	public GameObject canvas;
+	public Text ErrorText;
+	public GameObject loadMapsPanel;
+	public Button loadButton;
 
 
 
@@ -81,6 +90,7 @@ public class LevelEditor : MonoBehaviour
 		torch = resourceManager.torch;
 		posConnected = new List<Vector3> ();
 		allPos = new List<GameObject> ();
+		currentPage = 1;
 
 		SubmitButton.onClick.AddListener (delegate {
 			submitSize ();
@@ -97,15 +107,45 @@ public class LevelEditor : MonoBehaviour
 		selectNormal.onClick.AddListener (delegate {
 			SwitchType (2);
 		});
+
+		saveLayout.onClick.AddListener (delegate {
+			SavePositionsToFile ();
+		});
+
+		loadLayout.onClick.AddListener (delegate {
+			ShowSavedMaps ();
+		});
 		amountOfEnds = 0;
 		amountOfStarts = 0;
+		loadMapsPanel.SetActive (true);
+
+		Button nextBut = loadMapsPanel.GetComponentsInChildren<Button> () [0];
+		Button prevBut = loadMapsPanel.GetComponentsInChildren<Button> () [1];
+		nextBut.onClick.AddListener (delegate {	
+			if(currentPage<maxPages){
+			currentPage++;
+			ShowSavedMaps ();
+				}
+
+		});
+
+	
+		prevBut.onClick.AddListener (delegate {	
+			if(currentPage>1){
+			currentPage--;
+			ShowSavedMaps ();
+			}
+		});
+		loadMapsPanel.SetActive (false);
 	}
+		
+
 
 	// Update is called once per frame
 	void Update ()
 	{
 
-		if (playing) {
+		if (!playing) {
 			int length1;
 			int width1;
 			bool resultLength = int.TryParse (lengthInput.text, out length1);
@@ -114,8 +154,7 @@ public class LevelEditor : MonoBehaviour
 				SubmitButton.GetComponentInChildren<Text> ().text = "Confirm/Reset";
 				SubmitButton.enabled = true;
 			} else {
-				SubmitButton.enabled = false;
-				SubmitButton.GetComponentInChildren<Text> ().text = "Positive Integers Only";
+				SubmitButton.enabled = false;			
 			}
 		}
 
@@ -133,28 +172,8 @@ public class LevelEditor : MonoBehaviour
 		} else {
 
 			SubmitButton.GetComponentInChildren<Text> ().text = "Reset"; //reset the floor
-			foreach (GameObject floor1 in floors) {
-				Destroy (floor1);
-			}
-			posConnected = new List<Vector3> ();
-			allPos = new List<GameObject> ();
-			floors = new List<GameObject> ();
-			positions = new ArrayList ();
-			amountOfEnds = 0;
-			amountOfStarts = 0;
+			Reset ();
 
-			for (int w = 0; w < width; w++) {
-				for (int l = 0; l < length; l++) {
-					GameObject floor = (GameObject)Instantiate (editorPlane, new Vector3 (l * planewidth, 0, w * planewidth), Quaternion.identity);
-					floor.transform.localScale *= planewidth / 10;
-					floors.Add (floor);
-					allPos.Add (floor);
-				}
-			}
-			float tempL = length - 1;
-			float tempW = width - 1;
-			cam.transform.position = new Vector3 (tempL / 2, 1, tempW / 2) * planewidth;
-			cam.orthographicSize = Mathf.Max (length, width) * planewidth / 3 * 2;
 		}
 	}
 
@@ -172,64 +191,64 @@ public class LevelEditor : MonoBehaviour
 		positions.Remove (pos);
 	}
 
-	public static bool checkConnected (GameObject plane, List<Vector3> posConnected, List<GameObject> allPos, ArrayList positions, float planewidth, int length)
+	public static bool checkConnected (GameObject plane, List<Vector3> posConnected, List<GameObject> allPos, ArrayList positions, float planewidth, int length, int width)
 	{
 		Vector3 posNormalized = plane.transform.position / planewidth;
 		bool res = (posConnected.Contains (posNormalized + new Vector3 (1, 0, 0)) || posConnected.Contains (posNormalized - new Vector3 (1, 0, 0)) || posConnected.Contains (posNormalized + new Vector3 (0, 0, 1)) || posConnected.Contains (posNormalized - new Vector3 (0, 0, 1)));
 		if (res) {
-			convertAround (plane, posConnected, allPos, positions, planewidth, length);
+			convertAround (plane, posConnected, allPos, positions, planewidth, length, width);
 		}
 		return res;
 	}
 
-	public static void Recalculate (List<Vector3> posConnected, List<GameObject> allPos, ArrayList positions, float planewidth, int length)
+	//clear and recheck if everything is connected
+	public static void Recalculate (List<Vector3> posConnected, List<GameObject> allPos, ArrayList positions, float planewidth, int length, int width)
 	{
 		LevelEditor.posConnected = new List<Vector3> ();
-
 		foreach (GameObject plane in LevelEditor.allPos) {
 			if (plane.renderer.material.color == Color.yellow && plane != LevelEditor.startPlane && plane != LevelEditor.endPlane)
 				plane.renderer.material.color = Color.black;
-		}
-	
+		}	
 		if (LevelEditor.startPlane != null) {
 			LevelEditor.posConnected.Add (LevelEditor.startPlane.transform.position / planewidth);
-
-			LevelEditor.convertAround (LevelEditor.startPlane, LevelEditor.posConnected, LevelEditor.allPos, positions, planewidth, length);
+			LevelEditor.convertAround (startPlane, posConnected, allPos, positions, planewidth, length, width);		
 		}
-
-
 	}
 
 	//method that checks all positions around a new connected plane
-	public static void convertAround (GameObject plane, List<Vector3> posConnected, List<GameObject> allPos, ArrayList positions, float planewidth, int length)
+	public static void convertAround (GameObject plane, List<Vector3> posConnected, List<GameObject> allPos, ArrayList positions, float planewidth, int length, int width)
 	{
 		Vector2 planePos = new Vector2 (plane.transform.position.x, plane.transform.position.z) / planewidth;
 		int index = allPos.IndexOf (plane);
 		GameObject checkPlane;
+
 		//north
-		for (int i = 0; i < 4; i++) {
-			if (i == 0 && (index - length) >= 0)
+		for (int i = 0; i < 4; i++) { //check in all directions
+			if (i == 0 && plane.transform.position.z > 0 && (index - length) >= 0)
 				checkPlane = allPos [index - length];
-			else if (i == 1 && (index + length) < allPos.Count)
+			else if (i == 1 && (plane.transform.position.z / planewidth) < (width - 1) && (index + length) < allPos.Count)
 				checkPlane = allPos [index + length];
-			else if (i == 2 && (index + 1) < allPos.Count)
+			else if (i == 2 && (plane.transform.position.x / planewidth) < (length - 1) && (index + 1) < allPos.Count)
 				checkPlane = allPos [index + 1];
-			else if (i == 3 && (index - 1) >= 0)
+			else if (i == 3 && plane.transform.position.x > 0 && (index - 1) >= 0)
 				checkPlane = allPos [index - 1];
-			else
+			else {
 				checkPlane = null;
-
-
+			}
+		
 			if (checkPlane != null) {
-				if (checkPlane.renderer.material.color == Color.black || checkPlane.renderer.material.color == Color.blue) {
-					if (checkPlane.renderer.material.color == Color.black)
+				if (checkPlane.renderer.material.color == Color.black || (checkPlane.renderer.material.color == Color.blue && !posConnected.Contains (checkPlane.transform.position / planewidth))) {
+
+					if (checkPlane.renderer.material.color == Color.black) {
 						checkPlane.renderer.material.color = Color.yellow;
-					posConnected.Add (checkPlane.transform.position / planewidth);
-					convertAround (checkPlane, posConnected, allPos, positions, planewidth, length);
+					}
+					LevelEditor.posConnected.Add (checkPlane.transform.position / planewidth);
+					convertAround (checkPlane, posConnected, allPos, positions, planewidth, length, width);
 				}
 			}
-
 		}
+
+		
 	}
 
 
@@ -238,7 +257,7 @@ public class LevelEditor : MonoBehaviour
 	{
 		if (endPlane != null) {
 			if (LevelEditor.posConnected.Contains (LevelEditor.endPlane.transform.position / planewidth)) {
-
+				playing = true;
 				for (int i = 0; i < positions.Count; i++) { //get right sizes of the positions array
 					positions [i] = (Vector2)positions [i] / planewidth;
 
@@ -260,9 +279,10 @@ public class LevelEditor : MonoBehaviour
 				RandomMaze.SpawnNodes (positions, nodeSize, planewidth, NodesPos, Nodes, length, width);
 
 				resourceManager.Nodes = Nodes;
-			}
 			} else
-				GenerateLevelButton.GetComponentInChildren<Text> ().text = "Connect end to start!";
+				setErrorTekst ("Connect end to start!");
+		} else
+			setErrorTekst ("Place end position!");
 		
 	}
 
@@ -286,6 +306,7 @@ public class LevelEditor : MonoBehaviour
 		}
 	}
 
+	//disable the gui, so you can play the game
 	private void disableLevelEditor ()
 	{
 		foreach (GameObject floor1 in floors) {
@@ -296,8 +317,178 @@ public class LevelEditor : MonoBehaviour
 		GameObject.Find ("EditorLight").SetActive (false);
 	}
 
+	//reset the floor. Clearing everything. Then reconstruct it with width and length
+	private void Reset ()
+	{
+		foreach (GameObject floor1 in floors) {
+			Destroy (floor1);
+		}
+		posConnected = new List<Vector3> ();
+		allPos = new List<GameObject> ();
+		floors = new List<GameObject> ();
+		positions = new ArrayList ();
+		amountOfEnds = 0;
+		amountOfStarts = 0;
+
+		for (int w = 0; w < width; w++) {
+			for (int l = 0; l < length; l++) {
+				GameObject floor = (GameObject)Instantiate (editorPlane, new Vector3 (l * planewidth, 0, w * planewidth), Quaternion.identity);
+				floor.transform.localScale *= planewidth / 10;
+				floors.Add (floor);
+				allPos.Add (floor);
+			}
+		}
+		float tempL = length - 1;
+		float tempW = width - 1;
+		cam.transform.position = new Vector3 (tempL / 2, 1, tempW / 2) * planewidth;
+		cam.orthographicSize = Mathf.Max (length, width) * planewidth / 3 * 2;
+	}
+
+	//saves the position to file.
+	private void SavePositionsToFile ()
+	{
+
+		if (endPlane != null) {
+			if (LevelEditor.posConnected.Contains (LevelEditor.endPlane.transform.position / planewidth)) {
+
+				string res = "";
+
+				res += resourceManager.length+"\r\n" +resourceManager.width+ "\r\n" +startPos3.x.ToString () + "\r\n" + startPos3.z.ToString () + "\r\n";
+				foreach (Vector2 pos in positions) {
+					if (pos / planewidth != resourceManager.startPos && pos / planewidth != resourceManager.endPos) {
+						for (int i = 0; i <= 1; i++) {
+							res += (pos [i] / planewidth).ToString () + "\r\n";
+						}
+					}
+				}
+				res += endPos3.x.ToString () + "\r\n" + endPos3.z.ToString () + "\r\n";
+				File.WriteAllText (Application.dataPath + "/MapLayouts/" + fileNameInput.text + ".txt", res);
+			} else
+				setErrorTekst ("Connect end to start!");
+		} else
+			setErrorTekst ("Place end position!");
+
+	}
+
+
+	private void loadMapFromFile (string fileName)
+	{
+		loadMapsPanel.SetActive (false);
+		string line;
+		List<int> datas = new List<int> ();
+		ArrayList positions = new ArrayList ();
+		Debug.Log ("Getting Data from " + fileName);
+		StreamReader file = new StreamReader (Application.dataPath + "/MapLayouts/" + fileName + ".txt");
+		length = int.Parse (file.ReadLine ());
+		width = int.Parse (file.ReadLine ());
+		while ((line = file.ReadLine ()) != null) {
+			datas.Add (int.Parse (line));
+		}
+		file.Close ();
+
+		resourceManager.length = length;
+		resourceManager.width = width;
+
+		Reset ();
+
+		//add positions
+		for (int i = 0; i < datas.Count; i += 2) {
+			positions.Add (new Vector2 (datas [i], datas [i + 1]));
+		}
+		//
+
+		//Generate start point, end point, and all others, set start point to connected and run
+		LevelEditor.startPos3 = new Vector3 (datas [0], 0, datas [1]);
+		LevelEditor.endPos3 = new Vector3 (datas [datas.Count - 2], 0, datas [datas.Count - 1]);
+		resourceManager.startPos = new Vector2 (startPos3.x, startPos3.z);
+		resourceManager.endPos = new Vector2 (endPos3.x, endPos3.z);
+		foreach (GameObject floor1 in floors) {
+			if (floor1.transform.position / planewidth == startPos3) {
+				LevelEditor.startPlane = floor1;	
+				floor1.renderer.material.color = Color.blue;
+				LevelEditor.posConnected.Add (floor1.transform.position / planewidth);
+			} else if (floor1.transform.position / planewidth == endPos3) {
+
+				LevelEditor.endPlane = floor1;
+				floor1.renderer.material.color = Color.blue;
+			} else if (positions.Contains (new Vector2 (floor1.transform.position.x, floor1.transform.position.z) / planewidth)) {			
+				floor1.renderer.material.color = Color.black;
+			}
+		}
+		//reconstruct connected
+
+		Recalculate (LevelEditor.posConnected, LevelEditor.allPos, LevelEditor.positions, resourceManager.planewidth, resourceManager.length, resourceManager.width);
+		amountOfEnds = 1;
+		amountOfStarts = 1;
+		LevelEditor.positions = positions;
+
+		for (int i = 0; i < positions.Count; i++) { //get right sizes of the positions array so Generate level can work
+			positions [i] = (Vector2)positions [i] * planewidth;
+
+		}
+
+	}
+
+	// Use this for initialization
+	private void ShowSavedMaps ()
+	{
+		foreach (Transform child in loadMapsPanel.transform) {
+			if (child.gameObject.name.Contains ("load"))
+				Destroy (child.gameObject);
+		}
+		int rows = 10;
+		int columns = 3;
+		int filesPerPage = rows * columns;
+		loadMapsPanel.gameObject.SetActive (true);
+		//create a list with the names of all layouts.
+		string[] dirFiles = Directory.GetFiles (Application.dataPath + "/MapLayouts/", "*.txt");
+		maxPages = (int)Mathf.Ceil ((float)dirFiles.Length / (float)filesPerPage);
+		for (int i = 0; i < dirFiles.Length; i++) {
+			if (i < filesPerPage * currentPage && i >= filesPerPage * (currentPage - 1)) {
+				dirFiles [i] = dirFiles [i].Replace (Application.dataPath + "/MapLayouts/", "");
+				dirFiles [i] = dirFiles [i].Replace (".txt", "");
+				int j = i % filesPerPage;
+				Button but = (Button)Instantiate (loadButton, loadMapsPanel.transform.position + new Vector3 ((Mathf.Floor (j / rows) - 1) * 150, 130 - 30 * (j % rows), 0), Quaternion.identity);
+				but.transform.SetParent (loadMapsPanel.gameObject.transform);
+				but.GetComponentInChildren<Text> ().text = "Load: " + dirFiles [i];
+				string fileName = dirFiles [i];
+				but.onClick.AddListener (delegate {
+					loadMapFromFile (fileName);
+				});
+			}
+		}
+
+		//script for the previous/next buttons
+
+	}
 
 
 
+	//methods to display errortext
+	private void setErrorTekst (string tekst)
+	{
 
+		CancelInvoke ();
+		if (!playing) {
+			ErrorText.text = tekst;
+			ErrorText.color = new Color (255, 0, 0, 1);
+			InvokeRepeating ("errorTekstFadeOut", 0.5f, 0.01f);
+		}
+	}
+
+	void errorTekstFadeOut ()
+	{
+		if (!playing) {
+			Color color = ErrorText.color;
+			color.a -= 0.01f;
+			ErrorText.color = color;
+			if (color.a <= 0f) {
+				color.a = 1;
+				ErrorText.color = color;
+				ErrorText.text = "";
+				CancelInvoke ();
+			}
+		}
+	}
 }
+

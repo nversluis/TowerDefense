@@ -25,7 +25,6 @@ public class EnemyScript : MonoBehaviour {
 		float nodeSize = resourceManager.nodeSize;
 
 		characterController = GetComponent<CharacterController>();
-		Debug.Log (resourceManager.Nodes);
 		Path = Navigator.Path(transform.position, PlayerController.location - new Vector3(0f, PlayerController.location.y,0f),nodeSize,grid);
 
 		enemystats = GetComponent<EnemyStats>();

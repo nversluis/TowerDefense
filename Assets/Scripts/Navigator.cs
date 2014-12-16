@@ -21,7 +21,7 @@ public class Navigator : MonoBehaviour
 		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
 	}
 
-	public static List<Vector3> Path (Vector3 startPoint, Vector3 endPoint, float gridSize,List<WayPoint> grid, float D = 0.15f)
+	public static List<Vector3> Path (Vector3 startPoint, Vector3 endPoint, float gridSize, List<WayPoint> grid, float D = 0.15f)
 	{
 
 		/** INITIALIZATION **/
@@ -75,11 +75,11 @@ public class Navigator : MonoBehaviour
 		// Add found nodes to destination list of start node if they are visible and set their state to open
 		bool openDestinationsExist = false;
 
-		List<WayPoint> startNodes = FindWayPointsNear (startPoint, grid,gridSize);
+		List<WayPoint> startNodes = FindWayPointsNear (startPoint, grid, gridSize);
 		for (int i = 0; i < startNodes.Count; i++) {
 			WayPoint dest = startNodes [i];
 			dest.setGCost (CalculateGCost (startWP, dest, D));
-			float FCost = CalculateFCost(startWP, dest, endWP, D);
+			float FCost = CalculateFCost (startWP, dest, endWP, D);
 			if (FCost == -1)
 				return null;
 			dest.setPrevious (startWP);
@@ -119,7 +119,7 @@ public class Navigator : MonoBehaviour
 			/* DEBUG */
 
 			// If the current waypoint is the endpoint, stop searching and build the route
-			if (CloseEnoughToDestination (currentWP, endPoint,gridSize)) {
+			if (CloseEnoughToDestination (currentWP, endPoint, gridSize)) {
 				endWP.setPrevious (currentWP);
 				path = ReconstructPath (startPoint, endWP);
 				openDestinationsExist = false;
@@ -193,7 +193,7 @@ public class Navigator : MonoBehaviour
 	}
 
 	// Function that checks if the given waypoint is close enough to the end point to navigate to it without using the grid
-	static bool CloseEnoughToDestination (WayPoint wp, Vector3 end,float gridSize)
+	static bool CloseEnoughToDestination (WayPoint wp, Vector3 end, float gridSize)
 	{
 		Vector3 pos = wp.getPosition ();
 		if (pos == end) {
@@ -241,12 +241,9 @@ public class Navigator : MonoBehaviour
 	// Function that calculates the g-cost between two waypoints (cost based on distance from start point)
 	static float CalculateGCost (WayPoint current, WayPoint destination, float D)
 	{
-		try
-		{
-			return current.getGCost() + (current.getPosition() - destination.getPosition()).magnitude + destination.getPenalty();
-		}
-		catch(System.Exception e)
-		{
+		try {
+			return current.getGCost () + (current.getPosition () - destination.getPosition ()).magnitude + destination.getPenalty ();
+		} catch (System.Exception e) {
 			return -1;
 		}   
 	}
@@ -256,7 +253,7 @@ public class Navigator : MonoBehaviour
 	{
 		// Distance from current node to destination
 		float g_cost = CalculateGCost (current, destination, D);
-		if (g_cost == -1){
+		if (g_cost == -1) {
 			return -1;
 		}
 		// Heuristic, in our case the Diagonal Shortcut
@@ -271,7 +268,7 @@ public class Navigator : MonoBehaviour
 		return g_cost + D * h_cost;
 	}
 
-	static List<Vector3> FindGridPositionsNear (Vector3 point, List<WayPoint> grid,float gridSize)
+	static List<Vector3> FindGridPositionsNear (Vector3 point, List<WayPoint> grid, float gridSize)
 	{
 		// Find the nearest possible destination nodes and add them to the destinations of the starting node
 
@@ -335,10 +332,10 @@ public class Navigator : MonoBehaviour
 		return null;
 	}
 
-	public static List<WayPoint> FindWayPointsNear (Vector3 position, List<WayPoint> grid,float gridSize)
+	public static List<WayPoint> FindWayPointsNear (Vector3 position, List<WayPoint> grid, float gridSize)
 	{
 		List<WayPoint> wayPointsNear = new List<WayPoint> ();
-		List<Vector3> nearNodes = FindGridPositionsNear (position, grid,gridSize);  
+		List<Vector3> nearNodes = FindGridPositionsNear (position, grid, gridSize);  
 		//Debug.Log (gridSize);
 		//Debug.Log (nearNodes [0]);
 		for (int i = 0; i < nearNodes.Count; i++) {
