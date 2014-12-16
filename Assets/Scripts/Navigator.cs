@@ -8,6 +8,7 @@ public class Navigator : MonoBehaviour
 	private GameObject ResourceManagerObj;
 	private ResourceManager resourceManager;
 
+	private static List<WayPoint>grid;
 
 	// Create a list containing the open Nodes
 	static List<WayPoint> openNodes = new List<WayPoint> ();
@@ -19,6 +20,7 @@ public class Navigator : MonoBehaviour
 	{
 		ResourceManagerObj = GameObject.Find ("ResourceManager");
 		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
+		grid = resourceManager.Nodes;
 	}
 
 	public static List<Vector3> Path (Vector3 startPoint, Vector3 endPoint, float gridSize, List<WayPoint> grid, float D = 0.15f)
@@ -271,7 +273,7 @@ public class Navigator : MonoBehaviour
 	static List<Vector3> FindGridPositionsNear (Vector3 point, List<WayPoint> grid, float gridSize)
 	{
 		// Find the nearest possible destination nodes and add them to the destinations of the starting node
-
+	
 		// Do this by rounding the current coordinates to the grid step size, thus finding the 4 nearest nodes
 		float start_x = point.x;
 		float start_z = point.z;
@@ -336,8 +338,6 @@ public class Navigator : MonoBehaviour
 	{
 		List<WayPoint> wayPointsNear = new List<WayPoint> ();
 		List<Vector3> nearNodes = FindGridPositionsNear (position, grid, gridSize);  
-		//Debug.Log (gridSize);
-		//Debug.Log (nearNodes [0]);
 		for (int i = 0; i < nearNodes.Count; i++) {
 			if (position != nearNodes [i] && !Physics.Raycast (position, nearNodes [i] - position, (position - nearNodes [i]).magnitude + .1f, layerMask)) {
 				// Add node to destination if it's reachable
