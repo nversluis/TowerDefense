@@ -19,7 +19,7 @@ public class EnemyStats : MonoBehaviour {
 
     void Awake()
     {
-        generateEnemyStats();
+        //generateEnemyStats();
     }
 
     // Use this for initialization

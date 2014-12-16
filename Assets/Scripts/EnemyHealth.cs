@@ -108,8 +108,11 @@ public class EnemyHealth : MonoBehaviour {
 		//	wp.setPenalty (newPenalty);
 		//}
 		isDead = true;
-		Destroy(this.gameObject);
-        //this.transform.position = deathPosition;
+		//Destroy(this.gameObject);
+        this.transform.position = deathPosition;
+
+        //currentHealth = startingHealth;
+        //transform.position = startPosition;
         //Debug.Log("Ik ben dood");
     }
 
