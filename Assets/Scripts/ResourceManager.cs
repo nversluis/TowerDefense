@@ -20,7 +20,6 @@ public class ResourceManager : MonoBehaviour {
 	public int width;	//With of the map
 	public float planewidth;//Size of the planes
 	public float height;
-	public float nodeRate;	//Distance between nodepoints
 	public float nodeSize;
 	public int NumberOfPaths;
 
@@ -73,7 +72,5 @@ public class ResourceManager : MonoBehaviour {
 	[Header("Level Editor")]
 	public GameObject editorPlane;
 
-	void Start(){
-		nodeSize = planewidth / nodeRate;
-	}
+	
 }
