@@ -118,7 +118,6 @@ public class PlayerController : MonoBehaviour
                 else
                 {
                     camShootDistance = hit.point - (transform.position + tijdelijk + new Vector3((Mathf.Sin(camAngleY * Mathf.Deg2Rad)), 0f, Mathf.Cos(camAngleY * Mathf.Deg2Rad)));
-                    Debug.Log("ja");
                 }
 
                 // add the force to the bullet
