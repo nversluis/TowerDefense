@@ -22,6 +22,7 @@ public class ResourceManager : MonoBehaviour {
 	public float height;
 	public float nodeSize;
 	public int NumberOfPaths;
+    public bool drawNavigationGrid;
 
 	[Header("Enemies")]
 	public string enemyTag;
