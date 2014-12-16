@@ -45,7 +45,7 @@ public class HPBarFront : MonoBehaviour {
 		maxHP = 100f;
         /* DEBUG */
 		if (bufferedHP < currentHP) {
-			if (System.Math.Abs(bufferedHP - currentHP) < (maxHP/100f)) {
+			if (System.Math.Abs(bufferedHP - currentHP) < (maxHP/1000f)) {
 				bufferedHP = currentHP;
 			}
 			else{
