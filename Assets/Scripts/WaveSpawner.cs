@@ -60,10 +60,10 @@ public class WaveSpawner : MonoBehaviour
                 {
                     // Als alle enemies dood zijn, ga naar de volgende wave
                     currentWave++;
-                    // Verhoog de totale stat points
-                    currentTotalStatPoints += delta;
                     // Spawn een extra enemy voor de volgende wave
                     maxEnemies++;
+                    // Verhoog de totale stat points
+                    currentTotalStatPoints += delta;
                     // Enemies mogen weer gespawnd worden
                     spawning = true;
                 }
@@ -71,6 +71,7 @@ public class WaveSpawner : MonoBehaviour
         }
         else
         {
+            Debug.Log("Congratulations! You've succesfully defeated all waves of enemies!");
         }
     }
 
@@ -82,9 +83,10 @@ public class WaveSpawner : MonoBehaviour
         GameObject Enemy = (GameObject)Instantiate(enemy, transform.position + new Vector3(randX, 7.34f/2, randZ), Quaternion.identity);
        
         Enemy.name = "enemy";
-        enemyStats = enemy.GetComponent<EnemyStats>();
+        enemyStats = Enemy.GetComponent<EnemyStats>();
         // Genereer enemies met toenemende stats per wave
         enemyStats.totalStatPoints = currentTotalStatPoints;
+        // enemyStats.generateEnemyStats();
         enemies.Add(Enemy);
     }
 
