@@ -37,48 +37,40 @@ public class GAWaveSpawner : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (spawning)
+        if (currentWave <= maxWaves)
         {
-            if (currentGen.Count < maxEnemies)
+            if (spawning)
             {
-                // Spawn enemies tot het maximale aantal enemies wordt bereikt
-                SpawnEnemy();
+                if (currentGen.Count < maxEnemies)
+                {
+                    // Spawn enemies tot het maximale aantal enemies wordt bereikt
+                    SpawnEnemy();
+                }
+                else
+                {
+                    spawning = false;
+                }
             }
             else
             {
-                spawning = false;
+                UpdateEnemyCount();
+
+                if (currentGen.Count == 0)
+                {
+                    // Als alle enemies dood zijn, ga naar de volgende wave
+                    currentWave++;
+                    // Verhoog de totale stat points
+                    currentTotalStatPoints += toenameTotalStatsPerWave;
+                    // Spawn een extra enemy voor de volgende wave
+                    maxEnemies++;
+                    // Enemies mogen weer gespawnd worden
+                    spawning = true;
+                }
             }
         }
         else
         {
-            if (AllEnemiesDead())
-            {
-                currentWave++;
-                if (currentWave <= maxWaves)
-                {
-                    // Verhoog de totale stat points
-                    // currentTotalStatPoints += toenameTotalStatsPerWave;
-                    // Spawn een extra enemy voor de volgende wave
-                    // maxEnemies++;
-                    // Versterk de huidige enemies
-                    // BuffEnemies();
-                    // nextGenRoulette();
-                    // Respawn de enemies
-                    Respawn();
-
-                    if (currentGen.Count < maxEnemies) {
-                        int difference = maxEnemies - currentGen.Count;
-                        for (int i = 0; i < difference; i++) {
-                            // Spawn meer enemies als er niet genoeg zijn in de huidige generatie
-                            SpawnEnemy();
-                        }
-                    }
-                }
-                else
-                {
-                    Debug.Log("Congratulations! You've succesfully defeated all waves of enemies!");
-                }
-            }
+            Debug.Log("Congratulations! You've succesfully defeated all waves of enemies!");
         }
     }
 
@@ -90,14 +82,26 @@ public class GAWaveSpawner : MonoBehaviour
         GameObject Enemy = (GameObject)Instantiate(enemy, transform.position + new Vector3(randX, 7.34f / 2, randZ), Quaternion.identity);
 
         Enemy.name = "enemy";
-        enemyStats = Enemy.GetComponent<EnemyStats>();
-        enemyHealth = Enemy.GetComponent<EnemyHealth>();
+        enemyStats = enemy.GetComponent<EnemyStats>();
+        enemyHealth = enemy.GetComponent<EnemyHealth>();
         // Genereer enemies met toenemende stats per wave
         enemyStats.totalStatPoints = currentTotalStatPoints;
         // Genereer stats van de enemy
-        enemyStats.generateEnemyStats();
-        enemyHealth.spawnPosition = Enemy.transform.position;
+        // enemyStats.generateEnemyStats();
+        //enemyHealth.spawnPosition = Enemy.transform.position;
         currentGen.Add(Enemy);
+    }
+
+    void UpdateEnemyCount()
+    {
+        for (int i = 0; i < currentGen.Count; i++)
+        {
+            if ((GameObject)(currentGen[i]) == null)
+            {
+                // Verwijder een enemy uit de lijst van enemies als die dood is
+                currentGen.Remove(currentGen[i]);
+            }
+        }
     }
 
     public void selection(List<float> chances)
