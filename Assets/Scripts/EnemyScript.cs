@@ -10,7 +10,7 @@ public class EnemyScript : MonoBehaviour {
 	private List<WayPoint> grid;
 	List<Vector3> Path;
 	int i = 0;
-	float walkSpeed=20;
+	float walkSpeed;
 	float orcHeigthSpawn = 3.27f;
 	CharacterController characterController;
 	public bool automaticPathUpdating;
@@ -29,7 +29,7 @@ public class EnemyScript : MonoBehaviour {
 		Path = Navigator.Path(transform.position, PlayerController.location - new Vector3(0f, PlayerController.location.y,0f),nodeSize,grid);
 
 		enemystats = GetComponent<EnemyStats>();
-		//walkSpeed = enemystats.speed/10 + 3;
+		walkSpeed = 0.03f*enemystats.speed + 12;
 
 
 		if (automaticPathUpdating)

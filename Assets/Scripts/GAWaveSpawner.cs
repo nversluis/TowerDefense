@@ -57,11 +57,11 @@ public class GAWaveSpawner : MonoBehaviour
                 if (currentWave <= maxWaves)
                 {
                     // Verhoog de totale stat points
-                    currentTotalStatPoints += toenameTotalStatsPerWave;
+                    // currentTotalStatPoints += toenameTotalStatsPerWave;
                     // Spawn een extra enemy voor de volgende wave
-                    maxEnemies++;
+                    // maxEnemies++;
                     // Versterk de huidige enemies
-                    BuffEnemies();
+                    // BuffEnemies();
                     // nextGenRoulette();
                     // Respawn de enemies
                     Respawn();
@@ -100,21 +100,6 @@ public class GAWaveSpawner : MonoBehaviour
         currentGen.Add(Enemy);
     }
 
-
-    void UpdateEnemyCount()
-    {
-        for (int i = 0; i < currentGen.Count; i++)
-        {
-            if (((GameObject)currentGen[i]) == null)
-            {
-                // Voeg de enemy toe aan de volgende generatie
-                nextGen.Add(currentGen[i]);
-                // Verwijder de enemy uit de huidige genertatie als die dood is
-                currentGen.Remove(currentGen[i]);
-            }
-        }
-    }
-
     public void selection(List<float> chances)
     {
         float randomFloat;
@@ -123,6 +108,7 @@ public class GAWaveSpawner : MonoBehaviour
         {
             randomFloat = Random.Range(0, 1) * chances[chances.Count - 1];
             int indexOfCurrentGen = 0;
+            Debug.Log(randomFloat);
             /*while (randomFloat > chances[indexOfCurrentGen])
             {
                 indexOfCurrentGen++;
