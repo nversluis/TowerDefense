@@ -20,7 +20,7 @@ public class ResourceManager : MonoBehaviour {
 	public int width;	//With of the map
 	public float planewidth;//Size of the planes
 	public float height;
-	public float nodeSize;	//Distance between nodepoints
+	public float nodeSize;
 	public int NumberOfPaths;
 
 	[Header("Enemies")]
@@ -71,4 +71,11 @@ public class ResourceManager : MonoBehaviour {
 
 	[Header("Level Editor")]
 	public GameObject editorPlane;
+	public Color noPlane;
+	public Color startOrEnd;
+	public Color connected;
+	public Color notConnected;
+	public Color highlighted;
+
+
 }

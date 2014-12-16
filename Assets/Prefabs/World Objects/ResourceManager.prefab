@@ -23,7 +23,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 42.2823257, y: 77.3980255, z: 60.808609}
+  m_LocalPosition: {x: 20.2024803, y: 9.92507648, z: 15.3468361}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -49,6 +49,7 @@ MonoBehaviour:
   width: 10
   planewidth: 10
   height: 3
+  nodeRate: 5
   nodeSize: 2.5
   NumberOfPaths: 3
   enemyTag: Enemy
@@ -77,6 +78,11 @@ MonoBehaviour:
   damageText: {fileID: 100000, guid: 2173d4d4ee922db4a92d3e0e7293b9c8, type: 2}
   gui: {fileID: 100002, guid: 8024b87a1ed91d1428251d98e7b6ea61, type: 2}
   editorPlane: {fileID: 100000, guid: 4399a3da2ea28304bae6812a147e5855, type: 2}
+  noPlane: {r: 0, g: 0, b: 0, a: 0}
+  startOrEnd: {r: 0, g: .672145188, b: .816176474, a: 0}
+  connected: {r: 1, g: 1, b: 1, a: 0}
+  notConnected: {r: 1, g: 0, b: 0, a: 0}
+  highlighted: {r: 0, g: .886274517, b: 0, a: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
