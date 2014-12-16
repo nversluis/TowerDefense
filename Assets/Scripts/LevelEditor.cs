@@ -38,6 +38,12 @@ public class LevelEditor : MonoBehaviour
 	private bool playing;
 	private int currentPage;
 	private int maxPages;
+	//colors
+	private Color cNoPlane;
+	private Color cStartEnd;
+	private Color cConnected;
+	private Color cNotConnected;
+	private Color cHighlighted;
 
 
 	public InputField lengthInput;
@@ -91,6 +97,11 @@ public class LevelEditor : MonoBehaviour
 		posConnected = new List<Vector3> ();
 		allPos = new List<GameObject> ();
 		currentPage = 1;
+		cNoPlane = resourceManager.noPlane;
+		cStartEnd = resourceManager.startOrEnd;
+		cConnected = resourceManager.connected;
+		cNotConnected = resourceManager.notConnected;
+		cHighlighted = resourceManager.highlighted;
 
 		SubmitButton.onClick.AddListener (delegate {
 			submitSize ();
