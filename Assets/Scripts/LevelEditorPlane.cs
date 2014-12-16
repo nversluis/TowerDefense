@@ -11,12 +11,18 @@ public class LevelEditorPlane : MonoBehaviour
 	private GameObject ResourceManagerObj;
 	private ResourceManager resourceManager;
 	private float planewidth;
+	private Color CnoPlane;
+	private Color CstartEnd;
+	private Color CConnected;
+	private Color CNotConnected;
+	private Color CHiLighted;
 
 	void Start ()
 	{
 		ResourceManagerObj = GameObject.Find ("ResourceManager");
 		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
 		planewidth = resourceManager.planewidth;
+
 
 	}
 
