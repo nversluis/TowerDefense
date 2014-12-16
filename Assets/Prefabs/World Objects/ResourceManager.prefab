@@ -49,8 +49,7 @@ MonoBehaviour:
   width: 10
   planewidth: 10
   height: 3
-  nodeRate: 5
-  nodeSize: 2.5
+  nodeSize: 5
   NumberOfPaths: 3
   enemyTag: Enemy
   enemyGuyant: {fileID: 100052, guid: 6a25f25271f527644ab0b18b0e7c536e, type: 2}
