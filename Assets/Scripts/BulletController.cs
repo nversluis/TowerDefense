@@ -9,11 +9,13 @@ public class BulletController : MonoBehaviour
 	public static float maxBulletDistance = 200;
 	public static GameObject hitObject;
 
+    LayerMask ignoreMask = ~(1 << 13);
+
 	void GotThrough()
 	{
 
 		RaycastHit hit;
-		if (Physics.Raycast(PrevItLoc, transform.position - PrevItLoc, out hit, (PrevItLoc - transform.position).magnitude+0.2f))
+        if (Physics.Raycast(PrevItLoc, transform.position - PrevItLoc, out hit, (PrevItLoc - transform.position).magnitude + 0.2f, ignoreMask))
 		{
 			EnemyHealth enemyHealth = hit.collider.GetComponent<EnemyHealth>();
 			Destroy(this.gameObject);
