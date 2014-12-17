@@ -2,20 +2,30 @@
 using System.Collections;
 
 public class Item : MonoBehaviour {
-    private string name;
+    /* PARAMETERS */
+    private string type;
     private int tier;
     private float cost;
     private float value;
 
-    public Item(string name, int tier, float cost, float value) {
-        this.name = name;
+    /* CONSTRUCTORS */
+    public Item(string type, int tier, float cost, float value) {
+        this.type = type;
         this.tier = tier;
         this.cost = cost;
         this.value = value;
     }
 
-    public string getName() {
-        return name;
+    public Item() {
+        type = "none";
+        tier = 1;
+        cost = 0;
+        value = 0;
+    }
+
+    /* GETTERS */
+    public string getType() {
+        return type;
     }
 
     public int getTier() {
@@ -28,6 +38,23 @@ public class Item : MonoBehaviour {
 
     public float getValue() {
         return value;
+    }
+
+    /* SETTERS */
+    public void setType(string type) {
+        this.type = type;
+    }
+
+    public void setTier(int tier) {
+        this.tier = tier;
+    }
+
+    public void setCost(float cost) {
+        this.cost = cost;
+    }
+
+    public void setValue(float value) {
+        this.value = value;
     }
 
 
