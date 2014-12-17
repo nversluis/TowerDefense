@@ -215,6 +215,7 @@ GameObject:
   - 223: {fileID: 792505899}
   - 114: {fileID: 792505898}
   - 114: {fileID: 792505897}
+  - 114: {fileID: 792505901}
   m_Layer: 5
   m_Name: GUI
   m_TagString: Untagged
@@ -302,6 +303,41 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &792505901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 792505896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3d80de59a6dc9d4c8bdedbc57b2d47b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frontHPBar: {fileID: 0}
+  rearHPBar: {fileID: 0}
+  goldText: {fileID: 0}
+  scoreText: {fileID: 0}
+  StrStat: {fileID: 0}
+  MagStat: {fileID: 0}
+  DefStat: {fileID: 0}
+  AgiStat: {fileID: 0}
+  skill1: {fileID: 0}
+  skill2: {fileID: 0}
+  skill3: {fileID: 0}
+  skill4: {fileID: 0}
+  tower1: {fileID: 0}
+  tower2: {fileID: 0}
+  tower3: {fileID: 0}
+  tower4: {fileID: 0}
+  tower5: {fileID: 0}
+  tower6: {fileID: 0}
+  tower7: {fileID: 0}
+  tower8: {fileID: 0}
+  item1: {fileID: 0}
+  item2: {fileID: 0}
+  item3: {fileID: 0}
+  item4: {fileID: 0}
 --- !u!1 &935183973
 GameObject:
   m_ObjectHideFlags: 0
