@@ -105,7 +105,7 @@ public class EnemyHealth : MonoBehaviour {
         WPoints = Navigator.FindWayPointsNear(transform.position, resourceManager.Nodes, nodeSize);
         foreach (WayPoint wp in WPoints)
         {
-            float newPenalty = wp.getPenalty() + 5;
+            float newPenalty = wp.getPenalty() +15;
             wp.setPenalty(newPenalty);
         }
 		isDead = true;

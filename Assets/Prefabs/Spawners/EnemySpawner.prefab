@@ -59,7 +59,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemy: {fileID: 100052, guid: 6a25f25271f527644ab0b18b0e7c536e, type: 2}
   nextGenEnemy: {fileID: 0}
-  maxEnemies: 5
+  maxEnemies: 50
   spawning: 1
   maxWaves: 3
   currentWave: 1

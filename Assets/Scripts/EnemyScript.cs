@@ -42,7 +42,7 @@ public class EnemyScript : MonoBehaviour
         dfactor = enemystats.dfactor;
 
 		if (automaticPathUpdating) {
-			InvokeRepeating ("BuildPath", 0, 0.4f);
+			InvokeRepeating ("BuildPath", 0, 0.5f);
 		}
 
 	}
