@@ -96,9 +96,7 @@ public class EnemyHealth : MonoBehaviour {
 		}
 	}
 
-
-
-    void Death()
+    public void Death()
     {
        
 		//List<WayPoint> WPoints = new List<WayPoint> ();
@@ -110,7 +108,6 @@ public class EnemyHealth : MonoBehaviour {
 		isDead = true;
 		//Destroy(this.gameObject);
         this.transform.position = deathPosition;
-
         //currentHealth = startingHealth;
         //transform.position = startPosition;
         //Debug.Log("Ik ben dood");
