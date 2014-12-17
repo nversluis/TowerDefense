@@ -78,7 +78,7 @@ NavMeshSettings:
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 100000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
-  m_PrefabInternal: {fileID: 464896404}
+  m_PrefabInternal: {fileID: 506096697}
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 14726754}
@@ -95,7 +95,7 @@ MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854,
     type: 2}
-  m_PrefabInternal: {fileID: 464896404}
+  m_PrefabInternal: {fileID: 506096697}
   m_GameObject: {fileID: 14726752}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -110,9 +110,9 @@ MonoBehaviour:
   torch: {fileID: 100012, guid: 3abc6258d3b3848199581033a47549d6, type: 2}
   length: 20
   width: 20
-  planewidth: 10
+  planewidth: 20
   height: 3
-  nodeSize: 2.5
+  nodeSize: 5
   NumberOfPaths: 3
   drawNavigationGrid: 1
   enemyTag: Enemy
@@ -154,7 +154,7 @@ MonoBehaviour:
 Transform:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
-  m_PrefabInternal: {fileID: 464896404}
+  m_PrefabInternal: {fileID: 506096697}
   m_GameObject: {fileID: 14726752}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 42.2823257, y: 77.3980255, z: 60.808609}
@@ -201,7 +201,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
---- !u!1001 &464896404
+--- !u!1001 &506096697
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -241,11 +241,7 @@ Prefab:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
-      propertyPath: length
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
-      propertyPath: width
+      propertyPath: planewidth
       value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []

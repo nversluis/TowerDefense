@@ -18,10 +18,11 @@ public class minimapCamera : MonoBehaviour {
 		player = GameObject.Find ("Player");
 		heightMinimap = resourceManager.heightMinimap;
 		lengthMinimap = resourceManager.lengthMinimap;
-		maxEast = (resourceManager.length-6)*resourceManager.planewidth;
-		maxNorth = (resourceManager.width/2-6)*resourceManager.planewidth;
-		maxSouth = (-resourceManager.width/2+6)*resourceManager.planewidth;
-		maxWest = (0 * resourceManager.planewidth + 6) * resourceManager.planewidth;
+		maxEast = (ResourceManager.mostEast-6)*resourceManager.planewidth;
+		maxNorth = (ResourceManager.mostNorth-6)*resourceManager.planewidth;
+		maxSouth = (ResourceManager.mostSouth+6)*resourceManager.planewidth;
+		maxWest = (ResourceManager.mostWest + 6) * resourceManager.planewidth;
+		//maxEast = 
 	}
 	
 	// Update is called once per frame

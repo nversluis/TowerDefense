@@ -452,11 +452,18 @@ public class LevelEditor : MonoBehaviour
 			resourceManager.width = width;
 
 			Reset ();
-
+			ResourceManager.mostNorth = 0;
+			ResourceManager.mostEast =0;
+			ResourceManager.mostSouth =1000;
+			ResourceManager.mostWest =1000;
 			//add positions
 			for (int i = 0; i < datas.Count; i += 2) {
 				if (!positions.Contains (new Vector2 (datas [i], datas [i + 1]))) {
 					positions.Add (new Vector2 (datas [i], datas [i + 1]));
+					ResourceManager.mostNorth = Mathf.Max (ResourceManager.mostNorth, (int)datas[i+1]);
+					ResourceManager.mostEast = Mathf.Max (ResourceManager.mostEast, (int)datas[i]);
+					ResourceManager.mostSouth = Mathf.Min (ResourceManager.mostSouth, (int)datas[i+1]);
+					ResourceManager.mostWest = Mathf.Min (ResourceManager.mostWest, (int)datas[i]);
 				}
 			}
 			//

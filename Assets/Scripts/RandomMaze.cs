@@ -62,6 +62,7 @@ public class RandomMaze : MonoBehaviour
         drawNavigationGrid = resourceManager.drawNavigationGrid;
 
 
+
 		//Generate floors
 		GenerateFloor ();
 		//Generate walls
@@ -97,6 +98,10 @@ public class RandomMaze : MonoBehaviour
 		spawnPlayer (player,camera,Gui,startPos*planewidth,Minimapcamera,width,length,planewidth);
 		createSingleObjects (planewidth,EnemySpawner,endPos);
 
+		ResourceManager.mostNorth =0;
+		ResourceManager.mostEast = 0;
+		ResourceManager.mostSouth = 10000;
+		ResourceManager.mostWest = 100000;
 		int N = NumberOfPaths;
 		for (int i = 0; i < N; i++) { //run this the amount of timres of the numper of paths
 			Vector2 curPos = startPos; //current position is start position
@@ -111,6 +116,10 @@ public class RandomMaze : MonoBehaviour
 						GameObject ceil = (GameObject)Instantiate (planePrefab, new Vector3 ((curPos [0]) * planewidth, height * planewidth, (curPos [1]) * planewidth), Quaternion.identity); //Instantiate a floor at current position
 						ceil.transform.Rotate (new Vector3 (180, 0, 0));
 						ceil.gameObject.transform.localScale = new Vector3 (planewidth / 20, 0.1f, planewidth / 20); //Scale the floor
+						ResourceManager.mostNorth = Mathf.Max (ResourceManager.mostNorth, (int)curPos [1]);
+						ResourceManager.mostEast = Mathf.Max (ResourceManager.mostEast, (int)curPos [0]);
+						ResourceManager.mostSouth = Mathf.Min (ResourceManager.mostSouth, (int)curPos [1]);
+						ResourceManager.mostWest = Mathf.Min (ResourceManager.mostWest, (int)curPos [0]);
 
 					}
 
@@ -142,10 +151,7 @@ public class RandomMaze : MonoBehaviour
 						lastPos *= 0;
 						lastPos += new Vector4 (1, 2, 0, 1);
 					}
-					ResourceManager.mostNorth = Mathf.Max (ResourceManager.mostNorth, (int)curPos [1]);
-					ResourceManager.mostEast = Mathf.Max (ResourceManager.mostEast, (int)curPos [0]);
-					ResourceManager.mostSouth = Mathf.Min (ResourceManager.mostSouth, (int)curPos [1]);
-					ResourceManager.mostWest = Mathf.Min (ResourceManager.mostWest, (int)curPos [1]);
+				
 				} else { //if you cant continue, just stop
 					ba = 500;
 
@@ -155,7 +161,7 @@ public class RandomMaze : MonoBehaviour
 			}
 
 		}
-
+		Debug.Log ("Noord: " + ResourceManager.mostNorth + " Zuid: " + ResourceManager.mostSouth + " East: " + ResourceManager.mostEast + " West: " + ResourceManager.mostWest);
 		GameObject floor2 = (GameObject)Instantiate (planePrefab, new Vector3 (endPos [0] * planewidth, 0, endPos [1] * planewidth), Quaternion.identity); //Generate floor at end position
 		floor2.gameObject.transform.localScale = new Vector3 (planewidth / 20, 0.1f, planewidth / 20);
 		floor2.transform.parent = gameObject.transform;
@@ -357,7 +363,7 @@ public class RandomMaze : MonoBehaviour
 	{			
 		GameObject cam = (GameObject)Instantiate (Minimapcamera, new Vector3 (length / 2, Mathf.Max (width, length), 0) * planewidth, Quaternion.Euler (90, 0, 0));
 		//cam.camera.rect = new Rect (0.8f, 0.7f, 0.3f, 0.3f);
-		cam.camera.orthographicSize = 750 / planewidth;
+		cam.camera.orthographicSize = 7.5f * planewidth;
 		// create player and camera
 		GameObject Player = (GameObject)Instantiate (player, new Vector3 (startPos.x, 0.5f, startPos.y), Quaternion.identity);
 		Player.gameObject.transform.localScale = new Vector3 (0.05f, 0.05f, 0.05f);
