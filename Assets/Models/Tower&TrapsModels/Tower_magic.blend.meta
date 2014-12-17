@@ -16,6 +16,8 @@ ModelImporter:
     100020: NurbsPath_005
     100022: NurbsPath_006
     100024: NurbsPath_007
+    100026: Cylinder_001
+    100028: Cylinder_002
     400000: Base
     400002: Plane
     400004: //RootNode
@@ -29,6 +31,8 @@ ModelImporter:
     400020: NurbsPath_005
     400022: NurbsPath_006
     400024: NurbsPath_007
+    400026: Cylinder_001
+    400028: Cylinder_002
     2300000: Base
     2300002: Plane
     2300004: NurbsPath
@@ -41,6 +45,8 @@ ModelImporter:
     2300018: NurbsPath_005
     2300020: NurbsPath_006
     2300022: NurbsPath_007
+    2300024: Cylinder_001
+    2300026: Cylinder_002
     3300000: Base
     3300002: Plane
     3300004: NurbsPath
@@ -53,6 +59,8 @@ ModelImporter:
     3300018: NurbsPath_005
     3300020: NurbsPath_006
     3300022: NurbsPath_007
+    3300024: Cylinder_001
+    3300026: Cylinder_002
     4300000: Plane
     4300002: Base
     4300004: NurbsPath_001
@@ -65,6 +73,8 @@ ModelImporter:
     4300018: NurbsPath_000
     4300020: NurbsPath_002
     4300022: Cylinder
+    4300024: Cylinder_002
+    4300026: Cylinder_001
     7400000: Default Take
     9500000: //RootNode
   materials:
