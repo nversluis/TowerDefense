@@ -24,6 +24,8 @@ public class EnemyScript : MonoBehaviour
     float dfactor;
     bool drawPath;
 
+    public bool walking;
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -56,12 +58,13 @@ public class EnemyScript : MonoBehaviour
 
             if (i != Path.Count-1)
             {
+                walking = true;
                 dir = (Path[i + 1] - (transform.position - new Vector3(0f, transform.position.y, 0f))).normalized * walkSpeed;
             }
             else
             {
                 dir = (Path[i] - (transform.position - new Vector3(0f, transform.position.y, 0f))).normalized * walkSpeed;
-
+                walking = true;
             }
 			rigidbody.velocity = (dir + new Vector3 (0f, rigidbody.velocity.y, 0f));
 			rigidbody.angularVelocity = Vector3.zero;
@@ -75,6 +78,7 @@ public class EnemyScript : MonoBehaviour
 
 			if (nextPointDistance.magnitude < 1f && i == Path.Count) {
 				rigidbody.velocity = Vector3.zero;
+                walking = false;
 			}
 		}
 
