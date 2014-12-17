@@ -294,7 +294,11 @@ public class LevelEditor : MonoBehaviour
 				playing = true;
 				for (int i = 0; i < positions.Count; i++) { //get right sizes of the positions array
 					positions [i] = (Vector2)positions [i] / planewidth;
-
+					Vector2 tempPos = (Vector2)positions [i];
+					ResourceManager.mostNorth = Mathf.Max (ResourceManager.mostNorth, (int) tempPos.y);
+					ResourceManager.mostEast = Mathf.Max (ResourceManager.mostEast, (int)tempPos.x);
+					ResourceManager.mostSouth = Mathf.Min (ResourceManager.mostSouth, (int)tempPos.y);
+					ResourceManager.mostWest = Mathf.Min (ResourceManager.mostWest,(int) tempPos.x);
 				}
 				startPos = new Vector2 (startPos3.x, startPos3.z);
 				endPos = new Vector2 (endPos3.x, endPos3.z);

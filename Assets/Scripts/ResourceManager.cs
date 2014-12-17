@@ -71,6 +71,8 @@ public class ResourceManager : MonoBehaviour {
 
 	[Header("UI")]
 	public GameObject gui;
+	public float lengthMinimap;
+	public float heightMinimap;
 
 	[Header("Level Editor")]
 	public GameObject editorPlane;
@@ -79,6 +81,14 @@ public class ResourceManager : MonoBehaviour {
 	public Color connected;
 	public Color notConnected;
 	public Color highlighted;
+
+
+	[Header("MapGroottes")]
+	public static int mostEast;
+	public static int mostWest;
+	public static int mostNorth;
+	public static int mostSouth;
+
 
 
 }

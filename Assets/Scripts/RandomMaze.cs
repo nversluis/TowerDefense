@@ -142,6 +142,10 @@ public class RandomMaze : MonoBehaviour
 						lastPos *= 0;
 						lastPos += new Vector4 (1, 2, 0, 1);
 					}
+					ResourceManager.mostNorth = Mathf.Max (ResourceManager.mostNorth, (int)curPos [1]);
+					ResourceManager.mostEast = Mathf.Max (ResourceManager.mostEast, (int)curPos [0]);
+					ResourceManager.mostSouth = Mathf.Min (ResourceManager.mostSouth, (int)curPos [1]);
+					ResourceManager.mostWest = Mathf.Min (ResourceManager.mostWest, (int)curPos [1]);
 				} else { //if you cant continue, just stop
 					ba = 500;
 
@@ -351,7 +355,9 @@ public class RandomMaze : MonoBehaviour
 
 	public static void spawnPlayer (GameObject player, GameObject camera, GameObject Gui,Vector2 startPos,GameObject Minimapcamera,int width,int length,float planewidth)
 	{			
-
+		GameObject cam = (GameObject)Instantiate (Minimapcamera, new Vector3 (length / 2, Mathf.Max (width, length), 0) * planewidth, Quaternion.Euler (90, 0, 0));
+		//cam.camera.rect = new Rect (0.8f, 0.7f, 0.3f, 0.3f);
+		cam.camera.orthographicSize = 750 / planewidth;
 		// create player and camera
 		GameObject Player = (GameObject)Instantiate (player, new Vector3 (startPos.x, 0.5f, startPos.y), Quaternion.identity);
 		Player.gameObject.transform.localScale = new Vector3 (0.05f, 0.05f, 0.05f);
@@ -364,9 +370,7 @@ public class RandomMaze : MonoBehaviour
 		//minimapcamera
 
 		//Minimap camera
-		GameObject cam = (GameObject)Instantiate (Minimapcamera, new Vector3 (length / 2, Mathf.Max (width, length), 0) * planewidth, Quaternion.Euler (90, 0, 0));
-		cam.camera.rect = new Rect (0.8f, 0.7f, 0.3f, 0.3f);
-		cam.camera.orthographicSize = Mathf.Max (length, width) * planewidth /2;
+
 
 	}
 
