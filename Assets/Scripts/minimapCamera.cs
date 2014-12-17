@@ -28,8 +28,6 @@ public class minimapCamera : MonoBehaviour {
 	void Update () {
 		float xOffset = player.transform.position.x;
 		float yOffset = player.transform.position.z;
-		Debug.Log ("maxEast = "+maxEast);
-		Debug.Log ("maxWest = " + maxWest);
 		if (xOffset > maxEast) {
 			xOffset = maxEast;
 		}
