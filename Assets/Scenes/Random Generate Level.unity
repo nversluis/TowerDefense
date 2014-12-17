@@ -78,7 +78,7 @@ NavMeshSettings:
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 100000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
-  m_PrefabInternal: {fileID: 930180858}
+  m_PrefabInternal: {fileID: 1356627359}
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 14726754}
@@ -95,7 +95,7 @@ MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854,
     type: 2}
-  m_PrefabInternal: {fileID: 930180858}
+  m_PrefabInternal: {fileID: 1356627359}
   m_GameObject: {fileID: 14726752}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -108,17 +108,19 @@ MonoBehaviour:
   Minimapcamera: {fileID: 100000, guid: ea52609adf144e449bfeac563da51684, type: 2}
   Gate: {fileID: 100000, guid: 16cf1baaf1edf034dadc94eb5ac10fa5, type: 2}
   torch: {fileID: 100012, guid: 3abc6258d3b3848199581033a47549d6, type: 2}
-  length: 20
+  length: 10
   width: 10
-  planewidth: 20
+  planewidth: 10
   height: 3
-  nodeSize: 5
+  nodeSize: 2.5
   NumberOfPaths: 3
-  drawNavigationGrid: 1
+  drawNavigationGrid: 0
   enemyTag: Enemy
   enemyGuyant: {fileID: 100052, guid: 6a25f25271f527644ab0b18b0e7c536e, type: 2}
   enemyGwarf: {fileID: 0}
   enemyGrobble: {fileID: 0}
+  walkSpeed: 10
+  drawPath: 1
   maxWaves: 5
   currentWave: 1
   maxTowerDistance: 50
@@ -150,7 +152,7 @@ MonoBehaviour:
 Transform:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
-  m_PrefabInternal: {fileID: 930180858}
+  m_PrefabInternal: {fileID: 1356627359}
   m_GameObject: {fileID: 14726752}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 42.2823257, y: 77.3980255, z: 60.808609}
@@ -299,7 +301,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!1001 &930180858
+--- !u!1001 &1356627359
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
