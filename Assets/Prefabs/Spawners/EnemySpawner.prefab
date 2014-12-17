@@ -61,7 +61,7 @@ MonoBehaviour:
   nextGenEnemy: {fileID: 0}
   maxEnemies: 10
   spawning: 1
-  maxWaves: 3
+  maxWaves: 30
   currentWave: 1
   maxX: 0
   maxZ: 0

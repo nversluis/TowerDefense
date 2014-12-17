@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class PlayerData : MonoBehaviour {
+public class PlayerData {
     /* PARAMETERS */
     private float currentHP;
     private float maxHP;
