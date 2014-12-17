@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Skill : MonoBehaviour {
+public class Skill {
     /* PARAMETERS */
     private int id;
     private float cdPercent;

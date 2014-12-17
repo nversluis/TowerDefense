@@ -83,42 +83,46 @@ public class GUIScript : MonoBehaviour {
     // Initialize a public variable containing all player data
     public static PlayerData player = new PlayerData();
 
-	void Start () {
-        /* HP */
-        frontHPBar = GetComponent<RectTransform>();
-        rearHPBar = GetComponent<RectTransform>();
+	void Awake () {
+        /* Get private components */
 
-        /* GOLD */
-        goldText = GetComponent<Text>();
+        // Skills
 
-        /* SCORE */
-        scoreText = GetComponent<Text>();
+        skillText1 = skill1.transform.GetChild(0).GetComponent<Text>();
+        skillText2 = skill2.transform.GetChild(0).GetComponent<Text>();
+        skillText3 = skill3.transform.GetChild(0).GetComponent<Text>();
+        skillText4 = skill4.transform.GetChild(0).GetComponent<Text>();
 
-        /* STATS */
-        StrStat = GetComponent<Text>();
-        MagStat = GetComponent<Text>();
-        DefStat = GetComponent<Text>();
-        AgiStat = GetComponent<Text>();
-                
-        /* SKILLS */
+        skillCooldown1 = skill1.transform.GetChild(1).GetComponent<Text>();
+        skillCooldown2 = skill2.transform.GetChild(1).GetComponent<Text>();
+        skillCooldown3 = skill3.transform.GetChild(1).GetComponent<Text>();
+        skillCooldown4 = skill4.transform.GetChild(1).GetComponent<Text>();
 
-        // Get components
-        skill1 = GetComponent<Image>();
-        skill2 = GetComponent<Image>();
-        skill3 = GetComponent<Image>();
-        skill4 = GetComponent<Image>();
+        // Towers
 
-        skillText1 = skill1.GetComponentInChildren<Text>();
-        skillText2 = skill2.GetComponentInChildren<Text>();
-        skillText3 = skill3.GetComponentInChildren<Text>();
-        skillText4 = skill4.GetComponentInChildren<Text>();
+        towerText1 = tower1.GetComponentInChildren<Text>();
+        towerText2 = tower2.GetComponentInChildren<Text>();
+        towerText3 = tower3.GetComponentInChildren<Text>();
+        towerText4 = tower4.GetComponentInChildren<Text>();
+        towerText5 = tower5.GetComponentInChildren<Text>();
+        towerText6 = tower6.GetComponentInChildren<Text>();
+        towerText7 = tower7.GetComponentInChildren<Text>();
+        towerText8 = tower8.GetComponentInChildren<Text>();
 
-        skillCooldown1 = skill1.transform.FindChild("Cooldown").GetComponent<Text>();
-        skillCooldown2 = skill2.transform.FindChild("Cooldown").GetComponent<Text>();
-        skillCooldown3 = skill3.transform.FindChild("Cooldown").GetComponent<Text>();
-        skillCooldown4 = skill4.transform.FindChild("Cooldown").GetComponent<Text>();
 
-        // Build lists
+        // Items
+
+        itemText1 = GetComponentInChildren<Text>();
+        itemText2 = GetComponentInChildren<Text>();
+        itemText3 = GetComponentInChildren<Text>();
+        itemText4 = GetComponentInChildren<Text>();
+
+
+
+        /* Build lists */
+
+        // Skills
+
         skillIconList.Add(skill1);
         skillIconList.Add(skill2);
         skillIconList.Add(skill3);
@@ -134,43 +138,8 @@ public class GUIScript : MonoBehaviour {
         skillCooldownList.Add(skillCooldown3);
         skillCooldownList.Add(skillCooldown4);
 
-        // Initialize
-        foreach(Image im in skillIconList) {
-            im.fillClockwise = false;
-            im.color = new Color(150f / 255f, 150f / 255f, 150f / 255f, 180f / 255f);
-        }
+        // Towers
 
-        for(int i = 0; i < skillTextList.Count; i++){
-            Text tx = skillTextList[i];
-            tx.text = i.ToString();
-        }
-
-        foreach(Text tx in skillCooldownList) {
-            tx.enabled = false;
-        }
-
-        /* TOWERS */
-
-        // Get components
-        tower1 = GetComponent<Image>();
-        tower2 = GetComponent<Image>();
-        tower3 = GetComponent<Image>();
-        tower4 = GetComponent<Image>();
-        tower5 = GetComponent<Image>();
-        tower6 = GetComponent<Image>();
-        tower7 = GetComponent<Image>();
-        tower8 = GetComponent<Image>();
-
-        towerText1 = tower1.GetComponentInChildren<Text>();
-        towerText2 = tower2.GetComponentInChildren<Text>();
-        towerText3 = tower3.GetComponentInChildren<Text>();
-        towerText4 = tower4.GetComponentInChildren<Text>();
-        towerText5 = tower5.GetComponentInChildren<Text>();
-        towerText6 = tower6.GetComponentInChildren<Text>();
-        towerText7 = tower7.GetComponentInChildren<Text>();
-        towerText8 = tower8.GetComponentInChildren<Text>();
-
-        // Create lists
         towerIconList.Add(tower1);
         towerIconList.Add(tower2);
         towerIconList.Add(tower3);
@@ -189,27 +158,8 @@ public class GUIScript : MonoBehaviour {
         towerTextList.Add(towerText7);
         towerTextList.Add(towerText8);
 
-        // Initialize
-        for(int i = 0; i < towerTextList.Count; i++) {
-            Text tx = towerTextList[i];
-            tx.enabled = true;
-            tx.text = i.ToString();
-        }
+        // Items
 
-        /* ITEMS */
-
-        // Get components
-        item1 = GetComponent<Image>();
-        item2 = GetComponent<Image>();
-        item3 = GetComponent<Image>();
-        item4 = GetComponent<Image>();
-
-        itemText1 = GetComponentInChildren<Text>();
-        itemText2 = GetComponentInChildren<Text>();
-        itemText3 = GetComponentInChildren<Text>();
-        itemText4 = GetComponentInChildren<Text>();
-
-        // Create lists
         itemIconList.Add(item1);
         itemIconList.Add(item2);
         itemIconList.Add(item3);
@@ -220,7 +170,31 @@ public class GUIScript : MonoBehaviour {
         itemTextList.Add(itemText3);
         itemTextList.Add(itemText4);
 
-        // Initialize
+        /* Initialize */
+
+        // Skills 
+        foreach(Image im in skillIconList) {
+            im.fillClockwise = false;
+            im.color = new Color(150f / 255f, 150f / 255f, 150f / 255f, 180f / 255f);
+        }
+
+        for(int i = 0; i < skillTextList.Count; i++){
+            Text tx = skillTextList[i];
+            tx.text = i.ToString();
+        }
+
+        foreach(Text tx in skillCooldownList) {
+            tx.enabled = false;
+        }
+
+        // Towers
+        for(int i = 0; i < towerTextList.Count; i++) {
+            Text tx = towerTextList[i];
+            tx.enabled = true;
+            tx.text = i.ToString();
+        }
+
+        // Items
         for(int i = 0; i < itemTextList.Count; i++) {
             Text tx = itemTextList[i];
             tx.enabled = true;
