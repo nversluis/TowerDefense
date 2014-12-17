@@ -113,6 +113,7 @@ public class CameraController : MonoBehaviour {
                 waypoint.setPenalty(penalty - 0.1f*Time.fixedDeltaTime);
             }
         }
+        
 
         // casting a ray to see what object is in front of the camera
         if (Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity, ignoreMask))

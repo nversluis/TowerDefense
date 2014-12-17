@@ -66,7 +66,7 @@ public class RandomMaze : MonoBehaviour
 		GenerateFloor ();
 		//Generate walls
 		GenerateWall (positions,planewidth,wallPrefab,torch,height,length,width,gameObject);
-		Nodes=SpawnNodes (positions,nodeSize, planewidth, NodesPos, Nodes,length,width,drawNavigationGrid);
+		Nodes=SpawnNodes (positions,nodeSize, planewidth, NodesPos, Nodes,length,width,drawNavigationGrid,false);
 
 		//generate Nodes;
 		//MakeNodeList (nodeSize,NodesPos,Nodes);
@@ -94,8 +94,8 @@ public class RandomMaze : MonoBehaviour
 		GameObject player = resourceManager.player;
 		GameObject camera = resourceManager.mainCamera;
 		GameObject Gui = resourceManager.gui;
-		spawnPlayer (player,camera,Gui,startPos*planewidth);
-		createSingleObjects (Minimapcamera,width,length,planewidth,EnemySpawner,endPos);
+		spawnPlayer (player,camera,Gui,startPos*planewidth,Minimapcamera,width,length,planewidth);
+		createSingleObjects (planewidth,EnemySpawner,endPos);
 
 		int N = NumberOfPaths;
 		for (int i = 0; i < N; i++) { //run this the amount of timres of the numper of paths
@@ -142,6 +142,10 @@ public class RandomMaze : MonoBehaviour
 						lastPos *= 0;
 						lastPos += new Vector4 (1, 2, 0, 1);
 					}
+					ResourceManager.mostNorth = Mathf.Max (ResourceManager.mostNorth, (int)curPos [1]);
+					ResourceManager.mostEast = Mathf.Max (ResourceManager.mostEast, (int)curPos [0]);
+					ResourceManager.mostSouth = Mathf.Min (ResourceManager.mostSouth, (int)curPos [1]);
+					ResourceManager.mostWest = Mathf.Min (ResourceManager.mostWest, (int)curPos [1]);
 				} else { //if you cant continue, just stop
 					ba = 500;
 
@@ -224,7 +228,7 @@ public class RandomMaze : MonoBehaviour
 	}
 
 	//Method to spawn nodes
-	public static List<WayPoint> SpawnNodes (ArrayList positions, float nodeSize, float planewidth, List<Vector3> NodesPos, List<WayPoint> Nodes,int length, int width, bool drawNavigationGrid)
+	public static List<WayPoint> SpawnNodes (ArrayList positions, float nodeSize, float planewidth, List<Vector3> NodesPos, List<WayPoint> Nodes,int length, int width, bool drawNavigationGrid, bool isLevelEdMap)
 	{
 		for (int i = 0; i < positions.Count; i++) {
 			Vector2 curPosi = (Vector2)positions [i];
@@ -258,9 +262,20 @@ public class RandomMaze : MonoBehaviour
 				}
 			}
 		}
+		float minOffset;
+		float maxOffset;
+		if (isLevelEdMap) {
+			minOffset = -0.5f;
+			maxOffset = width;
+		} else {
+			minOffset = -width / 2 - 0.5f;
+			maxOffset = width / 2 + 1;
+		}
+
 		//remove nodes
 		for (float l = -0.5f; l <= length; l++) {
-			for (float w = -width / 2 - 0.5f; w <= width / 2 + 1; w++) {
+			//for(float w = -0.5f;w<=width+1;w++){
+			for (float w = minOffset; w <= maxOffset; w++) {
 				int amountPlanesAround = 0;
 				for (float x = -1; x <= 1; x += 2) {
 					for (float y = -1; y <= 1; y += 2) {					
@@ -330,21 +345,19 @@ public class RandomMaze : MonoBehaviour
 
 
 
-	public static void createSingleObjects (GameObject Minimapcamera,int width,int length,float planewidth,GameObject EnemySpawner,Vector2 endPos)
+	public static void createSingleObjects (float planewidth,GameObject EnemySpawner,Vector2 endPos)
 	{
-		//Minimap camera
-		GameObject cam = (GameObject)Instantiate (Minimapcamera, new Vector3 (length / 2, Mathf.Max (width, length), 0) * planewidth, Quaternion.Euler (90, 0, 0));
-		cam.camera.rect = new Rect (0.8f, 0.7f, 0.3f, 0.3f);
-		cam.camera.orthographicSize = Mathf.Max (length, width) * planewidth / 3 * 2;
 		//Gate
 		//GameObject GateObj = (GameObject)Instantiate (Gate, new Vector3 (-planewidth / 2, height * planewidth / 2, -planewidth / 2), Quaternion.identity);
 		//GateObj.transform.localScale = new Vector3 (planewidth * 0.028f, planewidth * height / 150, planewidth);
 		GameObject enemySpawner = (GameObject)Instantiate (EnemySpawner, new Vector3 (endPos.x * planewidth, 0f, endPos.y * planewidth), Quaternion.identity); 
 	}
 
-	public static void spawnPlayer (GameObject player, GameObject camera, GameObject Gui,Vector2 startPos)
+	public static void spawnPlayer (GameObject player, GameObject camera, GameObject Gui,Vector2 startPos,GameObject Minimapcamera,int width,int length,float planewidth)
 	{			
-
+		GameObject cam = (GameObject)Instantiate (Minimapcamera, new Vector3 (length / 2, Mathf.Max (width, length), 0) * planewidth, Quaternion.Euler (90, 0, 0));
+		//cam.camera.rect = new Rect (0.8f, 0.7f, 0.3f, 0.3f);
+		cam.camera.orthographicSize = 750 / planewidth;
 		// create player and camera
 		GameObject Player = (GameObject)Instantiate (player, new Vector3 (startPos.x, 0.5f, startPos.y), Quaternion.identity);
 		Player.gameObject.transform.localScale = new Vector3 (0.05f, 0.05f, 0.05f);
@@ -353,6 +366,11 @@ public class RandomMaze : MonoBehaviour
 		MainCamera.name = "Main Camera";
 		GameObject MainGui = (GameObject)Instantiate (Gui, new Vector3(0,0,0), Quaternion.identity);
 		MainGui.name = "GUI";   
+
+		//minimapcamera
+
+		//Minimap camera
+
 
 	}
 

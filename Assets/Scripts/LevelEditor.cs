@@ -214,7 +214,9 @@ public class LevelEditor : MonoBehaviour
 
 	public static void addPos (Vector2 pos)
 	{
-		positions.Add (pos);
+		if (!positions.Contains (pos)) {
+			positions.Add (pos);
+		}
 	}
 
 	public static void removePos (Vector2 pos)
@@ -255,9 +257,9 @@ public class LevelEditor : MonoBehaviour
 
 		//north
 		for (int i = 0; i < 4; i++) { //check in all directions
-			if (i == 0 && plane.transform.position.z > 0 && (index - length) >= 0)
+			if (i == 0 && plane.transform.position.z / planewidth > 0 && (index - length) >= 0)
 				checkPlane = allPos [index - length];
-			else if (i == 1 && (plane.transform.position.z / planewidth) < (width - 1) && (index + length) < allPos.Count)
+			else if (i == 1 && (plane.transform.position.z / planewidth) < (width-1) && (index + length) < allPos.Count)
 				checkPlane = allPos [index + length];
 			else if (i == 2 && (plane.transform.position.x / planewidth) < (length - 1) && (index + 1) < allPos.Count)
 				checkPlane = allPos [index + 1];
@@ -292,7 +294,11 @@ public class LevelEditor : MonoBehaviour
 				playing = true;
 				for (int i = 0; i < positions.Count; i++) { //get right sizes of the positions array
 					positions [i] = (Vector2)positions [i] / planewidth;
-
+					Vector2 tempPos = (Vector2)positions [i];
+					ResourceManager.mostNorth = Mathf.Max (ResourceManager.mostNorth, (int) tempPos.y);
+					ResourceManager.mostEast = Mathf.Max (ResourceManager.mostEast, (int)tempPos.x);
+					ResourceManager.mostSouth = Mathf.Min (ResourceManager.mostSouth, (int)tempPos.y);
+					ResourceManager.mostWest = Mathf.Min (ResourceManager.mostWest,(int) tempPos.x);
 				}
 				startPos = new Vector2 (startPos3.x, startPos3.z);
 				endPos = new Vector2 (endPos3.x, endPos3.z);
@@ -305,10 +311,10 @@ public class LevelEditor : MonoBehaviour
 				GameObject player = resourceManager.player;
 				GameObject camera = resourceManager.mainCamera;
 				GameObject Gui = resourceManager.gui;
-				RandomMaze.spawnPlayer (player, camera, Gui, startPos * planewidth);
+				RandomMaze.spawnPlayer (player, camera, Gui, startPos * planewidth,Minimapcamera,width,length,planewidth);
 				disableLevelEditor ();
-				RandomMaze.createSingleObjects (Minimapcamera, width, length, planewidth, EnemySpawner, endPos);
-				RandomMaze.SpawnNodes (positions, nodeSize, planewidth, NodesPos, Nodes, length, width, drawNavGrid);
+				RandomMaze.createSingleObjects (planewidth, EnemySpawner, endPos);
+				RandomMaze.SpawnNodes (positions, nodeSize, planewidth, NodesPos, Nodes, length, width, drawNavGrid,true);
 
 				resourceManager.Nodes = Nodes;
 			} else
@@ -362,7 +368,7 @@ public class LevelEditor : MonoBehaviour
 		amountOfEnds = 0;
 		amountOfStarts = 0;
 
-		for (int w = 0; w < width; w++) {
+		for (int w=0; w < width ; w++) { //order important!
 			for (int l = 0; l < length; l++) {
 				GameObject floor = (GameObject)Instantiate (editorPlane, new Vector3 (l * planewidth, 0, w * planewidth), Quaternion.identity);
 				floor.transform.localScale *= planewidth / 10;
@@ -372,9 +378,9 @@ public class LevelEditor : MonoBehaviour
 		}
 		float tempL = length - 1;
 		float tempW = width - 1;
-		cam.transform.position = new Vector3 (tempL / 2, 1, tempW / 2) * planewidth;
-		cam.orthographicSize = Mathf.Max (length, width) * planewidth/2;
-		cam.rect =new Rect (0.3f, 0.2f, 0.6f, 0.6f);
+		cam.transform.position = new Vector3 (tempL / 2, 1, tempW/2) * planewidth;
+		cam.orthographicSize = Mathf.Max (length, width + 1) * planewidth / 2;
+		cam.rect = new Rect (0.3f, 0.2f, 0.6f, 0.6f);
 	}
 
 	//saves the position to file.
@@ -427,7 +433,9 @@ public class LevelEditor : MonoBehaviour
 
 			//add positions
 			for (int i = 0; i < datas.Count; i += 2) {
-				positions.Add (new Vector2 (datas [i], datas [i + 1]));
+				if (!positions.Contains (new Vector2 (datas [i], datas [i + 1]))) {
+					positions.Add (new Vector2 (datas [i], datas [i + 1]));
+				}
 			}
 			//
 			//Generate start point, end point, and all others, set start point to connected and run
@@ -449,11 +457,11 @@ public class LevelEditor : MonoBehaviour
 				}
 			}
 			LevelEditor.positions = positions;
-			Vector3 panelPos=cam.WorldToScreenPoint(loadMapsPanel.transform.position)/2;
+			Vector3 panelPos = cam.WorldToScreenPoint (loadMapsPanel.transform.position) / 2;
 			//ChangeTypes camera position and size to fit in load screen
-			cam.transform.position = new Vector3 (length - 1, 1, width - 1) * resourceManager.planewidth / 2;
-			cam.orthographicSize = Mathf.Max (length, width) * resourceManager.planewidth/2;
-			cam.pixelRect =new Rect (Screen.width/2, Screen.height/2-100, 200, 200);
+			cam.transform.position = new Vector3 (length - 1, 1, width-1) * resourceManager.planewidth / 2;
+			cam.orthographicSize = Mathf.Max (length, width + 1) * resourceManager.planewidth / 2;
+			cam.pixelRect = new Rect (Screen.width / 2, Screen.height / 2 - 100, 200, 200);
 
 	
 		}
@@ -474,9 +482,9 @@ public class LevelEditor : MonoBehaviour
 				positions [i] = (Vector2)positions [i] * planewidth;
 			}
 			//change camera position and size back
-			cam.transform.position = new Vector3 (length - 1, 1, width - 1) * resourceManager.planewidth / 2;
-			cam.orthographicSize = Mathf.Max (length, width) * planewidth/2;
-			cam.rect =new Rect (0.3f, 0.2f, 0.6f, 0.6f);
+			cam.transform.position = new Vector3 (length - 1, 1, width-1) * resourceManager.planewidth / 2;
+			cam.orthographicSize = Mathf.Max (length, width + 1) * planewidth / 2;
+			cam.rect = new Rect (0.3f, 0.2f, 0.6f, 0.6f);
 		} else {
 			setErrorTekst ("No File Selected");
 		}
@@ -486,14 +494,14 @@ public class LevelEditor : MonoBehaviour
 	// Use this for initialization
 	private void ShowSavedMaps ()
 	{
-		cam.pixelRect =new Rect (Screen.width/2, Screen.height/2-100, 200, 200);
+		cam.pixelRect = new Rect (Screen.width / 2, Screen.height / 2 - 100, 200, 200);
 		loadMapsPanel.gameObject.SetActive (true);
 		foreach (Transform child in loadMapsPanel.transform) {
 			if (child.gameObject.name.Contains ("load"))
 				Destroy (child.gameObject);
 		}
 		int rows = 16;
-		int columns = 2;
+		int columns = 1;
 		int filesPerPage = rows * columns;
 		nextBut.GetComponentInChildren<Text> ().text = "Next" + filesPerPage;
 		prevBut.GetComponentInChildren<Text> ().text = "Prev" + filesPerPage;
@@ -506,11 +514,13 @@ public class LevelEditor : MonoBehaviour
 				dirFiles [i] = dirFiles [i].Replace (Application.dataPath + "/MapLayouts/", "");
 				dirFiles [i] = dirFiles [i].Replace (".txt", "");
 				int j = i % filesPerPage;
-				Button but = (Button)Instantiate (loadButton, loadMapsPanel.transform.position + new Vector3 (Mathf.Floor (j / rows)*21-40, 30 - 4 * (j % rows)), Quaternion.identity); //breedte,hoogte
+				Button but = (Button)Instantiate (loadButton, loadMapsPanel.transform.position + new Vector3 (Mathf.Floor (j / rows) * 50 - 180, 120 - 30 * (j % rows)), Quaternion.identity); //breedte,hoogte
 				//Button but = (Button)Instantiate (loadButton, loadMapsPanel.transform.position + new Vector3 ((Mathf.Floor (j / rows) - 1.5f) * 25,0, 30 - 5 * (j % rows)), loadMapsPanel.transform.rotation);
 				but.transform.SetParent (loadMapsPanel.gameObject.transform);
 				but.GetComponentInChildren<Text> ().text = dirFiles [i];
-				but.transform.localScale = new Vector3 (1, 1, 1);
+				but.transform.localScale = new Vector3 (1, 1, 1) / 8;
+				but.transform.GetChild (1).gameObject.SetActive (false);
+
 				string fileName = dirFiles [i];
 				but.onClick.AddListener (delegate {
 					selectFileName (but);
@@ -526,13 +536,16 @@ public class LevelEditor : MonoBehaviour
 	{
 		if (currentButSelected != but) {
 			but.GetComponent<Image> ().color = Color.gray;
-			if (currentButSelected != null)
+			but.transform.GetChild (1).gameObject.SetActive (true);
+			if (currentButSelected != null) {
 				currentButSelected.GetComponent<Image> ().color = Color.white;
+				currentButSelected.transform.GetChild (1).gameObject.SetActive (false);
+			}
 			currentButSelected = but;
 			currentFileSelected = but.GetComponentInChildren<Text> ().text;
 			loadMapFromFile (currentFileSelected);
-		} else {
-			currentButSelected.GetComponent<Image> ().color = Color.white;
+		} else { //else. Load him.
+			generateEditorMap ();
 			currentButSelected = null;
 			currentFileSelected = null;
 		}
