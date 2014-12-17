@@ -405,6 +405,8 @@ GameObject:
   - 114: {fileID: 11400004}
   - 114: {fileID: 11400000}
   - 114: {fileID: 11400002}
+  - 114: {fileID: 11497822}
+  - 95: {fileID: 9522426}
   m_Layer: 12
   m_Name: enemyOrcWithWep7
   m_TagString: Enemy
@@ -834,6 +836,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 84
   m_CollisionDetection: 0
+--- !u!95 &9522426
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100052}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9ad5c3f3942162f41a756e54740b3801, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -865,7 +882,8 @@ MonoBehaviour:
   currentHealth: 0
   defense: 0
   enemyStats: {fileID: 0}
-  startPosition: {x: 0, y: 0, z: 0}
+  spawnPosition: {x: 0, y: 0, z: 0}
+  deathPosition: {x: 0, y: 0, z: 0}
   isDead: 0
   isPoisoned: 0
   poisonAmount: 0
@@ -887,6 +905,7 @@ MonoBehaviour:
   speed: 0
   totalDamage: 0
   dfactor: 0
+  statsMutation: 1
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -899,6 +918,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   automaticPathUpdating: 1
+  walking: 0
+--- !u!114 &11497822
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b90d9b9bcba1d844c95f7faf6f13cf21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  walking: 0
 --- !u!136 &13600000
 CapsuleCollider:
   m_ObjectHideFlags: 1

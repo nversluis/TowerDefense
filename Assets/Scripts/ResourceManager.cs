@@ -30,6 +30,8 @@ public class ResourceManager : MonoBehaviour {
 	public GameObject enemyGwarf;
 	public GameObject enemyGrobble;
 	public List<WayPoint> Nodes;
+    public float walkSpeed;
+    public bool drawPath;
 
 	[Header("Waves")]
 	public int maxWaves;

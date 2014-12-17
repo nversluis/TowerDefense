@@ -48,6 +48,7 @@ public class LevelEditor : MonoBehaviour
 	private Color cHighlighted;
 	private Button prevBut;
 	private Button nextBut;
+	private bool drawNavGrid;
 
 	public InputField lengthInput;
 	public InputField widthInput;
@@ -100,6 +101,7 @@ public class LevelEditor : MonoBehaviour
 		Minimapcamera = resourceManager.Minimapcamera;
 		Gate = resourceManager.Gate;
 		torch = resourceManager.torch;
+		drawNavGrid = resourceManager.drawNavigationGrid;
 		posConnected = new List<Vector3> ();
 		allPos = new List<GameObject> ();
 		currentPage = 1;
@@ -133,7 +135,7 @@ public class LevelEditor : MonoBehaviour
 			ShowSavedMaps ();
 		});
 		submitLoadButton.onClick.AddListener (delegate {
-			generateEditorMap();
+			generateEditorMap ();
 		});
 
 		deleteButton.onClick.AddListener (delegate {
@@ -306,7 +308,7 @@ public class LevelEditor : MonoBehaviour
 				RandomMaze.spawnPlayer (player, camera, Gui, startPos * planewidth);
 				disableLevelEditor ();
 				RandomMaze.createSingleObjects (Minimapcamera, width, length, planewidth, EnemySpawner, endPos);
-				RandomMaze.SpawnNodes (positions, nodeSize, planewidth, NodesPos, Nodes, length, width);
+				RandomMaze.SpawnNodes (positions, nodeSize, planewidth, NodesPos, Nodes, length, width, drawNavGrid);
 
 				resourceManager.Nodes = Nodes;
 			} else
@@ -371,11 +373,13 @@ public class LevelEditor : MonoBehaviour
 		float tempL = length - 1;
 		float tempW = width - 1;
 		cam.transform.position = new Vector3 (tempL / 2, 1, tempW / 2) * planewidth;
-		cam.orthographicSize = Mathf.Max (length, width) * planewidth / 3 * 2;
+		cam.orthographicSize = Mathf.Max (length, width) * planewidth/2;
+		cam.rect =new Rect (0.3f, 0.2f, 0.6f, 0.6f);
 	}
 
 	//saves the position to file.
-	private void SavePositionsToFile ()	{
+	private void SavePositionsToFile ()
+	{
 
 		if (endPlane != null) {
 
@@ -400,7 +404,7 @@ public class LevelEditor : MonoBehaviour
 
 	}
 
-
+	//load from file and displays a simple minimap version in the loadscreen.
 	private void loadMapFromFile (string fileName)
 	{
 		if (fileName != null) {
@@ -445,11 +449,20 @@ public class LevelEditor : MonoBehaviour
 				}
 			}
 			LevelEditor.positions = positions;
+			Vector3 panelPos=cam.WorldToScreenPoint(loadMapsPanel.transform.position)/2;
+			//ChangeTypes camera position and size to fit in load screen
+			cam.transform.position = new Vector3 (length - 1, 1, width - 1) * resourceManager.planewidth / 2;
+			cam.orthographicSize = Mathf.Max (length, width) * resourceManager.planewidth/2;
+			cam.pixelRect =new Rect (Screen.width/2, Screen.height/2-100, 200, 200);
+
+	
 		}
 
 	}
-	private void generateEditorMap(){
-		if(currentFileSelected!=null){
+
+	private void generateEditorMap ()
+	{
+		if (currentFileSelected != null) {
 			loadMapsPanel.SetActive (false);
 			//reconstruct connected
 			Recalculate (LevelEditor.posConnected, LevelEditor.allPos, LevelEditor.positions, resourceManager.planewidth, resourceManager.length, resourceManager.width);
@@ -460,7 +473,10 @@ public class LevelEditor : MonoBehaviour
 			for (int i = 0; i < positions.Count; i++) { //get right sizes of the positions array so Generate level can work
 				positions [i] = (Vector2)positions [i] * planewidth;
 			}
-
+			//change camera position and size back
+			cam.transform.position = new Vector3 (length - 1, 1, width - 1) * resourceManager.planewidth / 2;
+			cam.orthographicSize = Mathf.Max (length, width) * planewidth/2;
+			cam.rect =new Rect (0.3f, 0.2f, 0.6f, 0.6f);
 		} else {
 			setErrorTekst ("No File Selected");
 		}
@@ -470,12 +486,13 @@ public class LevelEditor : MonoBehaviour
 	// Use this for initialization
 	private void ShowSavedMaps ()
 	{
+		cam.pixelRect =new Rect (Screen.width/2, Screen.height/2-100, 200, 200);
 		loadMapsPanel.gameObject.SetActive (true);
 		foreach (Transform child in loadMapsPanel.transform) {
 			if (child.gameObject.name.Contains ("load"))
 				Destroy (child.gameObject);
 		}
-		int rows = 17;
+		int rows = 16;
 		int columns = 2;
 		int filesPerPage = rows * columns;
 		nextBut.GetComponentInChildren<Text> ().text = "Next" + filesPerPage;
@@ -489,7 +506,7 @@ public class LevelEditor : MonoBehaviour
 				dirFiles [i] = dirFiles [i].Replace (Application.dataPath + "/MapLayouts/", "");
 				dirFiles [i] = dirFiles [i].Replace (".txt", "");
 				int j = i % filesPerPage;
-				Button but = (Button)Instantiate (loadButton, loadMapsPanel.transform.position + new Vector3 ((Mathf.Floor (j / rows) -1.8f) * 110, 160 - 20 * (j % rows)), Quaternion.identity);
+				Button but = (Button)Instantiate (loadButton, loadMapsPanel.transform.position + new Vector3 (Mathf.Floor (j / rows)*21-40, 30 - 4 * (j % rows)), Quaternion.identity); //breedte,hoogte
 				//Button but = (Button)Instantiate (loadButton, loadMapsPanel.transform.position + new Vector3 ((Mathf.Floor (j / rows) - 1.5f) * 25,0, 30 - 5 * (j % rows)), loadMapsPanel.transform.rotation);
 				but.transform.SetParent (loadMapsPanel.gameObject.transform);
 				but.GetComponentInChildren<Text> ().text = dirFiles [i];
@@ -508,7 +525,7 @@ public class LevelEditor : MonoBehaviour
 	private void selectFileName (Button but)
 	{
 		if (currentButSelected != but) {
-			but.GetComponent<Image> ().color = Color.red;
+			but.GetComponent<Image> ().color = Color.gray;
 			if (currentButSelected != null)
 				currentButSelected.GetComponent<Image> ().color = Color.white;
 			currentButSelected = but;
@@ -536,6 +553,10 @@ public class LevelEditor : MonoBehaviour
 		currentButSelected = null;
 		currentFileSelected = null;
 		loadMapsPanel.SetActive (false);
+		Reset ();
+		foreach (GameObject plane in allPos) {
+			Destroy (plane);
+		}
 	}
 
 	//methods to display errortext

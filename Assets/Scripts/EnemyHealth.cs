@@ -100,13 +100,14 @@ public class EnemyHealth : MonoBehaviour {
 
     void Death()
     {
-       
-		//List<WayPoint> WPoints = new List<WayPoint> ();
-		//WPoints=Navigator.FindWayPointsNear (transform.position, ResourceManager.Nodes,nodeSize);
-		//foreach (WayPoint wp in WPoints) {
-		//	float newPenalty = wp.getPenalty ()+100;
-		//	wp.setPenalty (newPenalty);
-		//}
+
+        List<WayPoint> WPoints = new List<WayPoint>();
+        WPoints = Navigator.FindWayPointsNear(transform.position, resourceManager.Nodes, nodeSize);
+        foreach (WayPoint wp in WPoints)
+        {
+            float newPenalty = wp.getPenalty() +15;
+            wp.setPenalty(newPenalty);
+        }
 		isDead = true;
 		//Destroy(this.gameObject);
         this.transform.position = deathPosition;

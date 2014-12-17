@@ -51,10 +51,10 @@ public class Navigator : MonoBehaviour
 			wp.setGCost (0);
 			wp.setFCost (0);
 			wp.setPrevious (null);
-			float penalty = wp.getPenalty ();
-			if (penalty > 0) {
-				wp.setPenalty (penalty - 0.1f);
-			}
+            //float penalty = wp.getPenalty ();
+            //if (penalty > 0) {
+            //    wp.setPenalty (penalty - 0.1f);
+            //}
 		}
 
 		openNodes.Clear ();

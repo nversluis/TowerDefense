@@ -66,7 +66,7 @@ public class RandomMaze : MonoBehaviour
 		GenerateFloor ();
 		//Generate walls
 		GenerateWall (positions,planewidth,wallPrefab,torch,height,length,width,gameObject);
-		Nodes=SpawnNodes (positions,nodeSize, planewidth, NodesPos, Nodes,length,width);
+		Nodes=SpawnNodes (positions,nodeSize, planewidth, NodesPos, Nodes,length,width,drawNavigationGrid);
 
 		//generate Nodes;
 		//MakeNodeList (nodeSize,NodesPos,Nodes);
@@ -224,7 +224,7 @@ public class RandomMaze : MonoBehaviour
 	}
 
 	//Method to spawn nodes
-	public static List<WayPoint> SpawnNodes (ArrayList positions, float nodeSize, float planewidth, List<Vector3> NodesPos, List<WayPoint> Nodes,int length, int width)
+	public static List<WayPoint> SpawnNodes (ArrayList positions, float nodeSize, float planewidth, List<Vector3> NodesPos, List<WayPoint> Nodes,int length, int width, bool drawNavigationGrid)
 	{
 		for (int i = 0; i < positions.Count; i++) {
 			Vector2 curPosi = (Vector2)positions [i];
@@ -272,7 +272,11 @@ public class RandomMaze : MonoBehaviour
 					int index = NodesPos.IndexOf (new Vector3 (l * planewidth, 0, w * planewidth));
 					NodesPos.RemoveAt (index);
 					Nodes.RemoveAt (index);
-
+					index = NodesPos.IndexOf (new Vector3 (l * planewidth, 0, w * planewidth));
+					if (index >= 0) {
+						NodesPos.RemoveAt (index);
+						Nodes.RemoveAt (index);
+					}
 				}
 			}
 		}

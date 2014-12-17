@@ -105,7 +105,14 @@ public class CameraController : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 
-
+        foreach (WayPoint waypoint in RandomMaze.Nodes)
+        {
+            float penalty = waypoint.getPenalty();
+            if (penalty > 0.1)
+            {
+                waypoint.setPenalty(penalty - 0.1f*Time.fixedDeltaTime);
+            }
+        }
 
         // casting a ray to see what object is in front of the camera
         if (Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity, ignoreMask))
