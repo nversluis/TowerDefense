@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Item : MonoBehaviour {
+public class Item {
     /* PARAMETERS */
     private string type;
     private int tier;
