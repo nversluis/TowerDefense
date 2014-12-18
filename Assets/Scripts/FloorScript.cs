@@ -29,8 +29,10 @@ public class FloorScript : MonoBehaviour {
 				//tower.renderer.material.color =new Color(0,255,0,0.1f);
 				//tower.renderer.material.shader = Shader.Find ("Transparent/Diffuse");
 				foreach (Renderer child in tower.GetComponentsInChildren<Renderer>()) {
-					child.material.shader = Shader.Find ("Transparent/Diffuse");
-					child.material.color = transparentgreen;
+					foreach (Material mat in child.materials) {
+						mat.shader = Shader.Find ("Transparent/Diffuse");
+						mat.color = transparentgreen;
+					}
 				}
 
 				//tower.transform.GetChild (0).gameObject.renderer.material.shader = Shader.Find ("Transparent/Diffuse");

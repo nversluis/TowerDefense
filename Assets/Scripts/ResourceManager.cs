@@ -48,11 +48,13 @@ public class ResourceManager : MonoBehaviour {
 	public GameObject poisonTrap;
 	public GameObject fireTrap;
 	public GameObject iceTrap;
+	public GameObject spearTrap;
 	[Header("Hotspots")]
 	public GameObject magicTowerHotSpot;
 	public GameObject poisonTrapHotspot;
 	public GameObject fireTrapHotspot;
 	public GameObject iceTrapHotspot;
+	public GameObject spearTrapHotspot;
 
 	[Header("Spawners")]
 	public float camOffset;
