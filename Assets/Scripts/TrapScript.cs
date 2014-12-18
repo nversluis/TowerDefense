@@ -23,7 +23,8 @@ public class TrapScript : MonoBehaviour {
 	}
 	public void BuildTrap(){
 		GameObject trap = (GameObject)Instantiate (realTrap, transform.position, Quaternion.identity);//Instantiantion of the tower
-		trap.gameObject.transform.localScale = transform.localScale/4.444f;
+		trap.gameObject.transform.localScale = new Vector3 (1, 1, 1)*planeW/20;
+		trap.transform.parent = gameObject.transform.parent;
 		trap.tag = "Tower";
 		WallScript.DestroyHotSpots ();
 		trap.SetActiveRecursively (true); 
