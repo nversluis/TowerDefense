@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     private float BulletSpeed = 100f;
     private float camAngleX;
     private float camAngleY;
-    private float distortion;
+    public float distortion;
     private float turnSpeed = 0.5f;
     private float jumpSpeed = 8.78f;
     private float moveY=0;
@@ -113,11 +113,13 @@ public class PlayerController : MonoBehaviour
                 {
                     camShootDistance = transform.forward;
                     Debug.DrawRay(transform.position + tijdelijk, camera.transform.forward*15);
-                    Debug.Log("nee");
+
                 }
                 else
                 {
-                    camShootDistance = hit.point - (transform.position + tijdelijk + new Vector3((Mathf.Sin(camAngleY * Mathf.Deg2Rad)), 0f, Mathf.Cos(camAngleY * Mathf.Deg2Rad)));
+
+                    camShootDistance = hit.point - (transform.position + tijdelijk + new Vector3(Mathf.Sin(camAngleY * Mathf.Deg2Rad), 0f, Mathf.Cos(camAngleY * Mathf.Deg2Rad)));
+                    camShootDistance = camShootDistance + ((new Vector3(Random.Range(-50, 50), Random.Range(-50, 50), Random.Range(-50, 50)).normalized * distortion) * camShootDistance.magnitude) / 80f; ;
                 }
 
                 // add the force to the bullet

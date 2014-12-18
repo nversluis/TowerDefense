@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 
 public class LevelEditor : MonoBehaviour
@@ -68,6 +69,8 @@ public class LevelEditor : MonoBehaviour
 	public Button submitLoadButton;
 	public Button deleteButton;
 
+	private string AppPath;
+
 
 
 	public static int type;
@@ -112,6 +115,7 @@ public class LevelEditor : MonoBehaviour
 		cNotConnected = resourceManager.notConnected;
 		cHighlighted = resourceManager.highlighted;
 		loadScreenOpen = false;
+		AppPath = Application.persistentDataPath + "/MapLayouts/";
 
 
 		SubmitButton.onClick.AddListener (delegate {
@@ -180,6 +184,11 @@ public class LevelEditor : MonoBehaviour
 			}
 		});
 		loadMapsPanel.SetActive (false);
+
+		if (!File.Exists(AppPath)) {
+			Directory.CreateDirectory (AppPath);
+		}
+
 	}
 		
 
@@ -347,7 +356,8 @@ public class LevelEditor : MonoBehaviour
 	{
 		if (!loadScreenOpen) {
 			type = type1;
-		} else setErrorTekst ("Can't do that while load screen is open");
+		} else
+			setErrorTekst ("Can't do that while load screen is open");
 
 	}
 
@@ -413,7 +423,7 @@ public class LevelEditor : MonoBehaviour
 
 			if (LevelEditor.posConnected.Contains (LevelEditor.endPlane.transform.position / planewidth)) {
 			
-				string res = "";
+				string res = "\r\n";
 
 				res += resourceManager.length + "\r\n" + resourceManager.width + "\r\n" + startPos3.x.ToString () + "\r\n" + startPos3.z.ToString () + "\r\n";
 				foreach (Vector2 pos in positions) {
@@ -424,7 +434,10 @@ public class LevelEditor : MonoBehaviour
 					}
 				}
 				res += endPos3.x.ToString () + "\r\n" + endPos3.z.ToString () + "\r\n";
-				File.WriteAllText (Application.dataPath + "/MapLayouts/" + fileNameInput.text + ".txt", res);
+				BinaryFormatter bf = new BinaryFormatter ();
+				FileStream file = File.Create (AppPath + fileNameInput.text + ".txt");
+				bf.Serialize (file, res);
+				Debug.Log (AppPath);
 			} else
 				setErrorTekst ("Connect end to start!");
 		} else
@@ -440,11 +453,16 @@ public class LevelEditor : MonoBehaviour
 			List<int> datas = new List<int> ();
 			ArrayList positions = new ArrayList ();
 			Debug.Log ("Getting Data from " + fileName);
-			StreamReader file = new StreamReader (Application.dataPath + "/MapLayouts/" + fileName + ".txt");
+			StreamReader file = new StreamReader (AppPath + fileName + ".txt");
+			file.ReadLine ();
 			length = int.Parse (file.ReadLine ());
 			width = int.Parse (file.ReadLine ());
+			int num1;
 			while ((line = file.ReadLine ()) != null) {
-				datas.Add (int.Parse (line));
+				bool isInt=int.TryParse (line,out num1);
+				if (isInt) {
+					datas.Add (int.Parse (line));
+				}
 			}
 			file.Close ();
 
@@ -453,17 +471,17 @@ public class LevelEditor : MonoBehaviour
 
 			Reset ();
 			ResourceManager.mostNorth = 0;
-			ResourceManager.mostEast =0;
-			ResourceManager.mostSouth =1000;
-			ResourceManager.mostWest =1000;
+			ResourceManager.mostEast = 0;
+			ResourceManager.mostSouth = 1000;
+			ResourceManager.mostWest = 1000;
 			//add positions
 			for (int i = 0; i < datas.Count; i += 2) {
 				if (!positions.Contains (new Vector2 (datas [i], datas [i + 1]))) {
 					positions.Add (new Vector2 (datas [i], datas [i + 1]));
-					ResourceManager.mostNorth = Mathf.Max (ResourceManager.mostNorth, (int)datas[i+1]);
-					ResourceManager.mostEast = Mathf.Max (ResourceManager.mostEast, (int)datas[i]);
-					ResourceManager.mostSouth = Mathf.Min (ResourceManager.mostSouth, (int)datas[i+1]);
-					ResourceManager.mostWest = Mathf.Min (ResourceManager.mostWest, (int)datas[i]);
+					ResourceManager.mostNorth = Mathf.Max (ResourceManager.mostNorth, (int)datas [i + 1]);
+					ResourceManager.mostEast = Mathf.Max (ResourceManager.mostEast, (int)datas [i]);
+					ResourceManager.mostSouth = Mathf.Min (ResourceManager.mostSouth, (int)datas [i + 1]);
+					ResourceManager.mostWest = Mathf.Min (ResourceManager.mostWest, (int)datas [i]);
 				}
 			}
 			//
@@ -531,21 +549,23 @@ public class LevelEditor : MonoBehaviour
 			if (child.gameObject.name.Contains ("load"))
 				Destroy (child.gameObject);
 		}
-		int rows = (int)Mathf.Floor(Screen.height/40);
+		int rows = (int)Mathf.Floor (Screen.height / 40);
 		int columns = 1;
 		int filesPerPage = rows * columns;
 		nextBut.GetComponentInChildren<Text> ().text = "Next" + filesPerPage;
 		prevBut.GetComponentInChildren<Text> ().text = "Prev" + filesPerPage;
 
 		//create a list with the names of all layouts.
-		string[] dirFiles = Directory.GetFiles (Application.dataPath + "/MapLayouts/", "*.txt");
+		BinaryFormatter bf = new BinaryFormatter ();
+		//FileStream file = File.
+		string[] dirFiles = Directory.GetFiles(AppPath,"*.txt"); 
 		maxPages = (int)Mathf.Ceil ((float)dirFiles.Length / (float)filesPerPage);
 		for (int i = 0; i < dirFiles.Length; i++) {
 			if (i < filesPerPage * currentPage && i >= filesPerPage * (currentPage - 1)) {
-				dirFiles [i] = dirFiles [i].Replace (Application.dataPath + "/MapLayouts/", "");
+				dirFiles [i] = dirFiles [i].Replace (AppPath, "");
 				dirFiles [i] = dirFiles [i].Replace (".txt", "");
 				int j = i % filesPerPage;
-				Button but = (Button)Instantiate (loadButton, new Vector3(300, Screen.height-100 - 25f*(j % rows), 0), Quaternion.identity); 
+				Button but = (Button)Instantiate (loadButton, new Vector3 (300, Screen.height - 100 - 25f * (j % rows), 0), Quaternion.identity); 
 				//but.transform.position = new Vector3 (300, 400 - 25f*(j % rows), 0);
 				//Button but = (Button)Instantiate (loadButton, loadMapsPanel.transform.position + new Vector3 (Mathf.Floor (j / rows) * 50 - 180, 120 - 30 * (j % rows)), Quaternion.identity); //breedte,hoogte
 				//Button but = (Button)Instantiate (loadButton, loadMapsPanel.transform.position + new Vector3 ((Mathf.Floor (j / rows) - 1.5f) * 25,0, 30 - 5 * (j % rows)), loadMapsPanel.transform.rotation);
@@ -588,7 +608,7 @@ public class LevelEditor : MonoBehaviour
 	private void deleteFile (string fileName)
 	{
 		if (fileName != null) {
-			File.Delete (Application.dataPath + "/MapLayouts/" + fileName + ".txt");
+			File.Delete (AppPath + fileName + ".txt");
 			ShowSavedMaps ();
 		} else {
 			setErrorTekst ("No File Selected");
