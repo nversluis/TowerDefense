@@ -15,7 +15,7 @@ public class FloorScript : MonoBehaviour {
 			WallScript.DestroyHotSpots (); //Destroy all hotspots
 			int aantalPerPlane = WeaponController.trapGridSize;
 			GameObject TowerPrefab = WeaponController.curFloorTower;
-			if (TowerPrefab != null) { 
+			if (TowerPrefab != null&&gameObject.transform.childCount==1) { 
 				float planeW =resourceManager.planewidth;
 				GameObject tower = (GameObject)Instantiate (TowerPrefab, transform.position+new Vector3(0,planeW/1000,0), transform.rotation);
 				tower.gameObject.transform.Rotate(270, 0, 0);
@@ -24,7 +24,7 @@ public class FloorScript : MonoBehaviour {
 				tower.renderer.material.shader = Shader.Find ("Transparent/Diffuse");
 				tower.transform.GetChild (0).gameObject.renderer.material.shader = Shader.Find ("Transparent/Diffuse");
 				tower.transform.GetChild (0).gameObject.renderer.material.SetColor("_Color", new Color(0,255,0,0.1f));
-
+				tower.transform.parent = gameObject.transform;
 //				i++;
 //				Debug.Log (i);
 				/*folowing piece of code is to determine the x and z coordinates of the grid to snap the tower on.
