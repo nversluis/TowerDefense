@@ -42,6 +42,6 @@ public class PoisonTrap : MonoBehaviour {
 		if (enemyOnTrap.Count == 0) {
 			partSys.gameObject.particleSystem.startSize = particleStartSize/10;
 		} else
-			partSys.gameObject.particleSystem.startSize = particleStartSize*3;
+			partSys.gameObject.particleSystem.startSize = particleStartSize*2;
 	}
 }
