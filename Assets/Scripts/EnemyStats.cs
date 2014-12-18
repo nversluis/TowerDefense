@@ -11,15 +11,22 @@ public class EnemyStats : MonoBehaviour {
     public int health;
     public int attack;
     public int defense;
-    public int speed;
-    public int totalDamage;
+    public float speedMultiplier;
     public float dfactor;
 
+    public bool respawn = false;
     public int statsMutation = 1;
+
+    public int totalDamage;
+    EnemyAttack enemyAttack;
+    EnemyHealth enemyHealth;
+
 
     void Awake()
     {
         //generateEnemyStats();
+        enemyAttack = GetComponent<EnemyAttack>();
+        enemyHealth = GetComponent<EnemyHealth>();
     }
 
     // Use this for initialization
@@ -31,16 +38,23 @@ public class EnemyStats : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        
+        if (respawn)
+        {
+            enemyHealth.startingHealth = health * 10;
+            enemyHealth.defense = defense;
+            enemyHealth.currentHealth = enemyHealth.startingHealth;
+            enemyAttack.attackDamage = attack;
+            respawn = false;
+        }
     }
 
     public void generateEnemyStats()
     {
-        this.stats = randomNumberGenerator(4, totalStatPoints);
+        this.stats = randomNumberGenerator(3, totalStatPoints);
         this.health = stats[0];
         this.attack = stats[1];
         this.defense = stats[2];
-        this.speed = stats[3];
+        this.speedMultiplier = Random.RandomRange(0.80f, 1.20f);
         this.dfactor = Random.RandomRange(0.10f, 0.50f);
     }
 
@@ -136,10 +150,6 @@ public class EnemyStats : MonoBehaviour {
             // Verlaag de stats
             stats[verlaagIndices[i]] -= statverlaging[i];
         }
-        this.health = stats[0];
-        this.attack = stats[1];
-        this.defense = stats[2];
-        this.speed = stats[3];
     }
 
     public void mutate(int n, int delta)

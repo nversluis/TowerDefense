@@ -15,7 +15,7 @@ public class WaveSpawner : MonoBehaviour
 
     public float maxX;
     public float maxZ;
-    float orcHeigthSpawn = 3.27f;
+    //float orcHeigthSpawn = 3.27f;
 
 
     public int currentTotalStatPoints = 100;

@@ -29,17 +29,17 @@ public class EnemyScript : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
+        enemystats = GetComponent<EnemyStats>();
 		ResourceManagerObj = GameObject.Find ("ResourceManager");
 		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
 		grid = resourceManager.Nodes;
 		float nodeSize = resourceManager.nodeSize;
         drawPath = resourceManager.drawPath;
-        walkSpeed = resourceManager.walkSpeed;
+        walkSpeed = resourceManager.walkSpeed * enemystats.speedMultiplier;
 
 		characterController = GetComponent<CharacterController> ();
         Path = Navigator.Path(transform.position - new Vector3(0f, transform.position.y, 0f), PlayerController.location - new Vector3(0f, PlayerController.location.y, 0f), nodeSize, grid, dfactor);
 
-		enemystats = GetComponent<EnemyStats> ();
 		//walkSpeed = enemystats.speed/10 + 3;
         dfactor = enemystats.dfactor;
 
