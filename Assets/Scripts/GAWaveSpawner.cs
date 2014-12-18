@@ -191,8 +191,7 @@ public class GAWaveSpawner : MonoBehaviour
             {
                 aantal++;
             }
-        }
-        Debug.Log(aantal + " / " + maxEnemies);
+        }       
         return (aantal == maxEnemies);
     }
 
