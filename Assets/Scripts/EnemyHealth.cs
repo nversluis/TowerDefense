@@ -123,7 +123,6 @@ public class EnemyHealth : MonoBehaviour {
         }
 		isDead = true;
 
-
         //currentHealth = startingHealth;
         //transform.position = startPosition;
         //Debug.Log("Ik ben dood");
