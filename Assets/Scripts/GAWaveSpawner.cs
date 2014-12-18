@@ -52,7 +52,6 @@ public class GAWaveSpawner : MonoBehaviour
         {
             if (allEnemies.Count < maxEnemies)
             {
-                // Spawn enemies tot het maximale aantal enemies wordt bereikt
                 SpawnEnemy();
             }
             else
@@ -74,7 +73,7 @@ public class GAWaveSpawner : MonoBehaviour
                     // Spawnt nieuwe enemies als er een te kort is aan enemies voor de volgende generatie.
                     setAllEnemies();
                     // Selecteert de enemies voor de volgende generatie
-                    setCurrentGen(); 
+                    setCurrentGen();
                     // Versterk de enemies in de volgende generatie
                     BuffEnemies();
                     // Spawnt de volgende generatie
@@ -113,18 +112,6 @@ public class GAWaveSpawner : MonoBehaviour
         }
     }
 
-    void updateCurrentGen()
-    {
-        for (int i = 0; i < currentGen.Count; i++)
-        {
-            if (((GameObject)currentGen[i]).GetComponent<EnemyHealth>().isDead)
-            {
-                currentGen.Remove(currentGen[i]);
-            }
-        }
-    }
-
-    
     void SpawnEnemy()
     {
         float randX = Random.Range(-maxX / 2, maxX / 2);
@@ -205,6 +192,7 @@ public class GAWaveSpawner : MonoBehaviour
                 aantal++;
             }
         }
+        Debug.Log(aantal + " / " + maxEnemies);
         return (aantal == maxEnemies);
     }
 

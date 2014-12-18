@@ -109,6 +109,7 @@ public class EnemyHealth : MonoBehaviour {
         }
 		isDead = true;
 		//Destroy(this.gameObject);
+        //this.gameObject.SetActive(false);
         this.transform.position = deathPosition;
         //currentHealth = startingHealth;
         //transform.position = startPosition;
