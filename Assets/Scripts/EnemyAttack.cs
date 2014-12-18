@@ -14,6 +14,7 @@ public class EnemyAttack : MonoBehaviour
     PlayerHealth playerHealth;
     EnemyHealth enemyHealth;
     EnemyStats enemyStats;
+    EnemyScript enemyScript;
     bool playerInRange;
     float timer;
 
@@ -24,6 +25,7 @@ public class EnemyAttack : MonoBehaviour
         playerHealth = player.GetComponent<PlayerHealth>();
         enemyHealth = GetComponent<EnemyHealth>();
         enemyStats = GetComponent<EnemyStats>();
+        enemyScript = GetComponent<EnemyScript>();
         attackDamage = enemyStats.attack;
     }
 
@@ -56,7 +58,7 @@ public class EnemyAttack : MonoBehaviour
         playerDistance = Vector3.Distance(player.transform.position, this.transform.position);
         SetPlayerInRange(playerDistance);
 
-        if (timer >= timeBetweenAttacks && playerInRange)
+        if (timer >= timeBetweenAttacks && enemyScript.attacking)
         {
             Attack();
         }

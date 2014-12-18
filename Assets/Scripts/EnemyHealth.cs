@@ -22,6 +22,10 @@ public class EnemyHealth : MonoBehaviour {
 	private GameObject textObject;
 	private float nodeSize;
 
+    Animator animator;
+
+    float counter;
+
     void Awake()
     {
         enemyStats = GetComponent<EnemyStats>();
@@ -38,12 +42,22 @@ public class EnemyHealth : MonoBehaviour {
 		InvokeRepeating ("doPoisonDamage", 0, 5);
 		textObject = resourceManager.damageText;
 		nodeSize = resourceManager.nodeSize;
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if(isDead)
+        {
+            counter += Time.deltaTime;
+            if (counter > 4)
+            {
+                //Destroy(this.gameObject);
+                this.transform.position = deathPosition;
+                counter = 0;
+            }
+        }
     }
 
 	public void TakeDamage(int amount,string damageType)
@@ -108,8 +122,8 @@ public class EnemyHealth : MonoBehaviour {
             wp.setPenalty(newPenalty);
         }
 		isDead = true;
-		//Destroy(this.gameObject);
-        this.transform.position = deathPosition;
+
+
         //currentHealth = startingHealth;
         //transform.position = startPosition;
         //Debug.Log("Ik ben dood");
