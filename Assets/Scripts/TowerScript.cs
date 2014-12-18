@@ -29,7 +29,7 @@ public class TowerScript : MonoBehaviour
         tower.gameObject.transform.localScale = new Vector3(50, 50, 1) * planeW; //Scaling the tower
 
         tower.tag = "Tower"; //Give tower a new tag, so it wont be destroyed because its a hotspot
-
+		tower.transform.parent = gameObject.transform.parent;
         tower.collider.isTrigger = false; //remove the trigger, cant walk trough it
         Destroy(gameObject); // Destroy all hotspots
         tower.SetActiveRecursively(true); //Active its children (the trigger)

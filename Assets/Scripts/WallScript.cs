@@ -22,7 +22,7 @@ public class WallScript : MonoBehaviour {
 			DestroyHotSpots (); //Destroy all objects
 		
 			GameObject TowerPrefab = WeaponController.curTower;
-			if (TowerPrefab != null) { 
+			if (TowerPrefab != null &&gameObject.transform.childCount==0) { 
 				Vector3 normalToWall = CameraController.hit.normal;
 				Vector3 TowerOffset = new Vector3 (Mathf.Sin (transform.eulerAngles.y / 180 * Mathf.PI), 0, Mathf.Cos (transform.eulerAngles.y / 180 * Mathf.PI)) * planeW/50;
 				GameObject tower = (GameObject)Instantiate (TowerPrefab, new Vector3(transform.position.x,planeW/2,transform.position.z), transform.rotation);
@@ -32,6 +32,7 @@ public class WallScript : MonoBehaviour {
 				tower.renderer.material.color = transparentgreen;
 				tower.renderer.material.shader = Shader.Find ("Transparent/Diffuse");
                 tower.layer = 14;
+				tower.transform.parent = gameObject.transform;
 
 			}
 		}
