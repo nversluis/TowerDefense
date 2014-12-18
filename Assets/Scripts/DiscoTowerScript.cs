@@ -76,7 +76,7 @@ public class DiscoTowerScript : MonoBehaviour {
 
                 if (enemysInRange[i] != null)
                 {
-					justHit = Physics.Raycast(transform.position, enemysInRange[i].transform.position - transform.position, out hit,Mathf.Infinity,CameraController.ignoreMask);
+					justHit = Physics.Raycast(transform.parent.position, enemysInRange[i].transform.position - transform.parent.position, out hit,Mathf.Infinity,CameraController.ignoreMask);
                 }
 
                 else
@@ -89,7 +89,7 @@ public class DiscoTowerScript : MonoBehaviour {
 
                     if(enemysInRange.Count>i)
                         {
-						justHit = Physics.Raycast(transform.position, enemysInRange[i].transform.position - transform.position, out hit,Mathf.Infinity,CameraController.ignoreMask);
+						justHit = Physics.Raycast(transform.parent.position, enemysInRange[i].transform.position - transform.parent.position, out hit,Mathf.Infinity,CameraController.ignoreMask);
                         }
                     else
                     {
@@ -108,7 +108,7 @@ public class DiscoTowerScript : MonoBehaviour {
 
 
             i--;
-            Vector3 toTarget = enemy.transform.position - transform.position;
+			Vector3 toTarget = enemy.transform.position - transform.parent.position;
             EnemyVelocity(enemy);
             Vector3 enemyDir = (enemyVel.normalized);
 
@@ -137,12 +137,12 @@ public class DiscoTowerScript : MonoBehaviour {
             }
 
             Vector3 target = enemy.transform.position + enemyVel * t;
-            Vector3 shootDir = (target - transform.position).normalized;
+			Vector3 shootDir = (target - transform.parent.position).normalized;
             Vector3 Shoot = shootDir * bulletSpeed;
 
-            GameObject Bullet = (GameObject)Instantiate(bullet, transform.position, Quaternion.identity);
+			GameObject Bullet = (GameObject)Instantiate(bullet, transform.parent.position, Quaternion.identity);
             Bullet.rigidbody.velocity = Shoot;
-            Debug.DrawRay(transform.position, Shoot);
+			Debug.DrawRay(transform.parent.position, Shoot);
 			audio.PlayOneShot(magic,15f);
 
         }

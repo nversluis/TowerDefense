@@ -10,6 +10,9 @@ public class TowerScript : MonoBehaviour
     private GameObject ResourceManagerObj;
     private ResourceManager resourceManager;
 
+	private GameObject realTower;
+	private GameObject redTower;
+
     float MaxDistance;
     Color transparentgreen = new Color(0, 255, 0, 0.1f); //Color of the green prefab
     Color transparentred = new Color(255, 0, 0, 0.1f); //Color of the red prefab
@@ -20,17 +23,18 @@ public class TowerScript : MonoBehaviour
         resourceManager = ResourceManagerObj.GetComponent<ResourceManager>();
         planeW = resourceManager.planewidth;
         MaxDistance = resourceManager.maxTowerDistance;
+		realTower = resourceManager.tower1;
     }
 
     //Method to build a tower. Will destroy the prefab and build a new tower there.
     public void BuildTower()
     {
-        GameObject tower = (GameObject)Instantiate(WeaponController.curTower, transform.position, transform.rotation); //The instantiantion of the tower
-        tower.gameObject.transform.localScale = new Vector3(50, 50, 1) * planeW; //Scaling the tower
+        GameObject tower = (GameObject)Instantiate(realTower, transform.position, transform.rotation); //The instantiantion of the tower
+        tower.gameObject.transform.localScale = new Vector3(1, 1, 1) * planeW/10; //Scaling the tower
 
         tower.tag = "Tower"; //Give tower a new tag, so it wont be destroyed because its a hotspot
-
-        tower.collider.isTrigger = false; //remove the trigger, cant walk trough it
+		tower.transform.parent = gameObject.transform.parent;
+        //tower.collider.isTrigger = false; //remove the trigger, cant walk trough it
         Destroy(gameObject); // Destroy all hotspots
         tower.SetActiveRecursively(true); //Active its children (the trigger)
         gameObject.layer = 13;
@@ -54,6 +58,8 @@ public class TowerScript : MonoBehaviour
         {
             BuildTower();
         }
+
+	
 
         //Delete hotspots
         if (gameObject == CameraController.hitObject && gameObject.tag.Equals("Tower"))

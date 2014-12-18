@@ -10,7 +10,7 @@ public class EnemyScript : MonoBehaviour
 	private List<WayPoint> grid;
 	List<Vector3> Path;
     List<Vector3> Path2;
-
+    EnemyHealth enemyHealth;
 	int i = 0;
 	float walkSpeed;
 	float orcHeigthSpawn = 3.27f;
@@ -25,21 +25,27 @@ public class EnemyScript : MonoBehaviour
     bool drawPath;
 
     public bool walking;
+    public bool attacking;
+
+    GameObject player;
 
 	// Use this for initialization
 	void Start ()
 	{
+        enemystats = GetComponent<EnemyStats>();
 		ResourceManagerObj = GameObject.Find ("ResourceManager");
 		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
 		grid = resourceManager.Nodes;
 		float nodeSize = resourceManager.nodeSize;
         drawPath = resourceManager.drawPath;
-        walkSpeed = resourceManager.walkSpeed;
+        walkSpeed = resourceManager.walkSpeed * enemystats.speedMultiplier;
+        enemyHealth = GetComponent<EnemyHealth>();
+        player = GameObject.Find("Player");
+
 
 		characterController = GetComponent<CharacterController> ();
         Path = Navigator.Path(transform.position - new Vector3(0f, transform.position.y, 0f), PlayerController.location - new Vector3(0f, PlayerController.location.y, 0f), nodeSize, grid, dfactor);
 
-		enemystats = GetComponent<EnemyStats> ();
 		//walkSpeed = enemystats.speed/10 + 3;
         dfactor = enemystats.dfactor;
 
@@ -59,12 +65,16 @@ public class EnemyScript : MonoBehaviour
             if (i != Path.Count-1)
             {
                 walking = true;
+                attacking = false;
+
                 dir = (Path[i + 1] - (transform.position - new Vector3(0f, transform.position.y, 0f))).normalized * walkSpeed;
             }
             else
             {
                 dir = (Path[i] - (transform.position - new Vector3(0f, transform.position.y, 0f))).normalized * walkSpeed;
                 walking = true;
+                attacking = false;
+
             }
 			rigidbody.velocity = (dir + new Vector3 (0f, rigidbody.velocity.y, 0f));
 			rigidbody.angularVelocity = Vector3.zero;
@@ -76,10 +86,21 @@ public class EnemyScript : MonoBehaviour
 				i++;
 			}
 
-			if (nextPointDistance.magnitude < 1f && i == Path.Count) {
+
+			if ((player.transform.position-transform.position).magnitude < 3f) {
 				rigidbody.velocity = Vector3.zero;
                 walking = false;
+                attacking = true;
+      
 			}
+
+            if (enemyHealth.isDead)
+            {
+                rigidbody.velocity = Vector3.zero;
+                walking = false;
+                attacking = false;
+                
+            }
 		}
 
 		if (Input.GetKeyDown (KeyCode.Q) && !automaticPathUpdating) {

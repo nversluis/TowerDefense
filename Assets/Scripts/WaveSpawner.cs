@@ -15,7 +15,7 @@ public class WaveSpawner : MonoBehaviour
 
     public float maxX;
     public float maxZ;
-    float orcHeigthSpawn = 3.27f;
+    //float orcHeigthSpawn = 3.27f;
 
 
     public int currentTotalStatPoints = 100;
@@ -81,7 +81,7 @@ public class WaveSpawner : MonoBehaviour
         float randZ = Random.Range(-maxZ / 2, maxZ / 2);
 
         GameObject Enemy = (GameObject)Instantiate(enemy, transform.position + new Vector3(randX, 7.34f/2, randZ), Quaternion.identity);
-       
+        Enemy.gameObject.transform.localScale= new Vector3(0.5f, 0.5f, 0.5f);
         Enemy.name = "enemy";
         enemyStats = Enemy.GetComponent<EnemyStats>();
         // Genereer enemies met toenemende stats per wave

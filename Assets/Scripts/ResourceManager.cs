@@ -48,6 +48,7 @@ public class ResourceManager : MonoBehaviour {
 	public GameObject poisonTrap;
 	public GameObject fireTrap;
 	[Header("Hotspots")]
+	public GameObject magicTowerHotSpot;
 	public GameObject poisonTrapHotspot;
 	public GameObject fireTrapHotspot;
 

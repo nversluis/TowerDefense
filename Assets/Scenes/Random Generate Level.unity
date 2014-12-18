@@ -114,12 +114,12 @@ MonoBehaviour:
   height: 3
   nodeSize: 5
   NumberOfPaths: 3
-  drawNavigationGrid: 1
+  drawNavigationGrid: 0
   enemyTag: Enemy
   enemyGuyant: {fileID: 100052, guid: 6a25f25271f527644ab0b18b0e7c536e, type: 2}
   enemyGwarf: {fileID: 0}
   enemyGrobble: {fileID: 0}
-  walkSpeed: 10
+  walkSpeed: 7
   drawPath: 1
   maxWaves: 5
   currentWave: 1
@@ -141,7 +141,7 @@ MonoBehaviour:
   magicBulletSound: {fileID: 8300000, guid: b87f856579306f4479099fc0301b292f, type: 3}
   backgroundMusic: {fileID: 8300000, guid: d27975801f9078a498ff2b86f1b7b508, type: 3}
   damageText: {fileID: 100000, guid: 2173d4d4ee922db4a92d3e0e7293b9c8, type: 2}
-  gui: {fileID: 100002, guid: 8024b87a1ed91d1428251d98e7b6ea61, type: 2}
+  gui: {fileID: 174516, guid: 8024b87a1ed91d1428251d98e7b6ea61, type: 2}
   lengthMinimap: 200
   heightMinimap: 200
   editorPlane: {fileID: 100000, guid: 4399a3da2ea28304bae6812a147e5855, type: 2}
@@ -238,7 +238,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
       propertyPath: planewidth
@@ -256,6 +256,14 @@ Prefab:
       propertyPath: width
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: walkSpeed
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: gui
+      value: 
+      objectReference: {fileID: 174516, guid: 8024b87a1ed91d1428251d98e7b6ea61, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
   m_RootGameObject: {fileID: 14726752}
