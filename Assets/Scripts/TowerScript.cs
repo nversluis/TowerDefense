@@ -84,9 +84,11 @@ public class TowerScript : MonoBehaviour
     //set the tower to a green hotspot
     private void setGreen()
     {
+		foreach (Renderer child in gameObject.GetComponentsInChildren<Renderer>()) {
 
-        gameObject.renderer.material.shader = Shader.Find("Transparent/Diffuse");
-        gameObject.renderer.material.color = transparentgreen;
+			child.material.color = transparentgreen;
+			child.material.shader = Shader.Find ("Transparent/Diffuse");
+		}
         gameObject.tag = "TowerHotSpot";
         gameObject.collider.isTrigger = true;
         gameObject.layer = 14;
@@ -95,9 +97,12 @@ public class TowerScript : MonoBehaviour
 
     //set the tower to a red hotspot
     private void setRed()
-    {
-        gameObject.renderer.material.shader = Shader.Find("Transparent/Diffuse");
-        gameObject.renderer.material.color = transparentred;
+	{
+		foreach (Renderer child in gameObject.GetComponentsInChildren<Renderer>()) {
+
+			child.material.color = transparentred;
+			child.material.shader = Shader.Find ("Transparent/Diffuse");
+		}
         gameObject.tag = "HotSpotRed";
         gameObject.collider.isTrigger = true;
         gameObject.layer = 14;

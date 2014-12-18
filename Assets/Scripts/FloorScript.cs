@@ -2,6 +2,8 @@
 using System.Collections;
 
 public class FloorScript : MonoBehaviour {
+
+	Color transparentgreen = new Color(0,255,0,0.1f);
 	private int i;
 	private GameObject ResourceManagerObj;
 	private ResourceManager resourceManager;
@@ -18,29 +20,22 @@ public class FloorScript : MonoBehaviour {
 			if (TowerPrefab != null&&gameObject.transform.childCount==1) { 
 				float planeW =resourceManager.planewidth;
 				GameObject tower = (GameObject)Instantiate (TowerPrefab, transform.position+new Vector3(0,planeW/1000,0), transform.rotation);
-				tower.gameObject.transform.Rotate(270, 0, 0);
-				tower.gameObject.transform.localScale=new Vector3( planeW, planeW, planeW)/4.444f;
-				tower.renderer.material.color =new Color(0,255,0,0.1f);
-				tower.renderer.material.shader = Shader.Find ("Transparent/Diffuse");
-				tower.transform.GetChild (0).gameObject.renderer.material.shader = Shader.Find ("Transparent/Diffuse");
-				tower.transform.GetChild (0).gameObject.renderer.material.SetColor("_Color", new Color(0,255,0,0.1f));
-				tower.transform.parent = gameObject.transform;
-//				i++;
-//				Debug.Log (i);
-				/*folowing piece of code is to determine the x and z coordinates of the grid to snap the tower on.
-				float planeW = RandomMaze.getPlaneWidth ();
-				Vector3 hitpoint = CameraController.hit.point;
-				float z = planeW / (2 * aantalPerPlane);
-				float Ax = transform.position.x - planeW / 2 + hitpoint.x;
-				float xOffset= ((Mathf.Round ((Ax-z) / (2 * z)) * 2 + 1) * z);
-				float Az = transform.position.z - planeW / 2 + hitpoint.z;
-				float zOffset= ((Mathf.Round ((Az-z) / (2 * z)) * 2 + 1) * z);
-				//Debug.Log (transform.position.x - planeW / 2);
-				Vector3 loc = new Vector3(-transform.position.x+planeW/2+xOffset,hitpoint.y+planeW/20,planeW/2+zOffset-transform.position.z);
-				//Debug.Log (loc);
-				GameObject tower = (GameObject)Instantiate (TowerPrefab, loc, transform.rotation);
-				tower.gameObject.transform.localScale=new Vector3( planeW, planeW, planeW)/20f*100f;
-				*/
+				//tower.gameObject.transform.Rotate(270, 0, 0);
+				tower.gameObject.transform.localScale=new Vector3(1, 1, 1)*planeW*5;
+
+				float randHoek = 90 * Mathf.Floor (Random.value * 4);
+				tower.transform.RotateAround (transform.position, Vector3.up, randHoek);
+
+				//tower.renderer.material.color =new Color(0,255,0,0.1f);
+				//tower.renderer.material.shader = Shader.Find ("Transparent/Diffuse");
+				foreach (Renderer child in tower.GetComponentsInChildren<Renderer>()) {
+					child.material.shader = Shader.Find ("Transparent/Diffuse");
+					child.material.color = transparentgreen;
+				}
+
+				//tower.transform.GetChild (0).gameObject.renderer.material.shader = Shader.Find ("Transparent/Diffuse");
+				//tower.transform.GetChild (0).gameObject.renderer.
+				tower.transform.parent = gameObject.transform;			
 			}
 		}
 
