@@ -23,7 +23,7 @@ public class FloorScript : MonoBehaviour {
 				tower.renderer.material.color =new Color(0,255,0,0.1f);
 				tower.renderer.material.shader = Shader.Find ("Transparent/Diffuse");
 				tower.transform.GetChild (0).gameObject.renderer.material.shader = Shader.Find ("Transparent/Diffuse");
-				tower.transform.GetChild (0).gameObject.renderer.material.color =new Color(0,255,0,0.1f);
+				tower.transform.GetChild (0).gameObject.renderer.material.SetColor("_Color", new Color(0,255,0,0.1f));
 
 //				i++;
 //				Debug.Log (i);

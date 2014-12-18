@@ -71,6 +71,7 @@ public class EnemyHealth : MonoBehaviour {
 
 		}
 		GameObject textObj = (GameObject)Instantiate (textObject, transform.position, Quaternion.identity);
+		//textObj.GetComponent<TextMesh>().text = (Application.dataPath).ToString();
 		textObj.GetComponent<TextMesh>().text = (damageDone + "/"+currentHealth).ToString();
 		textObj.GetComponent<TextMesh> ().color = kleur;
         if (currentHealth <= 0 && !isDead)
