@@ -26,8 +26,9 @@ public class WallScript : MonoBehaviour {
 				Vector3 normalToWall = CameraController.hit.normal;
 				Vector3 TowerOffset = new Vector3 (Mathf.Sin (transform.eulerAngles.y / 180 * Mathf.PI), 0, Mathf.Cos (transform.eulerAngles.y / 180 * Mathf.PI)) * planeW/50;
 				GameObject tower = (GameObject)Instantiate (TowerPrefab, new Vector3(transform.position.x,planeW/2,transform.position.z), transform.rotation);
-				tower.gameObject.transform.localScale = new Vector3 (50, 50, 1) * planeW;
+				tower.gameObject.transform.localScale = new Vector3 (1, 1, 1) * planeW/10;
 				tower.gameObject.transform.Rotate(new Vector3 (-90, 0, 0));
+				tower.gameObject.transform.Rotate(new Vector3 (0, -90, 0));
 				tower.gameObject.transform.position += tower.gameObject.transform.forward*planeW/58;
 				tower.renderer.material.color = transparentgreen;
 				tower.renderer.material.shader = Shader.Find ("Transparent/Diffuse");
@@ -35,9 +36,17 @@ public class WallScript : MonoBehaviour {
 				tower.transform.parent = gameObject.transform;
 
 			}
+
+			if (Input.GetMouseButtonUp(1) && gameObject.transform.childCount==1)
+			{
+				Destroy (gameObject.transform.GetChild(0).gameObject);
+			}
+
 		}
 
 	}
+
+
 
 	//Method to Destroy all hotspots. Called in different scripts.
 	public static void DestroyHotSpots(){
