@@ -31,7 +31,7 @@ public class WeaponController : MonoBehaviour
 		ResourceManagerObj = GameObject.Find ("ResourceManager");
 		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
 
-		Tower1 = resourceManager.tower1;
+		Tower1 = resourceManager.magicTowerHotSpot;
 		Tower2 = resourceManager.tower2;
 		FloorTower1 = resourceManager.fireTrapHotspot;
 		FloorTower2 = resourceManager.poisonTrapHotspot;
