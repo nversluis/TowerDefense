@@ -42,7 +42,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxEnemies: 5
   spawning: 1
-  maxX: 0
+  maxX: .300000012
   maxZ: 0
   currentTotalStatPoints: 100
   delta: 50
@@ -63,12 +63,8 @@ MonoBehaviour:
   spawning: 1
   maxWaves: 30
   currentWave: 1
-  minAantalEnemiesPerWave: 2
-  maxAantalEnemiesPerWave: 10
-  maxX: 3
-  maxZ: 3
-  totalStatPointsPerWave: 600
-  toenameStatPointsPerWave: 300
+  maxX: 1
+  maxZ: 1
   currentTotalStatPoints: 100
   toenameTotalStatsPerWave: 50
   spawnPosition: {x: 0, y: 0, z: 0}

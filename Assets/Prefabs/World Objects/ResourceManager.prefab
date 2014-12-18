@@ -49,9 +49,9 @@ MonoBehaviour:
   width: 20
   planewidth: 20
   height: 3
-  nodeSize: 5
+  nodeSize: 2
   NumberOfPaths: 3
-  drawNavigationGrid: 1
+  drawNavigationGrid: 0
   enemyTag: Enemy
   enemyGuyant: {fileID: 100052, guid: 6a25f25271f527644ab0b18b0e7c536e, type: 2}
   enemyGwarf: {fileID: 0}
