@@ -18,6 +18,8 @@ public class TrapScript : MonoBehaviour {
 			realTrap=resourceManager.fireTrap;
 		if(gameObject.name.Contains("Poison"))
 			realTrap=resourceManager.poisonTrap;
+		if(gameObject.name.Contains("Ice"))
+			realTrap=resourceManager.iceTrap;
 		MaxDistance = resourceManager.maxTowerDistance;
 
 	}
@@ -25,6 +27,8 @@ public class TrapScript : MonoBehaviour {
 		GameObject trap = (GameObject)Instantiate (realTrap, transform.position, Quaternion.identity);//Instantiantion of the tower
 		trap.gameObject.transform.localScale = new Vector3 (1, 1, 1)*planeW/20;
 		trap.transform.parent = gameObject.transform.parent;
+		float randHoek = 90 * Mathf.Floor (Random.value * 4);
+		trap.transform.RotateAround (transform.position, Vector3.up, randHoek);
 		trap.tag = "Tower";
 		WallScript.DestroyHotSpots ();
 		trap.SetActiveRecursively (true); 
