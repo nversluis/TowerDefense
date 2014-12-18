@@ -3,10 +3,10 @@ using System.Collections;
 
 public class GuyantAnimator : MonoBehaviour {
 
-        protected Animator animator;
-        EnemyScript enemyScript;
+    protected Animator animator;
+    EnemyScript enemyScript;
+    public bool walking;
 
-        public bool walking;
 	// Use this for initialization
     void Start()
     {
