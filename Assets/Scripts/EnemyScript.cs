@@ -147,31 +147,34 @@ public class EnemyScript : MonoBehaviour
         }
 	}
 
-	void BuildPath ()
-	{
-
-		Path = Navigator.Path (transform.position - new Vector3(0f,transform.position.y,0f), PlayerController.location, resourceManager.nodeSize, resourceManager.Nodes, dfactor);
-        Path2 = Navigator.Path(transform.position - new Vector3(0f, transform.position.y, 0f), PlayerController.location, resourceManager.nodeSize, resourceManager.Nodes);
-
-        i = 0;
-		int j = 0;
-
-		foreach (WayPoint waypoint in WaypointsNearOld) {
-			waypoint.setPenalty (waypoint.getPenalty()-5f);
-			j = j + 1;
-            if (waypoint.getPenalty() < 0)
-                waypoint.setPenalty(0);
-		}
-
-        WaypointsNearNow = Navigator.FindWayPointsNear(transform.position, resourceManager.Nodes, resourceManager.nodeSize);
-        foreach (WayPoint waypoint in WaypointsNearNow)
+    void BuildPath()
+    {
+        if (!enemyHealth.isDead)
         {
-            oldList.Add(waypoint.getPenalty());
-            waypoint.setPenalty(waypoint.getPenalty() + 5);
-        }
+            Path = Navigator.Path(transform.position - new Vector3(0f, transform.position.y, 0f), PlayerController.location, resourceManager.nodeSize, resourceManager.Nodes, dfactor);
+            Path2 = Navigator.Path(transform.position - new Vector3(0f, transform.position.y, 0f), PlayerController.location, resourceManager.nodeSize, resourceManager.Nodes);
 
-        WaypointsNearOld = WaypointsNearNow;
-	}
+            i = 0;
+            int j = 0;
+
+            foreach (WayPoint waypoint in WaypointsNearOld)
+            {
+                waypoint.setPenalty(waypoint.getPenalty() - 5f);
+                j = j + 1;
+                if (waypoint.getPenalty() < 0)
+                    waypoint.setPenalty(0);
+            }
+
+            WaypointsNearNow = Navigator.FindWayPointsNear(transform.position, resourceManager.Nodes, resourceManager.nodeSize);
+            foreach (WayPoint waypoint in WaypointsNearNow)
+            {
+                oldList.Add(waypoint.getPenalty());
+                waypoint.setPenalty(waypoint.getPenalty() + 5);
+            }
+
+            WaypointsNearOld = WaypointsNearNow;
+        }
+    }
 
 
 }

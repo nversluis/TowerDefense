@@ -406,7 +406,7 @@ GameObject:
   - 114: {fileID: 11400048}
   - 114: {fileID: 11400052}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: GUIMain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

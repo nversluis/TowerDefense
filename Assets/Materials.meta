@@ -1,5 +1,9 @@
 fileFormatVersion: 2
-guid: 0c5a87cff1a3fa340aeb3b9e674717ab
+<<<<<<< HEAD:Assets/Prefabs/Scenes.meta
+guid: 9e03891a4aa70c145bdcf0afb6f519ea
+=======
+guid: fc3f38ad32189694fbcc0f987357ee4b
+>>>>>>> Niels:Assets/Materials.meta
 folderAsset: yes
 DefaultImporter:
   userData: 
