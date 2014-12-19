@@ -84,8 +84,13 @@ public class GUIScript : MonoBehaviour {
     public GameObject canvas;
     private bool pause;
 
+    [Header("Result screen canvas")]
+    public GameObject result;
+
     [Header("Crosshair")]
     public GameObject crosshair;
+    public Text resultText;
+    public Text resultScoreText; 
 
     // Scripts
     private GameObject playerObject;
@@ -223,6 +228,9 @@ public class GUIScript : MonoBehaviour {
         canvas.SetActive(false);
         pause = false;
 
+        // Result menu
+        result.SetActive(false);
+
         // Crosshair
         crosshair.SetActive(true);
 
@@ -232,12 +240,12 @@ public class GUIScript : MonoBehaviour {
         // Update variables that need to be updated frequently
         UpdateFrontHP();
         UpdateRearHP();
-        UpdateCooldowns();
+        //UpdateCooldowns();
         UpdateScore();
         UpdateGold();
         UpdateStats();
         UpdateTowers();
-        UpdateItems();
+        //UpdateItems();
 	}
 
     void Update() {
@@ -402,5 +410,16 @@ public class GUIScript : MonoBehaviour {
         pause = false;
         Time.timeScale = 1;
         Application.LoadLevel("Main Menu");
+    }
+
+    public void EndGame(string resultString) {
+        result.SetActive(true);
+        resultText.text = resultString;
+        resultScoreText.text = player.getScore().ToString();
+        Screen.showCursor = true;
+        Screen.lockCursor = false;
+        playerScript.enabled = false;
+        cameraScript.enabled = false;
+        Time.timeScale = 0;
     }
 }
