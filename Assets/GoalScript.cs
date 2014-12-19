@@ -8,9 +8,15 @@ public class GoalScript : MonoBehaviour {
     public static int lives = 15;
     public static bool Lost;
 
+    GameObject gui;
+    GUIScript guiScript;
+
+
 	// Use this for initialization
 	void Start () {
         livesText = GameObject.Find("NumOfLives").GetComponent<Text>(); ;
+        gui = GameObject.Find("GUIMain");
+        guiScript = gui.GetComponent<GUIScript>();
 	}
 	
 	// Update is called once per frame
@@ -21,6 +27,12 @@ public class GoalScript : MonoBehaviour {
         {
             lives = 0;
             Lost = true;
+        }
+
+        if (Lost)
+        {
+            guiScript.EndGame("You Lose!");
+            Lost = false;
         }
 	}
 

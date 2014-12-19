@@ -7,6 +7,8 @@ public class PlayerHealth : MonoBehaviour {
     public int currentHealth;
     public int defence = 10;
     PlayerData playerData = GUIScript.player;
+    GameObject gui;
+    GUIScript guiScript;
 
     bool isDead = false;
 
@@ -19,6 +21,8 @@ public class PlayerHealth : MonoBehaviour {
 	void Start () 
     {
         playerData.setMaxHP(startingHealth);
+        gui = GameObject.Find("GUIMain");
+        guiScript = gui.GetComponent<GUIScript>();
 	}
 	
 	// Update is called once per frame
@@ -44,6 +48,8 @@ public class PlayerHealth : MonoBehaviour {
     void Death()
     {
         isDead = true;
+        guiScript.EndGame("You Lose!");
+
         //Destroy(this.gameObject);
     }
 

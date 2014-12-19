@@ -42,11 +42,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxEnemies: 15
   spawning: 1
-  toenameAantalEnemiesPerWave: 5
+  toenameAantalEnemiesPerWave: 1
   maxX: .300000012
   maxZ: 0
   currentTotalStatPoints: 250
   delta: 30
+  spawnTime: .5
 --- !u!114 &11415504
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -66,16 +67,13 @@ MonoBehaviour:
   currentWave: 1
   minAantalEnemiesPerWave: 2
   maxAantalEnemiesPerWave: 4
-  toenameAantalEnemiesPerWave: 5
   maxX: 1
   maxZ: 1
   totalStatPointsPerWave: 100
   toenameStatPointsPerWave: 10
   currentTotalStatPoints: 100
+  toenameTotalStatsPerWave: 50
   spawnPosition: {x: 0, y: 0, z: 0}
-  counter: 0
-  spawnTime: 1
-  timeTillNextWave: 10
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

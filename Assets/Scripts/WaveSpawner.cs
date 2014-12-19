@@ -10,6 +10,9 @@ public class WaveSpawner : MonoBehaviour
     public int maxEnemies = 15;
     public bool spawning = true;
 
+    GameObject gui;
+    GUIScript guiScript;
+    
     public int toenameAantalEnemiesPerWave = 5;
 
 	private int maxWaves;
@@ -19,11 +22,12 @@ public class WaveSpawner : MonoBehaviour
     public float maxZ;
     //float orcHeigthSpawn = 3.27f;
 
+    bool Won;
 
     public int currentTotalStatPoints = 250;
     public int delta = 20;
 
-    float spawnTime = 0.5f; // in seconden
+    public float spawnTime = 0.5f; // in seconden
 
     public ArrayList enemies;
     EnemyStats enemyStats;
@@ -37,6 +41,9 @@ public class WaveSpawner : MonoBehaviour
 		maxWaves = resourceManager.maxWaves;
 		currentWave = resourceManager.currentWave;
         enemies = new ArrayList();
+
+        gui = GameObject.Find("GUIMain");
+        guiScript = gui.GetComponent<GUIScript>();
     }
 
     // Update is called once per frame
@@ -79,7 +86,12 @@ public class WaveSpawner : MonoBehaviour
         }
         else
         {
-            Debug.Log("Congratulations! You've succesfully defeated all waves of enemies!");
+            Won = true;
+        }
+
+        if (Won)
+        {
+            guiScript.EndGame("You Won!");
         }
     }
 

@@ -51,9 +51,10 @@ public class EnemyHealth : MonoBehaviour {
     void Update()
     {
         if (hasWon)
-        {
+        {   
             GoalScript.lives -= 1;
             hasWon = false;
+            Destroy(this.gameObject);
         }
 
         if(isDead)
