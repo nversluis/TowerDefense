@@ -431,23 +431,23 @@ MonoBehaviour:
   Minimapcamera: {fileID: 100000, guid: ea52609adf144e449bfeac563da51684, type: 2}
   Gate: {fileID: 100000, guid: 16cf1baaf1edf034dadc94eb5ac10fa5, type: 2}
   torch: {fileID: 100012, guid: 3abc6258d3b3848199581033a47549d6, type: 2}
-  Goal: {fileID: 176334, guid: dd4a00b521ef85442ac6a2107e9a4598, type: 2}
+  Goal: {fileID: 176334, guid: 97a75b10d2f991742a9ecfb74cabe64f, type: 2}
   length: 10
   width: 10
   planewidth: 10
   height: 3
   nodeSize: 2.5
   NumberOfPaths: 3
-  drawNavigationGrid: 1
+  drawNavigationGrid: 0
   enemyTag: Enemy
   enemyGuyant: {fileID: 100052, guid: 6a25f25271f527644ab0b18b0e7c536e, type: 2}
   enemyGwarf: {fileID: 0}
   enemyGrobble: {fileID: 0}
-  walkSpeed: 7
+  walkSpeed: 5
   drawPath: 1
-  maxEnemies: 10
-  minEnemies: 5
-  maxWaves: 5
+  maxEnemies: 2
+  minEnemies: 4
+  maxWaves: 10
   currentWave: 1
   maxTowerDistance: 50
   tower1: {fileID: 100010, guid: 00820a827834982408befc67f6611fe1, type: 2}
@@ -1256,6 +1256,10 @@ Prefab:
     - target: {fileID: 400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: maxWaves
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
@@ -3780,7 +3784,6 @@ MonoBehaviour:
   m_Script: {fileID: 1301386320, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Priority: 3
   ignoreReversedGraphics: 1
   blockingObjects: 0
   m_BlockingMask:

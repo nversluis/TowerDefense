@@ -45,8 +45,8 @@ MonoBehaviour:
   toenameAantalEnemiesPerWave: 2
   maxX: .300000012
   maxZ: 0
-  currentTotalStatPoints: 70
-  delta: 5
+  currentTotalStatPoints: 80
+  delta: 8
   spawnTime: 1
 --- !u!114 &11415504
 MonoBehaviour:

@@ -22,6 +22,7 @@ public class WaveSpawner : MonoBehaviour
     public float maxX;
     public float maxZ;
     //float orcHeigthSpawn = 3.27f;
+	private PlayerData playerData = GUIScript.player;
 
     bool Won;
 
@@ -78,6 +79,8 @@ public class WaveSpawner : MonoBehaviour
 
                 if (enemies.Count == 0)
                 {
+					// Voeg gold toe voor de speler na elke wave
+					playerData.addGold(resourceManager.rewardWave);
                     // Als alle enemies dood zijn, ga naar de volgende wave
                     currentWave++;
                     // Verhoog het aantal enemies in de wave

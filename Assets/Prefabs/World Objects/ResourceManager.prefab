@@ -44,7 +44,7 @@ MonoBehaviour:
   costIceTrap: 100
   costFireTrap: 100
   costPoisonTrap: 100
-  rewardEnemy: 5
+  rewardEnemy: 10
   rewardWave: 300
   planePrefab: {fileID: 100016, guid: eb0912c352095c645a4cc637dd9257b0, type: 2}
   wallPrefab: {fileID: 100000, guid: e3e7c39751284344492a03bc74fc55f0, type: 2}
@@ -68,7 +68,7 @@ MonoBehaviour:
   drawPath: 1
   maxEnemies: 2
   minEnemies: 4
-  maxWaves: 1
+  maxWaves: 10
   currentWave: 1
   maxTowerDistance: 50
   tower1: {fileID: 100010, guid: 00820a827834982408befc67f6611fe1, type: 2}
