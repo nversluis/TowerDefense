@@ -96,7 +96,7 @@ public class RandomMaze : MonoBehaviour
 		GameObject camera = resourceManager.mainCamera;
 		GameObject Gui = resourceManager.gui;
 		spawnPlayer (player,camera,Gui,startPos*planewidth,Minimapcamera,width,length,planewidth);
-		createSingleObjects (planewidth,EnemySpawner,endPos);
+		createSingleObjects (planewidth,EnemySpawner,resourceManager.Goal,endPos,startPos);
 
 		ResourceManager.mostNorth =0;
 		ResourceManager.mostEast = 0;
@@ -351,12 +351,14 @@ public class RandomMaze : MonoBehaviour
 
 
 
-	public static void createSingleObjects (float planewidth,GameObject EnemySpawner,Vector2 endPos)
+	public static void createSingleObjects (float planewidth,GameObject EnemySpawner, GameObject Goal2, Vector2 endPos, Vector2 startPos)
 	{
 		//Gate
 		//GameObject GateObj = (GameObject)Instantiate (Gate, new Vector3 (-planewidth / 2, height * planewidth / 2, -planewidth / 2), Quaternion.identity);
 		//GateObj.transform.localScale = new Vector3 (planewidth * 0.028f, planewidth * height / 150, planewidth);
 		GameObject enemySpawner = (GameObject)Instantiate (EnemySpawner, new Vector3 (endPos.x * planewidth, 0f, endPos.y * planewidth), Quaternion.identity); 
+		GameObject Goal = (GameObject)Instantiate(Goal2, new Vector3(startPos.x,0,startPos.y)*planewidth,Quaternion.identity);
+		Goal.transform.name="Goal";
 	}
 
 	public static void spawnPlayer (GameObject player, GameObject camera, GameObject Gui,Vector2 startPos,GameObject Minimapcamera,int width,int length,float planewidth)
