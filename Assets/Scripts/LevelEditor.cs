@@ -338,7 +338,7 @@ public class LevelEditor : MonoBehaviour
 				GenerateFloor ();
 				GameObject player = resourceManager.player;
 				GameObject camera = resourceManager.mainCamera;
-				RandomMaze.spawnPlayer (player, camera, startPos * planewidth, Minimapcamera, width, length, planewidth);
+				RandomMaze.spawnPlayer (player, camera,resourceManager.GUI,resourceManager.eventListener, startPos * planewidth, Minimapcamera, width, length, planewidth);
 				disableLevelEditor ();
 				RandomMaze.createSingleObjects (planewidth, EnemySpawner, resourceManager.Goal, endPos, startPos);
 				RandomMaze.SpawnNodes (positions, nodeSize, planewidth, NodesPos, Nodes, length, width, drawNavGrid, true);
