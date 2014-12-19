@@ -92,7 +92,6 @@ public class ResourceManager : MonoBehaviour {
 	public GameObject damageText;
 
 	[Header("UI")]
-	public GameObject gui;
 	public float lengthMinimap;
 	public float heightMinimap;
 
