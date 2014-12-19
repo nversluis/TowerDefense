@@ -70,6 +70,7 @@ public class GAWaveSpawner : MonoBehaviour
         {
             if (AllEnemiesDead())
             {
+				resourceManager.gold += resourceManager.rewardWave;
                 if (currentWave < maxWaves)
                 {
                     // Genereer de volgende wave
