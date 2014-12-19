@@ -47,11 +47,11 @@ MonoBehaviour:
   torch: {fileID: 100012, guid: 3abc6258d3b3848199581033a47549d6, type: 2}
   length: 10
   width: 10
-  planewidth: 12
+  planewidth: 10
   height: 3
-  nodeSize: 4
+  nodeSize: 2.5
   NumberOfPaths: 3
-  drawNavigationGrid: 0
+  drawNavigationGrid: 1
   enemyTag: Enemy
   enemyGuyant: {fileID: 100052, guid: 6a25f25271f527644ab0b18b0e7c536e, type: 2}
   enemyGwarf: {fileID: 0}
@@ -64,7 +64,7 @@ MonoBehaviour:
   currentWave: 1
   maxTowerDistance: 50
   tower1: {fileID: 100010, guid: 00820a827834982408befc67f6611fe1, type: 2}
-  coolDownTimeTower1: .300000012
+  coolDownTimeTower1: .5
   tower2: {fileID: 0}
   poisonTrap: {fileID: 100004, guid: 00395c20601754c63bd039223cee03ff, type: 2}
   fireTrap: {fileID: 100004, guid: 5eeab821c266140c29d2d3654a690e34, type: 2}
