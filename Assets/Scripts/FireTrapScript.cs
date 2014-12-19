@@ -34,6 +34,7 @@ public class FireTrapScript : MonoBehaviour
 
 	void DoDamage ()
 	{
+		partSys.particleSystem.startSize = particleStartSize * 3;
 		foreach (GameObject enemy in enemyOnTrap) {
 			if (enemy != null) {
 				EnemyHealth enemyHealth = enemy.collider.GetComponent<EnemyHealth> ();
@@ -41,7 +42,13 @@ public class FireTrapScript : MonoBehaviour
 
 			}
 		} 
-		
+		StartCoroutine (ResizeParticles ());
+	}
+
+	IEnumerator ResizeParticles ()
+	{
+		yield return new WaitForSeconds (1);
+		partSys.particleSystem.startSize = particleStartSize / 10;
 	}
 
 	// Use this for initialization
@@ -60,7 +67,6 @@ public class FireTrapScript : MonoBehaviour
 		if (enemyOnTrap.Count == 0) {
 			CancelInvoke ();
 			partSys.particleSystem.startSize = particleStartSize/10;
-		} else
-			partSys.particleSystem.startSize = particleStartSize*3;
+		} 
 	}
 }

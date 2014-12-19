@@ -4,7 +4,7 @@ using System.Collections;
 // The control script for the main menu
 public class MenuController : MonoBehaviour {
     // Objects
-    public Animator startBtnAnim, quitBtnAnim, optionBtnAnim, optionPnlAnim;
+    public Animator startBtnAnim, quitBtnAnim, optionBtnAnim, editorBtnAnim, optionPnlAnim;
     public GameObject optionPnl;
     public Slider slider1, slider2, slider3, slider4, slider5;
     // Slider values
@@ -16,6 +16,7 @@ public class MenuController : MonoBehaviour {
         startBtnAnim.SetBool("Hidden", false);
         quitBtnAnim.SetBool("Hidden", false);
         optionBtnAnim.SetBool("Hidden", false);
+        editorBtnAnim.SetBool("Hidden", false);
         optionPnlAnim.SetBool("Hidden", true);
         // Options panel is not used; turn it off
         optionPnl.SetActive(false);
@@ -61,6 +62,7 @@ public class MenuController : MonoBehaviour {
         startBtnAnim.SetBool("Hidden", true);
         quitBtnAnim.SetBool("Hidden", true);
         optionBtnAnim.SetBool("Hidden", true);
+        editorBtnAnim.SetBool("Hidden", true);
         optionPnlAnim.SetBool("Hidden", false);
         // Store old slider values in case of cancel
         old1 = val1;
@@ -91,13 +93,18 @@ public class MenuController : MonoBehaviour {
         startBtnAnim.SetBool("Hidden", false);
         quitBtnAnim.SetBool("Hidden", false);
         optionBtnAnim.SetBool("Hidden", false);
+        editorBtnAnim.SetBool("Hidden", false);
         optionPnlAnim.SetBool("Hidden", true);
         // Wait until options screen is off-screen before disabling it
         StartCoroutine(InactiveAfter(optionPnl, 1));
     }
 
     public void LoadGame() {
-        Application.LoadLevel("Game");
+        Application.LoadLevel("Random Generate Level");
+    }
+
+    public void LoadEditor() {
+        Application.LoadLevel("Level Editor");
     }
 
     public void QuitGame() {
