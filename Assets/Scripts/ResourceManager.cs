@@ -3,16 +3,30 @@ using System.Collections;
 using System.Collections.Generic;
 //use this to declare all variables
 public class ResourceManager : MonoBehaviour {
+	//private PlayerData playerData = GUIScript.player;
 
 	//prefabs
+	[Header("Costs")]
+	public int gold;
+	public int costMagicTower;
+	public int costIceTrap;
+	public int costFireTrap;
+	public int costPoisonTrap;
+	public int rewardEnemy;
+	public int rewardWave;
+
+
 	[Header("Map Prefabs")]
 
 	public GameObject planePrefab;
 	public GameObject wallPrefab;
 	public GameObject EnemySpawner;
 	public GameObject Minimapcamera;
+
+	[Header("Decorations")]
 	public GameObject Gate;
 	public GameObject torch;
+	public GameObject Goal;
 
 	//float&ints map generate
 	[Header("Map Generate")]
@@ -97,6 +111,9 @@ public class ResourceManager : MonoBehaviour {
 	public static int mostNorth;
 	public static int mostSouth;
 
+//	void Start(){
+//		playerData.SetGold (gold);
+//	}
 
 
 }

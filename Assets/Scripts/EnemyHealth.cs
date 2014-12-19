@@ -120,7 +120,7 @@ public class EnemyHealth : MonoBehaviour {
 
     public void Death()
     {
-
+		resourceManager.gold += resourceManager.rewardEnemy;
         List<WayPoint> WPoints = new List<WayPoint>();
         WPoints = Navigator.FindWayPointsNear(transform.position, resourceManager.Nodes, nodeSize);
         foreach (WayPoint wp in WPoints)

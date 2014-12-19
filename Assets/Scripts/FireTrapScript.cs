@@ -39,7 +39,7 @@ public class FireTrapScript : MonoBehaviour
 			if (enemy != null) {
 				EnemyHealth enemyHealth = enemy.collider.GetComponent<EnemyHealth> ();
 				enemyHealth.TakeDamage (damagePerShot,"physical");
-
+			
 			}
 		} 
 		StartCoroutine (ResizeParticles ());
@@ -63,7 +63,14 @@ public class FireTrapScript : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+		//Remove dead enemies
 		enemyOnTrap.RemoveAll (item => item == null);
+		for (int i = 0; i < enemyOnTrap.Count; i++) {
+			EnemyHealth enemyHealth = enemyOnTrap[i].collider.GetComponent<EnemyHealth> ();
+			if (enemyHealth.isDead) {
+				enemyOnTrap.Remove(enemyOnTrap[i]);
+			}
+		}
 		if (enemyOnTrap.Count == 0) {
 			CancelInvoke ();
 			partSys.particleSystem.startSize = particleStartSize/10;

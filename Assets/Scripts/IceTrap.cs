@@ -73,6 +73,12 @@ public class IceTrap : MonoBehaviour
 	void Update ()
 	{
 		enemyOnTrap.RemoveAll (item => item == null);
+		for (int i = 0; i < enemyOnTrap.Count; i++) {
+			EnemyHealth enemyHealth = enemyOnTrap[i].collider.GetComponent<EnemyHealth> ();
+			if (enemyHealth.isDead) {
+				enemyOnTrap.Remove(enemyOnTrap[i]);
+			}
+		}
 		if (enemyOnTrap.Count == 0) {
 			CancelInvoke ();
 			partSys.particleSystem.startSize = particleStartSize / 10;
