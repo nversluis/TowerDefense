@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class GoalScript : MonoBehaviour {
 
     Text livesText;
-    public int lives = 15;
+    public static int lives = 15;
     public static bool Lost;
 
 	// Use this for initialization

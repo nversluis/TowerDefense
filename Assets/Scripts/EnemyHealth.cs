@@ -17,6 +17,7 @@ public class EnemyHealth : MonoBehaviour {
     EnemyMovement enemyMovement;
 
     public bool isDead = false;
+    public bool hasWon = false;
 	public bool isPoisoned;
 	public float poisonAmount = 0;
 
@@ -49,6 +50,11 @@ public class EnemyHealth : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        if (hasWon)
+        {
+            GoalScript.lives -= 1;
+        }
+
         if(isDead)
         {
             counter += Time.deltaTime;
