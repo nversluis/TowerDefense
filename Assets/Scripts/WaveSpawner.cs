@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class WaveSpawner : MonoBehaviour
 {
@@ -32,6 +33,7 @@ public class WaveSpawner : MonoBehaviour
     public ArrayList enemies;
     EnemyStats enemyStats;
 
+    Text waveText;
     // Use this for initialization
     void Start()
     {
@@ -43,12 +45,15 @@ public class WaveSpawner : MonoBehaviour
         enemies = new ArrayList();
 
         gui = GameObject.Find("GUIMain");
+        waveText = GameObject.Find("WaveText").GetComponent<Text>();
         guiScript = gui.GetComponent<GUIScript>();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        waveText.text = (currentWave + " / " + maxWaves);
+
         if (currentWave <= maxWaves)
         {
             if (spawning)
@@ -121,6 +126,8 @@ public class WaveSpawner : MonoBehaviour
             }
         }
     }
+
+    
 
 }
 

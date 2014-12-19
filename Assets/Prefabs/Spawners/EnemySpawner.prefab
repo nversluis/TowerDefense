@@ -42,12 +42,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxEnemies: 15
   spawning: 1
-  toenameAantalEnemiesPerWave: 1
+  toenameAantalEnemiesPerWave: 2
   maxX: .300000012
   maxZ: 0
-  currentTotalStatPoints: 250
-  delta: 30
-  spawnTime: .5
+  currentTotalStatPoints: 70
+  delta: 5
+  spawnTime: 1
 --- !u!114 &11415504
 MonoBehaviour:
   m_ObjectHideFlags: 1
