@@ -7,8 +7,10 @@ public class WaveSpawner : MonoBehaviour
 	private GameObject ResourceManagerObj;
 	private ResourceManager resourceManager;
     private GameObject enemy;
-    public int maxEnemies = 5;
+    public int maxEnemies = 15;
     public bool spawning = true;
+
+    public int toenameAantalEnemiesPerWave = 5;
 
 	private int maxWaves;
 	private int currentWave;
@@ -18,8 +20,10 @@ public class WaveSpawner : MonoBehaviour
     //float orcHeigthSpawn = 3.27f;
 
 
-    public int currentTotalStatPoints = 100;
-    public int delta = 50;
+    public int currentTotalStatPoints = 250;
+    public int delta = 20;
+
+    float spawnTime = 0.5f; // in seconden
 
     public ArrayList enemies;
     EnemyStats enemyStats;
@@ -44,8 +48,12 @@ public class WaveSpawner : MonoBehaviour
             {
                 if (enemies.Count < maxEnemies)
                 {
-                    // Spawn enemies tot het maximale aantal enemies wordt bereikt
-                    SpawnEnemy();
+                    float randomFloat = Random.Range(0.0f, 1.0f);
+                    if (randomFloat < (float) (1 / (spawnTime * 60)))
+                    {
+                        // Spawn enemies tot het maximale aantal enemies wordt bereikt
+                        SpawnEnemy();
+                    }
                 }
                 else
                 {
@@ -60,8 +68,8 @@ public class WaveSpawner : MonoBehaviour
                 {
                     // Als alle enemies dood zijn, ga naar de volgende wave
                     currentWave++;
-                    // Spawn een extra enemy voor de volgende wave
-                    maxEnemies++;
+                    // Verhoog het aantal enemies in de wave
+                    maxEnemies += toenameAantalEnemiesPerWave;
                     // Verhoog de totale stat points
                     currentTotalStatPoints += delta;
                     // Enemies mogen weer gespawnd worden
@@ -80,13 +88,13 @@ public class WaveSpawner : MonoBehaviour
         float randX = Random.Range(-maxX / 2, maxX / 2);
         float randZ = Random.Range(-maxZ / 2, maxZ / 2);
 
-        GameObject Enemy = (GameObject)Instantiate(enemy, transform.position + new Vector3(randX, 7.34f/2, randZ), Quaternion.identity);
+        GameObject Enemy = (GameObject)Instantiate(enemy, transform.position + new Vector3(randX, 7.34f / 4, randZ), Quaternion.identity);
         Enemy.gameObject.transform.localScale= new Vector3(0.5f, 0.5f, 0.5f);
         Enemy.name = "enemy";
         enemyStats = Enemy.GetComponent<EnemyStats>();
         // Genereer enemies met toenemende stats per wave
         enemyStats.totalStatPoints = currentTotalStatPoints;
-        // enemyStats.generateEnemyStats();
+        enemyStats.generateEnemyStats();
         enemies.Add(Enemy);
     }
 

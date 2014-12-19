@@ -62,8 +62,8 @@ public class EnemyHealth : MonoBehaviour {
             collider.enabled = (false);
             if (counter > 4)
             {
-                //Destroy(this.gameObject);
-                this.transform.position = deathPosition;
+                Destroy(this.gameObject);
+                //this.transform.position = deathPosition;
                 counter = 0;
             }
         }
