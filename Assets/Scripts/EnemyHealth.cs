@@ -15,7 +15,10 @@ public class EnemyHealth : MonoBehaviour {
     public Vector3 deathPosition;
     EnemyMovement enemyMovement;
 
+    GameObject goal;
+    GoalScript goalScript;
     public bool isDead = false;
+    public bool hasWon = false;
 	public bool isPoisoned;
 	public float poisonAmount = 0;
 
@@ -35,6 +38,8 @@ public class EnemyHealth : MonoBehaviour {
     {
 		ResourceManagerObj = GameObject.Find ("ResourceManager");
 		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
+        goal = GameObject.Find("Goal");
+        goalScript = goal.GetComponent<GoalScript>();
         startingHealth = enemyStats.health*10;
         defense = enemyStats.defense;
         currentHealth = startingHealth;
@@ -48,6 +53,14 @@ public class EnemyHealth : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        if (hasWon)
+        {
+            this.transform.position = deathPosition;
+            goalScript.lives -= 1;
+            hasWon = false;
+
+        }
+
         if(isDead)
         {
             counter += Time.deltaTime;
@@ -120,7 +133,7 @@ public class EnemyHealth : MonoBehaviour {
 
     public void Death()
     {
-		resourceManager.gold += resourceManager.rewardEnemy;
+
         List<WayPoint> WPoints = new List<WayPoint>();
         WPoints = Navigator.FindWayPointsNear(transform.position, resourceManager.Nodes, nodeSize);
         foreach (WayPoint wp in WPoints)
