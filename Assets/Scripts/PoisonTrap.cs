@@ -68,8 +68,13 @@ public class PoisonTrap : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		Debug.Log (partSys.gameObject.particleSystem.startSize);
 		enemyOnTrap.RemoveAll (item => item == null);
+		for (int i = 0; i < enemyOnTrap.Count; i++) {
+			EnemyHealth enemyHealth = enemyOnTrap[i].collider.GetComponent<EnemyHealth> ();
+			if (enemyHealth.isDead) {
+				enemyOnTrap.Remove(enemyOnTrap[i]);
+			}
+		}
 		if (enemyOnTrap.Count == 0) {
 			partSys.gameObject.particleSystem.startSize = particleStartSize / 50;
 		}
