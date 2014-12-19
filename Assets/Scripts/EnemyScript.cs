@@ -29,9 +29,12 @@ public class EnemyScript : MonoBehaviour
     public bool attacking;
 
     GameObject player;
+    GameObject goal;
 
 	private float speedReduce;
 	public bool isSlowed;
+
+    public bool reachedEnd = false;
 	// Use this for initialization
 	void Start ()
 	{
@@ -45,10 +48,11 @@ public class EnemyScript : MonoBehaviour
         normalWalkSpeed = resourceManager.walkSpeed * enemystats.speedMultiplier;
         enemyHealth = GetComponent<EnemyHealth>();
         player = GameObject.Find("Player");
+        goal = GameObject.Find("Goal");
 
 
 		characterController = GetComponent<CharacterController> ();
-        Path = Navigator.Path(transform.position - new Vector3(0f, transform.position.y, 0f), PlayerController.location - new Vector3(0f, PlayerController.location.y, 0f), nodeSize, grid, dfactor);
+        Path = Navigator.Path(transform.position - new Vector3(0f, transform.position.y, 0f), goal.transform.position - new Vector3(0f, goal.transform.position.y, 0f), nodeSize, grid, dfactor);
 
 		//walkSpeed = enemystats.speed/10 + 3;
         dfactor = enemystats.dfactor;
@@ -145,14 +149,21 @@ public class EnemyScript : MonoBehaviour
                 Debug.DrawLine(Path2[k], Path2[k + 1], Color.red);
             }
         }
+
+        if ((goal.transform.position-transform.position).magnitude < 2f){
+            reachedEnd = true;
+            this.transform.position = enemyHealth.deathPosition;
+
+
+        }
 	}
 
     void BuildPath()
     {
         if (!enemyHealth.isDead)
         {
-            Path = Navigator.Path(transform.position - new Vector3(0f, transform.position.y, 0f), PlayerController.location, resourceManager.nodeSize, resourceManager.Nodes, dfactor);
-            Path2 = Navigator.Path(transform.position - new Vector3(0f, transform.position.y, 0f), PlayerController.location, resourceManager.nodeSize, resourceManager.Nodes);
+            Path = Navigator.Path(transform.position - new Vector3(0f, transform.position.y, 0f), goal.transform.position - new Vector3(0f, goal.transform.position.y, 0f), nodeSize, grid, dfactor);
+            Path2 = Navigator.Path(transform.position - new Vector3(0f, transform.position.y, 0f), goal.transform.position - new Vector3(0f, goal.transform.position.y, 0f), resourceManager.nodeSize, resourceManager.Nodes);
 
             i = 0;
             int j = 0;
