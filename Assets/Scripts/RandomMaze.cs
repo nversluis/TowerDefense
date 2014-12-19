@@ -94,8 +94,7 @@ public class RandomMaze : MonoBehaviour
 		//spawn Player
 		GameObject player = resourceManager.player;
 		GameObject camera = resourceManager.mainCamera;
-		GameObject Gui = resourceManager.gui;
-		spawnPlayer (player,camera,Gui,startPos*planewidth,Minimapcamera,width,length,planewidth);
+		spawnPlayer (player,camera,startPos*planewidth,Minimapcamera,width,length,planewidth);
 		createSingleObjects (planewidth,EnemySpawner,resourceManager.Goal,endPos,startPos);
 
 		ResourceManager.mostNorth =0;
@@ -361,7 +360,7 @@ public class RandomMaze : MonoBehaviour
 		Goal.transform.name="Goal";
 	}
 
-	public static void spawnPlayer (GameObject player, GameObject camera, GameObject Gui,Vector2 startPos,GameObject Minimapcamera,int width,int length,float planewidth)
+	public static void spawnPlayer (GameObject player, GameObject camera, Vector2 startPos,GameObject Minimapcamera,int width,int length,float planewidth)
 	{			
 		GameObject cam = (GameObject)Instantiate (Minimapcamera, new Vector3 (length / 2, Mathf.Max (width, length), 0) * planewidth, Quaternion.Euler (90, 0, 0));
 		//cam.camera.rect = new Rect (0.8f, 0.7f, 0.3f, 0.3f);
@@ -372,8 +371,6 @@ public class RandomMaze : MonoBehaviour
 		Player.name = "Player";
 		GameObject MainCamera = (GameObject)Instantiate (camera, new Vector3 (0f, 0f, 0f), Quaternion.identity);
 		MainCamera.name = "Main Camera";
-		GameObject MainGui = (GameObject)Instantiate (Gui, new Vector3(0,0,0), Quaternion.identity);
-		MainGui.name = "GUI";   
 
 		//minimapcamera
 
