@@ -85,12 +85,26 @@ public class EnemyScript : MonoBehaviour
                 attacking = false;
 
             }
-			rigidbody.velocity = (dir + new Vector3 (0f, rigidbody.velocity.y, 0f));
-			rigidbody.angularVelocity = Vector3.zero;
-			transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.LookRotation (dir.normalized), Time.deltaTime * 5f);
-			transform.rotation = Quaternion.Euler (0f, transform.rotation.eulerAngles.y, 0f);
+
+            if (enemyHealth.isDead != true)
+            {
+                rigidbody.velocity = (dir + new Vector3(0f, rigidbody.velocity.y, 0f));
+                rigidbody.angularVelocity = Vector3.zero;
+                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir.normalized), Time.deltaTime * 5f);
+                transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
+
+            }
+
+            else
+            {
+                rigidbody.velocity = Vector3.zero;
+                rigidbody.angularVelocity = Vector3.zero;
+
+            }
+
             Vector3 nextPointDistance = (Path[i] - transform.position - new Vector3(0f, transform.position.y, 0f));
-			nextPointDistance.y = 0;
+            nextPointDistance.y = 0;
+
 			if (nextPointDistance.magnitude < 1f && i < Path.Count - 1) {
 				i++;
 			}
@@ -133,31 +147,34 @@ public class EnemyScript : MonoBehaviour
         }
 	}
 
-	void BuildPath ()
-	{
-
-		Path = Navigator.Path (transform.position - new Vector3(0f,transform.position.y,0f), PlayerController.location, resourceManager.nodeSize, resourceManager.Nodes, dfactor);
-        Path2 = Navigator.Path(transform.position - new Vector3(0f, transform.position.y, 0f), PlayerController.location, resourceManager.nodeSize, resourceManager.Nodes);
-
-        i = 0;
-		int j = 0;
-
-		foreach (WayPoint waypoint in WaypointsNearOld) {
-			waypoint.setPenalty (waypoint.getPenalty()-5f);
-			j = j + 1;
-            if (waypoint.getPenalty() < 0)
-                waypoint.setPenalty(0);
-		}
-
-        WaypointsNearNow = Navigator.FindWayPointsNear(transform.position, resourceManager.Nodes, resourceManager.nodeSize);
-        foreach (WayPoint waypoint in WaypointsNearNow)
+    void BuildPath()
+    {
+        if (!enemyHealth.isDead)
         {
-            oldList.Add(waypoint.getPenalty());
-            waypoint.setPenalty(waypoint.getPenalty() + 5);
-        }
+            Path = Navigator.Path(transform.position - new Vector3(0f, transform.position.y, 0f), PlayerController.location, resourceManager.nodeSize, resourceManager.Nodes, dfactor);
+            Path2 = Navigator.Path(transform.position - new Vector3(0f, transform.position.y, 0f), PlayerController.location, resourceManager.nodeSize, resourceManager.Nodes);
 
-        WaypointsNearOld = WaypointsNearNow;
-	}
+            i = 0;
+            int j = 0;
+
+            foreach (WayPoint waypoint in WaypointsNearOld)
+            {
+                waypoint.setPenalty(waypoint.getPenalty() - 5f);
+                j = j + 1;
+                if (waypoint.getPenalty() < 0)
+                    waypoint.setPenalty(0);
+            }
+
+            WaypointsNearNow = Navigator.FindWayPointsNear(transform.position, resourceManager.Nodes, resourceManager.nodeSize);
+            foreach (WayPoint waypoint in WaypointsNearNow)
+            {
+                oldList.Add(waypoint.getPenalty());
+                waypoint.setPenalty(waypoint.getPenalty() + 5);
+            }
+
+            WaypointsNearOld = WaypointsNearNow;
+        }
+    }
 
 
 }

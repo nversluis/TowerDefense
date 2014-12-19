@@ -78,7 +78,7 @@ NavMeshSettings:
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 100000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
-  m_PrefabInternal: {fileID: 478950711}
+  m_PrefabInternal: {fileID: 71318575}
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 14726754}
@@ -95,7 +95,7 @@ MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854,
     type: 2}
-  m_PrefabInternal: {fileID: 478950711}
+  m_PrefabInternal: {fileID: 71318575}
   m_GameObject: {fileID: 14726752}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -110,11 +110,11 @@ MonoBehaviour:
   torch: {fileID: 100012, guid: 3abc6258d3b3848199581033a47549d6, type: 2}
   length: 10
   width: 10
-  planewidth: 12
+  planewidth: 10
   height: 3
-  nodeSize: 4
+  nodeSize: 2.5
   NumberOfPaths: 3
-  drawNavigationGrid: 0
+  drawNavigationGrid: 1
   enemyTag: Enemy
   enemyGuyant: {fileID: 100052, guid: 6a25f25271f527644ab0b18b0e7c536e, type: 2}
   enemyGwarf: {fileID: 0}
@@ -149,7 +149,7 @@ MonoBehaviour:
   magicBulletSound: {fileID: 8300000, guid: b87f856579306f4479099fc0301b292f, type: 3}
   backgroundMusic: {fileID: 8300000, guid: d27975801f9078a498ff2b86f1b7b508, type: 3}
   damageText: {fileID: 100000, guid: 2173d4d4ee922db4a92d3e0e7293b9c8, type: 2}
-  gui: {fileID: 174516, guid: 8024b87a1ed91d1428251d98e7b6ea61, type: 2}
+  gui: {fileID: 100046, guid: 86e64ff5e213b924a967ec6930d8bf14, type: 2}
   lengthMinimap: 200
   heightMinimap: 200
   editorPlane: {fileID: 100000, guid: 4399a3da2ea28304bae6812a147e5855, type: 2}
@@ -162,7 +162,7 @@ MonoBehaviour:
 Transform:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
-  m_PrefabInternal: {fileID: 478950711}
+  m_PrefabInternal: {fileID: 71318575}
   m_GameObject: {fileID: 14726752}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 42.2823257, y: 77.3980255, z: 60.808609}
@@ -170,46 +170,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
---- !u!1 &238715492
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 238715494}
-  - 114: {fileID: 238715493}
-  m_Layer: 0
-  m_Name: TowerVariables
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &238715493
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 238715492}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aaea5210c47d5e6499666061457c1bfe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &238715494
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 238715492}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
---- !u!1001 &478950711
+--- !u!1001 &71318575
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -249,18 +210,53 @@ Prefab:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
-      propertyPath: speedReduceRate
-      value: .5
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
-      propertyPath: coolDownTimeTower1
-      value: .5
-      objectReference: {fileID: 0}
+      propertyPath: gui
+      value: 
+      objectReference: {fileID: 100046, guid: 86e64ff5e213b924a967ec6930d8bf14, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
   m_RootGameObject: {fileID: 14726752}
   m_IsPrefabParent: 0
   m_IsExploded: 1
+--- !u!1 &238715492
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 238715494}
+  - 114: {fileID: 238715493}
+  m_Layer: 0
+  m_Name: TowerVariables
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &238715493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 238715492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaea5210c47d5e6499666061457c1bfe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &238715494
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 238715492}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
 --- !u!1 &854036926
 GameObject:
   m_ObjectHideFlags: 0
