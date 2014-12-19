@@ -81,16 +81,22 @@ public class GUIScript : MonoBehaviour {
     private List<Text> itemTextList = new List<Text>();
 
     [Header("Pause menu canvas")]
-    public Canvas canvas;
+    public GameObject canvas;
     private bool pause;
 
     [Header("Crosshair")]
     public GameObject crosshair;
 
+    // Scripts
+    private GameObject playerObject;
+    private GameObject cameraObject;
+    private PlayerController playerScript;
+    private CameraController cameraScript;
+
     // Initialize a public variable containing all player data
     public static PlayerData player = new PlayerData();
 
-	void Awake () {
+	void Start () {
         /* Get private components */
 
         // Skills
@@ -115,8 +121,7 @@ public class GUIScript : MonoBehaviour {
         towerText6 = tower6.GetComponentInChildren<Text>();
         towerText7 = tower7.GetComponentInChildren<Text>();
         towerText8 = tower8.GetComponentInChildren<Text>();
-
-
+        
         // Items
 
         itemText1 = GetComponentInChildren<Text>();
@@ -124,7 +129,13 @@ public class GUIScript : MonoBehaviour {
         itemText3 = GetComponentInChildren<Text>();
         itemText4 = GetComponentInChildren<Text>();
 
+        // Scripts
 
+        playerObject = GameObject.Find("Player");
+        cameraObject = GameObject.Find("Main Camera");
+
+        playerScript = playerObject.GetComponent<PlayerController>();
+        cameraScript = cameraObject.GetComponent<CameraController>();
 
         /* Build lists */
 
@@ -209,7 +220,7 @@ public class GUIScript : MonoBehaviour {
         }
 
         // Pause menu
-        canvas.enabled = false;
+        canvas.SetActive(false);
         pause = false;
 
         // Crosshair
@@ -225,6 +236,8 @@ public class GUIScript : MonoBehaviour {
         UpdateScore();
         UpdateGold();
         UpdateStats();
+        UpdateTowers();
+        UpdateItems();
 	}
 
     void Update() {
@@ -232,15 +245,23 @@ public class GUIScript : MonoBehaviour {
         if(Input.GetKeyDown("escape")) {
             if(pause == false) {
                 crosshair.SetActive(false);
+                playerScript.enabled = false;
+                cameraScript.enabled = false;
+                Screen.lockCursor = false;
+                Screen.showCursor = true;
                 Time.timeScale = 0;
-                canvas.enabled = true;
+                canvas.SetActive(true);
                 pause = true;
             }
             else {
                 pause = false;
-                canvas.enabled = false;
+                canvas.SetActive(false);
                 Time.timeScale = 1;
                 crosshair.SetActive(true);
+                Screen.showCursor = true;
+                Screen.lockCursor = true;
+                playerScript.enabled = true;
+                cameraScript.enabled = true;
             }
         }
     }
@@ -368,9 +389,13 @@ public class GUIScript : MonoBehaviour {
     // Functions for the quit and resume buttons
     public void Resume() {
         pause = false;
-        canvas.enabled = false;
+        canvas.SetActive(false);
         Time.timeScale = 1;
         crosshair.SetActive(true);
+        Screen.showCursor = false;
+        Screen.lockCursor = true;
+        playerScript.enabled = true;
+        cameraScript.enabled = true;
     }
 
     public void Quit() {

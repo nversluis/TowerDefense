@@ -42,9 +42,12 @@ public class PlayerData {
         agilityStat = 10;
         selectedTower = 0;
         skillset = new List<Skill>();
-        skillset.Add(new Skill());
         inventory = new List<Item>();
-        inventory.Add(new Item());
+
+        for(int i = 0; i < 4; i++) {
+            skillset.Add(new Skill());
+            inventory.Add(new Item());
+        }
     }
 
     /* GETTERS */

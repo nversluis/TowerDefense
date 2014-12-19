@@ -19,7 +19,6 @@ public class PlayerSpawner : MonoBehaviour
 		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
 		player = resourceManager.player;
 		camera = resourceManager.mainCamera;
-		Gui = resourceManager.gui;
         // create player and camera
         GameObject Player = (GameObject)Instantiate(player, transform.position + new Vector3(0,0.5f,0), Quaternion.identity);
 		Player.gameObject.transform.localScale = new Vector3(0.05f,0.05f,0.05f) ;
