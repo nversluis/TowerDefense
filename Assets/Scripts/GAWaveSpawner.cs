@@ -33,16 +33,22 @@ public class GAWaveSpawner : MonoBehaviour
     EnemyStats enemyStats;
     EnemyHealth enemyHealth;
 
+	private GameObject ResourceManagerObj;
+	private ResourceManager resourceManager;
 
     // Use this for initialization
     void Start()
     {
+		ResourceManagerObj = GameObject.Find ("ResourceManager");
+		resourceManager = ResourceManagerObj.GetComponent<ResourceManager>();
         allEnemies = new ArrayList();
         currentGen = new ArrayList();
         nextGen = new ArrayList();
         generateWave();
         currentTotalStatPoints = totalStatPointsPerWave / maxEnemies;
         Debug.Log("Wave " + currentWave + " / " + maxWaves);
+		minAantalEnemiesPerWave = resourceManager.minEnemies;
+		maxAantalEnemiesPerWave = resourceManager.maxEnemies;
     }
 
     // Update is called once per frame

@@ -12,6 +12,7 @@ public class EnemyScript : MonoBehaviour
     List<Vector3> Path2;
     EnemyHealth enemyHealth;
 	int i = 0;
+	float normalWalkSpeed;
 	float walkSpeed;
 	float orcHeigthSpawn = 3.27f;
 	CharacterController characterController;
@@ -29,16 +30,19 @@ public class EnemyScript : MonoBehaviour
 
     GameObject player;
 
+	private float speedReduce;
+	public bool isSlowed;
 	// Use this for initialization
 	void Start ()
 	{
+		isSlowed = false;
         enemystats = GetComponent<EnemyStats>();
 		ResourceManagerObj = GameObject.Find ("ResourceManager");
 		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
 		grid = resourceManager.Nodes;
 		float nodeSize = resourceManager.nodeSize;
         drawPath = resourceManager.drawPath;
-        walkSpeed = resourceManager.walkSpeed * enemystats.speedMultiplier;
+        normalWalkSpeed = resourceManager.walkSpeed * enemystats.speedMultiplier;
         enemyHealth = GetComponent<EnemyHealth>();
         player = GameObject.Find("Player");
 
@@ -58,7 +62,12 @@ public class EnemyScript : MonoBehaviour
 	//Update is called once per frame
 	void FixedUpdate ()
 	{
-
+		if (isSlowed) {
+			speedReduce = resourceManager.speedReduceRate;
+		} else {
+			speedReduce = 1;
+		}
+		walkSpeed = normalWalkSpeed * speedReduce;
 		if (Path != null) {
 			Vector3 dir;
 
@@ -143,7 +152,7 @@ public class EnemyScript : MonoBehaviour
 
 		Path = Navigator.Path (transform.position - new Vector3(0f,transform.position.y,0f), PlayerController.location, resourceManager.nodeSize, resourceManager.Nodes, dfactor);
         Path2 = Navigator.Path(transform.position - new Vector3(0f, transform.position.y, 0f), PlayerController.location, resourceManager.nodeSize, resourceManager.Nodes);
-        
+
         i = 0;
 		int j = 0;
 
@@ -163,4 +172,6 @@ public class EnemyScript : MonoBehaviour
 
         WaypointsNearOld = WaypointsNearNow;
 	}
+
+
 }
