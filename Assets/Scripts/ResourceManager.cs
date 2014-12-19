@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 //use this to declare all variables
 public class ResourceManager : MonoBehaviour {
-	//private PlayerData playerData = GUIScript.player;
+	private PlayerData playerData = GUIScript.player;
 
 	//prefabs
 	[Header("Costs")]
-	public int gold;
+	public int startGold;
 	public int costMagicTower;
 	public int costIceTrap;
 	public int costFireTrap;
@@ -111,9 +111,9 @@ public class ResourceManager : MonoBehaviour {
 	public static int mostNorth;
 	public static int mostSouth;
 
-//	void Start(){
-//		playerData.SetGold (gold);
-//	}
+	void Start(){
+		playerData.addGold (startGold);
+	}
 
 
 }

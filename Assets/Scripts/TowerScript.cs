@@ -9,6 +9,7 @@ public class TowerScript : MonoBehaviour
     //Initizialising
     private GameObject ResourceManagerObj;
     private ResourceManager resourceManager;
+	private PlayerData playerData = GUIScript.player;
 
 	private GameObject realTower;
 	private GameObject redTower;
@@ -31,7 +32,7 @@ public class TowerScript : MonoBehaviour
     //Method to build a tower. Will destroy the prefab and build a new tower there.
     public void BuildTower()
     {
-		if (cost <= resourceManager.gold) {
+		if (cost <= playerData.getGold()) {
 			GameObject tower = (GameObject)Instantiate (realTower, transform.position, transform.rotation); //The instantiantion of the tower
 			tower.gameObject.transform.localScale = new Vector3 (1, 1, 1) * planeW / 10; //Scaling the tower
 
@@ -41,6 +42,7 @@ public class TowerScript : MonoBehaviour
 			Destroy (gameObject); // Destroy all hotspots
 			tower.SetActiveRecursively (true); //Active its children (the trigger)
 			gameObject.layer = 13;
+			playerData.addGold (-cost);
 		}else {
 			Debug.Log("Not enough gold to build " + realTower.name);
 		}

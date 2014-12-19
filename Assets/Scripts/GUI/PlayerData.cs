@@ -34,7 +34,7 @@ public class PlayerData {
     public PlayerData() {
         currentHP = 100;
         maxHP = 100;
-        gold = 1337;
+        gold = 0;
         score = 9001;
         attackStat = 10;
         magicStat = 10;
@@ -101,9 +101,9 @@ public class PlayerData {
          maxHP = HP;
     }
 
-    public void setGold(float gold) {
-        this.gold = gold;
-    }
+	public void addGold(float gold){
+		this.gold += gold;
+	}
 
     public void setScore(float score) {
         this.score = score;
