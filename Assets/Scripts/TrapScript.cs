@@ -10,6 +10,7 @@ public class TrapScript : MonoBehaviour {
 	private GameObject ResourceManagerObj;
 	private ResourceManager resourceManager;
 	private int cost;
+	private PlayerData playerData = GUIScript.player;
 	// Use this for initialization
 	void Start () {
 
@@ -36,7 +37,7 @@ public class TrapScript : MonoBehaviour {
 
 	}
 	public void BuildTrap(){
-		if (cost <= resourceManager.gold) {
+		if (cost <= playerData.getGold()) {
 			GameObject trap = (GameObject)Instantiate (realTrap, transform.position, Quaternion.identity);//Instantiantion of the tower
 			trap.gameObject.transform.localScale = new Vector3 (1, 1, 1) * planeW / 20;
 			trap.transform.parent = gameObject.transform.parent;
@@ -45,7 +46,7 @@ public class TrapScript : MonoBehaviour {
 			trap.tag = "Tower";
 			WallScript.DestroyHotSpots ();
 			trap.SetActiveRecursively (true); 
-			resourceManager.gold -= cost;
+			playerData.addGold (-cost);
 		} else {
 			Debug.Log("Not enough gold to build " + realTrap.name);
 		}

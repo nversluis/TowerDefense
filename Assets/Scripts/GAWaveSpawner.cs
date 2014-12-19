@@ -35,6 +35,7 @@ public class GAWaveSpawner : MonoBehaviour
 
 	private GameObject ResourceManagerObj;
 	private ResourceManager resourceManager;
+	private PlayerData playerData = GUIScript.player;
 
     // Use this for initialization
     void Start()
@@ -70,7 +71,7 @@ public class GAWaveSpawner : MonoBehaviour
         {
             if (AllEnemiesDead())
             {
-				resourceManager.gold += resourceManager.rewardWave;
+				playerData.addGold(resourceManager.rewardWave);
                 if (currentWave < maxWaves)
                 {
                     // Genereer de volgende wave

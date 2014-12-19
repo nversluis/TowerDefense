@@ -55,7 +55,12 @@ public class DiscoTowerScript : MonoBehaviour {
 
     void Update()
     {
-
+		for (int i = 0; i < enemysInRange.Count; i++) {
+			EnemyHealth enemyHealth = enemysInRange [i].collider.GetComponent<EnemyHealth> ();
+			if (enemyHealth.isDead) {
+				enemysInRange.Remove (enemysInRange [i]);
+			}
+		}
     }
 
     void Shooting()

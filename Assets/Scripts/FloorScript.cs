@@ -7,6 +7,8 @@ public class FloorScript : MonoBehaviour {
 	private int i;
 	private GameObject ResourceManagerObj;
 	private ResourceManager resourceManager;
+	private PlayerData playerData = GUIScript.player;
+
 	void Start(){
 		i = 0;
 		ResourceManagerObj = GameObject.Find ("ResourceManager");
