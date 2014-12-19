@@ -15,7 +15,6 @@ public class GoalScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Debug.Log(lives);
         livesText.text = lives.ToString();
 
         if (lives < 1)

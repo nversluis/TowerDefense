@@ -53,6 +53,7 @@ public class EnemyHealth : MonoBehaviour {
         if (hasWon)
         {
             GoalScript.lives -= 1;
+            hasWon = false;
         }
 
         if(isDead)
