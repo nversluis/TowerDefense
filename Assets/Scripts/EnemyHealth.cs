@@ -48,9 +48,11 @@ public class EnemyHealth : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        
         if(isDead)
         {
             counter += Time.deltaTime;
+            collider.enabled = (false);
             if (counter > 4)
             {
                 //Destroy(this.gameObject);
@@ -58,6 +60,11 @@ public class EnemyHealth : MonoBehaviour {
                 counter = 0;
             }
         }
+        else
+        {
+            collider.enabled = true;
+        }
+
     }
 
 	public void TakeDamage(int amount,string damageType)
