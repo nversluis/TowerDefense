@@ -80,6 +80,13 @@ public class GUIScript : MonoBehaviour {
     private List<Image> itemIconList = new List<Image>();
     private List<Text> itemTextList = new List<Text>();
 
+    [Header("Pause menu canvas")]
+    public Canvas canvas;
+    private bool pause;
+
+    [Header("Crosshair")]
+    public GameObject crosshair;
+
     // Initialize a public variable containing all player data
     public static PlayerData player = new PlayerData();
 
@@ -200,9 +207,18 @@ public class GUIScript : MonoBehaviour {
             tx.enabled = true;
             tx.text = i.ToString();
         }
+
+        // Pause menu
+        canvas.enabled = false;
+        pause = false;
+
+        // Crosshair
+        crosshair.SetActive(true);
+
 	}
 	
 	void FixedUpdate () {
+        // Update variables that need to be updated frequently
         UpdateFrontHP();
         UpdateRearHP();
         UpdateCooldowns();
@@ -210,6 +226,24 @@ public class GUIScript : MonoBehaviour {
         UpdateGold();
         UpdateStats();
 	}
+
+    void Update() {
+        // Pause menu behaviour
+        if(Input.GetKeyDown("escape")) {
+            if(pause == false) {
+                crosshair.SetActive(false);
+                Time.timeScale = 0;
+                canvas.enabled = true;
+                pause = true;
+            }
+            else {
+                pause = false;
+                canvas.enabled = false;
+                Time.timeScale = 1;
+                crosshair.SetActive(true);
+            }
+        }
+    }
 
     void UpdateGold() {
         goldText.text = player.getGold().ToString();
@@ -331,4 +365,17 @@ public class GUIScript : MonoBehaviour {
         }
     }
 
+    // Functions for the quit and resume buttons
+    public void Resume() {
+        pause = false;
+        canvas.enabled = false;
+        Time.timeScale = 1;
+        crosshair.SetActive(true);
+    }
+
+    public void Quit() {
+        pause = false;
+        Time.timeScale = 1;
+        Application.LoadLevel("Main Menu");
+    }
 }
