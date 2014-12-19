@@ -22,8 +22,11 @@ public class ResourceManager : MonoBehaviour {
 	public GameObject wallPrefab;
 	public GameObject EnemySpawner;
 	public GameObject Minimapcamera;
+
+	[Header("Decorations")]
 	public GameObject Gate;
 	public GameObject torch;
+	public GameObject Goal;
 
 	//float&ints map generate
 	[Header("Map Generate")]
