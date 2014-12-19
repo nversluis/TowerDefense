@@ -6,6 +6,7 @@ public class EnemyHealth : MonoBehaviour {
 
 	private GameObject ResourceManagerObj;
 	private ResourceManager resourceManager;
+	private PlayerData playerData = GUIScript.player;
 
     public int startingHealth = 100;
     public int currentHealth;
@@ -120,7 +121,7 @@ public class EnemyHealth : MonoBehaviour {
 
     public void Death()
     {
-		resourceManager.gold += resourceManager.rewardEnemy;
+		playerData.addGold(resourceManager.rewardEnemy);
         List<WayPoint> WPoints = new List<WayPoint>();
         WPoints = Navigator.FindWayPointsNear(transform.position, resourceManager.Nodes, nodeSize);
         foreach (WayPoint wp in WPoints)

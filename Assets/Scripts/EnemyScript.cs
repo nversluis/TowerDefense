@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class EnemyScript : MonoBehaviour
 {
@@ -34,7 +35,6 @@ public class EnemyScript : MonoBehaviour
 	private float speedReduce;
 	public bool isSlowed;
 
-    public bool reachedEnd = false;
 	// Use this for initialization
 	void Start ()
 	{
@@ -72,7 +72,8 @@ public class EnemyScript : MonoBehaviour
 			speedReduce = 1;
 		}
 		walkSpeed = normalWalkSpeed * speedReduce;
-		if (Path != null) {
+
+        if (Path != null) {
 			Vector3 dir;
 
             if (i != Path.Count-1)
@@ -118,7 +119,6 @@ public class EnemyScript : MonoBehaviour
 				rigidbody.velocity = Vector3.zero;
                 walking = false;
                 attacking = true;
-      
 			}
 
             if (enemyHealth.isDead)
@@ -151,8 +151,8 @@ public class EnemyScript : MonoBehaviour
         }
 
         if ((goal.transform.position-transform.position).magnitude < 2f){
-            reachedEnd = true;
-            this.transform.position = enemyHealth.deathPosition;
+            enemyHealth.hasWon = true;
+            transform.position = enemyHealth.deathPosition;
 
 
         }
@@ -162,7 +162,7 @@ public class EnemyScript : MonoBehaviour
     {
         if (!enemyHealth.isDead)
         {
-            Path = Navigator.Path(transform.position - new Vector3(0f, transform.position.y, 0f), goal.transform.position - new Vector3(0f, goal.transform.position.y, 0f), nodeSize, grid, dfactor);
+            Path = Navigator.Path(transform.position - new Vector3(0f, transform.position.y, 0f), goal.transform.position - new Vector3(0f, goal.transform.position.y, 0f), resourceManager.nodeSize, resourceManager.Nodes, dfactor);
             Path2 = Navigator.Path(transform.position - new Vector3(0f, transform.position.y, 0f), goal.transform.position - new Vector3(0f, goal.transform.position.y, 0f), resourceManager.nodeSize, resourceManager.Nodes);
 
             i = 0;

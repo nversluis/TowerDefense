@@ -37,6 +37,8 @@ public class CameraController : MonoBehaviour {
 		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
         Player = GameObject.Find("Player");
 		camOffset = resourceManager.camOffset;
+        //Set cursor to center of screen
+        Screen.lockCursor = true;
 	}
 
     // Method for determining mouse input to calculate the camera position
@@ -120,9 +122,6 @@ public class CameraController : MonoBehaviour {
         {
 			hitObject = hit.collider.gameObject;
         }
-
-		//Set cursor to center of screen
-		Screen.lockCursor = true;
 
 	}
 }

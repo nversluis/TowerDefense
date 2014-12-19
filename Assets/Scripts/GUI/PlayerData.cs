@@ -34,7 +34,7 @@ public class PlayerData {
     public PlayerData() {
         currentHP = 100;
         maxHP = 100;
-        gold = 1337;
+        gold = 0;
         score = 9001;
         attackStat = 10;
         magicStat = 10;
@@ -42,9 +42,12 @@ public class PlayerData {
         agilityStat = 10;
         selectedTower = 0;
         skillset = new List<Skill>();
-        skillset.Add(new Skill());
         inventory = new List<Item>();
-        inventory.Add(new Item());
+
+        for(int i = 0; i < 4; i++) {
+            skillset.Add(new Skill());
+            inventory.Add(new Item());
+        }
     }
 
     /* GETTERS */
@@ -101,9 +104,9 @@ public class PlayerData {
          maxHP = HP;
     }
 
-    public void setGold(float gold) {
-        this.gold = gold;
-    }
+	public void addGold(float gold){
+		this.gold += gold;
+	}
 
     public void setScore(float score) {
         this.score = score;
