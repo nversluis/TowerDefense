@@ -7,7 +7,8 @@ public class FloorScript : MonoBehaviour {
 	private int i;
 	private GameObject ResourceManagerObj;
 	private ResourceManager resourceManager;
-	void Start(){i = 0;
+	void Start(){
+		i = 0;
 		ResourceManagerObj = GameObject.Find ("ResourceManager");
 		resourceManager = ResourceManagerObj.GetComponent<ResourceManager>();
 	}
