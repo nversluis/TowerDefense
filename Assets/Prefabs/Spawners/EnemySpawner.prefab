@@ -63,8 +63,8 @@ MonoBehaviour:
   spawning: 1
   maxWaves: 30
   currentWave: 1
-  minAantalEnemiesPerWave: 10
-  maxAantalEnemiesPerWave: 40
+  minAantalEnemiesPerWave: 1
+  maxAantalEnemiesPerWave: 1
   maxX: 1
   maxZ: 1
   totalStatPointsPerWave: 600

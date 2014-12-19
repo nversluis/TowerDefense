@@ -32,6 +32,8 @@ public class ResourceManager : MonoBehaviour {
 	public List<WayPoint> Nodes;
     public float walkSpeed;
     public bool drawPath;
+	public int maxEnemies;
+	public int minEnemies;
 
 	[Header("Waves")]
 	public int maxWaves;
@@ -48,6 +50,7 @@ public class ResourceManager : MonoBehaviour {
 	public GameObject poisonTrap;
 	public GameObject fireTrap;
 	public GameObject iceTrap;
+	public float speedReduceRate;
 	public GameObject spearTrap;
 	[Header("Hotspots")]
 	public GameObject magicTowerHotSpot;

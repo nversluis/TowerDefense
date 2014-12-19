@@ -13,6 +13,8 @@ public class EnemyMovement : MonoBehaviour
     public float gateDistance;
     public float playerDistance;
     public float towerDistance;
+	public static bool isSlowed;
+
 
     NavMeshAgent nav;
 
@@ -24,6 +26,7 @@ public class EnemyMovement : MonoBehaviour
         playerHealth = player.GetComponent<PlayerHealth>();
         enemyHealth = GetComponent<EnemyHealth>();
         nav = GetComponent<NavMeshAgent>();
+		isSlowed = false;
     }
 
 	// Use this for initialization
@@ -31,7 +34,15 @@ public class EnemyMovement : MonoBehaviour
     {
         nav.speed = 20;
 	}
-	
+
+	private void slowDown(){
+
+	}
+
+	public bool SlowedDown(){
+		return isSlowed;
+		}
+
 	// Update is called once per frame
 	void Update () {
 
