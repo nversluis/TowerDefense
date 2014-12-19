@@ -121,8 +121,8 @@ MonoBehaviour:
   enemyGrobble: {fileID: 0}
   walkSpeed: 7
   drawPath: 1
-  maxEnemies: 10
-  minEnemies: 5
+  maxEnemies: 2
+  minEnemies: 4
   maxWaves: 5
   currentWave: 1
   maxTowerDistance: 50
@@ -255,6 +255,14 @@ Prefab:
     - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
       propertyPath: coolDownTimeTower1
       value: .5
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: minEnemies
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: maxEnemies
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}

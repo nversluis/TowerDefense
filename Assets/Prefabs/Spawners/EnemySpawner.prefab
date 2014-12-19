@@ -35,43 +35,47 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 944f66ad451dba04eb2086e397509f88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxEnemies: 1
+  maxEnemies: 15
   spawning: 1
+  toenameAantalEnemiesPerWave: 5
   maxX: .300000012
   maxZ: 0
-  currentTotalStatPoints: 100
-  delta: 50
+  currentTotalStatPoints: 250
+  delta: 30
 --- !u!114 &11415504
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 19f02f54558312d42b259d7bf2b2bef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 100052, guid: 6a25f25271f527644ab0b18b0e7c536e, type: 2}
   nextGenEnemy: {fileID: 0}
-  maxEnemies: 10
+  maxEnemies: 1
   spawning: 1
   maxWaves: 30
   currentWave: 1
-  minAantalEnemiesPerWave: 1
-  maxAantalEnemiesPerWave: 1
+  minAantalEnemiesPerWave: 2
+  maxAantalEnemiesPerWave: 4
+  toenameAantalEnemiesPerWave: 5
   maxX: 1
   maxZ: 1
-  totalStatPointsPerWave: 600
-  toenameStatPointsPerWave: 300
+  totalStatPointsPerWave: 100
+  toenameStatPointsPerWave: 10
   currentTotalStatPoints: 100
-  toenameTotalStatsPerWave: 50
   spawnPosition: {x: 0, y: 0, z: 0}
+  counter: 0
+  spawnTime: 1
+  timeTillNextWave: 10
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

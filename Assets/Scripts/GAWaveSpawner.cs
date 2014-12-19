@@ -12,18 +12,19 @@ public class GAWaveSpawner : MonoBehaviour
     public int maxWaves = 10;
     public int currentWave = 1;
 
-    public int minAantalEnemiesPerWave = 2;
-    public int maxAantalEnemiesPerWave = 10;
+    public int minAantalEnemiesPerWave;
+    public int maxAantalEnemiesPerWave;
+    public int toenameAantalEnemiesPerWave = 5;
 
     public float maxX = 1;
     public float maxZ = 1;
     float orcHeigthSpawn = 3.27f;
 
-    public int totalStatPointsPerWave = 600;
-    public int toenameStatPointsPerWave = 300;
+    public int totalStatPointsPerWave = 1400;
+    public int toenameStatPointsPerWave = 200;
 
     public int currentTotalStatPoints;
-    public int toenameTotalStatsPerWave = 50;
+
 
     public Vector3 spawnPosition;
 
@@ -33,22 +34,27 @@ public class GAWaveSpawner : MonoBehaviour
     EnemyStats enemyStats;
     EnemyHealth enemyHealth;
 
-	private GameObject ResourceManagerObj;
-	private ResourceManager resourceManager;
+    private GameObject ResourceManagerObj;
+    private ResourceManager resourceManager;
+
+    public float counter;
+    public float spawnTime = 2; // in seconden
+    public float timeTillNextWave = 10;
 
     // Use this for initialization
     void Start()
     {
-		ResourceManagerObj = GameObject.Find ("ResourceManager");
-		resourceManager = ResourceManagerObj.GetComponent<ResourceManager>();
+        ResourceManagerObj = GameObject.Find("ResourceManager");
+        resourceManager = ResourceManagerObj.GetComponent<ResourceManager>();
         allEnemies = new ArrayList();
         currentGen = new ArrayList();
         nextGen = new ArrayList();
         generateWave();
         currentTotalStatPoints = totalStatPointsPerWave / maxEnemies;
-        Debug.Log("Wave " + currentWave + " / " + maxWaves);
-		minAantalEnemiesPerWave = resourceManager.minEnemies;
-		maxAantalEnemiesPerWave = resourceManager.maxEnemies;
+        //Debug.Log("Wave " + currentWave + " / " + maxWaves);
+        minAantalEnemiesPerWave = resourceManager.minEnemies;
+        maxAantalEnemiesPerWave = resourceManager.maxEnemies;
+        Debug.Log(maxEnemies);
     }
 
     // Update is called once per frame
@@ -58,7 +64,11 @@ public class GAWaveSpawner : MonoBehaviour
         {
             if (allEnemies.Count < maxEnemies)
             {
-                SpawnEnemy();
+                float randomFloat = Random.Range(0.0f, 1.0f);
+                if (randomFloat < (float)1 / (spawnTime * 60))
+                {
+                    SpawnEnemy();
+                }
             }
             else
             {
@@ -72,8 +82,11 @@ public class GAWaveSpawner : MonoBehaviour
             {
                 if (currentWave < maxWaves)
                 {
+                    minAantalEnemiesPerWave += toenameAantalEnemiesPerWave;
+                    maxAantalEnemiesPerWave += toenameAantalEnemiesPerWave;
                     // Genereer de volgende wave
                     generateWave();
+                    Debug.Log(maxEnemies);
                     // Verhoog de totale stat points
                     totalStatPointsPerWave += toenameStatPointsPerWave;
                     // Spawnt nieuwe enemies als er een te kort is aan enemies voor de volgende generatie.
@@ -101,11 +114,13 @@ public class GAWaveSpawner : MonoBehaviour
         if (allEnemies.Count < maxEnemies)
         {
             int difference = maxEnemies - allEnemies.Count;
+            Debug.Log("difference" + difference);
             for (int i = 0; i < difference; i++)
             {
                 SpawnEnemy();
             }
         }
+        Debug.Log("AllEnemies.COunt" + allEnemies.Count);
     }
 
     void setCurrentGen()
@@ -178,14 +193,19 @@ public class GAWaveSpawner : MonoBehaviour
 
     void Respawn()
     {
-        foreach (GameObject enemy in currentGen)
+        float randomFloat = Random.Range(0.0f, 1.0f);
+        int i = 0;
+
+        if (randomFloat < (float) 1 / (spawnTime * 60) && i < currentGen.Count)
         {
-            enemy.GetComponent<EnemyHealth>().isDead = false;
-            enemy.GetComponent<EnemyStats>().respawn = true;
-            enemy.GetComponent<EnemyStats>().totalStatPoints = totalStatPointsPerWave / maxEnemies;
-            enemy.transform.position = enemy.GetComponent<EnemyHealth>().spawnPosition;
+            ((GameObject)currentGen[i]).GetComponent<EnemyHealth>().isDead = false;
+            ((GameObject)currentGen[i]).GetComponent<EnemyStats>().respawn = true;
+            ((GameObject)currentGen[i]).GetComponent<EnemyStats>().totalStatPoints = totalStatPointsPerWave / maxEnemies;
+            ((GameObject)currentGen[i]).transform.position = ((GameObject)currentGen[i]).GetComponent<EnemyHealth>().spawnPosition;
+            i++;
         }
     }
+
 
     bool AllEnemiesDead()
     {
@@ -197,7 +217,8 @@ public class GAWaveSpawner : MonoBehaviour
             {
                 aantal++;
             }
-        }       
+        }
+        Debug.Log(aantal + " / " + maxEnemies);
         return (aantal == maxEnemies);
     }
 

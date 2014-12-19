@@ -53,8 +53,8 @@ public class EnemyHealth : MonoBehaviour {
             counter += Time.deltaTime;
             if (counter > 4)
             {
-                //Destroy(this.gameObject);
-                this.transform.position = deathPosition;
+                Destroy(this.gameObject);
+                //this.transform.position = deathPosition;
                 counter = 0;
             }
         }
