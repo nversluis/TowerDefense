@@ -48,7 +48,6 @@ public class EnemyHealth : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        
         if(isDead)
         {
             counter += Time.deltaTime;
@@ -60,6 +59,7 @@ public class EnemyHealth : MonoBehaviour {
                 counter = 0;
             }
         }
+
         else
         {
             collider.enabled = true;
