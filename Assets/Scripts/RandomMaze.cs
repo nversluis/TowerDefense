@@ -29,11 +29,11 @@ public class RandomMaze : MonoBehaviour
 	private GameObject Gate;
 	private GameObject torch;
 
-	private ArrayList positions = new ArrayList ();
+	private ArrayList positions;
 	//Positions of the floors
-	public static List<Vector3> NodesPos = new List<Vector3> ();
+	public static List<Vector3> NodesPos;
 	//Positions of the waypoints/nodes
-	public static List<WayPoint> Nodes = new List<WayPoint> ();
+	public static List<WayPoint> Nodes;
 	//List with all Nodes
     private static bool drawNavigationGrid;
 
@@ -61,8 +61,9 @@ public class RandomMaze : MonoBehaviour
 		torch = resourceManager.torch;
         drawNavigationGrid = resourceManager.drawNavigationGrid;
 
-
-
+		positions = new ArrayList ();
+		NodesPos = new List<Vector3> ();
+		Nodes = new List<WayPoint> ();
 		//Generate floors
 		GenerateFloor ();
 		//Generate walls
@@ -160,7 +161,6 @@ public class RandomMaze : MonoBehaviour
 			}
 
 		}
-		Debug.Log ("Noord: " + ResourceManager.mostNorth + " Zuid: " + ResourceManager.mostSouth + " East: " + ResourceManager.mostEast + " West: " + ResourceManager.mostWest);
 		GameObject floor2 = (GameObject)Instantiate (planePrefab, new Vector3 (endPos [0] * planewidth, 0, endPos [1] * planewidth), Quaternion.identity); //Generate floor at end position
 		floor2.gameObject.transform.localScale = new Vector3 (planewidth / 20, 0.1f, planewidth / 20);
 		floor2.transform.parent = gameObject.transform;

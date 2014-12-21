@@ -4,31 +4,27 @@ Direct3D:
     Version:  Direct3D 11.0 [level 11.0]
     Renderer: NVIDIA Quadro K1000M  (ID=0xffc)
     Vendor:   NVIDIA
-    VRAM:     1994 MB
+    VRAM:     1995 MB
 Begin MonoManager ReloadAssembly
-Platform assembly: C:\Users\Tiamur\Documents\TowerDefense\TD_Data\Managed\UnityEngine.dll (this message is harmless)
-Loading C:\Users\Tiamur\Documents\TowerDefense\TD_Data\Managed\UnityEngine.dll into Unity Child Domain
-Platform assembly: C:\Users\Tiamur\Documents\TowerDefense\TD_Data\Managed\Assembly-CSharp.dll (this message is harmless)
-Loading C:\Users\Tiamur\Documents\TowerDefense\TD_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
-Platform assembly: C:\Users\Tiamur\Documents\TowerDefense\TD_Data\Managed\UnityEngine.UI.dll (this message is harmless)
-Loading C:\Users\Tiamur\Documents\TowerDefense\TD_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-- Completed reload, in  0.043 seconds
-desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
+Platform assembly: C:\Users\Leon\Documents\Unity\TowerDefence\TD_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\Leon\Documents\Unity\TowerDefence\TD_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\Leon\Documents\Unity\TowerDefence\TD_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\Leon\Documents\Unity\TowerDefence\TD_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\Leon\Documents\Unity\TowerDefence\TD_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\Leon\Documents\Unity\TowerDefence\TD_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+- Completed reload, in  0.081 seconds
+desktop: 1920x1080 60Hz; virtual: 3840x1080 at -1920,0
 <RI> Initializing input.
 <RI> Input initialized.
-Platform assembly: C:\Users\Tiamur\Documents\TowerDefense\TD_Data\Managed\System.Core.dll (this message is harmless)
-Platform assembly: C:\Users\Tiamur\Documents\TowerDefense\TD_Data\Managed\System.dll (this message is harmless)
-UnloadTime: 2.646991 ms
-Noord: 2 Zuid: -3 East: 10 West: 0
- 
-(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+Platform assembly: C:\Users\Leon\Documents\Unity\TowerDefence\TD_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\Leon\Documents\Unity\TowerDefence\TD_Data\Managed\System.dll (this message is harmless)
+UnloadTime: 4.773667 ms
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
 
-Unloading 4 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+Unloading 25 unused Assets to reduce memory usage. Loaded Objects now: 1249.
+Total: 2.544349 ms (FindLiveObjects: 0.083443 ms CreateObjectMapping: 0.022757 ms MarkObjects: 0.857635 ms  DeleteObjects: 0.263716 ms)
 
-Unloading 29 unused Assets to reduce memory usage. Loaded Objects now: 5304.
-Total: 1.767933 ms (FindLiveObjects: 0.263271 ms CreateObjectMapping: 0.033020 ms MarkObjects: 0.633189 ms  DeleteObjects: 0.145914 ms)
-
-Wave 1 / 30
+Getting Data from TESTTTT
  
 (Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
 

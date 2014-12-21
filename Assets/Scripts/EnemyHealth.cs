@@ -45,6 +45,7 @@ public class EnemyHealth : MonoBehaviour {
 		textObject = resourceManager.damageText;
 		nodeSize = resourceManager.nodeSize;
         animator = GetComponent<Animator>();
+		startingHealth = 100;
     }
 
     // Update is called once per frame

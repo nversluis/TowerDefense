@@ -42,11 +42,11 @@ public class LevelEditor : MonoBehaviour
 	private Button currentButSelected;
 	private string currentFileSelected;
 	//colors
-	private Color cNoPlane;
-	private Color cStartEnd;
-	private Color cConnected;
-	private Color cNotConnected;
-	private Color cHighlighted;
+	private Color CnoPlane;
+	private Color CstartEnd;
+	private Color CConnected;
+	private Color CNotConnected;
+	private Color CHighlighted;
 	private Button prevBut;
 	private Button nextBut;
 	private bool drawNavGrid;
@@ -55,8 +55,6 @@ public class LevelEditor : MonoBehaviour
 	public InputField widthInput;
 	public Button SubmitButton;
 	public Button GenerateLevelButton;
-	public Button selectStart;
-	public Button selectEnd;
 	public Button selectNormal;
 	public InputField fileNameInput;
 	public Button saveLayout;
@@ -109,14 +107,14 @@ public class LevelEditor : MonoBehaviour
 		posConnected = new List<Vector3> ();
 		allPos = new List<GameObject> ();
 		currentPage = 1;
-		cNoPlane = resourceManager.noPlane;
-		cStartEnd = resourceManager.startOrEnd;
-		cConnected = resourceManager.connected;
-		cNotConnected = resourceManager.notConnected;
-		cHighlighted = resourceManager.highlighted;
+		CnoPlane = resourceManager.noPlane;
+		CstartEnd = resourceManager.startOrEnd;
+		CConnected = resourceManager.connected;
+		CNotConnected = resourceManager.notConnected;
+		CHighlighted = resourceManager.highlighted;
 		loadScreenOpen = false;
 		AppPath = Application.persistentDataPath + "/MapLayouts/";
-
+		type = 2;
 
 		SubmitButton.onClick.AddListener (delegate {
 			if (!loadScreenOpen)
@@ -130,14 +128,8 @@ public class LevelEditor : MonoBehaviour
 			else
 				setErrorTekst ("Can't do that while load screen is open");
 		});
-		selectStart.onClick.AddListener (delegate {		
-			SwitchType (0);
-		});
-		selectEnd.onClick.AddListener (delegate {
-			SwitchType (1);
-		});
 		selectNormal.onClick.AddListener (delegate {
-			SwitchType (2);
+			SwitchType ();
 		});
 
 		saveLayout.onClick.AddListener (delegate {
@@ -173,10 +165,7 @@ public class LevelEditor : MonoBehaviour
 				currentPage++;
 				ShowSavedMaps ();
 			}
-
 		});
-
-	
 		prevBut.onClick.AddListener (delegate {	
 			if (currentPage > 1) {
 				currentPage--;
@@ -252,38 +241,38 @@ public class LevelEditor : MonoBehaviour
 
 	}
 
-	public static bool checkConnected (GameObject plane, List<Vector3> posConnected, List<GameObject> allPos, ArrayList positions, float planewidth, int length, int width)
+	public static bool checkConnected (GameObject plane, List<Vector3> posConnected, List<GameObject> allPos, ArrayList positions, float planewidth, int length, int width,Color CConnected, Color CNotConnected, Color CstartEnd)
 	{
 		Vector3 posNormalized = plane.transform.position / planewidth;
 		bool res = (posConnected.Contains (posNormalized + new Vector3 (1, 0, 0)) || posConnected.Contains (posNormalized - new Vector3 (1, 0, 0)) || posConnected.Contains (posNormalized + new Vector3 (0, 0, 1)) || posConnected.Contains (posNormalized - new Vector3 (0, 0, 1)));
 		if (res) {
-			convertAround (plane, posConnected, allPos, positions, planewidth, length, width);
+			convertAround (plane, posConnected, allPos, positions, planewidth, length, width,CstartEnd,CNotConnected,CConnected);
 		}
 		return res;
 	}
 
 	//clear and recheck if everything is connected
-	public static void Recalculate (List<Vector3> posConnected, List<GameObject> allPos, ArrayList positions, float planewidth, int length, int width)
+	public static void Recalculate (List<Vector3> posConnected, List<GameObject> allPos, ArrayList positions, float planewidth, int length, int width, Color CConnected, Color CNotConnected, Color CstartEnd)
 	{
 		LevelEditor.posConnected = new List<Vector3> ();
 		foreach (GameObject plane in LevelEditor.allPos) {
-			if (plane.renderer.material.color == Color.yellow && plane != LevelEditor.startPlane && plane != LevelEditor.endPlane)
-				plane.renderer.material.color = Color.black;
+			if (plane.renderer.material.color == CConnected && plane != LevelEditor.startPlane && plane != LevelEditor.endPlane)
+				plane.renderer.material.color = CNotConnected;
 		}	
 		if (LevelEditor.startPlane != null) {
 			LevelEditor.posConnected.Add (LevelEditor.startPlane.transform.position / planewidth);
-			LevelEditor.convertAround (startPlane, posConnected, allPos, positions, planewidth, length, width);		
+			LevelEditor.convertAround (startPlane, posConnected, allPos, positions, planewidth, length, width,CstartEnd,CNotConnected,CConnected);		
 		}
 	}
 
 	//method that checks all positions around a new connected plane
-	public static void convertAround (GameObject plane, List<Vector3> posConnected, List<GameObject> allPos, ArrayList positions, float planewidth, int length, int width)
+	public static void convertAround (GameObject plane, List<Vector3> posConnected, List<GameObject> allPos, ArrayList positions, float planewidth, int length, int width, Color CstartEnd, Color CNotConnected, Color CConnected)
 	{
 		Vector2 planePos = new Vector2 (plane.transform.position.x, plane.transform.position.z) / planewidth;
 		int index = allPos.IndexOf (plane);
 		GameObject checkPlane;
 
-		//north
+
 		for (int i = 0; i < 4; i++) { //check in all directions
 			if (i == 0 && plane.transform.position.z / planewidth > 0 && (index - length) >= 0)
 				checkPlane = allPos [index - length];
@@ -298,13 +287,13 @@ public class LevelEditor : MonoBehaviour
 			}
 		
 			if (checkPlane != null) {
-				if (checkPlane.renderer.material.color == Color.black || (checkPlane.renderer.material.color == Color.blue && !posConnected.Contains (checkPlane.transform.position / planewidth))) {
+				if (checkPlane.renderer.material.color == CNotConnected || (checkPlane.renderer.material.color == CstartEnd && !posConnected.Contains (checkPlane.transform.position / planewidth))) {
 
-					if (checkPlane.renderer.material.color == Color.black) {
-						checkPlane.renderer.material.color = Color.yellow;
+					if (checkPlane.renderer.material.color == CNotConnected) {
+						checkPlane.renderer.material.color = CConnected;
 					}
 					LevelEditor.posConnected.Add (checkPlane.transform.position / planewidth);
-					convertAround (checkPlane, posConnected, allPos, positions, planewidth, length, width);
+					convertAround (checkPlane, posConnected, allPos, positions, planewidth, length, width,CstartEnd,CNotConnected,CConnected);
 				}
 			}
 		}
@@ -351,10 +340,20 @@ public class LevelEditor : MonoBehaviour
 		
 	}
 
-	private void SwitchType (int type1)
+	private void SwitchType ()
 	{
 		if (!loadScreenOpen) {
-			type = type1;
+			if (type == 0) {
+				type = 1;
+				selectNormal.GetComponentInChildren<Text> ().text = "End tile selected";
+			} else if (type == 1) {
+				type = 2;
+				selectNormal.GetComponentInChildren<Text> ().text = "Normal tile selected";
+			} else if (type == 2) {
+				type = 0;
+				selectNormal.GetComponentInChildren<Text> ().text = "Start tile selected";
+			}
+			selectNormal.GetComponentInChildren<Text> ().fontSize =32;
 		} else
 			setErrorTekst ("Can't do that while load screen is open");
 
@@ -403,6 +402,8 @@ public class LevelEditor : MonoBehaviour
 			for (int l = 0; l < length; l++) {
 				GameObject floor = (GameObject)Instantiate (editorPlane, new Vector3 (l * planewidth, 0, w * planewidth), Quaternion.identity);
 				floor.transform.localScale *= planewidth / 10;
+				floor.renderer.material.color = CnoPlane;
+				floor.transform.parent = transform;
 				floors.Add (floor);
 				allPos.Add (floor);
 			}
@@ -411,7 +412,7 @@ public class LevelEditor : MonoBehaviour
 		float tempW = width - 1;
 		cam.transform.position = new Vector3 (tempL / 2, 1, tempW / 2) * planewidth;
 		cam.orthographicSize = Mathf.Max (length, width + 1) * planewidth / 2;
-		cam.rect = new Rect (0.3f, 0.2f, 0.6f, 0.6f);
+		cam.rect = new Rect (0.25f, 0f, 0.5f, 0.6f);
 	}
 
 	//saves the position to file.
@@ -492,14 +493,14 @@ public class LevelEditor : MonoBehaviour
 			foreach (GameObject floor1 in floors) {
 				if (floor1.transform.position / planewidth == startPos3) {
 					LevelEditor.startPlane = floor1;	
-					floor1.renderer.material.color = Color.blue;
+					floor1.renderer.material.color = CstartEnd;
 					LevelEditor.posConnected.Add (floor1.transform.position / planewidth);
 				} else if (floor1.transform.position / planewidth == endPos3) {
 
 					LevelEditor.endPlane = floor1;
-					floor1.renderer.material.color = Color.blue;
+					floor1.renderer.material.color = CstartEnd;
 				} else if (positions.Contains (new Vector2 (floor1.transform.position.x, floor1.transform.position.z) / planewidth)) {			
-					floor1.renderer.material.color = Color.black;
+					floor1.renderer.material.color = CNotConnected;
 				}
 			}
 			LevelEditor.positions = positions;
@@ -507,7 +508,7 @@ public class LevelEditor : MonoBehaviour
 			//ChangeTypes camera position and size to fit in load screen
 			cam.transform.position = new Vector3 (length - 1, 1, width - 1) * resourceManager.planewidth / 2;
 			cam.orthographicSize = Mathf.Max (length, width + 1) * resourceManager.planewidth / 2;
-			cam.pixelRect = new Rect (Screen.width / 2, Screen.height / 2 - 100, 200, 200);
+			cam.rect = new Rect (0.4f, 0.3f, 0.4f, 0.4f);
 
 	
 		}
@@ -520,7 +521,7 @@ public class LevelEditor : MonoBehaviour
 			loadScreenOpen = false;
 			loadMapsPanel.SetActive (false);
 			//reconstruct connected
-			Recalculate (LevelEditor.posConnected, LevelEditor.allPos, LevelEditor.positions, resourceManager.planewidth, resourceManager.length, resourceManager.width);
+			Recalculate (LevelEditor.posConnected, LevelEditor.allPos, LevelEditor.positions, resourceManager.planewidth, resourceManager.length, resourceManager.width,CConnected,CNotConnected,CstartEnd);
 			amountOfEnds = 1;
 			amountOfStarts = 1;
 			LevelEditor.positions = positions;
@@ -531,7 +532,8 @@ public class LevelEditor : MonoBehaviour
 			//change camera position and size back
 			cam.transform.position = new Vector3 (length - 1, 1, width - 1) * resourceManager.planewidth / 2;
 			cam.orthographicSize = Mathf.Max (length, width + 1) * planewidth / 2;
-			cam.rect = new Rect (0.3f, 0.2f, 0.6f, 0.6f);
+			cam.rect = new Rect (0.25f, 0f, 0.5f, 0.6f);
+			cam.Render ();
 		} else {
 			setErrorTekst ("No File Selected");
 		}
@@ -548,11 +550,19 @@ public class LevelEditor : MonoBehaviour
 			if (child.gameObject.name.Contains ("load"))
 				Destroy (child.gameObject);
 		}
-		int rows = (int)Mathf.Floor (Screen.height / 40);
+		int rows = (int)Mathf.Floor ((Screen.height-200) / ((Screen.width+350)/35));
 		int columns = 1;
 		int filesPerPage = rows * columns;
+		nextBut.gameObject.SetActive (true);
+		prevBut.gameObject.SetActive (true);
 		nextBut.GetComponentInChildren<Text> ().text = "Next" + filesPerPage;
 		prevBut.GetComponentInChildren<Text> ().text = "Prev" + filesPerPage;
+		if (currentPage == maxPages)
+			nextBut.gameObject.SetActive (false);
+		else if (currentPage == 1)
+			prevBut.gameObject.SetActive (false);
+
+
 
 		//create a list with the names of all layouts.
 		BinaryFormatter bf = new BinaryFormatter ();
@@ -564,13 +574,17 @@ public class LevelEditor : MonoBehaviour
 				dirFiles [i] = dirFiles [i].Replace (AppPath, "");
 				dirFiles [i] = dirFiles [i].Replace (".txt", "");
 				int j = i % filesPerPage;
-				Button but = (Button)Instantiate (loadButton, new Vector3 (300, Screen.height - 100 - 25f * (j % rows), 0), Quaternion.identity); 
+				//
+				Button but = (Button)Instantiate (loadButton, new Vector3 (0, 0, 0), Quaternion.identity); 
 				//but.transform.position = new Vector3 (300, 400 - 25f*(j % rows), 0);
 				//Button but = (Button)Instantiate (loadButton, loadMapsPanel.transform.position + new Vector3 (Mathf.Floor (j / rows) * 50 - 180, 120 - 30 * (j % rows)), Quaternion.identity); //breedte,hoogte
 				//Button but = (Button)Instantiate (loadButton, loadMapsPanel.transform.position + new Vector3 ((Mathf.Floor (j / rows) - 1.5f) * 25,0, 30 - 5 * (j % rows)), loadMapsPanel.transform.rotation);
 				but.transform.SetParent (loadMapsPanel.gameObject.transform);
+				but.GetComponent<RectTransform> ().offsetMin = new Vector2 (350, 50+120*(rows-j));
+				but.GetComponent<RectTransform> ().sizeDelta = new Vector2 (1000, 200);
+
 				but.GetComponentInChildren<Text> ().text = dirFiles [i];
-				but.transform.localScale = new Vector3 (1, 1, 1) / 8;
+				but.transform.localScale = new Vector3 (1, 1, 1)/4;
 				but.transform.GetChild (1).gameObject.SetActive (false);
 
 				string fileName = dirFiles [i];
@@ -588,7 +602,7 @@ public class LevelEditor : MonoBehaviour
 	{
 		if (currentButSelected != but) {
 			but.GetComponent<Image> ().color = Color.gray;
-			but.transform.GetChild (1).gameObject.SetActive (true);
+			//but.transform.GetChild (1).gameObject.SetActive (true);
 			if (currentButSelected != null) {
 				currentButSelected.GetComponent<Image> ().color = Color.white;
 				currentButSelected.transform.GetChild (1).gameObject.SetActive (false);
