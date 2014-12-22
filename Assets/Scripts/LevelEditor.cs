@@ -67,6 +67,11 @@ public class LevelEditor : MonoBehaviour
 	public Button submitLoadButton;
 	public Button deleteButton;
 
+	public GameObject LoadingScreen;
+
+	private GameObject player;
+	private GameObject camera;
+	private bool drawNavigationGrid;
 	private string AppPath;
 
 
@@ -115,6 +120,10 @@ public class LevelEditor : MonoBehaviour
 		loadScreenOpen = false;
 		AppPath = Application.persistentDataPath + "/MapLayouts/";
 		type = 2;
+		drawNavigationGrid = resourceManager.drawNavigationGrid;
+		player = resourceManager.player;
+		camera = resourceManager.mainCamera;
+
 
 		SubmitButton.onClick.AddListener (delegate {
 			if (!loadScreenOpen)
@@ -179,7 +188,7 @@ public class LevelEditor : MonoBehaviour
 		}
 
 	}
-		
+
 
 
 	// Update is called once per frame
@@ -285,7 +294,7 @@ public class LevelEditor : MonoBehaviour
 			else {
 				checkPlane = null;
 			}
-		
+
 			if (checkPlane != null) {
 				if (checkPlane.renderer.material.color == CNotConnected || (checkPlane.renderer.material.color == CstartEnd && !posConnected.Contains (checkPlane.transform.position / planewidth))) {
 
@@ -298,9 +307,38 @@ public class LevelEditor : MonoBehaviour
 			}
 		}
 
-		
+
 	}
 
+
+
+	IEnumerator spawnLevel(){
+
+		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Destroying what you just built";
+		yield return new WaitForSeconds(0.1f);
+		disableLevelEditor ();
+		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Rebuilding the floors you just built";
+		yield return new WaitForSeconds(0.1f);
+		GenerateFloor ();
+		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: You built the floors, we place the walls!...";
+		yield return new WaitForSeconds(0.1f);
+		RandomMaze.GenerateWall (positions,planewidth,wallPrefab,torch,height,length,width,gameObject);
+		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Dwogres wanted a red carpet to walk on, generating..";
+		yield return new WaitForSeconds(0.1f);
+		Nodes=RandomMaze.SpawnNodes (positions,nodeSize, planewidth, NodesPos, Nodes,length,width,drawNavigationGrid,false);
+		LoadingScreen.GetComponentInChildren<Text>().text = "Loading: Giving birth to Player...=";
+		yield return new WaitForSeconds(0.1f);
+		RandomMaze.spawnPlayer (player,camera,resourceManager.GUI,resourceManager.eventListener,startPos*planewidth,Minimapcamera,width,length,planewidth);
+		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Lightning torches..";
+		yield return new WaitForSeconds(0.1f);
+		RandomMaze.createSingleObjects (planewidth,EnemySpawner,resourceManager.Goal,endPos,startPos);
+		//generate Nodes;
+		//MakeNodeList (nodeSize,NodesPos,Nodes);
+		//create the minimap camera
+		resourceManager.Nodes = Nodes;
+		LoadingScreen.SetActive (false);
+
+	}
 
 
 	private void GenerateLevel ()
@@ -321,23 +359,25 @@ public class LevelEditor : MonoBehaviour
 				endPos = new Vector2 (endPos3.x, endPos3.z);
 				resourceManager.startPos = startPos;
 				resourceManager.endPos = endPos;
+				LoadingScreen.SetActive (true);
+				StartCoroutine (spawnLevel ());
 
-				RandomMaze.GenerateWall (positions, planewidth, wallPrefab, torch, height, length, width, gameObject);
-
-				GenerateFloor ();
-				GameObject player = resourceManager.player;
-				GameObject camera = resourceManager.mainCamera;
-				RandomMaze.spawnPlayer (player, camera,resourceManager.GUI,resourceManager.eventListener, startPos * planewidth, Minimapcamera, width, length, planewidth);
-				disableLevelEditor ();
-				RandomMaze.createSingleObjects (planewidth, EnemySpawner, resourceManager.Goal, endPos, startPos);
-				RandomMaze.SpawnNodes (positions, nodeSize, planewidth, NodesPos, Nodes, length, width, drawNavGrid, true);
+//				RandomMaze.GenerateWall (positions, planewidth, wallPrefab, torch, height, length, width, gameObject);
+//
+//				GenerateFloor ();
+//				GameObject player = resourceManager.player;
+//				GameObject camera = resourceManager.mainCamera;
+//				RandomMaze.spawnPlayer (player, camera,resourceManager.GUI,resourceManager.eventListener, startPos * planewidth, Minimapcamera, width, length, planewidth);
+//				disableLevelEditor ();
+//				RandomMaze.createSingleObjects (planewidth, EnemySpawner, resourceManager.Goal, endPos, startPos);
+//				RandomMaze.SpawnNodes (positions, nodeSize, planewidth, NodesPos, Nodes, length, width, drawNavGrid, true);
 
 				resourceManager.Nodes = Nodes;
 			} else
 				setErrorTekst ("Connect end to start!");
 		} else
 			setErrorTekst ("Place end position!");
-		
+
 	}
 
 	private void SwitchType ()
@@ -358,6 +398,8 @@ public class LevelEditor : MonoBehaviour
 			setErrorTekst ("Can't do that while load screen is open");
 
 	}
+
+
 
 	private void GenerateFloor ()
 	{
@@ -422,7 +464,7 @@ public class LevelEditor : MonoBehaviour
 		if (endPlane != null) {
 
 			if (LevelEditor.posConnected.Contains (LevelEditor.endPlane.transform.position / planewidth)) {
-			
+
 				string res = "\r\n";
 
 				res += resourceManager.length + "\r\n" + resourceManager.width + "\r\n" + startPos3.x.ToString () + "\r\n" + startPos3.z.ToString () + "\r\n";
@@ -510,10 +552,11 @@ public class LevelEditor : MonoBehaviour
 			cam.orthographicSize = Mathf.Max (length, width + 1) * resourceManager.planewidth / 2;
 			cam.rect = new Rect (0.4f, 0.3f, 0.4f, 0.4f);
 
-	
+
 		}
 
 	}
+
 
 	private void generateEditorMap ()
 	{
