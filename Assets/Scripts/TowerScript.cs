@@ -76,7 +76,7 @@ public class TowerScript : MonoBehaviour
         if (!tag.Equals("Tower"))
         {
             GameObject Player = GameObject.FindGameObjectWithTag("Player");
-            if (Vector3.Distance(Player.transform.position, transform.position) >= MaxDistance)
+			if ((Vector3.Distance(Player.transform.position, transform.position) >= MaxDistance)||(cost>playerData.getGold()))
             {
                 if (!tag.Equals("HotSpotRed"))
                     setRed();
