@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -28,12 +29,19 @@ public class RandomMaze : MonoBehaviour
 	private GameObject Minimapcamera;
 	private GameObject Gate;
 	private GameObject torch;
+	public GameObject LoadingScreen;
 
-	private ArrayList positions = new ArrayList ();
+	private GameObject player;
+	private GameObject camera;
+	private Vector2 startPos;
+	private Vector2 endPos;
+	private Vector4 lastPos;
+
+	private ArrayList positions;
 	//Positions of the floors
-	public static List<Vector3> NodesPos = new List<Vector3> ();
+	public static List<Vector3> NodesPos;
 	//Positions of the waypoints/nodes
-	public static List<WayPoint> Nodes = new List<WayPoint> ();
+	public static List<WayPoint> Nodes;
 	//List with all Nodes
     private static bool drawNavigationGrid;
 
@@ -45,6 +53,7 @@ public class RandomMaze : MonoBehaviour
 	//Use this for initialization
 	void Awake ()
 	{
+		LoadingScreen.SetActive (true);
 		ResourceManagerObj = GameObject.Find ("ResourceManager");
 		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
 		length = resourceManager.length;
@@ -60,20 +69,44 @@ public class RandomMaze : MonoBehaviour
 		Gate = resourceManager.Gate;
 		torch = resourceManager.torch;
         drawNavigationGrid = resourceManager.drawNavigationGrid;
+		player = resourceManager.player;
+		camera = resourceManager.mainCamera;
+		startPos = new Vector2 (0, 0); //Start position where enemy´s spawn
+		endPos = new Vector2 (length, 0); //End position where enemy´s go
+		resourceManager.startPos = startPos;
+		resourceManager.endPos = endPos;
+		lastPos = new Vector4 (1, 1, 1, 1); //position where the map last was
 
+		positions = new ArrayList ();
+		NodesPos = new List<Vector3> ();
+		Nodes = new List<WayPoint> ();
+		StartCoroutine (spawnLevel());
+	}
 
-
-		//Generate floors
+	IEnumerator spawnLevel(){
+		LoadingScreen.GetComponentInChildren<Text>().text = "Loading: Building a castle..";
+		yield return new WaitForSeconds(0.1f);
 		GenerateFloor ();
 		//Generate walls
-		GenerateWall (positions,planewidth,wallPrefab,torch,height,length,width,gameObject);
-		Nodes=SpawnNodes (positions,nodeSize, planewidth, NodesPos, Nodes,length,width,drawNavigationGrid,false);
 
+		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: We forgot walls, building walls...";
+		yield return new WaitForSeconds(0.1f);
+		GenerateWall (positions,planewidth,wallPrefab,torch,height,length,width,gameObject);
+		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Dwogres wanted a red carpet to walk on, generating..";
+		yield return new WaitForSeconds(0.1f);
+		Nodes=SpawnNodes (positions,nodeSize, planewidth, NodesPos, Nodes,length,width,drawNavigationGrid,false);
+		LoadingScreen.GetComponentInChildren<Text>().text = "Loading: Giving birth to Player...=";
+		yield return new WaitForSeconds(0.1f);
+		spawnPlayer (player,camera,resourceManager.GUI,resourceManager.eventListener,startPos*planewidth,Minimapcamera,width,length,planewidth);
+		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Lightning torches..";
+		yield return new WaitForSeconds(0.1f);
+		createSingleObjects (planewidth,EnemySpawner,resourceManager.Goal,endPos,startPos);
 		//generate Nodes;
 		//MakeNodeList (nodeSize,NodesPos,Nodes);
 		//create the minimap camera
 		resourceManager.Nodes = Nodes;
-	
+		LoadingScreen.SetActive (false);
+
 	}
 
 	//generate floors
@@ -85,18 +118,6 @@ public class RandomMaze : MonoBehaviour
 		float south;
 		float west;
 		float rnd;
-		Vector2 startPos = new Vector2 (0, 0); //Start position where enemy´s spawn
-		Vector2 endPos = new Vector2 (length, 0); //End position where enemy´s go
-		resourceManager.startPos = startPos;
-		resourceManager.endPos = endPos;
-		Vector4 lastPos = new Vector4 (1, 1, 1, 1); //position where the map last was
-
-		//spawn Player
-		GameObject player = resourceManager.player;
-		GameObject camera = resourceManager.mainCamera;
-		spawnPlayer (player,camera,resourceManager.GUI,resourceManager.eventListener,startPos*planewidth,Minimapcamera,width,length,planewidth);
-		createSingleObjects (planewidth,EnemySpawner,resourceManager.Goal,endPos,startPos);
-
 		ResourceManager.mostNorth =0;
 		ResourceManager.mostEast = 0;
 		ResourceManager.mostSouth = 10000;
@@ -160,7 +181,6 @@ public class RandomMaze : MonoBehaviour
 			}
 
 		}
-		Debug.Log ("Noord: " + ResourceManager.mostNorth + " Zuid: " + ResourceManager.mostSouth + " East: " + ResourceManager.mostEast + " West: " + ResourceManager.mostWest);
 		GameObject floor2 = (GameObject)Instantiate (planePrefab, new Vector3 (endPos [0] * planewidth, 0, endPos [1] * planewidth), Quaternion.identity); //Generate floor at end position
 		floor2.gameObject.transform.localScale = new Vector3 (planewidth / 20, 0.1f, planewidth / 20);
 		floor2.transform.parent = gameObject.transform;
@@ -362,20 +382,20 @@ public class RandomMaze : MonoBehaviour
 
 	public static void spawnPlayer (GameObject player, GameObject camera, GameObject Gui, GameObject EventList, Vector2 startPos,GameObject Minimapcamera,int width,int length,float planewidth)
 	{			
-		GameObject cam = (GameObject)Instantiate (Minimapcamera, new Vector3 (length / 2, Mathf.Max (width, length), 0) * planewidth, Quaternion.Euler (90, 0, 0));
-		//cam.camera.rect = new Rect (0.8f, 0.7f, 0.3f, 0.3f);
-		cam.camera.orthographicSize = 7.5f * planewidth;
-		// create player and camera
+
+		GameObject MainCamera = (GameObject)Instantiate (camera, new Vector3 (0f, 0f, 0f), Quaternion.identity);
+		MainCamera.name = "Main Camera";
 		GameObject Player = (GameObject)Instantiate (player, new Vector3 (startPos.x, 0.5f, startPos.y), Quaternion.identity);
 		Player.gameObject.transform.localScale = new Vector3 (0.05f, 0.05f, 0.05f);
 		Player.name = "Player";
-		GameObject MainCamera = (GameObject)Instantiate (camera, new Vector3 (0f, 0f, 0f), Quaternion.identity);
-		MainCamera.name = "Main Camera";
 		GameObject gui = (GameObject)Instantiate (Gui, new Vector3 (0f, 0f, 0f), Quaternion.identity);
 		gui.transform.name = "GUIMain";
 		GameObject EL = (GameObject)Instantiate (EventList, new Vector3 (0f, 0f, 0f), Quaternion.identity);
 		//minimapcamera
-
+		GameObject cam = (GameObject)Instantiate (Minimapcamera, new Vector3 (length / 2, Mathf.Max (width, length), 0) * planewidth, Quaternion.Euler (90, 0, 0));
+		//cam.camera.rect = new Rect (0.8f, 0.7f, 0.3f, 0.3f);
+		cam.camera.orthographicSize = 7.5f * planewidth;
+		// create player and camera
 		//Minimap camera
 
 

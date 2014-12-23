@@ -5,12 +5,12 @@ using System.Collections.Generic;
 public class FireTrapScript : MonoBehaviour
 {
 	private GameObject ResourceManagerObj;
-	private int damagePerShot = 1000;
-	private string enemyTag = ("Enemy");
+	private int damagePerShot;
+	private string enemyTag;
 	private float particleStartSize;
 	private GameObject partSys;
 	//private GameObject enemy;
-	private List<GameObject> enemyOnTrap = new List<GameObject> ();
+	private List<GameObject> enemyOnTrap;
 
 	void OnTriggerEnter (Collider col)
 	{
@@ -58,6 +58,9 @@ public class FireTrapScript : MonoBehaviour
 		ResourceManager resourceManager = ResourceManagerObj.GetComponent<ResourceManager>();
 		partSys = gameObject.transform.GetChild (2).gameObject;
 		particleStartSize=partSys.particleSystem.startSize*resourceManager.planewidth/10;
+		damagePerShot = 1000;
+		enemyTag = ("Enemy");
+		enemyOnTrap = new List<GameObject> ();
 	}
 	
 	// Update is called once per frame
