@@ -13,6 +13,8 @@ public class EnemyStats : MonoBehaviour {
     public int defense;
     public float speedMultiplier;
     public float dfactor;
+    public float goalImportance;
+    public float playerImportance;
 
     public bool respawn = false;
     public int statsMutation = 1;
@@ -56,6 +58,8 @@ public class EnemyStats : MonoBehaviour {
         this.defense = stats[2];
         this.speedMultiplier = Random.Range(0.90f, 1.10f);
         this.dfactor = Random.Range(0.05f, 0.80f);
+        this.goalImportance = Random.Range(0.4f, 1f);
+        this.playerImportance = Random.Range(0, 0.6f);
     }
 
     public int fitness()

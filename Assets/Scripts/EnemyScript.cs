@@ -12,6 +12,7 @@ public class EnemyScript : MonoBehaviour
 	GameObject ResourceManagerObj;
     GameObject player;
     GameObject goal;
+    GameObject Target;
 
 	List<WayPoint> grid;
     List<WayPoint> WaypointsNearNow = new List<WayPoint>();
@@ -190,6 +191,17 @@ public class EnemyScript : MonoBehaviour
 	    }
     }
 
+    void DetermineTarget()
+    {
+        if ((transform.position - player.transform.position).magnitude/enemystats.playerImportance < (transform.position-goal.transform.position).magnitude/enemystats.goalImportance){
+            Target = player;
+        }
+        else
+        {
+            Target = goal;
+        }
+    }
+
     // Method for debugging purposes
     void Debuging()
     {
@@ -227,10 +239,12 @@ public class EnemyScript : MonoBehaviour
 
         // Repeat the pathfinding process
 		if (automaticPathUpdating) {
+            Target = goal;
 			InvokeRepeating ("BuildPath", 0, pathUpdateRate);
 		}
         else
         {
+            Target = goal;
             BuildPath();
         }
 
@@ -245,6 +259,9 @@ public class EnemyScript : MonoBehaviour
 
         // Enemy movement
         Moving();
+        
+        // Determine the target
+        DetermineTarget();
 
         // Debug
         Debuging();
@@ -257,11 +274,11 @@ public class EnemyScript : MonoBehaviour
         if (!enemyHealth.isDead)
         {
             // determine a path to a goal
-            Path = Navigator.Path(transform.position - new Vector3(0f, transform.position.y, 0f), goal.transform.position - new Vector3(0f, goal.transform.position.y, 0f), nodeSize, grid, dfactor);
+            Path = Navigator.Path(transform.position - new Vector3(0f, transform.position.y, 0f), Target.transform.position - new Vector3(0f, Target.transform.position.y, 0f), nodeSize, grid, dfactor);
             // if drawPath is enabled also calculate a second path without dfactor
             if (drawPath)
             {
-                Path2 = Navigator.Path(transform.position - new Vector3(0f, transform.position.y, 0f), goal.transform.position - new Vector3(0f, goal.transform.position.y, 0f), nodeSize, grid);
+                Path2 = Navigator.Path(transform.position - new Vector3(0f, transform.position.y, 0f), Target.transform.position - new Vector3(0f, Target.transform.position.y, 0f), nodeSize, grid);
             }
 
             // set i back to 0;
