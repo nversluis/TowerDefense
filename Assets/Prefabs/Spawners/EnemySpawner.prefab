@@ -40,14 +40,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 944f66ad451dba04eb2086e397509f88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxEnemies: 15
+  maxEnemies: 20
   spawning: 1
   toenameAantalEnemiesPerWave: 2
   maxX: .300000012
   maxZ: 0
-  currentTotalStatPoints: 80
-  delta: 8
-  spawnTime: 1
+  currentTotalStatPoints: 100
+  delta: 15
+  spawnTime: .800000012
 --- !u!114 &11415504
 MonoBehaviour:
   m_ObjectHideFlags: 1

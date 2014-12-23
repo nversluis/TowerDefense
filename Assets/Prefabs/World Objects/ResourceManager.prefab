@@ -52,7 +52,7 @@ MonoBehaviour:
   Minimapcamera: {fileID: 100000, guid: ea52609adf144e449bfeac563da51684, type: 2}
   Gate: {fileID: 100000, guid: 16cf1baaf1edf034dadc94eb5ac10fa5, type: 2}
   torch: {fileID: 100012, guid: 3abc6258d3b3848199581033a47549d6, type: 2}
-  Goal: {fileID: 176334, guid: 97a75b10d2f991742a9ecfb74cabe64f, type: 2}
+  Goal: {fileID: 187034, guid: 238816a3ef63d0443b7f2d1338df4329, type: 2}
   length: 10
   width: 10
   planewidth: 10

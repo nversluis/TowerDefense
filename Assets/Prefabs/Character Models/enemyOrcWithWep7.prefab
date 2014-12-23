@@ -774,7 +774,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100052}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.58110285, y: .306271791, z: -5.80551767}
+  m_LocalPosition: {x: 17.4722099, y: 30.9151382, z: -9.64928722}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400050}
@@ -790,7 +790,7 @@ Transform:
   m_GameObject: {fileID: 100054}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -.790000021}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children: []
   m_Father: {fileID: 400052}
   m_RootOrder: 2
@@ -885,6 +885,7 @@ MonoBehaviour:
   spawnPosition: {x: 0, y: 0, z: 0}
   deathPosition: {x: 0, y: 0, z: 0}
   isDead: 0
+  hasWon: 0
   isPoisoned: 0
   poisonAmount: 0
 --- !u!114 &11400004
@@ -902,10 +903,11 @@ MonoBehaviour:
   health: 0
   attack: 0
   defense: 0
-  speed: 0
-  totalDamage: 0
+  speedMultiplier: 0
   dfactor: 0
+  respawn: 0
   statsMutation: 1
+  totalDamage: 0
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -919,6 +921,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   automaticPathUpdating: 1
   walking: 0
+  attacking: 0
+  isSlowed: 0
 --- !u!114 &11497822
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -930,7 +934,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b90d9b9bcba1d844c95f7faf6f13cf21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walking: 0
 --- !u!136 &13600000
 CapsuleCollider:
   m_ObjectHideFlags: 1

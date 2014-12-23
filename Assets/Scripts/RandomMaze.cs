@@ -356,7 +356,7 @@ public class RandomMaze : MonoBehaviour
 		//GameObject GateObj = (GameObject)Instantiate (Gate, new Vector3 (-planewidth / 2, height * planewidth / 2, -planewidth / 2), Quaternion.identity);
 		//GateObj.transform.localScale = new Vector3 (planewidth * 0.028f, planewidth * height / 150, planewidth);
 		GameObject enemySpawner = (GameObject)Instantiate (EnemySpawner, new Vector3 (endPos.x * planewidth, 0f, endPos.y * planewidth), Quaternion.identity); 
-		GameObject Goal = (GameObject)Instantiate(Goal2, new Vector3(startPos.x,0,startPos.y)*planewidth,Quaternion.identity);
+		GameObject Goal = (GameObject)Instantiate(Goal2, new Vector3(startPos.x,0.01f,startPos.y)*planewidth,Quaternion.identity);
 		Goal.transform.name="Goal";
 	}
 
