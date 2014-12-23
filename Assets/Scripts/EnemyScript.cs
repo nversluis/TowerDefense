@@ -229,6 +229,10 @@ public class EnemyScript : MonoBehaviour
 		if (automaticPathUpdating) {
 			InvokeRepeating ("BuildPath", 0, pathUpdateRate);
 		}
+        else
+        {
+            BuildPath();
+        }
 
 	}
 

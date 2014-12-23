@@ -128,9 +128,11 @@ MonoBehaviour:
   enemyGwarf: {fileID: 0}
   enemyGrobble: {fileID: 0}
   walkSpeed: 5
-  drawPath: 1
   maxEnemies: 2
   minEnemies: 4
+  pathUpdateRate: 0
+  drawPath: 1
+  automaticPathUpdating: 1
   maxWaves: 10
   currentWave: 1
   maxTowerDistance: 50
@@ -174,7 +176,7 @@ Transform:
   m_PrefabInternal: {fileID: 1619590827}
   m_GameObject: {fileID: 14726752}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 42.2823257, y: 77.3980255, z: 60.808609}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -268,7 +270,6 @@ MonoBehaviour:
   m_Script: {fileID: 1301386320, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Priority: 3
   ignoreReversedGraphics: 1
   blockingObjects: 0
   m_BlockingMask:
@@ -644,15 +645,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 42.2823257
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 77.3980255
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 60.808609
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
       propertyPath: m_LocalRotation.x
@@ -672,6 +673,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
       propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: automaticPathUpdating
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
