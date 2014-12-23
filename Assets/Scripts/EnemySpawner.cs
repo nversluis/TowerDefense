@@ -28,8 +28,6 @@ public class EnemySpawner : MonoBehaviour
         float rand=Random.value;
         if (rand < 1/SpawnRate && multipleSpawns)
         {
-            float randX = Random.Range(-maxX / 2, maxX / 2);
-            float randZ = Random.Range(-maxZ / 2, maxZ / 2);
 
             GameObject Enemy = (GameObject)Instantiate(enemy, transform.position + new Vector3(0f, orcHeigthSpawn, 0f), Quaternion.identity);
             Enemy.name = "enemy";

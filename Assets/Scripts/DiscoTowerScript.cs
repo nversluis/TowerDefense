@@ -115,8 +115,6 @@ public class DiscoTowerScript : MonoBehaviour {
             i--;
 			Vector3 toTarget = enemy.transform.position - transform.parent.position;
             EnemyVelocity(enemy);
-            Vector3 enemyDir = (enemyVel.normalized);
-
 
             float a = Vector3.Dot(enemyVel, enemyVel) - (bulletSpeed * bulletSpeed);
             float b = 2 * Vector3.Dot(enemyVel, toTarget);

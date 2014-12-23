@@ -88,7 +88,7 @@ public class EnemyScript : MonoBehaviour
     void Moving()
     {
         // if enemy found a path to its current goal
-        if (Path.Count != null) {
+        if (Path != null) {
 			Vector3 dir;
             // if the enemy is not near its goal
             if (i != Path.Count-1)

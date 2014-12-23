@@ -18,8 +18,8 @@ public class FloorScript : MonoBehaviour {
 		//Debug.Log (CameraController.hitObject.name);
 		if (gameObject == CameraController.hitObject) { //if the object you are looking at is the floor
 			WallScript.DestroyHotSpots (); //Destroy all hotspots
-			int aantalPerPlane = WeaponController.trapGridSize;
-			GameObject TowerPrefab = WeaponController.curFloorTower;
+
+            GameObject TowerPrefab = WeaponController.curFloorTower;
 			if (TowerPrefab != null&&gameObject.transform.childCount==1) { 
 				float planeW =resourceManager.planewidth;
 				GameObject tower = (GameObject)Instantiate (TowerPrefab, transform.position+new Vector3(0,planeW/1000,0), transform.rotation);
