@@ -33,12 +33,12 @@ public class EnemyScript : MonoBehaviour
     GameObject goal;
 
 	private float speedReduce;
-	public bool isSlowed;
+	public bool isSlowed = false;
 
 	// Use this for initialization
 	void Start ()
 	{
-		isSlowed = false;
+
         enemystats = GetComponent<EnemyStats>();
 		ResourceManagerObj = GameObject.Find ("ResourceManager");
 		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
@@ -54,7 +54,6 @@ public class EnemyScript : MonoBehaviour
 		characterController = GetComponent<CharacterController> ();
         Path = Navigator.Path(transform.position - new Vector3(0f, transform.position.y, 0f), goal.transform.position - new Vector3(0f, goal.transform.position.y, 0f), nodeSize, grid, dfactor);
 
-		//walkSpeed = enemystats.speed/10 + 3;
         dfactor = enemystats.dfactor;
 
 		if (automaticPathUpdating) {
