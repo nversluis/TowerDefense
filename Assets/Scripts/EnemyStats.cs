@@ -54,8 +54,8 @@ public class EnemyStats : MonoBehaviour {
         this.health = stats[0];
         this.attack = stats[1];
         this.defense = stats[2];
-        this.speedMultiplier = Random.RandomRange(0.80f, 1.20f);
-        this.dfactor = Random.RandomRange(0.10f, 0.50f);
+        this.speedMultiplier = Random.RandomRange(0.90f, 1.10f);
+        this.dfactor = Random.RandomRange(0.05f, 0.80f);
     }
 
     public int fitness()

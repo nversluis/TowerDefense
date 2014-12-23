@@ -5,142 +5,211 @@ using UnityEngine.UI;
 
 public class EnemyScript : MonoBehaviour
 {
-	private GameObject ResourceManagerObj;
-	private ResourceManager resourceManager;
-	private float nodeSize;
-	private List<WayPoint> grid;
-	List<Vector3> Path;
-    List<Vector3> Path2;
     EnemyHealth enemyHealth;
-	int i = 0;
-	float normalWalkSpeed;
-	float walkSpeed;
-	float orcHeigthSpawn = 3.27f;
-	CharacterController characterController;
-	public bool automaticPathUpdating;
-	EnemyStats enemystats;
-	List<float> oldList = new List<float> ();
-	List<WayPoint> WaypointsNearNow = new List<WayPoint> ();
-    List<WayPoint> WaypointsNearOld = new List<WayPoint> ();
+    EnemyStats enemystats;
+    ResourceManager resourceManager;
 
-    float dfactor;
-    bool drawPath;
-
-    public bool walking;
-    public bool attacking;
-
+	GameObject ResourceManagerObj;
     GameObject player;
     GameObject goal;
 
-	private float speedReduce;
-	public bool isSlowed = false;
+	List<WayPoint> grid;
+    List<WayPoint> WaypointsNearNow = new List<WayPoint>();
+    List<WayPoint> WaypointsNearOld = new List<WayPoint>();
 
-	// Use this for initialization
-	void Start ()
-	{
+	List<Vector3> Path;
+    List<Vector3> Path2;
 
+    List<float> oldList = new List<float>();
+
+    float nodeSize;
+    float normalWalkSpeed;
+    float walkSpeed;
+    float dfactor;
+    float pathUpdateRate;
+    float penalty = 5f;
+    float speedReduce;
+
+    int i = 0;
+
+    bool drawPath;
+    bool automaticPathUpdating;
+
+    public bool walking;
+    public bool attacking;
+    public bool isSlowed = false;
+
+    // Method for finding all necessary scripts
+    void GetScripts()
+    {
+        // Getting other scripts from this enemy
         enemystats = GetComponent<EnemyStats>();
-		ResourceManagerObj = GameObject.Find ("ResourceManager");
-		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
-		grid = resourceManager.Nodes;
-		float nodeSize = resourceManager.nodeSize;
-        drawPath = resourceManager.drawPath;
-        normalWalkSpeed = resourceManager.walkSpeed * enemystats.speedMultiplier;
         enemyHealth = GetComponent<EnemyHealth>();
+
+        // Getting the ResourceManger with script
+        ResourceManagerObj = GameObject.Find("ResourceManager");
+        resourceManager = ResourceManagerObj.GetComponent<ResourceManager>();
+
+        // Finding the player and the goal
         player = GameObject.Find("Player");
         goal = GameObject.Find("Goal");
 
-
-		characterController = GetComponent<CharacterController> ();
-        Path = Navigator.Path(transform.position - new Vector3(0f, transform.position.y, 0f), goal.transform.position - new Vector3(0f, goal.transform.position.y, 0f), nodeSize, grid, dfactor);
-
+        // getting all variables from other scripts
+        grid = resourceManager.Nodes;
+        nodeSize = resourceManager.nodeSize;
+        drawPath = resourceManager.drawPath;
+        normalWalkSpeed = resourceManager.walkSpeed * enemystats.speedMultiplier;
+        pathUpdateRate = resourceManager.pathUpdateRate;
         dfactor = enemystats.dfactor;
+        automaticPathUpdating = resourceManager.automaticPathUpdating;
+        
 
-		if (automaticPathUpdating) {
-			InvokeRepeating ("BuildPath", 0, 0.5f);
-		}
+    }
 
-	}
+    // Method for determining the speed of the enemy
+    void WalkSpeed()
+    {
 
-	//Update is called once per frame
-	void FixedUpdate ()
-	{
-		if (isSlowed) {
-			speedReduce = resourceManager.speedReduceRate;
-		} else {
-			speedReduce = 1;
-		}
-		walkSpeed = normalWalkSpeed * speedReduce;
+        // if the enemy is slowed
+        if (isSlowed)
+        {
+            // reduce speed
+            speedReduce = resourceManager.speedReduceRate;
+        }
+        else
+        {
+            // else speed is is normal speed;
+            speedReduce = 1;
+        }
+        walkSpeed = normalWalkSpeed * speedReduce;
+    }
 
-        if (Path != null) {
+    // Method for the movement of the enemy
+    void Moving()
+    {
+        // if enemy found a path to its current goal
+        if (Path.Count != null) {
 			Vector3 dir;
-
+            // if the enemy is not near its goal
             if (i != Path.Count-1)
             {
+                // the enemy is walking and not attacking
                 walking = true;
                 attacking = false;
 
+                // walk to the next point to smooth the walking of the enemy
                 dir = (Path[i + 1] - (transform.position - new Vector3(0f, transform.position.y, 0f))).normalized * walkSpeed;
             }
             else
             {
+                // else walk to the current point
                 dir = (Path[i] - (transform.position - new Vector3(0f, transform.position.y, 0f))).normalized * walkSpeed;
                 walking = true;
                 attacking = false;
 
             }
 
+            // if the enemy is not dead
             if (enemyHealth.isDead != true)
             {
+                // move in the direction of the next point
                 rigidbody.velocity = (dir + new Vector3(0f, rigidbody.velocity.y, 0f));
+
+                // set angular velocity to zero
                 rigidbody.angularVelocity = Vector3.zero;
+
+                // rotate in the direction of where it is walking
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir.normalized), Time.deltaTime * 5f);
+
+                // set rotations in other directions to zero
                 transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
 
             }
-
             else
             {
+                // when dead do not move
                 rigidbody.velocity = Vector3.zero;
                 rigidbody.angularVelocity = Vector3.zero;
 
             }
 
-            Vector3 nextPointDistance = (Path[i] - transform.position - new Vector3(0f, transform.position.y, 0f));
-            nextPointDistance.y = 0;
+            // when not close to the goal
+            if (i < Path.Count - 1)
+            {
+                // determine the distance to the next point in only x and z
+                Vector3 nextPointDistance = (Path[i + 1] - transform.position - new Vector3(0f, transform.position.y, 0f));
+                nextPointDistance.y = 0;
 
-			if (nextPointDistance.magnitude < 1f && i < Path.Count - 1) {
-				i++;
-			}
+                // if the distance is smaller than 1 increase i by 1
+                if (nextPointDistance.magnitude < 2f)
+                {
+                    i++;
+                }
+            }
+            // when close to the goal
+            else
+            {
+                // determine the distance to the next point in only x and z
+                Vector3 nextPointDistance = (Path[i] - transform.position - new Vector3(0f, transform.position.y, 0f));
+                nextPointDistance.y = 0;
 
+                // if the distance is smaller than 1 increase i by 1
+                if (nextPointDistance.magnitude < 1f)
+                {
+                    i++;
+                }
+            }
 
-			if ((player.transform.position-transform.position).magnitude < 3f) {
-				rigidbody.velocity = Vector3.zero;
+            // if the player is near the enemy attack him
+		    if ((player.transform.position-transform.position).magnitude < 3f) {
+
+                // set speed to zero and attack
+			    rigidbody.velocity = Vector3.zero;
                 walking = false;
                 attacking = true;
-			}
+		    }
 
+            // when enemy is dead
             if (enemyHealth.isDead)
             {
+                // set speed to zero
                 rigidbody.velocity = Vector3.zero;
                 walking = false;
                 attacking = false;
-                
             }
-		}
 
-		if (Input.GetKeyDown (KeyCode.Q) && !automaticPathUpdating) {
-			Path = Navigator.Path (transform.position, PlayerController.location, nodeSize, grid);
-			i = 0;
-		}
+            // when enemy reaches the end
+            if ((goal.transform.position - transform.position).magnitude < 2f)
+            {
+                // enemy has won
+                GoalScript.lives--;
 
-		if (Path != null && drawPath) {
-			for (int k = 0; k < Path.Count - 1; k++) {
-				Debug.DrawLine (Path [k], Path [k + 1]);
-			}
-		}
+                // destroy it
+                Destroy(this.gameObject);
+            }
+	    }
+    }
 
+    // Method for debugging purposes
+    void Debuging()
+    {
+        // when automatic path updating is off and q is pressed the path is updated
+        if (Input.GetKeyDown(KeyCode.Q) && !automaticPathUpdating)
+        {
+            Path = Navigator.Path(transform.position, PlayerController.location, nodeSize, grid);
+            i = 0;
+        }
 
+        // When draw path is enabled draw the path with own dfactor
+        if (Path != null && drawPath)
+        {
+            for (int k = 0; k < Path.Count - 1; k++)
+            {
+                Debug.DrawLine(Path[k], Path[k + 1]);
+            }
+        }
+
+        // when draw path is enabled draw the path without dfactor
         if (Path2 != null && drawPath)
         {
             for (int k = 0; k < Path2.Count - 1; k++)
@@ -148,40 +217,72 @@ public class EnemyScript : MonoBehaviour
                 Debug.DrawLine(Path2[k], Path2[k + 1], Color.red);
             }
         }
+    }
 
-        if ((goal.transform.position-transform.position).magnitude < 2f){
-            enemyHealth.hasWon = true;
-            transform.position = enemyHealth.deathPosition;
+	// Use this for initialization
+	void Start ()
+	{
+        // Getting all necessary scripts
+        GetScripts();
 
+        // Repeat the pathfinding process
+		if (automaticPathUpdating) {
+			InvokeRepeating ("BuildPath", 0, pathUpdateRate);
+		}
 
-        }
+	}
+
+	//Update is called once per frame
+	void FixedUpdate ()
+	{
+
+        // Determine the walk speed of the enemy
+        WalkSpeed();
+
+        // Enemy movement
+        Moving();
+
+        // Debug
+        Debuging();
+
 	}
 
     void BuildPath()
     {
+        // When enemy is not dead
         if (!enemyHealth.isDead)
         {
-            Path = Navigator.Path(transform.position - new Vector3(0f, transform.position.y, 0f), goal.transform.position - new Vector3(0f, goal.transform.position.y, 0f), resourceManager.nodeSize, resourceManager.Nodes, dfactor);
-            Path2 = Navigator.Path(transform.position - new Vector3(0f, transform.position.y, 0f), goal.transform.position - new Vector3(0f, goal.transform.position.y, 0f), resourceManager.nodeSize, resourceManager.Nodes);
+            // determine a path to a goal
+            Path = Navigator.Path(transform.position - new Vector3(0f, transform.position.y, 0f), goal.transform.position - new Vector3(0f, goal.transform.position.y, 0f), nodeSize, grid, dfactor);
+            // if drawPath is enabled also calculate a second path without dfactor
+            if (drawPath)
+            {
+                Path2 = Navigator.Path(transform.position - new Vector3(0f, transform.position.y, 0f), goal.transform.position - new Vector3(0f, goal.transform.position.y, 0f), nodeSize, grid);
+            }
 
+            // set i back to 0;
             i = 0;
-            int j = 0;
 
+            // for each waypoint from previous update set the penalty back to original
             foreach (WayPoint waypoint in WaypointsNearOld)
             {
-                waypoint.setPenalty(waypoint.getPenalty() - 5f);
-                j = j + 1;
+                waypoint.setPenalty(waypoint.getPenalty() - penalty);
+
+                // if penalty is lower than 0 set it to 0
                 if (waypoint.getPenalty() < 0)
                     waypoint.setPenalty(0);
             }
 
+            // Find waypoints that are close
             WaypointsNearNow = Navigator.FindWayPointsNear(transform.position, resourceManager.Nodes, resourceManager.nodeSize);
+
+            // for each waypoint it is close to now set a penalty
             foreach (WayPoint waypoint in WaypointsNearNow)
             {
-                oldList.Add(waypoint.getPenalty());
-                waypoint.setPenalty(waypoint.getPenalty() + 5);
+                waypoint.setPenalty(waypoint.getPenalty() + penalty);
             }
 
+            // set new waypoints to old for next update
             WaypointsNearOld = WaypointsNearNow;
         }
     }
