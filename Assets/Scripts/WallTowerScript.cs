@@ -3,11 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 [RequireComponent(typeof(AudioSource))]
 
-public class DiscoTowerScript : MonoBehaviour {
+public class WallTowerScript : MonoBehaviour {
 
 	private GameObject ResourceManagerObj;
 	private ResourceManager resourceManager;
-
     private List<GameObject> enemysInRange;
    	private GameObject bullet;
     private int bulletSpeed;
@@ -17,7 +16,7 @@ public class DiscoTowerScript : MonoBehaviour {
     
     GameObject enemy;
     Vector3 enemyVel;
-    //CharacterController EnemyCharController;
+    //CharacterController enemyCharController;
 
 
     void Start()
@@ -56,8 +55,9 @@ public class DiscoTowerScript : MonoBehaviour {
     void Update()
     {
 		for (int i = 0; i < enemysInRange.Count; i++) {
-			EnemyHealth enemyHealth = enemysInRange [i].collider.GetComponent<EnemyHealth> ();
-			if (enemyHealth.isDead) {
+			EnemyResources enemyResources = enemysInRange [i].collider.GetComponent<EnemyResources> ();
+            if (enemyResources.isDead)
+            {
 				enemysInRange.Remove (enemysInRange [i]);
 			}
 		}
@@ -105,7 +105,7 @@ public class DiscoTowerScript : MonoBehaviour {
                 }
                
                 enemy = enemysInRange[i];
-                //EnemyCharController = enemy.GetComponent<CharacterController>();
+                //enemyCharController = enemy.GetComponent<CharacterController>();
 
                 i++;
 
@@ -114,7 +114,7 @@ public class DiscoTowerScript : MonoBehaviour {
 
             i--;
 			Vector3 toTarget = enemy.transform.position - transform.parent.position;
-            EnemyVelocity(enemy);
+            enemyVelocity(enemy);
 
             float a = Vector3.Dot(enemyVel, enemyVel) - (bulletSpeed * bulletSpeed);
             float b = 2 * Vector3.Dot(enemyVel, toTarget);
@@ -145,17 +145,16 @@ public class DiscoTowerScript : MonoBehaviour {
 
 			GameObject Bullet = (GameObject)Instantiate(bullet, transform.parent.position, Quaternion.identity);
             Bullet.rigidbody.velocity = Shoot;
-			Debug.DrawRay(transform.parent.position, Shoot);
 			audio.PlayOneShot(magic,15f);
 
         }
     }
 
-    void EnemyVelocity(GameObject enemy)
+    void enemyVelocity(GameObject enemy)
     {
 		enemyVel = enemy.rigidbody.velocity;
 
-        //enemyVel = EnemyCharController.velocity;
+        //enemyVel = enemyCharController.velocity;
 
     }
 }

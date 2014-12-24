@@ -28,7 +28,7 @@ public class BulletController : MonoBehaviour
 
 			/*hitObject = hit.collider.gameObject;
             Destroy(this.gameObject);
-            if (hit.collider.tag == "Enemy")
+            if (hit.collider.tag == "enemy")
             {
                 Debug.Log("Current enemy health: " + enemyHealth.currentHealth);
                 //Destroy(hit.collider.gameObject);

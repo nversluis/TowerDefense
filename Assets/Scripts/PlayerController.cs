@@ -187,7 +187,7 @@ public class PlayerController : MonoBehaviour
         location = transform.position;
         Jumping();
 
-        //GameObject[] enemys = GameObject.FindGameObjectsWithTag("Enemy");
+        //GameObject[] enemys = GameObject.FindGameObjectsWithTag("enemy");
         //Debug.Log(enemys.Length);
         //Debug.Log(isGrounded());
     }

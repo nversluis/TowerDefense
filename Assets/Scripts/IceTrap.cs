@@ -16,8 +16,8 @@ public class IceTrap : MonoBehaviour
 	void OnTriggerEnter (Collider col)
 	{
 		if (col.gameObject.tag == (enemyTag) && !enemyOnTrap.Contains (col.gameObject)) {
-			EnemyScript enemyMove = col.gameObject.collider.GetComponent<EnemyScript> ();
-			enemyMove.isSlowed = true;
+            EnemyResources enemyResources = col.gameObject.collider.GetComponent<EnemyResources>();
+            enemyResources.isSlowed = true;
 			if (gameObject.transform.GetChild (2).gameObject.activeSelf == false)
 				gameObject.transform.GetChild (2).gameObject.SetActive (true);
 			enemyOnTrap.Add (col.gameObject);
@@ -30,8 +30,8 @@ public class IceTrap : MonoBehaviour
 	{
 		if (col.gameObject.tag == (enemyTag)) {
 			enemyOnTrap.Remove (col.gameObject);
-			EnemyScript enemyMove = col.gameObject.collider.GetComponent<EnemyScript> ();
-			enemyMove.isSlowed = false;
+            EnemyResources enemyResources = col.gameObject.collider.GetComponent<EnemyResources>();
+            enemyResources.isSlowed = false;
 		}
 	}
 
@@ -42,10 +42,10 @@ public class IceTrap : MonoBehaviour
 		partSys.particleSystem.startSize = particleStartSize * 2;
 		foreach (GameObject enemy in enemyOnTrap) {
 			if (enemy != null) {
-				EnemyScript enemyMove = enemy.collider.GetComponent<EnemyScript> ();
+                EnemyResources enemyResources = enemy.collider.GetComponent<EnemyResources>();
 				EnemyHealth enemyHealth = enemy.collider.GetComponent<EnemyHealth> ();
 				enemyHealth.TakeDamage (damagePerShot, "magic");
-				enemyMove.isSlowed = true;
+                enemyResources.isSlowed = true;
 			}
 		}
 
@@ -74,8 +74,9 @@ public class IceTrap : MonoBehaviour
 	{
 		enemyOnTrap.RemoveAll (item => item == null);
 		for (int i = 0; i < enemyOnTrap.Count; i++) {
-			EnemyHealth enemyHealth = enemyOnTrap[i].collider.GetComponent<EnemyHealth> ();
-			if (enemyHealth.isDead) {
+            EnemyResources enemyResources = enemyOnTrap[i].collider.GetComponent<EnemyResources>();
+            if (enemyResources.isDead)
+            {
 				enemyOnTrap.Remove(enemyOnTrap[i]);
 			}
 		}

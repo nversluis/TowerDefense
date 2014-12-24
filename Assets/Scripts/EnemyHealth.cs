@@ -6,6 +6,7 @@ public class EnemyHealth : MonoBehaviour {
 
 	private GameObject ResourceManagerObj;
 	private ResourceManager resourceManager;
+    EnemyResources enemyResources;
 	private PlayerData playerData = GUIScript.player;
 
     public int startingHealth = 100;
@@ -16,7 +17,6 @@ public class EnemyHealth : MonoBehaviour {
     public Vector3 deathPosition;
     EnemyMovement enemyMovement;
 
-    public bool isDead = false;
 	public bool isPoisoned;
 	public float poisonAmount = 0;
 
@@ -34,6 +34,8 @@ public class EnemyHealth : MonoBehaviour {
 
     void Start()
     {
+        enemyResources = GetComponent<EnemyResources>();
+        resourceManager = GetComponent<ResourceManager>();
 		ResourceManagerObj = GameObject.Find ("ResourceManager");
 		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
         startingHealth = enemyStats.health*10;
@@ -51,7 +53,7 @@ public class EnemyHealth : MonoBehaviour {
     void Update()
     {
 
-        if(isDead)
+        if(enemyResources.isDead)
         {
             counter += Time.deltaTime;
             collider.enabled = (false);
@@ -81,7 +83,7 @@ public class EnemyHealth : MonoBehaviour {
 			kleur = Color.green;
 		else
 			kleur = Color.black;
-        if (isDead)
+        if (enemyResources.isDead)
         {
             return;
         }
@@ -98,7 +100,7 @@ public class EnemyHealth : MonoBehaviour {
 		//textObj.GetComponent<TextMesh>().text = (Application.dataPath).ToString();
 		textObj.GetComponent<TextMesh>().text = (damageDone + "/"+currentHealth).ToString();
 		textObj.GetComponent<TextMesh> ().color = kleur;
-        if (currentHealth <= 0 && !isDead)
+        if (currentHealth <= 0 && !enemyResources.isDead)
         {
             Death();
         }
@@ -123,7 +125,7 @@ public class EnemyHealth : MonoBehaviour {
 
     public void Death()
     {
-		playerData.addGold(resourceManager.rewardEnemy);
+		playerData.addGold(resourceManager.rewardenemy);
         List<WayPoint> WPoints = new List<WayPoint>();
         WPoints = Navigator.FindWayPointsNear(transform.position, resourceManager.Nodes, nodeSize);
         foreach (WayPoint wp in WPoints)
@@ -131,7 +133,8 @@ public class EnemyHealth : MonoBehaviour {
             float newPenalty = wp.getPenalty() +15;
             wp.setPenalty(newPenalty);
         }
-		isDead = true;
+		enemyResources.isDead = true;
+        
 
         //currentHealth = startingHealth;
         //transform.position = startPosition;

@@ -70,8 +70,9 @@ public class PoisonTrap : MonoBehaviour
 	{
 		enemyOnTrap.RemoveAll (item => item == null);
 		for (int i = 0; i < enemyOnTrap.Count; i++) {
-			EnemyHealth enemyHealth = enemyOnTrap[i].collider.GetComponent<EnemyHealth> ();
-			if (enemyHealth.isDead) {
+            EnemyResources enemyResources = enemyOnTrap[i].collider.GetComponent<EnemyResources>();
+            if (enemyResources.isDead)
+            {
 				enemyOnTrap.Remove(enemyOnTrap[i]);
 			}
 		}

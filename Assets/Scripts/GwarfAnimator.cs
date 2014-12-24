@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GuyantAnimator : MonoBehaviour {
+public class GwarfAnimator : MonoBehaviour
+{
 
     protected Animator animator;
     EnemyResources enemyResources;
     EnemyHealth enemyHealth;
 
-	// Use this for initialization
+    // Use this for initialization
     void Start()
     {
 
@@ -17,7 +18,7 @@ public class GuyantAnimator : MonoBehaviour {
 
     }
 
-	// Update is called once per frame
+    // Update is called once per frame
     void Update()
     {
         if (enemyResources.walking)

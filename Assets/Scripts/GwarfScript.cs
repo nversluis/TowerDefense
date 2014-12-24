@@ -3,22 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-public class EnemyScript : MonoBehaviour
+public class GwarfScript : MonoBehaviour
 {
     EnemyHealth enemyHealth;
     EnemyStats enemystats;
     ResourceManager resourceManager;
+    EnemyResources enemyResources;
 
-	GameObject ResourceManagerObj;
+    GameObject ResourceManagerObj;
     GameObject player;
     GameObject goal;
     GameObject Target;
 
-	List<WayPoint> grid;
+    List<WayPoint> grid;
     List<WayPoint> WaypointsNearNow = new List<WayPoint>();
     List<WayPoint> WaypointsNearOld = new List<WayPoint>();
 
-	List<Vector3> Path;
+    List<Vector3> Path;
     List<Vector3> Path2;
 
     List<float> oldList = new List<float>();
@@ -36,8 +37,6 @@ public class EnemyScript : MonoBehaviour
     bool drawPath;
     bool automaticPathUpdating;
 
-    public bool walking;
-    public bool attacking;
     public bool isSlowed = false;
 
     // Method for finding all necessary scripts
@@ -46,6 +45,7 @@ public class EnemyScript : MonoBehaviour
         // Getting other scripts from this enemy
         enemystats = GetComponent<EnemyStats>();
         enemyHealth = GetComponent<EnemyHealth>();
+        enemyResources = GetComponent<EnemyResources>();
 
         // Getting the ResourceManger with script
         ResourceManagerObj = GameObject.Find("ResourceManager");
@@ -63,7 +63,7 @@ public class EnemyScript : MonoBehaviour
         pathUpdateRate = resourceManager.pathUpdateRate;
         dfactor = enemystats.dfactor;
         automaticPathUpdating = resourceManager.automaticPathUpdating;
-        
+
 
     }
 
@@ -72,7 +72,7 @@ public class EnemyScript : MonoBehaviour
     {
 
         // if the enemy is slowed
-        if (isSlowed)
+        if (enemyResources.isSlowed)
         {
             // reduce speed
             speedReduce = resourceManager.speedReduceRate;
@@ -89,14 +89,16 @@ public class EnemyScript : MonoBehaviour
     void Moving()
     {
         // if enemy found a path to its current goal
-        if (Path != null) {
-			Vector3 dir;
+        if (Path != null)
+        {
+            Vector3 dir;
             // if the enemy is not near its goal
-            if (i != Path.Count-1)
+            if (i < Path.Count - 1)
             {
+
                 // the enemy is walking and not attacking
-                walking = true;
-                attacking = false;
+                enemyResources.walking = true;
+                enemyResources.attacking = false;
 
                 // walk to the next point to smooth the walking of the enemy
                 dir = (Path[i + 1] - (transform.position - new Vector3(0f, transform.position.y, 0f))).normalized * walkSpeed;
@@ -105,13 +107,13 @@ public class EnemyScript : MonoBehaviour
             {
                 // else walk to the current point
                 dir = (Path[i] - (transform.position - new Vector3(0f, transform.position.y, 0f))).normalized * walkSpeed;
-                walking = true;
-                attacking = false;
+                enemyResources.walking = true;
+                enemyResources.attacking = false;
 
             }
 
             // if the enemy is not dead
-            if (enemyHealth.isDead != true)
+            if (enemyResources.isDead != true)
             {
                 // move in the direction of the next point
                 rigidbody.velocity = (dir + new Vector3(0f, rigidbody.velocity.y, 0f));
@@ -120,7 +122,7 @@ public class EnemyScript : MonoBehaviour
                 rigidbody.angularVelocity = Vector3.zero;
 
                 // rotate in the direction of where it is walking
-                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir.normalized), Time.deltaTime * 5f);
+                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(Quaternion.LookRotation(dir.normalized).eulerAngles+new Vector3(0,270,0)), Time.deltaTime * 5f);
 
                 // set rotations in other directions to zero
                 transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
@@ -154,29 +156,28 @@ public class EnemyScript : MonoBehaviour
                 Vector3 nextPointDistance = (Path[i] - transform.position - new Vector3(0f, transform.position.y, 0f));
                 nextPointDistance.y = 0;
 
-                // if the distance is smaller than 1 increase i by 1
-                if (nextPointDistance.magnitude < 1f)
-                {
-                    i++;
-                }
             }
 
-            // if the player is near the enemy attack him
-		    if ((player.transform.position-transform.position).magnitude < 3f) {
+            RaycastHit hit;
+            Physics.Raycast(transform.position,player.transform.position + new Vector3(0f,2f,0f)-transform.position,out hit);
+
+            // if the player is near the enemy attack the player
+            if ((player.transform.position - transform.position).magnitude < 30f && Target.Equals(player) && hit.transform.name == "Player")
+            {
 
                 // set speed to zero and attack
-			    rigidbody.velocity = Vector3.zero;
-                walking = false;
-                attacking = true;
-		    }
+                rigidbody.velocity = Vector3.zero;
+                enemyResources.walking = false;
+                enemyResources.attacking = true;
+            }
 
             // when enemy is dead
-            if (enemyHealth.isDead)
+            if (enemyResources.isDead)
             {
                 // set speed to zero
                 rigidbody.velocity = Vector3.zero;
-                walking = false;
-                attacking = false;
+                enemyResources.walking = false;
+                enemyResources.attacking = false;
             }
 
             // when enemy reaches the end
@@ -188,12 +189,15 @@ public class EnemyScript : MonoBehaviour
                 // destroy it
                 Destroy(this.gameObject);
             }
-	    }
+        }
     }
 
+    // Method for choosing a target
     void DetermineTarget()
     {
-        if ((transform.position - player.transform.position).magnitude/enemystats.playerImportance < (transform.position-goal.transform.position).magnitude/enemystats.goalImportance){
+        // checking whether player or goal is more interesting
+        if ((transform.position - player.transform.position).magnitude / enemystats.playerImportance < (transform.position - goal.transform.position).magnitude / enemystats.goalImportance)
+        {
             Target = player;
         }
         else
@@ -231,47 +235,48 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-	// Use this for initialization
-	void Start ()
-	{
+    // Use this for initialization
+    void Start()
+    {
         // Getting all necessary scripts
         GetScripts();
 
         // Repeat the pathfinding process
-		if (automaticPathUpdating) {
+        if (automaticPathUpdating)
+        {
             Target = goal;
-			InvokeRepeating ("BuildPath", 0, pathUpdateRate);
-		}
+            InvokeRepeating("BuildPath", 0, pathUpdateRate);
+        }
         else
         {
             Target = goal;
             BuildPath();
         }
 
-	}
+    }
 
-	//Update is called once per frame
-	void FixedUpdate ()
-	{
+    //Update is called once per frame
+    void FixedUpdate()
+    {
 
         // Determine the walk speed of the enemy
         WalkSpeed();
 
-        // Enemy movement
+        // enemy movement
         Moving();
-        
+
         // Determine the target
         DetermineTarget();
 
         // Debug
         Debuging();
 
-	}
+    }
 
     void BuildPath()
     {
         // When enemy is not dead
-        if (!enemyHealth.isDead)
+        if (!enemyResources.isDead)
         {
             // determine a path to a goal
             Path = Navigator.Path(transform.position - new Vector3(0f, transform.position.y, 0f), Target.transform.position - new Vector3(0f, Target.transform.position.y, 0f), nodeSize, grid, dfactor);

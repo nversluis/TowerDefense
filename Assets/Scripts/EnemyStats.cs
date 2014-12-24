@@ -20,14 +20,14 @@ public class EnemyStats : MonoBehaviour {
     public int statsMutation = 1;
 
     public int totalDamage;
-    EnemyAttack enemyAttack;
+    EnemyResources enemyResources;
     EnemyHealth enemyHealth;
 
 
     void Awake()
     {
-        //generateEnemyStats();
-        enemyAttack = GetComponent<EnemyAttack>();
+        //generateenemyStats();
+        enemyResources = GetComponent<EnemyResources>();
         enemyHealth = GetComponent<EnemyHealth>();
     }
 
@@ -45,16 +45,16 @@ public class EnemyStats : MonoBehaviour {
             enemyHealth.startingHealth = health * 10;
             enemyHealth.defense = defense;
             enemyHealth.currentHealth = enemyHealth.startingHealth;
-            enemyAttack.attackDamage = attack;
+            enemyResources.attackDamage = attack;
             respawn = false;
         }
     }
 
-    public void generateEnemyStats()
+    public void generateenemyStats()
     {
         this.stats = randomNumberGenerator(3, totalStatPoints);
         this.health = stats[0];
-        this.attack = stats[1];
+        this.attack = stats[1]*20;
         this.defense = stats[2];
         this.speedMultiplier = Random.Range(0.90f, 1.10f);
         this.dfactor = Random.Range(0.05f, 0.80f);

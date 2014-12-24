@@ -25,7 +25,7 @@ public class RandomMaze : MonoBehaviour
 	//Wall prefab
 	private GameObject node;
 	//Node prefab
-	private GameObject EnemySpawner;
+	private GameObject enemySpawner;
 	private GameObject Minimapcamera;
 	private GameObject Gate;
 	private GameObject torch;
@@ -64,7 +64,7 @@ public class RandomMaze : MonoBehaviour
 		NumberOfPaths = resourceManager.NumberOfPaths;
 		planePrefab = resourceManager.planePrefab;
 		wallPrefab = resourceManager.wallPrefab;
-		EnemySpawner = resourceManager.EnemySpawner;
+		enemySpawner = resourceManager.enemySpawner;
 		Minimapcamera = resourceManager.Minimapcamera;
 		Gate = resourceManager.Gate;
 		torch = resourceManager.torch;
@@ -100,7 +100,7 @@ public class RandomMaze : MonoBehaviour
 		spawnPlayer (player,camera,resourceManager.GUI,resourceManager.eventListener,startPos*planewidth,Minimapcamera,width,length,planewidth);
 		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Lightning torches..";
 		yield return new WaitForSeconds(0.1f);
-		createSingleObjects (planewidth,EnemySpawner,resourceManager.Goal,endPos,startPos);
+		createSingleObjects (planewidth,enemySpawner,resourceManager.Goal,endPos,startPos);
 		//generate Nodes;
 		//MakeNodeList (nodeSize,NodesPos,Nodes);
 		//create the minimap camera
@@ -370,12 +370,12 @@ public class RandomMaze : MonoBehaviour
 
 
 
-	public static void createSingleObjects (float planewidth,GameObject EnemySpawner, GameObject Goal2, Vector2 endPos, Vector2 startPos)
+	public static void createSingleObjects (float planewidth,GameObject enemySpawner, GameObject Goal2, Vector2 endPos, Vector2 startPos)
 	{
 		//Gate
 		//GameObject GateObj = (GameObject)Instantiate (Gate, new Vector3 (-planewidth / 2, height * planewidth / 2, -planewidth / 2), Quaternion.identity);
 		//GateObj.transform.localScale = new Vector3 (planewidth * 0.028f, planewidth * height / 150, planewidth);
-		GameObject enemySpawner = (GameObject)Instantiate (EnemySpawner, new Vector3 (endPos.x * planewidth, 0f, endPos.y * planewidth), Quaternion.identity); 
+		enemySpawner = (GameObject)Instantiate (enemySpawner, new Vector3 (endPos.x * planewidth, 0f, endPos.y * planewidth), Quaternion.identity); 
 		GameObject Goal = (GameObject)Instantiate(Goal2, new Vector3(startPos.x,0.01f,startPos.y)*planewidth,Quaternion.identity);
 		Goal.transform.name="Goal";
 	}

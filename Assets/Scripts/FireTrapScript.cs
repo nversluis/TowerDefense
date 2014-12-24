@@ -6,7 +6,7 @@ public class FireTrapScript : MonoBehaviour
 {
 	private GameObject ResourceManagerObj;
 	private int damagePerShot;
-	private string enemyTag;
+	private string enemyTag = "Enemy";
 	private float particleStartSize;
 	private GameObject partSys;
 	//private GameObject enemy;
@@ -59,7 +59,6 @@ public class FireTrapScript : MonoBehaviour
 		partSys = gameObject.transform.GetChild (2).gameObject;
 		particleStartSize=partSys.particleSystem.startSize*resourceManager.planewidth/10;
 		damagePerShot = 1000;
-		enemyTag = ("Enemy");
 		enemyOnTrap = new List<GameObject> ();
 	}
 	
@@ -69,8 +68,9 @@ public class FireTrapScript : MonoBehaviour
 		//Remove dead enemies
 		enemyOnTrap.RemoveAll (item => item == null);
 		for (int i = 0; i < enemyOnTrap.Count; i++) {
-			EnemyHealth enemyHealth = enemyOnTrap[i].collider.GetComponent<EnemyHealth> ();
-			if (enemyHealth.isDead) {
+            EnemyResources enemyResources = enemyOnTrap[i].collider.GetComponent<EnemyResources>();
+            if (enemyResources.isDead)
+            {
 				enemyOnTrap.Remove(enemyOnTrap[i]);
 			}
 		}

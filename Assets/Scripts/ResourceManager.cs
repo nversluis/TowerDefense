@@ -12,7 +12,7 @@ public class ResourceManager : MonoBehaviour {
 	public int costIceTrap;
 	public int costFireTrap;
 	public int costPoisonTrap;
-	public int rewardEnemy;
+	public int rewardenemy;
 	public int rewardWave;
 
 
@@ -20,7 +20,7 @@ public class ResourceManager : MonoBehaviour {
 
 	public GameObject planePrefab;
 	public GameObject wallPrefab;
-	public GameObject EnemySpawner;
+	public GameObject enemySpawner;
 	public GameObject Minimapcamera;
 
 	[Header("Decorations")]

@@ -19,7 +19,7 @@ public class LevelEditor : MonoBehaviour
 	//Floor prefab
 	private GameObject wallPrefab;
 	//Wall prefab
-	private GameObject EnemySpawner;
+	private GameObject enemySpawner;
 	private GameObject Minimapcamera;
 	private GameObject Gate;
 	private GameObject torch;
@@ -104,7 +104,7 @@ public class LevelEditor : MonoBehaviour
 		editorPlane = resourceManager.editorPlane;
 		planePrefab = resourceManager.planePrefab;
 		wallPrefab = resourceManager.wallPrefab;
-		EnemySpawner = resourceManager.EnemySpawner;
+		enemySpawner = resourceManager.enemySpawner;
 		Minimapcamera = resourceManager.Minimapcamera;
 		Gate = resourceManager.Gate;
 		torch = resourceManager.torch;
@@ -331,7 +331,7 @@ public class LevelEditor : MonoBehaviour
 		RandomMaze.spawnPlayer (player,camera,resourceManager.GUI,resourceManager.eventListener,startPos*planewidth,Minimapcamera,width,length,planewidth);
 		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Lightning torches..";
 		yield return new WaitForSeconds(0.1f);
-		RandomMaze.createSingleObjects (planewidth,EnemySpawner,resourceManager.Goal,endPos,startPos);
+		RandomMaze.createSingleObjects (planewidth,enemySpawner,resourceManager.Goal,endPos,startPos);
 		//generate Nodes;
 		//MakeNodeList (nodeSize,NodesPos,Nodes);
 		//create the minimap camera
@@ -369,7 +369,7 @@ public class LevelEditor : MonoBehaviour
 //				GameObject camera = resourceManager.mainCamera;
 //				RandomMaze.spawnPlayer (player, camera,resourceManager.GUI,resourceManager.eventListener, startPos * planewidth, Minimapcamera, width, length, planewidth);
 //				disableLevelEditor ();
-//				RandomMaze.createSingleObjects (planewidth, EnemySpawner, resourceManager.Goal, endPos, startPos);
+//				RandomMaze.createSingleObjects (planewidth, enemySpawner, resourceManager.Goal, endPos, startPos);
 //				RandomMaze.SpawnNodes (positions, nodeSize, planewidth, NodesPos, Nodes, length, width, drawNavGrid, true);
 
 				resourceManager.Nodes = Nodes;

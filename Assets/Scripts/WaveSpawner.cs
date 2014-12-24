@@ -7,7 +7,9 @@ public class WaveSpawner : MonoBehaviour
 {
 	private GameObject ResourceManagerObj;
 	private ResourceManager resourceManager;
-    private GameObject enemy;
+    private GameObject EnemyGuyant;
+    private GameObject EnemyGwarf;
+
     public int maxEnemies = 15;
     public bool spawning = true;
 
@@ -40,7 +42,8 @@ public class WaveSpawner : MonoBehaviour
     {
 		ResourceManagerObj = GameObject.Find ("ResourceManager");
 		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
-		enemy = resourceManager.enemyGuyant;
+        EnemyGuyant = resourceManager.enemyGuyant;
+        EnemyGwarf = resourceManager.enemyGwarf;
 		maxWaves = resourceManager.maxWaves;
 		currentWave = resourceManager.currentWave;
         enemies = new ArrayList();
@@ -65,7 +68,7 @@ public class WaveSpawner : MonoBehaviour
                     if (randomFloat < (float) (1 / (spawnTime * 60)))
                     {
                         // Spawn enemies tot het maximale aantal enemies wordt bereikt
-                        SpawnEnemy();
+                        Spawnenemy();
                     }
                 }
                 else
@@ -75,7 +78,7 @@ public class WaveSpawner : MonoBehaviour
             }
             else
             {
-                UpdateEnemyCount();
+                UpdateenemyCount();
 
                 if (enemies.Count == 0)
                 {
@@ -103,22 +106,39 @@ public class WaveSpawner : MonoBehaviour
         }
     }
 
-    void SpawnEnemy()
+    void Spawnenemy()
     {
+
+        float enemyNumber = Mathf.Round(Random.Range(1f, 2f));
         float randX = Random.Range(-maxX / 2, maxX / 2);
         float randZ = Random.Range(-maxZ / 2, maxZ / 2);
 
-        GameObject Enemy = (GameObject)Instantiate(enemy, transform.position + new Vector3(randX, 7.34f / 4, randZ), Quaternion.identity);
-        Enemy.gameObject.transform.localScale= new Vector3(0.5f, 0.5f, 0.5f);
-        Enemy.name = "enemy";
-        enemyStats = Enemy.GetComponent<EnemyStats>();
-        // Genereer enemies met toenemende stats per wave
-        enemyStats.totalStatPoints = currentTotalStatPoints;
-        enemyStats.generateEnemyStats();
-        enemies.Add(Enemy);
+        if (enemyNumber == 1)
+        {
+
+            GameObject enemyGuyant = (GameObject)Instantiate(EnemyGuyant, transform.position + new Vector3(randX, 7.34f / 4, randZ), Quaternion.identity);
+            enemyGuyant.gameObject.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            enemyGuyant.name = "enemy";
+            enemyStats = enemyGuyant.GetComponent<EnemyStats>();
+            // Genereer enemies met toenemende stats per wave
+            enemyStats.totalStatPoints = currentTotalStatPoints;
+            enemyStats.generateenemyStats();
+            enemies.Add(enemyGuyant);
+        }
+        else if (enemyNumber == 2)
+        {
+            GameObject enemyGwarf = (GameObject)Instantiate(EnemyGwarf, transform.position + new Vector3(randX, 7.34f / 4, randZ), Quaternion.identity);
+            enemyGwarf.gameObject.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            enemyGwarf.name = "enemyGwarf";
+            enemyStats = enemyGwarf.GetComponent<EnemyStats>();
+            // Genereer enemies met toenemende stats per wave
+            enemyStats.totalStatPoints = currentTotalStatPoints;
+            enemyStats.generateenemyStats();
+            enemies.Add(enemyGwarf);
+        }
     }
 
-    void UpdateEnemyCount()
+    void UpdateenemyCount()
     {
         for (int i = 0; i < enemies.Count; i++)
         {
