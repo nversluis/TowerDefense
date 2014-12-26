@@ -54,7 +54,6 @@ public class TrapScript : MonoBehaviour
 			trap.SetActiveRecursively (true); 
 			playerData.addGold (-cost);
 		} else {
-			Debug.Log ("Not enough gold to build " + realTrap.name);
 
 		}
 	}

@@ -118,7 +118,7 @@ public class WaveSpawner : MonoBehaviour
 
             GameObject enemyGuyant = (GameObject)Instantiate(EnemyGuyant, transform.position + new Vector3(randX, 7.34f / 4, randZ), Quaternion.identity);
             enemyGuyant.gameObject.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-            enemyGuyant.name = "enemy";
+            enemyGuyant.name = "enemyGuyant";
             enemyStats = enemyGuyant.GetComponent<EnemyStats>();
             // Genereer enemies met toenemende stats per wave
             enemyStats.totalStatPoints = currentTotalStatPoints;
@@ -127,7 +127,7 @@ public class WaveSpawner : MonoBehaviour
         }
         else if (enemyNumber == 2)
         {
-            GameObject enemyGwarf = (GameObject)Instantiate(EnemyGwarf, transform.position + new Vector3(randX, 7.34f / 4, randZ), Quaternion.identity);
+            GameObject enemyGwarf = (GameObject)Instantiate(EnemyGwarf, transform.position + new Vector3(randX, 1.38f, randZ), Quaternion.identity);
             enemyGwarf.gameObject.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
             enemyGwarf.name = "enemyGwarf";
             enemyStats = enemyGwarf.GetComponent<EnemyStats>();

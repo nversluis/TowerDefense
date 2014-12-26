@@ -411,7 +411,6 @@ GameObject:
   - 54: {fileID: 5488898}
   - 114: {fileID: 11416946}
   - 82: {fileID: 8226982}
-  - 114: {fileID: 11488898}
   m_Layer: 12
   m_Name: Gwarf
   m_TagString: Enemy
@@ -911,7 +910,7 @@ MonoBehaviour:
   totalDamage: 0
   player: {fileID: 0}
   invoked: 0
-  bulletSpeed: 20
+  bulletSpeed: 40
   bullet: {fileID: 112290, guid: ee38e7add70416744b8ab2ee32e914e0, type: 2}
   magic: {fileID: 8300000, guid: 94a8ec24c4e496c4d9fe27901b44b698, type: 3}
 --- !u!114 &11435154
@@ -942,17 +941,6 @@ MonoBehaviour:
   isDead: 0
   isSlowed: 0
   attackDamage: 0
---- !u!114 &11488898
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 188948}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b90d9b9bcba1d844c95f7faf6f13cf21, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11488900
 MonoBehaviour:
   m_ObjectHideFlags: 1

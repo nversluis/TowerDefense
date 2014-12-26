@@ -8,41 +8,30 @@ public class BulletController : MonoBehaviour
 	Vector3 PrevItLoc;
 	public static float maxBulletDistance = 200;
 	public static GameObject hitObject;
-
+    public GameObject Boom;
     LayerMask ignoreMask = ~(1 << 13);
 
-	void GotThrough()
-	{
+    void GotThrough()
+    {
 
-		RaycastHit hit;
+        RaycastHit hit;
         if (Physics.Raycast(PrevItLoc, transform.position - PrevItLoc, out hit, (PrevItLoc - transform.position).magnitude + 0.2f, ignoreMask))
-		{
-			EnemyHealth enemyHealth = hit.collider.GetComponent<EnemyHealth>();
-			Destroy(this.gameObject);
-			if (enemyHealth != null)
-			{
-				//Debug.Log("Ik hit de enemy!");
-				//Debug.Log("Current enemy health: " + enemyHealth.currentHealth);
-				enemyHealth.TakeDamage(damagePerShot,"magic");
-			}
-
-			/*hitObject = hit.collider.gameObject;
+        {
+            EnemyHealth enemyHealth = hit.collider.GetComponent<EnemyHealth>();
             Destroy(this.gameObject);
-            if (hit.collider.tag == "enemy")
+            GameObject boom = (GameObject)Instantiate(Boom, PrevItLoc, Quaternion.identity);
+            if (hit.rigidbody != null)
             {
-                Debug.Log("Current enemy health: " + enemyHealth.currentHealth);
-                //Destroy(hit.collider.gameObject);
-                if (enemyHealth.currentHealth > 0)
-                {
-                    enemyHealth.TakeDamage(damagePerShot);
-                }
-            }*/
-
-		}
-
-		PrevItLoc = transform.position;
-
-	}
+                boom.rigidbody.velocity = hit.collider.rigidbody.velocity;
+                boom.GetComponent<BoomParticleScript>().Hit = hit.collider.gameObject;
+            }
+            if (enemyHealth != null)
+            {
+                enemyHealth.TakeDamage(damagePerShot, "magic");
+            }
+        }
+        PrevItLoc = transform.position;
+    }
 
 
 	// Use this for initialization

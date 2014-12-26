@@ -8,7 +8,7 @@ public class GwarfBulletScript : MonoBehaviour
     Vector3 PrevItLoc;
     public static float maxBulletDistance = 200;
     public static GameObject hitObject;
-
+    public GameObject Boom;
     LayerMask ignoreMask = ~(1 << 13);
 
     void GotThrough()
@@ -19,16 +19,18 @@ public class GwarfBulletScript : MonoBehaviour
         {
             PlayerHealth playerHealth = hit.collider.GetComponent<PlayerHealth>();
             Destroy(this.gameObject);
+            GameObject boom = (GameObject)Instantiate(Boom, PrevItLoc, Quaternion.identity);
+            if (hit.rigidbody != null)
+            {
+                boom.rigidbody.velocity = hit.collider.rigidbody.velocity;
+                boom.GetComponent<BoomParticleScript>().Hit = hit.collider.gameObject;
+            }
             if (playerHealth != null)
             {
-
                 playerHealth.TakeDamage(damagePerShot);
             }
-
         }
-
         PrevItLoc = transform.position;
-
     }
 
 

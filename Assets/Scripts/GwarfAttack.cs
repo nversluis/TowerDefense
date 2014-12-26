@@ -20,6 +20,8 @@ public class GwarfAttack : MonoBehaviour
     public GameObject bullet;
     public AudioClip magic;
 
+    LayerMask allowMask = 1 << 10;
+
     void Start()
     {
         totalDamage = 0;
@@ -66,9 +68,13 @@ public class GwarfAttack : MonoBehaviour
         Vector3 shootDir = (target - transform.position).normalized;
         Vector3 Shoot = shootDir * bulletSpeed;
 
-        GameObject Bullet = (GameObject)Instantiate(bullet, transform.position, Quaternion.identity);
-        Bullet.rigidbody.velocity = Shoot;
-        audio.PlayOneShot(magic, 15f);
+        if (!Physics.Raycast(transform.position, target - transform.position, (target - transform.position).magnitude,allowMask))
+        {
+            GameObject Bullet = (GameObject)Instantiate(bullet, transform.position, Quaternion.identity);
+            Bullet.rigidbody.velocity = Shoot;
+            audio.PlayOneShot(magic, 15f);
+        }
+
     }
 
     void Update()

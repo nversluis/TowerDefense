@@ -132,7 +132,7 @@ State:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Walk
-  m_Speed: 2
+  m_Speed: 2.5
   m_CycleOffset: 0
   m_Motions:
   - {fileID: 7400000, guid: 46d183a74cf493a449f1ef9016aae5f2, type: 2}
@@ -202,21 +202,21 @@ StateMachine:
   m_ChildStateMachinePosition: []
   m_OrderedTransitions:
     data:
-      first: {fileID: 110275336}
+      first: {fileID: 0}
       second:
-      - {fileID: 110146194}
+      - {fileID: 110182444}
+      - {fileID: 110114798}
+    data:
+      first: {fileID: 110292816}
+      second: []
     data:
       first: {fileID: 110221750}
       second:
       - {fileID: 110134726}
     data:
-      first: {fileID: 110292816}
-      second: []
-    data:
-      first: {fileID: 0}
+      first: {fileID: 110275336}
       second:
-      - {fileID: 110182444}
-      - {fileID: 110114798}
+      - {fileID: 110146194}
   m_MotionSetCount: 1
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
