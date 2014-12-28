@@ -9,6 +9,7 @@ public class WaveSpawner : MonoBehaviour
 	private ResourceManager resourceManager;
     private GameObject EnemyGuyant;
     private GameObject EnemyGwarf;
+    private GameObject EnemyGrobble;
 
     public int maxEnemies = 15;
     public bool spawning = true;
@@ -44,12 +45,13 @@ public class WaveSpawner : MonoBehaviour
 		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
         EnemyGuyant = resourceManager.enemyGuyant;
         EnemyGwarf = resourceManager.enemyGwarf;
+        EnemyGrobble = resourceManager.enemyGrobble;
 		maxWaves = resourceManager.maxWaves;
 		currentWave = resourceManager.currentWave;
         enemies = new ArrayList();
 
         gui = GameObject.Find("GUIMain");
-        waveText = GameObject.Find("WaveText").GetComponent<Text>();
+        waveText = GameObject.Find("WaveNumberText").GetComponent<Text>();
         guiScript = gui.GetComponent<GUIScript>();
     }
 

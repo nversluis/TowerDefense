@@ -26,11 +26,11 @@ public class WallTowerScript : MonoBehaviour {
         enemysInRange = new List<GameObject>();
         
 
-		bullet = resourceManager.magicBullet;
+		bullet = resourceManager.magicTowerBullet;
 		magic = resourceManager.magicBulletSound;
 		enemyTag = resourceManager.enemyTag;
 		bulletSpeed = resourceManager.bulletSpeed;
-		coolDownTime = resourceManager.coolDownTimeTower1;
+		coolDownTime = resourceManager.coolDownTimeMagicTower;
 		InvokeRepeating("Shooting", 0f, coolDownTime);
     }
     void OnTriggerEnter(Collider col)
@@ -55,8 +55,17 @@ public class WallTowerScript : MonoBehaviour {
     void Update()
     {
 		for (int i = 0; i < enemysInRange.Count; i++) {
-			EnemyResources enemyResources = enemysInRange [i].collider.GetComponent<EnemyResources> ();
-            if (enemyResources.isDead)
+            EnemyResources enemyResources;
+            if (enemysInRange[i] != null)
+            {
+                enemyResources = enemysInRange[i].collider.GetComponent<EnemyResources>();
+            }
+            else
+            {
+                enemyResources = null;
+            }
+
+            if (enemyResources == null || enemyResources.isDead)
             {
 				enemysInRange.Remove (enemysInRange [i]);
 			}

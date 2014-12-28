@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
+
 
 public class EnemyHealth : MonoBehaviour {
 
@@ -16,6 +18,9 @@ public class EnemyHealth : MonoBehaviour {
     public Vector3 spawnPosition;
     public Vector3 deathPosition;
     EnemyMovement enemyMovement;
+
+    Text guiHeadShot;
+
 
 	public bool isPoisoned;
 	public float poisonAmount = 0;
@@ -47,6 +52,8 @@ public class EnemyHealth : MonoBehaviour {
 		nodeSize = resourceManager.nodeSize;
         animator = GetComponent<Animator>();
 		startingHealth = 100;
+        guiHeadShot = GameObject.Find("HeadShotText").GetComponent<Text>();
+
     }
 
     // Update is called once per frame
@@ -96,10 +103,10 @@ public class EnemyHealth : MonoBehaviour {
 			currentHealth = 0;
 
 		}
-		GameObject textObj = (GameObject)Instantiate (textObject, transform.position, Quaternion.identity);
-		//textObj.GetComponent<TextMesh>().text = (Application.dataPath).ToString();
-		textObj.GetComponent<TextMesh>().text = (damageDone + "/"+currentHealth).ToString();
-		textObj.GetComponent<TextMesh> ().color = kleur;
+        //GameObject textObj = (GameObject)Instantiate (textObject, transform.position, Quaternion.identity);
+        ////textObj.GetComponent<TextMesh>().text = (Application.dataPath).ToString();
+        //textObj.GetComponent<TextMesh>().text = (damageDone + "/"+currentHealth).ToString();
+        //textObj.GetComponent<TextMesh> ().color = kleur;
         if (currentHealth <= 0 && !enemyResources.isDead)
         {
             Death();
@@ -139,6 +146,23 @@ public class EnemyHealth : MonoBehaviour {
         //currentHealth = startingHealth;
         //transform.position = startPosition;
         //Debug.Log("Ik ben dood");
+    }
+    public void HeadShot()
+    {
+        currentHealth = 0;
+        if (currentHealth <= 0 && !enemyResources.isDead)
+        {
+            Death();
+            guiHeadShot.text = "HeadShot!";
+            StartCoroutine(DeleteHeadshotText());
+        }
+    }
+
+    IEnumerator DeleteHeadshotText()
+    {
+        yield return new WaitForSeconds(1.5f);
+        guiHeadShot.text = "";
+
     }
 
 }

@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &188898
 GameObject:
   m_ObjectHideFlags: 1
@@ -411,6 +411,7 @@ GameObject:
   - 54: {fileID: 5488898}
   - 114: {fileID: 11416946}
   - 82: {fileID: 8226982}
+  - 65: {fileID: 6522048}
   m_Layer: 12
   m_Name: Gwarf
   m_TagString: Enemy
@@ -760,7 +761,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 188948}
   m_LocalRotation: {x: 0, y: .707106829, z: 0, w: -.707106829}
-  m_LocalPosition: {x: 102.247406, y: .349806905, z: -4.65517139}
+  m_LocalPosition: {x: 394.277069, y: 395.263245, z: -4.65517139}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 488946}
@@ -810,6 +811,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 84
   m_CollisionDetection: 0
+--- !u!65 &6522048
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 188948}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.25, y: 1.39999998, z: 1}
+  m_Center: {x: .270000011, y: 1.99000001, z: 0}
 --- !u!82 &8226982
 AudioSource:
   m_ObjectHideFlags: 1
@@ -992,9 +1005,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 1.51999998
-  m_Height: 5.4000001
+  m_Height: 4.17999983
   m_Direction: 1
-  m_Center: {x: .310000002, y: -.00999999978, z: 0}
+  m_Center: {x: .159999996, y: -.660000026, z: 0}
 --- !u!137 &13788898
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

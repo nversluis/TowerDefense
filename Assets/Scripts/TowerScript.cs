@@ -25,7 +25,7 @@ public class TowerScript : MonoBehaviour
         resourceManager = ResourceManagerObj.GetComponent<ResourceManager>();
         planeW = resourceManager.planewidth;
         MaxDistance = resourceManager.maxTowerDistance;
-		realTower = resourceManager.tower1;
+		realTower = resourceManager.magicTower;
 		cost = resourceManager.costMagicTower;
     }
 

@@ -136,8 +136,9 @@ MonoBehaviour:
   maxWaves: 10
   currentWave: 1
   maxTowerDistance: 50
-  tower1: {fileID: 100010, guid: 00820a827834982408befc67f6611fe1, type: 2}
-  coolDownTimeTower1: .5
+  magicTower: {fileID: 100010, guid: 00820a827834982408befc67f6611fe1, type: 2}
+  magicTowerBullet: {fileID: 100000, guid: 992585f8d90a7dd4aa9fb58097ade3cd, type: 2}
+  coolDownTimeMagicTower: 1
   tower2: {fileID: 0}
   poisonTrap: {fileID: 100004, guid: 00395c20601754c63bd039223cee03ff, type: 2}
   fireTrap: {fileID: 100004, guid: 5eeab821c266140c29d2d3654a690e34, type: 2}
@@ -679,6 +680,18 @@ Prefab:
       propertyPath: enemyGwarf
       value: 
       objectReference: {fileID: 188948, guid: 37f21c745b6e3ff43942e88e21aba537, type: 2}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: coolDownTimeMagicTower
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: magicTower
+      value: 
+      objectReference: {fileID: 100010, guid: 00820a827834982408befc67f6611fe1, type: 2}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: magicTowerBullet
+      value: 
+      objectReference: {fileID: 100000, guid: 992585f8d90a7dd4aa9fb58097ade3cd, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
   m_RootGameObject: {fileID: 14726752}

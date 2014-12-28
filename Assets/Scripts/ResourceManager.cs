@@ -60,8 +60,9 @@ public class ResourceManager : MonoBehaviour {
 	public float maxTowerDistance;
 	[Header("WallTowers")]
 
-	public GameObject tower1;
-	public float coolDownTimeTower1;
+	public GameObject magicTower;
+    public GameObject magicTowerBullet;
+	public float coolDownTimeMagicTower;
 	public GameObject tower2;
 	[Header("Floor")]
 	public GameObject poisonTrap;
