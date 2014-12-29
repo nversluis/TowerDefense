@@ -131,7 +131,7 @@ MonoBehaviour:
   maxEnemies: 2
   minEnemies: 4
   pathUpdateRate: .5
-  drawPath: 1
+  drawPath: 0
   automaticPathUpdating: 1
   maxWaves: 10
   currentWave: 1
@@ -692,6 +692,10 @@ Prefab:
       propertyPath: magicTowerBullet
       value: 
       objectReference: {fileID: 100000, guid: 992585f8d90a7dd4aa9fb58097ade3cd, type: 2}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: drawPath
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
   m_RootGameObject: {fileID: 14726752}
