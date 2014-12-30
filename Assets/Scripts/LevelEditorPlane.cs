@@ -30,7 +30,8 @@ public class LevelEditorPlane : MonoBehaviour
 
 	}
 
-	void OnMouseEnter(){
+	void OnMouseEnter ()
+	{
 
 	}
 
@@ -43,8 +44,12 @@ public class LevelEditorPlane : MonoBehaviour
 			if (gameObject.renderer.material.color == CnoPlane) {
 				gameObject.renderer.material.color = CHighlighted;
 			}
-			if (Input.GetMouseButton (0))
-				addPos ();
+			if (Input.GetMouseButton (0)) {
+				if (LevelEditor.type < 3) {
+					addPos ();
+				} else
+					removePos ();
+			}
 
 			if (Input.GetMouseButton (1))
 				removePos ();
@@ -101,18 +106,18 @@ public class LevelEditorPlane : MonoBehaviour
 		if (gameObject == LevelEditor.startPlane) { //remove start position
 			LevelEditor.startPlane = null;
 			LevelEditor.amountOfStarts--;
-			resourceManager.startPos = new Vector2();
-			LevelEditor.startPos3 = new Vector3();
+			resourceManager.startPos = new Vector2 ();
+			LevelEditor.startPos3 = new Vector3 ();
 		}
 		if (gameObject == LevelEditor.endPlane) { //remove end position
 			LevelEditor.amountOfEnds--;
 			LevelEditor.endPlane = null;
-			LevelEditor.endPos3 = new Vector3();
-			resourceManager.endPos =new Vector2();
+			LevelEditor.endPos3 = new Vector3 ();
+			resourceManager.endPos = new Vector2 ();
 		}
 		gameObject.renderer.material.color = CnoPlane;
 		LevelEditor.removePos (new Vector2 (gameObject.transform.position.x, gameObject.transform.position.z));
-		LevelEditor.Recalculate (LevelEditor.posConnected, LevelEditor.allPos, LevelEditor.positions, planewidth, resourceManager.length,resourceManager.width, CConnected, CNotConnected, CstartEnd);
+		LevelEditor.Recalculate (LevelEditor.posConnected, LevelEditor.allPos, LevelEditor.positions, planewidth, resourceManager.length, resourceManager.width, CConnected, CNotConnected, CstartEnd);
 	}
 
 

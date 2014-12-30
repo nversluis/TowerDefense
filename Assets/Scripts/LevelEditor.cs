@@ -51,11 +51,15 @@ public class LevelEditor : MonoBehaviour
 	private Button nextBut;
 	private bool drawNavGrid;
 
+
+	public GameObject newMapScreen;
 	public InputField lengthInput;
 	public InputField widthInput;
 	public Button SubmitButton;
+	public Button cancelSizeBut;
+	public Button newSizeBut;
+
 	public Button GenerateLevelButton;
-	public Button selectNormal;
 	public InputField fileNameInput;
 	public Button saveLayout;
 	public Button loadLayout;
@@ -117,7 +121,7 @@ public class LevelEditor : MonoBehaviour
 		CConnected = resourceManager.connected;
 		CNotConnected = resourceManager.notConnected;
 		CHighlighted = resourceManager.highlighted;
-		loadScreenOpen = false;
+		loadScreenOpen = true;
 		AppPath = Application.persistentDataPath + "/MapLayouts/";
 		type = 2;
 		drawNavigationGrid = resourceManager.drawNavigationGrid;
@@ -126,19 +130,16 @@ public class LevelEditor : MonoBehaviour
 
 
 		SubmitButton.onClick.AddListener (delegate {
-			if (!loadScreenOpen)
-				submitSize ();
-			else
-				setErrorTekst ("Can't do that while load screen is open");
+
+			submitSize ();
+			newMapScreen.SetActive (false);
+		
 		});
 		GenerateLevelButton.onClick.AddListener (delegate {
 			if (!loadScreenOpen)
 				GenerateLevel ();
 			else
 				setErrorTekst ("Can't do that while load screen is open");
-		});
-		selectNormal.onClick.AddListener (delegate {
-			SwitchType ();
 		});
 
 		saveLayout.onClick.AddListener (delegate {
@@ -163,6 +164,17 @@ public class LevelEditor : MonoBehaviour
 			cancelLoadScreen ();
 		});
 
+		newSizeBut.onClick.AddListener (delegate { 
+			newMapScreen.SetActive (true);
+			loadMapsPanel.SetActive(false);
+			loadScreenOpen = true;
+		});
+
+		cancelSizeBut.onClick.AddListener (delegate {
+			newMapScreen.SetActive (false);
+			loadScreenOpen = false;
+		});
+
 		amountOfEnds = 0;
 		amountOfStarts = 0;
 		loadMapsPanel.SetActive (true);
@@ -183,9 +195,65 @@ public class LevelEditor : MonoBehaviour
 		});
 		loadMapsPanel.SetActive (false);
 
-		if (!File.Exists(AppPath)) {
+		if (!File.Exists (AppPath)) {
 			Directory.CreateDirectory (AppPath);
 		}
+
+
+		GameObject nothingCol = GameObject.Find ("NothingCol");
+		nothingCol.transform.GetChild(1).GetComponent<Image>().color = CnoPlane;
+		GameObject startCol = GameObject.Find ("StartCol");
+		startCol.transform.GetChild (1).GetComponent<Image> ().color = CstartEnd;	
+		GameObject endCol = GameObject.Find ("EndCol");
+		endCol.transform.GetChild (1).GetComponent<Image> ().color = CstartEnd;
+		GameObject conCol = GameObject.Find ("ConCol");
+		conCol.transform.GetChild (1).GetComponent<Image> ().color = CConnected;
+		GameObject notConCol = GameObject.Find ("NotConCol");
+		notConCol.transform.GetChild (1).GetComponent<Image> ().color = CNotConnected;
+
+		startCol.GetComponent<Button>().onClick.AddListener (delegate {
+			type=0;
+			nothingCol.transform.GetChild (0).GetComponent<Text>().color = Color.white;
+			startCol.transform.GetChild (0).GetComponent<Text>().color = Color.green;
+			endCol.transform.GetChild (0).GetComponent<Text>().color = Color.white;
+			conCol.transform.GetChild (0).GetComponent<Text>().color = Color.white;
+			notConCol.transform.GetChild (0).GetComponent<Text>().color = Color.white;
+		});
+		endCol.GetComponent<Button>().onClick.AddListener (delegate {
+			type=1;
+			nothingCol.transform.GetChild (0).GetComponent<Text>().color = Color.white;
+			startCol.transform.GetChild (0).GetComponent<Text>().color = Color.white;
+			endCol.transform.GetChild (0).GetComponent<Text>().color = Color.green;
+			conCol.transform.GetChild (0).GetComponent<Text>().color = Color.white;
+			notConCol.transform.GetChild (0).GetComponent<Text>().color = Color.white;
+		});
+
+		conCol.GetComponent<Button>().onClick.AddListener (delegate {
+			type=2;
+			nothingCol.transform.GetChild (0).GetComponent<Text>().color = Color.white;
+			startCol.transform.GetChild (0).GetComponent<Text>().color = Color.white;
+			endCol.transform.GetChild (0).GetComponent<Text>().color = Color.white;
+			conCol.transform.GetChild (0).GetComponent<Text>().color = Color.green;
+			notConCol.transform.GetChild (0).GetComponent<Text>().color = Color.green;
+		});
+		notConCol.GetComponent<Button>().onClick.AddListener (delegate {
+			type=2;
+			nothingCol.transform.GetChild (0).GetComponent<Text>().color = Color.white;
+			startCol.transform.GetChild (0).GetComponent<Text>().color = Color.white;
+			endCol.transform.GetChild (0).GetComponent<Text>().color = Color.white;
+			conCol.transform.GetChild (0).GetComponent<Text>().color = Color.green;
+			notConCol.transform.GetChild (0).GetComponent<Text>().color = Color.green;
+		});
+
+		nothingCol.GetComponent<Button>().onClick.AddListener (delegate {
+			type=3;
+			nothingCol.transform.GetChild (0).GetComponent<Text>().color = Color.green;
+			startCol.transform.GetChild (0).GetComponent<Text>().color = Color.white;
+			endCol.transform.GetChild (0).GetComponent<Text>().color = Color.white;
+			conCol.transform.GetChild (0).GetComponent<Text>().color = Color.white;
+			notConCol.transform.GetChild (0).GetComponent<Text>().color = Color.white;
+		});
+
 
 	}
 
@@ -195,15 +263,16 @@ public class LevelEditor : MonoBehaviour
 	void Update ()
 	{
 
-		if (!playing) {
+		if (newMapScreen.activeSelf) {
 			int length1;
 			int width1;
 			bool resultLength = int.TryParse (lengthInput.text, out length1);
 			bool resultWidth = int.TryParse (widthInput.text, out width1);
 			if (resultWidth && resultLength && int.Parse (lengthInput.text) > 0 && int.Parse (widthInput.text) > 0) {
-				SubmitButton.GetComponentInChildren<Text> ().text = "Confirm/Reset";
+				SubmitButton.GetComponentInChildren<Text> ().text = "Confirm";
 				SubmitButton.enabled = true;
 			} else {
+				SubmitButton.GetComponentInChildren<Text> ().text = "Not Valid";
 				SubmitButton.enabled = false;			
 			}
 		}
@@ -212,21 +281,20 @@ public class LevelEditor : MonoBehaviour
 
 	private void submitSize ()
 	{
-		if (!loadScreenOpen) {
-			length = int.Parse (lengthInput.text);
-			width = int.Parse (widthInput.text);
-			resourceManager.length = length;
-			resourceManager.width = width;
-			if (length < 1 || width < 1) {
-				SubmitButton.gameObject.transform.renderer.material.color = Color.red;
-			} else {
+		loadScreenOpen = false;
+		length = int.Parse (lengthInput.text);
+		width = int.Parse (widthInput.text);
+		resourceManager.length = length;
+		resourceManager.width = width;
+		if (length < 1 || width < 1) {
+			SubmitButton.gameObject.transform.renderer.material.color = Color.red;
+		} else {
 
-				SubmitButton.GetComponentInChildren<Text> ().text = "Reset"; //reset the floor
-				Reset ();
+			SubmitButton.GetComponentInChildren<Text> ().text = "Reset"; //reset the floor
+			Reset ();
 
-			}
-		} else
-			setErrorTekst ("Can't do that while load screen is open");
+		}
+
 	}
 
 
@@ -250,12 +318,12 @@ public class LevelEditor : MonoBehaviour
 
 	}
 
-	public static bool checkConnected (GameObject plane, List<Vector3> posConnected, List<GameObject> allPos, ArrayList positions, float planewidth, int length, int width,Color CConnected, Color CNotConnected, Color CstartEnd)
+	public static bool checkConnected (GameObject plane, List<Vector3> posConnected, List<GameObject> allPos, ArrayList positions, float planewidth, int length, int width, Color CConnected, Color CNotConnected, Color CstartEnd)
 	{
 		Vector3 posNormalized = plane.transform.position / planewidth;
 		bool res = (posConnected.Contains (posNormalized + new Vector3 (1, 0, 0)) || posConnected.Contains (posNormalized - new Vector3 (1, 0, 0)) || posConnected.Contains (posNormalized + new Vector3 (0, 0, 1)) || posConnected.Contains (posNormalized - new Vector3 (0, 0, 1)));
 		if (res) {
-			convertAround (plane, posConnected, allPos, positions, planewidth, length, width,CstartEnd,CNotConnected,CConnected);
+			convertAround (plane, posConnected, allPos, positions, planewidth, length, width, CstartEnd, CNotConnected, CConnected);
 		}
 		return res;
 	}
@@ -270,7 +338,7 @@ public class LevelEditor : MonoBehaviour
 		}	
 		if (LevelEditor.startPlane != null) {
 			LevelEditor.posConnected.Add (LevelEditor.startPlane.transform.position / planewidth);
-			LevelEditor.convertAround (startPlane, posConnected, allPos, positions, planewidth, length, width,CstartEnd,CNotConnected,CConnected);		
+			LevelEditor.convertAround (startPlane, posConnected, allPos, positions, planewidth, length, width, CstartEnd, CNotConnected, CConnected);		
 		}
 	}
 
@@ -302,7 +370,7 @@ public class LevelEditor : MonoBehaviour
 						checkPlane.renderer.material.color = CConnected;
 					}
 					LevelEditor.posConnected.Add (checkPlane.transform.position / planewidth);
-					convertAround (checkPlane, posConnected, allPos, positions, planewidth, length, width,CstartEnd,CNotConnected,CConnected);
+					convertAround (checkPlane, posConnected, allPos, positions, planewidth, length, width, CstartEnd, CNotConnected, CConnected);
 				}
 			}
 		}
@@ -312,26 +380,27 @@ public class LevelEditor : MonoBehaviour
 
 
 
-	IEnumerator spawnLevel(){
+	IEnumerator spawnLevel ()
+	{
 
 		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Destroying what you just built";
-		yield return new WaitForSeconds(0.1f);
+		yield return new WaitForSeconds (0.1f);
 		disableLevelEditor ();
 		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Rebuilding the floors you just built";
-		yield return new WaitForSeconds(0.1f);
+		yield return new WaitForSeconds (0.1f);
 		GenerateFloor ();
 		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: You built the floors, we place the walls!...";
-		yield return new WaitForSeconds(0.1f);
-		RandomMaze.GenerateWall (positions,planewidth,wallPrefab,torch,height,length,width,gameObject);
+		yield return new WaitForSeconds (0.1f);
+		RandomMaze.GenerateWall (positions, planewidth, wallPrefab, torch, height, length, width, gameObject);
 		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Dwogres wanted a red carpet to walk on, generating..";
-		yield return new WaitForSeconds(0.1f);
-		Nodes=RandomMaze.SpawnNodes (positions,nodeSize, planewidth, NodesPos, Nodes,length,width,drawNavigationGrid,false);
-		LoadingScreen.GetComponentInChildren<Text>().text = "Loading: Giving birth to Player...=";
-		yield return new WaitForSeconds(0.1f);
-		RandomMaze.spawnPlayer (player,camera,resourceManager.GUI,resourceManager.eventListener,startPos*planewidth,Minimapcamera,width,length,planewidth);
+		yield return new WaitForSeconds (0.1f);
+		Nodes = RandomMaze.SpawnNodes (positions, nodeSize, planewidth, NodesPos, Nodes, length, width, drawNavigationGrid, false);
+		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Giving birth to Player...=";
+		yield return new WaitForSeconds (0.1f);
+		RandomMaze.spawnPlayer (player, camera, resourceManager.GUI, resourceManager.eventListener, startPos * planewidth, Minimapcamera, width, length, planewidth);
 		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Lightning torches..";
-		yield return new WaitForSeconds(0.1f);
-		RandomMaze.createSingleObjects (planewidth,enemySpawner,resourceManager.Goal,endPos,startPos);
+		yield return new WaitForSeconds (0.1f);
+		RandomMaze.createSingleObjects (planewidth, enemySpawner, resourceManager.Goal, endPos, startPos);
 		//generate Nodes;
 		//MakeNodeList (nodeSize,NodesPos,Nodes);
 		//create the minimap camera
@@ -380,24 +449,6 @@ public class LevelEditor : MonoBehaviour
 
 	}
 
-	private void SwitchType ()
-	{
-		if (!loadScreenOpen) {
-			if (type == 0) {
-				type = 1;
-				selectNormal.GetComponentInChildren<Text> ().text = "End tile selected";
-			} else if (type == 1) {
-				type = 2;
-				selectNormal.GetComponentInChildren<Text> ().text = "Normal tile selected";
-			} else if (type == 2) {
-				type = 0;
-				selectNormal.GetComponentInChildren<Text> ().text = "Start tile selected";
-			}
-			selectNormal.GetComponentInChildren<Text> ().fontSize =32;
-		} else
-			setErrorTekst ("Can't do that while load screen is open");
-
-	}
 
 
 
@@ -501,7 +552,7 @@ public class LevelEditor : MonoBehaviour
 			width = int.Parse (file.ReadLine ());
 			int num1;
 			while ((line = file.ReadLine ()) != null) {
-				bool isInt=int.TryParse (line,out num1);
+				bool isInt = int.TryParse (line, out num1);
 				if (isInt) {
 					datas.Add (int.Parse (line));
 				}
@@ -564,7 +615,7 @@ public class LevelEditor : MonoBehaviour
 			loadScreenOpen = false;
 			loadMapsPanel.SetActive (false);
 			//reconstruct connected
-			Recalculate (LevelEditor.posConnected, LevelEditor.allPos, LevelEditor.positions, resourceManager.planewidth, resourceManager.length, resourceManager.width,CConnected,CNotConnected,CstartEnd);
+			Recalculate (LevelEditor.posConnected, LevelEditor.allPos, LevelEditor.positions, resourceManager.planewidth, resourceManager.length, resourceManager.width, CConnected, CNotConnected, CstartEnd);
 			amountOfEnds = 1;
 			amountOfStarts = 1;
 			LevelEditor.positions = positions;
@@ -587,13 +638,14 @@ public class LevelEditor : MonoBehaviour
 	private void ShowSavedMaps ()
 	{
 		loadScreenOpen = true;
+		newMapScreen.SetActive (false);
 		cam.pixelRect = new Rect (Screen.width / 2, Screen.height / 2 - 100, 200, 200);
 		loadMapsPanel.gameObject.SetActive (true);
 		foreach (Transform child in loadMapsPanel.transform) {
 			if (child.gameObject.name.Contains ("load"))
 				Destroy (child.gameObject);
 		}
-		int rows = (int)Mathf.Floor ((Screen.height-200) / ((Screen.width+350)/35));
+		int rows = (int)Mathf.Floor ((Screen.height - 200) / ((Screen.width + 350) / 35));
 		int columns = 1;
 		int filesPerPage = rows * columns;
 		nextBut.gameObject.SetActive (true);
@@ -610,7 +662,7 @@ public class LevelEditor : MonoBehaviour
 		//create a list with the names of all layouts.
 		BinaryFormatter bf = new BinaryFormatter ();
 		//FileStream file = File.
-		string[] dirFiles = Directory.GetFiles(AppPath,"*.txt"); 
+		string[] dirFiles = Directory.GetFiles (AppPath, "*.txt"); 
 		maxPages = (int)Mathf.Ceil ((float)dirFiles.Length / (float)filesPerPage);
 		for (int i = 0; i < dirFiles.Length; i++) {
 			if (i < filesPerPage * currentPage && i >= filesPerPage * (currentPage - 1)) {
@@ -623,11 +675,11 @@ public class LevelEditor : MonoBehaviour
 				//Button but = (Button)Instantiate (loadButton, loadMapsPanel.transform.position + new Vector3 (Mathf.Floor (j / rows) * 50 - 180, 120 - 30 * (j % rows)), Quaternion.identity); //breedte,hoogte
 				//Button but = (Button)Instantiate (loadButton, loadMapsPanel.transform.position + new Vector3 ((Mathf.Floor (j / rows) - 1.5f) * 25,0, 30 - 5 * (j % rows)), loadMapsPanel.transform.rotation);
 				but.transform.SetParent (loadMapsPanel.gameObject.transform);
-				but.GetComponent<RectTransform> ().offsetMin = new Vector2 (350, 50+120*(rows-j));
+				but.GetComponent<RectTransform> ().offsetMin = new Vector2 (350, 50 + 120 * (rows - j));
 				but.GetComponent<RectTransform> ().sizeDelta = new Vector2 (1000, 200);
 
 				but.GetComponentInChildren<Text> ().text = dirFiles [i];
-				but.transform.localScale = new Vector3 (1, 1, 1)/4;
+				but.transform.localScale = new Vector3 (1, 1, 1) / 4;
 				but.transform.GetChild (1).gameObject.SetActive (false);
 
 				string fileName = dirFiles [i];
