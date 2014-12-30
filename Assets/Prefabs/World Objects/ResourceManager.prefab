@@ -23,7 +23,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 20.2024803, y: 9.92507648, z: 15.3468361}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -62,7 +62,7 @@ MonoBehaviour:
   drawNavigationGrid: 0
   enemyTag: Enemy
   enemyGuyant: {fileID: 100052, guid: 6a25f25271f527644ab0b18b0e7c536e, type: 2}
-  enemyGwarf: {fileID: 127590, guid: 5568cc02255b4e744a9bbce868682364, type: 2}
+  enemyGwarf: {fileID: 0}
   enemyGrobble: {fileID: 0}
   walkSpeed: 5
   maxEnemies: 2
@@ -73,8 +73,9 @@ MonoBehaviour:
   maxWaves: 10
   currentWave: 1
   maxTowerDistance: 50
-  tower1: {fileID: 100010, guid: 00820a827834982408befc67f6611fe1, type: 2}
-  coolDownTimeTower1: .5
+  magicTower: {fileID: 0}
+  magicTowerBullet: {fileID: 0}
+  coolDownTimeMagicTower: 0
   tower2: {fileID: 0}
   poisonTrap: {fileID: 100004, guid: 00395c20601754c63bd039223cee03ff, type: 2}
   fireTrap: {fileID: 100004, guid: 5eeab821c266140c29d2d3654a690e34, type: 2}
@@ -101,10 +102,10 @@ MonoBehaviour:
   lengthMinimap: 200
   heightMinimap: 200
   editorPlane: {fileID: 100000, guid: 4399a3da2ea28304bae6812a147e5855, type: 2}
-  noPlane: {r: 1, g: 1, b: 1, a: 0}
-  startOrEnd: {r: .926470578, g: .367863327, b: 0, a: 0}
-  connected: {r: 0, g: 1, b: 0, a: 0}
-  notConnected: {r: 1, g: 0, b: 0, a: 0}
+  noPlane: {r: 1, g: 1, b: 1, a: 1}
+  startOrEnd: {r: .926470578, g: .367863327, b: 0, a: 1}
+  connected: {r: 0, g: 1, b: 0, a: 1}
+  notConnected: {r: 1, g: 0, b: 0, a: 1}
   highlighted: {r: 0, g: 1, b: .205882311, a: .301960796}
 --- !u!1001 &100100000
 Prefab:
