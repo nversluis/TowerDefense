@@ -42,8 +42,6 @@ public class PlayerController : MonoBehaviour
         float moveX = Mathf.Cos(camAngleY * Mathf.Deg2Rad) * inHorz + Mathf.Sin(camAngleY * Mathf.Deg2Rad) * inVert;
         float moveZ = -Mathf.Sin(camAngleY * Mathf.Deg2Rad) * inHorz + Mathf.Cos(camAngleY * Mathf.Deg2Rad) * inVert;
 
-        // Jumping movements of player
-
         // creating a movement vector
         Vector3 movement = new Vector3(moveX, 0f, moveZ).normalized * playerSpeed + new Vector3(0f,rigidbody.velocity.y,0f);
 
@@ -55,7 +53,7 @@ public class PlayerController : MonoBehaviour
     // Method for moving the player
     private void playerMovement()
     {
-        // setting rotation of player in the direction of the speed of the player
+        // Checking if the player is moving
         if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
         {
             moving = true;
@@ -175,6 +173,7 @@ public class PlayerController : MonoBehaviour
 		Bullet = resourceManager.magicBullet;
 		magic = resourceManager.magicBulletSound;
 
+
         
 
     }
@@ -187,9 +186,8 @@ public class PlayerController : MonoBehaviour
         location = transform.position;
         Jumping();
 
-        //GameObject[] enemys = GameObject.FindGameObjectsWithTag("enemy");
-        //Debug.Log(enemys.Length);
-        //Debug.Log(isGrounded());
+
+
     }
 
     // Updates 60 times per second and not per frame

@@ -115,27 +115,6 @@ public class CameraController : MonoBehaviour {
         // Moving camera with method
         CamMov();
 
-    }
-
-	// Update is called once per frame
-	void FixedUpdate () {
-		if (resourceManager.Nodes != null) {
-			foreach (WayPoint waypoint in resourceManager.Nodes) {
-				float penalty = waypoint.getPenalty ();
-				if (penalty > 0.1) {
-					waypoint.setPenalty (penalty - 0.1f * Time.fixedDeltaTime);
-				}
-			}
-        
-		}
-        // casting a ray to see what object is in front of the camera
-        if (Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity, ignoreMask))
-        {
-			hitObject = hit.collider.gameObject;
-
-        }
-
-
         if (Physics.Raycast(transform.position, transform.forward, out hit))
         {
             if (hit.transform.tag == "Enemy")
@@ -154,6 +133,26 @@ public class CameraController : MonoBehaviour {
                 enemyType.text = "";
                 enemyInformation.SetActive(false);
             }
+        }
+
+    }
+
+	// Update is called once per frame
+	void FixedUpdate () {
+		if (resourceManager.Nodes != null) {
+			foreach (WayPoint waypoint in resourceManager.Nodes) {
+				float penalty = waypoint.getPenalty ();
+				if (penalty > 0.1) {
+					waypoint.setPenalty (penalty - 0.1f * Time.fixedDeltaTime);
+				}
+			}
+        
+		}
+        // casting a ray to see what object is in front of the camera
+        if (Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity, ignoreMask))
+        {
+			hitObject = hit.collider.gameObject;
+
         }
 	}
 }

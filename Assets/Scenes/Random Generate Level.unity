@@ -130,8 +130,8 @@ MonoBehaviour:
   walkSpeed: 5
   maxEnemies: 2
   minEnemies: 4
-  pathUpdateRate: .5
-  drawPath: 0
+  pathUpdateRate: .100000001
+  drawPath: 1
   automaticPathUpdating: 1
   maxWaves: 10
   currentWave: 1
@@ -165,10 +165,10 @@ MonoBehaviour:
   lengthMinimap: 200
   heightMinimap: 200
   editorPlane: {fileID: 100000, guid: 4399a3da2ea28304bae6812a147e5855, type: 2}
-  noPlane: {r: 1, g: 1, b: 1, a: 0}
-  startOrEnd: {r: .926470578, g: .367863327, b: 0, a: 0}
-  connected: {r: 0, g: 1, b: 0, a: 0}
-  notConnected: {r: 1, g: 0, b: 0, a: 0}
+  noPlane: {r: 1, g: 1, b: 1, a: 1}
+  startOrEnd: {r: .926470578, g: .367863327, b: 0, a: 1}
+  connected: {r: 0, g: 1, b: 0, a: 1}
+  notConnected: {r: 1, g: 0, b: 0, a: 1}
   highlighted: {r: 0, g: 1, b: .205882311, a: .301960796}
 --- !u!4 &14726754
 Transform:
@@ -694,7 +694,11 @@ Prefab:
       objectReference: {fileID: 100000, guid: 992585f8d90a7dd4aa9fb58097ade3cd, type: 2}
     - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
       propertyPath: drawPath
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: pathUpdateRate
+      value: .100000001
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}

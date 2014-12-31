@@ -15,6 +15,9 @@ public class GuyantScript : MonoBehaviour
     GameObject goal;
     GameObject Target;
 
+    WayPoint collisionWayPointOld;
+    WayPoint collisionWayPoint;
+
 	List<WayPoint> grid;
     List<WayPoint> WaypointsNearNow = new List<WayPoint>();
     List<WayPoint> WaypointsNearOld = new List<WayPoint>();
@@ -29,14 +32,13 @@ public class GuyantScript : MonoBehaviour
     float walkSpeed;
     float dfactor;
     float pathUpdateRate;
-    float penalty = 5f;
+    float penalty = 50f;
     float speedReduce;
 
     int i = 0;
 
     bool drawPath;
     bool automaticPathUpdating;
-
 
     public bool isSlowed = false;
 
@@ -177,7 +179,7 @@ public class GuyantScript : MonoBehaviour
             }
 
             // when enemy reaches the end
-            if ((goal.transform.position - transform.position).magnitude < 2f)
+            if ((goal.transform.position - transform.position).magnitude < 4f)
             {
                 // enemy has won
                 GoalScript.lives--;
@@ -271,7 +273,8 @@ public class GuyantScript : MonoBehaviour
     {
         // When enemy is not dead
         if (!enemyResources.isDead)
-        {
+        {           
+
             // determine a path to a goal
             Path = Navigator.Path(transform.position - new Vector3(0f, transform.position.y, 0f), Target.transform.position - new Vector3(0f, Target.transform.position.y, 0f), nodeSize, grid, dfactor);
             // if drawPath is enabled also calculate a second path without dfactor

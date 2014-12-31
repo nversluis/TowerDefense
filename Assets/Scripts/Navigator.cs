@@ -320,7 +320,7 @@ public class Navigator : MonoBehaviour
 	}
 
 	// Function that can find a Waypoint at a certain location
-	static WayPoint FindWayPointAt (Vector3 position, List<WayPoint> grid)
+	public static WayPoint FindWayPointAt (Vector3 position, List<WayPoint> grid)
 	{
 		/* DEBUG */
 		//Debug.Log("Looking for waypoint at position: " + position);
