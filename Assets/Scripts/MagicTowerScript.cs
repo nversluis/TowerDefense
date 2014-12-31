@@ -34,6 +34,7 @@ public class MagicTowerScript : MonoBehaviour {
 		coolDownTime = resourceManager.coolDownTimeMagicTower;
 		coolDownTime = transform.parent.GetComponent<TowerStats> ().speed;
 		InvokeRepeating("Shooting", 0f, coolDownTime);
+		scaleRange (transform.parent.GetComponent<TowerStats> ().range);
     }
     void OnTriggerEnter(Collider col)
     {
@@ -169,4 +170,9 @@ public class MagicTowerScript : MonoBehaviour {
         //enemyVel = enemyCharController.velocity;
 
     }
+
+	public void scaleRange(float range){
+		gameObject.transform.localScale *= range;
+		gameObject.transform.localPosition = new Vector3(5 * range,0,0);
+	}
 }
