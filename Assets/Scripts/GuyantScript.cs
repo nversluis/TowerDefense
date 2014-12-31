@@ -38,7 +38,7 @@ public class GuyantScript : MonoBehaviour
     bool automaticPathUpdating;
 
 
-    public bool isSlowed = false;
+    public float isSlowed = 1;
 
     // Method for finding all necessary scripts
     void GetScripts()
@@ -71,18 +71,18 @@ public class GuyantScript : MonoBehaviour
     // Method for determining the speed of the enemy
     void WalkSpeed()
     {
-
-        // if the enemy is slowed
-        if (enemyResources.isSlowed)
-        {
-            // reduce speed
-            speedReduce = resourceManager.speedReduceRate;
-        }
-        else
-        {
-            // else speed is is normal speed;
-            speedReduce = 1;
-        }
+		speedReduce = enemyResources.isSlowed;
+//        // if the enemy is slowed
+//        if (enemyResources.isSlowed)
+//        {
+//            // reduce speed
+//            speedReduce = resourceManager.speedReduceRate;
+//        }
+//        else
+//        {
+//            // else speed is is normal speed;
+//            speedReduce = 1;
+//        }
         walkSpeed = normalWalkSpeed * speedReduce;
     }
 
@@ -246,7 +246,7 @@ public class GuyantScript : MonoBehaviour
             Target = goal;
             BuildPath();
         }
-
+		enemyResources.isSlowed=1;
 	}
 
 	//Update is called once per frame

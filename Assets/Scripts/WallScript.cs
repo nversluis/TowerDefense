@@ -14,12 +14,14 @@ public class WallScript : MonoBehaviour {
 	float planeW;
 	private GameObject player;
 	private float maxDistance;
+	private int  cost;
 
 	void Start(){
 		ResourceManagerObj = GameObject.Find ("ResourceManager");
 		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
 		planeW = resourceManager.planewidth;
 		maxDistance = resourceManager.maxTowerDistance;
+		cost = 0;
 	}
 
 	void Update(){
@@ -48,6 +50,11 @@ public class WallScript : MonoBehaviour {
 					curTag = "HotSpotRed";
 				}
 
+				//set cost
+				if(TowerPrefab.name.Contains("magic")){
+					cost = resourceManager.costMagicTower;
+					}
+
 				tower.tag = curTag;
 
 				foreach (Renderer child in tower.GetComponentsInChildren<Renderer>()) {
@@ -62,9 +69,10 @@ public class WallScript : MonoBehaviour {
 
 			}
 
-			if (Input.GetMouseButtonUp(1) && gameObject.transform.childCount==1)
+			if (Input.GetMouseButtonUp(1) && gameObject.transform.childCount==1) //Sell the tower
 			{
 				Destroy (gameObject.transform.GetChild(0).gameObject);
+				GUIScript.player.addGold (cost / 2);
 			}
 
 		}

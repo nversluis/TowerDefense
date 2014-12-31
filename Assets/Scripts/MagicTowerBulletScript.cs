@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class MagicTowerBulletScript : MonoBehaviour
 {
-    private int damagePerShot = 1500;
+	public int damagePerShot;// = 1500;
     Transform Player;
     Vector3 PrevItLoc;
     public static float maxBulletDistance = 200;

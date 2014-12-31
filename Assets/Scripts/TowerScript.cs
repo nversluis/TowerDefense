@@ -48,15 +48,7 @@ public class TowerScript : MonoBehaviour
 		}
     }
 
-    void OnMouseOver()
-    {
-        //If mouse button on tower, remove the tower
-        //todo - Give 1/2 money back
-        //todo - Menu with options (sell, upgrade)
-        if (Input.GetMouseButtonUp(1) && gameObject.tag.Equals("Tower"))
-            Destroy(gameObject);
-
-    }
+   
 
     void Update()
     {

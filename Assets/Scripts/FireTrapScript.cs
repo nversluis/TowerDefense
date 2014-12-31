@@ -19,7 +19,7 @@ public class FireTrapScript : MonoBehaviour
 				gameObject.transform.GetChild (2).gameObject.SetActive (true);
 			enemyOnTrap.Add (col.gameObject);
 			if (enemyOnTrap.Count ==1)
-				InvokeRepeating ("DoDamage", 0.1f, 0.33f);
+				InvokeRepeating ("DoDamage", 0.1f, 1/gameObject.GetComponent<TowerStats>().speed);
 		}
 	}
 
@@ -58,7 +58,7 @@ public class FireTrapScript : MonoBehaviour
 		ResourceManager resourceManager = ResourceManagerObj.GetComponent<ResourceManager>();
 		partSys = gameObject.transform.GetChild (2).gameObject;
 		particleStartSize=partSys.particleSystem.startSize*resourceManager.planewidth/10;
-		damagePerShot = 1000;
+		damagePerShot = gameObject.GetComponent<TowerStats>().attack;
 		enemyOnTrap = new List<GameObject> ();
 	}
 	
