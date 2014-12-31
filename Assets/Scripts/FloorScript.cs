@@ -8,11 +8,13 @@ public class FloorScript : MonoBehaviour {
 	private GameObject ResourceManagerObj;
 	private ResourceManager resourceManager;
 	private PlayerData playerData = GUIScript.player;
+	private int cost;
 
 	void Start(){
 		i = 0;
 		ResourceManagerObj = GameObject.Find ("ResourceManager");
 		resourceManager = ResourceManagerObj.GetComponent<ResourceManager>();
+		cost = 0;
 	}
 	void Update(){
 		//Debug.Log (CameraController.hitObject.name);
@@ -38,10 +40,26 @@ public class FloorScript : MonoBehaviour {
 					}
 				}
 
+				if (TowerPrefab.name.Contains ("Fire")) {
+					cost = resourceManager.costFireTrap;
+				} else if (TowerPrefab.name.Contains ("Poison")) {
+					cost = resourceManager.costPoisonTrap;
+				} else if (TowerPrefab.name.Contains ("Ice")) {
+					cost = resourceManager.costIceTrap;
+				} else if (TowerPrefab.name.Contains ("Spear")) {
+					//cost = resourceManager.costFireTrap;
+				}
+
 				//tower.transform.GetChild (0).gameObject.renderer.material.shader = Shader.Find ("Transparent/Diffuse");
 				//tower.transform.GetChild (0).gameObject.renderer.
 				tower.transform.parent = gameObject.transform;			
 			}
+			if (Input.GetMouseButtonUp(1) && gameObject.transform.childCount==2) //Sell the trap
+			{
+				Destroy (gameObject.transform.GetChild(1).gameObject);
+				GUIScript.player.addGold (cost / 2);
+			}
+
 		}
 
 	}

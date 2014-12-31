@@ -37,7 +37,7 @@ public class GwarfScript : MonoBehaviour
     bool drawPath;
     bool automaticPathUpdating;
 
-    public bool isSlowed = false;
+    public float isSlowed = 1;
 
     // Method for finding all necessary scripts
     void GetScripts()
@@ -70,18 +70,7 @@ public class GwarfScript : MonoBehaviour
     // Method for determining the speed of the enemy
     void WalkSpeed()
     {
-
-        // if the enemy is slowed
-        if (enemyResources.isSlowed)
-        {
-            // reduce speed
-            speedReduce = resourceManager.speedReduceRate;
-        }
-        else
-        {
-            // else speed is is normal speed;
-            speedReduce = 1;
-        }
+		speedReduce = enemyResources.isSlowed;
         walkSpeed = normalWalkSpeed * speedReduce;
     }
 
@@ -252,7 +241,7 @@ public class GwarfScript : MonoBehaviour
             Target = goal;
             BuildPath();
         }
-
+		enemyResources.isSlowed=1;
     }
 
     //Update is called once per frame

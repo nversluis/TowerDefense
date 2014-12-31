@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 [RequireComponent(typeof(AudioSource))]
 
-public class WallTowerScript : MonoBehaviour {
+public class MagicTowerScript : MonoBehaviour {
 
 	private GameObject ResourceManagerObj;
 	private ResourceManager resourceManager;
@@ -13,6 +13,8 @@ public class WallTowerScript : MonoBehaviour {
     private float coolDownTime;
 	private string enemyTag;
 	private AudioClip magic;
+
+	private static GameObject parent;
     
     GameObject enemy;
     Vector3 enemyVel;
@@ -24,14 +26,15 @@ public class WallTowerScript : MonoBehaviour {
 		ResourceManagerObj = GameObject.Find ("ResourceManager");
 		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
         enemysInRange = new List<GameObject>();
-        
 
 		bullet = resourceManager.magicTowerBullet;
 		magic = resourceManager.magicBulletSound;
 		enemyTag = resourceManager.enemyTag;
 		bulletSpeed = resourceManager.bulletSpeed;
 		coolDownTime = resourceManager.coolDownTimeMagicTower;
+		coolDownTime = transform.parent.GetComponent<TowerStats> ().speed;
 		InvokeRepeating("Shooting", 0f, coolDownTime);
+		scaleRange (transform.parent.GetComponent<TowerStats> ().range);
     }
     void OnTriggerEnter(Collider col)
     {
@@ -154,6 +157,7 @@ public class WallTowerScript : MonoBehaviour {
 
 			GameObject Bullet = (GameObject)Instantiate(bullet, transform.parent.position, Quaternion.identity);
             Bullet.rigidbody.velocity = Shoot;
+			Bullet.GetComponent<MagicTowerBulletScript> ().damagePerShot = transform.parent.GetComponent<TowerStats> ().attack;
 			audio.PlayOneShot(magic,15f);
 
         }
@@ -166,4 +170,9 @@ public class WallTowerScript : MonoBehaviour {
         //enemyVel = enemyCharController.velocity;
 
     }
+
+	public void scaleRange(float range){
+		gameObject.transform.localScale *= range;
+		gameObject.transform.localPosition = new Vector3(5 * range,0,0);
+	}
 }

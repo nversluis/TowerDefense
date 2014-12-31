@@ -95,6 +95,7 @@ GameObject:
   - 95: {fileID: 9500000}
   - 23: {fileID: 2300000}
   - 82: {fileID: 8200000}
+  - 114: {fileID: 11477428}
   m_Layer: 13
   m_Name: Magic Tower
   m_TagString: Tower
@@ -563,9 +564,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 100014}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa1bf77d30d275e4491651488a749678, type: 3}
+  m_Script: {fileID: 11500000, guid: 9cc2096a073af9d4cb5a6167c2542392, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11477428
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79e5d33eecfe7a94d973dd64f3fc0aca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 1000
+  attack: 1500
+  defence: 10
+  speed: .5
+  range: 1
+  specialDamage: 0
 --- !u!198 &19800000
 ParticleSystem:
   m_ObjectHideFlags: 1

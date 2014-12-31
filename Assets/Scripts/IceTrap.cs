@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class IceTrap : MonoBehaviour
 {
 	private GameObject ResourceManagerObj;
-	private int damagePerShot = 100;
+	private int damagePerShot;
 	private string enemyTag = ("Enemy");
 	private float particleStartSize;
 	private GameObject partSys;
@@ -17,12 +17,12 @@ public class IceTrap : MonoBehaviour
 	{
 		if (col.gameObject.tag == (enemyTag) && !enemyOnTrap.Contains (col.gameObject)) {
             EnemyResources enemyResources = col.gameObject.collider.GetComponent<EnemyResources>();
-            enemyResources.isSlowed = true;
+			enemyResources.isSlowed = gameObject.GetComponent<TowerStats> ().specialDamage;
 			if (gameObject.transform.GetChild (2).gameObject.activeSelf == false)
 				gameObject.transform.GetChild (2).gameObject.SetActive (true);
 			enemyOnTrap.Add (col.gameObject);
 			if (enemyOnTrap.Count == 1)
-				InvokeRepeating ("DoDamage", 0.1f, 5f);
+				InvokeRepeating ("DoDamage", 0.1f, 1/gameObject.GetComponent<TowerStats>().speed);
 		}
 	}
 
@@ -31,7 +31,7 @@ public class IceTrap : MonoBehaviour
 		if (col.gameObject.tag == (enemyTag)) {
 			enemyOnTrap.Remove (col.gameObject);
             EnemyResources enemyResources = col.gameObject.collider.GetComponent<EnemyResources>();
-            enemyResources.isSlowed = false;
+            enemyResources.isSlowed = 1;
 		}
 	}
 
@@ -45,7 +45,7 @@ public class IceTrap : MonoBehaviour
                 EnemyResources enemyResources = enemy.collider.GetComponent<EnemyResources>();
 				EnemyHealth enemyHealth = enemy.collider.GetComponent<EnemyHealth> ();
 				enemyHealth.TakeDamage (damagePerShot, "magic");
-                enemyResources.isSlowed = true;
+				enemyResources.isSlowed = gameObject.GetComponent<TowerStats> ().specialDamage;
 			}
 		}
 
@@ -67,6 +67,7 @@ public class IceTrap : MonoBehaviour
 		ResourceManager resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
 		partSys = gameObject.transform.GetChild (2).gameObject;
 		particleStartSize = partSys.particleSystem.startSize * resourceManager.planewidth / 10;
+		damagePerShot = gameObject.GetComponent<TowerStats> ().attack;
 	}
 
 	// Update is called once per frame

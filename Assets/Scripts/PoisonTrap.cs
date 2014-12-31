@@ -6,7 +6,7 @@ public class PoisonTrap : MonoBehaviour
 {
 	private GameObject ResourceManagerObj;
 	private ResourceManager resourceManager;
-	private int damagePerShot = 500;
+	private int damagePerShot;// = 500;
 	private string enemyTag = ("Enemy");
 	private GameObject enemy;
 	private List<GameObject> enemyOnTrap = new List<GameObject> ();
@@ -20,7 +20,7 @@ public class PoisonTrap : MonoBehaviour
 			EnemyHealth enemyHealth = enemy.collider.GetComponent<EnemyHealth> ();
 			enemyOnTrap.Add (col.gameObject);
 			if (enemyOnTrap.Count == 1) {
-				InvokeRepeating ("DoDamage", 0.1f, 3f);
+				InvokeRepeating ("DoDamage", 0.1f, 1/gameObject.GetComponent<TowerStats>().speed);
 			}
 		}
 	}
@@ -62,7 +62,7 @@ public class PoisonTrap : MonoBehaviour
 		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
 		partSys = gameObject.transform.GetChild (2).gameObject;
 		particleStartSize = partSys.particleSystem.startSize * resourceManager.planewidth / 5;
-
+		damagePerShot = gameObject.GetComponent < TowerStats> ().attack;
 	}
 	
 	// Update is called once per frame
