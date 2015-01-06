@@ -55,6 +55,9 @@ public class GUIScript : MonoBehaviour {
     public Text resultText;
     public Text resultScoreText; 
 
+	[Header("Tower Popup")]
+	public GameObject TowerPopup;
+
     // Scripts
     private GameObject playerObject;
     private GameObject cameraObject;
@@ -312,4 +315,10 @@ public class GUIScript : MonoBehaviour {
         cameraScript.enabled = false;
         Time.timeScale = 0;
     }
+
+	public GameObject getPopUpPanel()
+	{
+		return TowerPopup;
+	}
+
 }
