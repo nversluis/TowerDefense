@@ -2052,6 +2052,7 @@ MonoBehaviour:
   crosshair: {fileID: 100122}
   resultText: {fileID: 11400138}
   resultScoreText: {fileID: 11400118}
+  TowerPopup: {fileID: 0}
 --- !u!114 &11400054
 MonoBehaviour:
   m_ObjectHideFlags: 1

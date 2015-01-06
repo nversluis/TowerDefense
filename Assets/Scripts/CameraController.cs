@@ -37,7 +37,6 @@ public class CameraController : MonoBehaviour {
 
     private GameObject enemyInformation;
 
-
     private void Start()
     {
 		ResourceManagerObj = GameObject.Find ("ResourceManager");
@@ -148,11 +147,16 @@ public class CameraController : MonoBehaviour {
 			}
         
 		}
+		GameObject prevHitObject = hitObject;
         // casting a ray to see what object is in front of the camera
         if (Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity, ignoreMask))
         {
 			hitObject = hit.collider.gameObject;
-
+			if (hitObject != prevHitObject) 
+			{
+				GameObject.Find ("GUIMain").GetComponent<GUIScript> ().TowerPopup.SetActive (false);
+			}
         }
+
 	}
 }

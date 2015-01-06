@@ -54,14 +54,47 @@ public class FloorScript : MonoBehaviour {
 				//tower.transform.GetChild (0).gameObject.renderer.
 				tower.transform.parent = gameObject.transform;			
 			}
-			if (Input.GetMouseButtonUp(1) && gameObject.transform.childCount==2) //Sell the trap
+			if (gameObject.transform.childCount==2) //Sell the trap
 			{
-				Destroy (gameObject.transform.GetChild(1).gameObject);
-				GUIScript.player.addGold (cost / 2);
+				if (Input.GetKeyUp (KeyCode.I)) {
+					sellTower ();
+				}
+
+				//upgrade the tower - todo
+				if (Input.GetKeyUp (KeyCode.U)) {
+					upgradeTower ();
+				}
+
+				//bring up the menu to show ot sell or upgrade tower (with costs) and upgrade stats
+				if (Input.GetMouseButtonDown(1)) {
+					showMenu ();
+				}
+
+				if (Input.GetKeyUp (KeyCode.C)) {
+					GameObject.Find ("GUIMain").GetComponent<GUIScript> ().TowerPopup.SetActive (false);
+				}
 			}
 
 		}
 
 	}
 
+	private void sellTower(){
+
+		Destroy (gameObject.transform.GetChild (1).gameObject);
+		GUIScript.player.addGold (cost / 2);
+		GameObject.Find ("GUIMain").GetComponent<GUIScript> ().TowerPopup.SetActive (false);
+	}
+
+	private void upgradeTower(){
+		Debug.Log ("Not yet implemented");
+		GameObject.Find ("GUIMain").GetComponent<GUIScript> ().TowerPopup.SetActive (false);
+	}
+
+	private void showMenu(){
+		GameObject popUpPanel = GameObject.Find ("GUIMain").GetComponent<GUIScript> ().TowerPopup;
+		popUpPanel.SetActive (true);
+
 }
+}
+

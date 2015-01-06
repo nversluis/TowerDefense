@@ -92,6 +92,9 @@ public class GUIScript : MonoBehaviour {
     public Text resultText;
     public Text resultScoreText; 
 
+	[Header("Tower Popup")]
+	public GameObject TowerPopup;
+
     // Scripts
     private GameObject playerObject;
     private GameObject cameraObject;
