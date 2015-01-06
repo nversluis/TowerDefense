@@ -96,20 +96,23 @@ public class GUIScript : MonoBehaviour {
     // Initialize a public variable containing all player data
     public static PlayerData player = new PlayerData();
 
+    // OptionButton variable
+    private bool options = true;
+
 	void Start () {
         /* Get private components */
 
         // Skills
 
-        skillText1 = skill1.transform.GetChild(0).GetComponent<Text>();
-        skillText2 = skill2.transform.GetChild(0).GetComponent<Text>();
-        skillText3 = skill3.transform.GetChild(0).GetComponent<Text>();
-        skillText4 = skill4.transform.GetChild(0).GetComponent<Text>();
+        skillText1 = skill1.transform.FindChild("Key").GetComponent<Text>();
+        skillText2 = skill2.transform.FindChild("Key").GetComponent<Text>();
+        skillText3 = skill3.transform.FindChild("Key").GetComponent<Text>();
+        skillText4 = skill4.transform.FindChild("Key").GetComponent<Text>();
 
-        skillCooldown1 = skill1.transform.GetChild(1).GetComponent<Text>();
-        skillCooldown2 = skill2.transform.GetChild(1).GetComponent<Text>();
-        skillCooldown3 = skill3.transform.GetChild(1).GetComponent<Text>();
-        skillCooldown4 = skill4.transform.GetChild(1).GetComponent<Text>();
+        skillCooldown1 = skill1.transform.FindChild("Cooldown").GetComponent<Text>();
+        skillCooldown2 = skill2.transform.FindChild("Cooldown").GetComponent<Text>();
+        skillCooldown3 = skill3.transform.FindChild("Cooldown").GetComponent<Text>();
+        skillCooldown4 = skill4.transform.FindChild("Cooldown").GetComponent<Text>();
 
         // Towers
 
@@ -183,7 +186,7 @@ public class GUIScript : MonoBehaviour {
 
         for(int i = 0; i < skillTextList.Count; i++){
             Text tx = skillTextList[i];
-            tx.text = i.ToString();
+            tx.text = (i + 1).ToString();
         }
 
         foreach(Text tx in skillCooldownList) {
@@ -194,7 +197,7 @@ public class GUIScript : MonoBehaviour {
         for(int i = 0; i < towerTextList.Count; i++) {
             Text tx = towerTextList[i];
             tx.enabled = true;
-            tx.text = i.ToString();
+            tx.text = (i + 1).ToString();
         }
 
         // Pause menu
@@ -224,26 +227,7 @@ public class GUIScript : MonoBehaviour {
     void Update() {
         // Pause menu behaviour
         if(Input.GetKeyDown("escape")) {
-            if(pause == false) {
-                crosshair.SetActive(false);
-                playerScript.enabled = false;
-                cameraScript.enabled = false;
-                Screen.lockCursor = false;
-                Screen.showCursor = true;
-                Time.timeScale = 0;
-                canvas.SetActive(true);
-                pause = true;
-            }
-            else {
-                pause = false;
-                canvas.SetActive(false);
-                Time.timeScale = 1;
-                crosshair.SetActive(true);
-                Screen.showCursor = true;
-                Screen.lockCursor = true;
-                playerScript.enabled = true;
-                cameraScript.enabled = true;
-            }
+            PauseGame();
         }
     }
 
@@ -332,10 +316,10 @@ public class GUIScript : MonoBehaviour {
         for(int i = 0; i < towerIconList.Count; i++) {
             Image tower = towerIconList[i];
             if(i == currentTower){
-                tower.color = new Color(0, 0, 0, 0);
+                tower.color = new Color(0, 0, 0, 0.75f);
             }
             else {
-                tower.color = new Color(1, 1, 1, 0.5f);
+                tower.color = new Color(1, 1, 1, 1);
             }
         }
     }
@@ -349,21 +333,37 @@ public class GUIScript : MonoBehaviour {
 
             switch(item.getTier()) {
                 case 1:
-                    image.color = new Color(1, 0, 0, .25f);
+                    image.color = new Color(1, 0, 0, 1);
                     break;
                 case 2:
-                    image.color = new Color(0, 1, 0, .25f);
+                    image.color = new Color(0, 1, 0, 1);
                     break;
                 case 3:
-                    image.color = new Color(0, 0, 1, .25f);
+                    image.color = new Color(0, 0, 1, 1);
                     break;
                 case 4:
-                    image.color = new Color(1, 1, 0, .25f);
+                    image.color = new Color(1, 1, 0, 1);
                     break;
                 default:
                     image.color = new Color(1, 1, 1, 1);
                     break;
             }
+        }
+    }
+
+    public void PauseGame() {
+        if(pause == false) {
+            crosshair.SetActive(false);
+            playerScript.enabled = false;
+            cameraScript.enabled = false;
+            Screen.lockCursor = false;
+            Screen.showCursor = true;
+            canvas.SetActive(true);
+            pause = true;
+            Time.timeScale = 0;
+        }
+        else {
+            Resume();
         }
     }
 
