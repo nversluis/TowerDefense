@@ -118,7 +118,7 @@ public class CameraController : MonoBehaviour {
 
         if (Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity, MaskEnemyStats))
         {
-            Debug.Log(hit.transform.name);
+            //Debug.Log(hit.transform.name);
             if (hit.transform.tag == "Enemy")
             {
                 EnemyStats enemyStats = hit.transform.GetComponent<EnemyStats>();
@@ -150,11 +150,14 @@ public class CameraController : MonoBehaviour {
 			}
         
 		}
+		GameObject prevHitObject = hitObject;
         // casting a ray to see what object is in front of the camera
         if (Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity, ignoreMask))
         {
 			hitObject = hit.collider.gameObject;
-            
+			if (prevHitObject != hitObject) {
+				GameObject.Find ("GUIMain").GetComponent<GUIScript> ().getPopUpPanel().SetActive (false);
+			}
 
         }
 	}

@@ -5,6 +5,8 @@ using System.Collections.Generic;
 public class GAWaveSpawner : MonoBehaviour
 {
     public GameObject enemy;
+    public GameObject EnemyGuyant;
+    public GameObject EnemyGwarf;
     public GameObject nextGenenemy;
     public int maxEnemies;
     public bool spawning = true;
@@ -42,12 +44,14 @@ public class GAWaveSpawner : MonoBehaviour
     {
 		ResourceManagerObj = GameObject.Find ("ResourceManager");
 		resourceManager = ResourceManagerObj.GetComponent<ResourceManager>();
+        EnemyGuyant = resourceManager.enemyGuyant;
+        EnemyGwarf = resourceManager.enemyGwarf;
         allEnemies = new ArrayList();
         currentGen = new ArrayList();
         nextGen = new ArrayList();
         generateWave();
         currentTotalStatPoints = totalStatPointsPerWave / maxEnemies;
-        Debug.Log("Wave " + currentWave + " / " + maxWaves);
+        //Debug.Log("Wave " + currentWave + " / " + maxWaves);
 		minAantalEnemiesPerWave = resourceManager.minEnemies;
 		maxAantalEnemiesPerWave = resourceManager.maxEnemies;
     }
@@ -65,12 +69,14 @@ public class GAWaveSpawner : MonoBehaviour
             {
                 spawning = false;
                 setCurrentGen();
+                //Debug.Log(currentGen.Count);
             }
         }
         else
         {
             if (AllEnemiesDead())
             {
+                //Debug.Log("Alle enemies zijn dood");
 				playerData.addGold(resourceManager.rewardWave);
                 if (currentWave < maxWaves)
                 {
@@ -85,17 +91,41 @@ public class GAWaveSpawner : MonoBehaviour
                     // Versterk de enemies in de volgende generatie
                     BuffEnemies();
                     // Spawnt de volgende generatie
-                    Respawn();
+                    // Respawn();
                     // Verhoog de wave count
                     currentWave++;
-                    Debug.Log("Wave " + currentWave + " / " + maxWaves);
+                    //Debug.Log("Wave " + currentWave + " / " + maxWaves);
                 }
                 else
                 {
-                    Debug.Log("Congratulations! You've succesfully defeated all waves of enemies!");
+                    //Debug.Log("Congratulations! You've succesfully defeated all waves of enemies!");
                 }
             }
         }
+    }
+
+    public void generateWave()
+    {
+        // kiest een random integer tussen minAantalEnemiesPerWave en maxAantalEnemiesPerWave
+        int randomInt = Random.Range(minAantalEnemiesPerWave, maxAantalEnemiesPerWave + 1);
+
+        maxEnemies = randomInt;
+    }
+
+    bool AllEnemiesDead()
+    {
+        int aantal = 0;
+
+        for (int i = 0; i < currentGen.Count; i++)
+        {
+            //Debug.Log(((GameObject)currentGen[i]).GetComponent<EnemyResources>().isDead);
+            if (((GameObject)currentGen[i]).GetComponent<EnemyResources>().isDead)
+            {                
+                aantal++;
+            }
+        }
+        Debug.Log(aantal + " / " + maxEnemies);
+        return (aantal == maxEnemies);
     }
 
     void setAllEnemies()
@@ -122,29 +152,33 @@ public class GAWaveSpawner : MonoBehaviour
 
     void Spawnenemy()
     {
+        float enemyNumber = Mathf.Round(Random.Range(1f, 2f));
         float randX = Random.Range(-maxX / 2, maxX / 2);
         float randZ = Random.Range(-maxZ / 2, maxZ / 2);
 
-        GameObject Enemy = (GameObject)Instantiate(enemy, transform.position + new Vector3(randX, 7.34f / 4, randZ), Quaternion.identity);
-        Enemy.gameObject.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        if (enemyNumber == 1)
+        {
 
-        Enemy.name = "Enemy";
-        enemyStats = Enemy.GetComponent<EnemyStats>();
-        enemyHealth = Enemy.GetComponent<EnemyHealth>();
-        // Genereer enemies met toenemende stats per wave
-        enemyStats.totalStatPoints = currentTotalStatPoints;
-        // Genereer stats van de enemy
-        enemyStats.generateenemyStats();
-        enemyHealth.spawnPosition = enemy.transform.position;
-        allEnemies.Add(enemy);
-    }
-
-    public void generateWave()
-    {
-        // kiest een random integer tussen minAantalEnemiesPerWave en maxAantalEnemiesPerWave
-        int randomInt = Random.Range(minAantalEnemiesPerWave, maxAantalEnemiesPerWave + 1);
-
-        maxEnemies = randomInt;
+            GameObject enemyGuyant = (GameObject)Instantiate(EnemyGuyant, transform.position + new Vector3(randX, 7.34f / 4, randZ), Quaternion.identity);
+            enemyGuyant.gameObject.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            enemyGuyant.name = "Guyant";
+            enemyStats = enemyGuyant.GetComponent<EnemyStats>();
+            // Genereer enemies met toenemende stats per wave
+            enemyStats.totalStatPoints = currentTotalStatPoints;
+            enemyStats.generateenemyStats();
+            allEnemies.Add(enemyGuyant);
+        }
+        else if (enemyNumber == 2)
+        {
+            GameObject enemyGwarf = (GameObject)Instantiate(EnemyGwarf, transform.position + new Vector3(randX, 1.38f, randZ), Quaternion.identity);
+            enemyGwarf.gameObject.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            enemyGwarf.name = "Gwarf";
+            enemyStats = enemyGwarf.GetComponent<EnemyStats>();
+            // Genereer enemies met toenemende stats per wave
+            enemyStats.totalStatPoints = currentTotalStatPoints;
+            enemyStats.generateenemyStats();
+            allEnemies.Add(enemyGwarf);
+        }
     }
 
     public void selection(List<float> chances)
@@ -187,20 +221,6 @@ public class GAWaveSpawner : MonoBehaviour
             enemy.GetComponent<EnemyStats>().totalStatPoints = totalStatPointsPerWave / maxEnemies;
             enemy.transform.position = enemy.GetComponent<EnemyHealth>().spawnPosition;
         }
-    }
-
-    bool AllEnemiesDead()
-    {
-        int aantal = 0;
-
-        for (int i = 0; i < currentGen.Count; i++)
-        {
-            if (((GameObject)currentGen[i]).GetComponent<EnemyResources>().isDead)
-            {
-                aantal++;
-            }
-        }       
-        return (aantal == maxEnemies);
     }
 
     void BuffEnemies()

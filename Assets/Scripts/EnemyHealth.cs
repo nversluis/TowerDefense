@@ -66,6 +66,7 @@ public class EnemyHealth : MonoBehaviour {
             collider.enabled = (false);
             if (counter > 4)
             {
+                
                 Destroy(this.gameObject);
                 //this.transform.position = deathPosition;
                 counter = 0;
@@ -141,7 +142,6 @@ public class EnemyHealth : MonoBehaviour {
             wp.setPenalty(newPenalty);
         }
 		enemyResources.isDead = true;
-        
 
         //currentHealth = startingHealth;
         //transform.position = startPosition;
