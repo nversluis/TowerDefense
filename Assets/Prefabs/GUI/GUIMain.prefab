@@ -1317,7 +1317,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Sprite: {fileID: 21300000, guid: 9e52fa746cf45a14a84e40e214690ef5, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -2377,7 +2377,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 1
+  m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -3633,10 +3633,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 22458210}
   m_RootOrder: 3
-  m_AnchorMin: {x: .5, y: 1}
-  m_AnchorMax: {x: .5, y: 1}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -177.5}
-  m_SizeDelta: {x: 1920, y: 355}
+  m_SizeDelta: {x: -2, y: 355}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22431182
 RectTransform:
@@ -3650,10 +3650,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 22458210}
   m_RootOrder: 2
-  m_AnchorMin: {x: .5, y: 0}
-  m_AnchorMax: {x: .5, y: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 74.5}
-  m_SizeDelta: {x: 997, y: 149}
+  m_SizeDelta: {x: -925, y: 149}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22431184
 RectTransform:
