@@ -29,7 +29,8 @@ public class CameraController : MonoBehaviour {
     // creating properties for determining which object is pointed to
     public static GameObject hitObject;
 
-    public static LayerMask ignoreMask = ~((1 << 11) | (1 << 12) | (1 << 13)); //ignore layer 9
+    public static LayerMask ignoreMask = ~((1 << 11) | (1 << 12) | (1 << 13)); //ignore layer 11 12 & 13
+    LayerMask MaskEnemyStats = ((1 << 12) | (1 << 10));
 
     private Text enemyHealthText;
     private Text enemyStatsText;
@@ -115,8 +116,9 @@ public class CameraController : MonoBehaviour {
         // Moving camera with method
         CamMov();
 
-        if (Physics.Raycast(transform.position, transform.forward, out hit))
+        if (Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity, MaskEnemyStats))
         {
+            Debug.Log(hit.transform.name);
             if (hit.transform.tag == "Enemy")
             {
                 EnemyStats enemyStats = hit.transform.GetComponent<EnemyStats>();
@@ -152,6 +154,7 @@ public class CameraController : MonoBehaviour {
         if (Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity, ignoreMask))
         {
 			hitObject = hit.collider.gameObject;
+            
 
         }
 	}

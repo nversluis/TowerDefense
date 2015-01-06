@@ -390,7 +390,6 @@ public class RandomMaze : MonoBehaviour
 		Player.name = "Player";
 		GameObject gui = (GameObject)Instantiate (Gui, new Vector3 (0f, 0f, 0f), Quaternion.identity);
 		gui.transform.name = "GUIMain";
-		GameObject EL = (GameObject)Instantiate (EventList, new Vector3 (0f, 0f, 0f), Quaternion.identity);
 		//minimapcamera
 		GameObject cam = (GameObject)Instantiate (Minimapcamera, new Vector3 (length / 2, Mathf.Max (width, length), 0) * planewidth, Quaternion.Euler (90, 0, 0));
 		//cam.camera.rect = new Rect (0.8f, 0.7f, 0.3f, 0.3f);

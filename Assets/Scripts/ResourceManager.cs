@@ -104,7 +104,8 @@ public class ResourceManager : MonoBehaviour {
 	[Header("Level Editor")]
 	public GameObject editorPlane;
 	public Color noPlane;
-	public Color startOrEnd;
+	public Color start;
+    public Color end;
 	public Color connected;
 	public Color notConnected;
 	public Color highlighted;

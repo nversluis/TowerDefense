@@ -24,6 +24,9 @@ public class LevelEditor : MonoBehaviour
 	private GameObject Gate;
 	private GameObject torch;
 	public Camera cam;
+    public GameObject buildingBlocksPanel;
+    public GameObject[] buttons;
+    public static LevelEditor instance;
 
 	public static ArrayList positions = new ArrayList ();
 	//Positions of the floors
@@ -43,13 +46,16 @@ public class LevelEditor : MonoBehaviour
 	private string currentFileSelected;
 	//colors
 	private Color CnoPlane;
-	private Color CstartEnd;
+	private Color Cstart;
+    private Color Cend;
 	private Color CConnected;
 	private Color CNotConnected;
 	private Color CHighlighted;
-	private Button prevBut;
-	private Button nextBut;
+	public Button prevBut;
+	public Button nextBut;
 	private bool drawNavGrid;
+    string tempfilename;
+    Camera miniCamera;
 
 
 	public GameObject newMapScreen;
@@ -59,7 +65,7 @@ public class LevelEditor : MonoBehaviour
 	public Button cancelSizeBut;
 	public Button newSizeBut;
 
-	public Button GenerateLevelButton;
+	public Button generateLevelButton;
 	public InputField fileNameInput;
 	public Button saveLayout;
 	public Button loadLayout;
@@ -70,6 +76,7 @@ public class LevelEditor : MonoBehaviour
 	public Button cancelButton;
 	public Button submitLoadButton;
 	public Button deleteButton;
+    
 
 	public GameObject LoadingScreen;
 
@@ -78,6 +85,9 @@ public class LevelEditor : MonoBehaviour
 	private bool drawNavigationGrid;
 	private string AppPath;
 
+    GameObject startCol;
+    GameObject endCol;
+    GameObject conCol;
 
 
 	public static int type;
@@ -117,272 +127,355 @@ public class LevelEditor : MonoBehaviour
 		allPos = new List<GameObject> ();
 		currentPage = 1;
 		CnoPlane = resourceManager.noPlane;
-		CstartEnd = resourceManager.startOrEnd;
+		Cstart = resourceManager.start;
+        Cend = resourceManager.end;
 		CConnected = resourceManager.connected;
 		CNotConnected = resourceManager.notConnected;
 		CHighlighted = resourceManager.highlighted;
 		loadScreenOpen = true;
 		AppPath = Application.persistentDataPath + "/MapLayouts/";
-		type = 2;
+		type = 0;
 		drawNavigationGrid = resourceManager.drawNavigationGrid;
 		player = resourceManager.player;
 		camera = resourceManager.mainCamera;
-
-
-		SubmitButton.onClick.AddListener (delegate {
-
-			submitSize ();
-			newMapScreen.SetActive (false);
-		
-		});
-		GenerateLevelButton.onClick.AddListener (delegate {
-			if (!loadScreenOpen)
-				GenerateLevel ();
-			else
-				setErrorTekst ("Can't do that while load screen is open");
-		});
-
-		saveLayout.onClick.AddListener (delegate {
-			if (!loadScreenOpen)
-				SavePositionsToFile ();
-			else
-				setErrorTekst ("Can't do that while load screen is open");
-		});
-
-		loadLayout.onClick.AddListener (delegate {
-			ShowSavedMaps ();
-		});
-		submitLoadButton.onClick.AddListener (delegate {
-			generateEditorMap ();
-		});
-
-		deleteButton.onClick.AddListener (delegate {
-			deleteFile (currentFileSelected);
-		});
-
-		cancelButton.onClick.AddListener (delegate {
-			cancelLoadScreen ();
-		});
-
-		newSizeBut.onClick.AddListener (delegate { 
-			newMapScreen.SetActive (true);
-			loadMapsPanel.SetActive(false);
-			loadScreenOpen = true;
-		});
-
-		cancelSizeBut.onClick.AddListener (delegate {
-			newMapScreen.SetActive (false);
-			loadScreenOpen = false;
-		});
-
-		amountOfEnds = 0;
-		amountOfStarts = 0;
-		loadMapsPanel.SetActive (true);
-
-		nextBut = loadMapsPanel.GetComponentsInChildren<Button> () [0];
-		prevBut = loadMapsPanel.GetComponentsInChildren<Button> () [1];
-		nextBut.onClick.AddListener (delegate {	
-			if (currentPage < maxPages) {
-				currentPage++;
-				ShowSavedMaps ();
-			}
-		});
-		prevBut.onClick.AddListener (delegate {	
-			if (currentPage > 1) {
-				currentPage--;
-				ShowSavedMaps ();
-			}
-		});
-		loadMapsPanel.SetActive (false);
+        instance = this;
+        miniCamera = GameObject.Find("MiniCam").GetComponent<Camera>();
+        amountOfEnds = 0;
+        amountOfStarts = 0;
 
 		if (!File.Exists (AppPath)) {
 			Directory.CreateDirectory (AppPath);
 		}
-
-
-		GameObject nothingCol = GameObject.Find ("NothingCol");
-		nothingCol.transform.GetChild(1).GetComponent<Image>().color = CnoPlane;
-		GameObject startCol = GameObject.Find ("StartCol");
-		startCol.transform.GetChild (1).GetComponent<Image> ().color = CstartEnd;	
-		GameObject endCol = GameObject.Find ("EndCol");
-		endCol.transform.GetChild (1).GetComponent<Image> ().color = CstartEnd;
-		GameObject conCol = GameObject.Find ("ConCol");
-		conCol.transform.GetChild (1).GetComponent<Image> ().color = CConnected;
-		GameObject notConCol = GameObject.Find ("NotConCol");
-		notConCol.transform.GetChild (1).GetComponent<Image> ().color = CNotConnected;
-
-		startCol.GetComponent<Button>().onClick.AddListener (delegate {
-			type=0;
-			nothingCol.transform.GetChild (0).GetComponent<Text>().color = Color.white;
-			startCol.transform.GetChild (0).GetComponent<Text>().color = Color.green;
-			endCol.transform.GetChild (0).GetComponent<Text>().color = Color.white;
-			conCol.transform.GetChild (0).GetComponent<Text>().color = Color.white;
-			notConCol.transform.GetChild (0).GetComponent<Text>().color = Color.white;
-		});
-		endCol.GetComponent<Button>().onClick.AddListener (delegate {
-			type=1;
-			nothingCol.transform.GetChild (0).GetComponent<Text>().color = Color.white;
-			startCol.transform.GetChild (0).GetComponent<Text>().color = Color.white;
-			endCol.transform.GetChild (0).GetComponent<Text>().color = Color.green;
-			conCol.transform.GetChild (0).GetComponent<Text>().color = Color.white;
-			notConCol.transform.GetChild (0).GetComponent<Text>().color = Color.white;
-		});
-
-		conCol.GetComponent<Button>().onClick.AddListener (delegate {
-			type=2;
-			nothingCol.transform.GetChild (0).GetComponent<Text>().color = Color.white;
-			startCol.transform.GetChild (0).GetComponent<Text>().color = Color.white;
-			endCol.transform.GetChild (0).GetComponent<Text>().color = Color.white;
-			conCol.transform.GetChild (0).GetComponent<Text>().color = Color.green;
-			notConCol.transform.GetChild (0).GetComponent<Text>().color = Color.green;
-		});
-		notConCol.GetComponent<Button>().onClick.AddListener (delegate {
-			type=2;
-			nothingCol.transform.GetChild (0).GetComponent<Text>().color = Color.white;
-			startCol.transform.GetChild (0).GetComponent<Text>().color = Color.white;
-			endCol.transform.GetChild (0).GetComponent<Text>().color = Color.white;
-			conCol.transform.GetChild (0).GetComponent<Text>().color = Color.green;
-			notConCol.transform.GetChild (0).GetComponent<Text>().color = Color.green;
-		});
-
-		nothingCol.GetComponent<Button>().onClick.AddListener (delegate {
-			type=3;
-			nothingCol.transform.GetChild (0).GetComponent<Text>().color = Color.green;
-			startCol.transform.GetChild (0).GetComponent<Text>().color = Color.white;
-			endCol.transform.GetChild (0).GetComponent<Text>().color = Color.white;
-			conCol.transform.GetChild (0).GetComponent<Text>().color = Color.white;
-			notConCol.transform.GetChild (0).GetComponent<Text>().color = Color.white;
-		});
-
-
 	}
 
+    // Method for the new map button
+    public void NewMapButton()
+    {
+        // Turning on new map panel and setting the minicamera depth deeper so it is behind the menu
+        newMapScreen.SetActive(true);
+        miniCamera.depth = -10;
+    }
 
+    // Method for the cancel Map button
+    public void CancelSizeButton()
+    {
+        // Deactivating new map panel and setting the minicamera depth higher so it is in front of the menu
+        newMapScreen.SetActive(false);
+        miniCamera.depth = 1;
+    }
 
-	// Update is called once per frame
-	void Update ()
+    // Method for the sub new map button
+    public void SubmitNewMapButton()
+    {
+        // Set minicamera depth to 1 so the editorplane is in front of the gui
+        miniCamera.depth = 1;
+
+        // Submitting the size that was entered
+        submitSize();
+
+        // Deactivating the new map panel and activating the buildingblockpanel
+        newMapScreen.SetActive(false);
+        buildingBlocksPanel.SetActive(true);
+
+        // Determining the preview colors for the building block panel
+        startCol = GameObject.Find("StartCol");
+        startCol.transform.GetChild(1).GetComponent<Image>().color = Cstart;
+        endCol = GameObject.Find("EndCol");
+        endCol.transform.GetChild(1).GetComponent<Image>().color = Cend;
+        conCol = GameObject.Find("ConCol");
+        conCol.transform.GetChild(1).GetComponent<Image>().color = CConnected;
+
+        // Setting all necessary buttons active
+        foreach (GameObject button in buttons)
+        {
+            button.SetActive(true);
+        }
+    }
+
+    // Method for the Start location button
+    public void StartLocationButton()
+    {
+        // set the type to 0 and setting color to the clicked button blueish
+        type = 0;
+        startCol.transform.GetChild(0).GetComponent<Text>().color = new Color(100f / 255f, 141f / 255f, 255f / 255f);
+        endCol.transform.GetChild(0).GetComponent<Text>().color = Color.white;
+        conCol.transform.GetChild(0).GetComponent<Text>().color = Color.white;
+    }
+
+    // Method for the path button
+    public void PathButton()
+    {
+        // set the type to 2 and setting color to the clicked button blueish
+        type = 2;
+        startCol.transform.GetChild(0).GetComponent<Text>().color = Color.white;
+        endCol.transform.GetChild(0).GetComponent<Text>().color = Color.white;
+        conCol.transform.GetChild(0).GetComponent<Text>().color = new Color(100f / 255f, 141f / 255f, 255f / 255f);
+    }
+
+    // Method for the end location button
+    public void EndLocationButton()
+    {
+        // set the type to 1 and setting color to the clicked button blueish
+        type = 1;
+        startCol.transform.GetChild(0).GetComponent<Text>().color = Color.white;
+        endCol.transform.GetChild(0).GetComponent<Text>().color = new Color(100f / 255f, 141f / 255f, 255f / 255f);
+        conCol.transform.GetChild(0).GetComponent<Text>().color = Color.white;
+    }
+
+    // Method for generating button
+    public void GenerateLevelButton()
+    {
+        // generating level
+        GenerateLevel();
+    }
+
+    // Method save layout button
+    public void SaveLayoutButton()
+    {
+        // saving position of planes to a file
+        SavePositionsToFile(fileNameInput.text);
+    }
+
+    // Method loads layout when load layout button is clicked
+    public void LoadLayoutButton()
+    {
+
+        // initial filename
+        tempfilename = "temp";
+        // keep looping until a file name that has not been used is found
+        while (true)
+        {
+            // if filename is free
+            if (!File.Exists(AppPath + tempfilename + ".txt"))
+            {
+                break;
+            }
+            // else keep on adding random numbers behind temp
+            else
+                tempfilename = tempfilename + Random.Range(0, 9);
+        }
+
+        // save the position to this temporary file
+        SavePositionsToFile(tempfilename,true);
+
+        Reset();
+        // show the saved maps
+        ShowSavedMaps();
+    }
+
+    // Method for the accepting the current selected map to load
+    public void SubmitLoadButton()
+    {
+        // Deleting the temporary file that was created for keeping the old map that was just created when the load map button was pressed
+        deleteFile(tempfilename);
+      
+        generateEditorMap(currentFileSelected);
+    }
+
+    // Method for deleting current selected map
+    public void DeleteMapButton()
+    {
+        deleteFile(currentFileSelected);
+    }
+
+    // Method that cancels loading a map and going back to current map (if one was created)
+    public void CancelButton()
+    {
+        Reset();
+        loadMapFromFile(tempfilename);
+        generateEditorMap(tempfilename, true);
+        deleteFile(tempfilename, true);
+        
+    }
+
+    // Navigating through maps one page further
+    public void NextButton()
+    {
+        if (currentPage < maxPages)
+        {
+            currentPage++;
+            ShowSavedMaps();
+        }
+    }
+
+    // Navigating through maps one page back
+    public void PreviousButton()
+    {
+        if (currentPage > 1)
+        {
+            currentPage--;
+            ShowSavedMaps();
+        }
+    }
+
+    // Method that checks wheter the button text in the new map panel should be confirm or not valid
+    void NewMapScreenButtonCheck()
+    {
+        // If new map screen is activated and not null
+        if (newMapScreen != null && newMapScreen.activeSelf)
+        {
+            // creating new temporary variables
+            int lengthTemp;
+            int widthTemp;
+
+            // trying to parse them as int
+            bool resultLength = int.TryParse(lengthInput.text, out lengthTemp);
+            bool resultWidth = int.TryParse(widthInput.text, out widthTemp);
+
+            // if succeeded and the number is more than 0
+            if (resultWidth && resultLength && int.Parse(lengthInput.text) > 0 && int.Parse(widthInput.text) > 0)
+            {
+                // Text in the button is confirm and the button is enabled
+                SubmitButton.GetComponentInChildren<Text>().text = "Confirm";
+                SubmitButton.enabled = true;
+            }
+            else
+            {
+                // else the button is not valid and disabled
+                SubmitButton.GetComponentInChildren<Text>().text = "Not Valid";
+                SubmitButton.enabled = false;
+            }
+        }
+    }
+
+    // Method that is called in the SubmitNewButton Method and submits the sizes to the resourcemanager
+    private void submitSize ()
 	{
+        // Parsing strings to integers
+ 		length = int.Parse (lengthInput.text);
+        width = int.Parse(widthInput.text);
 
-		if (newMapScreen.activeSelf) {
-			int length1;
-			int width1;
-			bool resultLength = int.TryParse (lengthInput.text, out length1);
-			bool resultWidth = int.TryParse (widthInput.text, out width1);
-			if (resultWidth && resultLength && int.Parse (lengthInput.text) > 0 && int.Parse (widthInput.text) > 0) {
-				SubmitButton.GetComponentInChildren<Text> ().text = "Confirm";
-				SubmitButton.enabled = true;
-			} else {
-				SubmitButton.GetComponentInChildren<Text> ().text = "Not Valid";
-				SubmitButton.enabled = false;			
-			}
-		}
-
-	}
-
-	private void submitSize ()
-	{
-		loadScreenOpen = false;
-		length = int.Parse (lengthInput.text);
-		width = int.Parse (widthInput.text);
+        // Sending to resourcemanager script
 		resourceManager.length = length;
 		resourceManager.width = width;
-		if (length < 1 || width < 1) {
-			SubmitButton.gameObject.transform.renderer.material.color = Color.red;
-		} else {
 
-			SubmitButton.GetComponentInChildren<Text> ().text = "Reset"; //reset the floor
-			Reset ();
+        // Resetting plane with the right size
+        Reset();
 
-		}
+    }
 
-	}
+    // Add a position to the positions list 
+    public static void addPos(Vector2 pos)
+    {
+        // If position is not added yet, add it
+        if (!positions.Contains(pos))
+        {
+            positions.Add(pos);
+        }
 
+    }
 
+    // Remove a position from the positions list
+    public static void removePos(Vector2 pos)
+    {
+        positions.Remove(pos);
 
+    }
 
+    // Method that checks and returns a bool if a plane is connected to a plane that has connection to the start and if so checks all planes that are connected to this route
+    public static bool checkConnected(GameObject plane)
+    {
+        // Getting the normalized location
+        Vector3 posNormalized = plane.transform.position / instance.planewidth;
 
-	public static void addPos (Vector2 pos)
+        // Checking whether one of the neighbour planes has a connection to the start
+        bool res = (posConnected.Contains(posNormalized + new Vector3(1, 0, 0)) || posConnected.Contains(posNormalized - new Vector3(1, 0, 0)) || posConnected.Contains(posNormalized + new Vector3(0, 0, 1)) || posConnected.Contains(posNormalized - new Vector3(0, 0, 1)));
+
+        // if so, check all the planes that are connected to this path with the convertAround method
+        if (res)
+        {
+            convertAround(plane);
+        }
+
+        // return if it has connection to the start
+        return res;
+    }
+
+    // Method that recalculates the whole path to the start is connected to
+    public static void Recalculate()
+    {
+        // Creating a new list
+        posConnected = new List<Vector3>();
+
+        // make each plane that is green, red
+        foreach (GameObject plane in allPos)
+        {
+            if (plane.renderer.material.color == instance.CConnected && plane != startPlane && plane != endPlane)
+                plane.renderer.material.color = instance.CNotConnected;
+        }
+
+        // if the startplane exists calculate a new route that is connected to the start
+        if (LevelEditor.startPlane != null)
+        {
+            convertAround(startPlane);
+        }
+    }
+
+    // Method that checks all positions around a connected plane and keeps on going checking planes that are connected to it. It turns the path green if it is connected to the start. It also adds all the green planes position to the posConnected list.
+    public static void convertAround(GameObject plane)
+    {
+        // Getting the position of the plane
+        Vector2 planePos = new Vector2(plane.transform.position.x, plane.transform.position.z) / instance.planewidth;
+
+        // Getting the index of the plane
+        int index = allPos.IndexOf(plane);
+
+        // Creating temporary gameobject that is the plane to be checked
+        GameObject checkPlane;
+
+        // looping 4 times to get all planes in all directions
+        for (int i = 0; i < 4; i++)
+        {
+            // Checking all neighbouring planes
+            if (i == 0 && plane.transform.position.z / instance.planewidth > 0 && (index - instance.length) >= 0)
+                checkPlane = allPos[index - instance.length];
+
+            else if (i == 1 && (plane.transform.position.z / instance.planewidth) < (instance.width - 1) && (index + instance.length) < allPos.Count)
+                checkPlane = allPos[index + instance.length];
+
+            else if (i == 2 && (plane.transform.position.x / instance.planewidth) < (instance.length - 1) && (index + 1) < allPos.Count)
+                checkPlane = allPos[index + 1];
+
+            else if (i == 3 && plane.transform.position.x > 0 && (index - 1) >= 0)
+                checkPlane = allPos[index - 1];
+
+            else
+                checkPlane = null;
+
+            // If the plane exists
+            if (checkPlane != null)
+            {
+
+                // if the planes has a start end or path color and it has not been added to the posConnected list
+                if ((checkPlane.renderer.material.color == instance.CNotConnected || checkPlane.renderer.material.color == instance.Cstart || checkPlane.renderer.material.color == instance.Cend) && !posConnected.Contains(checkPlane.transform.position / instance.planewidth))
+                {
+                    // if the plane is a path plane
+                    if (checkPlane.renderer.material.color == instance.CNotConnected)
+                    {
+                        // Turn the plane green
+                        checkPlane.renderer.material.color = instance.CConnected;
+                    }
+
+                    // add its location to the posConnected list
+                    posConnected.Add(checkPlane.transform.position / instance.planewidth);
+
+                    // start this same proces for this found connected plane to see whether it has path connections
+                    convertAround(checkPlane);
+                }
+            }
+        }
+    }
+    
+    // Update is called once per frame
+	void Update ()
 	{
-		if (!loadScreenOpen) {
-			if (!positions.Contains (pos)) {
-				positions.Add (pos);
-			}
-		}
-	}
-
-	public static void removePos (Vector2 pos)
-	{
-		if (!loadScreenOpen) {
-			positions.Remove (pos);
-		}
-
-	}
-
-	public static bool checkConnected (GameObject plane, List<Vector3> posConnected, List<GameObject> allPos, ArrayList positions, float planewidth, int length, int width, Color CConnected, Color CNotConnected, Color CstartEnd)
-	{
-		Vector3 posNormalized = plane.transform.position / planewidth;
-		bool res = (posConnected.Contains (posNormalized + new Vector3 (1, 0, 0)) || posConnected.Contains (posNormalized - new Vector3 (1, 0, 0)) || posConnected.Contains (posNormalized + new Vector3 (0, 0, 1)) || posConnected.Contains (posNormalized - new Vector3 (0, 0, 1)));
-		if (res) {
-			convertAround (plane, posConnected, allPos, positions, planewidth, length, width, CstartEnd, CNotConnected, CConnected);
-		}
-		return res;
-	}
-
-	//clear and recheck if everything is connected
-	public static void Recalculate (List<Vector3> posConnected, List<GameObject> allPos, ArrayList positions, float planewidth, int length, int width, Color CConnected, Color CNotConnected, Color CstartEnd)
-	{
-		LevelEditor.posConnected = new List<Vector3> ();
-		foreach (GameObject plane in LevelEditor.allPos) {
-			if (plane.renderer.material.color == CConnected && plane != LevelEditor.startPlane && plane != LevelEditor.endPlane)
-				plane.renderer.material.color = CNotConnected;
-		}	
-		if (LevelEditor.startPlane != null) {
-			LevelEditor.posConnected.Add (LevelEditor.startPlane.transform.position / planewidth);
-			LevelEditor.convertAround (startPlane, posConnected, allPos, positions, planewidth, length, width, CstartEnd, CNotConnected, CConnected);		
-		}
-	}
-
-	//method that checks all positions around a new connected plane
-	public static void convertAround (GameObject plane, List<Vector3> posConnected, List<GameObject> allPos, ArrayList positions, float planewidth, int length, int width, Color CstartEnd, Color CNotConnected, Color CConnected)
-	{
-		Vector2 planePos = new Vector2 (plane.transform.position.x, plane.transform.position.z) / planewidth;
-		int index = allPos.IndexOf (plane);
-		GameObject checkPlane;
-
-
-		for (int i = 0; i < 4; i++) { //check in all directions
-			if (i == 0 && plane.transform.position.z / planewidth > 0 && (index - length) >= 0)
-				checkPlane = allPos [index - length];
-			else if (i == 1 && (plane.transform.position.z / planewidth) < (width - 1) && (index + length) < allPos.Count)
-				checkPlane = allPos [index + length];
-			else if (i == 2 && (plane.transform.position.x / planewidth) < (length - 1) && (index + 1) < allPos.Count)
-				checkPlane = allPos [index + 1];
-			else if (i == 3 && plane.transform.position.x > 0 && (index - 1) >= 0)
-				checkPlane = allPos [index - 1];
-			else {
-				checkPlane = null;
-			}
-
-			if (checkPlane != null) {
-				if (checkPlane.renderer.material.color == CNotConnected || (checkPlane.renderer.material.color == CstartEnd && !posConnected.Contains (checkPlane.transform.position / planewidth))) {
-
-					if (checkPlane.renderer.material.color == CNotConnected) {
-						checkPlane.renderer.material.color = CConnected;
-					}
-					LevelEditor.posConnected.Add (checkPlane.transform.position / planewidth);
-					convertAround (checkPlane, posConnected, allPos, positions, planewidth, length, width, CstartEnd, CNotConnected, CConnected);
-				}
-			}
-		}
-
-
+        NewMapScreenButtonCheck();
 	}
 
 
-
+    // Method generating the map that has just been built and displaying the loading screen with some text
 	IEnumerator spawnLevel ()
 	{
-
 		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Destroying what you just built";
 		yield return new WaitForSeconds (0.1f);
 		disableLevelEditor ();
@@ -392,18 +485,16 @@ public class LevelEditor : MonoBehaviour
 		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: You built the floors, we place the walls!...";
 		yield return new WaitForSeconds (0.1f);
 		RandomMaze.GenerateWall (positions, planewidth, wallPrefab, torch, height, length, width, gameObject);
-		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Dwogres wanted a red carpet to walk on, generating..";
+		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Dwogres wanted a red carpet to walk on, generating...";
 		yield return new WaitForSeconds (0.1f);
 		Nodes = RandomMaze.SpawnNodes (positions, nodeSize, planewidth, NodesPos, Nodes, length, width, drawNavigationGrid, false);
-		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Giving birth to Player...=";
+		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Giving birth to Player...";
 		yield return new WaitForSeconds (0.1f);
 		RandomMaze.spawnPlayer (player, camera, resourceManager.GUI, resourceManager.eventListener, startPos * planewidth, Minimapcamera, width, length, planewidth);
-		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Lightning torches..";
+		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Lighting torches...";
 		yield return new WaitForSeconds (0.1f);
 		RandomMaze.createSingleObjects (planewidth, enemySpawner, resourceManager.Goal, endPos, startPos);
-		//generate Nodes;
-		//MakeNodeList (nodeSize,NodesPos,Nodes);
-		//create the minimap camera
+
 		resourceManager.Nodes = Nodes;
 		LoadingScreen.SetActive (false);
 
@@ -429,17 +520,7 @@ public class LevelEditor : MonoBehaviour
 				resourceManager.startPos = startPos;
 				resourceManager.endPos = endPos;
 				LoadingScreen.SetActive (true);
-				StartCoroutine (spawnLevel ());
-
-//				RandomMaze.GenerateWall (positions, planewidth, wallPrefab, torch, height, length, width, gameObject);
-//
-//				GenerateFloor ();
-//				GameObject player = resourceManager.player;
-//				GameObject camera = resourceManager.mainCamera;
-//				RandomMaze.spawnPlayer (player, camera,resourceManager.GUI,resourceManager.eventListener, startPos * planewidth, Minimapcamera, width, length, planewidth);
-//				disableLevelEditor ();
-//				RandomMaze.createSingleObjects (planewidth, enemySpawner, resourceManager.Goal, endPos, startPos);
-//				RandomMaze.SpawnNodes (positions, nodeSize, planewidth, NodesPos, Nodes, length, width, drawNavGrid, true);
+				instance.StartCoroutine (instance.spawnLevel ());
 
 				resourceManager.Nodes = Nodes;
 			} else
@@ -455,6 +536,7 @@ public class LevelEditor : MonoBehaviour
 	private void GenerateFloor ()
 	{
 		foreach (Vector2 posi in positions) {
+
 			GameObject floor = (GameObject)Instantiate (resourceManager.planePrefab, new Vector3 (posi.x, 0, posi.y) * planewidth, Quaternion.identity);
 			floor.gameObject.transform.localScale = new Vector3 (planewidth / 20, 0.1f, planewidth / 20); //Scale the floor
 			floor.transform.parent = gameObject.transform; //Set the floor to the gameObject.
@@ -476,6 +558,7 @@ public class LevelEditor : MonoBehaviour
 		cam.gameObject.SetActive (false);
 		Destroy (canvas);
 		GameObject.Find ("EditorLight").SetActive (false);
+        Destroy(this.gameObject);
 	}
 
 	//reset the floor. Clearing everything. Then reconstruct it with width and length
@@ -494,6 +577,7 @@ public class LevelEditor : MonoBehaviour
 		for (int w = 0; w < width; w++) { //order important!
 			for (int l = 0; l < length; l++) {
 				GameObject floor = (GameObject)Instantiate (editorPlane, new Vector3 (l * planewidth, 0, w * planewidth), Quaternion.identity);
+                floor.layer = 15;
 				floor.transform.localScale *= planewidth / 10;
 				floor.renderer.material.color = CnoPlane;
 				floor.transform.parent = transform;
@@ -509,12 +593,12 @@ public class LevelEditor : MonoBehaviour
 	}
 
 	//saves the position to file.
-	private void SavePositionsToFile ()
+	private void SavePositionsToFile (string filename, bool loading = false)
 	{
 
-		if (endPlane != null) {
+		if (endPlane != null || loading) {
 
-			if (LevelEditor.posConnected.Contains (LevelEditor.endPlane.transform.position / planewidth)) {
+			if (loading || LevelEditor.posConnected.Contains (LevelEditor.endPlane.transform.position / planewidth) ) {
 
 				string res = "\r\n";
 
@@ -526,11 +610,14 @@ public class LevelEditor : MonoBehaviour
 						}
 					}
 				}
-				res += endPos3.x.ToString () + "\r\n" + endPos3.z.ToString () + "\r\n";
+                if (amountOfEnds != 0)
+                {
+                    res += endPos3.x.ToString() + "\r\n" + endPos3.z.ToString() + "\r\n";
+                }
 				BinaryFormatter bf = new BinaryFormatter ();
-				FileStream file = File.Create (AppPath + fileNameInput.text + ".txt");
+				FileStream file = File.Create (AppPath + filename + ".txt");
 				bf.Serialize (file, res);
-				Debug.Log (AppPath);
+                file.Close();
 			} else
 				setErrorTekst ("Connect end to start!");
 		} else
@@ -584,15 +671,20 @@ public class LevelEditor : MonoBehaviour
 			resourceManager.startPos = new Vector2 (startPos3.x, startPos3.z);
 			resourceManager.endPos = new Vector2 (endPos3.x, endPos3.z);
 			foreach (GameObject floor1 in floors) {
-				if (floor1.transform.position / planewidth == startPos3) {
-					LevelEditor.startPlane = floor1;	
-					floor1.renderer.material.color = CstartEnd;
+				if (floor1.transform.position / planewidth == endPos3) {
+					LevelEditor.endPlane = floor1;	
+					floor1.renderer.material.color = Cend;
 					LevelEditor.posConnected.Add (floor1.transform.position / planewidth);
-				} else if (floor1.transform.position / planewidth == endPos3) {
 
-					LevelEditor.endPlane = floor1;
-					floor1.renderer.material.color = CstartEnd;
-				} else if (positions.Contains (new Vector2 (floor1.transform.position.x, floor1.transform.position.z) / planewidth)) {			
+				} 
+                else if (floor1.transform.position /planewidth == startPos3) {
+                    LevelEditor.startPlane = floor1;
+                    floor1.renderer.material.color = Cstart;
+                    LevelEditor.posConnected.Add(floor1.transform.position / planewidth);
+                }
+
+                
+                else if (positions.Contains (new Vector2 (floor1.transform.position.x, floor1.transform.position.z) / planewidth)) {			
 					floor1.renderer.material.color = CNotConnected;
 				}
 			}
@@ -603,22 +695,23 @@ public class LevelEditor : MonoBehaviour
 			cam.orthographicSize = Mathf.Max (length, width + 1) * resourceManager.planewidth / 2;
 			cam.rect = new Rect (0.4f, 0.3f, 0.4f, 0.4f);
 
+            Recalculate();
+
+            file.Close();
 
 		}
 
 	}
 
 
-	private void generateEditorMap ()
+	private void generateEditorMap (string filename, bool cancelling = false)
 	{
-		if (currentFileSelected != null) {
-			loadScreenOpen = false;
+		if (currentFileSelected != null || cancelling) {
 			loadMapsPanel.SetActive (false);
 			//reconstruct connected
-			Recalculate (LevelEditor.posConnected, LevelEditor.allPos, LevelEditor.positions, resourceManager.planewidth, resourceManager.length, resourceManager.width, CConnected, CNotConnected, CstartEnd);
+			Recalculate ();
 			amountOfEnds = 1;
 			amountOfStarts = 1;
-			LevelEditor.positions = positions;
 
 			for (int i = 0; i < positions.Count; i++) { //get right sizes of the positions array so Generate level can work
 				positions [i] = (Vector2)positions [i] * planewidth;
@@ -637,7 +730,6 @@ public class LevelEditor : MonoBehaviour
 	// Use this for initialization
 	private void ShowSavedMaps ()
 	{
-		loadScreenOpen = true;
 		newMapScreen.SetActive (false);
 		cam.pixelRect = new Rect (Screen.width / 2, Screen.height / 2 - 100, 200, 200);
 		loadMapsPanel.gameObject.SetActive (true);
@@ -648,6 +740,7 @@ public class LevelEditor : MonoBehaviour
 		int rows = (int)Mathf.Floor ((Screen.height - 200) / ((Screen.width + 350) / 35));
 		int columns = 1;
 		int filesPerPage = rows * columns;
+
 		nextBut.gameObject.SetActive (true);
 		prevBut.gameObject.SetActive (true);
 		nextBut.GetComponentInChildren<Text> ().text = "Next" + filesPerPage;
@@ -665,27 +758,35 @@ public class LevelEditor : MonoBehaviour
 		string[] dirFiles = Directory.GetFiles (AppPath, "*.txt"); 
 		maxPages = (int)Mathf.Ceil ((float)dirFiles.Length / (float)filesPerPage);
 		for (int i = 0; i < dirFiles.Length; i++) {
-			if (i < filesPerPage * currentPage && i >= filesPerPage * (currentPage - 1)) {
-				dirFiles [i] = dirFiles [i].Replace (AppPath, "");
-				dirFiles [i] = dirFiles [i].Replace (".txt", "");
-				int j = i % filesPerPage;
-				//
-				Button but = (Button)Instantiate (loadButton, new Vector3 (0, 0, 0), Quaternion.identity); 
-				//but.transform.position = new Vector3 (300, 400 - 25f*(j % rows), 0);
-				//Button but = (Button)Instantiate (loadButton, loadMapsPanel.transform.position + new Vector3 (Mathf.Floor (j / rows) * 50 - 180, 120 - 30 * (j % rows)), Quaternion.identity); //breedte,hoogte
-				//Button but = (Button)Instantiate (loadButton, loadMapsPanel.transform.position + new Vector3 ((Mathf.Floor (j / rows) - 1.5f) * 25,0, 30 - 5 * (j % rows)), loadMapsPanel.transform.rotation);
-				but.transform.SetParent (loadMapsPanel.gameObject.transform);
-				but.GetComponent<RectTransform> ().offsetMin = new Vector2 (350, 50 + 120 * (rows - j));
-				but.GetComponent<RectTransform> ().sizeDelta = new Vector2 (1000, 200);
+            dirFiles[i] = dirFiles[i].Replace(AppPath, "");
+            dirFiles[i] = dirFiles[i].Replace(".txt", "");
 
-				but.GetComponentInChildren<Text> ().text = dirFiles [i];
-				but.transform.localScale = new Vector3 (1, 1, 1) / 4;
-				but.transform.GetChild (1).gameObject.SetActive (false);
+            if (dirFiles[i] != tempfilename) {
+                if (i < filesPerPage * currentPage && i >= filesPerPage * (currentPage - 1))
+                {
 
-				string fileName = dirFiles [i];
-				but.onClick.AddListener (delegate {
-					selectFileName (but);
-				});
+                    int j = i % filesPerPage;
+                    //
+                    Button but = (Button)Instantiate(loadButton, Vector3.zero, Quaternion.identity);
+                    //but.transform.position = new Vector3 (300, 400 - 25f*(j % rows), 0);
+                    //Button but = (Button)Instantiate (loadButton, loadMapsPanel.transform.position + new Vector3 (Mathf.Floor (j / rows) * 50 - 180, 120 - 30 * (j % rows)), Quaternion.identity); //breedte,hoogte
+                    //Button but = (Button)Instantiate (loadButton, loadMapsPanel.transform.position + new Vector3 ((Mathf.Floor (j / rows) - 1.5f) * 25,0, 30 - 5 * (j % rows)), loadMapsPanel.transform.rotation);
+
+                    but.transform.SetParent(loadMapsPanel.gameObject.transform);
+                    but.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(0f, 0f, 0f);
+
+                    but.GetComponent<RectTransform>().offsetMin = new Vector2(350, 50 + 120 * (rows - j));
+                    but.GetComponent<RectTransform>().sizeDelta = new Vector2(1000, 200);
+
+                    but.GetComponentInChildren<Text>().text = dirFiles[i];
+                    but.transform.localScale = new Vector3(1, 1, 1) / 4;
+                    but.transform.GetChild(1).gameObject.SetActive(false);
+                    string fileName = dirFiles[i];
+                    but.onClick.AddListener(delegate
+                    {
+                        selectFileName(but);
+                    });
+                }
 			}
 		}
 
@@ -705,19 +806,18 @@ public class LevelEditor : MonoBehaviour
 			currentButSelected = but;
 			currentFileSelected = but.GetComponentInChildren<Text> ().text;
 			loadMapFromFile (currentFileSelected);
-		} else { //else. Load him.
-			loadScreenOpen = false;
-			generateEditorMap ();
+		} else { //else. Load him.			
 			currentButSelected = null;
 			currentFileSelected = null;
 		}
 	}
 
-	private void deleteFile (string fileName)
+	private void deleteFile (string fileName, bool cancelling = false)
 	{
 		if (fileName != null) {
 			File.Delete (AppPath + fileName + ".txt");
-			ShowSavedMaps ();
+            if (!cancelling)
+			    ShowSavedMaps ();
 		} else {
 			setErrorTekst ("No File Selected");
 		}
@@ -725,7 +825,6 @@ public class LevelEditor : MonoBehaviour
 
 	private void cancelLoadScreen ()
 	{
-		loadScreenOpen = false;
 		currentButSelected = null;
 		currentFileSelected = null;
 		loadMapsPanel.SetActive (false);
@@ -736,27 +835,27 @@ public class LevelEditor : MonoBehaviour
 	}
 
 	//methods to display errortext
-	private void setErrorTekst (string tekst)
+	public static void setErrorTekst (string tekst)
 	{
 
-		CancelInvoke ();
-		if (!playing) {
-			ErrorText.text = tekst;
-			ErrorText.color = new Color (255, 0, 0, 1);
-			InvokeRepeating ("errorTekstFadeOut", 0.5f, 0.01f);
+		instance.CancelInvoke ();
+		if (!instance.playing) {
+            instance.ErrorText.text = tekst;
+            instance.ErrorText.color = new Color(255, 0, 0, 1);
+			instance.InvokeRepeating ("errorTekstFadeOut", 2f, 0.01f);
 		}
 	}
 
 	void errorTekstFadeOut ()
 	{
-		if (!playing) {
-			Color color = ErrorText.color;
+		if (!instance.playing) {
+            Color color = ErrorText.color;
 			color.a -= 0.01f;
-			ErrorText.color = color;
+            ErrorText.color = color;
 			if (color.a <= 0f) {
 				color.a = 1;
-				ErrorText.color = color;
-				ErrorText.text = "";
+                ErrorText.color = color;
+                ErrorText.text = "";
 				CancelInvoke ();
 			}
 		}
