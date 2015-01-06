@@ -395,4 +395,10 @@ public class GUIScript : MonoBehaviour {
         cameraScript.enabled = false;
         Time.timeScale = 0;
     }
+
+	public GameObject getPopUpPanel()
+	{
+		return TowerPopup;
+	}
+
 }

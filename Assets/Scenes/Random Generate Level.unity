@@ -166,10 +166,11 @@ MonoBehaviour:
   heightMinimap: 200
   editorPlane: {fileID: 100000, guid: 4399a3da2ea28304bae6812a147e5855, type: 2}
   noPlane: {r: 1, g: 1, b: 1, a: 1}
-  startOrEnd: {r: .926470578, g: .367863327, b: 0, a: 1}
+  start: {r: 1, g: .931034446, b: 0, a: 1}
+  end: {r: .0356997289, g: 0, b: .470588207, a: 1}
   connected: {r: 0, g: 1, b: 0, a: 1}
   notConnected: {r: 1, g: 0, b: 0, a: 1}
-  highlighted: {r: 0, g: 1, b: .205882311, a: .301960796}
+  highlighted: {r: .397058845, g: .476065159, b: 1, a: .282352954}
 --- !u!4 &14726754
 Transform:
   m_ObjectHideFlags: 0

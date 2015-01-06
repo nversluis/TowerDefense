@@ -83,7 +83,7 @@ public class FloorScript : MonoBehaviour {
 
 		Destroy (gameObject.transform.GetChild (1).gameObject);
 		GUIScript.player.addGold (cost / 2);
-		GameObject.Find ("GUIMain").GetComponent<GUIScript> ().TowerPopup.SetActive (false);
+		GameObject.Find ("TowerPopup").SetActive (false);
 	}
 
 	private void upgradeTower(){
@@ -92,7 +92,7 @@ public class FloorScript : MonoBehaviour {
 	}
 
 	private void showMenu(){
-		GameObject popUpPanel = GameObject.Find ("GUIMain").GetComponent<GUIScript> ().TowerPopup;
+		GameObject popUpPanel = GameObject.Find ("GUIMain").GetComponent<GUIScript> ().getPopUpPanel();
 		popUpPanel.SetActive (true);
 
 }

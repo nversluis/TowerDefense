@@ -80,13 +80,13 @@ public class WallScript : MonoBehaviour {
 					upgradeTower ();
 				}
 
-				//bring up the menu to either sell or upgrade tower (with costs)
+				//bring up the menu to show ot sell or upgrade tower (with costs) and upgrade stats
 				if (Input.GetMouseButtonDown(1)) {
 					showMenu ();
 				}
 
 				if (Input.GetKeyUp (KeyCode.C)) {
-					GameObject.Find ("GUIMain").GetComponent<GUIScript> ().TowerPopup.SetActive (false);
+					GameObject.Find ("GUIMain").GetComponent<GUIScript> ().getPopUpPanel().SetActive (false);
 				}
 			}
 		}
@@ -97,16 +97,16 @@ public class WallScript : MonoBehaviour {
 
 		Destroy (gameObject.transform.GetChild (0).gameObject);
 		GUIScript.player.addGold (cost / 2);
-		GameObject.Find ("GUIMain").GetComponent<GUIScript> ().TowerPopup.SetActive (false);
+		GameObject.Find ("GUIMain").GetComponent<GUIScript> ().getPopUpPanel().SetActive (false);
 	}
 
 	private void upgradeTower(){
 		Debug.Log ("Not yet implemented");
-		GameObject.Find ("GUIMain").GetComponent<GUIScript> ().TowerPopup.SetActive (false);
+		GameObject.Find ("GUIMain").GetComponent<GUIScript> ().getPopUpPanel().SetActive (false);
 	}
 
 	private void showMenu(){
-		GameObject popUpPanel = GameObject.Find ("GUIMain").GetComponent<GUIScript> ().TowerPopup;
+		GameObject popUpPanel = GameObject.Find ("GUIMain").GetComponent<GUIScript> ().getPopUpPanel();
 		popUpPanel.SetActive (true);
 //		Button sellTowerBut = popUpPanel.transform.GetChild (0).gameObject.GetComponent<Button>();
 //		sellTowerBut.onClick.RemoveAllListeners ();
