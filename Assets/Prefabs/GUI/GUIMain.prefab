@@ -2341,21 +2341,44 @@ MonoBehaviour:
   MagStat: {fileID: 11458188}
   DefStat: {fileID: 11458234}
   AgiStat: {fileID: 11458210}
-  skill1: {fileID: 11458136}
-  skill2: {fileID: 11458140}
-  skill3: {fileID: 11458244}
-  skill4: {fileID: 11458200}
-  tower1: {fileID: 11458180}
-  tower2: {fileID: 11458186}
-  tower3: {fileID: 11458164}
-  tower4: {fileID: 11458220}
-  tower5: {fileID: 11458254}
-  tower6: {fileID: 11458246}
-  tower7: {fileID: 11458156}
-  item1: {fileID: 11431176}
-  item2: {fileID: 11431188}
-  item3: {fileID: 11431184}
-  item4: {fileID: 11431178}
+  skillIconList:
+  - {fileID: 11458136}
+  - {fileID: 11458140}
+  - {fileID: 11458244}
+  - {fileID: 11458200}
+  towerIconList:
+  - {fileID: 11458180}
+  - {fileID: 11458186}
+  - {fileID: 11458164}
+  - {fileID: 11458220}
+  - {fileID: 11458254}
+  - {fileID: 11458246}
+  - {fileID: 11458156}
+  itemIconList:
+  - {fileID: 11431176}
+  - {fileID: 11431188}
+  - {fileID: 11431184}
+  - {fileID: 11431178}
+  tier1:
+  - {fileID: 21300000, guid: 5f4120966e6d9a2459394250df242f5d, type: 3}
+  - {fileID: 21300000, guid: 56ac6c7a1a4ad4640af21b3d37dbb237, type: 3}
+  - {fileID: 21300000, guid: 5946be8a42ff1424584378e83e5d3f90, type: 3}
+  - {fileID: 21300000, guid: f6402fd5ce721f74eac6c5b0a3935c42, type: 3}
+  tier2:
+  - {fileID: 21300000, guid: 7c821ce6aca50de42a390f345e5a1638, type: 3}
+  - {fileID: 21300000, guid: 362b48422a6973644ac42ea69343f479, type: 3}
+  - {fileID: 21300000, guid: 251f0c2ca8dc5a84aa23b9e6fd7edb28, type: 3}
+  - {fileID: 21300000, guid: 41daf0cfb2ac77b418a778d8959a696d, type: 3}
+  tier3:
+  - {fileID: 21300000, guid: a3880f175ba39d244848760c338dc119, type: 3}
+  - {fileID: 21300000, guid: b0e7d1700a706f34e82d7934c7ec995e, type: 3}
+  - {fileID: 21300000, guid: acd425cb12f614b46bab49f80a23b23a, type: 3}
+  - {fileID: 21300000, guid: 8b5ad745859546c469c090e2fc5fb05c, type: 3}
+  tier4:
+  - {fileID: 21300000, guid: 977b91e0ec34d8d4892f520cc817bd08, type: 3}
+  - {fileID: 21300000, guid: 77d2ee52aca678d40bc3310802fe3585, type: 3}
+  - {fileID: 21300000, guid: a6fb3d5af763eb64e8a042d097e0cfdf, type: 3}
+  - {fileID: 21300000, guid: 82c92d68b72019c43b6877723012d814, type: 3}
   canvas: {fileID: 158250}
   result: {fileID: 158252}
   crosshair: {fileID: 158134}
