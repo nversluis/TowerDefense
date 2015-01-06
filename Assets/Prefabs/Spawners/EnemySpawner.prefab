@@ -42,6 +42,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxEnemies: 20
   spawning: 1
+  keepDistribution: 0
   toenameAantalEnemiesPerWave: 2
   maxX: .300000012
   maxZ: 0
@@ -60,6 +61,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 100052, guid: 6a25f25271f527644ab0b18b0e7c536e, type: 2}
+  EnemyGuyant: {fileID: 0}
+  EnemyGwarf: {fileID: 0}
   nextGenenemy: {fileID: 0}
   maxEnemies: 1
   spawning: 1
