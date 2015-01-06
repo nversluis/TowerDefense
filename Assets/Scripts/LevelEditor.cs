@@ -61,6 +61,7 @@ public class LevelEditor : MonoBehaviour
 	public GameObject newMapScreen;
 	public InputField lengthInput;
 	public InputField widthInput;
+    public Button newMapButton;
 	public Button SubmitButton;
 	public Button cancelSizeBut;
 	public Button newSizeBut;
@@ -76,7 +77,9 @@ public class LevelEditor : MonoBehaviour
 	public Button cancelButton;
 	public Button submitLoadButton;
 	public Button deleteButton;
-    
+    public GameObject saveMapPanel;
+
+    bool mainMenu;
 
 	public GameObject LoadingScreen;
 
@@ -99,7 +102,7 @@ public class LevelEditor : MonoBehaviour
 	public static List<GameObject> allPos;
 	public static GameObject startPlane;
 	public static GameObject endPlane;
-	public static bool loadScreenOpen;
+	public static bool editing;
 
 
 	// Use this for initialization
@@ -132,7 +135,6 @@ public class LevelEditor : MonoBehaviour
 		CConnected = resourceManager.connected;
 		CNotConnected = resourceManager.notConnected;
 		CHighlighted = resourceManager.highlighted;
-		loadScreenOpen = true;
 		AppPath = Application.persistentDataPath + "/MapLayouts/";
 		type = 0;
 		drawNavigationGrid = resourceManager.drawNavigationGrid;
@@ -142,6 +144,8 @@ public class LevelEditor : MonoBehaviour
         miniCamera = GameObject.Find("MiniCam").GetComponent<Camera>();
         amountOfEnds = 0;
         amountOfStarts = 0;
+        mainMenu = true;
+        editing = false;
 
 		if (!File.Exists (AppPath)) {
 			Directory.CreateDirectory (AppPath);
@@ -154,6 +158,7 @@ public class LevelEditor : MonoBehaviour
         // Turning on new map panel and setting the minicamera depth deeper so it is behind the menu
         newMapScreen.SetActive(true);
         miniCamera.depth = -10;
+
     }
 
     // Method for the cancel Map button
@@ -190,6 +195,9 @@ public class LevelEditor : MonoBehaviour
         {
             button.SetActive(true);
         }
+
+        mainMenu = false;
+        editing = true;
     }
 
     // Method for the Start location button
@@ -232,44 +240,106 @@ public class LevelEditor : MonoBehaviour
     // Method save layout button
     public void SaveLayoutButton()
     {
-        // saving position of planes to a file
+        saveMapPanel.SetActive(true);
+        miniCamera.depth = -10;
+        editing = false;
+    }
+
+    // Method for cancel save button
+    public void CancelSavebutton()
+    {
+        saveMapPanel.SetActive(false);
+        miniCamera.depth = 1;
+        editing = true;
+        
+    }
+
+    // Method for submit save button
+    public void SubmitSaveButton()
+    {
         SavePositionsToFile(fileNameInput.text);
+        saveMapPanel.SetActive(false);
+        editing = true;
+        miniCamera.depth = 1;
+
+        setErrorTekst("Saved map with name: " + fileNameInput.text, false);
     }
 
     // Method loads layout when load layout button is clicked
     public void LoadLayoutButton()
     {
-
-        // initial filename
-        tempfilename = "temp";
-        // keep looping until a file name that has not been used is found
-        while (true)
+        miniCamera.gameObject.SetActive(false);
+        if (!mainMenu)
         {
-            // if filename is free
-            if (!File.Exists(AppPath + tempfilename + ".txt"))
+            // initial filename
+            tempfilename = "temp";
+
+            // keep looping until a file name that has not been used is found
+            while (true)
             {
-                break;
+                // if filename is free
+                if (!File.Exists(AppPath + tempfilename + ".txt"))
+                {
+                    break;
+                }
+                // else keep on adding random numbers behind temp
+                else
+                    tempfilename = tempfilename + Random.Range(0, 9);
             }
-            // else keep on adding random numbers behind temp
-            else
-                tempfilename = tempfilename + Random.Range(0, 9);
+
+
+            // save the position to this temporary file
+            SavePositionsToFile(tempfilename, true);
         }
-
-        // save the position to this temporary file
-        SavePositionsToFile(tempfilename,true);
-
         Reset();
         // show the saved maps
         ShowSavedMaps();
+
+        editing = false;
+
+        buildingBlocksPanel.SetActive(false);
+
+        foreach (GameObject button in buttons)
+        {
+            button.SetActive(false);
+        }
     }
 
     // Method for the accepting the current selected map to load
     public void SubmitLoadButton()
     {
-        // Deleting the temporary file that was created for keeping the old map that was just created when the load map button was pressed
-        deleteFile(tempfilename);
-      
+        miniCamera.gameObject.SetActive(true);
+        buildingBlocksPanel.SetActive(true);
+
+        if (!mainMenu)
+        {
+            // Deleting the temporary file that was created for keeping the old map that was just created when the load map button was pressed
+            deleteFile(tempfilename);
+        }
+
+        if (mainMenu)
+        {
+            // Determining the preview colors for the building block panel
+            startCol = GameObject.Find("StartCol");
+            startCol.transform.GetChild(1).GetComponent<Image>().color = Cstart;
+            endCol = GameObject.Find("EndCol");
+            endCol.transform.GetChild(1).GetComponent<Image>().color = Cend;
+            conCol = GameObject.Find("ConCol");
+            conCol.transform.GetChild(1).GetComponent<Image>().color = CConnected;
+
+            mainMenu = false;
+
+        }
+        foreach (GameObject button in buttons)
+        {
+            button.SetActive(true);
+        }
+
         generateEditorMap(currentFileSelected);
+        editing = true;
+
+        setErrorTekst("Loaded new map!", false);
+
     }
 
     // Method for deleting current selected map
@@ -281,11 +351,31 @@ public class LevelEditor : MonoBehaviour
     // Method that cancels loading a map and going back to current map (if one was created)
     public void CancelButton()
     {
-        Reset();
-        loadMapFromFile(tempfilename);
-        generateEditorMap(tempfilename, true);
-        deleteFile(tempfilename, true);
+        miniCamera.gameObject.SetActive(true);
+        if (!mainMenu)
+        {
+            Reset();
+            loadMapFromFile(tempfilename);
+            generateEditorMap(tempfilename, true);
+            deleteFile(tempfilename, true);
+            editing = true;
+
+            buildingBlocksPanel.SetActive(true);
+
+            foreach (GameObject button in buttons)
+            {
+                button.SetActive(true);
+            }
+        }
+        if (mainMenu)
+        {
+            cancelLoadScreen();
+            buttons[2].gameObject.SetActive(true);
+        }
+
         
+
+
     }
 
     // Navigating through maps one page further
@@ -296,6 +386,11 @@ public class LevelEditor : MonoBehaviour
             currentPage++;
             ShowSavedMaps();
         }
+    }
+
+    public void MainMenuButton()
+    {
+        Application.LoadLevel(0);
     }
 
     // Navigating through maps one page back
@@ -478,13 +573,12 @@ public class LevelEditor : MonoBehaviour
 	{
 		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Destroying what you just built";
 		yield return new WaitForSeconds (0.1f);
-		disableLevelEditor ();
 		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Rebuilding the floors you just built";
 		yield return new WaitForSeconds (0.1f);
 		GenerateFloor ();
-		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: You built the floors, we place the walls!...";
+		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: You build the floors, we place the walls!...";
 		yield return new WaitForSeconds (0.1f);
-		RandomMaze.GenerateWall (positions, planewidth, wallPrefab, torch, height, length, width, gameObject);
+        RandomMaze.GenerateWall(positions, planewidth, wallPrefab, torch, height, length, width, GameObject.Find("World"));
 		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Dwogres wanted a red carpet to walk on, generating...";
 		yield return new WaitForSeconds (0.1f);
 		Nodes = RandomMaze.SpawnNodes (positions, nodeSize, planewidth, NodesPos, Nodes, length, width, drawNavigationGrid, false);
@@ -498,6 +592,7 @@ public class LevelEditor : MonoBehaviour
 		resourceManager.Nodes = Nodes;
 		LoadingScreen.SetActive (false);
 
+        disableLevelEditor();
 	}
 
 
@@ -521,6 +616,7 @@ public class LevelEditor : MonoBehaviour
 				resourceManager.endPos = endPos;
 				LoadingScreen.SetActive (true);
 				instance.StartCoroutine (instance.spawnLevel ());
+               // spawnLevel();
 
 				resourceManager.Nodes = Nodes;
 			} else
@@ -536,16 +632,15 @@ public class LevelEditor : MonoBehaviour
 	private void GenerateFloor ()
 	{
 		foreach (Vector2 posi in positions) {
-
 			GameObject floor = (GameObject)Instantiate (resourceManager.planePrefab, new Vector3 (posi.x, 0, posi.y) * planewidth, Quaternion.identity);
 			floor.gameObject.transform.localScale = new Vector3 (planewidth / 20, 0.1f, planewidth / 20); //Scale the floor
-			floor.transform.parent = gameObject.transform; //Set the floor to the gameObject.
+			floor.transform.parent = GameObject.Find("World").transform; //Set the floor to the gameObject.
 			floor.name = "Floor"; //name the floor Floor
 			GameObject ceil = (GameObject)Instantiate (resourceManager.planePrefab, new Vector3 (posi.x, height, posi.y) * planewidth, Quaternion.identity);
 			ceil.gameObject.transform.localScale = new Vector3 (planewidth / 20, 0.1f, planewidth / 20); //Scale the floor
-			ceil.transform.parent = gameObject.transform; //Set the floor to the gameObject.
+            ceil.transform.parent = GameObject.Find("World").transform; //Set the floor to the gameObject.
 			ceil.transform.Rotate (new Vector3 (180, 0, 0));
-			ceil.name = "Floor"; //name the floor Floor
+			ceil.name = "Ceiling"; //name the floor Floor
 		}
 	}
 
@@ -574,17 +669,38 @@ public class LevelEditor : MonoBehaviour
 		amountOfEnds = 0;
 		amountOfStarts = 0;
 
-		for (int w = 0; w < width; w++) { //order important!
-			for (int l = 0; l < length; l++) {
-				GameObject floor = (GameObject)Instantiate (editorPlane, new Vector3 (l * planewidth, 0, w * planewidth), Quaternion.identity);
-                floor.layer = 15;
-				floor.transform.localScale *= planewidth / 10;
-				floor.renderer.material.color = CnoPlane;
-				floor.transform.parent = transform;
-				floors.Add (floor);
-				allPos.Add (floor);
-			}
-		}
+        if (width != 0 || length != 0)
+        {
+            for (int w = 0; w < width; w++)
+            { //order important!
+                for (int l = 0; l < length; l++)
+                {
+                    GameObject floor = (GameObject)Instantiate(editorPlane, new Vector3(l * planewidth, 0, w * planewidth), Quaternion.identity);
+                    floor.layer = 15;
+                    floor.transform.localScale *= planewidth / 10;
+                    floor.renderer.material.color = CnoPlane;
+                    floor.transform.parent = transform;
+                    floors.Add(floor);
+                    allPos.Add(floor);
+                }
+            }
+        }
+        else
+        {
+            for (int w = 0; w < 10; w++)
+            { //order important!
+                for (int l = 0; l < 10; l++)
+                {
+                    GameObject floor = (GameObject)Instantiate(editorPlane, new Vector3(l * planewidth, 0, w * planewidth), Quaternion.identity);
+                    floor.layer = 15;
+                    floor.transform.localScale *= planewidth / 10;
+                    floor.renderer.material.color = CnoPlane;
+                    floor.transform.parent = transform;
+                    floors.Add(floor);
+                    allPos.Add(floor);
+                }
+            }
+        }
 		float tempL = length - 1;
 		float tempW = width - 1;
 		cam.transform.position = new Vector3 (tempL / 2, 1, tempW / 2) * planewidth;
@@ -595,14 +711,16 @@ public class LevelEditor : MonoBehaviour
 	//saves the position to file.
 	private void SavePositionsToFile (string filename, bool loading = false)
 	{
-
-		if (endPlane != null || loading) {
-
-			if (loading || LevelEditor.posConnected.Contains (LevelEditor.endPlane.transform.position / planewidth) ) {
-
 				string res = "\r\n";
 
-				res += resourceManager.length + "\r\n" + resourceManager.width + "\r\n" + startPos3.x.ToString () + "\r\n" + startPos3.z.ToString () + "\r\n";
+                res += amountOfStarts + "\r\n";
+                res += amountOfEnds + "\r\n";
+
+                res += resourceManager.length + "\r\n" + resourceManager.width + "\r\n";
+                if (amountOfStarts != 0)
+                {
+                    res += startPos3.x.ToString() + "\r\n" + startPos3.z.ToString() + "\r\n";
+                }
 				foreach (Vector2 pos in positions) {
 					if (pos / planewidth != resourceManager.startPos && pos / planewidth != resourceManager.endPos) {
 						for (int i = 0; i <= 1; i++) {
@@ -614,27 +732,26 @@ public class LevelEditor : MonoBehaviour
                 {
                     res += endPos3.x.ToString() + "\r\n" + endPos3.z.ToString() + "\r\n";
                 }
+
 				BinaryFormatter bf = new BinaryFormatter ();
 				FileStream file = File.Create (AppPath + filename + ".txt");
 				bf.Serialize (file, res);
                 file.Close();
-			} else
-				setErrorTekst ("Connect end to start!");
-		} else
-			setErrorTekst ("Place end position!");
-
 	}
 
 	//load from file and displays a simple minimap version in the loadscreen.
 	private void loadMapFromFile (string fileName)
 	{
 		if (fileName != null) {
+
+            Reset();
 			string line;
 			List<int> datas = new List<int> ();
 			ArrayList positions = new ArrayList ();
-			Debug.Log ("Getting Data from " + fileName);
 			StreamReader file = new StreamReader (AppPath + fileName + ".txt");
 			file.ReadLine ();
+            amountOfStarts = int.Parse(file.ReadLine());
+            amountOfEnds = int.Parse(file.ReadLine());
 			length = int.Parse (file.ReadLine ());
 			width = int.Parse (file.ReadLine ());
 			int num1;
@@ -649,7 +766,6 @@ public class LevelEditor : MonoBehaviour
 			resourceManager.length = length;
 			resourceManager.width = width;
 
-			Reset ();
 			ResourceManager.mostNorth = 0;
 			ResourceManager.mostEast = 0;
 			ResourceManager.mostSouth = 1000;
@@ -666,18 +782,27 @@ public class LevelEditor : MonoBehaviour
 			}
 			//
 			//Generate start point, end point, and all others, set start point to connected and run
-			LevelEditor.startPos3 = new Vector3 (datas [0], 0, datas [1]);
-			LevelEditor.endPos3 = new Vector3 (datas [datas.Count - 2], 0, datas [datas.Count - 1]);
-			resourceManager.startPos = new Vector2 (startPos3.x, startPos3.z);
-			resourceManager.endPos = new Vector2 (endPos3.x, endPos3.z);
+
+            if (amountOfStarts != 0)
+            {
+                LevelEditor.startPos3 = new Vector3(datas[0], 0, datas[1]);
+                resourceManager.startPos = new Vector2(startPos3.x, startPos3.z);
+            }
+            if (amountOfEnds != 0)
+            {
+                LevelEditor.endPos3 = new Vector3(datas[datas.Count - 2], 0, datas[datas.Count - 1]);
+                resourceManager.endPos = new Vector2(endPos3.x, endPos3.z);
+            }
+			
 			foreach (GameObject floor1 in floors) {
-				if (floor1.transform.position / planewidth == endPos3) {
+				if (floor1.transform.position / planewidth == endPos3 && amountOfEnds !=0) {
 					LevelEditor.endPlane = floor1;	
 					floor1.renderer.material.color = Cend;
 					LevelEditor.posConnected.Add (floor1.transform.position / planewidth);
 
-				} 
-                else if (floor1.transform.position /planewidth == startPos3) {
+				}
+                else if (floor1.transform.position / planewidth == startPos3 && amountOfStarts != 0)
+                {
                     LevelEditor.startPlane = floor1;
                     floor1.renderer.material.color = Cstart;
                     LevelEditor.posConnected.Add(floor1.transform.position / planewidth);
@@ -696,7 +821,6 @@ public class LevelEditor : MonoBehaviour
 			cam.rect = new Rect (0.4f, 0.3f, 0.4f, 0.4f);
 
             Recalculate();
-
             file.Close();
 
 		}
@@ -710,8 +834,6 @@ public class LevelEditor : MonoBehaviour
 			loadMapsPanel.SetActive (false);
 			//reconstruct connected
 			Recalculate ();
-			amountOfEnds = 1;
-			amountOfStarts = 1;
 
 			for (int i = 0; i < positions.Count; i++) { //get right sizes of the positions array so Generate level can work
 				positions [i] = (Vector2)positions [i] * planewidth;
@@ -796,6 +918,7 @@ public class LevelEditor : MonoBehaviour
 
 	private void selectFileName (Button but)
 	{
+        miniCamera.gameObject.SetActive(true);
 		if (currentButSelected != but) {
 			but.GetComponent<Image> ().color = Color.gray;
 			//but.transform.GetChild (1).gameObject.SetActive (true);
@@ -806,10 +929,12 @@ public class LevelEditor : MonoBehaviour
 			currentButSelected = but;
 			currentFileSelected = but.GetComponentInChildren<Text> ().text;
 			loadMapFromFile (currentFileSelected);
+
 		} else { //else. Load him.			
 			currentButSelected = null;
 			currentFileSelected = null;
 		}
+
 	}
 
 	private void deleteFile (string fileName, bool cancelling = false)
@@ -835,13 +960,18 @@ public class LevelEditor : MonoBehaviour
 	}
 
 	//methods to display errortext
-	public static void setErrorTekst (string tekst)
+	public static void setErrorTekst (string tekst, bool error = true)
 	{
 
 		instance.CancelInvoke ();
 		if (!instance.playing) {
             instance.ErrorText.text = tekst;
-            instance.ErrorText.color = new Color(255, 0, 0, 1);
+
+            if (error)
+                instance.ErrorText.color = Color.red;
+            else
+                instance.ErrorText.color = Color.green;
+
 			instance.InvokeRepeating ("errorTekstFadeOut", 2f, 0.01f);
 		}
 	}
