@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 //Script to attach to the walls. Will instantiate hotspots on walls if player is building towers.
@@ -68,17 +69,61 @@ public class WallScript : MonoBehaviour {
 				tower.transform.parent = gameObject.transform;
 
 			}
+			//Sell the tower
+			if (gameObject.transform.childCount == 1) {
+				if (Input.GetKeyUp (KeyCode.I)) {
+					sellTower ();
+				}
 
-			if (Input.GetMouseButtonUp(1) && gameObject.transform.childCount==1) //Sell the tower
-			{
-				Destroy (gameObject.transform.GetChild(0).gameObject);
-				GUIScript.player.addGold (cost / 2);
+				//upgrade the tower - todo
+				if (Input.GetKeyUp (KeyCode.U)) {
+					upgradeTower ();
+				}
+
+				//bring up the menu to either sell or upgrade tower (with costs)
+				if (Input.GetMouseButtonDown(1)) {
+					showMenu ();
+				}
+
+				if (Input.GetKeyUp (KeyCode.C)) {
+					GameObject.Find ("GUIMain").GetComponent<GUIScript> ().TowerPopup.SetActive (false);
+				}
 			}
-
 		}
 
 	}
 
+	private void sellTower(){
+
+		Destroy (gameObject.transform.GetChild (0).gameObject);
+		GUIScript.player.addGold (cost / 2);
+		GameObject.Find ("GUIMain").GetComponent<GUIScript> ().TowerPopup.SetActive (false);
+	}
+
+	private void upgradeTower(){
+		Debug.Log ("Not yet implemented");
+		GameObject.Find ("GUIMain").GetComponent<GUIScript> ().TowerPopup.SetActive (false);
+	}
+
+	private void showMenu(){
+		GameObject popUpPanel = GameObject.Find ("GUIMain").GetComponent<GUIScript> ().TowerPopup;
+		popUpPanel.SetActive (true);
+//		Button sellTowerBut = popUpPanel.transform.GetChild (0).gameObject.GetComponent<Button>();
+//		sellTowerBut.onClick.RemoveAllListeners ();
+//		sellTowerBut.onClick.AddListener (delegate {
+//			sellTower ();
+//		});
+//		Button upgradeTowerBut = popUpPanel.transform.GetChild (1).gameObject.GetComponent<Button>();
+//		upgradeTowerBut.onClick.RemoveAllListeners ();
+//		upgradeTowerBut.onClick.AddListener (delegate {
+//			upgradeTower ();
+//		});
+//		Button cancelTowerBut = popUpPanel.transform.GetChild (2).gameObject.GetComponent<Button>();
+//		cancelTowerBut.onClick.RemoveAllListeners ();
+//		cancelTowerBut.onClick.AddListener (delegate {
+//			popUpPanel.SetActive (false);
+//		});
+	}
 
 
 	//Method to Destroy all hotspots. Called in different scripts.
