@@ -167,7 +167,6 @@ public class GUIScript : MonoBehaviour {
     void UpdateCooldowns() {
         List<Skill> skillset = player.getSkills();
         for(int i = 0; i < skillset.Count; i++) {
-            Debug.Log(skillIconList.Length);
             Image icon = skillIconList[i];
             Text text = skillTextList[i];
             Skill skill = skillset[i];

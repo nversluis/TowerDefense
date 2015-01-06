@@ -744,16 +744,19 @@ public class LevelEditor : MonoBehaviour
 	{
 		if (fileName != null) {
 
-            Reset();
 			string line;
 			List<int> datas = new List<int> ();
 			ArrayList positions = new ArrayList ();
 			StreamReader file = new StreamReader (AppPath + fileName + ".txt");
 			file.ReadLine ();
-            amountOfStarts = int.Parse(file.ReadLine());
-            amountOfEnds = int.Parse(file.ReadLine());
+            int amountOfStartstemp = int.Parse(file.ReadLine());
+            int amountOfEndstemp = int.Parse(file.ReadLine());
 			length = int.Parse (file.ReadLine ());
 			width = int.Parse (file.ReadLine ());
+            Reset();
+
+            amountOfStarts = amountOfStartstemp;
+            amountOfEnds = amountOfEndstemp;
 			int num1;
 			while ((line = file.ReadLine ()) != null) {
 				bool isInt = int.TryParse (line, out num1);
@@ -782,7 +785,6 @@ public class LevelEditor : MonoBehaviour
 			}
 			//
 			//Generate start point, end point, and all others, set start point to connected and run
-
             if (amountOfStarts != 0)
             {
                 LevelEditor.startPos3 = new Vector3(datas[0], 0, datas[1]);
@@ -928,6 +930,7 @@ public class LevelEditor : MonoBehaviour
 			}
 			currentButSelected = but;
 			currentFileSelected = but.GetComponentInChildren<Text> ().text;
+
 			loadMapFromFile (currentFileSelected);
 
 		} else { //else. Load him.			

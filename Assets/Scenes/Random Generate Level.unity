@@ -130,8 +130,8 @@ MonoBehaviour:
   walkSpeed: 5
   maxEnemies: 2
   minEnemies: 4
-  pathUpdateRate: .100000001
-  drawPath: 1
+  pathUpdateRate: .300000012
+  drawPath: 0
   automaticPathUpdating: 1
   maxWaves: 10
   currentWave: 1
@@ -695,11 +695,11 @@ Prefab:
       objectReference: {fileID: 100000, guid: 992585f8d90a7dd4aa9fb58097ade3cd, type: 2}
     - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
       propertyPath: drawPath
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
       propertyPath: pathUpdateRate
-      value: .100000001
+      value: .300000012
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
       propertyPath: GUI
