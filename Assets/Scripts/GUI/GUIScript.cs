@@ -52,7 +52,6 @@ public class GUIScript : MonoBehaviour {
     public Image tower5;
     public Image tower6;
     public Image tower7;
-    public Image tower8;
 
     private Text towerText1;
     private Text towerText2;
@@ -61,7 +60,6 @@ public class GUIScript : MonoBehaviour {
     private Text towerText5;
     private Text towerText6;
     private Text towerText7;
-    private Text towerText8;
 
     private List<Image> towerIconList = new List<Image>();
     private List<Text> towerTextList = new List<Text>();
@@ -125,7 +123,6 @@ public class GUIScript : MonoBehaviour {
         towerText5 = tower5.GetComponentInChildren<Text>();
         towerText6 = tower6.GetComponentInChildren<Text>();
         towerText7 = tower7.GetComponentInChildren<Text>();
-        towerText8 = tower8.GetComponentInChildren<Text>();
         
         // Items
 
@@ -170,7 +167,6 @@ public class GUIScript : MonoBehaviour {
         towerIconList.Add(tower5);
         towerIconList.Add(tower6);
         towerIconList.Add(tower7);
-        towerIconList.Add(tower8);
 
         towerTextList.Add(towerText1);
         towerTextList.Add(towerText2);
@@ -179,7 +175,6 @@ public class GUIScript : MonoBehaviour {
         towerTextList.Add(towerText5);
         towerTextList.Add(towerText6);
         towerTextList.Add(towerText7);
-        towerTextList.Add(towerText8);
 
         // Items
 
