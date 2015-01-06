@@ -13,6 +13,7 @@ public class WaveSpawner : MonoBehaviour
 
     public int maxEnemies = 15;
     public bool spawning = true;
+    public bool keepDistribution = false;
 
     GameObject gui;
     GUIScript guiScript;
@@ -35,6 +36,7 @@ public class WaveSpawner : MonoBehaviour
     public float spawnTime = 0.5f; // in seconden
 
     public ArrayList enemies;
+    public ArrayList statDistributions;
     EnemyStats enemyStats;
 
     Text waveText;
@@ -76,6 +78,7 @@ public class WaveSpawner : MonoBehaviour
                 else
                 {
                     spawning = false;
+                    keepDistribution = true;
                 }
             }
             else
@@ -117,7 +120,6 @@ public class WaveSpawner : MonoBehaviour
 
         if (enemyNumber == 1)
         {
-
             GameObject enemyGuyant = (GameObject)Instantiate(EnemyGuyant, transform.position + new Vector3(randX, 7.34f / 4, randZ), Quaternion.identity);
             enemyGuyant.gameObject.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
             enemyGuyant.name = "Guyant";
@@ -125,6 +127,7 @@ public class WaveSpawner : MonoBehaviour
             // Genereer enemies met toenemende stats per wave
             enemyStats.totalStatPoints = currentTotalStatPoints;
             enemyStats.generateenemyStats();
+            //statDistributions.Add(enemyStats.statDistribution);
             enemies.Add(enemyGuyant);
         }
         else if (enemyNumber == 2)

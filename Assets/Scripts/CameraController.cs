@@ -118,7 +118,7 @@ public class CameraController : MonoBehaviour {
 
         if (Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity, MaskEnemyStats))
         {
-            Debug.Log(hit.transform.name);
+            //Debug.Log(hit.transform.name);
             if (hit.transform.tag == "Enemy")
             {
                 EnemyStats enemyStats = hit.transform.GetComponent<EnemyStats>();
