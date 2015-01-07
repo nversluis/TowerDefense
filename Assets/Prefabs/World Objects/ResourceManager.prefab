@@ -16,6 +16,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &171860
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 471860}
+  - 114: {fileID: 11471860}
+  m_Layer: 0
+  m_Name: KeyInputs
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!4 &400000
 Transform:
   m_ObjectHideFlags: 1
@@ -23,10 +39,23 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 20.2024803, y: 9.92507648, z: 15.3468361}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 471860}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!4 &471860
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 171860}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 14.8531599, y: .235073388, z: 6.41849422}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 400000}
   m_RootOrder: 0
 --- !u!114 &11400000
 MonoBehaviour:
@@ -65,13 +94,11 @@ MonoBehaviour:
   enemyGwarf: {fileID: 188948, guid: 37f21c745b6e3ff43942e88e21aba537, type: 2}
   enemyGrobble: {fileID: 0}
   walkSpeed: 5
-  maxEnemies: 2
-  minEnemies: 4
-  pathUpdateRate: .100000001
-  drawPath: 1
+  pathUpdateRate: .300000012
+  drawPath: 0
   automaticPathUpdating: 1
-  maxWaves: 10
   currentWave: 1
+  maxWaves: 10
   maxTowerDistance: 50
   magicTower: {fileID: 100010, guid: 00820a827834982408befc67f6611fe1, type: 2}
   magicTowerBullet: {fileID: 100000, guid: 992585f8d90a7dd4aa9fb58097ade3cd, type: 2}
@@ -108,6 +135,28 @@ MonoBehaviour:
   connected: {r: 0, g: 1, b: 0, a: 1}
   notConnected: {r: 1, g: 0, b: 0, a: 1}
   highlighted: {r: .397058845, g: .476065159, b: 1, a: .282352954}
+--- !u!114 &11471860
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 171860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92f9af5e8e589724c914da601b8edf15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  swordInput: 122
+  magicInput: 120
+  tow1Input: 49
+  tow2Input: 50
+  tow3Input: 51
+  tow4Input: 52
+  tow5Input: 53
+  tow6Input: 54
+  upgradeMenuInput: 55
+  upgradeInput: 323
+  sellInput: 324
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
