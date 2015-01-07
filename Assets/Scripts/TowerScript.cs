@@ -80,6 +80,7 @@ public class TowerScript : MonoBehaviour
         }
     }
 
+
     //set the tower to a green hotspot
     private void setGreen()
     {

@@ -76,29 +76,35 @@ public class WeaponController : MonoBehaviour
 			weapon = 3; 
 		}
 
-		else if (Input.GetKey (inputManager.tow3Input) && (curTower == null || !curTower.Equals (Tower3))) {
+		else if (Input.GetKey (inputManager.tow3Input)) {
 			curTower = null;
 			curFloorTower = FloorTower1;
 			WallScript.DestroyHotSpots ();
 			weapon = 4; 
 		}
-		else if (Input.GetKey (inputManager.tow4Input) && (curTower == null || !curTower.Equals (Tower4))) {
+		else if (Input.GetKey (inputManager.tow4Input)) {
 			curTower = null;
 			curFloorTower = FloorTower2;
 			WallScript.DestroyHotSpots ();
 			weapon = 5; 
 		}
-		else if (Input.GetKey (inputManager.tow5Input) && (curTower == null || !curTower.Equals (Tower4))) {
+		else if (Input.GetKey (inputManager.tow5Input)) {
 			curTower = null;
 			curFloorTower = FloorTower3;
 			WallScript.DestroyHotSpots ();
 			weapon = 5; 
 		}
-		else if (Input.GetKey (inputManager.tow6Input) && (curTower == null || !curTower.Equals (Tower4))) {
+		else if (Input.GetKey (inputManager.tow6Input)) {
 			curTower = null;
 			curFloorTower = FloorTower4;
 			WallScript.DestroyHotSpots ();
 			weapon = 5; 
+		}
+		else if (Input.GetKey (inputManager.upgradeMenuInput)) {
+			curTower = null;
+			curFloorTower = null;
+			WallScript.DestroyHotSpots ();
+			weapon = 50; //arbitrary 
 		}
 	}
 
