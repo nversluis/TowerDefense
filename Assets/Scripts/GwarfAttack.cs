@@ -6,6 +6,7 @@ public class GwarfAttack : MonoBehaviour
     private float timeBetweenAttacks = 2.917f / 2f;
     public int attackDamage;
     public float playerDistance;
+    public int damageMultiplier = 20;
 
     public int totalDamage;
 
@@ -31,7 +32,7 @@ public class GwarfAttack : MonoBehaviour
 
         enemyStats = GetComponent<EnemyStats>();
         enemyResources = GetComponent<EnemyResources>();
-        attackDamage = enemyStats.attack;
+        attackDamage = enemyStats.attack * damageMultiplier;
 
     }
 

@@ -38,52 +38,60 @@ public class LevelEditorPlane : MonoBehaviour
 
 	}
 
-	void OnMouseOver ()
-	{
-		if (Input.GetMouseButtonDown (2))
-			Debug.Log (LevelEditor.posConnected.Contains (transform.position / planewidth));
+    void OnMouseOver()
+    {
+        if (LevelEditor.editing)
+        {
+            if (Input.GetMouseButtonDown(2))
+                Debug.Log(LevelEditor.posConnected.Contains(transform.position / planewidth));
 
-		if (gameObject.renderer.material.color == CnoPlane) {
-            if (LevelEditor.type == 2)
+            if (gameObject.renderer.material.color == CnoPlane)
             {
-                Color currentColor = CConnected;
-                currentColor.a = 0.80f;
-                gameObject.renderer.material.color = currentColor;
-                highlighted = true;
+                if (LevelEditor.type == 2)
+                {
+                    Color currentColor = CConnected;
+                    currentColor.a = 0.80f;
+                    gameObject.renderer.material.color = currentColor;
+                    highlighted = true;
+                }
+                else if (LevelEditor.type == 1)
+                {
+                    Color currentColor = Cend;
+                    currentColor.a = 0.80f;
+                    gameObject.renderer.material.color = currentColor;
+                    highlighted = true;
+                }
+                else if (LevelEditor.type == 0)
+                {
+                    Color currentColor = Cstart;
+                    currentColor.a = 0.80f;
+                    gameObject.renderer.material.color = currentColor;
+                    highlighted = true;
+                }
             }
-            else if (LevelEditor.type == 1)
+            if (Input.GetMouseButton(0))
             {
-                Color currentColor = Cend;
-                currentColor.a = 0.80f;
-                gameObject.renderer.material.color = currentColor;
-                highlighted = true;
+                if (LevelEditor.type < 3)
+                {
+                    addPos();
+                }
+                else
+                    removePos();
             }
-            else if (LevelEditor.type == 0)
-            {
-                Color currentColor = Cstart;
-                currentColor.a = 0.80f;
-                gameObject.renderer.material.color = currentColor;
-                highlighted = true;
-            }
-		}
-		if (Input.GetMouseButton (0)) {
-			if (LevelEditor.type < 3) {
-				addPos ();
-			} else
-				removePos ();
-		}
 
-		if (Input.GetMouseButton (1))
-			removePos ();
-		
-	}
-    
+            if (Input.GetMouseButton(1))
+                removePos();
+
+        }
+    }
 	void OnMouseExit ()
 	{
-        if (highlighted == true)
-			gameObject.renderer.material.color = CnoPlane;
-        highlighted = false;
-
+        if (LevelEditor.editing)
+        {
+            if (highlighted == true)
+                gameObject.renderer.material.color = CnoPlane;
+            highlighted = false;
+        }
 	}
 
 

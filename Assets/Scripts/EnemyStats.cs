@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class EnemyStats : MonoBehaviour {
 
     private List<int> stats;
+    public List<float> statDistribution;
     public int totalStatPoints = 100;
 
     // Stats van een enemy
@@ -15,6 +16,11 @@ public class EnemyStats : MonoBehaviour {
     public float dfactor;
     public float goalImportance;
     public float playerImportance;
+
+    // statdistribution of enemy
+    public float healthDistributionFactor;
+    public float attackDistributionFactor;
+    public float defenseDistributionFactor;
 
     public bool respawn = false;
     public int statsMutation = 1;
@@ -54,12 +60,21 @@ public class EnemyStats : MonoBehaviour {
     {
         this.stats = randomNumberGenerator(3, totalStatPoints);
         this.health = stats[0];
-        this.attack = stats[1]*20;
+        this.attack = stats[1];
         this.defense = stats[2];
         this.speedMultiplier = Random.Range(0.90f, 1.10f);
         this.dfactor = Random.Range(0.05f, 0.80f);
         this.goalImportance = Random.Range(0.4f, 1f);
         this.playerImportance = Random.Range(0, 0.6f);
+
+        this.healthDistributionFactor = (float) stats[0] / 100;
+        this.attackDistributionFactor = (float) stats[1] / 100;
+        this.defenseDistributionFactor = (float)stats[2] / 100;
+
+        statDistribution.Add(healthDistributionFactor);
+        statDistribution.Add(attackDistributionFactor);
+        statDistribution.Add(defenseDistributionFactor);
+
     }
 
     public int fitness()
