@@ -57,7 +57,6 @@ public class LevelEditor : MonoBehaviour
     string tempfilename;
     Camera miniCamera;
 
-
 	public GameObject newMapScreen;
 	public InputField lengthInput;
 	public InputField widthInput;
@@ -65,6 +64,7 @@ public class LevelEditor : MonoBehaviour
 	public Button SubmitButton;
 	public Button cancelSizeBut;
 	public Button newSizeBut;
+    public GameObject largeMapText;
 
 	public Button generateLevelButton;
 	public InputField fileNameInput;
@@ -78,6 +78,7 @@ public class LevelEditor : MonoBehaviour
 	public Button submitLoadButton;
 	public Button deleteButton;
     public GameObject saveMapPanel;
+    public GameObject mainMenuButton;
 
     bool mainMenu;
 
@@ -303,6 +304,9 @@ public class LevelEditor : MonoBehaviour
         {
             button.SetActive(false);
         }
+
+        newMapButton.gameObject.SetActive(false);
+        mainMenuButton.SetActive(false);
     }
 
     // Method for the accepting the current selected map to load
@@ -340,6 +344,9 @@ public class LevelEditor : MonoBehaviour
 
         setErrorTekst("Loaded new map!", false);
 
+        newMapButton.gameObject.SetActive(true);
+        mainMenuButton.SetActive(true);
+
     }
 
     // Method for deleting current selected map
@@ -373,8 +380,8 @@ public class LevelEditor : MonoBehaviour
             buttons[2].gameObject.SetActive(true);
         }
 
-        
-
+        newMapButton.gameObject.SetActive(true);
+        mainMenuButton.SetActive(true);
 
     }
 
@@ -416,6 +423,14 @@ public class LevelEditor : MonoBehaviour
             // trying to parse them as int
             bool resultLength = int.TryParse(lengthInput.text, out lengthTemp);
             bool resultWidth = int.TryParse(widthInput.text, out widthTemp);
+
+            if (resultWidth && resultLength && (int.Parse(lengthInput.text) * int.Parse(widthInput.text)) > 450)
+            {
+                largeMapText.SetActive(true);
+            }
+            else{
+                largeMapText.SetActive(false);
+            }
 
             // if succeeded and the number is more than 0
             if (resultWidth && resultLength && int.Parse(lengthInput.text) > 0 && int.Parse(widthInput.text) > 0)
@@ -581,7 +596,7 @@ public class LevelEditor : MonoBehaviour
         RandomMaze.GenerateWall(positions, planewidth, wallPrefab, torch, height, length, width, GameObject.Find("World"));
 		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Dwogres wanted a red carpet to walk on, generating...";
 		yield return new WaitForSeconds (0.1f);
-		Nodes = RandomMaze.SpawnNodes (positions, nodeSize, planewidth, NodesPos, Nodes, length, width, drawNavigationGrid, false);
+		Nodes = RandomMaze.SpawnNodes (positions, nodeSize, planewidth, NodesPos, Nodes, length, width, drawNavigationGrid, true);
 		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Giving birth to Player...";
 		yield return new WaitForSeconds (0.1f);
 		RandomMaze.spawnPlayer (player, camera, resourceManager.GUI, resourceManager.eventListener, startPos * planewidth, Minimapcamera, width, length, planewidth);

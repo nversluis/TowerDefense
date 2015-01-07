@@ -45,16 +45,13 @@ public class ResourceManager : MonoBehaviour {
 	public GameObject enemyGrobble;
 	public List<WayPoint> Nodes;
     public float walkSpeed;
-	public int maxEnemies;
-	public int minEnemies;
     public float pathUpdateRate;
     public bool drawPath;
     public bool automaticPathUpdating;
 
-
 	[Header("Waves")]
+    public int currentWave;
 	public int maxWaves;
-	public int currentWave;
 
 	[Header("Towers")]
 	public float maxTowerDistance;
