@@ -53,8 +53,8 @@ public class ResourceManager : MonoBehaviour {
 
 
 	[Header("Waves")]
+    public int currentWave;
 	public int maxWaves;
-	public int currentWave;
 
 	[Header("Towers")]
 	public float maxTowerDistance;

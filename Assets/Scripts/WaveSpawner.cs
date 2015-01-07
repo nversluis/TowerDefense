@@ -30,6 +30,11 @@ public class WaveSpawner : MonoBehaviour
 
     bool Won;
 
+    private float timer;
+    public int timeBeforeFirstWave;
+    public int timeBetweenWaves;
+    private int waitTime;
+
     public int currentTotalStatPoints = 250;
     public int delta = 20;
 
@@ -66,19 +71,35 @@ public class WaveSpawner : MonoBehaviour
         {
             if (spawning)
             {
-                if (enemies.Count < maxEnemies)
+                if (currentWave == 1)
                 {
-                    float randomFloat = Random.Range(0.0f, 1.0f);
-                    if (randomFloat < (float) (1 / (spawnTime * 60)))
-                    {
-                        // Spawn enemies tot het maximale aantal enemies wordt bereikt
-                        Spawnenemy();
-                    }
+                    waitTime = timeBeforeFirstWave;
                 }
-                else
+                else 
                 {
-                    spawning = false;
-                    keepDistribution = true;
+                    waitTime = timeBetweenWaves;
+                }
+                
+                timer += Time.deltaTime;
+                //Debug.Log("timer: " + timer + " " + "waitTime: " + waitTime);
+
+                if (timer > waitTime)
+                {
+                    if (enemies.Count < maxEnemies)
+                    {
+                        float randomFloat = Random.Range(0.0f, 1.0f);
+                        if (randomFloat < (float)(1 / (spawnTime * 60)))
+                        {
+                            // Spawn enemies tot het maximale aantal enemies wordt bereikt
+                            Spawnenemy();
+                        }
+                    }
+                    else
+                    {
+                        spawning = false;
+                        keepDistribution = true;
+                        timer = 0;
+                    }
                 }
             }
             else
