@@ -128,8 +128,6 @@ MonoBehaviour:
   enemyGwarf: {fileID: 188948, guid: 37f21c745b6e3ff43942e88e21aba537, type: 2}
   enemyGrobble: {fileID: 0}
   walkSpeed: 5
-  maxEnemies: 2
-  minEnemies: 4
   pathUpdateRate: .300000012
   drawPath: 0
   automaticPathUpdating: 1
