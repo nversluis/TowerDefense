@@ -28,11 +28,14 @@ public class WeaponController : MonoBehaviour
 	//current Tower selected
 	public static int weapon;
 
+	private KeyInputManager inputManager;
+
 	// Use this for initialization
 	void Start ()
 	{
 		ResourceManagerObj = GameObject.Find ("ResourceManager");
 		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
+		inputManager = GameObject.Find ("KeyInputs").GetComponent<KeyInputManager> ();
 
 		Tower1 = resourceManager.magicTowerHotSpot;
 		Tower2 = resourceManager.tower2;
@@ -52,40 +55,51 @@ public class WeaponController : MonoBehaviour
 
 		//If 1 pressed, magic weap is selected, cant build towers.
 
-		if (Input.GetKey ("1")) {
+		if (Input.GetKey (inputManager.magicInput)) {
 			curTower = null;
 			curFloorTower = null;
 			weapon = 1;
 			WallScript.DestroyHotSpots ();
 		}
 		//If 2 pressed, building tower will be tower 1, cant cast magic.
-		if (Input.GetKey ("2") && (curTower == null || !curTower.Equals (Tower1))) {
+		else if (Input.GetKey (inputManager.tow1Input) && (curTower == null || !curTower.Equals (Tower1))) {
 			curTower = Tower1;
-			curFloorTower = FloorTower1;
+			curFloorTower = null;
 			WallScript.DestroyHotSpots ();
 			weapon = 2;
 		}
 		//If 3 pressed, building tower will be tower 2, cant cast magic.
-		if (Input.GetKey ("3") && (curTower == null || !curTower.Equals (Tower2))) {
+		else if (Input.GetKey (inputManager.tow2Input) && (curTower == null || !curTower.Equals (Tower2))) {
 			curTower = Tower2;
-			curFloorTower = FloorTower2;
+			curFloorTower = null;
 			WallScript.DestroyHotSpots ();
 			weapon = 3; 
 		}
 
-		if (Input.GetKey ("4") && (curTower == null || !curTower.Equals (Tower3))) {
+		else if (Input.GetKey (inputManager.tow3Input) && (curTower == null || !curTower.Equals (Tower3))) {
 			curTower = null;
-			curFloorTower = FloorTower3;
+			curFloorTower = FloorTower1;
 			WallScript.DestroyHotSpots ();
 			weapon = 4; 
 		}
-		if (Input.GetKey ("5") && (curTower == null || !curTower.Equals (Tower4))) {
+		else if (Input.GetKey (inputManager.tow4Input) && (curTower == null || !curTower.Equals (Tower4))) {
+			curTower = null;
+			curFloorTower = FloorTower2;
+			WallScript.DestroyHotSpots ();
+			weapon = 5; 
+		}
+		else if (Input.GetKey (inputManager.tow5Input) && (curTower == null || !curTower.Equals (Tower4))) {
+			curTower = null;
+			curFloorTower = FloorTower3;
+			WallScript.DestroyHotSpots ();
+			weapon = 5; 
+		}
+		else if (Input.GetKey (inputManager.tow6Input) && (curTower == null || !curTower.Equals (Tower4))) {
 			curTower = null;
 			curFloorTower = FloorTower4;
 			WallScript.DestroyHotSpots ();
 			weapon = 5; 
 		}
-
 	}
 
 

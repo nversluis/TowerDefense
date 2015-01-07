@@ -419,6 +419,57 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 136495611}
+--- !u!1 &203657747
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 171860, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+  m_PrefabInternal: {fileID: 602816510}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 203657748}
+  - 114: {fileID: 203657749}
+  m_Layer: 0
+  m_Name: KeyInputs
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &203657748
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 471860, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+  m_PrefabInternal: {fileID: 602816510}
+  m_GameObject: {fileID: 203657747}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 14.8531599, y: .235073388, z: 6.41849422}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 285136679}
+  m_RootOrder: 0
+--- !u!114 &203657749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11471860, guid: ac70d7e38b4e1eb4f8eacd13550d1854,
+    type: 2}
+  m_PrefabInternal: {fileID: 602816510}
+  m_GameObject: {fileID: 203657747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92f9af5e8e589724c914da601b8edf15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  swordInput: 122
+  magicInput: 120
+  tow1Input: 49
+  tow2Input: 50
+  tow3Input: 51
+  tow4Input: 52
+  tow5Input: 53
+  tow6Input: 54
+  upgradeMenuInput: 55
+  upgradeInput: 323
+  sellInput: 324
 --- !u!1 &214480156
 GameObject:
   m_ObjectHideFlags: 0
@@ -689,13 +740,11 @@ MonoBehaviour:
   enemyGwarf: {fileID: 188948, guid: 37f21c745b6e3ff43942e88e21aba537, type: 2}
   enemyGrobble: {fileID: 0}
   walkSpeed: 5
-  maxEnemies: 2
-  minEnemies: 4
   pathUpdateRate: .5
   drawPath: 0
   automaticPathUpdating: 1
-  maxWaves: 10
   currentWave: 1
+  maxWaves: 10
   maxTowerDistance: 50
   magicTower: {fileID: 100010, guid: 00820a827834982408befc67f6611fe1, type: 2}
   magicTowerBullet: {fileID: 100000, guid: 992585f8d90a7dd4aa9fb58097ade3cd, type: 2}
@@ -741,7 +790,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 20.2024803, y: 9.92507648, z: 15.3468361}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 203657748}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!1 &309995298
