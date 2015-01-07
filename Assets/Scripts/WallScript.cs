@@ -16,12 +16,14 @@ public class WallScript : MonoBehaviour {
 	private GameObject player;
 	private float maxDistance;
 	private int  cost;
+	private PlayerData playerData;
 
 	void Start(){
 		ResourceManagerObj = GameObject.Find ("ResourceManager");
 		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
 		planeW = resourceManager.planewidth;
 		maxDistance = resourceManager.maxTowerDistance;
+		playerData = GUIScript.player;
 		cost = 0;
 	}
 
@@ -43,7 +45,15 @@ public class WallScript : MonoBehaviour {
 				if (player== null) {
 					player = GameObject.Find ("Player");
 				}
-				if (Vector3.Distance (player.transform.position, transform.position) <= maxDistance) {
+
+
+				//set costs
+				if(TowerPrefab.name.Contains("magic")){
+					cost = resourceManager.costMagicTower;
+				}
+
+
+				if ((Vector3.Distance (player.transform.position, transform.position) <= maxDistance ) && cost <= playerData.getGold()) {
 					curColor = transparentgreen;
 					curTag = "TowerHotSpot";
 				} else {
@@ -51,10 +61,6 @@ public class WallScript : MonoBehaviour {
 					curTag = "HotSpotRed";
 				}
 
-				//set cost
-				if(TowerPrefab.name.Contains("magic")){
-					cost = resourceManager.costMagicTower;
-					}
 
 				tower.tag = curTag;
 

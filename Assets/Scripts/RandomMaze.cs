@@ -85,10 +85,10 @@ public class RandomMaze : MonoBehaviour
 
 	IEnumerator spawnLevel(){
 		LoadingScreen.GetComponentInChildren<Text>().text = "Loading: Building a castle..";
-		yield return new WaitForSeconds(0.1f);
+        //Time.timeScale = 1;
+        yield return new WaitForSeconds(0.1f);
 		GenerateFloor ();
 		//Generate walls
-
 		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: We forgot walls, building walls...";
 		yield return new WaitForSeconds(0.1f);
 		GenerateWall (positions,planewidth,wallPrefab,torch,height,length,width,gameObject);

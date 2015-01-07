@@ -73,7 +73,14 @@ public class WaveSpawner : MonoBehaviour
             {
                 if (currentWave == 1)
                 {
-                    waitTime = timeBeforeFirstWave;
+                    if (Input.GetKeyDown("enter"))
+                    {
+                        waitTime = 0;
+                    }
+                    else
+                    {
+                        waitTime = int.MaxValue;
+                    }
                 }
                 else 
                 {
