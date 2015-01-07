@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class WaveSpawner : MonoBehaviour
 {
-	private GameObject ResourceManagerObj;
-	private ResourceManager resourceManager;
+    private GameObject ResourceManagerObj;
+    private ResourceManager resourceManager;
     private GameObject EnemyGuyant;
     private GameObject EnemyGwarf;
     private GameObject EnemyGrobble;
@@ -17,17 +17,18 @@ public class WaveSpawner : MonoBehaviour
 
     GameObject gui;
     GUIScript guiScript;
-    
+
     public int toenameAantalEnemiesPerWave = 5;
 
-	private int maxWaves;
-	private int currentWave;
+    private int maxWaves;
+    private int currentWave;
 
     public float maxX;
     public float maxZ;
     //float orcHeigthSpawn = 3.27f;
-	private PlayerData playerData = GUIScript.player;
+    private PlayerData playerData = GUIScript.player;
 
+    private bool gameHasStarted = false;
     bool Won;
 
     private float timer;
@@ -48,13 +49,13 @@ public class WaveSpawner : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-		ResourceManagerObj = GameObject.Find ("ResourceManager");
-		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
+        ResourceManagerObj = GameObject.Find("ResourceManager");
+        resourceManager = ResourceManagerObj.GetComponent<ResourceManager>();
         EnemyGuyant = resourceManager.enemyGuyant;
         EnemyGwarf = resourceManager.enemyGwarf;
         EnemyGrobble = resourceManager.enemyGrobble;
-		maxWaves = resourceManager.maxWaves;
-		currentWave = resourceManager.currentWave;
+        maxWaves = resourceManager.maxWaves;
+        currentWave = resourceManager.currentWave;
         enemies = new ArrayList();
 
         gui = GameObject.Find("GUIMain");
@@ -73,23 +74,27 @@ public class WaveSpawner : MonoBehaviour
             {
                 if (currentWave == 1)
                 {
-                    /*if (Input.GetKeyDown("space"))
+                    if (Input.GetKeyDown("return"))
+                    {
+                        gameHasStarted = true;
+                    }
+                    if (gameHasStarted)
                     {
                         waitTime = 0;
                     }
                     else
                     {
                         waitTime = int.MaxValue;
-                    }*/
-                    waitTime = timeBeforeFirstWave;
+                    }
+                    //waitTime = timeBeforeFirstWave;
                 }
-                else 
+                else
                 {
                     waitTime = timeBetweenWaves;
                 }
-                
+
                 timer += Time.deltaTime;
-                //Debug.Log("timer: " + timer + " " + "waitTime: " + waitTime);
+                Debug.Log("timer: " + timer + " " + "waitTime: " + waitTime);
 
                 if (timer > waitTime)
                 {
@@ -116,8 +121,8 @@ public class WaveSpawner : MonoBehaviour
 
                 if (enemies.Count == 0)
                 {
-					// Voeg gold toe voor de speler na elke wave
-					playerData.addGold(resourceManager.rewardWave);
+                    // Voeg gold toe voor de speler na elke wave
+                    playerData.addGold(resourceManager.rewardWave);
                     // Als alle enemies dood zijn, ga naar de volgende wave
                     currentWave++;
                     // Verhoog het aantal enemies in de wave
@@ -184,7 +189,7 @@ public class WaveSpawner : MonoBehaviour
         }
     }
 
-    
+
 
 }
 
