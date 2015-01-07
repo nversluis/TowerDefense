@@ -171,6 +171,10 @@ public class WaveSpawner : MonoBehaviour
             enemyStats = enemyGuyant.GetComponent<EnemyStats>();
             // Genereer enemies met toenemende stats per wave
             enemyStats.totalStatPoints = currentTotalStatPoints;
+            if (keepDistribution)
+            {
+                enemyStats.statDistribution = getRandomDistribution();
+            }
             enemyStats.generateenemyStats();
             statDistributions.Add(enemyStats.statDistribution);
             enemies.Add(enemyGuyant);
@@ -183,6 +187,10 @@ public class WaveSpawner : MonoBehaviour
             enemyStats = enemyGwarf.GetComponent<EnemyStats>();
             // Genereer enemies met toenemende stats per wave
             enemyStats.totalStatPoints = currentTotalStatPoints;
+            if (keepDistribution)
+            {
+                enemyStats.statDistribution = getRandomDistribution();
+            }
             enemyStats.generateenemyStats();
             statDistributions.Add(enemyStats.statDistribution);
             enemies.Add(enemyGwarf);
@@ -201,7 +209,18 @@ public class WaveSpawner : MonoBehaviour
         }
     }
 
+    public List<float> getRandomDistribution()
+    {
+        int randomElement = Random.Range(0, statDistributions.Count);
+        List<float> distribution = statDistributions[randomElement];
 
+        return distribution;
+    }
+
+    public void clearDistributions()
+    {
+        statDistributions.Clear();
+    }
 
 }
 
