@@ -6,6 +6,7 @@ public class GuyantAttack : MonoBehaviour
     private float timeBetweenAttacks = 2.5f/3f;
     public int attackDamage;
     public float playerDistance;
+    public int damageMultiplier = 20;
 
     public int totalDamage;
 
@@ -25,7 +26,7 @@ public class GuyantAttack : MonoBehaviour
 
         enemyStats = GetComponent<EnemyStats>();
         enemyResources = GetComponent<EnemyResources>();
-        attackDamage = enemyStats.attack;
+        attackDamage = enemyStats.attack * damageMultiplier;
 
     }
 

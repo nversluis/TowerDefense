@@ -14,6 +14,9 @@ public class GAWaveSpawner : MonoBehaviour
     public int maxWaves = 10;
     public int currentWave = 1;
 
+    GameObject gui;
+    GUIScript guiScript;
+
     public int minAantalEnemiesPerWave = 2;
     public int maxAantalEnemiesPerWave = 10;
 
@@ -26,6 +29,8 @@ public class GAWaveSpawner : MonoBehaviour
 
     public int currentTotalStatPoints;
     public int toenameTotalStatsPerWave = 50;
+
+    public bool won;
 
     public Vector3 spawnPosition;
 
@@ -54,6 +59,9 @@ public class GAWaveSpawner : MonoBehaviour
         //Debug.Log("Wave " + currentWave + " / " + maxWaves);
 		minAantalEnemiesPerWave = resourceManager.minEnemies;
 		maxAantalEnemiesPerWave = resourceManager.maxEnemies;
+
+        gui = GameObject.Find("GUIMain");
+        guiScript = gui.GetComponent<GUIScript>();
     }
 
     // Update is called once per frame
@@ -76,8 +84,9 @@ public class GAWaveSpawner : MonoBehaviour
         {
             if (AllEnemiesDead())
             {
-                //Debug.Log("Alle enemies zijn dood");
+                Debug.Log("Alle enemies zijn dood");
 				playerData.addGold(resourceManager.rewardWave);
+
                 if (currentWave < maxWaves)
                 {
                     // Genereer de volgende wave
@@ -91,16 +100,21 @@ public class GAWaveSpawner : MonoBehaviour
                     // Versterk de enemies in de volgende generatie
                     BuffEnemies();
                     // Spawnt de volgende generatie
-                    // Respawn();
+                    Respawn();
                     // Verhoog de wave count
                     currentWave++;
                     //Debug.Log("Wave " + currentWave + " / " + maxWaves);
                 }
                 else
                 {
-                    //Debug.Log("Congratulations! You've succesfully defeated all waves of enemies!");
+                    won = true;
                 }
             }
+        }
+
+        if (won)
+        {
+            guiScript.EndGame("You Won!");
         }
     }
 
