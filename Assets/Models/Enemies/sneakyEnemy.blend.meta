@@ -7,10 +7,16 @@ ModelImporter:
     100002: //RootNode
     100004: Sphere
     100006: Sphere_001
+    100008: Armature
+    100010: Bone
+    100012: Bone_001
     400000: BezierCurve
     400002: //RootNode
     400004: Sphere
     400006: Sphere_001
+    400008: Armature
+    400010: Bone
+    400012: Bone_001
     2300000: BezierCurve
     2300002: Sphere
     2300004: Sphere_001
