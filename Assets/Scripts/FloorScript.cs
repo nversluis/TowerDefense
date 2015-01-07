@@ -4,6 +4,7 @@ using System.Collections;
 public class FloorScript : MonoBehaviour {
 
 	Color transparentgreen = new Color(0,255,0,0.1f);
+	Color transparentred = new Color(255,0,0,0.1f);
 	private int i;
 	private GameObject ResourceManagerObj;
 	private ResourceManager resourceManager;
@@ -36,7 +37,11 @@ public class FloorScript : MonoBehaviour {
 				foreach (Renderer child in tower.GetComponentsInChildren<Renderer>()) {
 					foreach (Material mat in child.materials) {
 						mat.shader = Shader.Find ("Transparent/Diffuse");
-						mat.color = transparentgreen;
+						if (cost >= playerData.getGold ()) {
+							mat.color = transparentred;
+						} else {
+							mat.color = transparentgreen;
+						}
 					}
 				}
 
