@@ -70,13 +70,7 @@ public class GUIScript : MonoBehaviour {
     public Image item3;
     public Image item4;
 
-    private Text itemText1;
-    private Text itemText2;
-    private Text itemText3;
-    private Text itemText4;
-
     private List<Image> itemIconList = new List<Image>();
-    private List<Text> itemTextList = new List<Text>();
 
     [Header("Pause menu canvas")]
     public GameObject canvas;
@@ -124,13 +118,6 @@ public class GUIScript : MonoBehaviour {
         towerText6 = tower6.GetComponentInChildren<Text>();
         towerText7 = tower7.GetComponentInChildren<Text>();
         
-        // Items
-
-        itemText1 = GetComponentInChildren<Text>();
-        itemText2 = GetComponentInChildren<Text>();
-        itemText3 = GetComponentInChildren<Text>();
-        itemText4 = GetComponentInChildren<Text>();
-
         // Scripts
 
         playerObject = GameObject.Find("Player");
@@ -183,11 +170,6 @@ public class GUIScript : MonoBehaviour {
         itemIconList.Add(item3);
         itemIconList.Add(item4);
 
-        itemTextList.Add(itemText1);
-        itemTextList.Add(itemText2);
-        itemTextList.Add(itemText3);
-        itemTextList.Add(itemText4);
-
         /* Initialize */
 
         // Skills 
@@ -208,13 +190,6 @@ public class GUIScript : MonoBehaviour {
         // Towers
         for(int i = 0; i < towerTextList.Count; i++) {
             Text tx = towerTextList[i];
-            tx.enabled = true;
-            tx.text = i.ToString();
-        }
-
-        // Items
-        for(int i = 0; i < itemTextList.Count; i++) {
-            Text tx = itemTextList[i];
             tx.enabled = true;
             tx.text = i.ToString();
         }
