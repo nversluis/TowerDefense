@@ -666,8 +666,8 @@ MonoBehaviour:
   costIceTrap: 100
   costFireTrap: 100
   costPoisonTrap: 100
-  rewardenemy: 0
-  rewardWave: 300
+  rewardenemy: 5
+  rewardWave: 200
   planePrefab: {fileID: 100016, guid: eb0912c352095c645a4cc637dd9257b0, type: 2}
   wallPrefab: {fileID: 100000, guid: e3e7c39751284344492a03bc74fc55f0, type: 2}
   enemySpawner: {fileID: 100000, guid: c3a351ed1e54c354c99c7d460d83aa16, type: 2}
@@ -689,8 +689,8 @@ MonoBehaviour:
   walkSpeed: 5
   maxEnemies: 2
   minEnemies: 4
-  pathUpdateRate: .100000001
-  drawPath: 1
+  pathUpdateRate: .5
+  drawPath: 0
   automaticPathUpdating: 1
   maxWaves: 10
   currentWave: 1
@@ -2170,6 +2170,26 @@ Prefab:
     - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
       propertyPath: drawNavigationGrid
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: automaticPathUpdating
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: drawPath
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: pathUpdateRate
+      value: .5
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: rewardenemy
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: rewardWave
+      value: 200
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
