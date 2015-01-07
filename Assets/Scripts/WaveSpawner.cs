@@ -42,7 +42,7 @@ public class WaveSpawner : MonoBehaviour
     public float spawnTime = 0.5f; // in seconden
 
     public ArrayList enemies;
-    public ArrayList statDistributions;
+    List<List<float>> statDistributions;
     EnemyStats enemyStats;
 
     Text waveText;
@@ -57,6 +57,7 @@ public class WaveSpawner : MonoBehaviour
         maxWaves = resourceManager.maxWaves;
         currentWave = resourceManager.currentWave;
         enemies = new ArrayList();
+        statDistributions = new List<List<float>>();
 
         gui = GameObject.Find("GUIMain");
         waveText = GameObject.Find("WaveNumberText").GetComponent<Text>();
@@ -70,6 +71,11 @@ public class WaveSpawner : MonoBehaviour
 
         if (currentWave <= maxWaves)
         {
+            if (!gameHasStarted)
+            {
+                Debug.Log("Press enter to start the waves");
+            }
+
             if (spawning)
             {
                 if (currentWave == 1)
@@ -112,6 +118,12 @@ public class WaveSpawner : MonoBehaviour
                         spawning = false;
                         keepDistribution = true;
                         timer = 0;
+                        /*Debug.Log("statDistribution[0][0]: " + statDistributions[0][0]);
+                        Debug.Log("statDistribution[0][1]: " + statDistributions[0][1]);
+                        Debug.Log("statDistribution[0][2]: " + statDistributions[0][2]);
+                        Debug.Log("statDistribution[1][0]: " + statDistributions[1][0]);
+                        Debug.Log("statDistribution[1][1]: " + statDistributions[1][1]);
+                        Debug.Log("statDistribution[1][2]: " + statDistributions[1][2]);*/
                     }
                 }
             }
@@ -147,7 +159,6 @@ public class WaveSpawner : MonoBehaviour
 
     void Spawnenemy()
     {
-
         float enemyNumber = Mathf.Round(Random.Range(1f, 2f));
         float randX = Random.Range(-maxX / 2, maxX / 2);
         float randZ = Random.Range(-maxZ / 2, maxZ / 2);
@@ -161,7 +172,7 @@ public class WaveSpawner : MonoBehaviour
             // Genereer enemies met toenemende stats per wave
             enemyStats.totalStatPoints = currentTotalStatPoints;
             enemyStats.generateenemyStats();
-            //statDistributions.Add(enemyStats.statDistribution);
+            statDistributions.Add(enemyStats.statDistribution);
             enemies.Add(enemyGuyant);
         }
         else if (enemyNumber == 2)
@@ -173,6 +184,7 @@ public class WaveSpawner : MonoBehaviour
             // Genereer enemies met toenemende stats per wave
             enemyStats.totalStatPoints = currentTotalStatPoints;
             enemyStats.generateenemyStats();
+            statDistributions.Add(enemyStats.statDistribution);
             enemies.Add(enemyGwarf);
         }
     }
