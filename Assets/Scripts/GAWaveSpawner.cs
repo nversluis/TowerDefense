@@ -57,8 +57,6 @@ public class GAWaveSpawner : MonoBehaviour
         generateWave();
         currentTotalStatPoints = totalStatPointsPerWave / maxEnemies;
         //Debug.Log("Wave " + currentWave + " / " + maxWaves);
-		minAantalEnemiesPerWave = resourceManager.minEnemies;
-		maxAantalEnemiesPerWave = resourceManager.maxEnemies;
 
         gui = GameObject.Find("GUIMain");
         guiScript = gui.GetComponent<GUIScript>();

@@ -89,7 +89,6 @@ public class RandomMaze : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
 		GenerateFloor ();
 		//Generate walls
-
 		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: We forgot walls, building walls...";
 		yield return new WaitForSeconds(0.1f);
 		GenerateWall (positions,planewidth,wallPrefab,torch,height,length,width,gameObject);
