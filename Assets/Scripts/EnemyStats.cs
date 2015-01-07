@@ -60,7 +60,7 @@ public class EnemyStats : MonoBehaviour {
     {
         this.stats = randomNumberGenerator(3, totalStatPoints);
         this.health = stats[0];
-        this.attack = stats[1]*20;
+        this.attack = stats[1];
         this.defense = stats[2];
         this.speedMultiplier = Random.Range(0.90f, 1.10f);
         this.dfactor = Random.Range(0.05f, 0.80f);
