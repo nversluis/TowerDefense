@@ -40,15 +40,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 944f66ad451dba04eb2086e397509f88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxEnemies: 20
+  maxEnemies: 30
   spawning: 1
   keepDistribution: 0
-  toenameAantalEnemiesPerWave: 2
+  toenameAantalEnemiesPerWave: 5
   maxX: .300000012
   maxZ: 0
-  currentTotalStatPoints: 100
-  delta: 15
-  spawnTime: .800000012
+  currentTotalStatPoints: 150
+  delta: 50
+  spawnTime: .200000003
 --- !u!114 &11415504
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -76,6 +76,7 @@ MonoBehaviour:
   toenameStatPointsPerWave: 10
   currentTotalStatPoints: 100
   toenameTotalStatsPerWave: 50
+  won: 0
   spawnPosition: {x: 0, y: 0, z: 0}
 --- !u!1001 &100100000
 Prefab:

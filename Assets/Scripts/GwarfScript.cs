@@ -177,6 +177,8 @@ public class GwarfScript : MonoBehaviour
 
                 // destroy it
                 Destroy(this.gameObject);
+                // GetComponent<EnemyResources>().isDead = true;
+                // this.transform.position = GetComponent<EnemyHealth>().deathPosition;
             }
         }
     }
