@@ -94,7 +94,7 @@ public class WaveSpawner : MonoBehaviour
                 }
 
                 timer += Time.deltaTime;
-                Debug.Log("timer: " + timer + " " + "waitTime: " + waitTime);
+                //Debug.Log("timer: " + timer + " " + "waitTime: " + waitTime);
 
                 if (timer > waitTime)
                 {
