@@ -76,6 +76,7 @@ MonoBehaviour:
   toenameStatPointsPerWave: 10
   currentTotalStatPoints: 100
   toenameTotalStatsPerWave: 50
+  won: 0
   spawnPosition: {x: 0, y: 0, z: 0}
 --- !u!1001 &100100000
 Prefab:
