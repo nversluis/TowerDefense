@@ -5,7 +5,8 @@ using UnityEngine.UI;
 public class GoalScript : MonoBehaviour {
 
     Text livesText;
-	public static int lives;
+	public static float lives;
+	public static float maxLives;
     public static bool Lost;
 
     GameObject gui;
@@ -18,11 +19,12 @@ public class GoalScript : MonoBehaviour {
         gui = GameObject.Find("GUIMain");
         guiScript = gui.GetComponent<GUIScript>();
 		lives = 15;
+		maxLives = 15;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        livesText.text = lives.ToString();
+       // livesText.text = lives.ToString();
 
         if (lives < 1)
         {
