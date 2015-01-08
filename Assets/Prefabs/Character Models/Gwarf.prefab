@@ -920,7 +920,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackDamage: 0
   playerDistance: 0
-  damageMultiplier: 20
   totalDamage: 0
   player: {fileID: 0}
   invoked: 0
@@ -966,7 +965,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c928c7d5088d06b4cb70a96bac54f291, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statDistribution: []
   totalStatPoints: 100
   health: 0
   attack: 0
@@ -975,9 +973,6 @@ MonoBehaviour:
   dfactor: 0
   goalImportance: 0
   playerImportance: 0
-  healthDistributionFactor: 0
-  attackDistributionFactor: 0
-  defenseDistributionFactor: 0
   respawn: 0
   statsMutation: 1
   totalDamage: 0
@@ -992,7 +987,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d220dc3be3ccdf547bdbe56c65a29fe0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHealth: 0
+  startingHealth: 100
   currentHealth: 0
   defense: 0
   enemyStats: {fileID: 11488900}
