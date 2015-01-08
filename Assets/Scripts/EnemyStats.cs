@@ -2,7 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class EnemyStats : MonoBehaviour {
+public class EnemyStats : MonoBehaviour
+{
 
     private List<int> stats;
     public List<float> statDistribution;
@@ -58,9 +59,10 @@ public class EnemyStats : MonoBehaviour {
 
     public void generateenemyStats()
     {
-        this.health = (int) (healthDistributionFactor * totalStatPoints);
-        this.attack = (int) (attackDistributionFactor * totalStatPoints);
-        this.defense = (int) (defenseDistributionFactor * totalStatPoints);
+
+        this.health = (int)(healthDistributionFactor * totalStatPoints);
+        this.attack = (int)(attackDistributionFactor * totalStatPoints);
+        this.defense = (int)(defenseDistributionFactor * totalStatPoints);
 
         this.speedMultiplier = Random.Range(0.90f, 1.10f);
         this.dfactor = Random.Range(0.05f, 0.80f);
@@ -70,15 +72,25 @@ public class EnemyStats : MonoBehaviour {
 
     public void generateDistribution()
     {
-        List<int> temp = randomNumberGenerator(3, 100);
+        // Als enemy nog geen distributie heeft
+        if (statDistribution.Count == 0)
+        {
+            List<int> temp = randomNumberGenerator(3, 100);
 
-        this.healthDistributionFactor = (float)temp[0] / 100;
-        this.attackDistributionFactor = (float)temp[1] / 100;
-        this.defenseDistributionFactor = (float)temp[2] / 100;
+            this.healthDistributionFactor = (float)temp[0] / 100;
+            this.attackDistributionFactor = (float)temp[1] / 100;
+            this.defenseDistributionFactor = (float)temp[2] / 100;
 
-        statDistribution.Add(healthDistributionFactor);
-        statDistribution.Add(attackDistributionFactor);
-        statDistribution.Add(defenseDistributionFactor);
+            statDistribution.Add(healthDistributionFactor);
+            statDistribution.Add(attackDistributionFactor);
+            statDistribution.Add(defenseDistributionFactor);
+        }
+        else
+        {
+            this.healthDistributionFactor = statDistribution[0];
+            this.attackDistributionFactor = statDistribution[1];
+            this.defenseDistributionFactor = statDistribution[2];
+        }
     }
 
     public int fitness()
@@ -174,13 +186,6 @@ public class EnemyStats : MonoBehaviour {
             stats[verlaagIndices[i]] -= statverlaging[i];
         }
     }
-
-    public void mutate(int n, int delta)
-    {
-
-    }
-
-
 
 }
 
