@@ -40,7 +40,7 @@ public class TowerScript : MonoBehaviour
     {
 		if (cost <= playerData.getGold()) {
 			GameObject tower = (GameObject)Instantiate (realTower, transform.position, transform.rotation); //The instantiantion of the tower
-			tower.gameObject.transform.localScale = new Vector3 (1, 1, 1) * planeW / 10; //Scaling the tower
+			tower.gameObject.transform.localScale = new Vector3 (1, 1, 1) * planeW / 10/2; //Scaling the tower
 
 			tower.tag = "Tower"; //Give tower a new tag, so it wont be destroyed because its a hotspot
 			tower.transform.parent = gameObject.transform.parent;
