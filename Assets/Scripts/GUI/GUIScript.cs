@@ -11,8 +11,8 @@ public class GUIScript : MonoBehaviour {
     public RectTransform frontPlayerHPBar;
     public RectTransform rearPlayerHPBar;
 
-    private float rPlayerBufferedHP = 0;
-    private float fPlayerBufferedHP = 0;
+    private float rPlayerBufferedHP;
+    private float fPlayerBufferedHP;
 
     [Header("Gold")]
     public Text goldText;
@@ -80,14 +80,11 @@ public class GUIScript : MonoBehaviour {
     public RectTransform frontGateHPBar;
     public RectTransform rearGateHPBar;
 
-    private float fBufferedGateHP = 0;
-    private float rBufferedGateHP = 0;
-    private float gateHP = GoalScript.lives;
-    private float gateMaxhp = GoalScript.maxLives;
+    private float fBufferedGateHP;
+    private float rBufferedGateHP;
+    private GoalScript goalScript;
 
     // Scripts
-    private GameObject playerObject;
-    private GameObject cameraObject;
     private PlayerController playerScript;
     private CameraController cameraScript;
 
@@ -112,11 +109,9 @@ public class GUIScript : MonoBehaviour {
         
         // Scripts
 
-        playerObject = GameObject.Find("Player");
-        cameraObject = GameObject.Find("Main Camera");
-
-        playerScript = playerObject.GetComponent<PlayerController>();
-        cameraScript = cameraObject.GetComponent<CameraController>();
+        playerScript = GameObject.Find("Player").GetComponent<PlayerController>();
+        cameraScript = GameObject.Find("Main Camera").GetComponent<CameraController>();
+        goalScript = GameObject.Find("Goal").GetComponent<GoalScript>();
 
         /* Initialize */
 
@@ -159,6 +154,12 @@ public class GUIScript : MonoBehaviour {
         currentHP = 100;
         maxHP = 100;
 
+        // Buffered HP's
+        fPlayerBufferedHP = 0;
+        rPlayerBufferedHP = 0;
+        fBufferedGateHP = 0;
+        rBufferedGateHP = 0;
+
 	}
 	
 	void FixedUpdate () {
@@ -167,8 +168,8 @@ public class GUIScript : MonoBehaviour {
         UpdateFrontHP(player.getCurrentHP(), player.getMaxHP(), ref fPlayerBufferedHP, frontPlayerHPBar);
         UpdateRearHP(player.getCurrentHP(), player.getMaxHP(), ref rPlayerBufferedHP, rearPlayerHPBar);
         // Gate HP
-        UpdateFrontHP(gateHP, gateMaxhp, ref fBufferedGateHP, frontGateHPBar);
-        UpdateRearHP(gateHP, gateMaxhp, ref rBufferedGateHP, rearGateHPBar);
+        UpdateFrontHP(goalScript.getLives(), goalScript.getMaxLives(), ref fBufferedGateHP, frontGateHPBar);
+        UpdateRearHP(goalScript.getLives(), goalScript.getMaxLives(), ref rBufferedGateHP, rearGateHPBar);
         // UI Components
         UpdateCooldowns();
         UpdateScore();

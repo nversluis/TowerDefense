@@ -15,6 +15,8 @@ public class GuyantScript : MonoBehaviour
     GameObject goal;
     GameObject Target;
 
+    GoalScript goalScript;
+
     WayPoint collisionWayPointOld;
     WayPoint collisionWayPoint;
 
@@ -57,6 +59,7 @@ public class GuyantScript : MonoBehaviour
         // Finding the player and the goal
         player = GameObject.Find("Player");
         goal = GameObject.Find("Goal");
+        goalScript = goal.GetComponent<GoalScript>();
 
         // getting all variables from other scripts
         grid = resourceManager.Nodes;
@@ -182,7 +185,7 @@ public class GuyantScript : MonoBehaviour
             if ((goal.transform.position - transform.position).magnitude < 4f)
             {
                 // enemy has won
-                GoalScript.lives--;
+                goalScript.removeLife();
 
                 // destroy it
                 Destroy(this.gameObject);

@@ -15,6 +15,8 @@ public class GwarfScript : MonoBehaviour
     GameObject goal;
     GameObject Target;
 
+    GoalScript goalScript;
+
     List<WayPoint> grid;
     List<WayPoint> WaypointsNearNow = new List<WayPoint>();
     List<WayPoint> WaypointsNearOld = new List<WayPoint>();
@@ -54,6 +56,7 @@ public class GwarfScript : MonoBehaviour
         // Finding the player and the goal
         player = GameObject.Find("Player");
         goal = GameObject.Find("Goal");
+        goalScript = goal.GetComponent<GoalScript>();
 
         // getting all variables from other scripts
         grid = resourceManager.Nodes;
@@ -173,7 +176,7 @@ public class GwarfScript : MonoBehaviour
             if ((goal.transform.position - transform.position).magnitude < 2f)
             {
                 // enemy has won
-                GoalScript.lives--;
+                goalScript.removeLife();
 
                 // destroy it
                 Destroy(this.gameObject);

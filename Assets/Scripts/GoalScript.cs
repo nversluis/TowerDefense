@@ -4,14 +4,12 @@ using UnityEngine.UI;
 
 public class GoalScript : MonoBehaviour {
 
-    Text livesText;
-	public static float lives;
-	public static float maxLives;
-    public static bool Lost;
+	private float lives;
+	private float maxLives;
+    private bool Lost;
 
     GameObject gui;
     GUIScript guiScript;
-
 
 	// Use this for initialization
 	void Start () {
@@ -38,5 +36,17 @@ public class GoalScript : MonoBehaviour {
             Lost = false;
         }
 	}
+
+    public float getLives() {
+        return lives;
+    }
+
+    public float getMaxLives() {
+        return lives;
+    }
+
+    public void removeLife() {
+        lives = lives - 1;
+    }
 
 }
