@@ -272,7 +272,7 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 21300000, guid: 3b2075765f511b1468890013a7abecdf, type: 3}
+      value: {fileID: 21300000, guid: 4aebb0782e8052647911fde3dd06d3a3, type: 3}
     attribute: m_Sprite
     path: 
     classID: 114
@@ -327,7 +327,7 @@ AnimationClip:
       customType: 0
       isPPtrCurve: 0
     pptrCurveMapping:
-    - {fileID: 21300000, guid: 3b2075765f511b1468890013a7abecdf, type: 3}
+    - {fileID: 21300000, guid: 4aebb0782e8052647911fde3dd06d3a3, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_StartTime: 0
@@ -790,16 +790,16 @@ StateMachine:
       first: {fileID: 110200000}
       second: []
     data:
-      first: {fileID: 110290316}
+      first: {fileID: 110223877}
       second: []
     data:
-      first: {fileID: 110223877}
+      first: {fileID: 110270141}
       second: []
     data:
       first: {fileID: 110278096}
       second: []
     data:
-      first: {fileID: 110270141}
+      first: {fileID: 110290316}
       second: []
   m_MotionSetCount: 1
   m_AnyStatePosition: {x: 36, y: 96, z: 0}
@@ -819,13 +819,13 @@ StateMachine:
   m_ChildStateMachinePosition: []
   m_OrderedTransitions:
     data:
-      first: {fileID: 110232929}
-      second:
-      - {fileID: 110134824}
-    data:
       first: {fileID: 110219253}
       second:
       - {fileID: 110113416}
+    data:
+      first: {fileID: 110232929}
+      second:
+      - {fileID: 110134824}
   m_MotionSetCount: 1
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}

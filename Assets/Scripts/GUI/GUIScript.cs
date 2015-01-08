@@ -257,6 +257,17 @@ public class GUIScript : MonoBehaviour {
             currentHP = enemyHealth.currentHealth;
             maxHP = enemyHealth.startingHealth;
             enemyText.text = hit.transform.name;
+            switch(hit.transform.name) {
+                case "Guyant":
+                    enemyFace.sprite = enemyFaces[0];
+                    break;
+                case "Gwarf":
+                    enemyFace.sprite = enemyFaces[1];
+                    break;
+                case "Grobble":
+                    enemyFace.sprite = enemyFaces[2];
+                    break;
+            }
             rect.localScale = new Vector3((currentHP / maxHP), 1, 1);
             enemyPanel.SetActive(true);
         }
