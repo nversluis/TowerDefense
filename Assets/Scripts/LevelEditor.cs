@@ -43,7 +43,9 @@ public class LevelEditor : MonoBehaviour
 	private int currentPage;
 	private int maxPages;
 	private Button currentButSelected;
+    private List<Button> currentButtonsSelected;
 	private string currentFileSelected;
+    private List<string> currentFilesSelected;
 	//colors
 	private Color CnoPlane;
 	private Color Cstart;
@@ -56,6 +58,7 @@ public class LevelEditor : MonoBehaviour
 	private bool drawNavGrid;
     string tempfilename;
     Camera miniCamera;
+    private List<Button> loadButtons;
 
 	public GameObject newMapScreen;
 	public InputField lengthInput;
@@ -151,6 +154,9 @@ public class LevelEditor : MonoBehaviour
         mainMenu = true;
         editing = false;
         mapSaved = true;
+        currentButtonsSelected = new List<Button>();
+        currentFilesSelected = new List<string>();
+
 		if (!File.Exists (AppPath)) {
 			Directory.CreateDirectory (AppPath);
 		}
@@ -495,7 +501,18 @@ public class LevelEditor : MonoBehaviour
             button.SetActive(true);
         }
 
-        generateEditorMap(currentFileSelected);
+        if (currentFileSelected != null)
+        {
+            generateEditorMap(currentFileSelected);
+        }
+        else if (currentFileSelected == null && currentFilesSelected.Count>0)
+        {
+            setErrorTekst("Select only one map to load!");
+        }
+        else
+        {
+            setErrorTekst("No map selected!");
+        }
         editing = true;
 
         setErrorTekst("Loaded new map!", false);
@@ -510,7 +527,25 @@ public class LevelEditor : MonoBehaviour
     // Method for deleting current selected map
     public void DeleteMapButton()
     {
-        deleteFile(currentFileSelected);
+        if (currentFileSelected != null)
+        {
+            deleteFile(currentFileSelected);
+            Reset();
+        }
+        else if (currentFileSelected == null & currentFilesSelected.Count>0)
+        {
+            foreach (Button button in currentButtonsSelected)
+            {
+                deleteFile(button.GetComponentInChildren<Text>().text);
+            }
+            currentButtonsSelected = new List<Button>();
+            currentFilesSelected = new List<string>();
+            Reset();
+        }
+        else
+        {
+            setErrorTekst("No map selected!");
+        }
     }
 
     // Method that cancels loading a map and going back to current map (if one was created)
@@ -1072,6 +1107,7 @@ public class LevelEditor : MonoBehaviour
 		newMapScreen.SetActive (false);
 		cam.pixelRect = new Rect (Screen.width / 2, Screen.height / 2 - 100, 200, 200);
 		loadMapsPanel.gameObject.SetActive (true);
+        loadButtons = new List<Button>();
 		foreach (Transform child in loadMapsPanel.transform) {
 			if (child.gameObject.name.Contains ("load"))
 				Destroy (child.gameObject);
@@ -1083,8 +1119,8 @@ public class LevelEditor : MonoBehaviour
 
 		nextBut.gameObject.SetActive (true);
 		prevBut.gameObject.SetActive (true);
-		nextBut.GetComponentInChildren<Text> ().text = "Next" + filesPerPage;
-		prevBut.GetComponentInChildren<Text> ().text = "Prev" + filesPerPage;
+		nextBut.GetComponentInChildren<Text> ().text = "Next " + filesPerPage + " Maps";
+        prevBut.GetComponentInChildren<Text>().text = "Previous " + filesPerPage + " Maps";
 		if (currentPage == maxPages)
 			nextBut.gameObject.SetActive (false);
 		else if (currentPage == 1)
@@ -1108,7 +1144,7 @@ public class LevelEditor : MonoBehaviour
                     int j = i % filesPerPage;
                     
                     Button but = (Button)Instantiate(loadButton, Vector3.zero, Quaternion.identity);
-
+                    loadButtons.Add(but);
                     but.transform.SetParent(loadMapsPanel.gameObject.transform);
                     but.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(0f, 0f, 0f);
                     but.GetComponent<RectTransform>().anchoredPosition = new Vector2(200, 50* (rows - j));
@@ -1140,16 +1176,44 @@ public class LevelEditor : MonoBehaviour
         miniCamera.gameObject.SetActive(true);
         if (currentButSelected != but)
         {
-            but.interactable = false;
-
-            if (currentButSelected != null)
+            if (!Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.RightControl))
             {
-                currentButSelected.interactable = true;
-            }
-            currentButSelected = but;
-            currentFileSelected = but.GetComponentInChildren<Text>().text;
 
-            loadMapFromFile(currentFileSelected);
+                foreach (Button button in loadButtons)
+                {
+                    button.interactable = true;
+                }
+                currentButSelected = but;
+                currentFileSelected = but.GetComponentInChildren<Text>().text;
+
+                currentButtonsSelected = new List<Button>();
+                currentFilesSelected = new List<string>();
+
+                loadMapFromFile(currentFileSelected);
+
+                but.interactable = false;
+
+            }
+
+            else
+            {
+
+                but.interactable = false;
+                currentButtonsSelected.Add(but);
+                currentFilesSelected.Add(but.GetComponentInChildren<Text>().text);
+
+                currentButSelected = null;
+                currentFileSelected = null;
+
+                loadMapFromFile(currentFilesSelected[currentFilesSelected.Count-1]);
+
+            }
+
+            if (currentButtonsSelected.Count == 0)
+            {
+                currentButtonsSelected.Add(but);
+
+            }
 
         }
         else
