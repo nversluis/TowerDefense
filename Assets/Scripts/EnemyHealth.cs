@@ -11,7 +11,7 @@ public class EnemyHealth : MonoBehaviour {
     EnemyResources enemyResources;
 	private PlayerData playerData = GUIScript.player;
 
-    public int startingHealth;
+    public int startingHealth = 100;
     public int currentHealth;
 	public int defense;
 	public EnemyStats enemyStats;
@@ -51,7 +51,9 @@ public class EnemyHealth : MonoBehaviour {
 		textObject = resourceManager.damageText;
 		nodeSize = resourceManager.nodeSize;
         animator = GetComponent<Animator>();
+		startingHealth = 100;
         guiHeadShot = GameObject.Find("HeadShotText").GetComponent<Text>();
+
     }
 
     // Update is called once per frame

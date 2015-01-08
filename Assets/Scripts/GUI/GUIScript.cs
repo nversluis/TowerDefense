@@ -58,19 +58,6 @@ public class GUIScript : MonoBehaviour {
 	[Header("Tower Popup")]
 	public GameObject TowerPopup;
 
-    [Header("Enemy Popup")]
-    public Image face;
-    public Image HP;
-    public GameObject enemyPanel;
-
-    private GameObject camera;
-    private RectTransform rect;
-    private LayerMask enemyMask = ((1 << 12) | (1 << 10));
-    private RaycastHit hit;
-
-    private float currentHP;
-    private float maxHP;
-
     // Scripts
     private GameObject playerObject;
     private GameObject cameraObject;
@@ -141,13 +128,6 @@ public class GUIScript : MonoBehaviour {
         // Crosshair
         crosshair.SetActive(true);
 
-        // Enemy Popup
-        enemyPanel.SetActive(false);
-        rect = HP.GetComponent<RectTransform>();
-        camera = GameObject.Find("Main Camera");
-        currentHP = 100;
-        maxHP = 100;
-
 	}
 	
 	void FixedUpdate () {
@@ -160,7 +140,6 @@ public class GUIScript : MonoBehaviour {
         UpdateStats();
         UpdateTowers();
         UpdateItems();
-        UpdateEnemyStats();
 	}
 
     void Update() {
@@ -249,26 +228,13 @@ public class GUIScript : MonoBehaviour {
         rearHPBar.localScale = new Vector3((rearBufferedHP / maxHP), 1, 1);
     }
 
-    void UpdateEnemyStats() {
-        if(Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, Mathf.Infinity, enemyMask) && hit.transform.tag == "Enemy") {
-            EnemyHealth enemyHealth = hit.transform.GetComponent<EnemyHealth>();
-            currentHP = enemyHealth.currentHealth;
-            maxHP = enemyHealth.startingHealth;
-            rect.localScale = new Vector3((currentHP / maxHP), 1, 1);
-            enemyPanel.SetActive(true);
-        }
-        else {
-            enemyPanel.SetActive(false);
-        }
-    }
-
     public void UpdateTowers() {
         int currentTower = player.getTower();
 
         for(int i = 0; i < towerIconList.Length; i++) {
             Image tower = towerIconList[i];
             if(i == currentTower){
-                tower.color = new Color(1, 1, 1, 0.75f);
+                tower.color = new Color(0, 0, 0, 0.75f);
             }
             else {
                 tower.color = new Color(1, 1, 1, 1);
@@ -281,6 +247,7 @@ public class GUIScript : MonoBehaviour {
 
         for(int i = 0; i < inventory.Count; i++) {
             Item item = inventory[i];
+            item.setTier(2);
             Image image = itemIconList[i];
 
             switch(item.getTier()) {
