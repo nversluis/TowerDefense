@@ -268,7 +268,7 @@ public class GUIScript : MonoBehaviour {
         for(int i = 0; i < towerIconList.Length; i++) {
             Image tower = towerIconList[i];
             if(i == currentTower){
-                tower.color = new Color(0, 0, 0, 0.75f);
+                tower.color = new Color(1, 1, 1, 0.75f);
             }
             else {
                 tower.color = new Color(1, 1, 1, 1);
@@ -281,7 +281,6 @@ public class GUIScript : MonoBehaviour {
 
         for(int i = 0; i < inventory.Count; i++) {
             Item item = inventory[i];
-            item.setTier(2);
             Image image = itemIconList[i];
 
             switch(item.getTier()) {
