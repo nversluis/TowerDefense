@@ -59,8 +59,10 @@ public class GUIScript : MonoBehaviour {
 	public GameObject TowerPopup;
 
     [Header("Enemy Popup")]
-    public Image face;
+    public Image enemyFace;
+    public Sprite[] enemyFaces = new Sprite[3];
     public Image HP;
+    public Text enemyText;
     public GameObject enemyPanel;
 
     private GameObject camera;
@@ -254,6 +256,7 @@ public class GUIScript : MonoBehaviour {
             EnemyHealth enemyHealth = hit.transform.GetComponent<EnemyHealth>();
             currentHP = enemyHealth.currentHealth;
             maxHP = enemyHealth.startingHealth;
+            enemyText.text = hit.transform.name;
             rect.localScale = new Vector3((currentHP / maxHP), 1, 1);
             enemyPanel.SetActive(true);
         }
