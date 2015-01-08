@@ -80,7 +80,11 @@ public class Navigator : MonoBehaviour
 		List<WayPoint> startNodes = FindWayPointsNear (startPoint, grid, gridSize);
 		for (int i = 0; i < startNodes.Count; i++) {
 			WayPoint dest = startNodes [i];
+			try {
 			dest.setGCost (CalculateGCost (startWP, dest, D));
+			}
+			catch {
+			}
 			float FCost = CalculateFCost (startWP, dest, endWP, D);
 			if (FCost == -1)
 				return null;
@@ -330,7 +334,7 @@ public class Navigator : MonoBehaviour
 				return wp;
 			}
 		}
-		Debug.Log ("No waypoint exists at given position, returning null!");
+		//Debug.Log ("No waypoint exists at given position, returning null!");
 		return null;
 	}
 
