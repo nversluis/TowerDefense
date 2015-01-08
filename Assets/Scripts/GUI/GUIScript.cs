@@ -254,7 +254,6 @@ public class GUIScript : MonoBehaviour {
             EnemyHealth enemyHealth = hit.transform.GetComponent<EnemyHealth>();
             currentHP = enemyHealth.currentHealth;
             maxHP = enemyHealth.startingHealth;
-            Debug.Log("currentHP: " + currentHP + ", maxHP: " + maxHP);
             rect.localScale = new Vector3((currentHP / maxHP), 1, 1);
             enemyPanel.SetActive(true);
         }
