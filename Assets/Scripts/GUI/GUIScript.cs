@@ -82,14 +82,12 @@ public class GUIScript : MonoBehaviour {
 
     private float fBufferedGateHP;
     private float rBufferedGateHP;
-    private GoalScript goalScript;
 
     // Scripts
     private PlayerController playerScript;
     private CameraController cameraScript;
-
-    // OptionButton variable
-    private bool options = true;
+    private GoalScript goalScript;
+    private WaveSpawner waveSpawner;
 
 	void Start () {
         /* Get private components */
@@ -112,6 +110,9 @@ public class GUIScript : MonoBehaviour {
         playerScript = GameObject.Find("Player").GetComponent<PlayerController>();
         cameraScript = GameObject.Find("Main Camera").GetComponent<CameraController>();
         goalScript = GameObject.Find("Goal").GetComponent<GoalScript>();
+        //Debug.Log(GameObject.Find("EnemySpawner"));
+        //Debug.Log(GameObject.Find("ResourceManager").GetComponent<enemySpawner>().GetComponent<WaveSpawner>());
+       // waveSpawner = GameObject.Find("ResourceManager").GetComponent<enemySpawner>().GetComponent<WaveSpawner>();
 
         /* Initialize */
 
@@ -178,6 +179,7 @@ public class GUIScript : MonoBehaviour {
         UpdateTowers();
         UpdateItems();
         UpdateEnemyStats();
+        //UpdateWaveText();
 	}
 
     void Update() {
@@ -284,6 +286,10 @@ public class GUIScript : MonoBehaviour {
         else {
             enemyPanel.SetActive(false);
         }
+    }
+
+    void UpdateWaveText() {
+        waveText.text = waveSpawner.GetCurrentWave().ToString() + " of " + waveSpawner.GetMaxWave().ToString();
     }
 
     public void UpdateTowers() {

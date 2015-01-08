@@ -17,7 +17,7 @@ public class GoalScript : MonoBehaviour {
         gui = GameObject.Find("GUIMain");
         guiScript = gui.GetComponent<GUIScript>();
 		lives = 15;
-		maxLives = 15;
+		maxLives = lives;
 	}
 	
 	// Update is called once per frame
@@ -42,11 +42,11 @@ public class GoalScript : MonoBehaviour {
     }
 
     public float getMaxLives() {
-        return lives;
+        return maxLives;
     }
 
     public void removeLife() {
-        lives = lives - 1;
+        lives -= 1;
     }
 
 }

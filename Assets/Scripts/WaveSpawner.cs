@@ -222,6 +222,13 @@ public class WaveSpawner : MonoBehaviour
         return distribution;
     }
 
+    public int GetCurrentWave() {
+        return currentWave;
+    }
+
+    public int GetMaxWave() {
+        return maxWaves;
+    }
 
 
 

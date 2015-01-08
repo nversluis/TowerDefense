@@ -97,10 +97,10 @@ public class RandomMaze : MonoBehaviour
 		Nodes=SpawnNodes (positions,nodeSize, planewidth, NodesPos, Nodes,length,width,drawNavigationGrid,false);
 		LoadingScreen.GetComponentInChildren<Text>().text = "Loading: Giving birth to Player...=";
 		yield return new WaitForSeconds(0.1f);
-		spawnPlayer (player,camera,resourceManager.Goal, resourceManager.GUI,resourceManager.eventListener,startPos*planewidth,Minimapcamera,width,length,planewidth);
+        spawnPlayer(player, camera, resourceManager.Goal, enemySpawner, resourceManager.GUI, resourceManager.eventListener, startPos * planewidth, endPos, Minimapcamera, width, length, planewidth);
 		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Lightning torches..";
-		yield return new WaitForSeconds(0.1f);
-		createSingleObjects (planewidth,enemySpawner,endPos,startPos);
+        //yield return new WaitForSeconds(0.1f);
+        //createSingleObjects (planewidth,enemySpawner,endPos,startPos);
 		//generate Nodes;
 		//MakeNodeList (nodeSize,NodesPos,Nodes);
 		//create the minimap camera
@@ -377,15 +377,14 @@ public class RandomMaze : MonoBehaviour
 
 
 
-	public static void createSingleObjects (float planewidth,GameObject enemySpawner, Vector2 endPos, Vector2 startPos)
-	{
-		//Gate
-		//GameObject GateObj = (GameObject)Instantiate (Gate, new Vector3 (-planewidth / 2, height * planewidth / 2, -planewidth / 2), Quaternion.identity);
-		//GateObj.transform.localScale = new Vector3 (planewidth * 0.028f, planewidth * height / 150, planewidth);
-		enemySpawner = (GameObject)Instantiate (enemySpawner, new Vector3 (endPos.x * planewidth, 0f, endPos.y * planewidth), Quaternion.identity); 
-	}
+    //public static void createSingleObjects (float planewidth,GameObject enemySpawner, Vector2 endPos, Vector2 startPos)
+    //{
+    //    //Gate
+    //    //GameObject GateObj = (GameObject)Instantiate (Gate, new Vector3 (-planewidth / 2, height * planewidth / 2, -planewidth / 2), Quaternion.identity);
+    //    //GateObj.transform.localScale = new Vector3 (planewidth * 0.028f, planewidth * height / 150, planewidth);
+    //}
 
-    public static void spawnPlayer(GameObject player, GameObject camera, GameObject Goal2, GameObject Gui, GameObject EventList, Vector2 startPos, GameObject Minimapcamera, int width, int length, float planewidth)
+    public static void spawnPlayer(GameObject player, GameObject camera, GameObject Goal2, GameObject enemySpawner, GameObject Gui, GameObject EventList, Vector2 startPos, Vector2 endPos, GameObject Minimapcamera, int width, int length, float planewidth)
 	{			
 
 		GameObject MainCamera = (GameObject)Instantiate (camera, new Vector3 (0f, 0f, 0f), Quaternion.identity);
@@ -396,6 +395,7 @@ public class RandomMaze : MonoBehaviour
 		Player.name = "Player";
         GameObject Goal = (GameObject)Instantiate(Goal2, new Vector3(startPos.x, 0.01f, startPos.y) * planewidth, Quaternion.identity);
         Goal.transform.name = "Goal";
+        enemySpawner = (GameObject)Instantiate(enemySpawner, new Vector3(endPos.x * planewidth, 0f, endPos.y * planewidth), Quaternion.identity); 
 		GameObject gui = (GameObject)Instantiate (Gui, new Vector3 (0f, 0f, 0f), Quaternion.identity);
 		gui.transform.name = "GUIMain";
 		//minimapcamera
