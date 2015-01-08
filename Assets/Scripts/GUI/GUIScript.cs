@@ -164,11 +164,11 @@ public class GUIScript : MonoBehaviour {
 	void FixedUpdate () {
         // Update variables that need to be updated frequently
         // Player HP
-        UpdateFrontHP(player.getCurrentHP(), player.getMaxHP(), fPlayerBufferedHP, frontPlayerHPBar);
-        UpdateRearHP(player.getCurrentHP(), player.getMaxHP(), rPlayerBufferedHP, rearPlayerHPBar);
+        UpdateFrontHP(player.getCurrentHP(), player.getMaxHP(), ref fPlayerBufferedHP, frontPlayerHPBar);
+        UpdateRearHP(player.getCurrentHP(), player.getMaxHP(), ref rPlayerBufferedHP, rearPlayerHPBar);
         // Gate HP
-        UpdateFrontHP(gateHP, gateMaxhp, fBufferedGateHP, frontGateHPBar);
-        UpdateRearHP(gateHP, gateMaxhp, rBufferedGateHP, rearGateHPBar);
+        UpdateFrontHP(gateHP, gateMaxhp, ref fBufferedGateHP, frontGateHPBar);
+        UpdateRearHP(gateHP, gateMaxhp, ref rBufferedGateHP, rearGateHPBar);
         // UI Components
         UpdateCooldowns();
         UpdateScore();
@@ -228,7 +228,7 @@ public class GUIScript : MonoBehaviour {
         }
     }
 
-    void UpdateFrontHP(float currentHP, float maxHP, float bufferedHP, RectTransform frontBar) {
+    void UpdateFrontHP(float currentHP, float maxHP,ref float bufferedHP, RectTransform frontBar) {
 
         if(bufferedHP < currentHP) {
             if(System.Math.Abs(bufferedHP - currentHP) < (maxHP / 1000f)) {
@@ -244,7 +244,7 @@ public class GUIScript : MonoBehaviour {
         frontBar.localScale = new Vector3((bufferedHP / maxHP), 1, 1);
     }
 
-    void UpdateRearHP(float currentHP, float maxHP, float bufferedHP, RectTransform rearBar) {
+    void UpdateRearHP(float currentHP, float maxHP,ref float bufferedHP, RectTransform rearBar) {
 
         if(bufferedHP > currentHP) {
             if(System.Math.Abs(bufferedHP - currentHP) < (maxHP / 1000f)) {

@@ -62,6 +62,7 @@ public class ResourceManager : MonoBehaviour {
     public GameObject magicTowerBullet;
 	public float coolDownTimeMagicTower;
 	public GameObject arrowTower;
+	public GameObject arrowTowerArrow;
 	[Header("Floor")]
 	public GameObject poisonTrap;
 	public GameObject fireTrap;

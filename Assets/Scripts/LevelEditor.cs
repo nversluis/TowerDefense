@@ -65,7 +65,9 @@ public class LevelEditor : MonoBehaviour
 	public Button cancelSizeBut;
 	public Button newSizeBut;
     public GameObject largeMapText;
+    public static bool mapSaved;
 
+    public GameObject areYouSurePanel;
 	public Button generateLevelButton;
 	public InputField fileNameInput;
 	public Button saveLayout;
@@ -83,6 +85,7 @@ public class LevelEditor : MonoBehaviour
     bool mainMenu;
 
 	public GameObject LoadingScreen;
+    public GameObject loadPanel;
 
 	private GameObject player;
 	private GameObject camera;
@@ -147,7 +150,7 @@ public class LevelEditor : MonoBehaviour
         amountOfStarts = 0;
         mainMenu = true;
         editing = false;
-
+        mapSaved = true;
 		if (!File.Exists (AppPath)) {
 			Directory.CreateDirectory (AppPath);
 		}
@@ -157,8 +160,50 @@ public class LevelEditor : MonoBehaviour
     public void NewMapButton()
     {
         // Turning on new map panel and setting the minicamera depth deeper so it is behind the menu
-        newMapScreen.SetActive(true);
         miniCamera.depth = -10;
+        editing = false;
+
+        if (!mainMenu && !mapSaved)
+        {
+            areYouSurePanel.SetActive(true);
+            editing = false;
+
+            foreach (GameObject button in buttons)
+            {
+                button.SetActive(false);
+            }
+            newMapButton.gameObject.SetActive(false);
+            mainMenuButton.SetActive(false);
+            buildingBlocksPanel.SetActive(false);
+
+            GameObject.Find("YesButton").GetComponent<Button>().onClick.AddListener(delegate
+            {
+                newMapScreen.SetActive(true);
+                areYouSurePanel.SetActive(false);
+                editing = false;
+                
+            });
+
+            GameObject.Find("NoButton").GetComponent<Button>().onClick.AddListener(delegate
+            {
+                areYouSurePanel.SetActive(false);
+                foreach (GameObject button in buttons)
+                {
+                    button.SetActive(true);
+                }
+                newMapButton.gameObject.SetActive(true);
+                mainMenuButton.SetActive(true);
+                buildingBlocksPanel.SetActive(true);
+                miniCamera.depth = 1;
+                editing = true;
+            });
+
+        }
+        else
+        {
+            newMapScreen.SetActive(true);
+            editing = false;
+        }
 
     }
 
@@ -168,6 +213,7 @@ public class LevelEditor : MonoBehaviour
         // Deactivating new map panel and setting the minicamera depth higher so it is in front of the menu
         newMapScreen.SetActive(false);
         miniCamera.depth = 1;
+        editing = true;
     }
 
     // Method for the sub new map button
@@ -191,6 +237,8 @@ public class LevelEditor : MonoBehaviour
         conCol = GameObject.Find("ConCol");
         conCol.transform.GetChild(1).GetComponent<Image>().color = CConnected;
 
+        mainMenuButton.SetActive(true);
+        newMapButton.gameObject.SetActive(true);
         // Setting all necessary buttons active
         foreach (GameObject button in buttons)
         {
@@ -236,6 +284,7 @@ public class LevelEditor : MonoBehaviour
     {
         // generating level
         GenerateLevel();
+        editing = false;
     }
 
     // Method save layout button
@@ -244,6 +293,14 @@ public class LevelEditor : MonoBehaviour
         saveMapPanel.SetActive(true);
         miniCamera.depth = -10;
         editing = false;
+
+        foreach (GameObject button in buttons)
+        {
+            button.SetActive(false);
+        }
+        newMapButton.gameObject.SetActive(false);
+        mainMenuButton.SetActive(false);
+        buildingBlocksPanel.SetActive(false);
     }
 
     // Method for cancel save button
@@ -252,7 +309,15 @@ public class LevelEditor : MonoBehaviour
         saveMapPanel.SetActive(false);
         miniCamera.depth = 1;
         editing = true;
-        
+
+        foreach (GameObject button in buttons)
+        {
+            button.SetActive(true);
+        }
+        newMapButton.gameObject.SetActive(true);
+        mainMenuButton.SetActive(true);
+        buildingBlocksPanel.SetActive(true);
+    
     }
 
     // Method for submit save button
@@ -264,49 +329,140 @@ public class LevelEditor : MonoBehaviour
         miniCamera.depth = 1;
 
         setErrorTekst("Saved map with name: " + fileNameInput.text, false);
+
+        foreach (GameObject button in buttons)
+        {
+            button.SetActive(true);
+        }
+        newMapButton.gameObject.SetActive(true);
+        mainMenuButton.SetActive(true);
+        buildingBlocksPanel.SetActive(true);
+        mapSaved = true;
     }
 
     // Method loads layout when load layout button is clicked
     public void LoadLayoutButton()
     {
-        miniCamera.gameObject.SetActive(false);
-        if (!mainMenu)
-        {
-            // initial filename
-            tempfilename = "temp";
 
-            // keep looping until a file name that has not been used is found
-            while (true)
+        if (!mainMenu && !mapSaved)
+        {
+            miniCamera.depth = -10;
+
+            areYouSurePanel.SetActive(true);
+            editing = false;
+            foreach (GameObject button in buttons)
             {
-                // if filename is free
-                if (!File.Exists(AppPath + tempfilename + ".txt"))
+                button.SetActive(false);
+            }
+            newMapButton.gameObject.SetActive(false);
+            mainMenuButton.SetActive(false);
+            buildingBlocksPanel.SetActive(false);
+
+            GameObject.Find("YesButton").GetComponent<Button>().onClick.AddListener(delegate
+            {
+                miniCamera.depth = 1;
+                areYouSurePanel.SetActive(false);
+                miniCamera.gameObject.SetActive(false);
+                if (!mainMenu)
                 {
-                    break;
+                    // initial filename
+                    tempfilename = "temp";
+
+                    // keep looping until a file name that has not been used is found
+                    while (true)
+                    {
+                        // if filename is free
+                        if (!File.Exists(AppPath + tempfilename + ".txt"))
+                        {
+                            break;
+                        }
+                        // else keep on adding random numbers behind temp
+                        else
+                            tempfilename = tempfilename + Random.Range(0, 9);
+                    }
+
+
+                    // save the position to this temporary file
+                    SavePositionsToFile(tempfilename, true);
                 }
-                // else keep on adding random numbers behind temp
-                else
-                    tempfilename = tempfilename + Random.Range(0, 9);
+                Reset();
+                // show the saved maps
+                ShowSavedMaps();
+
+                editing = false;
+
+                buildingBlocksPanel.SetActive(false);
+
+                foreach (GameObject button in buttons)
+                {
+                    button.SetActive(false);
+                }
+
+                newMapButton.gameObject.SetActive(false);
+                mainMenuButton.SetActive(false);
+
+            });
+
+            GameObject.Find("NoButton").GetComponent<Button>().onClick.AddListener(delegate
+            {
+                areYouSurePanel.SetActive(false);
+                foreach (GameObject button in buttons)
+                {
+                    button.SetActive(true);
+                }
+                newMapButton.gameObject.SetActive(true);
+                mainMenuButton.SetActive(true);
+                buildingBlocksPanel.SetActive(true);
+                miniCamera.depth = 1;
+                editing = true;
+
+            });
+            
+
+        }
+        else
+        {
+            miniCamera.gameObject.SetActive(false);
+            if (!mainMenu)
+            {
+                // initial filename
+                tempfilename = "temp";
+
+                // keep looping until a file name that has not been used is found
+                while (true)
+                {
+                    // if filename is free
+                    if (!File.Exists(AppPath + tempfilename + ".txt"))
+                    {
+                        break;
+                    }
+                    // else keep on adding random numbers behind temp
+                    else
+                        tempfilename = tempfilename + Random.Range(0, 9);
+                }
+
+
+                // save the position to this temporary file
+                SavePositionsToFile(tempfilename, true);
+            }
+            Reset();
+            // show the saved maps
+            ShowSavedMaps();
+
+            editing = false;
+
+            buildingBlocksPanel.SetActive(false);
+
+            foreach (GameObject button in buttons)
+            {
+                button.SetActive(false);
             }
 
-
-            // save the position to this temporary file
-            SavePositionsToFile(tempfilename, true);
-        }
-        Reset();
-        // show the saved maps
-        ShowSavedMaps();
-
-        editing = false;
-
-        buildingBlocksPanel.SetActive(false);
-
-        foreach (GameObject button in buttons)
-        {
-            button.SetActive(false);
+            newMapButton.gameObject.SetActive(false);
+            mainMenuButton.SetActive(false);
         }
 
-        newMapButton.gameObject.SetActive(false);
-        mainMenuButton.SetActive(false);
+        
     }
 
     // Method for the accepting the current selected map to load
@@ -346,6 +502,8 @@ public class LevelEditor : MonoBehaviour
 
         newMapButton.gameObject.SetActive(true);
         mainMenuButton.SetActive(true);
+        miniCamera.depth = 1;
+        mapSaved = true;
 
     }
 
@@ -382,6 +540,8 @@ public class LevelEditor : MonoBehaviour
 
         newMapButton.gameObject.SetActive(true);
         mainMenuButton.SetActive(true);
+        miniCamera.depth = 1;
+
 
     }
 
@@ -397,7 +557,46 @@ public class LevelEditor : MonoBehaviour
 
     public void MainMenuButton()
     {
-        Application.LoadLevel(0);
+        if (!mainMenu && !mapSaved)
+        {
+            areYouSurePanel.SetActive(true);
+            editing = false;
+            miniCamera.depth = -10;
+
+            foreach (GameObject button in buttons)
+            {
+                button.SetActive(false);
+            }
+            newMapButton.gameObject.SetActive(false);
+            mainMenuButton.SetActive(false);
+            buildingBlocksPanel.SetActive(false);
+
+            GameObject.Find("YesButton").GetComponent<Button>().onClick.AddListener(delegate
+            {
+                Application.LoadLevel(0);
+
+            });
+
+            GameObject.Find("NoButton").GetComponent<Button>().onClick.AddListener(delegate
+            {
+                areYouSurePanel.SetActive(false);
+                foreach (GameObject button in buttons)
+                {
+                    button.SetActive(true);
+                }
+                newMapButton.gameObject.SetActive(true);
+                mainMenuButton.SetActive(true);
+                buildingBlocksPanel.SetActive(true);
+                miniCamera.depth = 1;
+                editing = true;
+            });
+
+        }
+        else
+        {
+            Application.LoadLevel(0);
+
+        }
     }
 
     // Navigating through maps one page back
@@ -580,6 +779,7 @@ public class LevelEditor : MonoBehaviour
 	void Update ()
 	{
         NewMapScreenButtonCheck();
+
 	}
 
 
@@ -720,7 +920,7 @@ public class LevelEditor : MonoBehaviour
 		float tempW = width - 1;
 		cam.transform.position = new Vector3 (tempL / 2, 1, tempW / 2) * planewidth;
 		cam.orthographicSize = Mathf.Max (length, width + 1) * planewidth / 2;
-		cam.rect = new Rect (0.25f, 0f, 0.5f, 0.6f);
+		cam.rect = new Rect (0.25f, 0.2f, 0.5f, 0.6f);
 	}
 
 	//saves the position to file.
@@ -835,8 +1035,8 @@ public class LevelEditor : MonoBehaviour
 			//ChangeTypes camera position and size to fit in load screen
 			cam.transform.position = new Vector3 (length - 1, 1, width - 1) * resourceManager.planewidth / 2;
 			cam.orthographicSize = Mathf.Max (length, width + 1) * resourceManager.planewidth / 2;
-			cam.rect = new Rect (0.4f, 0.3f, 0.4f, 0.4f);
-
+            float mincaminfo = loadMapsPanel.GetComponent<RectTransform>().rect.height / 1080f;
+            cam.rect = new Rect(0.4f, 0.3f,.4f, .4f);
             Recalculate();
             file.Close();
 
@@ -858,7 +1058,7 @@ public class LevelEditor : MonoBehaviour
 			//change camera position and size back
 			cam.transform.position = new Vector3 (length - 1, 1, width - 1) * resourceManager.planewidth / 2;
 			cam.orthographicSize = Mathf.Max (length, width + 1) * planewidth / 2;
-			cam.rect = new Rect (0.25f, 0f, 0.5f, 0.6f);
+			cam.rect = new Rect (0.25f, 0.2f, 0.5f, 0.6f);
 			cam.Render ();
 		} else {
 			setErrorTekst ("No File Selected");
@@ -876,7 +1076,8 @@ public class LevelEditor : MonoBehaviour
 			if (child.gameObject.name.Contains ("load"))
 				Destroy (child.gameObject);
 		}
-		int rows = (int)Mathf.Floor ((Screen.height - 200) / ((Screen.width + 350) / 35));
+        
+        int rows = (int)Mathf.Floor(loadMapsPanel.GetComponent<RectTransform>().rect.height / 50)-1;
 		int columns = 1;
 		int filesPerPage = rows * columns;
 
@@ -905,21 +1106,16 @@ public class LevelEditor : MonoBehaviour
                 {
 
                     int j = i % filesPerPage;
-                    //
+                    
                     Button but = (Button)Instantiate(loadButton, Vector3.zero, Quaternion.identity);
-                    //but.transform.position = new Vector3 (300, 400 - 25f*(j % rows), 0);
-                    //Button but = (Button)Instantiate (loadButton, loadMapsPanel.transform.position + new Vector3 (Mathf.Floor (j / rows) * 50 - 180, 120 - 30 * (j % rows)), Quaternion.identity); //breedte,hoogte
-                    //Button but = (Button)Instantiate (loadButton, loadMapsPanel.transform.position + new Vector3 ((Mathf.Floor (j / rows) - 1.5f) * 25,0, 30 - 5 * (j % rows)), loadMapsPanel.transform.rotation);
 
                     but.transform.SetParent(loadMapsPanel.gameObject.transform);
                     but.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(0f, 0f, 0f);
-
-                    but.GetComponent<RectTransform>().offsetMin = new Vector2(350, 50 + 120 * (rows - j));
+                    but.GetComponent<RectTransform>().anchoredPosition = new Vector2(200, 50* (rows - j));
                     but.GetComponent<RectTransform>().sizeDelta = new Vector2(1000, 200);
+                    but.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1)/4;
 
                     but.GetComponentInChildren<Text>().text = dirFiles[i];
-                    but.transform.localScale = new Vector3(1, 1, 1) / 4;
-                    but.transform.GetChild(1).gameObject.SetActive(false);
                     string fileName = dirFiles[i];
                     but.onClick.AddListener(delegate
                     {
@@ -929,6 +1125,12 @@ public class LevelEditor : MonoBehaviour
 			}
 		}
 
+        if (dirFiles.Length < rows)
+        {
+            prevBut.gameObject.SetActive(false);
+            nextBut.gameObject.SetActive(false);
+        }
+
 
 	}
 
@@ -936,22 +1138,25 @@ public class LevelEditor : MonoBehaviour
 	private void selectFileName (Button but)
 	{
         miniCamera.gameObject.SetActive(true);
-		if (currentButSelected != but) {
-			but.GetComponent<Image> ().color = Color.gray;
-			//but.transform.GetChild (1).gameObject.SetActive (true);
-			if (currentButSelected != null) {
-				currentButSelected.GetComponent<Image> ().color = Color.white;
-				currentButSelected.transform.GetChild (1).gameObject.SetActive (false);
-			}
-			currentButSelected = but;
-			currentFileSelected = but.GetComponentInChildren<Text> ().text;
+        if (currentButSelected != but)
+        {
+            but.interactable = false;
 
-			loadMapFromFile (currentFileSelected);
+            if (currentButSelected != null)
+            {
+                currentButSelected.interactable = true;
+            }
+            currentButSelected = but;
+            currentFileSelected = but.GetComponentInChildren<Text>().text;
 
-		} else { //else. Load him.			
-			currentButSelected = null;
-			currentFileSelected = null;
-		}
+            loadMapFromFile(currentFileSelected);
+
+        }
+        else
+        { //else. Load him.			
+            currentButSelected = null;
+            currentFileSelected = null;
+        }
 
 	}
 
