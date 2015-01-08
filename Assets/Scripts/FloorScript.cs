@@ -70,12 +70,12 @@ public class FloorScript : MonoBehaviour
 			//Sell the trap
 			if (WeaponController.weapon == 50) {
 				if (gameObject.transform.childCount == 2) { 
-					GameObject resTower = (GameObject)Instantiate (gameObject.transform.GetChild (1).gameObject, transform.position + new Vector3 (0, resourceManager.planewidth / 900, 0), transform.rotation);
-					resTower.gameObject.transform.localScale = new Vector3 (1, 1, 1) * 1.1f / 2;
+					GameObject baseOfTrap = gameObject.transform.GetChild (1).Find ("Base").gameObject;
+					GameObject resTower = (GameObject)Instantiate (baseOfTrap, baseOfTrap.transform.position, baseOfTrap.transform.rotation);
+					resTower.gameObject.transform.localScale *=1.001f/2;
 					resTower.name = "blueTower";
 					resTower.gameObject.transform.parent = gameObject.transform;
 					resTower.tag = "TowerHotSpot";
-					resTower.transform.GetComponent<BoxCollider> ().enabled = false;
 					foreach (Renderer child in resTower.GetComponentsInChildren<Renderer>()) {
 						child.material.color = new Color (0, 0, 255, 0.1f);
 						child.material.shader = Shader.Find ("Transparent/Diffuse");

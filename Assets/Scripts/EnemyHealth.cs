@@ -51,9 +51,7 @@ public class EnemyHealth : MonoBehaviour {
 		textObject = resourceManager.damageText;
 		nodeSize = resourceManager.nodeSize;
         animator = GetComponent<Animator>();
-		startingHealth = 100;
         guiHeadShot = GameObject.Find("HeadShotText").GetComponent<Text>();
-
     }
 
     // Update is called once per frame

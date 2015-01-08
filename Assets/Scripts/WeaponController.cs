@@ -38,7 +38,7 @@ public class WeaponController : MonoBehaviour
 		inputManager = GameObject.Find ("KeyInputs").GetComponent<KeyInputManager> ();
 
 		Tower1 = resourceManager.magicTowerHotSpot;
-		Tower2 = resourceManager.tower2;
+		Tower2 = resourceManager.arrowTowerHotSpot;
 		FloorTower1 = resourceManager.fireTrapHotspot;
 		FloorTower2 = resourceManager.poisonTrapHotspot;
 		FloorTower3 = resourceManager.iceTrapHotspot;

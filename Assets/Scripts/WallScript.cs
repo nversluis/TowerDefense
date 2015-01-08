@@ -50,13 +50,15 @@ public class WallScript : MonoBehaviour
 				tower.gameObject.transform.localScale = new Vector3 (1, 1, 1) * planeW * 10;
 				tower.gameObject.transform.Rotate (new Vector3 (-90, 0, 0));
 				tower.gameObject.transform.Rotate (new Vector3 (0, -90, 0));
-				tower.gameObject.transform.position += tower.gameObject.transform.forward * planeW / 58;
+				//tower.gameObject.transform.position += tower.gameObject.transform.forward * planeW / 58;
 				if (player == null) {
 					player = GameObject.Find ("Player");
 				}
 				//set costs
 				if (TowerPrefab.name.Contains ("magic")) {
 					cost = resourceManager.costMagicTower;
+				} else if (TowerPrefab.name.Contains ("Arrow")) {
+					cost = resourceManager.costArrowTower;
 				}
 
 				if ((Vector3.Distance (player.transform.position, transform.position) <= maxDistance) && cost <= playerData.getGold ()) {
@@ -79,14 +81,13 @@ public class WallScript : MonoBehaviour
 			//Sell the tower
 			if (WeaponController.weapon == 50) {
 				if (gameObject.transform.childCount == 1) {
-					resTower = (GameObject)Instantiate (gameObject.transform.GetChild (0).gameObject, new Vector3 (transform.position.x, planeW / 2, transform.position.z), transform.rotation);
-					resTower.gameObject.transform.Rotate (new Vector3 (-90, 0, 0));
-					resTower.gameObject.transform.Rotate (new Vector3 (0, -90, 0));
-					resTower.gameObject.transform.localScale = new Vector3 (1, 1, 1) * 1.1f;
+					GameObject baseOfTower = gameObject.transform.GetChild (0).Find("Base").gameObject;
+					resTower = (GameObject)Instantiate (baseOfTower, baseOfTower.transform.position, baseOfTower.transform.rotation);
+					resTower.transform.position += resTower.transform.forward/(planeW*100);
 					resTower.name = "blueTower";
 					resTower.gameObject.transform.parent = gameObject.transform;
 					resTower.tag = "TowerHotSpot";
-					resTower.transform.GetChild (0).gameObject.SetActive (false);
+					//resTower.transform.GetChild (0).gameObject.SetActive (false);
 					foreach (Renderer child in resTower.GetComponentsInChildren<Renderer>()) 
 					{
 						child.material.color = new Color (0, 0, 255, 0.1f);

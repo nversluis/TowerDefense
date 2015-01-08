@@ -47,12 +47,6 @@ public class CameraController : MonoBehaviour {
 		camOffset = resourceManager.camOffset;
         //Set cursor to center of screen
         Screen.lockCursor = true;
-
-        enemyHealthText = GameObject.Find("EnemyHealth").GetComponent<Text>();
-        enemyStatsText = GameObject.Find("EnemyStats").GetComponent<Text>();
-        enemyType = GameObject.Find("EnemyType").GetComponent<Text>();
-        enemyInformation = GameObject.Find("EnemyInformation");
-
 	}
 
     // Method for determining mouse input to calculate the camera position
@@ -115,28 +109,6 @@ public class CameraController : MonoBehaviour {
     {
         // Moving camera with method
         CamMov();
-
-        if (Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity, MaskEnemyStats))
-        {
-            //Debug.Log(hit.transform.name);
-            if (hit.transform.tag == "Enemy")
-            {
-                EnemyStats enemyStats = hit.transform.GetComponent<EnemyStats>();
-                EnemyHealth enemyHealth = hit.transform.GetComponent<EnemyHealth>();
-                enemyInformation.SetActive(true);
-                enemyStatsText.text = ("Attack: " + enemyStats.attack + " Defense: " + enemyStats.defense);
-                enemyHealthText.text = ("Health: " + enemyHealth.currentHealth);
-                enemyType.text = (hit.transform.name);
-            }
-            else
-            {
-                enemyStatsText.text = "";
-                enemyHealthText.text = "";
-                enemyType.text = "";
-                enemyInformation.SetActive(false);
-            }
-        }
-
     }
 
 	// Update is called once per frame
