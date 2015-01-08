@@ -46,8 +46,8 @@ public class WallScript : MonoBehaviour
 			if (TowerPrefab != null && gameObject.transform.childCount == 0) { 
 				Vector3 normalToWall = CameraController.hit.normal;
 				Vector3 TowerOffset = new Vector3 (Mathf.Sin (transform.eulerAngles.y / 180 * Mathf.PI), 0, Mathf.Cos (transform.eulerAngles.y / 180 * Mathf.PI)) * planeW / 50;
-				GameObject tower = (GameObject)Instantiate (TowerPrefab, new Vector3 (transform.position.x, planeW / 2, transform.position.z), transform.rotation);
-				tower.gameObject.transform.localScale = new Vector3 (1, 1, 1) * planeW * 10;
+				GameObject tower = (GameObject)Instantiate (TowerPrefab, transform.position, transform.rotation);
+				tower.gameObject.transform.localScale = new Vector3 (1, 1, 1) * planeW * 10/2;
 				tower.gameObject.transform.Rotate (new Vector3 (-90, 0, 0));
 				tower.gameObject.transform.Rotate (new Vector3 (0, -90, 0));
 				//tower.gameObject.transform.position += tower.gameObject.transform.forward * planeW / 58;
@@ -85,6 +85,7 @@ public class WallScript : MonoBehaviour
 					resTower = (GameObject)Instantiate (baseOfTower, baseOfTower.transform.position, baseOfTower.transform.rotation);
 					resTower.transform.position += resTower.transform.forward/(planeW*100);
 					resTower.name = "blueTower";
+					resTower.transform.localScale /= 2;
 					resTower.gameObject.transform.parent = gameObject.transform;
 					resTower.tag = "TowerHotSpot";
 					//resTower.transform.GetChild (0).gameObject.SetActive (false);
