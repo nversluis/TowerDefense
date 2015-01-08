@@ -18,7 +18,7 @@ public class WaveSpawner : MonoBehaviour
     GameObject gui;
     GUIScript guiScript;
 
-    public int toenameAantalEnemiesPerWave = 5;
+    public int toenameAantalEnemiesPerWave;
 
     private int maxWaves;
     private int currentWave;
@@ -36,10 +36,10 @@ public class WaveSpawner : MonoBehaviour
     public int timeBetweenWaves;
     private int waitTime;
 
-    public int currentTotalStatPoints = 250;
-    public int delta = 20;
+    public int currentTotalStatPoints ;
+    public int delta;
 
-    public float spawnTime = 0.5f; // in seconden
+    public float spawnTime; // in seconden
 
     public ArrayList enemies;
     List<List<float>> statDistributions;
@@ -92,7 +92,6 @@ public class WaveSpawner : MonoBehaviour
                     {
                         waitTime = int.MaxValue;
                     }
-                    //waitTime = timeBeforeFirstWave;
                 }
                 else
                 {
@@ -118,7 +117,8 @@ public class WaveSpawner : MonoBehaviour
                         spawning = false;
                         keepDistribution = true;
                         timer = 0;
-                        /*Debug.Log("statDistribution[0][0]: " + statDistributions[0][0]);
+                        /*
+                        Debug.Log("statDistribution[0][0]: " + statDistributions[0][0]);
                         Debug.Log("statDistribution[0][1]: " + statDistributions[0][1]);
                         Debug.Log("statDistribution[0][2]: " + statDistributions[0][2]);
                         Debug.Log("statDistribution[1][0]: " + statDistributions[1][0]);
@@ -174,7 +174,14 @@ public class WaveSpawner : MonoBehaviour
             if (keepDistribution)
             {
                 enemyStats.statDistribution = getRandomDistribution();
+                enemyStats.generateDistribution();
+                //Debug.Log(enemyStats.statDistribution[0]);
+                //Debug.Log(enemyStats.statDistribution[1]);
+                //Debug.Log(enemyStats.statDistribution[2]);
             }
+            //Debug.Log(enemyStats.statDistribution[0]);
+            //Debug.Log(enemyStats.statDistribution[1]);
+            //Debug.Log(enemyStats.statDistribution[2]);
             enemyStats.generateenemyStats();
             statDistributions.Add(enemyStats.statDistribution);
             enemies.Add(enemyGuyant);
@@ -190,7 +197,14 @@ public class WaveSpawner : MonoBehaviour
             if (keepDistribution)
             {
                 enemyStats.statDistribution = getRandomDistribution();
+                enemyStats.generateDistribution();
+                //Debug.Log(enemyStats.statDistribution[0]);
+                //Debug.Log(enemyStats.statDistribution[1]);
+                //Debug.Log(enemyStats.statDistribution[2]);
             }
+            //Debug.Log(enemyStats.statDistribution[0]);
+            //Debug.Log(enemyStats.statDistribution[1]);
+            //Debug.Log(enemyStats.statDistribution[2]);
             enemyStats.generateenemyStats();
             statDistributions.Add(enemyStats.statDistribution);
             enemies.Add(enemyGwarf);
@@ -212,6 +226,7 @@ public class WaveSpawner : MonoBehaviour
     public List<float> getRandomDistribution()
     {
         int randomElement = Random.Range(0, statDistributions.Count);
+        Debug.Log(randomElement);
         List<float> distribution = statDistributions[randomElement];
 
         return distribution;
