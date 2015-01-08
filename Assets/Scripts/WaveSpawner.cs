@@ -60,7 +60,6 @@ public class WaveSpawner : MonoBehaviour
         statDistributions = new List<List<float>>();
 
         gui = GameObject.Find("GUIMain");
-        waveText = GameObject.Find("WaveNumberText").GetComponent<Text>();
         guiScript = gui.GetComponent<GUIScript>();
     }
 
