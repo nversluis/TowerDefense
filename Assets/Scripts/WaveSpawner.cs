@@ -67,8 +67,6 @@ public class WaveSpawner : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        waveText.text = (currentWave + " / " + maxWaves);
-
         if (currentWave <= maxWaves)
         {
             if (!gameHasStarted)

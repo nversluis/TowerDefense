@@ -4,13 +4,15 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class GUIScript : MonoBehaviour {
-    
-    [Header("HP")]
-    public RectTransform frontHPBar;
-    public RectTransform rearHPBar;
+    // Initialize a public variable containing all player data
+    public static PlayerData player = new PlayerData();
 
-    private float rearBufferedHP = player.getCurrentHP();
-    private float frontBufferedHP = player.getCurrentHP();
+    [Header("Player HP")]
+    public RectTransform frontPlayerHPBar;
+    public RectTransform rearPlayerHPBar;
+
+    private float rPlayerBufferedHP = 0;
+    private float fPlayerBufferedHP = 0;
 
     [Header("Gold")]
     public Text goldText;
@@ -73,14 +75,21 @@ public class GUIScript : MonoBehaviour {
     private float currentHP;
     private float maxHP;
 
+    [Header("Wave progress and Gate HP")]
+    public Text waveText;
+    public RectTransform frontGateHPBar;
+    public RectTransform rearGateHPBar;
+
+    private float fBufferedGateHP = 0;
+    private float rBufferedGateHP = 0;
+    private float gateHP = GoalScript.lives;
+    private float gateMaxhp = GoalScript.maxLives;
+
     // Scripts
     private GameObject playerObject;
     private GameObject cameraObject;
     private PlayerController playerScript;
     private CameraController cameraScript;
-
-    // Initialize a public variable containing all player data
-    public static PlayerData player = new PlayerData();
 
     // OptionButton variable
     private bool options = true;
@@ -154,8 +163,15 @@ public class GUIScript : MonoBehaviour {
 	
 	void FixedUpdate () {
         // Update variables that need to be updated frequently
-        UpdateFrontHP();
-        UpdateRearHP();
+        // Player HP
+        Debug.Log("Update PlayerHP");
+        UpdateFrontHP(player.getCurrentHP(), player.getMaxHP(), fPlayerBufferedHP, frontPlayerHPBar);
+        UpdateRearHP(player.getCurrentHP(), player.getMaxHP(), rPlayerBufferedHP, rearPlayerHPBar);
+        // Gate HP
+        Debug.Log("Update GateHP");
+        UpdateFrontHP(gateHP, gateMaxhp, fBufferedGateHP, frontGateHPBar);
+        UpdateRearHP(gateHP, gateMaxhp, rBufferedGateHP, rearGateHPBar);
+        // UI Components
         UpdateCooldowns();
         UpdateScore();
         UpdateGold();
@@ -214,41 +230,36 @@ public class GUIScript : MonoBehaviour {
         }
     }
 
-    void UpdateFrontHP() {
-        float currentHP = player.getCurrentHP();
-        float maxHP = player.getMaxHP();
+    void UpdateFrontHP(float currentHP, float maxHP, float bufferedHP, RectTransform frontBar) {
 
-        if(frontBufferedHP < currentHP) {
-            if(System.Math.Abs(frontBufferedHP - currentHP) < (maxHP / 1000f)) {
-                frontBufferedHP = currentHP;
+        if(bufferedHP < currentHP) {
+            if(System.Math.Abs(bufferedHP - currentHP) < (maxHP / 1000f)) {
+                bufferedHP = currentHP;
             }
             else {
-                frontBufferedHP += (currentHP - frontBufferedHP) / 30;
+                bufferedHP += (currentHP - bufferedHP) / 30;
             }
         }
         else {
-            frontBufferedHP = currentHP;
+            bufferedHP = currentHP;
         }
-        frontHPBar.localScale = new Vector3((frontBufferedHP / maxHP), 1, 1);
+        frontBar.localScale = new Vector3((bufferedHP / maxHP), 1, 1);
     }
 
-    void UpdateRearHP() {
-        float currentHP = player.getCurrentHP();
-        float maxHP = player.getMaxHP();
+    void UpdateRearHP(float currentHP, float maxHP, float bufferedHP, RectTransform rearBar) {
 
-
-        if(rearBufferedHP > currentHP) {
-            if(System.Math.Abs(rearBufferedHP - currentHP) < (maxHP / 1000f)) {
-                rearBufferedHP = currentHP;
+        if(bufferedHP > currentHP) {
+            if(System.Math.Abs(bufferedHP - currentHP) < (maxHP / 1000f)) {
+                bufferedHP = currentHP;
             }
             else {
-                rearBufferedHP += (currentHP - rearBufferedHP) / 30;
+                bufferedHP += (currentHP - bufferedHP) / 30;
             }
         }
         else {
-            rearBufferedHP = currentHP;
+            bufferedHP = currentHP;
         }
-        rearHPBar.localScale = new Vector3((rearBufferedHP / maxHP), 1, 1);
+        rearBar.localScale = new Vector3((bufferedHP / maxHP), 1, 1);
     }
 
     void UpdateEnemyStats() {
