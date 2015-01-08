@@ -42,8 +42,7 @@ public class WaveSpawner : MonoBehaviour
     public float spawnTime; // in seconden
 
     public ArrayList enemies;
-    List<List<float>> currentGenDistributions;
-    List<List<float>> nextGenDistributions;
+    List<List<float>> statDistributions;
     EnemyStats enemyStats;
 
     Text waveText;
@@ -58,16 +57,18 @@ public class WaveSpawner : MonoBehaviour
         maxWaves = resourceManager.maxWaves;
         currentWave = resourceManager.currentWave;
         enemies = new ArrayList();
-        currentGenDistributions = new List<List<float>>();
-        nextGenDistributions = new List<List<float>>();
+        statDistributions = new List<List<float>>();
 
         gui = GameObject.Find("GUIMain");
+        waveText = GameObject.Find("WaveNumberText").GetComponent<Text>();
         guiScript = gui.GetComponent<GUIScript>();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+      //  waveText.text = (currentWave + " / " + maxWaves);
+
         if (currentWave <= maxWaves)
         {
             if (!gameHasStarted)
@@ -115,16 +116,14 @@ public class WaveSpawner : MonoBehaviour
                     {
                         spawning = false;
                         keepDistribution = true;
-                        currentGenDistributions.Clear();
-                        //Debug.Log("nextGenDistributions[0][0]: " + nextGenDistributions[0][0]);
-                        //Debug.Log("nextGenDistributions[0][1]: " + nextGenDistributions[0][1]);
-                        //Debug.Log("nextGenDistributions[0][2]: " + nextGenDistributions[0][2]);
-                        currentGenDistributions = new List<List<float>>(nextGenDistributions);
-                        //Debug.Log("currentGenDistributions[0][0]: " + nextGenDistributions[0][0]);
-                        //Debug.Log("currentGenDistributions[0][1]: " + nextGenDistributions[0][1]);
-                        //Debug.Log("currentGenDistributions[0][2]: " + nextGenDistributions[0][2]);
-                        nextGenDistributions.Clear();
                         timer = 0;
+                        /*
+                        Debug.Log("statDistribution[0][0]: " + statDistributions[0][0]);
+                        Debug.Log("statDistribution[0][1]: " + statDistributions[0][1]);
+                        Debug.Log("statDistribution[0][2]: " + statDistributions[0][2]);
+                        Debug.Log("statDistribution[1][0]: " + statDistributions[1][0]);
+                        Debug.Log("statDistribution[1][1]: " + statDistributions[1][1]);
+                        Debug.Log("statDistribution[1][2]: " + statDistributions[1][2]);*/
                     }
                 }
             }
@@ -184,7 +183,7 @@ public class WaveSpawner : MonoBehaviour
             //Debug.Log(enemyStats.statDistribution[1]);
             //Debug.Log(enemyStats.statDistribution[2]);
             enemyStats.generateenemyStats();
-            nextGenDistributions.Add(enemyStats.statDistribution);
+            statDistributions.Add(enemyStats.statDistribution);
             enemies.Add(enemyGuyant);
         }
         else if (enemyNumber == 2)
@@ -207,7 +206,7 @@ public class WaveSpawner : MonoBehaviour
             //Debug.Log(enemyStats.statDistribution[1]);
             //Debug.Log(enemyStats.statDistribution[2]);
             enemyStats.generateenemyStats();
-            nextGenDistributions.Add(enemyStats.statDistribution);
+            statDistributions.Add(enemyStats.statDistribution);
             enemies.Add(enemyGwarf);
         }
     }
@@ -226,10 +225,16 @@ public class WaveSpawner : MonoBehaviour
 
     public List<float> getRandomDistribution()
     {
-        int randomElement = Random.Range(0, currentGenDistributions.Count);
-        List<float> distribution = currentGenDistributions[randomElement];
+        int randomElement = Random.Range(0, statDistributions.Count);
+        Debug.Log(randomElement);
+        List<float> distribution = statDistributions[randomElement];
 
         return distribution;
+    }
+
+    public void clearDistributions()
+    {
+        statDistributions.Clear();
     }
 
 }
