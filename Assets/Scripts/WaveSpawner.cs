@@ -73,7 +73,7 @@ public class WaveSpawner : MonoBehaviour
         {
             if (!gameHasStarted)
             {
-                Debug.Log("Press enter to start the waves");
+            //    Debug.Log("Press enter to start the waves");
             }
 
             if (spawning)
