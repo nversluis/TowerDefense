@@ -27,6 +27,8 @@ public class EnemyStats : MonoBehaviour
     public int statsMutation = 1;
 
     public int totalDamage;
+    public float leeftijd;
+    public float fitness;
     EnemyResources enemyResources;
     EnemyHealth enemyHealth;
 
@@ -55,6 +57,8 @@ public class EnemyStats : MonoBehaviour
             enemyResources.attackDamage = attack;
             respawn = false;
         }
+        leeftijd += Time.deltaTime;
+        fitness = getFitness();
     }
 
     public void generateenemyStats()
@@ -91,11 +95,12 @@ public class EnemyStats : MonoBehaviour
             this.attackDistributionFactor = statDistribution[1];
             this.defenseDistributionFactor = statDistribution[2];
         }
+        statDistribution.Add(fitness);
     }
 
-    public int fitness()
+    public float getFitness()
     {
-        return totalDamage + 1;
+        return leeftijd;
     }
 
     /// <summary>

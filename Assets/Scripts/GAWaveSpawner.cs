@@ -217,7 +217,7 @@ public class GAWaveSpawner : MonoBehaviour
 
         for (int i = 0; i < currentGen.Count; i++)
         {
-            total += ((GameObject)currentGen[i]).GetComponent<EnemyStats>().fitness();
+            // total += ((GameObject)currentGen[i]).GetComponent<EnemyStats>().fitness();
             // upper limit on the roulette wheel of current enemy
             chances.Add(total);
         }

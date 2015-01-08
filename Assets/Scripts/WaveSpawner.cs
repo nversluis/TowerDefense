@@ -180,9 +180,10 @@ public class WaveSpawner : MonoBehaviour
                 //Debug.Log(enemyStats.statDistribution[1]);
                 //Debug.Log(enemyStats.statDistribution[2]);
             }
-            //Debug.Log(enemyStats.statDistribution[0]);
-            //Debug.Log(enemyStats.statDistribution[1]);
-            //Debug.Log(enemyStats.statDistribution[2]);
+            Debug.Log(enemyStats.statDistribution[0]);
+            Debug.Log(enemyStats.statDistribution[1]);
+            Debug.Log(enemyStats.statDistribution[2]);
+            Debug.Log(enemyStats.statDistribution[3]);
             enemyStats.generateenemyStats();
             nextGenDistributions.Add(enemyStats.statDistribution);
             enemies.Add(enemyGuyant);
@@ -203,9 +204,10 @@ public class WaveSpawner : MonoBehaviour
                 //Debug.Log(enemyStats.statDistribution[1]);
                 //Debug.Log(enemyStats.statDistribution[2]);
             }
-            //Debug.Log(enemyStats.statDistribution[0]);
-            //Debug.Log(enemyStats.statDistribution[1]);
-            //Debug.Log(enemyStats.statDistribution[2]);
+            Debug.Log(enemyStats.statDistribution[0]);
+            Debug.Log(enemyStats.statDistribution[1]);
+            Debug.Log(enemyStats.statDistribution[2]);
+            Debug.Log(enemyStats.statDistribution[3]);
             enemyStats.generateenemyStats();
             nextGenDistributions.Add(enemyStats.statDistribution);
             enemies.Add(enemyGwarf);
@@ -224,6 +226,14 @@ public class WaveSpawner : MonoBehaviour
         }
     }
 
+    void UpdateFitness()
+    {
+        foreach (GameObject enemy in enemies) {
+            // fitness
+            
+        } 
+    }
+
     public List<float> getRandomDistribution()
     {
         int randomElement = Random.Range(0, currentGenDistributions.Count);
@@ -231,6 +241,9 @@ public class WaveSpawner : MonoBehaviour
 
         return distribution;
     }
+
+
+
 
 }
 
