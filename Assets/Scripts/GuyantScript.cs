@@ -291,11 +291,14 @@ public class GuyantScript : MonoBehaviour
             // for each waypoint from previous update set the penalty back to original
             foreach (WayPoint waypoint in WaypointsNearOld)
             {
+				try {
                 waypoint.setPenalty(waypoint.getPenalty() - penalty);
 
                 // if penalty is lower than 0 set it to 0
                 if (waypoint.getPenalty() < 0)
                     waypoint.setPenalty(0);
+				}
+				catch {}
             }
 
             // Find waypoints that are close
@@ -304,7 +307,10 @@ public class GuyantScript : MonoBehaviour
             // for each waypoint it is close to now set a penalty
             foreach (WayPoint waypoint in WaypointsNearNow)
             {
+				try{
                 waypoint.setPenalty(waypoint.getPenalty() + penalty);
+				}
+				catch{}
             }
 
             // set new waypoints to old for next update

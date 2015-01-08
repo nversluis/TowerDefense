@@ -116,13 +116,7 @@ public class WaveSpawner : MonoBehaviour
                         spawning = false;
                         keepDistribution = true;
                         currentGenDistributions.Clear();
-                        //Debug.Log("nextGenDistributions[0][0]: " + nextGenDistributions[0][0]);
-                        //Debug.Log("nextGenDistributions[0][1]: " + nextGenDistributions[0][1]);
-                        //Debug.Log("nextGenDistributions[0][2]: " + nextGenDistributions[0][2]);
                         currentGenDistributions = new List<List<float>>(nextGenDistributions);
-                        //Debug.Log("currentGenDistributions[0][0]: " + nextGenDistributions[0][0]);
-                        //Debug.Log("currentGenDistributions[0][1]: " + nextGenDistributions[0][1]);
-                        //Debug.Log("currentGenDistributions[0][2]: " + nextGenDistributions[0][2]);
                         nextGenDistributions.Clear();
                         timer = 0;
                     }
@@ -176,14 +170,7 @@ public class WaveSpawner : MonoBehaviour
             {
                 enemyStats.statDistribution = getRandomDistribution();
                 enemyStats.generateDistribution();
-                //Debug.Log(enemyStats.statDistribution[0]);
-                //Debug.Log(enemyStats.statDistribution[1]);
-                //Debug.Log(enemyStats.statDistribution[2]);
             }
-            Debug.Log(enemyStats.statDistribution[0]);
-            Debug.Log(enemyStats.statDistribution[1]);
-            Debug.Log(enemyStats.statDistribution[2]);
-            Debug.Log(enemyStats.statDistribution[3]);
             enemyStats.generateenemyStats();
             nextGenDistributions.Add(enemyStats.statDistribution);
             enemies.Add(enemyGuyant);
@@ -200,14 +187,7 @@ public class WaveSpawner : MonoBehaviour
             {
                 enemyStats.statDistribution = getRandomDistribution();
                 enemyStats.generateDistribution();
-                //Debug.Log(enemyStats.statDistribution[0]);
-                //Debug.Log(enemyStats.statDistribution[1]);
-                //Debug.Log(enemyStats.statDistribution[2]);
             }
-            Debug.Log(enemyStats.statDistribution[0]);
-            Debug.Log(enemyStats.statDistribution[1]);
-            Debug.Log(enemyStats.statDistribution[2]);
-            Debug.Log(enemyStats.statDistribution[3]);
             enemyStats.generateenemyStats();
             nextGenDistributions.Add(enemyStats.statDistribution);
             enemies.Add(enemyGwarf);
