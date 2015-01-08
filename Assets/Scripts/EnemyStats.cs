@@ -95,7 +95,6 @@ public class EnemyStats : MonoBehaviour
             this.attackDistributionFactor = statDistribution[1];
             this.defenseDistributionFactor = statDistribution[2];
         }
-        statDistribution.Add(fitness);
     }
 
     public float getFitness()

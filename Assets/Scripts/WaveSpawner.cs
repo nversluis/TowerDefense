@@ -42,8 +42,11 @@ public class WaveSpawner : MonoBehaviour
     public float spawnTime; // in seconden
 
     public ArrayList enemies;
+    public ArrayList enemiesInWave;
     List<List<float>> currentGenDistributions;
     List<List<float>> nextGenDistributions;
+    List<float> currentGenFitness;
+    List<float> nextGenFitness;
     EnemyStats enemyStats;
 
     Text waveText;
@@ -58,8 +61,11 @@ public class WaveSpawner : MonoBehaviour
         maxWaves = resourceManager.maxWaves;
         currentWave = resourceManager.currentWave;
         enemies = new ArrayList();
+        enemiesInWave = new ArrayList();
         currentGenDistributions = new List<List<float>>();
         nextGenDistributions = new List<List<float>>();
+        currentGenFitness = new List<float>();
+        nextGenFitness = new List<float>();
 
         gui = GameObject.Find("GUIMain");
         guiScript = gui.GetComponent<GUIScript>();
@@ -110,6 +116,7 @@ public class WaveSpawner : MonoBehaviour
                             // Spawn enemies tot het maximale aantal enemies wordt bereikt
                             Spawnenemy();
                         }
+
                     }
                     else
                     {
@@ -174,6 +181,7 @@ public class WaveSpawner : MonoBehaviour
             enemyStats.generateenemyStats();
             nextGenDistributions.Add(enemyStats.statDistribution);
             enemies.Add(enemyGuyant);
+            enemiesInWave.Add(enemyGuyant);
         }
         else if (enemyNumber == 2)
         {
@@ -191,6 +199,7 @@ public class WaveSpawner : MonoBehaviour
             enemyStats.generateenemyStats();
             nextGenDistributions.Add(enemyStats.statDistribution);
             enemies.Add(enemyGwarf);
+            enemiesInWave.Add(enemyGwarf);
         }
     }
 
@@ -206,14 +215,6 @@ public class WaveSpawner : MonoBehaviour
         }
     }
 
-    void UpdateFitness()
-    {
-        foreach (GameObject enemy in enemies) {
-            // fitness
-            
-        } 
-    }
-
     public List<float> getRandomDistribution()
     {
         int randomElement = Random.Range(0, currentGenDistributions.Count);
@@ -222,8 +223,29 @@ public class WaveSpawner : MonoBehaviour
         return distribution;
     }
 
+    public List<float> getFitnessDistribution()
+    {
+        float total = 0;
+        float randomFloat;
+        List<float> chances = new List<float>();
 
+        for (int i = 0; i < enemiesInWave.Count; i++)
+        {
+            total += ((GameObject)enemiesInWave[i]).GetComponent<EnemyStats>().fitness;
+            // upper limit on the roulette wheel of current enemy
+            chances.Add(total);
+        }
 
+        randomFloat = Random.Range(0, 1) * chances[chances.Count - 1];
+        int indexOfCurrentGen = 0;
+        while (randomFloat > chances[indexOfCurrentGen])
+        {
+            indexOfCurrentGen++;
+        }
+
+        List<float> distribution = currentGenDistributions[indexOfCurrentGen];
+        return distribution;
+    }
 
 }
 
