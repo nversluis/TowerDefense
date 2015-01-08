@@ -834,10 +834,10 @@ public class LevelEditor : MonoBehaviour
 		Nodes = RandomMaze.SpawnNodes (positions, nodeSize, planewidth, NodesPos, Nodes, length, width, drawNavigationGrid, true);
 		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Giving birth to Player...";
 		yield return new WaitForSeconds (0.1f);
-        RandomMaze.spawnPlayer(player, camera, resourceManager.Goal, resourceManager.GUI, resourceManager.eventListener, startPos * planewidth, Minimapcamera, width, length, planewidth);
+        RandomMaze.spawnPlayer(player, camera, resourceManager.Goal, enemySpawner, resourceManager.GUI, resourceManager.eventListener, startPos * planewidth, endPos, Minimapcamera, width, length, planewidth);
 		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Lighting torches...";
-		yield return new WaitForSeconds (0.1f);
-		RandomMaze.createSingleObjects (planewidth, enemySpawner, endPos, startPos);
+        //yield return new WaitForSeconds (0.1f);
+        //RandomMaze.createSingleObjects (planewidth, enemySpawner, endPos, startPos);
 
 		resourceManager.Nodes = Nodes;
 		LoadingScreen.SetActive (false);

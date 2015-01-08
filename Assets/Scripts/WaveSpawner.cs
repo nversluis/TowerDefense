@@ -231,8 +231,8 @@ public class WaveSpawner : MonoBehaviour
 
         for (int i = 0; i < enemiesInWave.Count; i++)
         {
-            total += ((GameObject)enemiesInWave[i]).GetComponent<EnemyStats>().fitness;
             // upper limit on the roulette wheel of current enemy
+            total += ((GameObject)enemiesInWave[i]).GetComponent<EnemyStats>().fitness;
             chances.Add(total);
         }
 
@@ -246,6 +246,15 @@ public class WaveSpawner : MonoBehaviour
         List<float> distribution = currentGenDistributions[indexOfCurrentGen];
         return distribution;
     }
+
+    public int GetCurrentWave() {
+        return currentWave;
+    }
+
+    public int GetMaxWave() {
+        return maxWaves;
+    }
+
 
 }
 
