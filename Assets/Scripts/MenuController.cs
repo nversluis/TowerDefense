@@ -12,7 +12,6 @@ public class MenuController : MonoBehaviour {
     float old1, old2, old3, old4, old5;
 
     void Start() {
-        Debug.Log(Time.timeScale);
         // Menu startup animation
         startBtnAnim.SetBool("Hidden", false);
         quitBtnAnim.SetBool("Hidden", false);

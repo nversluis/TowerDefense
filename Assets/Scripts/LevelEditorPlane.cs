@@ -74,6 +74,7 @@ public class LevelEditorPlane : MonoBehaviour
                 if (LevelEditor.type < 3)
                 {
                     addPos();
+                    LevelEditor.mapSaved = false;
                 }
                 else
                     removePos();
