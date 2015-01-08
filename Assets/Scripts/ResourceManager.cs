@@ -9,6 +9,7 @@ public class ResourceManager : MonoBehaviour {
 	[Header("Costs")]
 	public int startGold;
 	public int costMagicTower;
+	public int costArrowTower;
 	public int costIceTrap;
 	public int costFireTrap;
 	public int costPoisonTrap;
@@ -60,7 +61,8 @@ public class ResourceManager : MonoBehaviour {
 	public GameObject magicTower;
     public GameObject magicTowerBullet;
 	public float coolDownTimeMagicTower;
-	public GameObject tower2;
+	public GameObject arrowTower;
+	public GameObject arrowTowerArrow;
 	[Header("Floor")]
 	public GameObject poisonTrap;
 	public GameObject fireTrap;
@@ -69,6 +71,7 @@ public class ResourceManager : MonoBehaviour {
 	public GameObject spearTrap;
 	[Header("Hotspots")]
 	public GameObject magicTowerHotSpot;
+	public GameObject arrowTowerHotSpot;
 	public GameObject poisonTrapHotspot;
 	public GameObject fireTrapHotspot;
 	public GameObject iceTrapHotspot;

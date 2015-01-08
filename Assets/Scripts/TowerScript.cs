@@ -25,8 +25,14 @@ public class TowerScript : MonoBehaviour
         resourceManager = ResourceManagerObj.GetComponent<ResourceManager>();
         planeW = resourceManager.planewidth;
         MaxDistance = resourceManager.maxTowerDistance;
-		realTower = resourceManager.magicTower;
-		cost = resourceManager.costMagicTower;
+		if (gameObject.name.Contains ("magic")) {
+			realTower = resourceManager.magicTower;
+			cost = resourceManager.costMagicTower;
+		} else if (gameObject.name.Contains ("Arrow")) {
+			realTower = resourceManager.arrowTower;
+			cost = resourceManager.costArrowTower;
+		}
+
     }
 
     //Method to build a tower. Will destroy the prefab and build a new tower there.
@@ -34,7 +40,7 @@ public class TowerScript : MonoBehaviour
     {
 		if (cost <= playerData.getGold()) {
 			GameObject tower = (GameObject)Instantiate (realTower, transform.position, transform.rotation); //The instantiantion of the tower
-			tower.gameObject.transform.localScale = new Vector3 (1, 1, 1) * planeW / 10; //Scaling the tower
+			tower.gameObject.transform.localScale = new Vector3 (1, 1, 1) * planeW / 10/2; //Scaling the tower
 
 			tower.tag = "Tower"; //Give tower a new tag, so it wont be destroyed because its a hotspot
 			tower.transform.parent = gameObject.transform.parent;
@@ -79,6 +85,7 @@ public class TowerScript : MonoBehaviour
             }
         }
     }
+
 
     //set the tower to a green hotspot
     private void setGreen()

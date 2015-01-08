@@ -4,13 +4,15 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class GUIScript : MonoBehaviour {
-    
-    [Header("HP")]
-    public RectTransform frontHPBar;
-    public RectTransform rearHPBar;
+    // Initialize a public variable containing all player data
+    public static PlayerData player = new PlayerData();
 
-    private float rearBufferedHP = player.getCurrentHP();
-    private float frontBufferedHP = player.getCurrentHP();
+    [Header("Player HP")]
+    public RectTransform frontPlayerHPBar;
+    public RectTransform rearPlayerHPBar;
+
+    private float rPlayerBufferedHP = 0;
+    private float fPlayerBufferedHP = 0;
 
     [Header("Gold")]
     public Text goldText;
@@ -58,14 +60,36 @@ public class GUIScript : MonoBehaviour {
 	[Header("Tower Popup")]
 	public GameObject TowerPopup;
 
+    [Header("Enemy Popup")]
+    public Image enemyFace;
+    public Sprite[] enemyFaces = new Sprite[3];
+    public Image HP;
+    public Text enemyText;
+    public GameObject enemyPanel;
+
+    private GameObject camera;
+    private RectTransform rect;
+    private LayerMask enemyMask = ((1 << 12) | (1 << 10));
+    private RaycastHit hit;
+
+    private float currentHP;
+    private float maxHP;
+
+    [Header("Wave progress and Gate HP")]
+    public Text waveText;
+    public RectTransform frontGateHPBar;
+    public RectTransform rearGateHPBar;
+
+    private float fBufferedGateHP = 0;
+    private float rBufferedGateHP = 0;
+    private float gateHP = GoalScript.lives;
+    private float gateMaxhp = GoalScript.maxLives;
+
     // Scripts
     private GameObject playerObject;
     private GameObject cameraObject;
     private PlayerController playerScript;
     private CameraController cameraScript;
-
-    // Initialize a public variable containing all player data
-    public static PlayerData player = new PlayerData();
 
     // OptionButton variable
     private bool options = true;
@@ -128,18 +152,31 @@ public class GUIScript : MonoBehaviour {
         // Crosshair
         crosshair.SetActive(true);
 
+        // Enemy Popup
+        enemyPanel.SetActive(false);
+        rect = HP.GetComponent<RectTransform>();
+        camera = GameObject.Find("Main Camera");
+        currentHP = 100;
+        maxHP = 100;
+
 	}
 	
 	void FixedUpdate () {
         // Update variables that need to be updated frequently
-        UpdateFrontHP();
-        UpdateRearHP();
+        // Player HP
+        UpdateFrontHP(player.getCurrentHP(), player.getMaxHP(), ref fPlayerBufferedHP, frontPlayerHPBar);
+        UpdateRearHP(player.getCurrentHP(), player.getMaxHP(), ref rPlayerBufferedHP, rearPlayerHPBar);
+        // Gate HP
+        UpdateFrontHP(gateHP, gateMaxhp, ref fBufferedGateHP, frontGateHPBar);
+        UpdateRearHP(gateHP, gateMaxhp, ref rBufferedGateHP, rearGateHPBar);
+        // UI Components
         UpdateCooldowns();
         UpdateScore();
         UpdateGold();
         UpdateStats();
         UpdateTowers();
         UpdateItems();
+        UpdateEnemyStats();
 	}
 
     void Update() {
@@ -191,41 +228,61 @@ public class GUIScript : MonoBehaviour {
         }
     }
 
-    void UpdateFrontHP() {
-        float currentHP = player.getCurrentHP();
-        float maxHP = player.getMaxHP();
+    void UpdateFrontHP(float currentHP, float maxHP,ref float bufferedHP, RectTransform frontBar) {
 
-        if(frontBufferedHP < currentHP) {
-            if(System.Math.Abs(frontBufferedHP - currentHP) < (maxHP / 1000f)) {
-                frontBufferedHP = currentHP;
+        if(bufferedHP < currentHP) {
+            if(System.Math.Abs(bufferedHP - currentHP) < (maxHP / 1000f)) {
+                bufferedHP = currentHP;
             }
             else {
-                frontBufferedHP += (currentHP - frontBufferedHP) / 30;
+                bufferedHP += (currentHP - bufferedHP) / 30;
             }
         }
         else {
-            frontBufferedHP = currentHP;
+            bufferedHP = currentHP;
         }
-        frontHPBar.localScale = new Vector3((frontBufferedHP / maxHP), 1, 1);
+        frontBar.localScale = new Vector3((bufferedHP / maxHP), 1, 1);
     }
 
-    void UpdateRearHP() {
-        float currentHP = player.getCurrentHP();
-        float maxHP = player.getMaxHP();
+    void UpdateRearHP(float currentHP, float maxHP,ref float bufferedHP, RectTransform rearBar) {
 
-
-        if(rearBufferedHP > currentHP) {
-            if(System.Math.Abs(rearBufferedHP - currentHP) < (maxHP / 1000f)) {
-                rearBufferedHP = currentHP;
+        if(bufferedHP > currentHP) {
+            if(System.Math.Abs(bufferedHP - currentHP) < (maxHP / 1000f)) {
+                bufferedHP = currentHP;
             }
             else {
-                rearBufferedHP += (currentHP - rearBufferedHP) / 30;
+                bufferedHP += (currentHP - bufferedHP) / 30;
             }
         }
         else {
-            rearBufferedHP = currentHP;
+            bufferedHP = currentHP;
         }
-        rearHPBar.localScale = new Vector3((rearBufferedHP / maxHP), 1, 1);
+        rearBar.localScale = new Vector3((bufferedHP / maxHP), 1, 1);
+    }
+
+    void UpdateEnemyStats() {
+        if(Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, Mathf.Infinity, enemyMask) && hit.transform.tag == "Enemy") {
+            EnemyHealth enemyHealth = hit.transform.GetComponent<EnemyHealth>();
+            currentHP = enemyHealth.currentHealth;
+            maxHP = enemyHealth.startingHealth;
+            enemyText.text = hit.transform.name;
+            switch(hit.transform.name) {
+                case "Guyant":
+                    enemyFace.sprite = enemyFaces[0];
+                    break;
+                case "Gwarf":
+                    enemyFace.sprite = enemyFaces[1];
+                    break;
+                case "Grobble":
+                    enemyFace.sprite = enemyFaces[2];
+                    break;
+            }
+            rect.localScale = new Vector3((currentHP / maxHP), 1, 1);
+            enemyPanel.SetActive(true);
+        }
+        else {
+            enemyPanel.SetActive(false);
+        }
     }
 
     public void UpdateTowers() {
@@ -234,7 +291,7 @@ public class GUIScript : MonoBehaviour {
         for(int i = 0; i < towerIconList.Length; i++) {
             Image tower = towerIconList[i];
             if(i == currentTower){
-                tower.color = new Color(0, 0, 0, 0.75f);
+                tower.color = new Color(1, 1, 1, 0.75f);
             }
             else {
                 tower.color = new Color(1, 1, 1, 1);
@@ -247,7 +304,6 @@ public class GUIScript : MonoBehaviour {
 
         for(int i = 0; i < inventory.Count; i++) {
             Item item = inventory[i];
-            item.setTier(2);
             Image image = itemIconList[i];
 
             switch(item.getTier()) {

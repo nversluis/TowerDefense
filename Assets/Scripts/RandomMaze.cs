@@ -215,36 +215,43 @@ public class RandomMaze : MonoBehaviour
 					if (!positions.Contains (new Vector2 (l + 1, w))) { //If there no floor east, create a wall east
 						if ((l + w) % 2 == 0)
 							GenerateTorch (l + 0.5f, w, 90,torch,planewidth,height);
-						GameObject wall = (GameObject)Instantiate (wallPrefab, new Vector3 ((l + 0.5f) * planewidth, height * planewidth / 2, w * planewidth), Quaternion.Euler (90, -90, 0));
-						wall.gameObject.transform.localScale = new Vector3 (planewidth / 10 + .001f, height * planewidth, height * planewidth / 10 + .001f);
-						wall.transform.parent = parent.gameObject.transform;
-						wall.name = "Wall";
+						for (int h = 0; h < height; h++) {
+							GameObject wall = (GameObject)Instantiate (wallPrefab, new Vector3 ((l + 0.5f) * planewidth, (h+.5f)* planewidth, w * planewidth), Quaternion.Euler (90, -90, 0));
+							//wall.gameObject.transform.localScale = new Vector3 (planewidth / 10 + .001f,planewidth, height * planewidth / 10 + .001f);
+							wall.transform.parent = parent.gameObject.transform;
+							wall.name = "Wall";
+						}
 					}
 					if (!positions.Contains (new Vector2 (l - 1, w))) { //If there is no floor west, create a wall west
 						if ((l + w) % 2 == 0)
 							GenerateTorch (l - 0.5f, w, -90,torch,planewidth,height);
-						GameObject wall = (GameObject)Instantiate (wallPrefab, new Vector3 ((l - 0.5f) * planewidth, height * planewidth / 2, w * planewidth), Quaternion.Euler (90, 90, 0));
-						wall.gameObject.transform.localScale = new Vector3 (planewidth / 10 + .001f, height * planewidth, height * planewidth / 10 + .001f);
+						for (int h = 0; h<height; h++){
+							GameObject wall = (GameObject)Instantiate (wallPrefab, new Vector3 ((l - 0.5f) * planewidth, (h+.5f) * planewidth, w * planewidth), Quaternion.Euler (90, 90, 0));
+						//wall.gameObject.transform.localScale = new Vector3 (planewidth / 10 + .001f, height * planewidth, height * planewidth / 10 + .001f);
 						wall.transform.parent = parent.gameObject.transform;
 						wall.name = "Wall";
+						}
 
 					}
 					if (!positions.Contains (new Vector2 (l, w + 1))) { //If there is no floor north, create a wall north
 						if ((l + w) % 2 == 1)
 							GenerateTorch (l, w + 0.5f, 0,torch,planewidth,height);
-						GameObject wall = (GameObject)Instantiate (wallPrefab, new Vector3 (l * planewidth, height * planewidth / 2, (w + 0.5f) * planewidth), Quaternion.Euler (-90, 0, 0));
-						wall.gameObject.transform.localScale = new Vector3 (planewidth / 10 + .001f, height * planewidth, height * planewidth / 10 + .001f);
-						wall.transform.parent = parent.gameObject.transform;
-						wall.name = "Wall";
-
+						for (int h = 0; h < height; h++) {
+							GameObject wall = (GameObject)Instantiate (wallPrefab, new Vector3 (l * planewidth, (h+.5f) * planewidth, (w + 0.5f) * planewidth), Quaternion.Euler (-90, 0, 0));
+							//wall.gameObject.transform.localScale = new Vector3 (planewidth / 10 + .001f, height * planewidth, height * planewidth / 10 + .001f);
+							wall.transform.parent = parent.gameObject.transform;
+							wall.name = "Wall";
+						}
 					}
 					if (!positions.Contains (new Vector2 (l, w - 1))) { //If there is no floor south, create a wall south
 						if ((l + w) % 2 == 1)
 							GenerateTorch (l, w - 0.5f, 180,torch,planewidth,height);
-						GameObject wall = (GameObject)Instantiate (wallPrefab, new Vector3 (l * planewidth, height * planewidth / 2, (w - 0.5f) * planewidth), Quaternion.Euler (90, 0, 0));
-						wall.gameObject.transform.localScale = new Vector3 (planewidth / 10 + .001f, height * planewidth, height * planewidth / 10 + .001f);
-						wall.transform.parent = parent.gameObject.transform;
-						wall.name = "Wall";
+						for (int h = 0; h < height; h++) {
+							GameObject wall = (GameObject)Instantiate (wallPrefab, new Vector3 (l * planewidth, (h + .5f) * planewidth, (w - 0.5f) * planewidth), Quaternion.Euler (90, 0, 0));
+							//wall.gameObject.transform.localScale = new Vector3 (planewidth / 10 + .001f, height * planewidth, height * planewidth / 10 + .001f);
+							wall.transform.parent = parent.gameObject.transform;
+							wall.name = "Wall";
+						}
 
 					}
 				}
