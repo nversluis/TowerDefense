@@ -68,8 +68,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7321a888faeaae47875ca40443ccd1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startGold: 500
+  startGold: 50000
   costMagicTower: 100
+  costArrowTower: 100
   costIceTrap: 100
   costFireTrap: 100
   costPoisonTrap: 100
@@ -103,13 +104,14 @@ MonoBehaviour:
   magicTower: {fileID: 100010, guid: 00820a827834982408befc67f6611fe1, type: 2}
   magicTowerBullet: {fileID: 100000, guid: 992585f8d90a7dd4aa9fb58097ade3cd, type: 2}
   coolDownTimeMagicTower: 1
-  tower2: {fileID: 0}
+  arrowTower: {fileID: 195864, guid: e56019d41f993324097d1d5a3ce6c9a6, type: 2}
   poisonTrap: {fileID: 100004, guid: 00395c20601754c63bd039223cee03ff, type: 2}
   fireTrap: {fileID: 100004, guid: 5eeab821c266140c29d2d3654a690e34, type: 2}
   iceTrap: {fileID: 100004, guid: 0c1d30373f75b41729f5e92345fc8692, type: 2}
   speedReduceRate: .5
   spearTrap: {fileID: 100004, guid: 78350e6548fc0ba4eb8337163c0d01b7, type: 2}
   magicTowerHotSpot: {fileID: 100008, guid: b7ee6a2fbe7fbaa45abbee1c40b0d49d, type: 2}
+  arrowTowerHotSpot: {fileID: 108536, guid: 330ca6b6c1ad3cf45a532231b13140aa, type: 2}
   poisonTrapHotspot: {fileID: 100006, guid: 12ce532ee4226dc40afed8a28552da9e, type: 2}
   fireTrapHotspot: {fileID: 100006, guid: c8e4e11c4efd83c4b9cef8053afda5bb, type: 2}
   iceTrapHotspot: {fileID: 100006, guid: 8d6dceaec5250e54494175da9d6efc1d, type: 2}
