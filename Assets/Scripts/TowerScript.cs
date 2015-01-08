@@ -25,8 +25,14 @@ public class TowerScript : MonoBehaviour
         resourceManager = ResourceManagerObj.GetComponent<ResourceManager>();
         planeW = resourceManager.planewidth;
         MaxDistance = resourceManager.maxTowerDistance;
-		realTower = resourceManager.magicTower;
-		cost = resourceManager.costMagicTower;
+		if (gameObject.name.Contains ("magic")) {
+			realTower = resourceManager.magicTower;
+			cost = resourceManager.costMagicTower;
+		} else if (gameObject.name.Contains ("Arrow")) {
+			realTower = resourceManager.arrowTower;
+			cost = resourceManager.costArrowTower;
+		}
+
     }
 
     //Method to build a tower. Will destroy the prefab and build a new tower there.
