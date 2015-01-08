@@ -32,7 +32,7 @@ public class EnemyStats : MonoBehaviour {
 
     void Awake()
     {
-        //generateenemyStats();
+        generateDistribution();
         enemyResources = GetComponent<EnemyResources>();
         enemyHealth = GetComponent<EnemyHealth>();
     }
@@ -58,23 +58,27 @@ public class EnemyStats : MonoBehaviour {
 
     public void generateenemyStats()
     {
-        this.stats = randomNumberGenerator(3, totalStatPoints);
-        this.health = stats[0];
-        this.attack = stats[1];
-        this.defense = stats[2];
+        this.health = (int) (healthDistributionFactor * totalStatPoints);
+        this.attack = (int) (attackDistributionFactor * totalStatPoints);
+        this.defense = (int) (defenseDistributionFactor * totalStatPoints);
+
         this.speedMultiplier = Random.Range(0.90f, 1.10f);
         this.dfactor = Random.Range(0.05f, 0.80f);
         this.goalImportance = Random.Range(0.4f, 1f);
         this.playerImportance = Random.Range(0, 0.6f);
+    }
 
-        this.healthDistributionFactor = (float) stats[0] / 100;
-        this.attackDistributionFactor = (float) stats[1] / 100;
-        this.defenseDistributionFactor = (float)stats[2] / 100;
+    public void generateDistribution()
+    {
+        List<int> temp = randomNumberGenerator(3, 100);
+
+        this.healthDistributionFactor = (float)temp[0] / 100;
+        this.attackDistributionFactor = (float)temp[1] / 100;
+        this.defenseDistributionFactor = (float)temp[2] / 100;
 
         statDistribution.Add(healthDistributionFactor);
         statDistribution.Add(attackDistributionFactor);
         statDistribution.Add(defenseDistributionFactor);
-
     }
 
     public int fitness()

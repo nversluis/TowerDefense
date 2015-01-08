@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class WaveSpawner : MonoBehaviour
 {
-	private GameObject ResourceManagerObj;
-	private ResourceManager resourceManager;
+    private GameObject ResourceManagerObj;
+    private ResourceManager resourceManager;
     private GameObject EnemyGuyant;
     private GameObject EnemyGwarf;
     private GameObject EnemyGrobble;
@@ -17,17 +17,18 @@ public class WaveSpawner : MonoBehaviour
 
     GameObject gui;
     GUIScript guiScript;
-    
+
     public int toenameAantalEnemiesPerWave = 5;
 
-	private int maxWaves;
-	private int currentWave;
+    private int maxWaves;
+    private int currentWave;
 
     public float maxX;
     public float maxZ;
     //float orcHeigthSpawn = 3.27f;
-	private PlayerData playerData = GUIScript.player;
+    private PlayerData playerData = GUIScript.player;
 
+    private bool gameHasStarted = false;
     bool Won;
 
     private float timer;
@@ -41,21 +42,22 @@ public class WaveSpawner : MonoBehaviour
     public float spawnTime = 0.5f; // in seconden
 
     public ArrayList enemies;
-    public ArrayList statDistributions;
+    List<List<float>> statDistributions;
     EnemyStats enemyStats;
 
     Text waveText;
     // Use this for initialization
     void Start()
     {
-		ResourceManagerObj = GameObject.Find ("ResourceManager");
-		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
+        ResourceManagerObj = GameObject.Find("ResourceManager");
+        resourceManager = ResourceManagerObj.GetComponent<ResourceManager>();
         EnemyGuyant = resourceManager.enemyGuyant;
         EnemyGwarf = resourceManager.enemyGwarf;
         EnemyGrobble = resourceManager.enemyGrobble;
-		maxWaves = resourceManager.maxWaves;
-		currentWave = resourceManager.currentWave;
+        maxWaves = resourceManager.maxWaves;
+        currentWave = resourceManager.currentWave;
         enemies = new ArrayList();
+        statDistributions = new List<List<float>>();
 
         gui = GameObject.Find("GUIMain");
         waveText = GameObject.Find("WaveNumberText").GetComponent<Text>();
@@ -69,25 +71,34 @@ public class WaveSpawner : MonoBehaviour
 
         if (currentWave <= maxWaves)
         {
+            if (!gameHasStarted)
+            {
+                Debug.Log("Press enter to start the waves");
+            }
+
             if (spawning)
             {
                 if (currentWave == 1)
                 {
-                    /*if (Input.GetKeyDown("space"))
+                    if (Input.GetKeyDown("return"))
+                    {
+                        gameHasStarted = true;
+                    }
+                    if (gameHasStarted)
                     {
                         waitTime = 0;
                     }
                     else
                     {
                         waitTime = int.MaxValue;
-                    }*/
-                    waitTime = timeBeforeFirstWave;
+                    }
+                    //waitTime = timeBeforeFirstWave;
                 }
-                else 
+                else
                 {
                     waitTime = timeBetweenWaves;
                 }
-                
+
                 timer += Time.deltaTime;
                 //Debug.Log("timer: " + timer + " " + "waitTime: " + waitTime);
 
@@ -107,6 +118,12 @@ public class WaveSpawner : MonoBehaviour
                         spawning = false;
                         keepDistribution = true;
                         timer = 0;
+                        /*Debug.Log("statDistribution[0][0]: " + statDistributions[0][0]);
+                        Debug.Log("statDistribution[0][1]: " + statDistributions[0][1]);
+                        Debug.Log("statDistribution[0][2]: " + statDistributions[0][2]);
+                        Debug.Log("statDistribution[1][0]: " + statDistributions[1][0]);
+                        Debug.Log("statDistribution[1][1]: " + statDistributions[1][1]);
+                        Debug.Log("statDistribution[1][2]: " + statDistributions[1][2]);*/
                     }
                 }
             }
@@ -116,8 +133,8 @@ public class WaveSpawner : MonoBehaviour
 
                 if (enemies.Count == 0)
                 {
-					// Voeg gold toe voor de speler na elke wave
-					playerData.addGold(resourceManager.rewardWave);
+                    // Voeg gold toe voor de speler na elke wave
+                    playerData.addGold(resourceManager.rewardWave);
                     // Als alle enemies dood zijn, ga naar de volgende wave
                     currentWave++;
                     // Verhoog het aantal enemies in de wave
@@ -142,7 +159,6 @@ public class WaveSpawner : MonoBehaviour
 
     void Spawnenemy()
     {
-
         float enemyNumber = Mathf.Round(Random.Range(1f, 2f));
         float randX = Random.Range(-maxX / 2, maxX / 2);
         float randZ = Random.Range(-maxZ / 2, maxZ / 2);
@@ -155,8 +171,12 @@ public class WaveSpawner : MonoBehaviour
             enemyStats = enemyGuyant.GetComponent<EnemyStats>();
             // Genereer enemies met toenemende stats per wave
             enemyStats.totalStatPoints = currentTotalStatPoints;
+            if (keepDistribution)
+            {
+                enemyStats.statDistribution = getRandomDistribution();
+            }
             enemyStats.generateenemyStats();
-            //statDistributions.Add(enemyStats.statDistribution);
+            statDistributions.Add(enemyStats.statDistribution);
             enemies.Add(enemyGuyant);
         }
         else if (enemyNumber == 2)
@@ -167,7 +187,12 @@ public class WaveSpawner : MonoBehaviour
             enemyStats = enemyGwarf.GetComponent<EnemyStats>();
             // Genereer enemies met toenemende stats per wave
             enemyStats.totalStatPoints = currentTotalStatPoints;
+            if (keepDistribution)
+            {
+                enemyStats.statDistribution = getRandomDistribution();
+            }
             enemyStats.generateenemyStats();
+            statDistributions.Add(enemyStats.statDistribution);
             enemies.Add(enemyGwarf);
         }
     }
@@ -184,7 +209,18 @@ public class WaveSpawner : MonoBehaviour
         }
     }
 
-    
+    public List<float> getRandomDistribution()
+    {
+        int randomElement = Random.Range(0, statDistributions.Count);
+        List<float> distribution = statDistributions[randomElement];
+
+        return distribution;
+    }
+
+    public void clearDistributions()
+    {
+        statDistributions.Clear();
+    }
 
 }
 
