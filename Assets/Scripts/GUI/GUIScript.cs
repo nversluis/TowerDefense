@@ -164,11 +164,9 @@ public class GUIScript : MonoBehaviour {
 	void FixedUpdate () {
         // Update variables that need to be updated frequently
         // Player HP
-        Debug.Log("Update PlayerHP");
         UpdateFrontHP(player.getCurrentHP(), player.getMaxHP(), fPlayerBufferedHP, frontPlayerHPBar);
         UpdateRearHP(player.getCurrentHP(), player.getMaxHP(), rPlayerBufferedHP, rearPlayerHPBar);
         // Gate HP
-        Debug.Log("Update GateHP");
         UpdateFrontHP(gateHP, gateMaxhp, fBufferedGateHP, frontGateHPBar);
         UpdateRearHP(gateHP, gateMaxhp, rBufferedGateHP, rearGateHPBar);
         // UI Components
