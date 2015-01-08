@@ -14,7 +14,7 @@ public class GoalScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        livesText = GameObject.Find("NumOfLives").GetComponent<Text>(); ;
+      //  livesText = GameObject.Find("NumOfLives").GetComponent<Text>(); ;
         gui = GameObject.Find("GUIMain");
         guiScript = gui.GetComponent<GUIScript>();
 		lives = 15;
@@ -32,7 +32,7 @@ public class GoalScript : MonoBehaviour {
 
         if (Lost)
         {
-            guiScript.EndGame("You Lose!");
+           guiScript.EndGame("You Lose!");
             Lost = false;
         }
 	}

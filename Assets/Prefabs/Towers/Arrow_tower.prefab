@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 466910}
   - 82: {fileID: 8266910}
   - 65: {fileID: 6566910}
+  - 114: {fileID: 11410826}
   m_Layer: 13
   m_Name: Trigger
   m_TagString: Tower
@@ -91,7 +92,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 166910}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: -4.37113883e-08}
-  m_LocalPosition: {x: 5, y: 0, z: 0}
+  m_LocalPosition: {x: 15, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 495870}
@@ -139,7 +140,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 195864}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.5808773, y: 8.30600166, z: 15.3165169}
+  m_LocalPosition: {x: 30.8190289, y: 3.79398108, z: 24.7388954}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 466910}
@@ -239,7 +240,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 10, y: 10, z: 20}
+  m_Size: {x: 30, y: 10, z: 10}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!82 &8266910
 AudioSource:
@@ -314,6 +315,17 @@ Animator:
   m_ApplyRootMotion: 1
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &11410826
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 166910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e9e95b032632a44d8d35f9db6b07a85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
