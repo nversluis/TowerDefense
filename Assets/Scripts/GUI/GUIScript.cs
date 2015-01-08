@@ -58,6 +58,19 @@ public class GUIScript : MonoBehaviour {
 	[Header("Tower Popup")]
 	public GameObject TowerPopup;
 
+    [Header("Enemy Popup")]
+    public Image face;
+    public Image HP;
+    public GameObject enemyPanel;
+
+    private GameObject camera;
+    private RectTransform rect;
+    private LayerMask enemyMask = ((1 << 12) | (1 << 10));
+    private RaycastHit hit;
+
+    private float currentHP;
+    private float maxHP;
+
     // Scripts
     private GameObject playerObject;
     private GameObject cameraObject;
@@ -128,6 +141,13 @@ public class GUIScript : MonoBehaviour {
         // Crosshair
         crosshair.SetActive(true);
 
+        // Enemy Popup
+        enemyPanel.SetActive(false);
+        rect = HP.GetComponent<RectTransform>();
+        camera = GameObject.Find("Main Camera");
+        currentHP = 100;
+        maxHP = 100;
+
 	}
 	
 	void FixedUpdate () {
@@ -140,6 +160,7 @@ public class GUIScript : MonoBehaviour {
         UpdateStats();
         UpdateTowers();
         UpdateItems();
+        UpdateEnemyStats();
 	}
 
     void Update() {
@@ -226,6 +247,20 @@ public class GUIScript : MonoBehaviour {
             rearBufferedHP = currentHP;
         }
         rearHPBar.localScale = new Vector3((rearBufferedHP / maxHP), 1, 1);
+    }
+
+    void UpdateEnemyStats() {
+        if(Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, Mathf.Infinity, enemyMask) && hit.transform.tag == "Enemy") {
+            EnemyHealth enemyHealth = hit.transform.GetComponent<EnemyHealth>();
+            currentHP = enemyHealth.currentHealth;
+            maxHP = enemyHealth.startingHealth;
+            Debug.Log("currentHP: " + currentHP + ", maxHP: " + maxHP);
+            rect.localScale = new Vector3((currentHP / maxHP), 1, 1);
+            enemyPanel.SetActive(true);
+        }
+        else {
+            enemyPanel.SetActive(false);
+        }
     }
 
     public void UpdateTowers() {
