@@ -9,6 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400000}
   - 114: {fileID: 11400000}
+  - 114: {fileID: 11415504}
   m_Layer: 0
   m_Name: EnemySpawner
   m_TagString: Untagged
@@ -39,13 +40,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 944f66ad451dba04eb2086e397509f88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 100052, guid: 8a2e017a33dbf9748ad510b090cfb8be, type: 2}
-  maxEnemies: 5
-  maxX: 0
-  maxZ: 0
+  maxEnemies: 30
   spawning: 1
-  maxWaves: 5
+  keepDistribution: 0
+  toenameAantalEnemiesPerWave: 5
+  maxX: .300000012
+  maxZ: 0
+  timeBeforeFirstWave: 20
+  timeBetweenWaves: 10
+  currentTotalStatPoints: 150
+  delta: 50
+  spawnTime: .200000003
+--- !u!114 &11415504
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19f02f54558312d42b259d7bf2b2bef6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 100052, guid: 6a25f25271f527644ab0b18b0e7c536e, type: 2}
+  EnemyGuyant: {fileID: 0}
+  EnemyGwarf: {fileID: 0}
+  nextGenenemy: {fileID: 0}
+  maxEnemies: 1
+  spawning: 1
+  maxWaves: 30
   currentWave: 1
+  minAantalEnemiesPerWave: 2
+  maxAantalEnemiesPerWave: 4
+  maxX: 1
+  maxZ: 1
+  totalStatPointsPerWave: 100
+  toenameStatPointsPerWave: 10
+  currentTotalStatPoints: 100
+  toenameTotalStatsPerWave: 50
+  won: 0
+  spawnPosition: {x: 0, y: 0, z: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -1,7 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class CameraController : MonoBehaviour {
+
+	private GameObject ResourceManagerObj;
+	private ResourceManager resourceManager;
 
     // initializing mouse position floats
     private float x;
@@ -9,7 +13,7 @@ public class CameraController : MonoBehaviour {
 
     // initializing camera properties
     private float camDis = 6;
-    public float camOffset = 4;
+    private float camOffset = 4;
     private float distanceOffset;
     private float scrollSpeed = 4;
     private float maxCamHeight = 10;
@@ -17,7 +21,7 @@ public class CameraController : MonoBehaviour {
     private float mouseSpeed = 2;
 
     // initializing Player gameobject
-    public GameObject Player;
+    private GameObject Player;
 
     // initializing raycasthit
     public static RaycastHit hit;
@@ -25,12 +29,24 @@ public class CameraController : MonoBehaviour {
     // creating properties for determining which object is pointed to
     public static GameObject hitObject;
 
-	public static LayerMask ignoreMask = ~(1<<9); //ignore layer 9
+    public static LayerMask ignoreMask = ~((1 << 11) | (1 << 12) | (1 << 13)); //ignore layer 11 12 & 13
+    LayerMask MaskEnemyStats = ((1 << 12) | (1 << 10));
+
+    private Text enemyHealthText;
+    private Text enemyStatsText;
+    private Text enemyType;
+
+    private GameObject enemyInformation;
 
 
     private void Start()
     {
+		ResourceManagerObj = GameObject.Find ("ResourceManager");
+		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
         Player = GameObject.Find("Player");
+		camOffset = resourceManager.camOffset;
+        //Set cursor to center of screen
+        Screen.lockCursor = true;
 	}
 
     // Method for determining mouse input to calculate the camera position
@@ -74,7 +90,7 @@ public class CameraController : MonoBehaviour {
 
 
         // casting a ray from player to camera and checking if it hit something
-		if (Physics.Raycast(Player.transform.position + new Vector3(0f, camOffset, 0f), relativePos, out hit, camDis + 0.5f))
+		if (Physics.Raycast(Player.transform.position + new Vector3(0f, camOffset, 0f), relativePos, out hit, camDis + 0.5f,ignoreMask))
         {
 			hits = Physics.RaycastAll(Player.transform.position, relativePos, camDis + 0.5f);
             // setting an offset of the camera so it doesnt go through a wall
@@ -93,22 +109,28 @@ public class CameraController : MonoBehaviour {
     {
         // Moving camera with method
         CamMov();
-
     }
 
 	// Update is called once per frame
 	void FixedUpdate () {
-
-
-
+		if (resourceManager.Nodes != null) {
+			foreach (WayPoint waypoint in resourceManager.Nodes) {
+				float penalty = waypoint.getPenalty ();
+				if (penalty > 0.1) {
+					waypoint.setPenalty (penalty - 0.1f * Time.fixedDeltaTime);
+				}
+			}
+        
+		}
+		GameObject prevHitObject = hitObject;
         // casting a ray to see what object is in front of the camera
-		if (Physics.Raycast (transform.position, transform.forward, out hit))
+        if (Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity, ignoreMask))
         {
 			hitObject = hit.collider.gameObject;
+			if (prevHitObject != hitObject) {
+				GameObject.Find ("GUIMain").GetComponent<GUIScript> ().getPopUpPanel().SetActive (false);
+			}
+
         }
-
-		//Set cursor to center of screen
-		Screen.lockCursor = true;
-
 	}
 }

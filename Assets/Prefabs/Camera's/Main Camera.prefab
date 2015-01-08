@@ -80,13 +80,13 @@ AudioSource:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   serializedVersion: 3
-  m_audioClip: {fileID: 8300000, guid: d27975801f9078a498ff2b86f1b7b508, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 20ee14ab860196b43b2d6a1753410983, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: .335999995
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
-  Priority: 128
+  Priority: 255
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -148,8 +148,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebb051e7fcd11a44fa8ba7ed5c0a132e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camOffset: 3
-  Player: {fileID: 100002, guid: 048f9b43b53072a44814788470f6f6df, type: 2}
 --- !u!124 &12400000
 Behaviour:
   m_ObjectHideFlags: 1

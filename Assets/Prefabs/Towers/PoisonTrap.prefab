@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 400000}
   - 198: {fileID: 19800000}
   - 199: {fileID: 19900000}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Green Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29,7 +29,7 @@ GameObject:
   - 64: {fileID: 6400000}
   - 23: {fileID: 2300000}
   - 114: {fileID: 11400000}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Animation Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,7 +46,8 @@ GameObject:
   - 4: {fileID: 400004}
   - 114: {fileID: 11400002}
   - 65: {fileID: 6500000}
-  m_Layer: 0
+  - 114: {fileID: 11459428}
+  m_Layer: 13
   m_Name: PoisonTrap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -64,7 +65,7 @@ GameObject:
   - 33: {fileID: 3300002}
   - 23: {fileID: 2300002}
   - 95: {fileID: 9500000}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -241,6 +242,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2262aab101fa98f4b911529ac7cb89b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11459428
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79e5d33eecfe7a94d973dd64f3fc0aca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 1000
+  attack: 750
+  defence: 10
+  speed: .333000004
+  range: 0
+  specialDamage: 0
 --- !u!198 &19800000
 ParticleSystem:
   m_ObjectHideFlags: 1

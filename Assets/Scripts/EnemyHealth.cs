@@ -1,21 +1,36 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
+
 
 public class EnemyHealth : MonoBehaviour {
+
+	private GameObject ResourceManagerObj;
+	private ResourceManager resourceManager;
+    EnemyResources enemyResources;
+	private PlayerData playerData = GUIScript.player;
 
     public int startingHealth = 100;
     public int currentHealth;
 	public int defense;
 	public EnemyStats enemyStats;
-    public Vector3 startPosition;
+    public Vector3 spawnPosition;
+    public Vector3 deathPosition;
     EnemyMovement enemyMovement;
 
-    public bool isDead = false;
+    Text guiHeadShot;
+
+
 	public bool isPoisoned;
 	public float poisonAmount = 0;
 
-	public GameObject textObject;
+	private GameObject textObject;
+	private float nodeSize;
+
+    Animator animator;
+
+    float counter;
 
     void Awake()
     {
@@ -24,16 +39,42 @@ public class EnemyHealth : MonoBehaviour {
 
     void Start()
     {
+        enemyResources = GetComponent<EnemyResources>();
+        resourceManager = GetComponent<ResourceManager>();
+		ResourceManagerObj = GameObject.Find ("ResourceManager");
+		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
         startingHealth = enemyStats.health*10;
         defense = enemyStats.defense;
         currentHealth = startingHealth;
-        startPosition = new Vector3(50, 50, 50);
+        deathPosition = new Vector3(0, 100, 0);
 		InvokeRepeating ("doPoisonDamage", 0, 5);
+		textObject = resourceManager.damageText;
+		nodeSize = resourceManager.nodeSize;
+        animator = GetComponent<Animator>();
+        guiHeadShot = GameObject.Find("HeadShotText").GetComponent<Text>();
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        if(enemyResources.isDead)
+        {
+            counter += Time.deltaTime;
+            collider.enabled = (false);
+            if (counter > 4)
+            {
+                
+                Destroy(this.gameObject);
+                //this.transform.position = deathPosition;
+                counter = 0;
+            }
+        }
+
+        else
+        {
+            collider.enabled = true;
+        }
 
     }
 
@@ -48,7 +89,7 @@ public class EnemyHealth : MonoBehaviour {
 			kleur = Color.green;
 		else
 			kleur = Color.black;
-        if (isDead)
+        if (enemyResources.isDead)
         {
             return;
         }
@@ -61,10 +102,11 @@ public class EnemyHealth : MonoBehaviour {
 			currentHealth = 0;
 
 		}
-		GameObject textObj = (GameObject)Instantiate (textObject, transform.position, Quaternion.identity);
-		textObj.GetComponent<TextMesh>().text = (damageDone + "/"+currentHealth).ToString();
-		textObj.GetComponent<TextMesh> ().color = kleur;
-        if (currentHealth <= 0 && !isDead)
+        //GameObject textObj = (GameObject)Instantiate (textObject, transform.position, Quaternion.identity);
+        ////textObj.GetComponent<TextMesh>().text = (Application.dataPath).ToString();
+        //textObj.GetComponent<TextMesh>().text = (damageDone + "/"+currentHealth).ToString();
+        //textObj.GetComponent<TextMesh> ().color = kleur;
+        if (currentHealth <= 0 && !enemyResources.isDead)
         {
             Death();
         }
@@ -87,23 +129,38 @@ public class EnemyHealth : MonoBehaviour {
 		}
 	}
 
-
-
-    void Death()
+    public void Death()
     {
-       
-		List<WayPoint> WPoints = new List<WayPoint> ();
-		WPoints=Navigator.FindWayPointsNear (transform.position, RandomMaze.Nodes);
-		foreach (WayPoint wp in WPoints) {
-			float newPenalty = wp.getPenalty ()+100;
-			wp.setPenalty (newPenalty);
-		}
-		isDead = true;
-		Destroy(this.gameObject);
+		playerData.addGold(resourceManager.rewardenemy);
+        List<WayPoint> WPoints = new List<WayPoint>();
+        WPoints = Navigator.FindWayPointsNear(transform.position, resourceManager.Nodes, nodeSize);
+        foreach (WayPoint wp in WPoints)
+        {
+            float newPenalty = wp.getPenalty() +15;
+            wp.setPenalty(newPenalty);
+        }
+		enemyResources.isDead = true;
 
         //currentHealth = startingHealth;
         //transform.position = startPosition;
         //Debug.Log("Ik ben dood");
+    }
+    public void HeadShot()
+    {
+        currentHealth = 0;
+        if (currentHealth <= 0 && !enemyResources.isDead)
+        {
+            Death();
+            guiHeadShot.text = "HeadShot!";
+            StartCoroutine(DeleteHeadshotText());
+        }
+    }
+
+    IEnumerator DeleteHeadshotText()
+    {
+        yield return new WaitForSeconds(1.5f);
+        guiHeadShot.text = "";
+
     }
 
 }

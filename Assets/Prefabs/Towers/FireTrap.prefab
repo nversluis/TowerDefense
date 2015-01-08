@@ -11,7 +11,7 @@ GameObject:
   - 33: {fileID: 3300000}
   - 23: {fileID: 2300000}
   - 95: {fileID: 9500000}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: trapBase_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28,7 +28,7 @@ GameObject:
   - 4: {fileID: 400002}
   - 198: {fileID: 19800000}
   - 199: {fileID: 19900000}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,7 +46,8 @@ GameObject:
   - 23: {fileID: 2300004}
   - 114: {fileID: 11400002}
   - 65: {fileID: 6500000}
-  m_Layer: 0
+  - 114: {fileID: 11439222}
+  m_Layer: 13
   m_Name: FireTrap
   m_TagString: TowerHotSpot
   m_Icon: {fileID: 0}
@@ -65,7 +66,7 @@ GameObject:
   - 64: {fileID: 6400000}
   - 23: {fileID: 2300002}
   - 114: {fileID: 11400000}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: AnimationPlane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -262,6 +263,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af2718c036d114e4ea69db93d3d0127a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11439222
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79e5d33eecfe7a94d973dd64f3fc0aca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 1000
+  attack: 1000
+  defence: 10
+  speed: 2
+  range: 0
+  specialDamage: 0
 --- !u!198 &19800000
 ParticleSystem:
   m_ObjectHideFlags: 1

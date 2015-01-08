@@ -12,7 +12,7 @@ GameObject:
   - 23: {fileID: 2300000}
   - 114: {fileID: 11400000}
   - 64: {fileID: 6400000}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Trap1Example
   m_TagString: TowerHotSpot
   m_Icon: {fileID: 0}

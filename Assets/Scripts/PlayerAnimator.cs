@@ -10,7 +10,7 @@ public class PlayerAnimator : MonoBehaviour {
 
         animator = GetComponent<Animator>();
 
-}
+    }
 
     void Update()
     {

@@ -5,23 +5,29 @@ using System.Collections;
 // Class that controls the player movements
 public class PlayerController : MonoBehaviour
 {
+	private GameObject ResourceManagerObj;
+	private ResourceManager resourceManager;
+
     // initializing some global variables
-    public GameObject camera;
-    public GameObject Bullet;
+    private GameObject camera;
+    private GameObject Bullet;
 
     private float playerSpeed = 15f;
     private float BulletSpeed = 100f;
     private float camAngleX;
     private float camAngleY;
-    private float distortion;
+    public float distortion;
     private float turnSpeed = 0.5f;
-    private float jumpSpeed = 10f;
+    private float jumpSpeed = 8.78f;
     private float moveY=0;
     public static bool moving;
-    public AudioClip magic;
+    private AudioClip magic;
+    private bool jumped;
     public static Vector3 location;
     Vector3 startPosition;
 
+    private LayerMask ignoreMaskBullet = ~((1 << 11) | (1 << 13));
+    private LayerMask ignoreMaskTraps = ~(1 << 13);
 
     // Method for getting player input
     private Vector3 playerInput()
@@ -34,14 +40,10 @@ public class PlayerController : MonoBehaviour
 
         // Movements of player
         float moveX = Mathf.Cos(camAngleY * Mathf.Deg2Rad) * inHorz + Mathf.Sin(camAngleY * Mathf.Deg2Rad) * inVert;
-        moveY = Ymovement(moveY);
         float moveZ = -Mathf.Sin(camAngleY * Mathf.Deg2Rad) * inHorz + Mathf.Cos(camAngleY * Mathf.Deg2Rad) * inVert;
 
-        // Jumping movements of player
-
         // creating a movement vector
-        Vector3 movement = new Vector3(moveX, 0f, moveZ).normalized * playerSpeed;
-        movement += new Vector3(0f, moveY, 0f);
+        Vector3 movement = new Vector3(moveX, 0f, moveZ).normalized * playerSpeed + new Vector3(0f,rigidbody.velocity.y,0f);
 
         //return the movement of the player according to camera rotation and input
         return movement;
@@ -51,45 +53,35 @@ public class PlayerController : MonoBehaviour
     // Method for moving the player
     private void playerMovement()
     {
+        // Checking if the player is moving
         if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
         {
-            // setting rotation of player in the direction of the speed of the player
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0f, Quaternion.LookRotation(playerInput() * playerSpeed).eulerAngles.y, 0f), turnSpeed);
             moving = true;
         }
         else
             moving = false;
 
         // moving the player according to input
-        rigidbody.velocity = (playerInput() );
+        rigidbody.velocity = playerInput();
     }
 
-    private float Ymovement(float moveY)
+    void Jumping()
     {
-
-        moveY += Physics.gravity.y*Time.fixedDeltaTime;
-
-        if (isGrounded())
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded() && rigidbody.velocity.y < 1)
         {
-            moveY = 0;
+            rigidbody.velocity = rigidbody.velocity + new Vector3(0f, jumpSpeed, 0f);
         }
-
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded())
-        {
-            moveY = jumpSpeed;
-
-        }
-
-
-        return moveY;
     }
+
 
     bool isGrounded()
     {
-        BoxCollider collider = GetComponent<BoxCollider>();
-        float distance = collider.center.y * transform.localScale.y - (collider.center.y * transform.localScale.y-collider.size.y/2*transform.localScale.y);
-        Debug.DrawRay(new Vector3(collider.center.x * transform.localScale.x, collider.center.y * transform.localScale.y, collider.center.z * transform.localScale.z) + transform.position,new Vector3(0, -1, 0)*distance,Color.red);
-        return Physics.Raycast(new Vector3(collider.center.x * transform.localScale.x, collider.center.y * transform.localScale.y, collider.center.z * transform.localScale.z) + transform.position, new Vector3(0,-1,0), distance);
+        CapsuleCollider collider = GetComponent<CapsuleCollider>();
+        float colliderCenterLoc = collider.center.y * transform.localScale.y;
+        float colliderOriginDistance = (collider.center.y * transform.localScale.y-collider.height/2*transform.localScale.y);
+        float distance = colliderCenterLoc - colliderOriginDistance;
+        Ray ray = new Ray(new Vector3(collider.center.x * transform.localScale.x, collider.center.y * transform.localScale.y, collider.center.z * transform.localScale.z) + transform.position, new Vector3(0,-1,0));
+        return Physics.Raycast(ray, distance+0.5f,ignoreMaskTraps);
     }
 
 
@@ -106,45 +98,34 @@ public class PlayerController : MonoBehaviour
                 camAngleY = camera.transform.rotation.eulerAngles.y;
 
                 // initializing correctionAngle and hit
-                float yAngle;
-                float xzMag;
-                float yMag;
+                Vector3 camShootDistance;
                 RaycastHit hit;
+
+                Vector3 tijdelijk = new Vector3(0, 1, 0);
 			
                 // creating a bullet in front of 1 unit away from Player
-                GameObject bullet = (GameObject)Instantiate(Bullet, transform.position + new Vector3((Mathf.Sin(camAngleY * Mathf.Deg2Rad)), 0f, Mathf.Cos(camAngleY * Mathf.Deg2Rad)), Quaternion.identity);
+                GameObject bullet = (GameObject)Instantiate(Bullet, transform.position + new Vector3((Mathf.Sin(camAngleY * Mathf.Deg2Rad)), 0f, Mathf.Cos(camAngleY * Mathf.Deg2Rad)) + tijdelijk, Quaternion.identity);
 
                 // Casting a ray and storing information to hit
-                if (!Physics.Raycast(camera.transform.position, camera.transform.forward, out hit))
+                if (!Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, Mathf.Infinity, ignoreMaskBullet))
                 {
-                    xzMag = BulletController.maxBulletDistance;
-                    yMag = -Mathf.Tan(camAngleX * Mathf.Deg2Rad) * (BulletController.maxBulletDistance + 10);
+                    camShootDistance = transform.forward;
+                    Debug.DrawRay(transform.position + tijdelijk, camera.transform.forward*15);
+
                 }
                 else
                 {
-                    Vector3 camShootDistance = hit.point - (transform.position + new Vector3((Mathf.Sin(camAngleY * Mathf.Deg2Rad)), 0f, Mathf.Cos(camAngleY * Mathf.Deg2Rad)));
-                    xzMag = new Vector2(camShootDistance.x, camShootDistance.z).magnitude;
-                    yMag = camShootDistance.y;
+
+                    camShootDistance = hit.point - (transform.position + tijdelijk + new Vector3(Mathf.Sin(camAngleY * Mathf.Deg2Rad), 0f, Mathf.Cos(camAngleY * Mathf.Deg2Rad)));
+                    camShootDistance = camShootDistance + ((new Vector3(Random.Range(-50, 50), Random.Range(-50, 50), Random.Range(-50, 50)).normalized * distortion) * camShootDistance.magnitude) / 80f; ;
                 }
 
-                // correct angle of bullet to where crosshair is
-                yAngle = Mathf.Rad2Deg * Mathf.Atan(yMag / xzMag);
-
-                float bulletForceX = Mathf.Sin(camAngleY * Mathf.Deg2Rad + Mathf.Deg2Rad * 2f * (Random.value - 0.5f) * distortion);
-                float bulletForceY = Mathf.Tan(((yAngle) * Mathf.Deg2Rad + Mathf.Deg2Rad * 2f * (Random.value - 0.5f) * distortion));
-                float bulletForceZ = Mathf.Cos(camAngleY * Mathf.Deg2Rad + Mathf.Deg2Rad * 2f * (Random.value - 0.5f) * distortion);
-
-                Vector3 bulletForce = new Vector3(bulletForceX, bulletForceY, bulletForceZ).normalized;
-
                 // add the force to the bullet
-                bullet.rigidbody.velocity = bulletForce * BulletSpeed;
+                bullet.rigidbody.velocity = camShootDistance.normalized * BulletSpeed;
                 AddBulletDistortion();
-
+               
                 // looking in the direction of the camera
-                transform.rotation = Quaternion.Euler(0f, camera.transform.rotation.eulerAngles.y, 0f);
                 audio.PlayOneShot(magic,15f);
-
-
             }
 
             if (WeaponController.weapon == 2)
@@ -183,10 +164,16 @@ public class PlayerController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+		ResourceManagerObj = GameObject.Find ("ResourceManager");
+		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
         // Do not display cursor
         Screen.showCursor = false;
         camera = GameObject.Find("Main Camera");
         startPosition = transform.position;
+		Bullet = resourceManager.magicBullet;
+		magic = resourceManager.magicBulletSound;
+
+
         
 
     }
@@ -197,9 +184,9 @@ public class PlayerController : MonoBehaviour
         // Run this method
         OnLeftMouseDown();
         location = transform.position;
-        
-        //GameObject[] enemys = GameObject.FindGameObjectsWithTag("Enemy");
-        //Debug.Log(enemys.Length);
+        Jumping();
+
+
 
     }
 
@@ -212,6 +199,8 @@ public class PlayerController : MonoBehaviour
         // Decrease bullet distortion
         DecreaseBulletDistortion();
 
+        transform.rotation = Quaternion.Euler(0f, camera.transform.rotation.eulerAngles.y, 0f);
+
+
     }
 }
-    

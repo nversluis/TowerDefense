@@ -2,51 +2,100 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class EnemyStats : MonoBehaviour {
+public class EnemyStats : MonoBehaviour
+{
 
     private List<int> stats;
-    private int totalStatPoints =100;
-    private string type;
+    public List<float> statDistribution;
+    public int totalStatPoints = 100;
 
     // Stats van een enemy
     public int health;
     public int attack;
     public int defense;
-    public int speed;
+    public float speedMultiplier;
+    public float dfactor;
+    public float goalImportance;
+    public float playerImportance;
+
+    // statdistribution of enemy
+    public float healthDistributionFactor;
+    public float attackDistributionFactor;
+    public float defenseDistributionFactor;
+
+    public bool respawn = false;
+    public int statsMutation = 1;
+
     public int totalDamage;
-    public int delta;
-    EnemyAttack enemyAttack;
+    EnemyResources enemyResources;
+    EnemyHealth enemyHealth;
+
 
     void Awake()
     {
-        generateEnemyStats();
-        enemyAttack = GetComponent<EnemyAttack>();
+        generateDistribution();
+        enemyResources = GetComponent<EnemyResources>();
+        enemyHealth = GetComponent<EnemyHealth>();
     }
 
     // Use this for initialization
     void Start()
     {
-        //totalStatPoints = 100;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        totalDamage = enemyAttack.totalDamage;
+        if (respawn)
+        {
+            enemyHealth.startingHealth = health * 10;
+            enemyHealth.defense = defense;
+            enemyHealth.currentHealth = enemyHealth.startingHealth;
+            enemyResources.attackDamage = attack;
+            respawn = false;
+        }
     }
 
-    public void generateEnemyStats()
+    public void generateenemyStats()
     {
-        this.stats = randomNumberGenerator(4, totalStatPoints);
-        this.health = stats[0];
-        this.attack = stats[1];
-        this.defense = stats[2];
-        this.speed = stats[3];
+
+        this.health = (int)(healthDistributionFactor * totalStatPoints);
+        this.attack = (int)(attackDistributionFactor * totalStatPoints);
+        this.defense = (int)(defenseDistributionFactor * totalStatPoints);
+
+        this.speedMultiplier = Random.Range(0.90f, 1.10f);
+        this.dfactor = Random.Range(0.05f, 0.80f);
+        this.goalImportance = Random.Range(0.4f, 1f);
+        this.playerImportance = Random.Range(0, 0.6f);
+    }
+
+    public void generateDistribution()
+    {
+        // Als enemy nog geen distributie heeft
+        if (statDistribution.Count == 0)
+        {
+            List<int> temp = randomNumberGenerator(3, 100);
+
+            this.healthDistributionFactor = (float)temp[0] / 100;
+            this.attackDistributionFactor = (float)temp[1] / 100;
+            this.defenseDistributionFactor = (float)temp[2] / 100;
+
+            statDistribution.Add(healthDistributionFactor);
+            statDistribution.Add(attackDistributionFactor);
+            statDistribution.Add(defenseDistributionFactor);
+        }
+        else
+        {
+            this.healthDistributionFactor = statDistribution[0];
+            this.attackDistributionFactor = statDistribution[1];
+            this.defenseDistributionFactor = statDistribution[2];
+        }
     }
 
     public int fitness()
     {
-        return totalDamage;
+        return totalDamage + 1;
     }
 
     /// <summary>
@@ -97,7 +146,7 @@ public class EnemyStats : MonoBehaviour {
     /// </summary>
     /// <param name="n"></param> Het aantal stats van een enemy
     /// <param name="delta"></param> De toename van een stat
-    public void mutate(int n, int delta)
+    public void mutate(int n)
     {
         // Het aantal stats dat verhoogd moet worden
         int aantal = Random.Range(1, n - 1);
@@ -125,11 +174,11 @@ public class EnemyStats : MonoBehaviour {
         for (int i = 0; i < verhoogIndices.Count; i++)
         {
             // Verhoog de stats 
-            stats[verhoogIndices[i]] += delta;
+            stats[verhoogIndices[i]] += statsMutation;
         }
 
         // Bepaald hoeveel elk stat wordt verlaagd, de som van de statverlagingen is gelijk aan die van de statverhogingen
-        List<int> statverlaging = randomNumberGenerator(n - aantal, aantal * delta);
+        List<int> statverlaging = randomNumberGenerator(n - aantal, aantal * statsMutation);
 
         for (int i = 0; i < verlaagIndices.Count; i++)
         {
