@@ -2677,9 +2677,9 @@ MonoBehaviour:
   TowerPopup: {fileID: 163510}
   enemyFace: {fileID: 11496038}
   enemyFaces:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 21300000, guid: 1509f03dd2323ce4583fa4324a47ef7f, type: 3}
+  - {fileID: 21300000, guid: c9aefb221a0e32642ab6b9632a92be31, type: 3}
+  - {fileID: 21300000, guid: 69a652185f2c4b94f9e73859b96e5fdc, type: 3}
   HP: {fileID: 11496036}
   enemyText: {fileID: 11402524}
   enemyPanel: {fileID: 158266}
