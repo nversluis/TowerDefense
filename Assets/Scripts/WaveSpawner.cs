@@ -30,9 +30,9 @@ public class WaveSpawner : MonoBehaviour
 
     private bool gameHasStarted = false;
     bool Won;
+    public bool allEnemiesSpawned = false;
 
     private float timer;
-    public int timeBeforeFirstWave;
     public int timeBetweenWaves;
     private int waitTime;
 
@@ -81,8 +81,12 @@ public class WaveSpawner : MonoBehaviour
             //    Debug.Log("Press enter to start the waves");
             }
 
+            UpdateenemyCount();
+
             if (spawning)
             {
+                allEnemiesSpawned = false;
+
                 if (currentWave == 1)
                 {
                     if (Input.GetKeyDown("return"))
@@ -120,19 +124,21 @@ public class WaveSpawner : MonoBehaviour
                     }
                     else
                     {
+                        allEnemiesSpawned = true;
                         spawning = false;
                         keepDistribution = true;
                         currentGenDistributions.Clear();
                         currentGenDistributions = new List<List<float>>(nextGenDistributions);
                         nextGenDistributions.Clear();
+                        currentGenFitness.Clear();
+                        currentGenFitness = new List<float>(nextGenFitness);
+                        nextGenFitness.Clear();
                         timer = 0;
                     }
                 }
             }
             else
             {
-                UpdateenemyCount();
-
                 if (enemies.Count == 0)
                 {
                     // Voeg gold toe voor de speler na elke wave
@@ -175,13 +181,13 @@ public class WaveSpawner : MonoBehaviour
             enemyStats.totalStatPoints = currentTotalStatPoints;
             if (keepDistribution)
             {
-                enemyStats.statDistribution = getRandomDistribution();
+                enemyStats.statDistribution = getRouletteWheelDistribution();
                 enemyStats.generateDistribution();
             }
             enemyStats.generateenemyStats();
             nextGenDistributions.Add(enemyStats.statDistribution);
+            nextGenFitness.Add(enemyStats.fitness);
             enemies.Add(enemyGuyant);
-            enemiesInWave.Add(enemyGuyant);
         }
         else if (enemyNumber == 2)
         {
@@ -193,24 +199,39 @@ public class WaveSpawner : MonoBehaviour
             enemyStats.totalStatPoints = currentTotalStatPoints;
             if (keepDistribution)
             {
-                enemyStats.statDistribution = getRandomDistribution();
+                enemyStats.statDistribution = getRouletteWheelDistribution();
                 enemyStats.generateDistribution();
             }
             enemyStats.generateenemyStats();
             nextGenDistributions.Add(enemyStats.statDistribution);
+            nextGenFitness.Add(enemyStats.fitness);
             enemies.Add(enemyGwarf);
-            enemiesInWave.Add(enemyGwarf);
         }
     }
 
     void UpdateenemyCount()
     {
-        for (int i = 0; i < enemies.Count; i++)
+        if (enemies.Count > 0)
         {
-            if ((GameObject)(enemies[i]) == null)
+            for (int i = 0; i < enemies.Count; i++)
             {
-                // Verwijder een enemy uit de lijst van enemies als die dood is
-                enemies.Remove(enemies[i]);
+                if ((GameObject)(enemies[i]) == null)
+                {
+                    // Verwijder een enemy uit de lijst van enemies als die dood is
+                    enemies.Remove(enemies[i]);
+                }
+                else 
+                {
+                    if (!allEnemiesSpawned)
+                    {
+                        nextGenFitness[i] = ((GameObject)(enemies[i])).GetComponent<EnemyStats>().fitness;
+                    }
+                    else
+                    {
+                        currentGenFitness[i] = ((GameObject)(enemies[i])).GetComponent<EnemyStats>().fitness;
+                    }
+                }
+
             }
         }
     }
@@ -223,20 +244,20 @@ public class WaveSpawner : MonoBehaviour
         return distribution;
     }
 
-    public List<float> getFitnessDistribution()
+    public List<float> getRouletteWheelDistribution()
     {
         float total = 0;
         float randomFloat;
         List<float> chances = new List<float>();
 
-        for (int i = 0; i < enemiesInWave.Count; i++)
+        for (int i = 0; i < currentGenFitness.Count; i++)
         {
             // upper limit on the roulette wheel of current enemy
-            total += ((GameObject)enemiesInWave[i]).GetComponent<EnemyStats>().fitness;
+            total += currentGenFitness[i];
             chances.Add(total);
         }
 
-        randomFloat = Random.Range(0, 1) * chances[chances.Count - 1];
+        randomFloat = Random.Range(0.0f, 1.0f) * chances[chances.Count - 1];
         int indexOfCurrentGen = 0;
         while (randomFloat > chances[indexOfCurrentGen])
         {
@@ -246,6 +267,25 @@ public class WaveSpawner : MonoBehaviour
         List<float> distribution = currentGenDistributions[indexOfCurrentGen];
         return distribution;
     }
+
+    public List<float> getBestDistribution()
+    {
+        int index;
+        float maxValue = float.MinValue;
+
+        for (int i = 0; i < currentGenFitness.Count; i++)
+        {
+            if (currentGenFitness[i] > maxValue)
+            {
+                maxValue = currentGenFitness[i]; 
+            }
+        }
+        index = currentGenFitness.IndexOf(maxValue);
+        List<float> distribution = currentGenDistributions[index];
+
+        return distribution;
+    }
+
 
     public int GetCurrentWave() {
         return currentWave;
