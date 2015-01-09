@@ -92,8 +92,20 @@ public class GUIScript : MonoBehaviour {
     private GoalScript goalScript;
     private WaveSpawner waveSpawner;
 
+    AudioSource cameraAudioSource;
+    public AudioClip click;
+
+    public void ButtonClick()
+    {
+        cameraAudioSource.PlayOneShot(click);
+    }
 	void Start () {
         /* Get private components */
+        
+        // Camera Auiodsource
+        cameraAudioSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
+
+
 
         // Skills
 
