@@ -25,7 +25,7 @@ public class Arrow : MonoBehaviour {
 			}
 			if (enemyHealth != null)
 			{
-				enemyHealth.TakeDamage(damagePerShot, "magic");
+				enemyHealth.TakeDamage(damagePerShot, "physical");
 			}
 
 		}

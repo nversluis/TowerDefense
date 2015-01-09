@@ -58,6 +58,7 @@ public class LevelEditor : MonoBehaviour
 	private bool drawNavGrid;
     string tempfilename;
     Camera miniCamera;
+    public Camera backGroundCamera;
     private List<Button> loadButtons;
 
 	public GameObject newMapScreen;
@@ -184,14 +185,19 @@ public class LevelEditor : MonoBehaviour
 
             GameObject.Find("YesButton").GetComponent<Button>().onClick.AddListener(delegate
             {
+                GameObject.Find("YesButton").GetComponent<Button>().onClick.RemoveAllListeners();
+                GameObject.Find("NoButton").GetComponent<Button>().onClick.RemoveAllListeners();
                 newMapScreen.SetActive(true);
                 areYouSurePanel.SetActive(false);
                 editing = false;
+
                 
             });
 
             GameObject.Find("NoButton").GetComponent<Button>().onClick.AddListener(delegate
             {
+                GameObject.Find("YesButton").GetComponent<Button>().onClick.RemoveAllListeners();
+                GameObject.Find("NoButton").GetComponent<Button>().onClick.RemoveAllListeners();
                 areYouSurePanel.SetActive(false);
                 foreach (GameObject button in buttons)
                 {
@@ -202,6 +208,8 @@ public class LevelEditor : MonoBehaviour
                 buildingBlocksPanel.SetActive(true);
                 miniCamera.depth = 1;
                 editing = true;
+
+
             });
 
         }
@@ -350,8 +358,29 @@ public class LevelEditor : MonoBehaviour
     public void LoadLayoutButton()
     {
 
+
         if (!mainMenu && !mapSaved)
         {
+            // initial filename
+            tempfilename = "temp";
+
+            // keep looping until a file name that has not been used is found
+            while (true)
+            {
+                // if filename is free
+                if (!File.Exists(AppPath + tempfilename + ".txt"))
+                {
+                    break;
+                }
+                // else keep on adding random numbers behind temp
+                else
+                    tempfilename = tempfilename + Random.Range(0, 9);
+            }
+
+
+            // save the position to this temporary file
+            SavePositionsToFile(tempfilename, true);
+
             miniCamera.depth = -10;
 
             areYouSurePanel.SetActive(true);
@@ -366,31 +395,12 @@ public class LevelEditor : MonoBehaviour
 
             GameObject.Find("YesButton").GetComponent<Button>().onClick.AddListener(delegate
             {
+                GameObject.Find("YesButton").GetComponent<Button>().onClick.RemoveAllListeners();
+                GameObject.Find("NoButton").GetComponent<Button>().onClick.RemoveAllListeners();
                 miniCamera.depth = 1;
                 areYouSurePanel.SetActive(false);
                 miniCamera.gameObject.SetActive(false);
-                if (!mainMenu)
-                {
-                    // initial filename
-                    tempfilename = "temp";
 
-                    // keep looping until a file name that has not been used is found
-                    while (true)
-                    {
-                        // if filename is free
-                        if (!File.Exists(AppPath + tempfilename + ".txt"))
-                        {
-                            break;
-                        }
-                        // else keep on adding random numbers behind temp
-                        else
-                            tempfilename = tempfilename + Random.Range(0, 9);
-                    }
-
-
-                    // save the position to this temporary file
-                    SavePositionsToFile(tempfilename, true);
-                }
                 Reset();
                 // show the saved maps
                 ShowSavedMaps();
@@ -411,6 +421,9 @@ public class LevelEditor : MonoBehaviour
 
             GameObject.Find("NoButton").GetComponent<Button>().onClick.AddListener(delegate
             {
+                GameObject.Find("YesButton").GetComponent<Button>().onClick.RemoveAllListeners();
+                GameObject.Find("NoButton").GetComponent<Button>().onClick.RemoveAllListeners();
+
                 areYouSurePanel.SetActive(false);
                 foreach (GameObject button in buttons)
                 {
@@ -421,6 +434,9 @@ public class LevelEditor : MonoBehaviour
                 buildingBlocksPanel.SetActive(true);
                 miniCamera.depth = 1;
                 editing = true;
+                deleteFile(tempfilename,true);
+
+
 
             });
             
@@ -428,29 +444,23 @@ public class LevelEditor : MonoBehaviour
         }
         else
         {
-            miniCamera.gameObject.SetActive(false);
-            if (!mainMenu)
+            // initial filename
+            tempfilename = "temp";
+
+            // keep looping until a file name that has not been used is found
+            while (true)
             {
-                // initial filename
-                tempfilename = "temp";
-
-                // keep looping until a file name that has not been used is found
-                while (true)
+                // if filename is free
+                if (!File.Exists(AppPath + tempfilename + ".txt"))
                 {
-                    // if filename is free
-                    if (!File.Exists(AppPath + tempfilename + ".txt"))
-                    {
-                        break;
-                    }
-                    // else keep on adding random numbers behind temp
-                    else
-                        tempfilename = tempfilename + Random.Range(0, 9);
+                    break;
                 }
-
-
-                // save the position to this temporary file
-                SavePositionsToFile(tempfilename, true);
+                // else keep on adding random numbers behind temp
+                else
+                    tempfilename = tempfilename + Random.Range(0, 9);
             }
+            miniCamera.gameObject.SetActive(false);
+
             Reset();
             // show the saved maps
             ShowSavedMaps();
@@ -529,18 +539,18 @@ public class LevelEditor : MonoBehaviour
     {
         if (currentFileSelected != null)
         {
-            deleteFile(currentFileSelected);
-            Reset();
+            deleteFile(currentFileSelected,true);
+            ShowSavedMaps();
         }
         else if (currentFileSelected == null & currentFilesSelected.Count>0)
         {
             foreach (Button button in currentButtonsSelected)
             {
-                deleteFile(button.GetComponentInChildren<Text>().text);
+                deleteFile(button.GetComponentInChildren<Text>().text, true);
             }
             currentButtonsSelected = new List<Button>();
             currentFilesSelected = new List<string>();
-            Reset();
+            ShowSavedMaps();
         }
         else
         {
@@ -814,7 +824,6 @@ public class LevelEditor : MonoBehaviour
 	void Update ()
 	{
         NewMapScreenButtonCheck();
-
 	}
 
 
@@ -834,10 +843,10 @@ public class LevelEditor : MonoBehaviour
 		Nodes = RandomMaze.SpawnNodes (positions, nodeSize, planewidth, NodesPos, Nodes, length, width, drawNavigationGrid, true);
 		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Giving birth to Player...";
 		yield return new WaitForSeconds (0.1f);
-        RandomMaze.spawnPlayer(player, camera, resourceManager.Goal, resourceManager.GUI, resourceManager.eventListener, startPos * planewidth, Minimapcamera, width, length, planewidth);
+        RandomMaze.spawnPlayer(player, camera, resourceManager.Goal, enemySpawner, resourceManager.GUI, resourceManager.eventListener, startPos * planewidth, endPos, Minimapcamera, width, length, planewidth);
 		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Lighting torches...";
-		yield return new WaitForSeconds (0.1f);
-		RandomMaze.createSingleObjects (planewidth, enemySpawner, endPos, startPos);
+        //yield return new WaitForSeconds (0.1f);
+        //RandomMaze.createSingleObjects (planewidth, enemySpawner, endPos, startPos);
 
 		resourceManager.Nodes = Nodes;
 		LoadingScreen.SetActive (false);
@@ -1153,6 +1162,7 @@ public class LevelEditor : MonoBehaviour
 
                     but.GetComponentInChildren<Text>().text = dirFiles[i];
                     string fileName = dirFiles[i];
+                    
                     but.onClick.AddListener(delegate
                     {
                         selectFileName(but);
@@ -1174,7 +1184,7 @@ public class LevelEditor : MonoBehaviour
 	private void selectFileName (Button but)
 	{
         miniCamera.gameObject.SetActive(true);
-        if (currentButSelected != but)
+        if (!currentButtonsSelected.Contains(but))
         {
             if (!Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.RightControl))
             {
@@ -1212,14 +1222,21 @@ public class LevelEditor : MonoBehaviour
             if (currentButtonsSelected.Count == 0)
             {
                 currentButtonsSelected.Add(but);
-
             }
 
         }
         else
-        { //else. Load him.			
-            currentButSelected = null;
-            currentFileSelected = null;
+        {
+            if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
+            {
+                but.interactable = true;
+
+                currentButtonsSelected.Remove(but);
+                currentFilesSelected.Remove(but.GetComponentInChildren<Text>().text);
+
+                currentButSelected = null;
+                currentFileSelected = null;
+            }
         }
 
 	}

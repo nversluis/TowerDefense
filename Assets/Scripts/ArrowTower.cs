@@ -54,7 +54,7 @@ public class ArrowTower : MonoBehaviour {
 		bullet.transform.localPosition = new Vector3 (0, 3.8f - Mathf.Floor (Random.value * 8) * 1.075f, 3.775f - Mathf.Floor (Random.value * 8) * 1.075f);
 		bullet.transform.up = -transform.right;
 		bullet.GetComponent<Arrow> ().damagePerShot = transform.parent.gameObject.GetComponent<TowerStats> ().attack;
-		bullet.rigidbody.velocity = -transform.right*20;
+		bullet.rigidbody.velocity = -transform.right*100;
 	}
 
 
