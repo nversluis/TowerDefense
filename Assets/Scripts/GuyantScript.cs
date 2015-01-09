@@ -15,6 +15,8 @@ public class GuyantScript : MonoBehaviour
     GameObject goal;
     GameObject Target;
 
+    GoalScript goalScript;
+
     WayPoint collisionWayPointOld;
     WayPoint collisionWayPoint;
 
@@ -57,6 +59,7 @@ public class GuyantScript : MonoBehaviour
         // Finding the player and the goal
         player = GameObject.Find("Player");
         goal = GameObject.Find("Goal");
+        goalScript = goal.GetComponent<GoalScript>();
 
         // getting all variables from other scripts
         grid = resourceManager.Nodes;
@@ -182,7 +185,7 @@ public class GuyantScript : MonoBehaviour
             if ((goal.transform.position - transform.position).magnitude < 4f)
             {
                 // enemy has won
-                GoalScript.lives--;
+                goalScript.removeLife();
 
                 // destroy it
                 Destroy(this.gameObject);
@@ -291,11 +294,14 @@ public class GuyantScript : MonoBehaviour
             // for each waypoint from previous update set the penalty back to original
             foreach (WayPoint waypoint in WaypointsNearOld)
             {
+				try {
                 waypoint.setPenalty(waypoint.getPenalty() - penalty);
 
                 // if penalty is lower than 0 set it to 0
                 if (waypoint.getPenalty() < 0)
                     waypoint.setPenalty(0);
+				}
+				catch {}
             }
 
             // Find waypoints that are close
@@ -304,7 +310,10 @@ public class GuyantScript : MonoBehaviour
             // for each waypoint it is close to now set a penalty
             foreach (WayPoint waypoint in WaypointsNearNow)
             {
+				try{
                 waypoint.setPenalty(waypoint.getPenalty() + penalty);
+				}
+				catch{}
             }
 
             // set new waypoints to old for next update

@@ -74,6 +74,7 @@ GameObject:
   - 4: {fileID: 434150}
   - 95: {fileID: 9534142}
   - 54: {fileID: 5416256}
+  - 114: {fileID: 11423500}
   m_Layer: 0
   m_Name: Arrow
   m_TagString: Untagged
@@ -229,6 +230,19 @@ Animator:
   m_ApplyRootMotion: 1
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &11423500
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 134150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bfd075451b1de04d93d2bb45500121c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damagePerShot: 0
+  Boom: {fileID: 118676, guid: a0482cf96678abd44915a075ae5e157f, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
