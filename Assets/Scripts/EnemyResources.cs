@@ -9,5 +9,6 @@ public class EnemyResources : MonoBehaviour {
 	public float isSlowed;
     
     public int attackDamage;
+    public int totalDamage;
     
 }

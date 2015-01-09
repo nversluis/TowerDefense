@@ -225,10 +225,12 @@ public class WaveSpawner : MonoBehaviour
                     if (!allEnemiesSpawned)
                     {
                         nextGenFitness[i] = ((GameObject)(enemies[i])).GetComponent<EnemyStats>().fitness;
+                        //Debug.Log("nextGenFitness[" + i + "] = " + nextGenFitness[i]);
                     }
                     else
                     {
                         currentGenFitness[i] = ((GameObject)(enemies[i])).GetComponent<EnemyStats>().fitness;
+                        //Debug.Log("currentGenFitness[" + i + "] = " + currentGenFitness[i]);
                     }
                 }
 
