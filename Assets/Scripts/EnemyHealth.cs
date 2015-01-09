@@ -14,6 +14,7 @@ public class EnemyHealth : MonoBehaviour {
     public int startingHealth = 100;
     public int currentHealth;
 	public int defense;
+    public int magicDefense;
 	public EnemyStats enemyStats;
     public Vector3 spawnPosition;
     public Vector3 deathPosition;
@@ -45,6 +46,7 @@ public class EnemyHealth : MonoBehaviour {
 		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
         startingHealth = enemyStats.health*10;
         defense = enemyStats.defense;
+        magicDefense = enemyStats.magicDefense;
         currentHealth = startingHealth;
         deathPosition = new Vector3(0, 100, 0);
 		InvokeRepeating ("doPoisonDamage", 0, 5);
@@ -80,21 +82,28 @@ public class EnemyHealth : MonoBehaviour {
 
 	public void TakeDamage(int amount,string damageType)
     {
+        int damageDone = amount;
 		Color kleur;
-		if (damageType.Equals ("magic"))
-			kleur = Color.blue;
-		else if (damageType.Equals ("physical"))
-			kleur = Color.red;
-		else if (damageType.Equals ("poison"))
-			kleur = Color.green;
-		else
-			kleur = Color.black;
+        if (damageType.Equals("magic"))
+        {
+            kleur = Color.blue;
+            damageDone = amount / magicDefense;
+        }
+        else if (damageType.Equals("physical"))
+        {
+            kleur = Color.red;
+            damageDone = amount / defense;
+        }
+        else if (damageType.Equals("poison"))
+            kleur = Color.green;
+        else
+            kleur = Color.black;
         if (enemyResources.isDead)
         {
             return;
         }
-		int damageDone = amount / defense;
-		if (damageDone <= 1)
+
+        if (damageDone <= 1)
 			damageDone = 1;
 		currentHealth -= damageDone;
 		if (currentHealth < 0) {
