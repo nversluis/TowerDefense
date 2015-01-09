@@ -33,7 +33,7 @@ public class GuyantAttack : MonoBehaviour
     void Attack()
     {
         playerHealth.TakeDamage(attackDamage);
-        totalDamage += attackDamage;
+        enemyResources.totalDamage += attackDamage;
     }
 
     void Update()

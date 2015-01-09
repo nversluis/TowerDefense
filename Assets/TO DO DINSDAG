@@ -1,5 +1,6 @@
 TO DO DINSDAG
 
+Taimur
 - werkende timer tussen waves
 - genetisch algoritme
 
@@ -28,8 +29,9 @@ Job:
 - brug spawnpoint enemies
 
 Mees:
-- GUI elements maken
-- intro gamestudio / game in C4D
+- // GUI elements maken
+- //intro gamestudio 
+- intro WOTD
 - texturing enemies
 - // tileable terrain
-- animating sneaky enemy
+- // animating sneaky enemy

@@ -42,6 +42,8 @@ public class GuyantScript : MonoBehaviour
     bool drawPath;
     bool automaticPathUpdating;
 
+    bool justGaveInformation;
+
     public float isSlowed = 1;
 
     // Method for finding all necessary scripts
@@ -234,6 +236,23 @@ public class GuyantScript : MonoBehaviour
             {
                 Debug.DrawLine(Path2[k], Path2[k + 1], Color.red);
             }
+        }
+    }
+
+    void DeadPosition()
+    {
+        if (enemyResources.isDead && !justGaveInformation)
+        {
+            float distance = 0;
+            Target = goal;
+            Path = Navigator.Path(transform.position - new Vector3(0f, transform.position.y, 0f), Target.transform.position - new Vector3(0f, Target.transform.position.y, 0f), nodeSize, grid, dfactor);
+
+            for (int i = 0; i < Path.Count - 1; i++)
+            {
+                distance = distance + Vector3.Distance(Path[i], Path[i+1]);
+            }
+
+            enemyResources.dieDistance = distance;
         }
     }
 

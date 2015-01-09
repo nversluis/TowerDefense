@@ -7,11 +7,25 @@ public class MenuController : MonoBehaviour {
     public Animator startBtnAnim, quitBtnAnim, optionBtnAnim, editorBtnAnim, loadBtnAnim,optionPnlAnim;
     public GameObject optionPnl;
     public Slider slider1, slider2, slider3, slider4, slider5;
+    public AudioClip startGame;
+    public AudioClip click;
+    public GameObject mainCamera;
+    AudioSource cameraAudioSource;
+
     // Slider values
     float val1, val2, val3, val4, val5;
     float old1, old2, old3, old4, old5;
+    
+    public void ButtonClick()
+    {
+        cameraAudioSource.PlayOneShot(click);
+    }
 
     void Start() {
+
+        cameraAudioSource = mainCamera.GetComponent<AudioSource>();
+
+
         // Menu startup animation
         startBtnAnim.SetBool("Hidden", false);
         quitBtnAnim.SetBool("Hidden", false);
@@ -102,7 +116,13 @@ public class MenuController : MonoBehaviour {
         StartCoroutine(InactiveAfter(optionPnl, 1));
     }
 
-    public void LoadGame() {
+    public void LoadGameAudio() {
+        cameraAudioSource.PlayOneShot(startGame,5f);
+        Invoke("LoadGame", 1.802f);
+    }
+
+    public void LoadGame()
+    {
         Application.LoadLevel("Random Generate Level");
     }
 

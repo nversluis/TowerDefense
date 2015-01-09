@@ -48,7 +48,7 @@ public class PlayerHealth : MonoBehaviour {
     void Death()
     {
         isDead = true;
-        guiScript.EndGame("You Lose!");
+        guiScript.EndGame("You Lose!","Player");
 
         //Destroy(this.gameObject);
     }

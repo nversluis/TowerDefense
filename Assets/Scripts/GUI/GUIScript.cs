@@ -77,9 +77,12 @@ public class GUIScript : MonoBehaviour {
 
     [Header("Wave progress and Gate HP")]
     public Text waveText;
-    public RectTransform frontGateHPBar;
-    public RectTransform rearGateHPBar;
+    public Image frontGateHP;
+    public Image rearGateHP;
+    public Sprite[] HPSprites = new Sprite[3];
 
+    private RectTransform frontGateHPBar;
+    private RectTransform rearGateHPBar;
     private float fBufferedGateHP;
     private float rBufferedGateHP;
 
@@ -89,8 +92,20 @@ public class GUIScript : MonoBehaviour {
     private GoalScript goalScript;
     private WaveSpawner waveSpawner;
 
+    AudioSource cameraAudioSource;
+    public AudioClip click;
+
+    public void ButtonClick()
+    {
+        cameraAudioSource.PlayOneShot(click);
+    }
 	void Start () {
         /* Get private components */
+        
+        // Camera Auiodsource
+        cameraAudioSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
+
+
 
         // Skills
 
@@ -104,15 +119,18 @@ public class GUIScript : MonoBehaviour {
         foreach(Image im in towerIconList) {
             towerTextList.Add(im.GetComponentInChildren<Text>());
         }
+
+        // Gate HP Bars
+
+        frontGateHPBar = frontGateHP.GetComponent<RectTransform>();
+        rearGateHPBar = rearGateHP.GetComponent<RectTransform>();
         
         // Scripts
 
         playerScript = GameObject.Find("Player").GetComponent<PlayerController>();
         cameraScript = GameObject.Find("Main Camera").GetComponent<CameraController>();
         goalScript = GameObject.Find("Goal").GetComponent<GoalScript>();
-        //Debug.Log(GameObject.Find("EnemySpawner"));
-        //Debug.Log(GameObject.Find("ResourceManager").GetComponent<enemySpawner>().GetComponent<WaveSpawner>());
-       // waveSpawner = GameObject.Find("ResourceManager").GetComponent<enemySpawner>().GetComponent<WaveSpawner>();
+        waveSpawner = GameObject.Find("EnemySpawner(Clone)").GetComponent<WaveSpawner>();
 
         /* Initialize */
 
@@ -172,6 +190,7 @@ public class GUIScript : MonoBehaviour {
         UpdateFrontHP(goalScript.getLives(), goalScript.getMaxLives(), ref fBufferedGateHP, frontGateHPBar);
         UpdateRearHP(goalScript.getLives(), goalScript.getMaxLives(), ref rBufferedGateHP, rearGateHPBar);
         // UI Components
+        UpdateGateHPColor();
         UpdateCooldowns();
         UpdateScore();
         UpdateGold();
@@ -179,7 +198,7 @@ public class GUIScript : MonoBehaviour {
         UpdateTowers();
         UpdateItems();
         UpdateEnemyStats();
-        //UpdateWaveText();
+        UpdateWaveText();
 	}
 
     void Update() {
@@ -292,6 +311,19 @@ public class GUIScript : MonoBehaviour {
         waveText.text = waveSpawner.GetCurrentWave().ToString() + " of " + waveSpawner.GetMaxWave().ToString();
     }
 
+    void UpdateGateHPColor() {
+        float HPPercent = goalScript.getLives() / goalScript.getMaxLives();
+        if(HPPercent >= 0.66f) {
+            frontGateHP.sprite = HPSprites[0];
+        } 
+        else if(HPPercent >= 0.33f) {
+            frontGateHP.sprite = HPSprites[1];
+        }
+        else {
+            frontGateHP.sprite = HPSprites[2];
+        }
+    }
+
     public void UpdateTowers() {
         int currentTower = player.getTower();
 
@@ -367,7 +399,7 @@ public class GUIScript : MonoBehaviour {
         Application.LoadLevel("Main Menu");
     }
 
-    public void EndGame(string resultString) {
+    public void EndGame(string resultString, string reason = "none") {
         result.SetActive(true);
         resultText.text = resultString;
         resultScoreText.text = player.getScore().ToString();
@@ -375,6 +407,14 @@ public class GUIScript : MonoBehaviour {
         Screen.lockCursor = false;
         playerScript.enabled = false;
         cameraScript.enabled = false;
+        if(reason.Equals("Player")) {
+            frontPlayerHPBar.localScale = new Vector3(0, 1, 1);
+            rearPlayerHPBar.localScale = new Vector3(0, 1, 1);
+        }
+        else if(reason.Equals("Gate")) {
+            frontGateHPBar.localScale = new Vector3(0, 1, 1);
+            rearGateHPBar.localScale = new Vector3(0, 1, 1);
+        }
         Time.timeScale = 0;
     }
 
