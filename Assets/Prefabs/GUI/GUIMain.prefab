@@ -2684,8 +2684,12 @@ MonoBehaviour:
   enemyText: {fileID: 11402524}
   enemyPanel: {fileID: 158266}
   waveText: {fileID: 11482112}
-  frontGateHPBar: {fileID: 22420242}
-  rearGateHPBar: {fileID: 22420240}
+  frontGateHP: {fileID: 11420240}
+  rearGateHP: {fileID: 11420236}
+  HPSprites:
+  - {fileID: 21300000, guid: bceca475c1d219844aecd51b6244d34c, type: 3}
+  - {fileID: 21300000, guid: eea42e280309547ffb85d53da0ad2044, type: 3}
+  - {fileID: 21300000, guid: 03466d760feae4da0aabbbb1dc79af85, type: 3}
 --- !u!114 &11458206
 MonoBehaviour:
   m_ObjectHideFlags: 1
