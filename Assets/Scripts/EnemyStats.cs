@@ -99,7 +99,7 @@ public class EnemyStats : MonoBehaviour
 
     public float getFitness()
     {
-        return leeftijd;
+        return leeftijd + enemyResources.totalDamage / 100;
     }
 
     /// <summary>
