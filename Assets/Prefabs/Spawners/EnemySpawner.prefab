@@ -46,8 +46,8 @@ MonoBehaviour:
   toenameAantalEnemiesPerWave: 5
   maxX: .300000012
   maxZ: 0
-  timeBeforeFirstWave: 20
-  timeBetweenWaves: 10
+  allEnemiesSpawned: 0
+  timeBetweenWaves: 5
   currentTotalStatPoints: 150
   delta: 50
   spawnTime: .200000003
