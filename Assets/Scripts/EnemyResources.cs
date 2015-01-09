@@ -10,5 +10,6 @@ public class EnemyResources : MonoBehaviour {
     public float dieDistance;
     
     public int attackDamage;
+    public int totalDamage;
     
 }

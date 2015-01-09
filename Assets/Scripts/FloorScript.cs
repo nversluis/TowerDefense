@@ -26,16 +26,21 @@ public class FloorScript : MonoBehaviour
 	{
 		//Debug.Log (CameraController.hitObject.name);
 		if (gameObject == CameraController.hitObject) { //if the object you are looking at is the floor
-
-			if (gameObject.transform.childCount != 3) {
+			if (gameObject.transform.childCount != 2) {
 				WallScript.DestroyHotSpots ();//Destroy all hotspots
 			}
+			
 			GameObject TowerPrefab = WeaponController.curFloorTower;
 			if (TowerPrefab != null && gameObject.transform.childCount == 1) { 
 				float planeW = resourceManager.planewidth;
 				GameObject tower = (GameObject)Instantiate (TowerPrefab, transform.position + new Vector3 (0, planeW / 1000, 0), transform.rotation);
 				//tower.gameObject.transform.Rotate(270, 0, 0);
+
 				tower.gameObject.transform.localScale = new Vector3 (1, 1, 1) * planeW * 5;
+				if (TowerPrefab.name.Contains ("barricade")) {
+					tower.gameObject.transform.localScale /= 100/1.7f;
+					tower.tag = "TowerHotSpot";
+				}
 
 				float randHoek = 90 * Mathf.Floor (Random.value * 4);
 				tower.transform.RotateAround (transform.position, Vector3.up, randHoek);
@@ -60,12 +65,14 @@ public class FloorScript : MonoBehaviour
 				} else if (TowerPrefab.name.Contains ("Ice")) {
 					cost = resourceManager.costIceTrap;
 				} else if (TowerPrefab.name.Contains ("Spear")) {
-					//cost = resourceManager.costFireTrap;
+					//cost = resourceManager.costSpearTrap;
+				} else if (TowerPrefab.name.Contains ("arricade")) {
+					cost = resourceManager.costBarricade;
 				}
 
 				//tower.transform.GetChild (0).gameObject.renderer.material.shader = Shader.Find ("Transparent/Diffuse");
 				//tower.transform.GetChild (0).gameObject.renderer.
-				tower.transform.parent = gameObject.transform;			
+				tower.transform.parent = gameObject.transform;		
 			}
 			//Sell the trap
 			if (WeaponController.weapon == 50) {
@@ -110,7 +117,6 @@ public class FloorScript : MonoBehaviour
 
 		Destroy (gameObject.transform.GetChild (1).gameObject);
 		GUIScript.player.addGold (cost / 2);
-		GameObject.Find ("TowerPopup").SetActive (false);
 		WallScript.DestroyHotSpots();
 	}
 
