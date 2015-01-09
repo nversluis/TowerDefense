@@ -114,6 +114,7 @@ public class LevelEditor : MonoBehaviour
 
     public AudioClip click;
     public AudioClip startGame;
+    public AudioClip shhhh;
 
 
 	// Use this for initialization
@@ -943,7 +944,7 @@ public class LevelEditor : MonoBehaviour
 				resourceManager.endPos = endPos;
 				LoadingScreen.SetActive (true);
                 cameraAudioSource.PlayOneShot(startGame,5);
-				instance.StartCoroutine (instance.spawnLevel ());
+                Invoke("startSpawn", 1.802f);
                // spawnLevel();
 
 				resourceManager.Nodes = Nodes;
@@ -953,6 +954,10 @@ public class LevelEditor : MonoBehaviour
 			setErrorTekst ("Place end position!");
 
 	}
+
+    void startSpawn(){
+        instance.StartCoroutine (instance.spawnLevel ());
+    }
 
 
 
@@ -1234,6 +1239,7 @@ public class LevelEditor : MonoBehaviour
                     
                     but.onClick.AddListener(delegate
                     {
+                        cameraAudioSource.PlayOneShot(shhhh);
                         selectFileName(but);
                     });
                 }
@@ -1260,7 +1266,10 @@ public class LevelEditor : MonoBehaviour
 
                 foreach (Button button in loadButtons)
                 {
-                    button.interactable = true;
+                    ColorBlock cb = button.colors;
+                    cb.normalColor = new Color(1,1,1,0) ;
+                    button.colors = cb;
+
                 }
                 currentButSelected = but;
                 currentFileSelected = but.GetComponentInChildren<Text>().text;
@@ -1270,14 +1279,19 @@ public class LevelEditor : MonoBehaviour
 
                 loadMapFromFile(currentFileSelected);
 
-                but.interactable = false;
+                ColorBlock cblock = but.colors;
+                cblock.normalColor = new Color(0.5f, 0.5f, 0.5f, 1f);
+                but.colors = cblock;
 
             }
 
             else
             {
 
-                but.interactable = false;
+
+                ColorBlock cblock = but.colors;
+                cblock.normalColor = new Color(0.5f, 0.5f, 0.5f, 1f);
+                but.colors = cblock;
                 currentButtonsSelected.Add(but);
                 currentFilesSelected.Add(but.GetComponentInChildren<Text>().text);
 
@@ -1298,7 +1312,10 @@ public class LevelEditor : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
             {
-                but.interactable = true;
+
+                ColorBlock cblock = but.colors;
+                cblock.normalColor = new Color(1, 1, 1, 0);
+                but.colors = cblock;
 
                 currentButtonsSelected.Remove(but);
                 currentFilesSelected.Remove(but.GetComponentInChildren<Text>().text);
