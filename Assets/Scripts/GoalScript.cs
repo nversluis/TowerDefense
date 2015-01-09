@@ -32,8 +32,8 @@ public class GoalScript : MonoBehaviour {
 
         if (Lost)
         {
-           guiScript.EndGame("You Lose!");
             Lost = false;
+            Invoke("EndGame",0.1f);
         }
 	}
 
@@ -47,6 +47,12 @@ public class GoalScript : MonoBehaviour {
 
     public void removeLife() {
         lives -= 1;
+    }
+
+    void EndGame()
+    {
+        guiScript.EndGame("You Lose!");
+
     }
 
 }

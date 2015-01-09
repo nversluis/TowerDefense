@@ -85,7 +85,7 @@ public class LevelEditor : MonoBehaviour
 	public Button deleteButton;
     public GameObject saveMapPanel;
     public GameObject mainMenuButton;
-
+    AudioSource cameraAudioSource;
     bool mainMenu;
 
 	public GameObject LoadingScreen;
@@ -111,6 +111,9 @@ public class LevelEditor : MonoBehaviour
 	public static GameObject startPlane;
 	public static GameObject endPlane;
 	public static bool editing;
+
+    public AudioClip click;
+    public AudioClip startGame;
 
 
 	// Use this for initialization
@@ -157,12 +160,17 @@ public class LevelEditor : MonoBehaviour
         mapSaved = true;
         currentButtonsSelected = new List<Button>();
         currentFilesSelected = new List<string>();
+        cameraAudioSource = backGroundCamera.GetComponent<AudioSource>();
 
 		if (!File.Exists (AppPath)) {
 			Directory.CreateDirectory (AppPath);
 		}
 	}
 
+
+    public void ButtonClick(){
+        cameraAudioSource.PlayOneShot(click);
+    }
     // Method for the new map button
     public void NewMapButton()
     {
@@ -224,10 +232,34 @@ public class LevelEditor : MonoBehaviour
     // Method for the cancel Map button
     public void CancelSizeButton()
     {
-        // Deactivating new map panel and setting the minicamera depth higher so it is in front of the menu
-        newMapScreen.SetActive(false);
-        miniCamera.depth = 1;
-        editing = true;
+
+        if (mainMenu)
+        {
+            // Deactivating new map panel and setting the minicamera depth higher so it is in front of the menu
+            newMapScreen.SetActive(false);
+            miniCamera.depth = 1;
+            editing = false;
+        }
+        else
+        {
+            // Deactivating new map panel and setting the minicamera depth higher so it is in front of the menu
+            newMapScreen.SetActive(false);
+            miniCamera.depth = 1;
+            editing = true;
+
+            buildingBlocksPanel.SetActive(true);
+
+            mainMenuButton.SetActive(true);
+            newMapButton.gameObject.SetActive(true);
+            // Setting all necessary buttons active
+            foreach (GameObject button in buttons)
+            {
+                button.SetActive(true);
+            }
+
+            mainMenu = false;
+            editing = true;
+        }
     }
 
     // Method for the sub new map button
@@ -338,6 +370,7 @@ public class LevelEditor : MonoBehaviour
     public void SubmitSaveButton()
     {
         SavePositionsToFile(fileNameInput.text);
+        Debug.Log(fileNameInput.text + " saved");
         saveMapPanel.SetActive(false);
         editing = true;
         miniCamera.depth = 1;
@@ -380,6 +413,7 @@ public class LevelEditor : MonoBehaviour
 
             // save the position to this temporary file
             SavePositionsToFile(tempfilename, true);
+            Debug.Log(tempfilename+ " saved");
 
             miniCamera.depth = -10;
 
@@ -435,6 +469,8 @@ public class LevelEditor : MonoBehaviour
                 miniCamera.depth = 1;
                 editing = true;
                 deleteFile(tempfilename,true);
+                Debug.Log(tempfilename + " deleted");
+
 
 
 
@@ -442,7 +478,7 @@ public class LevelEditor : MonoBehaviour
             
 
         }
-        else
+        else if(!mainMenu)
         {
             // initial filename
             tempfilename = "temp";
@@ -459,6 +495,30 @@ public class LevelEditor : MonoBehaviour
                 else
                     tempfilename = tempfilename + Random.Range(0, 9);
             }
+            SavePositionsToFile(tempfilename);
+            Debug.Log(tempfilename + " saved");
+
+            currentFileSelected = tempfilename;
+            miniCamera.gameObject.SetActive(false);
+
+            Reset();
+            // show the saved maps
+            ShowSavedMaps();
+
+            editing = false;
+
+            buildingBlocksPanel.SetActive(false);
+
+            foreach (GameObject button in buttons)
+            {
+                button.SetActive(false);
+            }
+
+            newMapButton.gameObject.SetActive(false);
+            mainMenuButton.SetActive(false);
+        }
+        else
+        {
             miniCamera.gameObject.SetActive(false);
 
             Reset();
@@ -491,6 +551,8 @@ public class LevelEditor : MonoBehaviour
         {
             // Deleting the temporary file that was created for keeping the old map that was just created when the load map button was pressed
             deleteFile(tempfilename);
+            Debug.Log(tempfilename + " deleted");
+
         }
 
         if (mainMenu)
@@ -540,6 +602,8 @@ public class LevelEditor : MonoBehaviour
         if (currentFileSelected != null)
         {
             deleteFile(currentFileSelected,true);
+            Debug.Log(currentFileSelected + " deleted");
+
             ShowSavedMaps();
         }
         else if (currentFileSelected == null & currentFilesSelected.Count>0)
@@ -547,6 +611,8 @@ public class LevelEditor : MonoBehaviour
             foreach (Button button in currentButtonsSelected)
             {
                 deleteFile(button.GetComponentInChildren<Text>().text, true);
+                Debug.Log(button.GetComponentInChildren<Text>().text + " deleted");
+
             }
             currentButtonsSelected = new List<Button>();
             currentFilesSelected = new List<string>();
@@ -568,6 +634,8 @@ public class LevelEditor : MonoBehaviour
             loadMapFromFile(tempfilename);
             generateEditorMap(tempfilename, true);
             deleteFile(tempfilename, true);
+            Debug.Log(tempfilename + " deleted");
+
             editing = true;
 
             buildingBlocksPanel.SetActive(true);
@@ -874,6 +942,7 @@ public class LevelEditor : MonoBehaviour
 				resourceManager.startPos = startPos;
 				resourceManager.endPos = endPos;
 				LoadingScreen.SetActive (true);
+                cameraAudioSource.PlayOneShot(startGame,5);
 				instance.StartCoroutine (instance.spawnLevel ());
                // spawnLevel();
 
