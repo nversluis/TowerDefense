@@ -13,6 +13,7 @@ public class EnemyStats : MonoBehaviour
     public int health;
     public int attack;
     public int defense;
+    public int magicDefense;
     public float speedMultiplier;
     public float dfactor;
     public float goalImportance;
@@ -22,6 +23,7 @@ public class EnemyStats : MonoBehaviour
     public float healthDistributionFactor;
     public float attackDistributionFactor;
     public float defenseDistributionFactor;
+    public float magicDefenseDistributionFactor;
 
     public bool respawn = false;
     public int statsMutation = 1;
@@ -64,9 +66,10 @@ public class EnemyStats : MonoBehaviour
     public void generateenemyStats()
     {
 
-        this.health = (int)(healthDistributionFactor * totalStatPoints);
-        this.attack = (int)(attackDistributionFactor * totalStatPoints);
-        this.defense = (int)(defenseDistributionFactor * totalStatPoints);
+        this.health = (int)Mathf.Round(healthDistributionFactor * totalStatPoints);
+        this.attack = (int)Mathf.Round(attackDistributionFactor * totalStatPoints);
+        this.defense = (int)Mathf.Round(defenseDistributionFactor * totalStatPoints);
+        this.magicDefense = (int) Mathf.Round(magicDefenseDistributionFactor * totalStatPoints);
 
         this.speedMultiplier = Random.Range(0.90f, 1.10f);
         this.dfactor = Random.Range(0.05f, 0.80f);
@@ -79,27 +82,30 @@ public class EnemyStats : MonoBehaviour
         // Als enemy nog geen distributie heeft
         if (statDistribution.Count == 0)
         {
-            List<int> temp = randomNumberGenerator(3, 100);
+            List<int> temp = randomNumberGenerator(4, 100);
 
             this.healthDistributionFactor = (float)temp[0] / 100;
             this.attackDistributionFactor = (float)temp[1] / 100;
             this.defenseDistributionFactor = (float)temp[2] / 100;
+            this.magicDefenseDistributionFactor = (float)temp[3] / 100;
 
             statDistribution.Add(healthDistributionFactor);
             statDistribution.Add(attackDistributionFactor);
             statDistribution.Add(defenseDistributionFactor);
+            statDistribution.Add(magicDefenseDistributionFactor);
         }
         else
         {
             this.healthDistributionFactor = statDistribution[0];
             this.attackDistributionFactor = statDistribution[1];
             this.defenseDistributionFactor = statDistribution[2];
+            this.magicDefenseDistributionFactor = statDistribution[3];
         }
     }
 
     public float getFitness()
     {
-        return leeftijd;
+        return 3 * leeftijd + enemyResources.totalDamage / 100;
     }
 
     /// <summary>

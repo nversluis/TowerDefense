@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
     Vector3 startPosition;
 
     private LayerMask ignoreMaskBullet = ~((1 << 11) | (1 << 13));
-    private LayerMask ignoreMaskTraps = ~(1 << 13);
+    private LayerMask ignoreMaskTraps = ~(1 << 12);
 
     // Method for getting player input
     private Vector3 playerInput()

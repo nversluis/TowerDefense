@@ -11,6 +11,7 @@ public class KeyInputManager : MonoBehaviour {
 	public KeyCode tow4Input;
 	public KeyCode tow5Input;
 	public KeyCode tow6Input;
+	public KeyCode tow7Input;
 	public KeyCode upgradeMenuInput;
 	public KeyCode upgradeInput;
 	public KeyCode sellInput;
