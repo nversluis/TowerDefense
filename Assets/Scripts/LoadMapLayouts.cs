@@ -342,8 +342,6 @@ public class LoadMapLayouts : MonoBehaviour {
 
                 List<int> datas = new List<int>();
 
-                ArrayList positions = new ArrayList();
-
                 StreamReader file = new StreamReader(currentPath + fileName + ".txt");
 
                 file.ReadLine();
@@ -582,7 +580,7 @@ public class LoadMapLayouts : MonoBehaviour {
     {
         for (int i = 0; i < positions.Count; i++)
         { //get right sizes of the positions array
-            positions[i] = (Vector2)positions[i] / planewidth;
+            positions[i] = (Vector2)positions[i];
             Vector2 tempPos = (Vector2)positions[i];
             ResourceManager.mostNorth = Mathf.Max(ResourceManager.mostNorth, (int)tempPos.y);
             ResourceManager.mostEast = Mathf.Max(ResourceManager.mostEast, (int)tempPos.x);
