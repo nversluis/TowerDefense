@@ -41,6 +41,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxEnemies: 2
+  mutationProbability: .699999988
   spawning: 1
   keepDistribution: 0
   toenameAantalEnemiesPerWave: 5

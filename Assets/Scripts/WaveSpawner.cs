@@ -11,7 +11,9 @@ public class WaveSpawner : MonoBehaviour
     private GameObject EnemyGwarf;
     private GameObject EnemyGrobble;
 
-    public int maxEnemies = 15;
+    public int maxEnemies;
+    public float mutationProbability;
+
     public bool spawning = true;
     public bool keepDistribution = false;
 
@@ -36,7 +38,7 @@ public class WaveSpawner : MonoBehaviour
     public int timeBetweenWaves;
     private int waitTime;
 
-    public int currentTotalStatPoints ;
+    public int currentTotalStatPoints;
     public int delta;
 
     public float spawnTime; // in seconden
@@ -182,6 +184,7 @@ public class WaveSpawner : MonoBehaviour
             if (keepDistribution)
             {
                 enemyStats.statDistribution = getRouletteWheelDistribution();
+                enemyStats.mutate(mutationProbability);
                 enemyStats.generateDistribution();
             }
             enemyStats.generateenemyStats();
@@ -200,6 +203,7 @@ public class WaveSpawner : MonoBehaviour
             if (keepDistribution)
             {
                 enemyStats.statDistribution = getRouletteWheelDistribution();
+                enemyStats.mutate(mutationProbability);
                 enemyStats.generateDistribution();
             }
             enemyStats.generateenemyStats();
