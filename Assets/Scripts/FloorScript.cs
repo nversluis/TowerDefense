@@ -26,7 +26,7 @@ public class FloorScript : MonoBehaviour
 	{
 		//Debug.Log (CameraController.hitObject.name);
 		if (gameObject == CameraController.hitObject) { //if the object you are looking at is the floor
-			if (gameObject.transform.childCount != 2) {
+			if (gameObject.transform.childCount == 1) {
 				WallScript.DestroyHotSpots ();//Destroy all hotspots
 			}
 			
@@ -37,7 +37,7 @@ public class FloorScript : MonoBehaviour
 				//tower.gameObject.transform.Rotate(270, 0, 0);
 
 				tower.gameObject.transform.localScale = new Vector3 (1, 1, 1) * planeW * 5;
-				if (TowerPrefab.name.Contains ("barricade")) {
+				if (TowerPrefab.name.Contains ("arricade")) {
 					tower.gameObject.transform.localScale /= 100/1.7f;
 					tower.tag = "TowerHotSpot";
 				}
@@ -77,25 +77,31 @@ public class FloorScript : MonoBehaviour
 			//Sell the trap
 			if (WeaponController.weapon == 50) {
 				if (gameObject.transform.childCount == 2) { 
-					GameObject baseOfTrap = gameObject.transform.GetChild (1).Find ("Base").gameObject;
-					GameObject resTower = (GameObject)Instantiate (baseOfTrap, baseOfTrap.transform.position, baseOfTrap.transform.rotation);
-					resTower.gameObject.transform.localScale *=1.001f/2;
-					resTower.name = "blueTower";
-					resTower.gameObject.transform.parent = gameObject.transform;
-					resTower.tag = "TowerHotSpot";
-					foreach (Renderer child in resTower.GetComponentsInChildren<Renderer>()) {
-						child.material.color = new Color (0, 0, 255, 0.1f);
-						child.material.shader = Shader.Find ("Transparent/Diffuse");
+					GameObject baseOfTrap;
+					try {
+						baseOfTrap = gameObject.transform.GetChild (1).Find ("Base").gameObject;
+					
+						GameObject resTower = (GameObject)Instantiate (baseOfTrap, baseOfTrap.transform.position, baseOfTrap.transform.rotation);
+						resTower.gameObject.transform.localScale *= 1.001f / 2;
+						resTower.name = "blueTower";
+						resTower.gameObject.transform.parent = gameObject.transform;
+						resTower.tag = "TowerHotSpot";
+						foreach (Renderer child in resTower.GetComponentsInChildren<Renderer>()) {
+							child.material.color = new Color (0, 0, 255, 0.1f);
+							child.material.shader = Shader.Find ("Transparent/Diffuse");
+						}
+					} catch (System.Exception e) {
 					}
 				}
-				if (Input.GetKeyUp (inputManager.upgradeInput)) {
-					upgradeTower ();
+				if (gameObject.transform.childCount == 3) { 
+					if (Input.GetKeyDown (inputManager.upgradeInput)) {
+						upgradeTower ();
+					}
+					//upgrade the tower - todo
+					if (Input.GetKeyDown (inputManager.sellInput)) {
+						sellTower ();
+					}
 				}
-				//upgrade the tower - todo
-				if (Input.GetKeyUp (inputManager.sellInput)) {
-					sellTower ();
-				}
-
 				//bring up the menu to show ot sell or upgrade tower (with costs) and upgrade stats
 				//if (Input.GetMouseButtonDown (1)) {
 				//	showMenu ();
@@ -114,7 +120,6 @@ public class FloorScript : MonoBehaviour
 
 	private void sellTower ()
 	{
-
 		Destroy (gameObject.transform.GetChild (1).gameObject);
 		GUIScript.player.addGold (cost / 2);
 		WallScript.DestroyHotSpots();
