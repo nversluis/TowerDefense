@@ -94,7 +94,7 @@ public class RandomMaze : MonoBehaviour
 		GenerateWall (positions,planewidth,wallPrefab,torch,height,length,width,gameObject);
 		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Dwogres wanted a red carpet to walk on, generating..";
 		yield return new WaitForSeconds(0.1f);
-		Nodes=SpawnNodes (positions,nodeSize, planewidth, NodesPos, Nodes,length,width,drawNavigationGrid,false);
+		Nodes=SpawnNodes (positions,nodeSize, planewidth, Nodes,length,width,drawNavigationGrid,false);
 		LoadingScreen.GetComponentInChildren<Text>().text = "Loading: Giving birth to Player...=";
 		yield return new WaitForSeconds(0.1f);
         spawnPlayer(player, camera, resourceManager.Goal, enemySpawner, resourceManager.GUI, resourceManager.eventListener, startPos * planewidth, endPos, Minimapcamera, width, length, planewidth);
@@ -260,8 +260,10 @@ public class RandomMaze : MonoBehaviour
 	}
 
 	//Method to spawn nodes
-	public static List<WayPoint> SpawnNodes (ArrayList positions, float nodeSize, float planewidth, List<Vector3> NodesPos, List<WayPoint> Nodes,int length, int width, bool drawNavigationGrid, bool isLevelEdMap)
+	public static List<WayPoint> SpawnNodes (ArrayList positions, float nodeSize, float planewidth, List<WayPoint> Nodes,int length, int width, bool drawNavigationGrid, bool isLevelEdMap)
 	{
+        NodesPos = new List<Vector3>();
+
 		for (int i = 0; i < positions.Count; i++) {
 			Vector2 curPosi = (Vector2)positions [i];
 			float l = curPosi [0];

@@ -12,7 +12,7 @@ GameObject:
   - 65: {fileID: 6530946}
   - 114: {fileID: 11416586}
   m_Layer: 14
-  m_Name: barricade
+  m_Name: Barricade
   m_TagString: TowerHotSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

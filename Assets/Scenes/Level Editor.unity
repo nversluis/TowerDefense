@@ -700,7 +700,8 @@ MonoBehaviour:
   tow4Input: 52
   tow5Input: 53
   tow6Input: 54
-  upgradeMenuInput: 55
+  tow7Input: 55
+  upgradeMenuInput: 56
   upgradeInput: 323
   sellInput: 324
 --- !u!1 &214480156
@@ -1043,6 +1044,7 @@ MonoBehaviour:
   costIceTrap: 100
   costFireTrap: 100
   costPoisonTrap: 100
+  costBarricade: 50
   rewardenemy: 5
   rewardWave: 800
   planePrefab: {fileID: 100016, guid: eb0912c352095c645a4cc637dd9257b0, type: 2}
@@ -1080,6 +1082,7 @@ MonoBehaviour:
   iceTrap: {fileID: 100004, guid: 0c1d30373f75b41729f5e92345fc8692, type: 2}
   speedReduceRate: .5
   spearTrap: {fileID: 100004, guid: 78350e6548fc0ba4eb8337163c0d01b7, type: 2}
+  barricade: {fileID: 156962, guid: 57e98e7c5749344e3a8e883f7e62ed72, type: 2}
   magicTowerHotSpot: {fileID: 100008, guid: b7ee6a2fbe7fbaa45abbee1c40b0d49d, type: 2}
   arrowTowerHotSpot: {fileID: 108536, guid: 330ca6b6c1ad3cf45a532231b13140aa, type: 2}
   poisonTrapHotspot: {fileID: 100006, guid: 12ce532ee4226dc40afed8a28552da9e, type: 2}
