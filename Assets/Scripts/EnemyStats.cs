@@ -26,7 +26,9 @@ public class EnemyStats : MonoBehaviour
     public float magicDefenseDistributionFactor;
 
     public bool respawn = false;
-    public int statsMutation = 1;
+
+    // geeft aan hoeveel % de som van de stats maximaal mag veranderen
+    public int statMutation = 24;
 
     public int totalDamage;
     public float leeftijd;
@@ -69,7 +71,7 @@ public class EnemyStats : MonoBehaviour
         this.health = (int)Mathf.Round(healthDistributionFactor * totalStatPoints);
         this.attack = (int)Mathf.Round(attackDistributionFactor * totalStatPoints);
         this.defense = (int)Mathf.Round(defenseDistributionFactor * totalStatPoints);
-        this.magicDefense = (int) Mathf.Round(magicDefenseDistributionFactor * totalStatPoints);
+        this.magicDefense = (int)Mathf.Round(magicDefenseDistributionFactor * totalStatPoints);
 
         this.speedMultiplier = Random.Range(0.90f, 1.10f);
         this.dfactor = Random.Range(0.05f, 0.80f);
@@ -151,50 +153,118 @@ public class EnemyStats : MonoBehaviour
         return result;
     }
 
+    public void mutate(float mutationProbability)
+    {
+        float randomFloat = Random.Range(0.0f, 1.0f);
+        if (randomFloat <= mutationProbability)
+        {
+            mutateDistribution(4);
+        }
+    }
+
     /// <summary>
-    /// Muteert een enemy door x willekeurige stats te verhogen en n - x te verlagen
+    /// Muteert distributiefactoren van enemy
     /// </summary>
     /// <param name="n"></param> Het aantal stats van een enemy
-    /// <param name="delta"></param> De toename van een stat
-    public void mutate(int n)
+    public void mutateDistribution(int n)
     {
-        // Het aantal stats dat verhoogd moet worden
-        int aantal = Random.Range(1, n - 1);
-        List<int> verhoogIndices = new List<int>();
+        List<int> statMutations = randomNumberGenerator(n, statMutation);
 
-        for (int i = 0; i < aantal; i++)
+        // Tijdelijke oplossing...
+        while ( statDistribution[0] * 100 + statMutations[0] - statMutation / n > 99.9 || statDistribution[0] * 100 + statMutations[0] - statMutation / n < 0.1 ||
+                statDistribution[1] * 100 + statMutations[1] - statMutation / n > 99.9 || statDistribution[1] * 100 + statMutations[1] - statMutation / n < 0.1 ||
+                statDistribution[2] * 100 + statMutations[2] - statMutation / n > 99.9 || statDistribution[2] * 100 + statMutations[2] - statMutation / n < 0.1 ||
+                statDistribution[3] * 100 + statMutations[3] - statMutation / n > 99.9 || statDistribution[3] * 100 + statMutations[3] - statMutation / n < 0.1)
         {
-            // Bepaald welk index van stats verhoogd wordt
-            int index = Random.Range(0, n - 1);
-            verhoogIndices.Add(index);
+            statMutations = randomNumberGenerator(n, statMutation);
         }
 
-        List<int> verlaagIndices = new List<int>();
-
-        // Voegt de indices die niet voorkomen in verhoogIndices aan verlaagIndices toe
-        for (int i = 0; i < n - aantal; i++)
+        for (int i = 0; i < statMutations.Count; i++)
         {
-            int index = Random.Range(0, n - 1);
-            while (!verhoogIndices.Contains(index) && verlaagIndices.Count < n - aantal)
+            statMutations[i] -= statMutation / n;
+        }
+
+        List<float> DistributionMutation = new List<float>();
+
+        for (int i = 0; i < statMutations.Count; i++)
+        {
+            DistributionMutation.Add((float)statMutations[i] / 100);
+            //Debug.Log(DistributionMutation[i]);
+        }
+
+        for (int i = 0; i < statDistribution.Count; i++)
+        {
+            statDistribution[i] += DistributionMutation[i];
+            statDistribution[i] = Mathf.Round(statDistribution[i] * 100f) / 100f;
+        }
+
+    }
+
+    public int calculateMax(List<int> seq)
+    {
+        int maxValue = int.MinValue;
+
+        for (int i = 0; i < seq.Count; i++)
+        {
+            if (maxValue < seq[i])
             {
-                verlaagIndices.Add(index);
+                maxValue = seq[i];
             }
         }
+        return maxValue;
+    }
 
-        for (int i = 0; i < verhoogIndices.Count; i++)
+
+    public float calculateMax(List<float> seq)
+    {
+        float maxValue = int.MinValue;
+
+        for (int i = 0; i < seq.Count; i++)
         {
-            // Verhoog de stats 
-            stats[verhoogIndices[i]] += statsMutation;
+            if (maxValue < seq[i])
+            {
+                maxValue = seq[i];
+            }
         }
+        return maxValue;
+    }
 
-        // Bepaald hoeveel elk stat wordt verlaagd, de som van de statverlagingen is gelijk aan die van de statverhogingen
-        List<int> statverlaging = randomNumberGenerator(n - aantal, aantal * statsMutation);
+    public int calculateMin(List<int> seq)
+    {
+        int minValue = int.MaxValue;
 
-        for (int i = 0; i < verlaagIndices.Count; i++)
+        for (int i = 0; i < seq.Count; i++)
         {
-            // Verlaag de stats
-            stats[verlaagIndices[i]] -= statverlaging[i];
+            if (minValue > seq[i])
+            {
+                minValue = seq[i];
+            }
         }
+        return minValue;
+    }
+
+    public float calculateMin(List<float> seq)
+    {
+        float minValue = int.MaxValue;
+
+        for (int i = 0; i < seq.Count; i++)
+        {
+            if (minValue > seq[i])
+            {
+                minValue = seq[i];
+            }
+        }
+        return minValue;
+    }
+
+    public float getLowestFactor()
+    {
+        return calculateMin(statDistribution);
+    }
+
+    public float getHighestFactor()
+    {
+        return calculateMax(statDistribution);
     }
 
 }
