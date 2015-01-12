@@ -11,5 +11,7 @@ public class EnemyResources : MonoBehaviour {
     
     public int attackDamage;
     public int totalDamage;
+
+	public GameObject targetBarricade;
     
 }

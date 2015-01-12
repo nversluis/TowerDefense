@@ -136,7 +136,7 @@ public class ResourceManager : MonoBehaviour {
     public int towerKillsScore;
 
 
-
+	public List<GameObject> allBarricades;
 
 	void Start(){
 		playerData.addGold (startGold);
