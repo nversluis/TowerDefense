@@ -22,6 +22,7 @@ public class minimapCamera : MonoBehaviour {
 		maxNorth = (ResourceManager.mostNorth-6)*resourceManager.planewidth;
 		maxSouth = (ResourceManager.mostSouth+6)*resourceManager.planewidth;
 		maxWest = (ResourceManager.mostWest + 6) * resourceManager.planewidth;
+
 		//maxEast = 
 	}
 	
@@ -29,21 +30,21 @@ public class minimapCamera : MonoBehaviour {
 	void Update () {
 		float xOffset = player.transform.position.x;
 		float yOffset = player.transform.position.z;
-		if (xOffset > maxEast) {
-			xOffset = maxEast;
-		}
-		if (xOffset <= maxWest) {
-			xOffset = maxWest;
-		}
-		if (yOffset > maxNorth) {
-			yOffset = maxNorth;
-		}
-		if (yOffset <= maxSouth) {
-			yOffset = maxSouth;
-		}
+//		if (xOffset > maxEast) {
+//			xOffset = maxEast;
+//		}
+//		if (xOffset <= maxWest) {
+//			xOffset = maxWest;
+//		}
+//		if (yOffset > maxNorth) {
+//			yOffset = maxNorth;
+//		}
+//		if (yOffset <= maxSouth) {
+//			yOffset = maxSouth;
+//		}
 
 		transform.position = new Vector3 (xOffset, 50, yOffset);
-		gameObject.camera.pixelRect = new Rect (Screen.width-lengthMinimap, Screen.height-heightMinimap, lengthMinimap, heightMinimap);
+		//gameObject.camera.pixelRect = new Rect (Screen.width-lengthMinimap, Screen.height-heightMinimap, lengthMinimap, heightMinimap);
 		//gameObject.camera.rect = new Rect (0.5f, 0.5f, 0.5f, 0.5f);
 	}
 }
