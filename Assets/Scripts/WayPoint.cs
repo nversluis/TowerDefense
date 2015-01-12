@@ -10,7 +10,8 @@ public class WayPoint {
     private float g_cost = 0;
     private float f_cost = 0;
     private float penalty = 0;
-	private int numBarricades = 0;
+	private Vector3 barricade;
+	private int barricadeCount = 0;
 
     public WayPoint(Vector3 pos, string stt = "unexplored") {
         position = pos;
@@ -70,13 +71,25 @@ public class WayPoint {
         destinations.Add(node);
     }
 
-	public void setBarricade(int amount)
+	public void setBarricade(Vector3 obj)
 	{
-		numBarricades += amount;
+		barricade = obj;
+		barricadeCount += 1;
 	}
 
-	public int getBarricade()
+	public Vector3 getBarricade()
 	{
-		return numBarricades;
+		return barricade;
+	}
+
+	public void removeBarricade()
+	{
+		barricade = new Vector3 ();
+		barricadeCount -= 1;
+	}
+
+	public int getBarCount()
+	{
+		return barricadeCount;
 	}
 }

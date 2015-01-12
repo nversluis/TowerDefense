@@ -72,6 +72,8 @@ public class ResourceManager : MonoBehaviour {
 	public float speedReduceRate;
 	public GameObject spearTrap;
 	public GameObject barricade;
+	public int barricadeHealth;
+
 	[Header("Hotspots")]
 	public GameObject magicTowerHotSpot;
 	public GameObject arrowTowerHotSpot;
@@ -94,6 +96,8 @@ public class ResourceManager : MonoBehaviour {
 	[Header("Audio")]
 	public AudioClip magicBulletSound;
 	public AudioClip backgroundMusic;
+    public AudioClip headShot;
+    public AudioClip bulletHit;
 
 	[Header("HitSplash")]
 	public GameObject damageText;
@@ -131,6 +135,8 @@ public class ResourceManager : MonoBehaviour {
     public int playerKillsScore;
     public int towerKillsScore;
 
+
+	public List<GameObject> allBarricades;
 
 	void Start(){
 		playerData.addGold (startGold);

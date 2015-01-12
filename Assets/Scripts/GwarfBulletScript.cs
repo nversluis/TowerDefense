@@ -31,7 +31,10 @@ public class GwarfBulletScript : MonoBehaviour
             {
                 playerHealth.TakeDamage(damagePerShot);
                 enemyResources.totalDamage += damagePerShot;
-            }
+			} else if(hit.transform.gameObject.name.Contains("arricade")) {
+				hit.transform.gameObject.GetComponent<barricade> ().TakeDamage(damagePerShot);
+				enemyResources.totalDamage += damagePerShot;
+			}
         }
         PrevItLoc = transform.position;
     }

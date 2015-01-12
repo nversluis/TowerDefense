@@ -23,7 +23,7 @@ public class Navigator : MonoBehaviour
 		grid = resourceManager.Nodes;
 	}
 
-	public static List<Vector3> Path (Vector3 startPoint, Vector3 endPoint, float gridSize, List<WayPoint> grid, float D = 0.15f)
+	public static List<WayPoint> Path (Vector3 startPoint, Vector3 endPoint, float gridSize, List<WayPoint> grid, float D = 0.15f)
 	{
 
 		/** INITIALIZATION **/
@@ -60,7 +60,7 @@ public class Navigator : MonoBehaviour
 		openNodes.Clear ();
 
 		// Create a new (empty) route
-		List<Vector3> path = new List<Vector3> ();
+		List<WayPoint> path = new List<WayPoint> ();
 		// Create a new waypoint for the starting and end position
 		WayPoint startWP = new WayPoint (startPoint, "closed");
 		startWP.setGCost (0);
@@ -98,7 +98,7 @@ public class Navigator : MonoBehaviour
 
 		// Our current WP is the starting WP
 		WayPoint currentWP = startWP;
-		path.Add (currentWP.getPosition ());
+		path.Add (currentWP);
 
 		/** ROUTE CALCULATION **/
 		while (openDestinationsExist) {
@@ -127,7 +127,7 @@ public class Navigator : MonoBehaviour
 			// If the current waypoint is the endpoint, stop searching and build the route
 			if (CloseEnoughToDestination (currentWP, endPoint, gridSize)) {
 				endWP.setPrevious (currentWP);
-				path = ReconstructPath (startPoint, endWP);
+				path = ReconstructPath (startPoint, endWP, startWP);
 				openDestinationsExist = false;
 				break;
 			}
@@ -162,7 +162,6 @@ public class Navigator : MonoBehaviour
 		//float timeSpent = Time.realtimeSinceStartup - startTime;
 		//Debug.Log("Time spent calculating:" + timeSpent);
 		/* DEBUG */
-
 		return path;
 	}
 
@@ -224,16 +223,16 @@ public class Navigator : MonoBehaviour
 	}
 
 	// Function that can reconstruct the path from an A* route
-	static List<Vector3> ReconstructPath (Vector3 startPos, WayPoint endWP)
+	static List<WayPoint> ReconstructPath (Vector3 startPos, WayPoint endWP, WayPoint startWP)
 	{
-		List<Vector3> bestPath = new List<Vector3> ();
+		List<WayPoint> bestPath = new List<WayPoint> ();
 		WayPoint currWP = endWP;
 		while (true) {
 			if (currWP.getPosition () == startPos) {
-				bestPath.Insert (0, startPos);
+				bestPath.Insert (0, startWP);
 				break;
 			}
-			bestPath.Insert (0, currWP.getPosition ());
+			bestPath.Insert (0, currWP);
 			/* DEBUG */
 			//float temp = Time.realtimeSinceStartup;
 			//Debug.DrawLine(currWP.getPosition(), currWP.getPrevious().getPosition(), Color.blue, 2, false);

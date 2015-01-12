@@ -878,6 +878,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackDamage: 1
   playerDistance: 0
+  damageMultiplier: 20
   totalDamage: 0
   player: {fileID: 0}
   invoked: 0
@@ -895,6 +896,7 @@ MonoBehaviour:
   startingHealth: 100
   currentHealth: 0
   defense: 0
+  magicDefense: 0
   enemyStats: {fileID: 0}
   spawnPosition: {x: 0, y: 0, z: 0}
   deathPosition: {x: 0, y: 0, z: 0}
@@ -911,17 +913,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c928c7d5088d06b4cb70a96bac54f291, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  statDistribution: []
   totalStatPoints: 100
   health: 0
   attack: 0
   defense: 0
+  magicDefense: 0
   speedMultiplier: 0
   dfactor: 0
   goalImportance: 0
   playerImportance: 0
+  healthDistributionFactor: 0
+  attackDistributionFactor: 0
+  defenseDistributionFactor: 0
+  magicDefenseDistributionFactor: 0
   respawn: 0
-  statsMutation: 1
+  statMutation: 24
   totalDamage: 0
+  leeftijd: 0
+  goalDistance: 0
+  fitness: 0
+  factorTime: 3
+  factorDamage: .00499999989
+  factorGateDistance: 300
+  factorHitGoal: 10
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -949,7 +964,9 @@ MonoBehaviour:
   attacking: 0
   isDead: 0
   isSlowed: 0
+  dieDistance: 0
   attackDamage: 0
+  totalDamage: 0
 --- !u!114 &11497822
 MonoBehaviour:
   m_ObjectHideFlags: 1

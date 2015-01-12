@@ -14,6 +14,7 @@ public class WaveSpawner : MonoBehaviour
     public int maxEnemies;
     public float mutationProbability;
 
+    private int indexOfCurrentGen;
     public bool spawning = true;
     public bool keepDistribution = false;
 
@@ -33,6 +34,7 @@ public class WaveSpawner : MonoBehaviour
     private bool gameHasStarted = false;
     bool Won;
     public bool allEnemiesSpawned = false;
+    public bool allEnemiesDead = false;
 
     private float timer;
     public int timeBetweenWaves;
@@ -80,10 +82,10 @@ public class WaveSpawner : MonoBehaviour
         {
             if (!gameHasStarted)
             {
-            //    Debug.Log("Press enter to start the waves");
+                //    Debug.Log("Press enter to start the waves");
             }
 
-            UpdateenemyCount();
+            UpdateCount();
 
             if (spawning)
             {
@@ -129,12 +131,15 @@ public class WaveSpawner : MonoBehaviour
                         allEnemiesSpawned = true;
                         spawning = false;
                         keepDistribution = true;
+
                         currentGenDistributions.Clear();
                         currentGenDistributions = new List<List<float>>(nextGenDistributions);
                         nextGenDistributions.Clear();
+
                         currentGenFitness.Clear();
                         currentGenFitness = new List<float>(nextGenFitness);
                         nextGenFitness.Clear();
+
                         timer = 0;
                     }
                 }
@@ -225,7 +230,7 @@ public class WaveSpawner : MonoBehaviour
                     // Verwijder een enemy uit de lijst van enemies als die dood is
                     enemies.Remove(enemies[i]);
                 }
-                else 
+                else
                 {
                     if (!allEnemiesSpawned)
                     {
@@ -241,6 +246,46 @@ public class WaveSpawner : MonoBehaviour
 
             }
         }
+    }
+
+    void UpdateCount()
+    {
+        if (enemies.Count > 0)
+        {
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                if ((GameObject)(enemies[i]) != null)
+                {
+                    if (!allEnemiesSpawned)
+                    {
+                        nextGenFitness[i] = ((GameObject)(enemies[i])).GetComponent<EnemyStats>().fitness;
+                        //Debug.Log("nextGenFitness[" + i + "] = " + nextGenFitness[i]);
+                    }
+                    else
+                    {
+                        currentGenFitness[i] = ((GameObject)(enemies[i])).GetComponent<EnemyStats>().fitness;
+                        //Debug.Log("currentGenFitness[" + i + "] = " + currentGenFitness[i]);
+                    }
+                }
+            }
+            if (AllEnemiesDead())
+            {
+                enemies.Clear();
+            }
+        }
+    }
+
+    bool AllEnemiesDead()
+    {
+        int aantal = 0;
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            if ((GameObject)(enemies[i]) == null)
+            {
+                aantal++;
+            }
+        }
+        return (aantal == maxEnemies);
     }
 
     public List<float> getRandomDistribution()
@@ -265,7 +310,7 @@ public class WaveSpawner : MonoBehaviour
         }
 
         randomFloat = Random.Range(0.0f, 1.0f) * chances[chances.Count - 1];
-        int indexOfCurrentGen = 0;
+        indexOfCurrentGen = 0;
         while (randomFloat > chances[indexOfCurrentGen])
         {
             indexOfCurrentGen++;
@@ -284,7 +329,7 @@ public class WaveSpawner : MonoBehaviour
         {
             if (currentGenFitness[i] > maxValue)
             {
-                maxValue = currentGenFitness[i]; 
+                maxValue = currentGenFitness[i];
             }
         }
         index = currentGenFitness.IndexOf(maxValue);
@@ -294,11 +339,13 @@ public class WaveSpawner : MonoBehaviour
     }
 
 
-    public int GetCurrentWave() {
+    public int GetCurrentWave()
+    {
         return currentWave;
     }
 
-    public int GetMaxWave() {
+    public int GetMaxWave()
+    {
         return maxWaves;
     }
 

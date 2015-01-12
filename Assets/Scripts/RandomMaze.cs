@@ -44,6 +44,12 @@ public class RandomMaze : MonoBehaviour
 	public static List<WayPoint> Nodes;
 	//List with all Nodes
     private static bool drawNavigationGrid;
+    AudioSource cameraAudioSource;
+    public AudioClip startGame;
+    public GameObject mainCamera;
+
+
+
 
 
 
@@ -53,7 +59,7 @@ public class RandomMaze : MonoBehaviour
 	//Use this for initialization
 	void Awake ()
 	{
-		LoadingScreen.SetActive (true);
+        cameraAudioSource = mainCamera.GetComponent<AudioSource>();
 		ResourceManagerObj = GameObject.Find ("ResourceManager");
 		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
 		length = resourceManager.length;
@@ -80,10 +86,23 @@ public class RandomMaze : MonoBehaviour
 		positions = new ArrayList ();
 		NodesPos = new List<Vector3> ();
 		Nodes = new List<WayPoint> ();
-		StartCoroutine (spawnLevel());
+        LoadingScreen.SetActive(true);
+
+        cameraAudioSource.PlayOneShot(startGame, 5f);
+
+        Invoke("LevelSpawner", 1.802f);
 	}
 
+    void LevelSpawner()
+    {
+
+        StartCoroutine(spawnLevel());
+
+    }
+
 	IEnumerator spawnLevel(){
+
+        Destroy(mainCamera);
 		LoadingScreen.GetComponentInChildren<Text>().text = "Loading: Building a castle..";
         //Time.timeScale = 1;
         yield return new WaitForSeconds(0.1f);

@@ -31,11 +31,13 @@ public class GUIScript : MonoBehaviour {
 
     private List<Text> skillTextList = new List<Text>();
     private List<Text> skillCooldownList = new List<Text>();
+    private List<Image> skillSelectList = new List<Image>();
 
     [Header("Tower icons")]
     public Image[] towerIconList = new Image[7];
 
     private List<Text> towerTextList = new List<Text>();
+    private List<Image> towerSelectList = new List<Image>();
 
     [Header("Item icons")]
     public Image[] itemIconList = new Image[4];
@@ -43,7 +45,7 @@ public class GUIScript : MonoBehaviour {
     public Sprite[] tier1 = new Sprite[4];
     public Sprite[] tier2 = new Sprite[4];
     public Sprite[] tier3 = new Sprite[4];
-    public Sprite[] tier4 = new Sprite[4]; 
+    public Sprite[] tier4 = new Sprite[4];
 
     [Header("Pause menu canvas")]
     public GameObject canvas;
@@ -51,14 +53,16 @@ public class GUIScript : MonoBehaviour {
 
     [Header("Result screen canvas")]
     public GameObject result;
+    public Image resultImage;
+    public Sprite[] resultSprites = new Sprite[2];
 
     [Header("Crosshair")]
     public GameObject crosshair;
     public Text resultText;
-    public Text resultScoreText; 
+    public Text resultScoreText;
 
-	[Header("Tower Popup")]
-	public GameObject TowerPopup;
+    [Header("Tower Popup")]
+    public GameObject TowerPopup;
 
     [Header("Enemy Popup")]
     public Image enemyFace;
@@ -86,22 +90,29 @@ public class GUIScript : MonoBehaviour {
     private float fBufferedGateHP;
     private float rBufferedGateHP;
 
+    [Header("First Wave Text")]
+    public Text firstWaveText;
+
+    private bool firstWaveStarted;
+    private string shiftDir;
+
+    [Header("Headshot Image")]
+    public GameObject headshotImage;
+
+    [Header("Click sound")]
+    public AudioClip click;
+
+    AudioSource cameraAudioSource;
+
     // Scripts
     private PlayerController playerScript;
     private CameraController cameraScript;
     private GoalScript goalScript;
     private WaveSpawner waveSpawner;
 
-    AudioSource cameraAudioSource;
-    public AudioClip click;
-
-    public void ButtonClick()
-    {
-        cameraAudioSource.PlayOneShot(click);
-    }
-	void Start () {
+    void Start() {
         /* Get private components */
-        
+
         // Camera Auiodsource
         cameraAudioSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
 
@@ -112,19 +123,21 @@ public class GUIScript : MonoBehaviour {
         foreach(Image im in skillIconList) {
             skillTextList.Add(im.transform.FindChild("Key").GetComponent<Text>());
             skillCooldownList.Add(im.transform.FindChild("Cooldown").GetComponent<Text>());
+            skillSelectList.Add(im.transform.parent.FindChild("Select").GetComponent<Image>());
         }
 
         // Towers
 
         foreach(Image im in towerIconList) {
             towerTextList.Add(im.GetComponentInChildren<Text>());
+            towerSelectList.Add(im.transform.FindChild("Select").GetComponent<Image>());
         }
 
         // Gate HP Bars
 
         frontGateHPBar = frontGateHP.GetComponent<RectTransform>();
         rearGateHPBar = rearGateHP.GetComponent<RectTransform>();
-        
+
         // Scripts
 
         playerScript = GameObject.Find("Player").GetComponent<PlayerController>();
@@ -140,7 +153,7 @@ public class GUIScript : MonoBehaviour {
             im.color = new Color(150f / 255f, 150f / 255f, 150f / 255f, 180f / 255f);
         }
 
-        for(int i = 0; i < skillTextList.Count; i++){
+        for(int i = 0; i < skillTextList.Count; i++) {
             Text tx = skillTextList[i];
             tx.text = (i + 1).ToString();
         }
@@ -149,11 +162,19 @@ public class GUIScript : MonoBehaviour {
             tx.enabled = false;
         }
 
+        foreach(Image im in skillSelectList){
+            im.enabled = false;
+        }
+
         // Towers
         for(int i = 0; i < towerTextList.Count; i++) {
             Text tx = towerTextList[i];
             tx.enabled = true;
             tx.text = (i + 1).ToString();
+        }
+
+        foreach(Image im in towerSelectList){
+            im.enabled = false;
         }
 
         // Pause menu
@@ -179,9 +200,17 @@ public class GUIScript : MonoBehaviour {
         fBufferedGateHP = 0;
         rBufferedGateHP = 0;
 
-	}
-	
-	void FixedUpdate () {
+        // Starting Text
+        firstWaveText.enabled = true;
+        firstWaveText.color = new Color(1, 1, 1, 1);
+        firstWaveStarted = false;
+        shiftDir = "down";
+
+        // Headshot image
+        headshotImage.SetActive(false);
+    }
+
+    void FixedUpdate() {
         // Update variables that need to be updated frequently
         // Player HP
         UpdateFrontHP(player.getCurrentHP(), player.getMaxHP(), ref fPlayerBufferedHP, frontPlayerHPBar);
@@ -195,16 +224,27 @@ public class GUIScript : MonoBehaviour {
         UpdateScore();
         UpdateGold();
         UpdateStats();
-        UpdateTowers();
+        UpdateSelection();
         UpdateItems();
         UpdateEnemyStats();
         UpdateWaveText();
-	}
+    }
 
     void Update() {
         // Pause menu behaviour
         if(Input.GetKeyDown("escape")) {
             PauseGame();
+        }
+
+        if(!firstWaveStarted && Input.GetKeyDown("return")) {
+            firstWaveText.enabled = false;
+        }
+        else if(!firstWaveStarted) {
+            TextColorShift(firstWaveText);
+        }
+
+        if(Input.GetKeyDown("tab")) {
+            player.setTowerSelected(!player.getTowerSelected());
         }
 
         scoreText.text = Statistics.Score().ToString();
@@ -253,7 +293,7 @@ public class GUIScript : MonoBehaviour {
         }
     }
 
-    void UpdateFrontHP(float currentHP, float maxHP,ref float bufferedHP, RectTransform frontBar) {
+    void UpdateFrontHP(float currentHP, float maxHP, ref float bufferedHP, RectTransform frontBar) {
 
         if(bufferedHP < currentHP) {
             if(System.Math.Abs(bufferedHP - currentHP) < (maxHP / 1000f)) {
@@ -269,7 +309,7 @@ public class GUIScript : MonoBehaviour {
         frontBar.localScale = new Vector3((bufferedHP / maxHP), 1, 1);
     }
 
-    void UpdateRearHP(float currentHP, float maxHP,ref float bufferedHP, RectTransform rearBar) {
+    void UpdateRearHP(float currentHP, float maxHP, ref float bufferedHP, RectTransform rearBar) {
 
         if(bufferedHP > currentHP) {
             if(System.Math.Abs(bufferedHP - currentHP) < (maxHP / 1000f)) {
@@ -318,7 +358,7 @@ public class GUIScript : MonoBehaviour {
         float HPPercent = goalScript.getLives() / goalScript.getMaxLives();
         if(HPPercent >= 0.66f) {
             frontGateHP.sprite = HPSprites[0];
-        } 
+        }
         else if(HPPercent >= 0.33f) {
             frontGateHP.sprite = HPSprites[1];
         }
@@ -327,18 +367,77 @@ public class GUIScript : MonoBehaviour {
         }
     }
 
-    public void UpdateTowers() {
-        int currentTower = player.getTower();
+    void TextColorShift(Text text) {
 
-        for(int i = 0; i < towerIconList.Length; i++) {
-            Image tower = towerIconList[i];
-            if(i == currentTower){
-                tower.color = new Color(1, 1, 1, 0.75f);
+        if(shiftDir.Equals("down")) {
+            if(text.color.r > 0.01f) {
+                text.color = text.color - new Color(0.01f, 0, 0, 0);
+            }
+            else if(text.color.g > 0.01f) {
+                text.color = text.color - new Color(0, 0.01f, 0, 0);
+            }
+            else if(text.color.b > 0.01f) {
+                text.color = text.color - new Color(0, 0, 0.01f, 0);
             }
             else {
-                tower.color = new Color(1, 1, 1, 1);
+                shiftDir = "up";
             }
         }
+        else {
+            if(text.color.r < 1) {
+                text.color = text.color + new Color(0.01f, 0, 0, 0);
+            }
+            else if(text.color.g < 1) {
+                text.color = text.color + new Color(0, 0.01f, 0, 0);
+            }
+            else if(text.color.b < 1) {
+                text.color = text.color + new Color(0, 0, 0.01f, 0);
+            }
+            else {
+                shiftDir = "down";
+            }
+        }
+    }
+
+    public void ButtonClick() {
+        cameraAudioSource.PlayOneShot(click);
+    }
+
+    public void UpdateSelection() {
+        bool towerSelected = player.getTowerSelected();
+        int currentTower = player.getTower();
+        int currentSkill = player.getSkill();
+
+        if(towerSelected) {
+            for(int i = 0; i < towerIconList.Length; i++) {
+                Image tower = towerIconList[i];
+                if(i == currentTower) {
+                    towerSelectList[i].enabled = true;
+                }
+                else {
+                    towerSelectList[i].enabled = false;
+                }
+            }
+            foreach(Image im in skillSelectList){
+                im.enabled = false;
+            }
+        }
+        else {
+            for(int i = 0; i < skillIconList.Length; i++) {
+                Image skill = skillIconList[i];
+                if(i == currentSkill) {
+                    skillSelectList[i].enabled = true;
+                }
+                else {
+                    skillSelectList[i].enabled = false;
+                }
+            }
+            foreach(Image im in towerSelectList) {
+                im.enabled = false;
+            }
+        }
+
+
     }
 
     public void UpdateItems() {
@@ -402,28 +501,40 @@ public class GUIScript : MonoBehaviour {
         Application.LoadLevel("Main Menu");
     }
 
-    public void EndGame(string resultString, string reason = "none") {
+    public void EndGame(string reason = "none") {
         result.SetActive(true);
-        resultText.text = resultString;
         resultScoreText.text = player.getScore().ToString();
         Screen.showCursor = true;
         Screen.lockCursor = false;
         playerScript.enabled = false;
         cameraScript.enabled = false;
         if(reason.Equals("Player")) {
+            resultImage.sprite = resultSprites[1];
             frontPlayerHPBar.localScale = new Vector3(0, 1, 1);
             rearPlayerHPBar.localScale = new Vector3(0, 1, 1);
         }
         else if(reason.Equals("Gate")) {
+            resultImage.sprite = resultSprites[1];
             frontGateHPBar.localScale = new Vector3(0, 1, 1);
             rearGateHPBar.localScale = new Vector3(0, 1, 1);
+        }
+        else {
+            resultImage.sprite = resultSprites[0];
         }
         Time.timeScale = 0;
     }
 
-	public GameObject getPopUpPanel()
-	{
-		return TowerPopup;
-	}
+    public GameObject getPopUpPanel() {
+        return TowerPopup;
+    }
+
+    public void HeadShot() {
+        headshotImage.SetActive(true);
+        Invoke("DisableHeadShot", 1.5f);
+    }
+
+    void DisableHeadShot() {
+        headshotImage.SetActive(false);
+    }
 
 }

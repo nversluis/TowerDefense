@@ -285,11 +285,11 @@ AudioSource:
   m_GameObject: {fileID: 45648770}
   m_Enabled: 1
   serializedVersion: 3
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: ca801931ce5296e45b39fbcd9fa4b899, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Priority: 128
   DopplerLevel: 1
@@ -1110,6 +1110,15 @@ MonoBehaviour:
   connected: {r: 0, g: 1, b: 0, a: 1}
   notConnected: {r: 1, g: 0, b: 0, a: 1}
   highlighted: {r: .397058845, g: .476065159, b: 1, a: .282352954}
+  killsScore: 0
+  guyantKillsScore: 20
+  gwarfKillsScore: 20
+  grobbleKillsScore: 20
+  headshotsScore: 40
+  killStreakScore: 100
+  headShotStreakScore: 200
+  playerKillsScore: 20
+  towerKillsScore: 10
 --- !u!4 &285136679
 Transform:
   m_ObjectHideFlags: 0
@@ -1695,6 +1704,7 @@ MonoBehaviour:
   m_Script: {fileID: 1301386320, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Priority: 3
   ignoreReversedGraphics: 1
   blockingObjects: 0
   m_BlockingMask:
@@ -6214,6 +6224,14 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 8248320, guid: fef73c0f8e9eb834990272028936caed, type: 2}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: ca801931ce5296e45b39fbcd9fa4b899, type: 3}
+    - target: {fileID: 8248320, guid: fef73c0f8e9eb834990272028936caed, type: 2}
+      propertyPath: Loop
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fef73c0f8e9eb834990272028936caed, type: 2}
   m_RootGameObject: {fileID: 45648770}
@@ -8014,6 +8032,7 @@ MonoBehaviour:
   m_Script: {fileID: 1301386320, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Priority: 3
   ignoreReversedGraphics: 0
   blockingObjects: 0
   m_BlockingMask:

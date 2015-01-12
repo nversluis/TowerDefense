@@ -34,6 +34,7 @@ public class LoadMapLayouts : MonoBehaviour {
     public AudioClip shhhh;
     public AudioClip click;
     public AudioClip startGame;
+    public AudioClip tab;
 
     string customMapsPath;
     string predefinedMapsPath;
@@ -118,6 +119,11 @@ public class LoadMapLayouts : MonoBehaviour {
     public void ButtonClick()
     {
         cameraAudioSource.PlayOneShot(click);
+    }
+
+    public void TabClick()
+    {
+        cameraAudioSource.PlayOneShot(tab);
     }
 
     public void PredefinedButton1(Button predefinedbutton)

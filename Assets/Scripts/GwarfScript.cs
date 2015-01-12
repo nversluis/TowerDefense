@@ -14,6 +14,7 @@ public class GwarfScript : MonoBehaviour
     GameObject player;
     GameObject goal;
     GameObject Target;
+	List<Vector3> barricades;
 
     GoalScript goalScript;
 
@@ -163,13 +164,21 @@ public class GwarfScript : MonoBehaviour
             // if the player is near the enemy attack the player
             if ((player.transform.position - transform.position).magnitude < 30f && Target.Equals(player) && hit.transform.name == "Player")
             {
-
                 // set speed to zero and attack
                 rigidbody.velocity = Vector3.zero;
                 enemyResources.walking = false;
                 enemyResources.attacking = true;
             }
 
+			// if the enemy is near the trap attack the trap
+			foreach (Vector3 barricade in barricades) {
+				if ((barricade - transform.position).magnitude < 30f) {
+					// set speed to zero and attack
+					rigidbody.velocity = Vector3.zero;
+					enemyResources.walking = false;
+					enemyResources.attacking = true;
+				}
+			}
             // when enemy is dead
             if (enemyResources.isDead)
             {
@@ -213,8 +222,14 @@ public class GwarfScript : MonoBehaviour
         // when automatic path updating is off and q is pressed the path is updated
         if (Input.GetKeyDown(KeyCode.Q) && !automaticPathUpdating)
         {
-            Path = Navigator.Path(transform.position, PlayerController.location, nodeSize, grid);
-            i = 0;
+            List<WayPoint> WPPath = Navigator.Path(transform.position, PlayerController.location, nodeSize, grid);
+			if (WPPath != null) {
+				Path = new List<Vector3> ();
+				foreach (WayPoint wp in WPPath) {
+					Path.Add (wp.getPosition ());
+				}
+			}
+			i = 0;
         }
 
         // When draw path is enabled draw the path with own dfactor
@@ -280,12 +295,28 @@ public class GwarfScript : MonoBehaviour
         if (!enemyResources.isDead)
         {
             // determine a path to a goal
-            Path = Navigator.Path(transform.position - new Vector3(0f, transform.position.y, 0f), Target.transform.position - new Vector3(0f, Target.transform.position.y, 0f), nodeSize, grid, dfactor);
-            // if drawPath is enabled also calculate a second path without dfactor
+            List<WayPoint> WPPath = Navigator.Path(transform.position - new Vector3(0f, transform.position.y, 0f), Target.transform.position - new Vector3(0f, Target.transform.position.y, 0f), nodeSize, grid, dfactor);
+			barricades = new List<Vector3>();
+			if (WPPath != null) {
+				Path = new List<Vector3> ();
+				foreach (WayPoint wp in WPPath) {
+					Path.Add (wp.getPosition ());
+					if (wp.getBarCount () > 0) {
+						barricades.Add(wp.getBarricade ());
+					}
+				}
+			}
+			// if drawPath is enabled also calculate a second path without dfactor
             if (drawPath)
             {
-                Path2 = Navigator.Path(transform.position - new Vector3(0f, transform.position.y, 0f), Target.transform.position - new Vector3(0f, Target.transform.position.y, 0f), nodeSize, grid);
-            }
+                List<WayPoint> WPPath2 = Navigator.Path(transform.position - new Vector3(0f, transform.position.y, 0f), Target.transform.position - new Vector3(0f, Target.transform.position.y, 0f), nodeSize, grid);
+				if (WPPath2 != null) {
+					Path2 = new List<Vector3> ();
+					foreach (WayPoint wp in WPPath2) {
+						Path2.Add (wp.getPosition ());
+					}
+				}
+			}
 
             // set i back to 0;
             i = 0;
