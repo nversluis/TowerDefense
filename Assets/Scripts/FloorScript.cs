@@ -119,7 +119,7 @@ public class FloorScript : MonoBehaviour
 		if (player == null) {
 			player = GameObject.Find ("Player");
 		}
-		if ((player.transform.position - transform.position).magnitude >= 75) {
+		else if ((player.transform.position - transform.position).magnitude >= 75) {
 			transform.GetChild(0).gameObject.layer = 0;
 		} else {
 			transform.GetChild(0).gameObject.layer = 9;
