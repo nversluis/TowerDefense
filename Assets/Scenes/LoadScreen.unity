@@ -333,6 +333,14 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8248320, guid: fef73c0f8e9eb834990272028936caed, type: 2}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: ca801931ce5296e45b39fbcd9fa4b899, type: 3}
+    - target: {fileID: 8248320, guid: fef73c0f8e9eb834990272028936caed, type: 2}
+      propertyPath: Loop
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fef73c0f8e9eb834990272028936caed, type: 2}
   m_RootGameObject: {fileID: 1426878926}
@@ -886,9 +894,9 @@ RectTransform:
   - {fileID: 1719024117}
   m_Father: {fileID: 69685179}
   m_RootOrder: 1
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -1804, y: 1041}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 121, y: -43}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &735528363
@@ -1502,8 +1510,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: .39199999}
-  m_Sprite: {fileID: 21300000, guid: 20e688745869e4dadb689633c2be5411, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 204b4de36695ac246a81aedc1a0e53d9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1768,11 +1776,11 @@ AudioSource:
   m_GameObject: {fileID: 1426878926}
   m_Enabled: 1
   serializedVersion: 3
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: ca801931ce5296e45b39fbcd9fa4b899, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Priority: 128
   DopplerLevel: 1
@@ -2035,6 +2043,15 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 11413766, guid: 1f991da5ee3988d4fb00406491d1752d, type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 204b4de36695ac246a81aedc1a0e53d9,
+        type: 3}
+    - target: {fileID: 11413766, guid: 1f991da5ee3988d4fb00406491d1752d, type: 2}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1f991da5ee3988d4fb00406491d1752d, type: 2}
   m_RootGameObject: {fileID: 1719005103}
@@ -2140,6 +2157,15 @@ MonoBehaviour:
   connected: {r: 0, g: 1, b: 0, a: 1}
   notConnected: {r: 1, g: 0, b: 0, a: 1}
   highlighted: {r: .397058845, g: .476065159, b: 1, a: .282352954}
+  killsScore: 0
+  guyantKillsScore: 20
+  gwarfKillsScore: 20
+  grobbleKillsScore: 20
+  headshotsScore: 40
+  killStreakScore: 100
+  headShotStreakScore: 200
+  playerKillsScore: 20
+  towerKillsScore: 10
 --- !u!4 &1573082612
 Transform:
   m_ObjectHideFlags: 0

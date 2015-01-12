@@ -19,6 +19,8 @@ public class BulletController : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(PrevItLoc, transform.position - PrevItLoc, out hit, (PrevItLoc - transform.position).magnitude + 0.2f, ignoreMask))
         {
+            
+
             EnemyHealth enemyHealth = hit.collider.GetComponent<EnemyHealth>();
             Destroy(this.gameObject);
             GameObject boom = (GameObject)Instantiate(Boom, PrevItLoc, Quaternion.identity);
@@ -43,6 +45,7 @@ public class BulletController : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
+
 		Player = GameObject.Find("Player").transform;
 		PrevItLoc = transform.position;
 	}

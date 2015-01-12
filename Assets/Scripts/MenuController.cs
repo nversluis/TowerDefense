@@ -7,7 +7,6 @@ public class MenuController : MonoBehaviour {
     public Animator startBtnAnim, quitBtnAnim, optionBtnAnim, editorBtnAnim, loadBtnAnim,optionPnlAnim;
     public GameObject optionPnl;
     public Slider slider1, slider2, slider3, slider4, slider5;
-    public AudioClip startGame;
     public AudioClip click;
     public GameObject mainCamera;
     AudioSource cameraAudioSource;
@@ -117,8 +116,7 @@ public class MenuController : MonoBehaviour {
     }
 
     public void LoadGameAudio() {
-        cameraAudioSource.PlayOneShot(startGame,5f);
-        Invoke("LoadGame", 1.802f);
+        Invoke("LoadGame", 0);
     }
 
     public void LoadGame()

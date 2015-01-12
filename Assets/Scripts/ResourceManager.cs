@@ -94,6 +94,8 @@ public class ResourceManager : MonoBehaviour {
 	[Header("Audio")]
 	public AudioClip magicBulletSound;
 	public AudioClip backgroundMusic;
+    public AudioClip headShot;
+    public AudioClip bulletHit;
 
 	[Header("HitSplash")]
 	public GameObject damageText;
@@ -130,6 +132,8 @@ public class ResourceManager : MonoBehaviour {
     public int headShotStreakScore;
     public int playerKillsScore;
     public int towerKillsScore;
+
+
 
 
 	void Start(){
