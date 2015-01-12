@@ -33,7 +33,7 @@ public class GoalScript : MonoBehaviour {
         if (Lost)
         {
             Lost = false;
-            guiScript.EndGame("You Lose!", "Gate");
+            guiScript.EndGame("Gate");
         }
 	}
 

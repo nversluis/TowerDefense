@@ -49,8 +49,7 @@ public class PlayerHealth : MonoBehaviour {
     {
         isDead = true;
         guiScript.resultScoreText.text = Statistics.Score().ToString();
-        Debug.Log(Statistics.Score());
-        guiScript.EndGame("You Lose!", "Player");
+        guiScript.EndGame("Player");
 
         //Destroy(this.gameObject);
     }

@@ -51,6 +51,8 @@ public class GUIScript : MonoBehaviour {
 
     [Header("Result screen canvas")]
     public GameObject result;
+    public Image resultImage;
+    public Sprite[] resultSprites = new Sprite[2];
 
     [Header("Crosshair")]
     public GameObject crosshair;
@@ -86,19 +88,26 @@ public class GUIScript : MonoBehaviour {
     private float fBufferedGateHP;
     private float rBufferedGateHP;
 
+    [Header("First Wave Text")]
+    public Text firstWaveText;
+
+    private bool firstWaveStarted;
+    private string shiftDir;
+
+    [Header("Headshot Image")]
+    public GameObject headshotImage;
+
+    [Header("Click sound")]
+    public AudioClip click;
+
+    AudioSource cameraAudioSource;
+
     // Scripts
     private PlayerController playerScript;
     private CameraController cameraScript;
     private GoalScript goalScript;
     private WaveSpawner waveSpawner;
 
-    AudioSource cameraAudioSource;
-    public AudioClip click;
-
-    public void ButtonClick()
-    {
-        cameraAudioSource.PlayOneShot(click);
-    }
 	void Start () {
         /* Get private components */
         
@@ -179,6 +188,11 @@ public class GUIScript : MonoBehaviour {
         fBufferedGateHP = 0;
         rBufferedGateHP = 0;
 
+        // Starting Text
+        firstWaveText.enabled = true;
+        firstWaveText.color = new Color(1, 1, 1, 1);
+        firstWaveStarted = false;
+        shiftDir = "down";
 	}
 	
 	void FixedUpdate () {
@@ -205,6 +219,13 @@ public class GUIScript : MonoBehaviour {
         // Pause menu behaviour
         if(Input.GetKeyDown("escape")) {
             PauseGame();
+        }
+
+        if(!firstWaveStarted && Input.GetKeyDown("return")) {
+            firstWaveText.enabled = false;
+        }
+        else if(!firstWaveStarted) {
+            TextColorShift(firstWaveText);
         }
 
         scoreText.text = Statistics.Score().ToString();
@@ -327,6 +348,42 @@ public class GUIScript : MonoBehaviour {
         }
     }
 
+    void TextColorShift(Text text) {
+
+        if(shiftDir.Equals("down")) {
+            if(text.color.r > 0.01f) {
+                text.color = text.color - new Color(0.01f, 0, 0, 0);
+            }
+            else if(text.color.g > 0.01f) {
+                text.color = text.color - new Color(0, 0.01f, 0, 0);
+            }
+            else if(text.color.b > 0.01f) {
+                text.color = text.color - new Color(0, 0, 0.01f, 0);
+            }
+            else{
+                shiftDir = "up";
+            }
+        }
+        else {
+            if(text.color.r < 1) {
+                text.color = text.color + new Color(0.01f, 0, 0, 0);
+            }
+            else if(text.color.g < 1) {
+                text.color = text.color + new Color(0, 0.01f, 0, 0);
+            }
+            else if(text.color.b < 1) {
+                text.color = text.color + new Color(0, 0, 0.01f, 0);
+            }
+            else {
+                shiftDir = "down";
+            }
+        }
+    }
+
+    public void ButtonClick() {
+        cameraAudioSource.PlayOneShot(click);
+    }
+
     public void UpdateTowers() {
         int currentTower = player.getTower();
 
@@ -402,21 +459,25 @@ public class GUIScript : MonoBehaviour {
         Application.LoadLevel("Main Menu");
     }
 
-    public void EndGame(string resultString, string reason = "none") {
+    public void EndGame(string reason = "none") {
         result.SetActive(true);
-        resultText.text = resultString;
         resultScoreText.text = player.getScore().ToString();
         Screen.showCursor = true;
         Screen.lockCursor = false;
         playerScript.enabled = false;
         cameraScript.enabled = false;
         if(reason.Equals("Player")) {
+            resultImage.sprite = resultSprites[1];
             frontPlayerHPBar.localScale = new Vector3(0, 1, 1);
             rearPlayerHPBar.localScale = new Vector3(0, 1, 1);
         }
         else if(reason.Equals("Gate")) {
+            resultImage.sprite = resultSprites[1];
             frontGateHPBar.localScale = new Vector3(0, 1, 1);
             rearGateHPBar.localScale = new Vector3(0, 1, 1);
+        }
+        else {
+            resultImage.sprite = resultSprites[0];
         }
         Time.timeScale = 0;
     }
@@ -425,5 +486,14 @@ public class GUIScript : MonoBehaviour {
 	{
 		return TowerPopup;
 	}
+
+    public void HeadShot() {
+        headshotImage.SetActive(true);
+        Invoke("DisableHeadShot", 1.5f);
+    }
+
+    void DisableHeadShot() {
+        headshotImage.SetActive(false);
+    }
 
 }

@@ -23,7 +23,7 @@ public class EnemyHealth : MonoBehaviour {
     BoxCollider boxCollider;
     CapsuleCollider capsuleCollider;
 
-    Text guiHeadShot;
+    GUIScript guiMain;
     AudioSource cameraAudioSource;
     AudioClip headShot;
 
@@ -58,7 +58,7 @@ public class EnemyHealth : MonoBehaviour {
 		textObject = resourceManager.damageText;
 		nodeSize = resourceManager.nodeSize;
         animator = GetComponent<Animator>();
-        guiHeadShot = GameObject.Find("HeadShotText").GetComponent<Text>();
+        guiMain = GameObject.Find("GUIMain").GetComponent<GUIScript>();
         boxCollider = this.gameObject.GetComponent<BoxCollider>();
         capsuleCollider = this.gameObject.GetComponent<CapsuleCollider>();
         cameraAudioSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
@@ -206,16 +206,9 @@ public class EnemyHealth : MonoBehaviour {
         if (currentHealth <= 0 && !enemyResources.isDead)
         {
             cameraAudioSource.PlayOneShot(headShot,2f);
-            guiHeadShot.text = "HeadShot!";
             Death(true,true);
-            Invoke("DeleteHeadshotText",1.5f);
+            guiMain.HeadShot();
         }
-    }
-
-    void DeleteHeadshotText()
-    {
-        guiHeadShot.text = "";
-
     }
 
 }
