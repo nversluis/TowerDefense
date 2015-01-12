@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class EnemyStats : MonoBehaviour
 {
-
     private List<int> stats;
     public List<float> statDistribution;
     public int totalStatPoints = 100;
@@ -32,13 +31,21 @@ public class EnemyStats : MonoBehaviour
 
     public int totalDamage;
     public float leeftijd;
+    public float goalDistance;
     public float fitness;
     EnemyResources enemyResources;
     EnemyHealth enemyHealth;
+    GameObject goal;
 
+    // fitness variabelen
+    public float factorTime;
+    public float factorDamage;
+    public float factorGateDistance;
+    public float factorHitGoal;   // in procenten
 
     void Awake()
     {
+        goal = GameObject.Find("Goal");
         generateDistribution();
         enemyResources = GetComponent<EnemyResources>();
         enemyHealth = GetComponent<EnemyHealth>();
@@ -63,25 +70,36 @@ public class EnemyStats : MonoBehaviour
         }
         leeftijd += Time.deltaTime;
         fitness = getFitness();
+        goalDistance = Vector3.Distance(goal.transform.position, this.transform.position);
     }
 
     public void generateenemyStats()
     {
 
         this.health = (int)Mathf.Round(healthDistributionFactor * totalStatPoints);
+        if (this.health <= 0)
+        {
+            Debug.Log("health <= 0 is true");
+            this.health = 1;
+        }
         this.attack = (int)Mathf.Round(attackDistributionFactor * totalStatPoints);
+        if (this.attack <= 0)
+        {
+            Debug.Log("attack <= 0 is true");
+            this.attack = 1;
+        }
         this.defense = (int)Mathf.Round(defenseDistributionFactor * totalStatPoints);
         if (this.defense == 0)
         {
+            Debug.Log("'defense <= 0 is true");
             this.defense = 1;
         }
         this.magicDefense = (int) Mathf.Round(magicDefenseDistributionFactor * totalStatPoints);
         if (this.magicDefense == 0)
         {
+            Debug.Log("magicDefense <= 0 is true");
             magicDefense = 1;
         }
-
-
         this.speedMultiplier = Random.Range(0.90f, 1.10f);
         this.dfactor = Random.Range(0.05f, 0.80f);
         this.goalImportance = Random.Range(0.4f, 1f);
@@ -116,13 +134,18 @@ public class EnemyStats : MonoBehaviour
 
     public float getFitness()
     {
-        return 3 * leeftijd + enemyResources.totalDamage / 100;
+        float res;
+        res = factorTime * leeftijd + factorDamage * enemyResources.totalDamage  + factorGateDistance / goalDistance;
+        if (goalDistance < 4.1f) {
+            res *= (100+factorHitGoal)/100;
+        }
+        return res;
     }
 
     /// <summary>
     /// Genereert een lijst van n random numbers die opsommen tot sum.
     /// </summary>
-    /// <param name="n"></param> Het aantal random numbers
+    /// <param name="n"></param> Het aantal random numbers1
     /// <param name="sum"></param> De som van de random numbers
     /// <returns></returns>
     public List<int> randomNumberGenerator(int n, int sum)
@@ -180,10 +203,10 @@ public class EnemyStats : MonoBehaviour
         List<int> statMutations = randomNumberGenerator(n, statMutation);
 
         // Tijdelijke oplossing...
-        while ( statDistribution[0] * 100 + statMutations[0] - statMutation / n > 99.9 || statDistribution[0] * 100 + statMutations[0] - statMutation / n < 0.1 ||
-                statDistribution[1] * 100 + statMutations[1] - statMutation / n > 99.9 || statDistribution[1] * 100 + statMutations[1] - statMutation / n < 0.1 ||
-                statDistribution[2] * 100 + statMutations[2] - statMutation / n > 99.9 || statDistribution[2] * 100 + statMutations[2] - statMutation / n < 0.1 ||
-                statDistribution[3] * 100 + statMutations[3] - statMutation / n > 99.9 || statDistribution[3] * 100 + statMutations[3] - statMutation / n < 0.1)
+        while ( statDistribution[0] * 100 + statMutations[0] - statMutation / n > 99.1 || statDistribution[0] * 100 + statMutations[0] - statMutation / n < 0.9 ||
+                statDistribution[1] * 100 + statMutations[1] - statMutation / n > 99.1 || statDistribution[1] * 100 + statMutations[1] - statMutation / n < 0.9 ||
+                statDistribution[2] * 100 + statMutations[2] - statMutation / n > 99.1 || statDistribution[2] * 100 + statMutations[2] - statMutation / n < 0.9 ||
+                statDistribution[3] * 100 + statMutations[3] - statMutation / n > 99.1 || statDistribution[3] * 100 + statMutations[3] - statMutation / n < 0.9)
         {
             statMutations = randomNumberGenerator(n, statMutation);
         }
@@ -204,6 +227,7 @@ public class EnemyStats : MonoBehaviour
         for (int i = 0; i < statDistribution.Count; i++)
         {
             statDistribution[i] += DistributionMutation[i];
+            // Afronden op twee decimalen
             statDistribution[i] = Mathf.Round(statDistribution[i] * 100f) / 100f;
         }
 
