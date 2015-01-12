@@ -162,11 +162,19 @@ public class GUIScript : MonoBehaviour {
             tx.enabled = false;
         }
 
+        foreach(Image im in skillSelectList){
+            im.enabled = false;
+        }
+
         // Towers
         for(int i = 0; i < towerTextList.Count; i++) {
             Text tx = towerTextList[i];
             tx.enabled = true;
             tx.text = (i + 1).ToString();
+        }
+
+        foreach(Image im in towerSelectList){
+            im.enabled = false;
         }
 
         // Pause menu
@@ -197,6 +205,9 @@ public class GUIScript : MonoBehaviour {
         firstWaveText.color = new Color(1, 1, 1, 1);
         firstWaveStarted = false;
         shiftDir = "down";
+
+        // Headshot image
+        headshotImage.SetActive(false);
     }
 
     void FixedUpdate() {
@@ -407,6 +418,9 @@ public class GUIScript : MonoBehaviour {
                     towerSelectList[i].enabled = false;
                 }
             }
+            foreach(Image im in skillSelectList){
+                im.enabled = false;
+            }
         }
         else {
             for(int i = 0; i < skillIconList.Length; i++) {
@@ -417,6 +431,9 @@ public class GUIScript : MonoBehaviour {
                 else {
                     skillSelectList[i].enabled = false;
                 }
+            }
+            foreach(Image im in towerSelectList) {
+                im.enabled = false;
             }
         }
 
