@@ -59,9 +59,10 @@ public class RandomMaze : MonoBehaviour
 	//Use this for initialization
 	void Awake ()
 	{
-        cameraAudioSource = mainCamera.GetComponent<AudioSource>();
 		ResourceManagerObj = GameObject.Find ("ResourceManager");
 		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
+		mainCamera = resourceManager.mainCamera;
+        cameraAudioSource = mainCamera.GetComponent<AudioSource>();
 		length = resourceManager.length;
 		width = resourceManager.width;
 		planewidth = resourceManager.planewidth;
@@ -102,7 +103,7 @@ public class RandomMaze : MonoBehaviour
 
 	IEnumerator spawnLevel(){
 
-        Destroy(mainCamera);
+        //Destroy(mainCamera);
 		LoadingScreen.GetComponentInChildren<Text>().text = "Loading: Building a castle..";
         //Time.timeScale = 1;
         yield return new WaitForSeconds(0.1f);
