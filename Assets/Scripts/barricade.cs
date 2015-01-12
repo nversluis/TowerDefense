@@ -143,7 +143,6 @@ public class barricade : MonoBehaviour
 	public void TakeDamage(int damage)
 	{
 		health -= damage / 100;
-		Debug.Log (health);
 	}
 
 }
