@@ -123,7 +123,7 @@ public class GUIScript : MonoBehaviour {
         foreach(Image im in skillIconList) {
             skillTextList.Add(im.transform.FindChild("Key").GetComponent<Text>());
             skillCooldownList.Add(im.transform.FindChild("Cooldown").GetComponent<Text>());
-            skillSelectList.Add(im.transform.FindChild("Select").GetComponent<Image>());
+            skillSelectList.Add(im.transform.parent.FindChild("Select").GetComponent<Image>());
         }
 
         // Towers
