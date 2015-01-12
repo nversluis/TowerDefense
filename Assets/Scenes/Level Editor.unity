@@ -285,11 +285,11 @@ AudioSource:
   m_GameObject: {fileID: 45648770}
   m_Enabled: 1
   serializedVersion: 3
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: ca801931ce5296e45b39fbcd9fa4b899, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Priority: 128
   DopplerLevel: 1
@@ -700,7 +700,8 @@ MonoBehaviour:
   tow4Input: 52
   tow5Input: 53
   tow6Input: 54
-  upgradeMenuInput: 55
+  tow7Input: 55
+  upgradeMenuInput: 56
   upgradeInput: 323
   sellInput: 324
 --- !u!1 &214480156
@@ -1043,6 +1044,7 @@ MonoBehaviour:
   costIceTrap: 100
   costFireTrap: 100
   costPoisonTrap: 100
+  costBarricade: 50
   rewardenemy: 5
   rewardWave: 800
   planePrefab: {fileID: 100016, guid: eb0912c352095c645a4cc637dd9257b0, type: 2}
@@ -1080,6 +1082,7 @@ MonoBehaviour:
   iceTrap: {fileID: 100004, guid: 0c1d30373f75b41729f5e92345fc8692, type: 2}
   speedReduceRate: .5
   spearTrap: {fileID: 100004, guid: 78350e6548fc0ba4eb8337163c0d01b7, type: 2}
+  barricade: {fileID: 156962, guid: 57e98e7c5749344e3a8e883f7e62ed72, type: 2}
   magicTowerHotSpot: {fileID: 100008, guid: b7ee6a2fbe7fbaa45abbee1c40b0d49d, type: 2}
   arrowTowerHotSpot: {fileID: 108536, guid: 330ca6b6c1ad3cf45a532231b13140aa, type: 2}
   poisonTrapHotspot: {fileID: 100006, guid: 12ce532ee4226dc40afed8a28552da9e, type: 2}
@@ -1107,6 +1110,15 @@ MonoBehaviour:
   connected: {r: 0, g: 1, b: 0, a: 1}
   notConnected: {r: 1, g: 0, b: 0, a: 1}
   highlighted: {r: .397058845, g: .476065159, b: 1, a: .282352954}
+  killsScore: 0
+  guyantKillsScore: 20
+  gwarfKillsScore: 20
+  grobbleKillsScore: 20
+  headshotsScore: 40
+  killStreakScore: 100
+  headShotStreakScore: 200
+  playerKillsScore: 20
+  towerKillsScore: 10
 --- !u!4 &285136679
 Transform:
   m_ObjectHideFlags: 0
@@ -1692,6 +1704,7 @@ MonoBehaviour:
   m_Script: {fileID: 1301386320, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Priority: 3
   ignoreReversedGraphics: 1
   blockingObjects: 0
   m_BlockingMask:
@@ -6211,6 +6224,14 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 8248320, guid: fef73c0f8e9eb834990272028936caed, type: 2}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: ca801931ce5296e45b39fbcd9fa4b899, type: 3}
+    - target: {fileID: 8248320, guid: fef73c0f8e9eb834990272028936caed, type: 2}
+      propertyPath: Loop
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fef73c0f8e9eb834990272028936caed, type: 2}
   m_RootGameObject: {fileID: 45648770}
@@ -8011,6 +8032,7 @@ MonoBehaviour:
   m_Script: {fileID: 1301386320, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Priority: 3
   ignoreReversedGraphics: 0
   blockingObjects: 0
   m_BlockingMask:

@@ -1366,9 +1366,9 @@ AudioSource:
   m_GameObject: {fileID: 721757288}
   m_Enabled: 1
   serializedVersion: 3
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 59d33c1fbf12c2f4d97298e5139fad7f, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: .42899999
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -1512,6 +1512,7 @@ MonoBehaviour:
   m_Script: {fileID: 1301386320, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Priority: 3
   ignoreReversedGraphics: 1
   blockingObjects: 0
   m_BlockingMask:
@@ -1602,7 +1603,6 @@ MonoBehaviour:
   slider3: {fileID: 1548078344}
   slider4: {fileID: 1669329206}
   slider5: {fileID: 1060364521}
-  startGame: {fileID: 8300000, guid: 2f98ad84aba801b4dac4150f9233d4b2, type: 3}
   click: {fileID: 8300000, guid: f637386b733e23840ace6809c509330a, type: 3}
   mainCamera: {fileID: 721757288}
 --- !u!1 &889876356

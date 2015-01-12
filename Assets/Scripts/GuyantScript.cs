@@ -34,7 +34,7 @@ public class GuyantScript : MonoBehaviour
     float walkSpeed;
     float dfactor;
     float pathUpdateRate;
-    float penalty = 50f;
+    float penalty = 25;
     float speedReduce;
 
     int i = 0;
@@ -103,9 +103,12 @@ public class GuyantScript : MonoBehaviour
             if (i < Path.Count-1)
             {
 
-                // the enemy is walking and not attacking
-                enemyResources.walking = true;
-                enemyResources.attacking = false;
+                if (!enemyResources.isDead)
+                {
+                    // the enemy is walking and not attacking
+                    enemyResources.walking = true;
+                    enemyResources.attacking = false;
+                }
 
                 // walk to the next point to smooth the walking of the enemy
                 dir = (Path[i + 1] - (transform.position - new Vector3(0f, transform.position.y, 0f))).normalized * walkSpeed;
@@ -114,13 +117,17 @@ public class GuyantScript : MonoBehaviour
             {
                 // else walk to the current point
                 dir = (Path[i] - (transform.position - new Vector3(0f, transform.position.y, 0f))).normalized * walkSpeed;
-                enemyResources.walking = true;
-                enemyResources.attacking = false;
+                if (!enemyResources.isDead)
+                {
+                    // the enemy is walking and not attacking
+                    enemyResources.walking = true;
+                    enemyResources.attacking = false;
+                }
 
             }
 
             // if the enemy is not dead
-            if (enemyResources.isDead != true)
+            if (!enemyResources.isDead)
             {
                 // move in the direction of the next point
                 rigidbody.velocity = (dir + new Vector3(0f, rigidbody.velocity.y, 0f));
@@ -179,8 +186,7 @@ public class GuyantScript : MonoBehaviour
             {
                 // set speed to zero
                 rigidbody.velocity = Vector3.zero;
-                enemyResources.walking = false;
-                enemyResources.attacking = false;
+
             }
 
             // when enemy reaches the end
@@ -253,6 +259,7 @@ public class GuyantScript : MonoBehaviour
             }
 
             enemyResources.dieDistance = distance;
+            justGaveInformation = true;
         }
     }
 

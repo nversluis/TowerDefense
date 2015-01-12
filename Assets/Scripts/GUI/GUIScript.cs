@@ -206,6 +206,9 @@ public class GUIScript : MonoBehaviour {
         if(Input.GetKeyDown("escape")) {
             PauseGame();
         }
+
+        scoreText.text = Statistics.Score().ToString();
+        resultScoreText.text = Statistics.Score().ToString();
     }
 
     void UpdateGold() {
