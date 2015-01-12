@@ -40,17 +40,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 944f66ad451dba04eb2086e397509f88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxEnemies: 2
-  mutationProbability: .699999988
+  maxEnemies: 10
   spawning: 1
   keepDistribution: 0
   toenameAantalEnemiesPerWave: 5
   maxX: .300000012
-  maxZ: 0
+  maxZ: .300000012
   allEnemiesSpawned: 0
   timeBetweenWaves: 5
-  currentTotalStatPoints: 150
-  delta: 50
+  currentTotalStatPoints: 100
+  delta: 30
   spawnTime: .200000003
 --- !u!114 &11415504
 MonoBehaviour:

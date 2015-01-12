@@ -71,7 +71,16 @@ public class EnemyStats : MonoBehaviour
         this.health = (int)Mathf.Round(healthDistributionFactor * totalStatPoints);
         this.attack = (int)Mathf.Round(attackDistributionFactor * totalStatPoints);
         this.defense = (int)Mathf.Round(defenseDistributionFactor * totalStatPoints);
-        this.magicDefense = (int)Mathf.Round(magicDefenseDistributionFactor * totalStatPoints);
+        if (this.defense == 0)
+        {
+            this.defense = 1;
+        }
+        this.magicDefense = (int) Mathf.Round(magicDefenseDistributionFactor * totalStatPoints);
+        if (this.magicDefense == 0)
+        {
+            magicDefense = 1;
+        }
+
 
         this.speedMultiplier = Random.Range(0.90f, 1.10f);
         this.dfactor = Random.Range(0.05f, 0.80f);

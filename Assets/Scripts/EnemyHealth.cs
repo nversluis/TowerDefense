@@ -20,6 +20,9 @@ public class EnemyHealth : MonoBehaviour {
     public Vector3 deathPosition;
     EnemyMovement enemyMovement;
 
+    BoxCollider boxCollider;
+    CapsuleCollider capsuleCollider;
+
     Text guiHeadShot;
 
 
@@ -54,33 +57,38 @@ public class EnemyHealth : MonoBehaviour {
 		nodeSize = resourceManager.nodeSize;
         animator = GetComponent<Animator>();
         guiHeadShot = GameObject.Find("HeadShotText").GetComponent<Text>();
+        boxCollider = this.gameObject.GetComponent<BoxCollider>();
+        capsuleCollider = this.gameObject.GetComponent<CapsuleCollider>();
+
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-
         if(enemyResources.isDead)
         {
             counter += Time.deltaTime;
-            collider.enabled = (false);
+
+            if (boxCollider != null)
+            {
+                boxCollider.enabled = (false);
+            }
+            if (capsuleCollider != null)
+            {
+                capsuleCollider.enabled = (false);
+            }
+
             if (counter > 4)
             {
                 
                 Destroy(this.gameObject);
-                //this.transform.position = deathPosition;
-                counter = 0;
             }
-        }
-
-        else
-        {
-            collider.enabled = true;
         }
 
     }
 
-	public void TakeDamage(int amount,string damageType)
+	public void TakeDamage(int amount,string damageType, bool attackedByPlayer)
     {
         int damageDone = amount;
 		Color kleur;
@@ -111,13 +119,10 @@ public class EnemyHealth : MonoBehaviour {
 			currentHealth = 0;
 
 		}
-        //GameObject textObj = (GameObject)Instantiate (textObject, transform.position, Quaternion.identity);
-        ////textObj.GetComponent<TextMesh>().text = (Application.dataPath).ToString();
-        //textObj.GetComponent<TextMesh>().text = (damageDone + "/"+currentHealth).ToString();
-        //textObj.GetComponent<TextMesh> ().color = kleur;
+
         if (currentHealth <= 0 && !enemyResources.isDead)
         {
-            Death();
+            Death(attackedByPlayer,false);
         }
     }
 
@@ -130,7 +135,7 @@ public class EnemyHealth : MonoBehaviour {
 	private void doPoisonDamage()
 	{
 		if (isPoisoned) {
-			TakeDamage ((int)poisonAmount,"poison");
+			TakeDamage ((int)poisonAmount,"poison", false);
 			poisonAmount *= 0.5f;
 			if (poisonAmount <= 1) {
 				isPoisoned = false;
@@ -138,39 +143,71 @@ public class EnemyHealth : MonoBehaviour {
 		}
 	}
 
-    public void Death()
+    public void Death(bool killedByPlayer, bool headShot)
     {
-		playerData.addGold(resourceManager.rewardenemy);
-        List<WayPoint> WPoints = new List<WayPoint>();
-        WPoints = Navigator.FindWayPointsNear(transform.position, resourceManager.Nodes, nodeSize);
-        foreach (WayPoint wp in WPoints)
+        if (!enemyResources.isDead)
         {
-			try {
-            float newPenalty = wp.getPenalty() +15;
-            wp.setPenalty(newPenalty);
-			} catch {
-			}
-        }
-		enemyResources.isDead = true;
+            playerData.addGold(resourceManager.rewardenemy);
+            List<WayPoint> WPoints = new List<WayPoint>();
+            WPoints = Navigator.FindWayPointsNear(transform.position, resourceManager.Nodes, nodeSize);
+            foreach (WayPoint wp in WPoints)
+            {
+                try
+                {
+                    float newPenalty = wp.getPenalty() + 15;
+                    wp.setPenalty(newPenalty);
+                }
+                catch
+                {
+                    Debug.Log("penalty mislukt...");
 
-        //currentHealth = startingHealth;
-        //transform.position = startPosition;
-        //Debug.Log("Ik ben dood");
+
+                }
+     
+            }
+
+            enemyResources.isDead = true;
+            enemyResources.walking = false;
+            enemyResources.attacking = false;
+
+            int enemyType;
+
+            if (this.gameObject.name == "Guyant")
+            {
+                enemyType = 0;
+            }
+            else if (this.gameObject.name == "Gwarf")
+            {
+                enemyType = 1;
+            }
+            else
+            {
+                enemyType = 2;
+            }
+
+            Statistics.Kill(enemyType, killedByPlayer, headShot);
+        }
+        else
+        {
+            return;
+        }
+
+
     }
+
     public void HeadShot()
     {
         currentHealth = 0;
         if (currentHealth <= 0 && !enemyResources.isDead)
         {
-            Death();
             guiHeadShot.text = "HeadShot!";
-            StartCoroutine(DeleteHeadshotText());
+            Death(true,true);
+            Invoke("DeleteHeadshotText",1.5f);
         }
     }
 
-    IEnumerator DeleteHeadshotText()
+    void DeleteHeadshotText()
     {
-        yield return new WaitForSeconds(1.5f);
         guiHeadShot.text = "";
 
     }

@@ -163,6 +163,7 @@ public class WaveSpawner : MonoBehaviour
 
         if (Won)
         {
+            guiScript.resultScoreText.text = Statistics.Score().ToString();
             guiScript.EndGame("You Won!");
         }
     }

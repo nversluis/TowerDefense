@@ -88,9 +88,12 @@ public class GwarfScript : MonoBehaviour
             if (i < Path.Count - 1)
             {
 
-                // the enemy is walking and not attacking
-                enemyResources.walking = true;
-                enemyResources.attacking = false;
+                if (!enemyResources.isDead)
+                {
+                    // the enemy is walking and not attacking
+                    enemyResources.walking = true;
+                    enemyResources.attacking = false;
+                }
 
                 // walk to the next point to smooth the walking of the enemy
                 dir = (Path[i + 1] - (transform.position - new Vector3(0f, transform.position.y, 0f))).normalized * walkSpeed;
@@ -99,8 +102,12 @@ public class GwarfScript : MonoBehaviour
             {
                 // else walk to the current point
                 dir = (Path[i] - (transform.position - new Vector3(0f, transform.position.y, 0f))).normalized * walkSpeed;
-                enemyResources.walking = true;
-                enemyResources.attacking = false;
+                if (!enemyResources.isDead)
+                {
+                    // the enemy is walking and not attacking
+                    enemyResources.walking = true;
+                    enemyResources.attacking = false;
+                }
 
             }
 

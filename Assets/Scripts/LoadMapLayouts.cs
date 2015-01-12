@@ -221,12 +221,10 @@ public class LoadMapLayouts : MonoBehaviour {
 
         nextBut.gameObject.SetActive(true);
         prevBut.gameObject.SetActive(true);
+
         nextBut.GetComponentInChildren<Text>().text = "Next " + filesPerPage + " Maps";
         prevBut.GetComponentInChildren<Text>().text = "Previous " + filesPerPage + " Maps";
-        if (currentPage == maxPages)
-            nextBut.gameObject.SetActive(false);
-        else if (currentPage == 1)
-            prevBut.gameObject.SetActive(false);
+
 
 
 
@@ -290,10 +288,14 @@ public class LoadMapLayouts : MonoBehaviour {
 
         }
 
-        if (dirFiles.Length < rows)
+        if (currentPage == maxPages)
+        {
+            nextBut.gameObject.SetActive(false);
+        }
+        if (currentPage == 1)
         {
             prevBut.gameObject.SetActive(false);
-            nextBut.gameObject.SetActive(false);
+
         }
 
 
@@ -655,5 +657,8 @@ public class LoadMapLayouts : MonoBehaviour {
         Destroy(GameObject.Find("EditorLight"));
         Destroy(this.gameObject);
 
+    }
+    void Update()
+    {
     }
 }

@@ -29,7 +29,7 @@ public class BulletController : MonoBehaviour
             }
             if (enemyHealth != null)
             {
-                enemyHealth.TakeDamage(damagePerShot, "magic");
+                enemyHealth.TakeDamage(damagePerShot, "magic", true);
             }
             if (hit.collider.Equals(hit.collider.GetComponent<BoxCollider>()))
             {

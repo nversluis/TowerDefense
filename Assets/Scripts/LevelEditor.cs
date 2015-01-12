@@ -899,6 +899,8 @@ public class LevelEditor : MonoBehaviour
 	void Update ()
 	{
         NewMapScreenButtonCheck();
+
+        
 	}
 
 
@@ -1219,10 +1221,7 @@ public class LevelEditor : MonoBehaviour
 		prevBut.gameObject.SetActive (true);
 		nextBut.GetComponentInChildren<Text> ().text = "Next " + filesPerPage + " Maps";
         prevBut.GetComponentInChildren<Text>().text = "Previous " + filesPerPage + " Maps";
-		if (currentPage == maxPages)
-			nextBut.gameObject.SetActive (false);
-		else if (currentPage == 1)
-			prevBut.gameObject.SetActive (false);
+
 
 		//create a list with the names of all layouts.
 		BinaryFormatter bf = new BinaryFormatter ();
@@ -1288,11 +1287,18 @@ public class LevelEditor : MonoBehaviour
             }
 		}
 
-        if (dirFiles.Length < rows)
+        if (currentPage == maxPages)
         {
-            prevBut.gameObject.SetActive(false);
             nextBut.gameObject.SetActive(false);
         }
+        if (currentPage == 1)
+        {
+
+            prevBut.gameObject.SetActive(false);
+
+        }
+
+
 	}
 
 

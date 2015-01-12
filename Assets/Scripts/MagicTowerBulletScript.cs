@@ -28,7 +28,7 @@ public class MagicTowerBulletScript : MonoBehaviour
             }
             if (enemyHealth != null)
             {
-                enemyHealth.TakeDamage(damagePerShot, "magic");
+                enemyHealth.TakeDamage(damagePerShot, "magic", false);
             }
 
         }

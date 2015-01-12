@@ -119,6 +119,18 @@ public class ResourceManager : MonoBehaviour {
 	public static int mostWest;
 	public static int mostNorth;
 	public static int mostSouth;
+    
+    [Header("Scores")]
+    public int killsScore;
+    public int guyantKillsScore;
+    public int gwarfKillsScore;
+    public int grobbleKillsScore;
+    public int headshotsScore;
+    public int killStreakScore;
+    public int headShotStreakScore;
+    public int playerKillsScore;
+    public int towerKillsScore;
+
 
 	void Start(){
 		playerData.addGold (startGold);
