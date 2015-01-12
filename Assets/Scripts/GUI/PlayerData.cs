@@ -13,11 +13,13 @@ public class PlayerData {
     private float armorStat;
     private float agilityStat;
     private int selectedTower;
+    private int selectedSkill;
+    private bool towerSelected;
     private List<Skill> skillset;
     private List<Item> inventory;
 
     /* CONSTRUCTORS */
-    public PlayerData(float currHP, float mHP, float gold, float score, float ad, float ap, float armor, float agi, int tower, List<Skill> skills, List<Item> items) {
+    public PlayerData(float currHP, float mHP, float gold, float score, float ad, float ap, float armor, float agi, int tower, int skill, bool towersel, List<Skill> skills, List<Item> items) {
         currentHP = currHP;
         maxHP = mHP;
         this.gold = gold;
@@ -27,6 +29,8 @@ public class PlayerData {
         armorStat = armor;
         agilityStat = agi;
         selectedTower = tower;
+        selectedSkill = skill;
+        towerSelected = towersel;
         skillset = skills;
         inventory = items;
     }
@@ -41,6 +45,8 @@ public class PlayerData {
         armorStat = 10;
         agilityStat = 10;
         selectedTower = 0;
+        selectedSkill = 0;
+        towerSelected = true;
         skillset = new List<Skill>();
         inventory = new List<Item>();
 
@@ -85,6 +91,14 @@ public class PlayerData {
 
     public int getTower() {
         return selectedTower;
+    }
+
+    public int getSkill() {
+        return selectedSkill;
+    }
+
+    public bool getTowerSelected() {
+        return towerSelected;
     }
 
     public List<Skill> getSkills() {
@@ -132,11 +146,20 @@ public class PlayerData {
         selectedTower = towerNumber;
     }
 
+    public void setSkill(int skillNumber) {
+        selectedSkill = skillNumber;
+    }
+
+    public void setTowerSelected(bool towersel) {
+        towerSelected = towersel;
+    }
+
     public void addToSkills(Skill skill) {
         skillset.Add(skill);
     }
 
-    public void getItems(Item item) {
+    public void addToItems(Item item) {
         inventory.Add(item);
     }
+
 }

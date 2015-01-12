@@ -31,11 +31,13 @@ public class GUIScript : MonoBehaviour {
 
     private List<Text> skillTextList = new List<Text>();
     private List<Text> skillCooldownList = new List<Text>();
+    private List<Image> skillSelectList = new List<Image>();
 
     [Header("Tower icons")]
     public Image[] towerIconList = new Image[7];
 
     private List<Text> towerTextList = new List<Text>();
+    private List<Image> towerSelectList = new List<Image>();
 
     [Header("Item icons")]
     public Image[] itemIconList = new Image[4];
@@ -43,7 +45,7 @@ public class GUIScript : MonoBehaviour {
     public Sprite[] tier1 = new Sprite[4];
     public Sprite[] tier2 = new Sprite[4];
     public Sprite[] tier3 = new Sprite[4];
-    public Sprite[] tier4 = new Sprite[4]; 
+    public Sprite[] tier4 = new Sprite[4];
 
     [Header("Pause menu canvas")]
     public GameObject canvas;
@@ -57,10 +59,10 @@ public class GUIScript : MonoBehaviour {
     [Header("Crosshair")]
     public GameObject crosshair;
     public Text resultText;
-    public Text resultScoreText; 
+    public Text resultScoreText;
 
-	[Header("Tower Popup")]
-	public GameObject TowerPopup;
+    [Header("Tower Popup")]
+    public GameObject TowerPopup;
 
     [Header("Enemy Popup")]
     public Image enemyFace;
@@ -108,9 +110,9 @@ public class GUIScript : MonoBehaviour {
     private GoalScript goalScript;
     private WaveSpawner waveSpawner;
 
-	void Start () {
+    void Start() {
         /* Get private components */
-        
+
         // Camera Auiodsource
         cameraAudioSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
 
@@ -121,19 +123,21 @@ public class GUIScript : MonoBehaviour {
         foreach(Image im in skillIconList) {
             skillTextList.Add(im.transform.FindChild("Key").GetComponent<Text>());
             skillCooldownList.Add(im.transform.FindChild("Cooldown").GetComponent<Text>());
+            skillSelectList.Add(im.transform.FindChild("Select").GetComponent<Image>());
         }
 
         // Towers
 
         foreach(Image im in towerIconList) {
             towerTextList.Add(im.GetComponentInChildren<Text>());
+            towerSelectList.Add(im.transform.FindChild("Select").GetComponent<Image>());
         }
 
         // Gate HP Bars
 
         frontGateHPBar = frontGateHP.GetComponent<RectTransform>();
         rearGateHPBar = rearGateHP.GetComponent<RectTransform>();
-        
+
         // Scripts
 
         playerScript = GameObject.Find("Player").GetComponent<PlayerController>();
@@ -149,7 +153,7 @@ public class GUIScript : MonoBehaviour {
             im.color = new Color(150f / 255f, 150f / 255f, 150f / 255f, 180f / 255f);
         }
 
-        for(int i = 0; i < skillTextList.Count; i++){
+        for(int i = 0; i < skillTextList.Count; i++) {
             Text tx = skillTextList[i];
             tx.text = (i + 1).ToString();
         }
@@ -193,9 +197,9 @@ public class GUIScript : MonoBehaviour {
         firstWaveText.color = new Color(1, 1, 1, 1);
         firstWaveStarted = false;
         shiftDir = "down";
-	}
-	
-	void FixedUpdate () {
+    }
+
+    void FixedUpdate() {
         // Update variables that need to be updated frequently
         // Player HP
         UpdateFrontHP(player.getCurrentHP(), player.getMaxHP(), ref fPlayerBufferedHP, frontPlayerHPBar);
@@ -209,11 +213,11 @@ public class GUIScript : MonoBehaviour {
         UpdateScore();
         UpdateGold();
         UpdateStats();
-        UpdateTowers();
+        UpdateSelection();
         UpdateItems();
         UpdateEnemyStats();
         UpdateWaveText();
-	}
+    }
 
     void Update() {
         // Pause menu behaviour
@@ -226,6 +230,10 @@ public class GUIScript : MonoBehaviour {
         }
         else if(!firstWaveStarted) {
             TextColorShift(firstWaveText);
+        }
+
+        if(Input.GetKeyDown("tab")) {
+            player.setTowerSelected(!player.getTowerSelected());
         }
 
         scoreText.text = Statistics.Score().ToString();
@@ -274,7 +282,7 @@ public class GUIScript : MonoBehaviour {
         }
     }
 
-    void UpdateFrontHP(float currentHP, float maxHP,ref float bufferedHP, RectTransform frontBar) {
+    void UpdateFrontHP(float currentHP, float maxHP, ref float bufferedHP, RectTransform frontBar) {
 
         if(bufferedHP < currentHP) {
             if(System.Math.Abs(bufferedHP - currentHP) < (maxHP / 1000f)) {
@@ -290,7 +298,7 @@ public class GUIScript : MonoBehaviour {
         frontBar.localScale = new Vector3((bufferedHP / maxHP), 1, 1);
     }
 
-    void UpdateRearHP(float currentHP, float maxHP,ref float bufferedHP, RectTransform rearBar) {
+    void UpdateRearHP(float currentHP, float maxHP, ref float bufferedHP, RectTransform rearBar) {
 
         if(bufferedHP > currentHP) {
             if(System.Math.Abs(bufferedHP - currentHP) < (maxHP / 1000f)) {
@@ -339,7 +347,7 @@ public class GUIScript : MonoBehaviour {
         float HPPercent = goalScript.getLives() / goalScript.getMaxLives();
         if(HPPercent >= 0.66f) {
             frontGateHP.sprite = HPSprites[0];
-        } 
+        }
         else if(HPPercent >= 0.33f) {
             frontGateHP.sprite = HPSprites[1];
         }
@@ -360,7 +368,7 @@ public class GUIScript : MonoBehaviour {
             else if(text.color.b > 0.01f) {
                 text.color = text.color - new Color(0, 0, 0.01f, 0);
             }
-            else{
+            else {
                 shiftDir = "up";
             }
         }
@@ -384,18 +392,35 @@ public class GUIScript : MonoBehaviour {
         cameraAudioSource.PlayOneShot(click);
     }
 
-    public void UpdateTowers() {
+    public void UpdateSelection() {
+        bool towerSelected = player.getTowerSelected();
         int currentTower = player.getTower();
+        int currentSkill = player.getSkill();
 
-        for(int i = 0; i < towerIconList.Length; i++) {
-            Image tower = towerIconList[i];
-            if(i == currentTower){
-                tower.color = new Color(1, 1, 1, 0.75f);
-            }
-            else {
-                tower.color = new Color(1, 1, 1, 1);
+        if(towerSelected) {
+            for(int i = 0; i < towerIconList.Length; i++) {
+                Image tower = towerIconList[i];
+                if(i == currentTower) {
+                    towerSelectList[i].enabled = true;
+                }
+                else {
+                    towerSelectList[i].enabled = false;
+                }
             }
         }
+        else {
+            for(int i = 0; i < skillIconList.Length; i++) {
+                Image skill = skillIconList[i];
+                if(i == currentSkill) {
+                    skillSelectList[i].enabled = true;
+                }
+                else {
+                    skillSelectList[i].enabled = false;
+                }
+            }
+        }
+
+
     }
 
     public void UpdateItems() {
@@ -482,10 +507,9 @@ public class GUIScript : MonoBehaviour {
         Time.timeScale = 0;
     }
 
-	public GameObject getPopUpPanel()
-	{
-		return TowerPopup;
-	}
+    public GameObject getPopUpPanel() {
+        return TowerPopup;
+    }
 
     public void HeadShot() {
         headshotImage.SetActive(true);
