@@ -13,6 +13,8 @@ public class barricade : MonoBehaviour
 	private GameObject bluetrap;
 	bool mouseOver;
 	private KeyInputManager inputManager;
+	private int health;
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -23,6 +25,7 @@ public class barricade : MonoBehaviour
 		bar = resourceManager.barricade;
 		mouseOver = false;
 		inputManager = GameObject.Find ("KeyInputs").GetComponent<KeyInputManager> ();
+		health = resourceManager.barricadeHealth;
 	}
 	
 	// Update is called once per frame
@@ -58,6 +61,13 @@ public class barricade : MonoBehaviour
 		else {
 			RemoveBT();
 		}
+
+		//check if and how many guyants are attacking
+
+
+		if (health <= 0) {
+			RemoveTrap ();
+		}
 	}
 
 	void BuildTrap ()
@@ -92,13 +102,13 @@ public class barricade : MonoBehaviour
 						wayPointsNear.Add (point);
 						if (point != null) {
 							if (penalty > 0) {
-								point.setBarricade (1); 
-								point.setPenalty (penalty);
+								point.setBarricade (transform.position); 
+								point.setPenalty (point.getBarCount()*penalty);
 							}
 							else
 							{
-								point.setBarricade (-1); 
-								if (point.getBarricade () == 0) {
+								point.removeBarricade (); 
+								if (point.getBarCount() == 0) {
 									point.setPenalty (penalty);
 								}
 							}
@@ -127,6 +137,11 @@ public class barricade : MonoBehaviour
 		RemoveBT ();
 		setPenalties (0);
 		Destroy (gameObject);
+	}
+
+	public void TakeDamage(int damage)
+	{
+		health -= damage / 100;
 	}
 
 }

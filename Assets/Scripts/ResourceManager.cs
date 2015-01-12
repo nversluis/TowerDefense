@@ -72,6 +72,8 @@ public class ResourceManager : MonoBehaviour {
 	public float speedReduceRate;
 	public GameObject spearTrap;
 	public GameObject barricade;
+	public int barricadeHealth;
+
 	[Header("Hotspots")]
 	public GameObject magicTowerHotSpot;
 	public GameObject arrowTowerHotSpot;
