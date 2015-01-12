@@ -14,7 +14,7 @@ public class GuyantScript : MonoBehaviour
 	GameObject player;
 	GameObject goal;
 	GameObject Target;
-	Vector3 barricade;
+	List<Vector3> barricades;
 
 	GoalScript goalScript;
 
@@ -172,11 +172,16 @@ public class GuyantScript : MonoBehaviour
 
 
 			// if the enemy is near the barricade attack the barricade
-			if (barricade != null && (barricade - transform.position).magnitude < 5f) {
-				// set speed to zero and attack
-				rigidbody.velocity = Vector3.zero;
-				enemyResources.walking = false;
-				enemyResources.attacking = true;
+			bool attackingBar = false;
+			foreach (Vector3 barricade in barricades) {
+				if (barricade != null && (barricade - transform.position).magnitude < 5f && !attackingBar) {
+					// set speed to zero and attack
+					rigidbody.velocity = Vector3.zero;
+					enemyResources.walking = false;
+					enemyResources.attacking = true;
+					attackingBar = true;
+
+				}
 			}
 
 			// when enemy is dead
@@ -301,13 +306,13 @@ public class GuyantScript : MonoBehaviour
 
 			// determine a path to a goal
 			List<WayPoint> WPPath = Navigator.Path (transform.position - new Vector3 (0f, transform.position.y, 0f), Target.transform.position - new Vector3 (0f, Target.transform.position.y, 0f), nodeSize, grid, dfactor);
-			barricade = new Vector3 ();
+			barricades = new List<Vector3> ();
 			if (WPPath != null) {
 				Path = new List<Vector3> ();
 				foreach (WayPoint wp in WPPath) {
 					Path.Add (wp.getPosition ());
 					if (wp.getBarCount () > 0) {
-						barricade = wp.getBarricade ();
+						barricades.Add(wp.getBarricade ());
 					}
 
 				}

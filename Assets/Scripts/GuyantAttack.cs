@@ -38,7 +38,7 @@ public class GuyantAttack : MonoBehaviour
 
     void Update()
     {
-        if (enemyResources.attacking && playerHealth.currentHealth > 0 )
+		if (enemyResources.attacking && playerHealth.currentHealth > 0 && (player.transform.position - transform.position).magnitude < 3f)
         {
             if (!invoked)
             {

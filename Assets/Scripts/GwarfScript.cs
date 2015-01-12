@@ -14,7 +14,7 @@ public class GwarfScript : MonoBehaviour
     GameObject player;
     GameObject goal;
     GameObject Target;
-	Vector3 barricade;
+	List<Vector3> barricades;
 
     GoalScript goalScript;
 
@@ -171,14 +171,14 @@ public class GwarfScript : MonoBehaviour
             }
 
 			// if the enemy is near the trap attack the trap
-			if ((barricade - transform.position).magnitude < 30f)
-			{
-				// set speed to zero and attack
-				rigidbody.velocity = Vector3.zero;
-				enemyResources.walking = false;
-				enemyResources.attacking = true;
+			foreach (Vector3 barricade in barricades) {
+				if ((barricade - transform.position).magnitude < 30f) {
+					// set speed to zero and attack
+					rigidbody.velocity = Vector3.zero;
+					enemyResources.walking = false;
+					enemyResources.attacking = true;
+				}
 			}
-
             // when enemy is dead
             if (enemyResources.isDead)
             {
@@ -296,12 +296,13 @@ public class GwarfScript : MonoBehaviour
         {
             // determine a path to a goal
             List<WayPoint> WPPath = Navigator.Path(transform.position - new Vector3(0f, transform.position.y, 0f), Target.transform.position - new Vector3(0f, Target.transform.position.y, 0f), nodeSize, grid, dfactor);
+			barricades = new List<Vector3>();
 			if (WPPath != null) {
 				Path = new List<Vector3> ();
 				foreach (WayPoint wp in WPPath) {
 					Path.Add (wp.getPosition ());
 					if (wp.getBarCount () > 0) {
-						barricade = wp.getBarricade ();
+						barricades.Add(wp.getBarricade ());
 					}
 				}
 			}
