@@ -10,6 +10,7 @@ public class WayPoint {
     private float g_cost = 0;
     private float f_cost = 0;
     private float penalty = 0;
+	private int numBarricades = 0;
 
     public WayPoint(Vector3 pos, string stt = "unexplored") {
         position = pos;
@@ -69,4 +70,13 @@ public class WayPoint {
         destinations.Add(node);
     }
 
+	public void setBarricade(int amount)
+	{
+		numBarricades += amount;
+	}
+
+	public int getBarricade()
+	{
+		return numBarricades;
+	}
 }

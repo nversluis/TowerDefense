@@ -13,6 +13,7 @@ public class ResourceManager : MonoBehaviour {
 	public int costIceTrap;
 	public int costFireTrap;
 	public int costPoisonTrap;
+	public int costBarricade;
 	public int rewardenemy;
 	public int rewardWave;
 
@@ -63,12 +64,14 @@ public class ResourceManager : MonoBehaviour {
 	public float coolDownTimeMagicTower;
 	public GameObject arrowTower;
 	public GameObject arrowTowerArrow;
+
 	[Header("Floor")]
 	public GameObject poisonTrap;
 	public GameObject fireTrap;
 	public GameObject iceTrap;
 	public float speedReduceRate;
 	public GameObject spearTrap;
+	public GameObject barricade;
 	[Header("Hotspots")]
 	public GameObject magicTowerHotSpot;
 	public GameObject arrowTowerHotSpot;
@@ -116,6 +119,18 @@ public class ResourceManager : MonoBehaviour {
 	public static int mostWest;
 	public static int mostNorth;
 	public static int mostSouth;
+    
+    [Header("Scores")]
+    public int killsScore;
+    public int guyantKillsScore;
+    public int gwarfKillsScore;
+    public int grobbleKillsScore;
+    public int headshotsScore;
+    public int killStreakScore;
+    public int headShotStreakScore;
+    public int playerKillsScore;
+    public int towerKillsScore;
+
 
 	void Start(){
 		playerData.addGold (startGold);

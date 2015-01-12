@@ -1,0 +1,89 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &110402
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 410402}
+  - 114: {fileID: 11410402}
+  m_Layer: 0
+  m_Name: Editor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &410402
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 110402}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &11410402
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 110402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74fd59b7411061743801b8620bf8866b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 0}
+  buildingBlocksPanel: {fileID: 0}
+  buttons:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  prevBut: {fileID: 0}
+  nextBut: {fileID: 0}
+  backGroundCamera: {fileID: 0}
+  newMapScreen: {fileID: 0}
+  lengthInput: {fileID: 0}
+  widthInput: {fileID: 0}
+  newMapButton: {fileID: 0}
+  SubmitButton: {fileID: 0}
+  cancelSizeBut: {fileID: 0}
+  newSizeBut: {fileID: 0}
+  largeMapText: {fileID: 0}
+  areYouSurePanel: {fileID: 0}
+  generateLevelButton: {fileID: 0}
+  fileNameInput: {fileID: 0}
+  saveLayout: {fileID: 0}
+  loadLayout: {fileID: 0}
+  canvas: {fileID: 0}
+  ErrorText: {fileID: 0}
+  loadMapsPanel: {fileID: 0}
+  loadButton: {fileID: 11400002, guid: 2fbafc0ba92a50f41b510d223dcbcdf8, type: 2}
+  cancelButton: {fileID: 0}
+  submitLoadButton: {fileID: 0}
+  deleteButton: {fileID: 0}
+  saveMapPanel: {fileID: 0}
+  mainMenuButton: {fileID: 0}
+  LoadingScreen: {fileID: 0}
+  loadPanel: {fileID: 0}
+  click: {fileID: 8300000, guid: f637386b733e23840ace6809c509330a, type: 3}
+  startGame: {fileID: 8300000, guid: 2f98ad84aba801b4dac4150f9233d4b2, type: 3}
+  shhhh: {fileID: 0}
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 110402}
+  m_IsPrefabParent: 1
+  m_IsExploded: 1

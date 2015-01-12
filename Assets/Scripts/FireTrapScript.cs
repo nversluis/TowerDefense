@@ -38,7 +38,7 @@ public class FireTrapScript : MonoBehaviour
 		foreach (GameObject enemy in enemyOnTrap) {
 			if (enemy != null) {
 				EnemyHealth enemyHealth = enemy.collider.GetComponent<EnemyHealth> ();
-				enemyHealth.TakeDamage (damagePerShot,"physical");
+				enemyHealth.TakeDamage (damagePerShot,"physical", false);
 			
 			}
 		} 

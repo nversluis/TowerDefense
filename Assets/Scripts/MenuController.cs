@@ -131,7 +131,7 @@ public class MenuController : MonoBehaviour {
     }
 
     public void LoadMap() {
-        Application.LoadLevel("Map Loader");
+        Application.LoadLevel("LoadScreen");
     }
 
     public void QuitGame() {

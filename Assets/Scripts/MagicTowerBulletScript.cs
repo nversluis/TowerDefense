@@ -8,7 +8,6 @@ public class MagicTowerBulletScript : MonoBehaviour
     Transform Player;
     Vector3 PrevItLoc;
     public static float maxBulletDistance = 200;
-    public static GameObject hitObject;
     public GameObject Boom;
     LayerMask ignoreMask = ~(1 << 13);
     bool headshot;
@@ -29,7 +28,7 @@ public class MagicTowerBulletScript : MonoBehaviour
             }
             if (enemyHealth != null)
             {
-                enemyHealth.TakeDamage(damagePerShot, "magic");
+                enemyHealth.TakeDamage(damagePerShot, "magic", false);
             }
 
         }

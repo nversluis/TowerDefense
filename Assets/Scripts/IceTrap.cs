@@ -44,7 +44,7 @@ public class IceTrap : MonoBehaviour
 			if (enemy != null) {
                 EnemyResources enemyResources = enemy.collider.GetComponent<EnemyResources>();
 				EnemyHealth enemyHealth = enemy.collider.GetComponent<EnemyHealth> ();
-				enemyHealth.TakeDamage (damagePerShot, "magic");
+				enemyHealth.TakeDamage (damagePerShot, "magic", false);
 				enemyResources.isSlowed = gameObject.GetComponent<TowerStats> ().specialDamage;
 			}
 		}

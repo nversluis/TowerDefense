@@ -94,7 +94,7 @@ public class RandomMaze : MonoBehaviour
 		GenerateWall (positions,planewidth,wallPrefab,torch,height,length,width,gameObject);
 		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Dwogres wanted a red carpet to walk on, generating..";
 		yield return new WaitForSeconds(0.1f);
-		Nodes=SpawnNodes (positions,nodeSize, planewidth, NodesPos, Nodes,length,width,drawNavigationGrid,false);
+		Nodes=SpawnNodes (positions,nodeSize, planewidth, Nodes,length,width,drawNavigationGrid,false);
 		LoadingScreen.GetComponentInChildren<Text>().text = "Loading: Giving birth to Player...=";
 		yield return new WaitForSeconds(0.1f);
         spawnPlayer(player, camera, resourceManager.Goal, enemySpawner, resourceManager.GUI, resourceManager.eventListener, startPos * planewidth, endPos, Minimapcamera, width, length, planewidth);
@@ -260,8 +260,10 @@ public class RandomMaze : MonoBehaviour
 	}
 
 	//Method to spawn nodes
-	public static List<WayPoint> SpawnNodes (ArrayList positions, float nodeSize, float planewidth, List<Vector3> NodesPos, List<WayPoint> Nodes,int length, int width, bool drawNavigationGrid, bool isLevelEdMap)
+	public static List<WayPoint> SpawnNodes (ArrayList positions, float nodeSize, float planewidth, List<WayPoint> Nodes,int length, int width, bool drawNavigationGrid, bool isLevelEdMap)
 	{
+        NodesPos = new List<Vector3>();
+
 		for (int i = 0; i < positions.Count; i++) {
 			Vector2 curPosi = (Vector2)positions [i];
 			float l = curPosi [0];
@@ -389,8 +391,11 @@ public class RandomMaze : MonoBehaviour
 
 		GameObject MainCamera = (GameObject)Instantiate (camera, new Vector3 (0f, 0f, 0f), Quaternion.identity);
 		MainCamera.name = "Main Camera";
-        GameObject EventListener = (GameObject)Instantiate(EventList, new Vector3(0f, 0f, 0f), Quaternion.identity);
-		GameObject Player = (GameObject)Instantiate (player, new Vector3 (startPos.x, 0.5f, startPos.y), Quaternion.identity);
+        if (GameObject.Find("EventListener") != null)
+        {
+            GameObject EventListener = (GameObject)Instantiate(EventList, new Vector3(0f, 0f, 0f), Quaternion.identity);
+        }
+		GameObject Player = (GameObject)Instantiate (player, new Vector3 (startPos.x, 0.5f, startPos.y)* planewidth, Quaternion.identity);
 		Player.gameObject.transform.localScale = new Vector3 (0.05f, 0.05f, 0.05f);
 		Player.name = "Player";
         GameObject Goal = (GameObject)Instantiate(Goal2, new Vector3(startPos.x, 0.01f, startPos.y) * planewidth, Quaternion.identity);

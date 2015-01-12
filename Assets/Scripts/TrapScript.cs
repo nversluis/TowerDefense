@@ -34,7 +34,11 @@ public class TrapScript : MonoBehaviour
 		} else if (gameObject.name.Contains ("Spear")) {
 			realTrap = resourceManager.spearTrap;
 			//cost = resourceManager.costFireTrap;
-		}
+		} else if (gameObject.name.Contains ("arricade")) {
+			realTrap = resourceManager.barricade;
+			cost = resourceManager.costBarricade;
+			//cost = resourceManager.costFireTrap;
+		} 
 
 
 		MaxDistance = resourceManager.maxTowerDistance;
