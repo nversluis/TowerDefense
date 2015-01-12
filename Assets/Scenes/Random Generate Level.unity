@@ -186,6 +186,7 @@ MonoBehaviour:
   headShotStreakScore: 200
   playerKillsScore: 20
   towerKillsScore: 10
+  allBarricades: []
 --- !u!4 &14726754
 Transform:
   m_ObjectHideFlags: 0

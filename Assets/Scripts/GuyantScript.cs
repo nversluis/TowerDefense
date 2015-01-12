@@ -180,6 +180,12 @@ public class GuyantScript : MonoBehaviour
 					enemyResources.walking = false;
 					enemyResources.attacking = true;
 					attackingBar = true;
+					foreach(GameObject tarBar in resourceManager.allBarricades)
+					{
+						if (tarBar.transform.position == barricade) {
+							enemyResources.targetBarricade = tarBar;
+						}
+					}
 
 				}
 			}
