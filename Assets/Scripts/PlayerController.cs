@@ -20,7 +20,13 @@ public class PlayerController : MonoBehaviour
     private float turnSpeed = 0.5f;
     private float jumpSpeed = 8.78f;
     private float moveY=0;
+
     public static bool moving;
+    public static bool attackingSword1;
+    public static bool attackingSword2;
+    public static bool attackMagic1;
+    public static bool attackMagic2;
+
     private AudioClip magic;
     private bool jumped;
     public static Vector3 location;
@@ -128,16 +134,6 @@ public class PlayerController : MonoBehaviour
                 audio.PlayOneShot(magic,15f);
             }
 
-            if (WeaponController.weapon == 2)
-            {
-
-                if (CameraController.hitObject.name == "Cube1")
-                {
-                    GameObject tower = (GameObject)Instantiate(WeaponController.curTower, CameraController.hit.point + new Vector3(0f, 7.413f - 0.5f, 0f), Quaternion.Euler(0f,90f,0f));
-                    tower.gameObject.transform.localScale = new Vector3(1f, 14f, 1f);
-                }
-
-            }
         }
     }
 

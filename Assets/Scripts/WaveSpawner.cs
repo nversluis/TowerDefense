@@ -15,7 +15,7 @@ public class WaveSpawner : MonoBehaviour
     public float mutationProbability;
 
     private int indexOfCurrentGen;
-    public bool spawning = true;
+    private bool spawning = true;
     public bool keepDistribution = false;
 
     GameObject gui;
@@ -31,8 +31,8 @@ public class WaveSpawner : MonoBehaviour
     //float orcHeigthSpawn = 3.27f;
     private PlayerData playerData = GUIScript.player;
 
-    private bool gameHasStarted = false;
     bool Won;
+    private bool gameHasStarted = false;
     public bool allEnemiesSpawned = false;
     public bool allEnemiesDead = false;
 
@@ -64,6 +64,11 @@ public class WaveSpawner : MonoBehaviour
         EnemyGrobble = resourceManager.enemyGrobble;
         maxWaves = resourceManager.maxWaves;
         currentWave = resourceManager.currentWave;
+        maxEnemies = resourceManager.maxEnemies;
+        toenameAantalEnemiesPerWave = resourceManager.toenameAantalEnemiesPerWave;
+        timeBetweenWaves = resourceManager.timeBetweenWaves;
+        currentTotalStatPoints = resourceManager.totalStatPoints;
+        delta = resourceManager.toenameTotalStatPointsPerWave;
         enemies = new ArrayList();
         enemiesInWave = new ArrayList();
         currentGenDistributions = new List<List<float>>();
@@ -76,6 +81,14 @@ public class WaveSpawner : MonoBehaviour
     }
 
     // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetKeyDown("return") || Input.GetKeyDown("enter"))
+        {
+            gameHasStarted = true;
+        }
+    }
+
     void FixedUpdate()
     {
         if (currentWave <= maxWaves)
@@ -93,10 +106,6 @@ public class WaveSpawner : MonoBehaviour
 
                 if (currentWave == 1)
                 {
-                    if (Input.GetKeyDown("return"))
-                    {
-                        gameHasStarted = true;
-                    }
                     if (gameHasStarted)
                     {
                         waitTime = 0;
@@ -163,6 +172,7 @@ public class WaveSpawner : MonoBehaviour
         }
         else
         {
+            currentWave = maxWaves;
             Won = true;
         }
 
@@ -216,35 +226,6 @@ public class WaveSpawner : MonoBehaviour
             nextGenDistributions.Add(enemyStats.statDistribution);
             nextGenFitness.Add(enemyStats.fitness);
             enemies.Add(enemyGwarf);
-        }
-    }
-
-    void UpdateenemyCount()
-    {
-        if (enemies.Count > 0)
-        {
-            for (int i = 0; i < enemies.Count; i++)
-            {
-                if ((GameObject)(enemies[i]) == null)
-                {
-                    // Verwijder een enemy uit de lijst van enemies als die dood is
-                    enemies.Remove(enemies[i]);
-                }
-                else
-                {
-                    if (!allEnemiesSpawned)
-                    {
-                        nextGenFitness[i] = ((GameObject)(enemies[i])).GetComponent<EnemyStats>().fitness;
-                        //Debug.Log("nextGenFitness[" + i + "] = " + nextGenFitness[i]);
-                    }
-                    else
-                    {
-                        currentGenFitness[i] = ((GameObject)(enemies[i])).GetComponent<EnemyStats>().fitness;
-                        //Debug.Log("currentGenFitness[" + i + "] = " + currentGenFitness[i]);
-                    }
-                }
-
-            }
         }
     }
 

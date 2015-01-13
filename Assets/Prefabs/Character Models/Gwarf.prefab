@@ -957,6 +957,7 @@ MonoBehaviour:
   dieDistance: 0
   attackDamage: 0
   totalDamage: 0
+  targetBarricade: {fileID: 0}
 --- !u!114 &11488900
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -991,7 +992,7 @@ MonoBehaviour:
   factorTime: 3
   factorDamage: .00499999989
   factorGateDistance: 300
-  factorHitGoal: 10
+  factorHitGoal: 1.10000002
 --- !u!114 &11488904
 MonoBehaviour:
   m_ObjectHideFlags: 1

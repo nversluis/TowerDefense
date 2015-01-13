@@ -104,14 +104,6 @@ public class FloorScript : MonoBehaviour
 						sellTower ();
 					}
 				}
-				//bring up the menu to show ot sell or upgrade tower (with costs) and upgrade stats
-				//if (Input.GetMouseButtonDown (1)) {
-				//	showMenu ();
-				//}
-
-				//if (Input.GetKeyUp (KeyCode.C)) {
-				//	GameObject.Find ("GUIMain").GetComponent<GUIScript> ().TowerPopup.SetActive (false);
-				//}
 
 			}
 		}	
@@ -119,15 +111,11 @@ public class FloorScript : MonoBehaviour
 		if (player == null) {
 			player = GameObject.Find ("Player");
 		}
-		else if ((player.transform.position - transform.position).magnitude >= 75) {
+		else if ((player.transform.position - transform.position).magnitude >= 70) {
 			transform.GetChild(0).gameObject.layer = 0;
 		} else {
 			transform.GetChild(0).gameObject.layer = 9;
 		}
-
-
-
-
 	}
 
 	private void sellTower ()
@@ -139,16 +127,37 @@ public class FloorScript : MonoBehaviour
 
 	private void upgradeTower ()
 	{
-		Debug.Log ("Not yet implemented");
-		GameObject.Find ("GUIMain").GetComponent<GUIScript> ().TowerPopup.SetActive (false);
+		GameObject tower = gameObject.transform.GetChild (1).gameObject;
+		TowerStats stats = tower.GetComponent<TowerStats> ();
+		if (cost * 2 <= GUIScript.player.getGold ()) {
+			stats.level++;
+			cost *= 2;
+			if (tower.name.Contains ("Fire")) {
+				stats.attack = (int)Mathf.Round (stats.attack * resourceManager.fireAttack);
+				stats.speed = (int)Mathf.Round (stats.speed * resourceManager.fireSpeed);
+				stats.specialDamage *= resourceManager.fireSpecial;
+				GUIScript.player.addGold (-cost);
+			} else if (tower.name.Contains ("Poison")) {
+				stats.attack = (int)Mathf.Round (stats.attack * resourceManager.poisonAttack);
+				stats.speed = (int)Mathf.Round (stats.speed * resourceManager.poisonSpeed);
+				stats.specialDamage *= resourceManager.poisonSpecial;
+				GUIScript.player.addGold (-cost);
+			} else if (tower.name.Contains ("Ice")) {
+				stats.attack = (int)Mathf.Round (stats.attack * resourceManager.iceAttack);
+				stats.speed = (int)Mathf.Round (stats.speed * resourceManager.iceSpeed);
+				stats.specialDamage *= resourceManager.iceSpecial;
+				GUIScript.player.addGold (-cost);
+			} else if (tower.name.Contains ("Spear")) {
+				//cost = resourceManager.costSpearTrap;
+			} else if (tower.name.Contains ("arricade")) {
+				cost = (int)resourceManager.costBarricade;
+			}
+		} else {
+			Debug.Log ("no moneyzz");
+		}
+
 		WallScript.DestroyHotSpots();
 	}
 
-	private void showMenu ()
-	{
-		GameObject popUpPanel = GameObject.Find ("GUIMain").GetComponent<GUIScript> ().getPopUpPanel ();
-		popUpPanel.SetActive (true);
-
-	}
 }
 

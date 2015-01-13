@@ -51,7 +51,13 @@ public class ResourceManager : MonoBehaviour {
     public bool drawPath;
     public bool automaticPathUpdating;
 
-	[Header("Waves")]
+    [Header("Waves")]
+    public float mutationProbability;
+    public int maxEnemies;
+    public int toenameAantalEnemiesPerWave;
+    public int timeBetweenWaves;
+    public int totalStatPoints;
+    public int toenameTotalStatPointsPerWave;
     public int currentWave;
 	public int maxWaves;
 
@@ -67,8 +73,17 @@ public class ResourceManager : MonoBehaviour {
 
 	[Header("Floor")]
 	public GameObject poisonTrap;
+	public float poisonAttack;
+	public float poisonSpeed;
+	public float poisonSpecial;
 	public GameObject fireTrap;
+	public float fireAttack;
+	public float fireSpeed;
+	public float fireSpecial;
 	public GameObject iceTrap;
+	public float iceAttack;
+	public float iceSpeed;
+	public float iceSpecial;
 	public float speedReduceRate;
 	public GameObject spearTrap;
 	public GameObject barricade;

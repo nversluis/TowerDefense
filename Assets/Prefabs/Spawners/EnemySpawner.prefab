@@ -42,7 +42,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxEnemies: 10
   mutationProbability: .699999988
-  spawning: 1
   keepDistribution: 0
   toenameAantalEnemiesPerWave: 5
   maxX: .300000012
@@ -52,7 +51,7 @@ MonoBehaviour:
   timeBetweenWaves: 5
   currentTotalStatPoints: 100
   delta: 30
-  spawnTime: .200000003
+  spawnTime: .5
 --- !u!114 &11415504
 MonoBehaviour:
   m_ObjectHideFlags: 1

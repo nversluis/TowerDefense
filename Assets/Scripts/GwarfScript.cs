@@ -75,7 +75,7 @@ public class GwarfScript : MonoBehaviour
     void WalkSpeed()
     {
 		speedReduce = enemyResources.isSlowed;
-        walkSpeed = normalWalkSpeed * speedReduce;
+        walkSpeed = normalWalkSpeed / speedReduce;
     }
 
     // Method for the movement of the enemy
