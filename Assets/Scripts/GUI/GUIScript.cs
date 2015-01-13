@@ -351,7 +351,9 @@ public class GUIScript : MonoBehaviour {
     }
 
     void UpdateWaveText() {
-        waveText.text = waveSpawner.GetCurrentWave().ToString() + " of " + waveSpawner.GetMaxWave().ToString();
+        int waveNo = waveSpawner.GetCurrentWave();
+        int maxWaveNo = waveSpawner.GetMaxWave();
+        waveText.text = waveNo.ToString() + " of " + maxWaveNo.ToString();
     }
 
     void UpdateGateHPColor() {
