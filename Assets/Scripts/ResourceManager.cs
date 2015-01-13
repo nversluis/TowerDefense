@@ -52,14 +52,17 @@ public class ResourceManager : MonoBehaviour {
     public bool automaticPathUpdating;
 
     [Header("Waves")]
-    public float mutationProbability;
+    public int currentWave;
+    public int maxWaves;
     public int maxEnemies;
     public int toenameAantalEnemiesPerWave;
     public int timeBetweenWaves;
+    public float timeTillNextWave;
+    public bool keepType;
+    public bool keepDistribution;
+    public float mutationProbability;
     public int totalStatPoints;
     public int toenameTotalStatPointsPerWave;
-    public int currentWave;
-	public int maxWaves;
 
 	[Header("Towers")]
 	public float maxTowerDistance;
