@@ -48,9 +48,9 @@ public class WeaponController : MonoBehaviour
 		FloorTower3 = resourceManager.iceTrapHotspot;
 		FloorTower4 = resourceManager.spearTrapHotspot;
 		barricade = resourceManager.barricade;
-		curTower = null;
+		curTower = Tower1;
 		curFloorTower = null;
-		weapon = 1;
+		weapon = 25;
 		trapGridSize = 1;
 	}
 
@@ -63,22 +63,48 @@ public class WeaponController : MonoBehaviour
 				curTower = Tower1;
 				curFloorTower = null;
 				WallScript.DestroyHotSpots ();
-				weapon = 2;
+				weapon = 25;
 				player.setTower (0);
 			} else {
 				weapSelected = true;
 				curTower = null;
 				curFloorTower = null;
 				weapon = 1;
+				player.setSkill (0);
 				WallScript.DestroyHotSpots ();
 			}
 		}
 		//If 1 pressed, magic weap is selected, cant build towers.
 
-		if (Input.GetKey (inputManager.magicInput)&& weapon!=1 && weapSelected) {
+		if (Input.GetKey (inputManager.sword1Input)&& weapon!=1 && weapSelected) {
 			curTower = null;
 			curFloorTower = null;
 			weapon = 1;
+			player.setSkill (0);
+			WallScript.DestroyHotSpots ();
+			//player.setTower (8);
+		}
+		if (Input.GetKey (inputManager.sword2Input)&& weapon!=2 && weapSelected) {
+			curTower = null;
+			curFloorTower = null;
+			weapon = 2;
+			player.setSkill (1);
+			WallScript.DestroyHotSpots ();
+			//player.setTower (8);
+		}
+		if (Input.GetKey (inputManager.magic1Input)&& weapon!=3 && weapSelected) {
+			curTower = null;
+			curFloorTower = null;
+			weapon = 3;
+			player.setSkill (2);
+			WallScript.DestroyHotSpots ();
+			//player.setTower (8);
+		}
+		if (Input.GetKey (inputManager.magic2Input)&& weapon!=4 && weapSelected) {
+			curTower = null;
+			curFloorTower = null;
+			weapon = 4;
+			player.setSkill (3);
 			WallScript.DestroyHotSpots ();
 			//player.setTower (8);
 		}

@@ -82,7 +82,7 @@ public class barricade : MonoBehaviour
 			trap.SetActiveRecursively (true); 
 			playerData.addGold (-cost);
 			resourceManager.allBarricades.Add (trap);
-			setPenalties (500);
+			setPenalties (100);
 			WallScript.DestroyHotSpots ();
 			//Destroy (gameObject);
 		} else {
