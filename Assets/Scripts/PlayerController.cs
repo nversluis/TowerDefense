@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     public static bool attackingSword2;
     public static bool attackMagic1;
     public static bool attackMagic2;
+    public static bool idle;
 
     private AudioClip magic;
     private bool jumped;
@@ -33,7 +34,23 @@ public class PlayerController : MonoBehaviour
     Vector3 startPosition;
 
     private LayerMask ignoreMaskBullet = ~((1 << 11) | (1 << 13));
-    private LayerMask ignoreMaskTraps = ~(1 << 12);
+    private LayerMask ignoreMaskTraps = ~(1 << 13);
+    private LayerMask enemyMask = (1 << 12);
+
+    bool coolDownSword1;
+    bool coolDownSword2;
+    bool coolDownMagic1;
+    bool coolDownMagic2;
+
+    float coolDownSword1Time;
+    float coolDownSword2Time;
+    float coolDownMagic1Time;
+    float coolDownMagic2Time;
+
+    Vector3 tijdelijk = new Vector3(0, 1, 0);
+
+    int swordDamage;
+    int magicDamage;
 
     // Method for getting player input
     private Vector3 playerInput()
@@ -56,16 +73,46 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    void setCoolDownSword1false()
+    {
+        coolDownSword1 = false;
+    }
+    void setCoolDownSword2false()
+    {
+        coolDownSword2 = false;
+    }
+
+    void setCoolDownMagic1false()
+    {
+        coolDownMagic1 = false;
+    }
+
+    void setCoolDownMagic2false()
+    {
+        coolDownMagic2 = false;
+    }
+
     // Method for moving the player
     private void playerMovement()
     {
         // Checking if the player is moving
-        if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
+        if ((Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0) && !OtherAnimationTrue())
         {
+            idle = false;
             moving = true;
         }
-        else
+        else if (!OtherAnimationTrue())
+        {
+
+            idle = true;
             moving = false;
+        }
+        else
+        {
+
+            idle = false;
+            moving = false;
+        }
 
         // moving the player according to input
         rigidbody.velocity = playerInput();
@@ -90,7 +137,6 @@ public class PlayerController : MonoBehaviour
         return Physics.Raycast(ray, distance+0.5f,ignoreMaskTraps);
     }
 
-
     // Method that runs when left button is pressed
     private void OnLeftMouseDown()
     {
@@ -99,12 +145,28 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
 
-            if (WeaponController.weapon == 1)
+            if (WeaponController.weapon == 1 && !coolDownSword1)
             {
+                SetAttackAnimationFalse();
+                coolDownSword1 = true;
+                attackingSword1 = true;
+                Invoke("SetAttackAnimationFalse", 1f/2f);
+                Invoke("setCoolDownSword1false", coolDownSword1Time);
 
+                RaycastHit hit;
+                if(Physics.Raycast(transform.position + tijdelijk, transform.forward, out hit, 3f, enemyMask)){
+                    hit.transform.gameObject.GetComponent<EnemyHealth>().TakeDamage(swordDamage, "physical", true);
+                }
             }
-            if (WeaponController.weapon == 3)
+
+
+            if (WeaponController.weapon == 3 && !coolDownMagic1)
             {
+                SetAttackAnimationFalse();
+                coolDownMagic1 = true;
+                attackMagic1 = true;
+                Invoke("SetAttackAnimationFalse", 1f / 2f);
+                Invoke("setCoolDownMagic1false", coolDownMagic1Time);
 
                 // determining Angles of the camera with origin
                 camAngleX = camera.transform.rotation.eulerAngles.x;
@@ -114,7 +176,6 @@ public class PlayerController : MonoBehaviour
                 Vector3 camShootDistance;
                 RaycastHit hit;
 
-                Vector3 tijdelijk = new Vector3(0, 1, 0);
 			
                 // creating a bullet in front of 1 unit away from Player
                 GameObject bullet = (GameObject)Instantiate(Bullet, transform.position + new Vector3((Mathf.Sin(camAngleY * Mathf.Deg2Rad)), 0f, Mathf.Cos(camAngleY * Mathf.Deg2Rad)) + tijdelijk, Quaternion.identity);
@@ -123,7 +184,6 @@ public class PlayerController : MonoBehaviour
                 if (!Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, Mathf.Infinity, ignoreMaskBullet))
                 {
                     camShootDistance = transform.forward;
-                    Debug.DrawRay(transform.position + tijdelijk, camera.transform.forward*15);
 
                 }
                 else
@@ -154,6 +214,11 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    public void addSwordDamage(int addedDamage)
+    {
+        swordDamage += addedDamage;
+    }
+
     // Decrease bullet distortion over time
     private void DecreaseBulletDistortion()
     {
@@ -172,6 +237,10 @@ public class PlayerController : MonoBehaviour
     attackMagic2 = false;
     }
 
+    bool OtherAnimationTrue()
+    {
+        return attackingSword1 || attackingSword2 || attackMagic1 || attackMagic2;
+    } 
     // Use this for initialization
     void Start()
     {
@@ -183,10 +252,15 @@ public class PlayerController : MonoBehaviour
         startPosition = transform.position;
 		Bullet = resourceManager.magicBullet;
 		magic = resourceManager.magicBulletSound;
+        coolDownMagic1Time = resourceManager.coolDownMagic1Time;
+        coolDownMagic2Time = resourceManager.coolDownMagic2Time;
+        coolDownSword1Time = resourceManager.coolDownSword1Time;
+        coolDownSword2Time = resourceManager.coolDownSword2Time;
+        swordDamage = resourceManager.startSwordDamage;
+        magicDamage = resourceManager.startMagicDamage;
 
 
         
-
     }
 
     // Update void which updates every frame
@@ -196,9 +270,6 @@ public class PlayerController : MonoBehaviour
         OnLeftMouseDown();
         location = transform.position;
         Jumping();
-
-
-
     }
 
     // Updates 60 times per second and not per frame

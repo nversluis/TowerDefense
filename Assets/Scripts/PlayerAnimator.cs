@@ -6,7 +6,8 @@ public class PlayerAnimator : MonoBehaviour {
     protected Animator animator;
 
 
-    void Start(){
+    void Start()
+    {
 
         animator = GetComponent<Animator>();
 
@@ -14,14 +15,24 @@ public class PlayerAnimator : MonoBehaviour {
 
     void Update()
     {
-       
         if (PlayerController.moving)
         {
             animator.SetBool("Walking", true);
+
         }
         else
         {
             animator.SetBool("Walking", false);
+        }
+
+        if (PlayerController.idle)
+        {
+            animator.SetBool("Idle", true);
+
+        }
+        else
+        {
+            animator.SetBool("Idle", false);
         }
 
         if (PlayerController.attackingSword1)

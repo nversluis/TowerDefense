@@ -99,8 +99,14 @@ MonoBehaviour:
   pathUpdateRate: .300000012
   drawPath: 0
   automaticPathUpdating: 1
+  mutationProbability: .699999988
+  maxEnemies: 10
+  toenameAantalEnemiesPerWave: 5
+  timeBetweenWaves: 5
+  totalStatPoints: 100
+  toenameTotalStatPointsPerWave: 30
   currentWave: 1
-  maxWaves: 10
+  maxWaves: 20
   maxTowerDistance: 50
   magicTower: {fileID: 100010, guid: 00820a827834982408befc67f6611fe1, type: 2}
   magicTowerBullet: {fileID: 100000, guid: 992585f8d90a7dd4aa9fb58097ade3cd, type: 2}
@@ -173,8 +179,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92f9af5e8e589724c914da601b8edf15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swordInput: 49
-  magicInput: 50
+  sword1Input: 49
+  sword2Input: 50
+  magic1Input: 51
+  magic2Input: 52
   tow1Input: 49
   tow2Input: 50
   tow3Input: 51

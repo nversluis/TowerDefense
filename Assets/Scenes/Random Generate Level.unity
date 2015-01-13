@@ -483,8 +483,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92f9af5e8e589724c914da601b8edf15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swordInput: 49
-  magicInput: 50
+  sword1Input: 49
+  sword2Input: 50
+  magic1Input: 51
+  magic2Input: 52
   tow1Input: 49
   tow2Input: 50
   tow3Input: 51
