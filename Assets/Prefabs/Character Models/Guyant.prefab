@@ -409,6 +409,7 @@ GameObject:
   - 95: {fileID: 9522426}
   - 114: {fileID: 11429486}
   - 65: {fileID: 6543712}
+  - 82: {fileID: 8270260}
   m_Layer: 12
   m_Name: Guyant
   m_TagString: Enemy
@@ -850,6 +851,64 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1.28999996, z: 1.27999997}
   m_Center: {x: -.0500000007, y: 3.00999999, z: -.819999993}
+--- !u!82 &8270260
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100052}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
 --- !u!95 &9522426
 Animator:
   serializedVersion: 3
@@ -878,6 +937,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackDamage: 1
   playerDistance: 0
+  damageMultiplier: 20
   totalDamage: 0
   player: {fileID: 0}
   invoked: 0
@@ -895,6 +955,7 @@ MonoBehaviour:
   startingHealth: 100
   currentHealth: 0
   defense: 0
+  magicDefense: 0
   enemyStats: {fileID: 0}
   spawnPosition: {x: 0, y: 0, z: 0}
   deathPosition: {x: 0, y: 0, z: 0}
@@ -911,17 +972,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c928c7d5088d06b4cb70a96bac54f291, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  statDistribution: []
   totalStatPoints: 100
   health: 0
   attack: 0
   defense: 0
+  magicDefense: 0
   speedMultiplier: 0
   dfactor: 0
   goalImportance: 0
   playerImportance: 0
+  healthDistributionFactor: 0
+  attackDistributionFactor: 0
+  defenseDistributionFactor: 0
+  magicDefenseDistributionFactor: 0
   respawn: 0
-  statsMutation: 1
+  statMutation: 24
   totalDamage: 0
+  leeftijd: 0
+  fitness: 0
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -949,7 +1018,9 @@ MonoBehaviour:
   attacking: 0
   isDead: 0
   isSlowed: 0
+  dieDistance: 0
   attackDamage: 0
+  totalDamage: 0
 --- !u!114 &11497822
 MonoBehaviour:
   m_ObjectHideFlags: 1

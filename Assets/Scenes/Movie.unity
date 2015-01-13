@@ -345,8 +345,8 @@ MonoBehaviour:
   camAudio: {fileID: 0}
   audios:
   - {fileID: 8300000, guid: 12c926c8eb735634a9682e2d4fc51f20, type: 3}
-  - {fileID: 8300000, guid: 584d125f3c2235840b987b83ac5af309, type: 3}
   - {fileID: 8300000, guid: 4e5bde0d0d286da4ba1d6448a076de51, type: 3}
+  - {fileID: 8300000, guid: 584d125f3c2235840b987b83ac5af309, type: 3}
 --- !u!114 &942414024
 MonoBehaviour:
   m_ObjectHideFlags: 0

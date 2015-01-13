@@ -47,6 +47,12 @@ public class GuyantScript : MonoBehaviour
 
 	public float isSlowed = 1;
 
+    AudioSource enemyAudio;
+    AudioClip guyantOef;
+
+    bool justPlayed;
+
+
 	// Method for finding all necessary scripts
 	void GetScripts ()
 	{
@@ -72,7 +78,10 @@ public class GuyantScript : MonoBehaviour
 		pathUpdateRate = resourceManager.pathUpdateRate;
 		dfactor = enemystats.dfactor;
 		automaticPathUpdating = resourceManager.automaticPathUpdating;
-        
+        guyantOef = resourceManager.guyantOef;
+
+        enemyAudio = GetComponent<AudioSource>();
+        justPlayed = false;
 
 	}
 
@@ -183,6 +192,13 @@ public class GuyantScript : MonoBehaviour
 			if (enemyResources.isDead) {
 				// set speed to zero
 				rigidbody.velocity = Vector3.zero;
+
+                float random = Random.Range(0f, 1f);
+                if (random < 1f && !justPlayed)
+                {
+                    enemyAudio.PlayOneShot(guyantOef,5f);
+                    justPlayed = true;
+                }
 
 			}
 
