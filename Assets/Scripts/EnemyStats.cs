@@ -4,10 +4,6 @@ using System.Collections.Generic;
 
 public class EnemyStats : MonoBehaviour
 {
-<<<<<<< .merge_file_a81652
-
-=======
->>>>>>> .merge_file_a81672
     private List<int> stats;
     public List<float> statDistribution;
     public int totalStatPoints = 100;
@@ -35,15 +31,6 @@ public class EnemyStats : MonoBehaviour
 
     public int totalDamage;
     public float leeftijd;
-<<<<<<< .merge_file_a81652
-    public float fitness;
-    EnemyResources enemyResources;
-    EnemyHealth enemyHealth;
-
-
-    void Awake()
-    {
-=======
     public float goalDistance;
     public float fitness;
     EnemyResources enemyResources;
@@ -59,7 +46,6 @@ public class EnemyStats : MonoBehaviour
     void Awake()
     {
         goal = GameObject.Find("Goal");
->>>>>>> .merge_file_a81672
         generateDistribution();
         enemyResources = GetComponent<EnemyResources>();
         enemyHealth = GetComponent<EnemyHealth>();
@@ -84,22 +70,13 @@ public class EnemyStats : MonoBehaviour
         }
         leeftijd += Time.deltaTime;
         fitness = getFitness();
-<<<<<<< .merge_file_a81652
-=======
         goalDistance = Vector3.Distance(goal.transform.position, this.transform.position);
->>>>>>> .merge_file_a81672
     }
 
     public void generateenemyStats()
     {
 
         this.health = (int)Mathf.Round(healthDistributionFactor * totalStatPoints);
-<<<<<<< .merge_file_a81652
-        this.attack = (int)Mathf.Round(attackDistributionFactor * totalStatPoints);
-        this.defense = (int)Mathf.Round(defenseDistributionFactor * totalStatPoints);
-        if (this.defense == 0)
-        {
-=======
         if (this.health <= 0)
         {
             Debug.Log("health <= 0 is true");
@@ -115,22 +92,14 @@ public class EnemyStats : MonoBehaviour
         if (this.defense == 0)
         {
             Debug.Log("'defense <= 0 is true");
->>>>>>> .merge_file_a81672
             this.defense = 1;
         }
         this.magicDefense = (int) Mathf.Round(magicDefenseDistributionFactor * totalStatPoints);
         if (this.magicDefense == 0)
         {
-<<<<<<< .merge_file_a81652
-            magicDefense = 1;
-        }
-
-
-=======
             Debug.Log("magicDefense <= 0 is true");
             magicDefense = 1;
         }
->>>>>>> .merge_file_a81672
         this.speedMultiplier = Random.Range(0.90f, 1.10f);
         this.dfactor = Random.Range(0.05f, 0.80f);
         this.goalImportance = Random.Range(0.4f, 1f);
@@ -165,26 +134,18 @@ public class EnemyStats : MonoBehaviour
 
     public float getFitness()
     {
-<<<<<<< .merge_file_a81652
-        return 3 * leeftijd + enemyResources.totalDamage / 100;
-=======
         float res;
         res = factorTime * leeftijd + factorDamage * enemyResources.totalDamage  + factorGateDistance / goalDistance;
         if (goalDistance < 4.1f) {
             res *= (100+factorHitGoal)/100;
         }
         return res;
->>>>>>> .merge_file_a81672
     }
 
     /// <summary>
     /// Genereert een lijst van n random numbers die opsommen tot sum.
     /// </summary>
-<<<<<<< .merge_file_a81652
-    /// <param name="n"></param> Het aantal random numbers
-=======
     /// <param name="n"></param> Het aantal random numbers1
->>>>>>> .merge_file_a81672
     /// <param name="sum"></param> De som van de random numbers
     /// <returns></returns>
     public List<int> randomNumberGenerator(int n, int sum)
@@ -242,17 +203,10 @@ public class EnemyStats : MonoBehaviour
         List<int> statMutations = randomNumberGenerator(n, statMutation);
 
         // Tijdelijke oplossing...
-<<<<<<< .merge_file_a81652
-        while ( statDistribution[0] * 100 + statMutations[0] - statMutation / n > 99.9 || statDistribution[0] * 100 + statMutations[0] - statMutation / n < 0.1 ||
-                statDistribution[1] * 100 + statMutations[1] - statMutation / n > 99.9 || statDistribution[1] * 100 + statMutations[1] - statMutation / n < 0.1 ||
-                statDistribution[2] * 100 + statMutations[2] - statMutation / n > 99.9 || statDistribution[2] * 100 + statMutations[2] - statMutation / n < 0.1 ||
-                statDistribution[3] * 100 + statMutations[3] - statMutation / n > 99.9 || statDistribution[3] * 100 + statMutations[3] - statMutation / n < 0.1)
-=======
         while ( statDistribution[0] * 100 + statMutations[0] - statMutation / n > 99.1 || statDistribution[0] * 100 + statMutations[0] - statMutation / n < 0.9 ||
                 statDistribution[1] * 100 + statMutations[1] - statMutation / n > 99.1 || statDistribution[1] * 100 + statMutations[1] - statMutation / n < 0.9 ||
                 statDistribution[2] * 100 + statMutations[2] - statMutation / n > 99.1 || statDistribution[2] * 100 + statMutations[2] - statMutation / n < 0.9 ||
                 statDistribution[3] * 100 + statMutations[3] - statMutation / n > 99.1 || statDistribution[3] * 100 + statMutations[3] - statMutation / n < 0.9)
->>>>>>> .merge_file_a81672
         {
             statMutations = randomNumberGenerator(n, statMutation);
         }
@@ -273,10 +227,7 @@ public class EnemyStats : MonoBehaviour
         for (int i = 0; i < statDistribution.Count; i++)
         {
             statDistribution[i] += DistributionMutation[i];
-<<<<<<< .merge_file_a81652
-=======
             // Afronden op twee decimalen
->>>>>>> .merge_file_a81672
             statDistribution[i] = Mathf.Round(statDistribution[i] * 100f) / 100f;
         }
 

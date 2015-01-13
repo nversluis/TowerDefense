@@ -49,12 +49,7 @@ public class PlayerHealth : MonoBehaviour {
     {
         isDead = true;
         guiScript.resultScoreText.text = Statistics.Score().ToString();
-<<<<<<< .merge_file_a82652
-        Debug.Log(Statistics.Score());
-        guiScript.EndGame("You Lose!", "Player");
-=======
         guiScript.EndGame("Player");
->>>>>>> .merge_file_a82744
 
         //Destroy(this.gameObject);
     }

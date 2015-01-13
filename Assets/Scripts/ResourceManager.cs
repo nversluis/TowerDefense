@@ -67,8 +67,17 @@ public class ResourceManager : MonoBehaviour {
 
 	[Header("Floor")]
 	public GameObject poisonTrap;
+	public float poisonAttack;
+	public float poisonSpeed;
+	public float poisonSpecial;
 	public GameObject fireTrap;
+	public float fireAttack;
+	public float fireSpeed;
+	public float fireSpecial;
 	public GameObject iceTrap;
+	public float iceAttack;
+	public float iceSpeed;
+	public float iceSpecial;
 	public float speedReduceRate;
 	public GameObject spearTrap;
 	public GameObject barricade;
@@ -98,7 +107,6 @@ public class ResourceManager : MonoBehaviour {
 	public AudioClip backgroundMusic;
     public AudioClip headShot;
     public AudioClip bulletHit;
-    public AudioClip guyantOef;
 
 	[Header("HitSplash")]
 	public GameObject damageText;

@@ -15,10 +15,7 @@ public class barricade : MonoBehaviour
 	private KeyInputManager inputManager;
 	private int health;
 
-<<<<<<< .merge_file_a84112
-=======
 
->>>>>>> .merge_file_a84132
 	// Use this for initialization
 	void Start ()
 	{
@@ -66,11 +63,6 @@ public class barricade : MonoBehaviour
 			RemoveBT();
 		}
 
-<<<<<<< .merge_file_a84112
-		//check if and how many guyants are attacking
-
-=======
->>>>>>> .merge_file_a84132
 
 		if (health <= 0) {
 			RemoveTrap ();
@@ -89,10 +81,7 @@ public class barricade : MonoBehaviour
 			trap.layer = 0;
 			trap.SetActiveRecursively (true); 
 			playerData.addGold (-cost);
-<<<<<<< .merge_file_a84112
-=======
 			resourceManager.allBarricades.Add (trap);
->>>>>>> .merge_file_a84132
 			setPenalties (500);
 			WallScript.DestroyHotSpots ();
 			//Destroy (gameObject);
@@ -147,10 +136,7 @@ public class barricade : MonoBehaviour
 	void RemoveTrap(){
 		RemoveBT ();
 		setPenalties (0);
-<<<<<<< .merge_file_a84112
-=======
 		resourceManager.allBarricades.Remove (gameObject);
->>>>>>> .merge_file_a84132
 		Destroy (gameObject);
 	}
 

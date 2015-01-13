@@ -8,10 +8,7 @@ public class FloorScript : MonoBehaviour
 	Color transparentred = new Color (255, 0, 0, 0.1f);
 	private int i;
 	private GameObject ResourceManagerObj;
-<<<<<<< .merge_file_a82180
-=======
 	private GameObject player;
->>>>>>> .merge_file_a82200
 	private ResourceManager resourceManager;
 	private PlayerData playerData = GUIScript.player;
 	private int cost;
@@ -24,10 +21,7 @@ public class FloorScript : MonoBehaviour
 		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
 		cost = 0;
 		inputManager = GameObject.Find ("KeyInputs").GetComponent<KeyInputManager> ();
-<<<<<<< .merge_file_a82180
-=======
 		transform.GetChild (0).renderer.material.color = Color.white;
->>>>>>> .merge_file_a82200
 	}
 
 	void Update ()
@@ -46,11 +40,7 @@ public class FloorScript : MonoBehaviour
 
 				tower.gameObject.transform.localScale = new Vector3 (1, 1, 1) * planeW * 5;
 				if (TowerPrefab.name.Contains ("arricade")) {
-<<<<<<< .merge_file_a82180
-					tower.gameObject.transform.localScale /= 100/1.7f;
-=======
 					tower.gameObject.transform.localScale /= 100 / 1.7f;
->>>>>>> .merge_file_a82200
 					tower.tag = "TowerHotSpot";
 				}
 
@@ -114,36 +104,18 @@ public class FloorScript : MonoBehaviour
 						sellTower ();
 					}
 				}
-				//bring up the menu to show ot sell or upgrade tower (with costs) and upgrade stats
-				//if (Input.GetMouseButtonDown (1)) {
-				//	showMenu ();
-				//}
-
-				//if (Input.GetKeyUp (KeyCode.C)) {
-				//	GameObject.Find ("GUIMain").GetComponent<GUIScript> ().TowerPopup.SetActive (false);
-				//}
 
 			}
-<<<<<<< .merge_file_a82180
-
-
-		}
-=======
 		}	
 		//change the layer of the minimapplane of this floor if the player is too far, so it wont show on the minimap
 		if (player == null) {
 			player = GameObject.Find ("Player");
 		}
-		else if ((player.transform.position - transform.position).magnitude >= 75) {
+		else if ((player.transform.position - transform.position).magnitude >= 70) {
 			transform.GetChild(0).gameObject.layer = 0;
 		} else {
 			transform.GetChild(0).gameObject.layer = 9;
 		}
-
-
-
->>>>>>> .merge_file_a82200
-
 	}
 
 	private void sellTower ()
@@ -155,16 +127,29 @@ public class FloorScript : MonoBehaviour
 
 	private void upgradeTower ()
 	{
-		Debug.Log ("Not yet implemented");
-		GameObject.Find ("GUIMain").GetComponent<GUIScript> ().TowerPopup.SetActive (false);
+		GameObject tower = gameObject.transform.GetChild (1).gameObject;
+		TowerStats stats = tower.GetComponent<TowerStats> ();
+		if (tower.name.Contains ("Fire")) {
+			stats.attack = (int)Mathf.Round(stats.attack*resourceManager.fireAttack);
+			stats.speed = (int)Mathf.Round(stats.speed*resourceManager.fireSpeed);
+			stats.specialDamage *= resourceManager.fireSpecial;
+		} else if (tower.name.Contains ("Poison")) {
+			stats.attack = (int)Mathf.Round(stats.attack*resourceManager.poisonAttack);
+			stats.speed = (int)Mathf.Round(stats.speed*resourceManager.poisonSpeed);
+			stats.specialDamage *= resourceManager.poisonSpecial;
+		} else if (tower.name.Contains ("Ice")) {
+			stats.attack = (int)Mathf.Round(stats.attack*resourceManager.iceAttack);
+			stats.speed = (int)Mathf.Round(stats.speed*resourceManager.iceSpeed);
+			stats.specialDamage *= resourceManager.iceSpecial;
+		} else if (tower.name.Contains ("Spear")) {
+			//cost = resourceManager.costSpearTrap;
+		} else if (tower.name.Contains ("arricade")) {
+			cost = resourceManager.costBarricade;
+		}
+
+
 		WallScript.DestroyHotSpots();
 	}
 
-	private void showMenu ()
-	{
-		GameObject popUpPanel = GameObject.Find ("GUIMain").GetComponent<GUIScript> ().getPopUpPanel ();
-		popUpPanel.SetActive (true);
-
-	}
 }
 

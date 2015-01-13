@@ -33,11 +33,7 @@ public class GoalScript : MonoBehaviour {
         if (Lost)
         {
             Lost = false;
-<<<<<<< .merge_file_a82232
-            guiScript.EndGame("You Lose!", "Gate");
-=======
             guiScript.EndGame("Gate");
->>>>>>> .merge_file_a81188
         }
 	}
 

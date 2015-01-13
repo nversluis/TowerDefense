@@ -70,7 +70,7 @@ PlayerSettings:
   iPhoneBundleIdentifier: com.Company.ProductName
   metroEnableIndependentInputSource: 0
   metroEnableLowLatencyPresentationAPI: 0
-  productGUID: da90e856bc901d04ab026ece9c9b6254
+  productGUID: 28871fc9a33bb4248b22282d7d6425d0
   iPhoneBundleVersion: 1.0
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 9

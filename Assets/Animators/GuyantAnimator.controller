@@ -66,6 +66,30 @@ Transition:
   m_Solo: 0
   m_Mute: 0
   m_CanTransitionToSelf: 0
+--- !u!1101 &110119838
+Transition:
+  serializedVersion: 2
+  m_ObjectHideFlags: 3
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_SrcState: {fileID: 110221564}
+  m_DstState: {fileID: 110231408}
+  m_TransitionDuration: .150000006
+  m_TransitionOffset: 0
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: Attack
+    m_EventTreshold: 0
+    m_ExitTime: .850000024
+  - m_ConditionMode: 2
+    m_ConditionEvent: Walking
+    m_EventTreshold: 0
+    m_ExitTime: .850000024
+  m_Atomic: 1
+  m_Solo: 0
+  m_Mute: 0
+  m_CanTransitionToSelf: 0
 --- !u!1101 &110143364
 Transition:
   serializedVersion: 2
@@ -94,22 +118,26 @@ Transition:
   m_Solo: 0
   m_Mute: 0
   m_CanTransitionToSelf: 0
---- !u!1101 &110190662
+--- !u!1101 &110161038
 Transition:
   serializedVersion: 2
   m_ObjectHideFlags: 3
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: 
-  m_SrcState: {fileID: 0}
-  m_DstState: {fileID: 110231408}
-  m_TransitionDuration: .100000001
+  m_SrcState: {fileID: 110231408}
+  m_DstState: {fileID: 110221564}
+  m_TransitionDuration: .25
   m_TransitionOffset: 0
   m_Conditions:
-  - m_ConditionMode: 5
-    m_ConditionEvent: 
+  - m_ConditionMode: 1
+    m_ConditionEvent: Walking
     m_EventTreshold: 0
-    m_ExitTime: .899999976
+    m_ExitTime: .75
+  - m_ConditionMode: 2
+    m_ConditionEvent: Attack
+    m_EventTreshold: 0
+    m_ExitTime: .75
   m_Atomic: 1
   m_Solo: 0
   m_Mute: 0
@@ -125,7 +153,7 @@ State:
   m_Motions:
   - {fileID: 7400000, guid: d90d1352d3a79ce42805e2aa87a7fabd, type: 2}
   m_ParentStateMachine: {fileID: 110700000}
-  m_Position: {x: 384, y: 60, z: 0}
+  m_Position: {x: 252, y: -12, z: 0}
   m_IKOnFeet: 0
   m_Mirror: 0
   m_Tag: 
@@ -179,13 +207,14 @@ StateMachine:
       second:
       - {fileID: 110143364}
       - {fileID: 110113268}
-      - {fileID: 110190662}
     data:
       first: {fileID: 110221564}
-      second: []
+      second:
+      - {fileID: 110119838}
     data:
       first: {fileID: 110231408}
-      second: []
+      second:
+      - {fileID: 110161038}
     data:
       first: {fileID: 110298182}
       second: []

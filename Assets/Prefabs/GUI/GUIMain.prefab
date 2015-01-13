@@ -204,8 +204,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
-<<<<<<< .merge_file_a79224
-=======
 --- !u!1 &133906
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,7 +255,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
->>>>>>> .merge_file_a79244
 --- !u!1 &158130
 GameObject:
   m_ObjectHideFlags: 1
@@ -876,26 +873,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
-<<<<<<< .merge_file_a79224
---- !u!1 &158214
-GameObject:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
-  m_Component:
-  - 224: {fileID: 22458214}
-  - 222: {fileID: 22258214}
-  - 114: {fileID: 11458212}
-  m_Layer: 5
-  m_Name: Result
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
-=======
->>>>>>> .merge_file_a79244
 --- !u!1 &158216
 GameObject:
   m_ObjectHideFlags: 1
@@ -1187,26 +1164,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
-<<<<<<< .merge_file_a79224
---- !u!1 &158264
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
-  m_Component:
-  - 224: {fileID: 22458264}
-  - 222: {fileID: 22258264}
-  - 114: {fileID: 11458264}
-  m_Layer: 5
-  m_Name: HeadShotText
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
-=======
->>>>>>> .merge_file_a79244
 --- !u!1 &158266
 GameObject:
   m_ObjectHideFlags: 0
@@ -1363,8 +1320,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
-<<<<<<< .merge_file_a79224
-=======
 --- !u!1 &176716
 GameObject:
   m_ObjectHideFlags: 1
@@ -1552,7 +1507,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
->>>>>>> .merge_file_a79244
 --- !u!1 &182108
 GameObject:
   m_ObjectHideFlags: 0
@@ -1945,8 +1899,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
-<<<<<<< .merge_file_a79224
-=======
 --- !u!114 &11433906
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2015,7 +1967,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
->>>>>>> .merge_file_a79244
 --- !u!114 &11458120
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3016,17 +2967,12 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 82c92d68b72019c43b6877723012d814, type: 3}
   canvas: {fileID: 158250}
   result: {fileID: 158252}
-<<<<<<< .merge_file_a79224
-  crosshair: {fileID: 158134}
-  resultText: {fileID: 11458212}
-=======
   resultImage: {fileID: 11440992}
   resultSprites:
   - {fileID: 21300000, guid: 253aa295dda65974283d796575aee397, type: 3}
   - {fileID: 21300000, guid: e55cf59df0f28754c9230abd90d9bb7f, type: 3}
   crosshair: {fileID: 158134}
   resultText: {fileID: 0}
->>>>>>> .merge_file_a79244
   resultScoreText: {fileID: 11458166}
   TowerPopup: {fileID: 163510}
   enemyFace: {fileID: 11496038}
@@ -3044,11 +2990,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: bceca475c1d219844aecd51b6244d34c, type: 3}
   - {fileID: 21300000, guid: f1e0325c0e73444cc8145c0f24057da8, type: 3}
   - {fileID: 21300000, guid: 03466d760feae4da0aabbbb1dc79af85, type: 3}
-<<<<<<< .merge_file_a79224
-=======
   firstWaveText: {fileID: 11433906}
   headshotImage: {fileID: 144812}
->>>>>>> .merge_file_a79244
   click: {fileID: 8300000, guid: f637386b733e23840ace6809c509330a, type: 3}
 --- !u!114 &11458206
 MonoBehaviour:
@@ -3113,46 +3056,12 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 00000
-<<<<<<< .merge_file_a79224
---- !u!114 &11458212
-=======
---- !u!114 &11458214
->>>>>>> .merge_file_a79244
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-<<<<<<< .merge_file_a79224
-  m_GameObject: {fileID: 158214}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 72
-    m_FontStyle: 1
-    m_BestFit: 0
-    m_MinSize: 10
-    m_MaxSize: 40
-    m_Alignment: 4
-    m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: YOU WIN/LOSE
 --- !u!114 &11458214
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 158216}
-=======
-  m_GameObject: {fileID: 158216}
->>>>>>> .merge_file_a79244
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
@@ -3610,35 +3519,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
-<<<<<<< .merge_file_a79224
---- !u!114 &11458264
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 158264}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: .220588207, g: .806490779, b: 1, a: 1}
-  m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 50
-    m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 10
-    m_MaxSize: 40
-    m_Alignment: 1
-    m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: 
-=======
->>>>>>> .merge_file_a79244
 --- !u!114 &11458266
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3715,13 +3595,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-<<<<<<< .merge_file_a79224
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-=======
   m_Sprite: {fileID: 21300000, guid: 8e1d068ae87d9ea4faa78674179352c5, type: 3}
   m_Type: 0
->>>>>>> .merge_file_a79244
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -3745,11 +3620,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-<<<<<<< .merge_file_a79224
-  m_Transition: 1
-=======
   m_Transition: 2
->>>>>>> .merge_file_a79244
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: .960784316, g: .960784316, b: .960784316, a: 1}
@@ -3758,16 +3629,10 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: .100000001
   m_SpriteState:
-<<<<<<< .merge_file_a79224
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-=======
     m_HighlightedSprite: {fileID: 21300000, guid: 10ef32dcec262f94aaa3a7d9e87567d2,
       type: 3}
     m_PressedSprite: {fileID: 21300000, guid: 5506873d6c06d41479bdb198ad9a652e, type: 3}
     m_DisabledSprite: {fileID: 21300000, guid: f30266e4071a17c4b842a6a12470d799, type: 3}
->>>>>>> .merge_file_a79244
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -3792,19 +3657,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-<<<<<<< .merge_file_a79224
-  m_Color: {r: .195999995, g: .195999995, b: .195999995, a: 1}
-  m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 60
-    m_FontStyle: 0
-=======
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 60
     m_FontStyle: 1
->>>>>>> .merge_file_a79244
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
@@ -3827,13 +3684,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-<<<<<<< .merge_file_a79224
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-=======
   m_Sprite: {fileID: 21300000, guid: 8e1d068ae87d9ea4faa78674179352c5, type: 3}
   m_Type: 0
->>>>>>> .merge_file_a79244
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -3857,11 +3709,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-<<<<<<< .merge_file_a79224
-  m_Transition: 1
-=======
   m_Transition: 2
->>>>>>> .merge_file_a79244
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: .960784316, g: .960784316, b: .960784316, a: 1}
@@ -3870,16 +3718,10 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: .100000001
   m_SpriteState:
-<<<<<<< .merge_file_a79224
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-=======
     m_HighlightedSprite: {fileID: 21300000, guid: 10ef32dcec262f94aaa3a7d9e87567d2,
       type: 3}
     m_PressedSprite: {fileID: 21300000, guid: 5506873d6c06d41479bdb198ad9a652e, type: 3}
     m_DisabledSprite: {fileID: 21300000, guid: f30266e4071a17c4b842a6a12470d799, type: 3}
->>>>>>> .merge_file_a79244
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -3904,19 +3746,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-<<<<<<< .merge_file_a79224
-  m_Color: {r: .195999995, g: .195999995, b: .195999995, a: 1}
-  m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 60
-    m_FontStyle: 0
-=======
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 60
     m_FontStyle: 1
->>>>>>> .merge_file_a79244
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
@@ -3939,13 +3773,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-<<<<<<< .merge_file_a79224
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-=======
   m_Sprite: {fileID: 21300000, guid: 8e1d068ae87d9ea4faa78674179352c5, type: 3}
   m_Type: 0
->>>>>>> .merge_file_a79244
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -3969,11 +3798,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-<<<<<<< .merge_file_a79224
-  m_Transition: 1
-=======
   m_Transition: 2
->>>>>>> .merge_file_a79244
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: .960784316, g: .960784316, b: .960784316, a: 1}
@@ -3982,16 +3807,10 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: .100000001
   m_SpriteState:
-<<<<<<< .merge_file_a79224
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-=======
     m_HighlightedSprite: {fileID: 21300000, guid: 10ef32dcec262f94aaa3a7d9e87567d2,
       type: 3}
     m_PressedSprite: {fileID: 21300000, guid: 5506873d6c06d41479bdb198ad9a652e, type: 3}
     m_DisabledSprite: {fileID: 21300000, guid: f30266e4071a17c4b842a6a12470d799, type: 3}
->>>>>>> .merge_file_a79244
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -4016,19 +3835,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-<<<<<<< .merge_file_a79224
-  m_Color: {r: .195999995, g: .195999995, b: .195999995, a: 1}
-  m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 60
-    m_FontStyle: 0
-=======
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 60
     m_FontStyle: 1
->>>>>>> .merge_file_a79244
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
@@ -4038,8 +3849,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Cancel (press C)
-<<<<<<< .merge_file_a79224
-=======
 --- !u!114 &11476716
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4271,7 +4080,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
->>>>>>> .merge_file_a79244
 --- !u!114 &11482108
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4459,8 +4267,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 131188}
-<<<<<<< .merge_file_a79224
-=======
 --- !u!222 &22233906
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -4479,7 +4285,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 144812}
->>>>>>> .merge_file_a79244
 --- !u!222 &22258132
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -4690,15 +4495,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 158212}
-<<<<<<< .merge_file_a79224
---- !u!222 &22258214
-CanvasRenderer:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 158214}
-=======
->>>>>>> .merge_file_a79244
 --- !u!222 &22258216
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -4770,10 +4566,6 @@ CanvasRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-<<<<<<< .merge_file_a79224
-  m_GameObject: {fileID: 158244}
---- !u!222 &22258246
-=======
   m_GameObject: {fileID: 158244}
 --- !u!222 &22258246
 CanvasRenderer:
@@ -4836,170 +4628,95 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 163514}
 --- !u!222 &22263516
->>>>>>> .merge_file_a79244
 CanvasRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-<<<<<<< .merge_file_a79224
-  m_GameObject: {fileID: 158246}
---- !u!222 &22258248
-=======
   m_GameObject: {fileID: 163516}
 --- !u!222 &22263518
->>>>>>> .merge_file_a79244
 CanvasRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-<<<<<<< .merge_file_a79224
-  m_GameObject: {fileID: 158248}
---- !u!222 &22258250
-=======
   m_GameObject: {fileID: 163518}
 --- !u!222 &22263520
->>>>>>> .merge_file_a79244
 CanvasRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-<<<<<<< .merge_file_a79224
-  m_GameObject: {fileID: 158250}
---- !u!222 &22258252
-=======
   m_GameObject: {fileID: 163520}
 --- !u!222 &22263522
->>>>>>> .merge_file_a79244
 CanvasRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-<<<<<<< .merge_file_a79224
-  m_GameObject: {fileID: 158252}
---- !u!222 &22258254
-=======
   m_GameObject: {fileID: 163522}
 --- !u!222 &22276716
->>>>>>> .merge_file_a79244
 CanvasRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-<<<<<<< .merge_file_a79224
-  m_GameObject: {fileID: 158254}
---- !u!222 &22258264
-=======
   m_GameObject: {fileID: 176716}
 --- !u!222 &22276718
->>>>>>> .merge_file_a79244
 CanvasRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-<<<<<<< .merge_file_a79224
-  m_GameObject: {fileID: 158264}
---- !u!222 &22258266
-=======
   m_GameObject: {fileID: 176718}
 --- !u!222 &22276720
->>>>>>> .merge_file_a79244
 CanvasRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-<<<<<<< .merge_file_a79224
-  m_GameObject: {fileID: 158266}
---- !u!222 &22258274
-=======
   m_GameObject: {fileID: 176720}
 --- !u!222 &22276722
->>>>>>> .merge_file_a79244
 CanvasRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-<<<<<<< .merge_file_a79224
-  m_GameObject: {fileID: 158274}
---- !u!222 &22263510
-=======
   m_GameObject: {fileID: 176722}
 --- !u!222 &22276724
->>>>>>> .merge_file_a79244
 CanvasRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-<<<<<<< .merge_file_a79224
-  m_GameObject: {fileID: 163510}
---- !u!222 &22263512
-=======
   m_GameObject: {fileID: 176724}
 --- !u!222 &22276726
->>>>>>> .merge_file_a79244
 CanvasRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-<<<<<<< .merge_file_a79224
-  m_GameObject: {fileID: 163512}
---- !u!222 &22263514
-=======
   m_GameObject: {fileID: 176726}
 --- !u!222 &22276728
->>>>>>> .merge_file_a79244
 CanvasRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-<<<<<<< .merge_file_a79224
-  m_GameObject: {fileID: 163514}
---- !u!222 &22263516
-=======
   m_GameObject: {fileID: 176728}
 --- !u!222 &22276730
->>>>>>> .merge_file_a79244
 CanvasRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-<<<<<<< .merge_file_a79224
-  m_GameObject: {fileID: 163516}
---- !u!222 &22263518
-=======
   m_GameObject: {fileID: 176730}
 --- !u!222 &22276732
->>>>>>> .merge_file_a79244
 CanvasRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-<<<<<<< .merge_file_a79224
-  m_GameObject: {fileID: 163518}
---- !u!222 &22263520
-=======
   m_GameObject: {fileID: 176732}
 --- !u!222 &22276734
->>>>>>> .merge_file_a79244
 CanvasRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-<<<<<<< .merge_file_a79224
-  m_GameObject: {fileID: 163520}
---- !u!222 &22263522
-=======
   m_GameObject: {fileID: 176734}
 --- !u!222 &22276736
->>>>>>> .merge_file_a79244
 CanvasRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-<<<<<<< .merge_file_a79224
-  m_GameObject: {fileID: 163522}
-=======
   m_GameObject: {fileID: 176736}
->>>>>>> .merge_file_a79244
 --- !u!222 &22282108
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -5264,8 +4981,6 @@ RectTransform:
   m_AnchoredPosition: {x: -98.5999985, y: 0}
   m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: .5, y: .5}
-<<<<<<< .merge_file_a79224
-=======
 --- !u!224 &22433906
 RectTransform:
   m_ObjectHideFlags: 1
@@ -5317,7 +5032,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -134}
   m_SizeDelta: {x: 400, y: 200}
   m_Pivot: {x: .5, y: .5}
->>>>>>> .merge_file_a79244
 --- !u!224 &22458130
 RectTransform:
   m_ObjectHideFlags: 1
@@ -5346,10 +5060,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 22458206}
-<<<<<<< .merge_file_a79224
-=======
   - {fileID: 22476736}
->>>>>>> .merge_file_a79244
   m_Father: {fileID: 22431186}
   m_RootOrder: 10
   m_AnchorMin: {x: 0, y: 0}
@@ -5560,10 +5271,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 22458240}
-<<<<<<< .merge_file_a79224
-=======
   - {fileID: 22476728}
->>>>>>> .merge_file_a79244
   m_Father: {fileID: 22431186}
   m_RootOrder: 6
   m_AnchorMin: {x: 0, y: 0}
@@ -5616,10 +5324,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 22458166}
-<<<<<<< .merge_file_a79224
-=======
   - {fileID: 22476720}
->>>>>>> .merge_file_a79244
   m_Father: {fileID: 22431186}
   m_RootOrder: 2
   m_AnchorMin: {x: 0, y: 0}
@@ -5672,10 +5377,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 22458148}
-<<<<<<< .merge_file_a79224
-=======
   - {fileID: 22476732}
->>>>>>> .merge_file_a79244
   m_Father: {fileID: 22431186}
   m_RootOrder: 8
   m_AnchorMin: {x: 0, y: 0}
@@ -5746,10 +5448,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 22458216}
-<<<<<<< .merge_file_a79224
-=======
   - {fileID: 22476716}
->>>>>>> .merge_file_a79244
   m_Father: {fileID: 22431186}
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
@@ -5802,10 +5501,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 22458142}
-<<<<<<< .merge_file_a79224
-=======
   - {fileID: 22476718}
->>>>>>> .merge_file_a79244
   m_Father: {fileID: 22431186}
   m_RootOrder: 1
   m_AnchorMin: {x: 0, y: 0}
@@ -5841,10 +5537,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 22458144}
-<<<<<<< .merge_file_a79224
-=======
   - {fileID: 22476730}
->>>>>>> .merge_file_a79244
   m_Father: {fileID: 22431186}
   m_RootOrder: 7
   m_AnchorMin: {x: 0, y: 0}
@@ -5933,11 +5626,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 22458252}
-<<<<<<< .merge_file_a79224
-  m_RootOrder: 2
-=======
   m_RootOrder: 1
->>>>>>> .merge_file_a79244
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
   m_AnchoredPosition: {x: -311, y: 0}
@@ -5961,18 +5650,11 @@ RectTransform:
   - {fileID: 22458134}
   - {fileID: 22458250}
   - {fileID: 22458252}
-<<<<<<< .merge_file_a79224
-  - {fileID: 22458264}
-  - {fileID: 22458266}
-  - {fileID: 22463510}
-  - {fileID: 22482108}
-=======
   - {fileID: 22458266}
   - {fileID: 22463510}
   - {fileID: 22482108}
   - {fileID: 22433906}
   - {fileID: 22444812}
->>>>>>> .merge_file_a79244
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
@@ -5997,26 +5679,6 @@ RectTransform:
   m_AnchoredPosition: {x: 226, y: 25}
   m_SizeDelta: {x: -641, y: 60}
   m_Pivot: {x: .5, y: .5}
-<<<<<<< .merge_file_a79224
---- !u!224 &22458214
-RectTransform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 158214}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 22458252}
-  m_RootOrder: 1
-  m_AnchorMin: {x: .5, y: .5}
-  m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 0, y: 200}
-  m_SizeDelta: {x: 800, y: 100}
-  m_Pivot: {x: .5, y: .5}
-=======
->>>>>>> .merge_file_a79244
 --- !u!224 &22458216
 RectTransform:
   m_ObjectHideFlags: 1
@@ -6062,10 +5724,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 22458156}
-<<<<<<< .merge_file_a79224
-=======
   - {fileID: 22476722}
->>>>>>> .merge_file_a79244
   m_Father: {fileID: 22431186}
   m_RootOrder: 3
   m_AnchorMin: {x: 0, y: 0}
@@ -6084,10 +5743,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 22458244}
-<<<<<<< .merge_file_a79224
-=======
   - {fileID: 22476734}
->>>>>>> .merge_file_a79244
   m_Father: {fileID: 22431186}
   m_RootOrder: 9
   m_AnchorMin: {x: 0, y: 0}
@@ -6247,10 +5903,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 22458232}
-<<<<<<< .merge_file_a79224
-=======
   - {fileID: 22476726}
->>>>>>> .merge_file_a79244
   m_Father: {fileID: 22431186}
   m_RootOrder: 5
   m_AnchorMin: {x: 0, y: 0}
@@ -6306,13 +5959,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 22458138}
-<<<<<<< .merge_file_a79224
-  - {fileID: 22458214}
-  - {fileID: 22458208}
-=======
   - {fileID: 22458208}
   - {fileID: 22440992}
->>>>>>> .merge_file_a79244
   - {fileID: 22458174}
   m_Father: {fileID: 22458210}
   m_RootOrder: 7
@@ -6332,10 +5980,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 22458236}
-<<<<<<< .merge_file_a79224
-=======
   - {fileID: 22476724}
->>>>>>> .merge_file_a79244
   m_Father: {fileID: 22431186}
   m_RootOrder: 4
   m_AnchorMin: {x: 0, y: 0}
@@ -6343,26 +5988,6 @@ RectTransform:
   m_AnchoredPosition: {x: -108.399994, y: 89.3000031}
   m_SizeDelta: {x: -925, y: 75}
   m_Pivot: {x: .5, y: .5}
-<<<<<<< .merge_file_a79224
---- !u!224 &22458264
-RectTransform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 158264}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 22458210}
-  m_RootOrder: 8
-  m_AnchorMin: {x: .5, y: .5}
-  m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: -16, y: 162.210007}
-  m_SizeDelta: {x: 376, y: 260.420013}
-  m_Pivot: {x: .5, y: .5}
-=======
->>>>>>> .merge_file_a79244
 --- !u!224 &22458266
 RectTransform:
   m_ObjectHideFlags: 1
@@ -6377,11 +6002,7 @@ RectTransform:
   - {fileID: 22496040}
   - {fileID: 22402524}
   m_Father: {fileID: 22458210}
-<<<<<<< .merge_file_a79224
-  m_RootOrder: 9
-=======
   m_RootOrder: 8
->>>>>>> .merge_file_a79244
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 200, y: -117.5}
@@ -6429,11 +6050,7 @@ RectTransform:
   - {fileID: 22463514}
   - {fileID: 22463516}
   m_Father: {fileID: 22458210}
-<<<<<<< .merge_file_a79224
-  m_RootOrder: 10
-=======
   m_RootOrder: 9
->>>>>>> .merge_file_a79244
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -6544,8 +6161,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: .5, y: .5}
-<<<<<<< .merge_file_a79224
-=======
 --- !u!224 &22476716
 RectTransform:
   m_ObjectHideFlags: 1
@@ -6733,7 +6348,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 3.81469727e-06}
   m_SizeDelta: {x: 70, y: 70}
   m_Pivot: {x: .5, y: .5}
->>>>>>> .merge_file_a79244
 --- !u!224 &22482108
 RectTransform:
   m_ObjectHideFlags: 1
@@ -6749,11 +6363,7 @@ RectTransform:
   - {fileID: 22482110}
   - {fileID: 22420238}
   m_Father: {fileID: 22458210}
-<<<<<<< .merge_file_a79224
-  m_RootOrder: 11
-=======
   m_RootOrder: 10
->>>>>>> .merge_file_a79244
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 150, y: 75}

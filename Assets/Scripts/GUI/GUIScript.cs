@@ -31,19 +31,13 @@ public class GUIScript : MonoBehaviour {
 
     private List<Text> skillTextList = new List<Text>();
     private List<Text> skillCooldownList = new List<Text>();
-<<<<<<< .merge_file_a81876
-=======
     private List<Image> skillSelectList = new List<Image>();
->>>>>>> .merge_file_a81904
 
     [Header("Tower icons")]
     public Image[] towerIconList = new Image[7];
 
     private List<Text> towerTextList = new List<Text>();
-<<<<<<< .merge_file_a81876
-=======
     private List<Image> towerSelectList = new List<Image>();
->>>>>>> .merge_file_a81904
 
     [Header("Item icons")]
     public Image[] itemIconList = new Image[4];
@@ -51,11 +45,7 @@ public class GUIScript : MonoBehaviour {
     public Sprite[] tier1 = new Sprite[4];
     public Sprite[] tier2 = new Sprite[4];
     public Sprite[] tier3 = new Sprite[4];
-<<<<<<< .merge_file_a81876
-    public Sprite[] tier4 = new Sprite[4]; 
-=======
     public Sprite[] tier4 = new Sprite[4];
->>>>>>> .merge_file_a81904
 
     [Header("Pause menu canvas")]
     public GameObject canvas;
@@ -63,26 +53,16 @@ public class GUIScript : MonoBehaviour {
 
     [Header("Result screen canvas")]
     public GameObject result;
-<<<<<<< .merge_file_a81876
-=======
     public Image resultImage;
     public Sprite[] resultSprites = new Sprite[2];
->>>>>>> .merge_file_a81904
 
     [Header("Crosshair")]
     public GameObject crosshair;
     public Text resultText;
-<<<<<<< .merge_file_a81876
-    public Text resultScoreText; 
-
-	[Header("Tower Popup")]
-	public GameObject TowerPopup;
-=======
     public Text resultScoreText;
 
     [Header("Tower Popup")]
     public GameObject TowerPopup;
->>>>>>> .merge_file_a81904
 
     [Header("Enemy Popup")]
     public Image enemyFace;
@@ -110,8 +90,6 @@ public class GUIScript : MonoBehaviour {
     private float fBufferedGateHP;
     private float rBufferedGateHP;
 
-<<<<<<< .merge_file_a81876
-=======
     [Header("First Wave Text")]
     public Text firstWaveText;
 
@@ -126,29 +104,15 @@ public class GUIScript : MonoBehaviour {
 
     AudioSource cameraAudioSource;
 
->>>>>>> .merge_file_a81904
     // Scripts
     private PlayerController playerScript;
     private CameraController cameraScript;
     private GoalScript goalScript;
     private WaveSpawner waveSpawner;
 
-<<<<<<< .merge_file_a81876
-    AudioSource cameraAudioSource;
-    public AudioClip click;
-
-    public void ButtonClick()
-    {
-        cameraAudioSource.PlayOneShot(click);
-    }
-	void Start () {
-        /* Get private components */
-        
-=======
     void Start() {
         /* Get private components */
 
->>>>>>> .merge_file_a81904
         // Camera Auiodsource
         cameraAudioSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
 
@@ -159,31 +123,21 @@ public class GUIScript : MonoBehaviour {
         foreach(Image im in skillIconList) {
             skillTextList.Add(im.transform.FindChild("Key").GetComponent<Text>());
             skillCooldownList.Add(im.transform.FindChild("Cooldown").GetComponent<Text>());
-<<<<<<< .merge_file_a81876
-=======
             skillSelectList.Add(im.transform.parent.FindChild("Select").GetComponent<Image>());
->>>>>>> .merge_file_a81904
         }
 
         // Towers
 
         foreach(Image im in towerIconList) {
             towerTextList.Add(im.GetComponentInChildren<Text>());
-<<<<<<< .merge_file_a81876
-=======
             towerSelectList.Add(im.transform.FindChild("Select").GetComponent<Image>());
->>>>>>> .merge_file_a81904
         }
 
         // Gate HP Bars
 
         frontGateHPBar = frontGateHP.GetComponent<RectTransform>();
         rearGateHPBar = rearGateHP.GetComponent<RectTransform>();
-<<<<<<< .merge_file_a81876
-        
-=======
 
->>>>>>> .merge_file_a81904
         // Scripts
 
         playerScript = GameObject.Find("Player").GetComponent<PlayerController>();
@@ -199,11 +153,7 @@ public class GUIScript : MonoBehaviour {
             im.color = new Color(150f / 255f, 150f / 255f, 150f / 255f, 180f / 255f);
         }
 
-<<<<<<< .merge_file_a81876
-        for(int i = 0; i < skillTextList.Count; i++){
-=======
         for(int i = 0; i < skillTextList.Count; i++) {
->>>>>>> .merge_file_a81904
             Text tx = skillTextList[i];
             tx.text = (i + 1).ToString();
         }
@@ -212,13 +162,10 @@ public class GUIScript : MonoBehaviour {
             tx.enabled = false;
         }
 
-<<<<<<< .merge_file_a81876
-=======
         foreach(Image im in skillSelectList){
             im.enabled = false;
         }
 
->>>>>>> .merge_file_a81904
         // Towers
         for(int i = 0; i < towerTextList.Count; i++) {
             Text tx = towerTextList[i];
@@ -226,13 +173,10 @@ public class GUIScript : MonoBehaviour {
             tx.text = (i + 1).ToString();
         }
 
-<<<<<<< .merge_file_a81876
-=======
         foreach(Image im in towerSelectList){
             im.enabled = false;
         }
 
->>>>>>> .merge_file_a81904
         // Pause menu
         canvas.SetActive(false);
         pause = false;
@@ -256,11 +200,6 @@ public class GUIScript : MonoBehaviour {
         fBufferedGateHP = 0;
         rBufferedGateHP = 0;
 
-<<<<<<< .merge_file_a81876
-	}
-	
-	void FixedUpdate () {
-=======
         // Starting Text
         firstWaveText.enabled = true;
         firstWaveText.color = new Color(1, 1, 1, 1);
@@ -272,7 +211,6 @@ public class GUIScript : MonoBehaviour {
     }
 
     void FixedUpdate() {
->>>>>>> .merge_file_a81904
         // Update variables that need to be updated frequently
         // Player HP
         UpdateFrontHP(player.getCurrentHP(), player.getMaxHP(), ref fPlayerBufferedHP, frontPlayerHPBar);
@@ -286,19 +224,11 @@ public class GUIScript : MonoBehaviour {
         UpdateScore();
         UpdateGold();
         UpdateStats();
-<<<<<<< .merge_file_a81876
-        UpdateTowers();
-        UpdateItems();
-        UpdateEnemyStats();
-        UpdateWaveText();
-	}
-=======
         UpdateSelection();
         UpdateItems();
         UpdateEnemyStats();
         UpdateWaveText();
     }
->>>>>>> .merge_file_a81904
 
     void Update() {
         // Pause menu behaviour
@@ -306,8 +236,6 @@ public class GUIScript : MonoBehaviour {
             PauseGame();
         }
 
-<<<<<<< .merge_file_a81876
-=======
         if(!firstWaveStarted && Input.GetKeyDown("return")) {
             firstWaveText.enabled = false;
         }
@@ -319,7 +247,6 @@ public class GUIScript : MonoBehaviour {
             player.setTowerSelected(!player.getTowerSelected());
         }
 
->>>>>>> .merge_file_a81904
         scoreText.text = Statistics.Score().ToString();
         resultScoreText.text = Statistics.Score().ToString();
     }
@@ -366,11 +293,7 @@ public class GUIScript : MonoBehaviour {
         }
     }
 
-<<<<<<< .merge_file_a81876
-    void UpdateFrontHP(float currentHP, float maxHP,ref float bufferedHP, RectTransform frontBar) {
-=======
     void UpdateFrontHP(float currentHP, float maxHP, ref float bufferedHP, RectTransform frontBar) {
->>>>>>> .merge_file_a81904
 
         if(bufferedHP < currentHP) {
             if(System.Math.Abs(bufferedHP - currentHP) < (maxHP / 1000f)) {
@@ -386,11 +309,7 @@ public class GUIScript : MonoBehaviour {
         frontBar.localScale = new Vector3((bufferedHP / maxHP), 1, 1);
     }
 
-<<<<<<< .merge_file_a81876
-    void UpdateRearHP(float currentHP, float maxHP,ref float bufferedHP, RectTransform rearBar) {
-=======
     void UpdateRearHP(float currentHP, float maxHP, ref float bufferedHP, RectTransform rearBar) {
->>>>>>> .merge_file_a81904
 
         if(bufferedHP > currentHP) {
             if(System.Math.Abs(bufferedHP - currentHP) < (maxHP / 1000f)) {
@@ -432,24 +351,16 @@ public class GUIScript : MonoBehaviour {
     }
 
     void UpdateWaveText() {
-<<<<<<< .merge_file_a81876
-        waveText.text = waveSpawner.GetCurrentWave().ToString() + " of " + waveSpawner.GetMaxWave().ToString();
-=======
         int waveNo = waveSpawner.GetCurrentWave();
         int maxWaveNo = waveSpawner.GetMaxWave();
         waveText.text = waveNo.ToString() + " of " + maxWaveNo.ToString();
->>>>>>> .merge_file_a81904
     }
 
     void UpdateGateHPColor() {
         float HPPercent = goalScript.getLives() / goalScript.getMaxLives();
         if(HPPercent >= 0.66f) {
             frontGateHP.sprite = HPSprites[0];
-<<<<<<< .merge_file_a81876
-        } 
-=======
         }
->>>>>>> .merge_file_a81904
         else if(HPPercent >= 0.33f) {
             frontGateHP.sprite = HPSprites[1];
         }
@@ -458,22 +369,6 @@ public class GUIScript : MonoBehaviour {
         }
     }
 
-<<<<<<< .merge_file_a81876
-    public void UpdateTowers() {
-        int currentTower = player.getTower();
-
-        for(int i = 0; i < towerIconList.Length; i++) {
-            Image tower = towerIconList[i];
-            if(i == currentTower){
-                tower.color = new Color(1, 1, 1, 0.75f);
-            }
-            else {
-                tower.color = new Color(1, 1, 1, 1);
-            }
-        }
-    }
-
-=======
     void TextColorShift(Text text) {
 
         if(shiftDir.Equals("down")) {
@@ -547,7 +442,6 @@ public class GUIScript : MonoBehaviour {
 
     }
 
->>>>>>> .merge_file_a81904
     public void UpdateItems() {
         List<Item> inventory = player.getItems();
 
@@ -609,40 +503,19 @@ public class GUIScript : MonoBehaviour {
         Application.LoadLevel("Main Menu");
     }
 
-<<<<<<< .merge_file_a81876
-    public void EndGame(string resultString, string reason = "none") {
-        result.SetActive(true);
-        resultText.text = resultString;
-=======
     public void EndGame(string reason = "none") {
         result.SetActive(true);
->>>>>>> .merge_file_a81904
         resultScoreText.text = player.getScore().ToString();
         Screen.showCursor = true;
         Screen.lockCursor = false;
         playerScript.enabled = false;
         cameraScript.enabled = false;
         if(reason.Equals("Player")) {
-<<<<<<< .merge_file_a81876
-=======
             resultImage.sprite = resultSprites[1];
->>>>>>> .merge_file_a81904
             frontPlayerHPBar.localScale = new Vector3(0, 1, 1);
             rearPlayerHPBar.localScale = new Vector3(0, 1, 1);
         }
         else if(reason.Equals("Gate")) {
-<<<<<<< .merge_file_a81876
-            frontGateHPBar.localScale = new Vector3(0, 1, 1);
-            rearGateHPBar.localScale = new Vector3(0, 1, 1);
-        }
-        Time.timeScale = 0;
-    }
-
-	public GameObject getPopUpPanel()
-	{
-		return TowerPopup;
-	}
-=======
             resultImage.sprite = resultSprites[1];
             frontGateHPBar.localScale = new Vector3(0, 1, 1);
             rearGateHPBar.localScale = new Vector3(0, 1, 1);
@@ -665,6 +538,5 @@ public class GUIScript : MonoBehaviour {
     void DisableHeadShot() {
         headshotImage.SetActive(false);
     }
->>>>>>> .merge_file_a81904
 
 }

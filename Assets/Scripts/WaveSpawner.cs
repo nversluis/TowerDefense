@@ -14,10 +14,7 @@ public class WaveSpawner : MonoBehaviour
     public int maxEnemies;
     public float mutationProbability;
 
-<<<<<<< .merge_file_a83588
-=======
     private int indexOfCurrentGen;
->>>>>>> .merge_file_a83608
     public bool spawning = true;
     public bool keepDistribution = false;
 
@@ -34,16 +31,10 @@ public class WaveSpawner : MonoBehaviour
     //float orcHeigthSpawn = 3.27f;
     private PlayerData playerData = GUIScript.player;
 
-<<<<<<< .merge_file_a83588
-    private bool gameHasStarted = false;
-    bool Won;
-    public bool allEnemiesSpawned = false;
-=======
     bool Won;
     private bool gameHasStarted = false;
     public bool allEnemiesSpawned = false;
     public bool allEnemiesDead = false;
->>>>>>> .merge_file_a83608
 
     private float timer;
     public int timeBetweenWaves;
@@ -85,27 +76,24 @@ public class WaveSpawner : MonoBehaviour
     }
 
     // Update is called once per frame
-<<<<<<< .merge_file_a83588
-    void FixedUpdate()
-=======
     void Update()
->>>>>>> .merge_file_a83608
+    {
+        if (Input.GetKeyDown("return") || Input.GetKeyDown("enter"))
+        {
+            gameHasStarted = true;
+        }
+    }
+
+    void FixedUpdate()
     {
         if (currentWave <= maxWaves)
         {
             if (!gameHasStarted)
             {
-<<<<<<< .merge_file_a83588
-            //    Debug.Log("Press enter to start the waves");
-            }
-
-            UpdateenemyCount();
-=======
                 //    Debug.Log("Press enter to start the waves");
             }
 
             UpdateCount();
->>>>>>> .merge_file_a83608
 
             if (spawning)
             {
@@ -113,14 +101,6 @@ public class WaveSpawner : MonoBehaviour
 
                 if (currentWave == 1)
                 {
-<<<<<<< .merge_file_a83588
-                    if (Input.GetKeyDown("return"))
-=======
-                    if (Input.GetKeyDown("return") || Input.GetKeyDown("enter"))
->>>>>>> .merge_file_a83608
-                    {
-                        gameHasStarted = true;
-                    }
                     if (gameHasStarted)
                     {
                         waitTime = 0;
@@ -155,14 +135,6 @@ public class WaveSpawner : MonoBehaviour
                         allEnemiesSpawned = true;
                         spawning = false;
                         keepDistribution = true;
-<<<<<<< .merge_file_a83588
-                        currentGenDistributions.Clear();
-                        currentGenDistributions = new List<List<float>>(nextGenDistributions);
-                        nextGenDistributions.Clear();
-                        currentGenFitness.Clear();
-                        currentGenFitness = new List<float>(nextGenFitness);
-                        nextGenFitness.Clear();
-=======
 
                         currentGenDistributions.Clear();
                         currentGenDistributions = new List<List<float>>(nextGenDistributions);
@@ -172,7 +144,6 @@ public class WaveSpawner : MonoBehaviour
                         currentGenFitness = new List<float>(nextGenFitness);
                         nextGenFitness.Clear();
 
->>>>>>> .merge_file_a83608
                         timer = 0;
                     }
                 }
@@ -252,38 +223,6 @@ public class WaveSpawner : MonoBehaviour
         }
     }
 
-    void UpdateenemyCount()
-    {
-        if (enemies.Count > 0)
-        {
-            for (int i = 0; i < enemies.Count; i++)
-            {
-                if ((GameObject)(enemies[i]) == null)
-                {
-                    // Verwijder een enemy uit de lijst van enemies als die dood is
-                    enemies.Remove(enemies[i]);
-                }
-<<<<<<< .merge_file_a83588
-                else 
-=======
-                else
-                {
-                    if (!allEnemiesSpawned)
-                    {
-                        nextGenFitness[i] = ((GameObject)(enemies[i])).GetComponent<EnemyStats>().fitness;
-                        //Debug.Log("nextGenFitness[" + i + "] = " + nextGenFitness[i]);
-                    }
-                    else
-                    {
-                        currentGenFitness[i] = ((GameObject)(enemies[i])).GetComponent<EnemyStats>().fitness;
-                        //Debug.Log("currentGenFitness[" + i + "] = " + currentGenFitness[i]);
-                    }
-                }
-
-            }
-        }
-    }
-
     void UpdateCount()
     {
         if (enemies.Count > 0)
@@ -291,7 +230,6 @@ public class WaveSpawner : MonoBehaviour
             for (int i = 0; i < enemies.Count; i++)
             {
                 if ((GameObject)(enemies[i]) != null)
->>>>>>> .merge_file_a83608
                 {
                     if (!allEnemiesSpawned)
                     {
@@ -304,11 +242,6 @@ public class WaveSpawner : MonoBehaviour
                         //Debug.Log("currentGenFitness[" + i + "] = " + currentGenFitness[i]);
                     }
                 }
-<<<<<<< .merge_file_a83588
-
-            }
-        }
-=======
             }
             if (AllEnemiesDead())
             {
@@ -328,7 +261,6 @@ public class WaveSpawner : MonoBehaviour
             }
         }
         return (aantal == maxEnemies);
->>>>>>> .merge_file_a83608
     }
 
     public List<float> getRandomDistribution()
@@ -353,11 +285,7 @@ public class WaveSpawner : MonoBehaviour
         }
 
         randomFloat = Random.Range(0.0f, 1.0f) * chances[chances.Count - 1];
-<<<<<<< .merge_file_a83588
-        int indexOfCurrentGen = 0;
-=======
         indexOfCurrentGen = 0;
->>>>>>> .merge_file_a83608
         while (randomFloat > chances[indexOfCurrentGen])
         {
             indexOfCurrentGen++;
@@ -376,11 +304,7 @@ public class WaveSpawner : MonoBehaviour
         {
             if (currentGenFitness[i] > maxValue)
             {
-<<<<<<< .merge_file_a83588
-                maxValue = currentGenFitness[i]; 
-=======
                 maxValue = currentGenFitness[i];
->>>>>>> .merge_file_a83608
             }
         }
         index = currentGenFitness.IndexOf(maxValue);
@@ -390,13 +314,6 @@ public class WaveSpawner : MonoBehaviour
     }
 
 
-<<<<<<< .merge_file_a83588
-    public int GetCurrentWave() {
-        return currentWave;
-    }
-
-    public int GetMaxWave() {
-=======
     public int GetCurrentWave()
     {
         return currentWave;
@@ -404,7 +321,6 @@ public class WaveSpawner : MonoBehaviour
 
     public int GetMaxWave()
     {
->>>>>>> .merge_file_a83608
         return maxWaves;
     }
 
