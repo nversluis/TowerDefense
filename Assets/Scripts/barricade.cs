@@ -33,7 +33,7 @@ public class barricade : MonoBehaviour
 	void Update ()
 	{
 		if (Input.GetMouseButtonDown (0)) {
-			if (tag != "Tower") {
+			if (tag != "Tower" && !transform.parent.gameObject.GetComponent<FloorScript>().hasEnemy) {
 				BuildTrap ();
 			}	
 		}

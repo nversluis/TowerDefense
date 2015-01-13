@@ -17,6 +17,14 @@ public class ResourceManager : MonoBehaviour {
 	public int rewardenemy;
 	public int rewardWave;
 
+    [Header("Player")]
+    public int startSwordDamage;
+    public int startMagicDamage;
+    public float coolDownSword1Time;
+    public float coolDownSword2Time;
+    public float coolDownMagic1Time;
+    public float coolDownMagic2Time;
+    
 
 	[Header("Map Prefabs")]
 
@@ -52,14 +60,17 @@ public class ResourceManager : MonoBehaviour {
     public bool automaticPathUpdating;
 
     [Header("Waves")]
-    public float mutationProbability;
+    public int currentWave;
+    public int maxWaves;
     public int maxEnemies;
     public int toenameAantalEnemiesPerWave;
     public int timeBetweenWaves;
+    public float timeTillNextWave;
+    public bool keepType;
+    public bool keepDistribution;
+    public float mutationProbability;
     public int totalStatPoints;
     public int toenameTotalStatPointsPerWave;
-    public int currentWave;
-	public int maxWaves;
 
 	[Header("Towers")]
 	public float maxTowerDistance;
