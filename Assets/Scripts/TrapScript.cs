@@ -57,6 +57,9 @@ public class TrapScript : MonoBehaviour
 			WallScript.DestroyHotSpots ();
 			trap.SetActiveRecursively (true); 
 			playerData.addGold (-cost);
+			TowerStats stats = trap.GetComponent<TowerStats> ();
+			stats.upgradeCost = cost;
+			stats.sellCost = cost/2;
 		} else {
 
 		}

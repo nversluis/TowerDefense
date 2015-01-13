@@ -67,7 +67,6 @@ public class ResourceManager : MonoBehaviour {
     public int maxEnemies;
     public int toenameAantalEnemiesPerWave;
     public int timeBetweenWaves;
-    public float timeTillNextWave;
     public bool keepType;
     public bool keepDistribution;
     public float mutationProbability;
@@ -97,7 +96,7 @@ public class ResourceManager : MonoBehaviour {
 	public float iceAttack;
 	public float iceSpeed;
 	public float iceSpecial;
-	public float speedReduceRate;
+	//public float speedReduceRate;
 	public GameObject spearTrap;
 	public GameObject barricade;
 	public int barricadeHealth;
