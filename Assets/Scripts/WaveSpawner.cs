@@ -172,6 +172,7 @@ public class WaveSpawner : MonoBehaviour
         }
         else
         {
+            currentWave = maxWaves;
             Won = true;
         }
 
