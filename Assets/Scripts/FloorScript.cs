@@ -13,6 +13,7 @@ public class FloorScript : MonoBehaviour
 	private PlayerData playerData = GUIScript.player;
 	private int cost;
 	private KeyInputManager inputManager;
+	public bool hasEnemy;
 
 	void Start ()
 	{
@@ -22,6 +23,7 @@ public class FloorScript : MonoBehaviour
 		cost = 0;
 		inputManager = GameObject.Find ("KeyInputs").GetComponent<KeyInputManager> ();
 		transform.GetChild (0).renderer.material.color = Color.white;
+		hasEnemy = false;
 	}
 
 	void Update ()
@@ -52,7 +54,7 @@ public class FloorScript : MonoBehaviour
 				foreach (Renderer child in tower.GetComponentsInChildren<Renderer>()) {
 					foreach (Material mat in child.materials) {
 						mat.shader = Shader.Find ("Transparent/Diffuse");
-						if (cost >= playerData.getGold ()) {
+						if (cost >= playerData.getGold () || hasEnemy) {
 							mat.color = transparentred;
 						} else {
 							mat.color = transparentgreen;

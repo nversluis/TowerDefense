@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
     private bool jumped;
     public static Vector3 location;
     Vector3 startPosition;
+	GameObject curFloor;
 
     private LayerMask ignoreMaskBullet = ~((1 << 11) | (1 << 13));
     private LayerMask ignoreMaskTraps = ~(1 << 12);
@@ -121,7 +122,6 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
-
                     camShootDistance = hit.point - (transform.position + tijdelijk + new Vector3(Mathf.Sin(camAngleY * Mathf.Deg2Rad), 0f, Mathf.Cos(camAngleY * Mathf.Deg2Rad)));
                     camShootDistance = camShootDistance + ((new Vector3(Random.Range(-50, 50), Random.Range(-50, 50), Random.Range(-50, 50)).normalized * distortion) * camShootDistance.magnitude) / 80f; ;
                 }
@@ -186,9 +186,28 @@ public class PlayerController : MonoBehaviour
 
     }
 
+	void checkFloor(){
+		RaycastHit hit;
+		GameObject res = curFloor;
+		//Ray ray = new Ray(transform.position, -Vector3.up, out hit);
+		if (Physics.Raycast (transform.position, -Vector3.up, out hit)) {
+			if (hit.transform.name.Contains ("loor")) {
+				curFloor = hit.transform.gameObject;
+				if (res != null && res != curFloor) {
+					res.GetComponent<FloorScript> ().hasEnemy = false;
+					if(curFloor.transform.childCount==2)
+					WallScript.DestroyHotSpots ();
+				}
+				FloorScript floor = hit.transform.GetComponent<FloorScript> ();
+				floor.hasEnemy = true;
+			}
+		}
+	}
+
     // Updates 60 times per second and not per frame
     void FixedUpdate()
     {
+		checkFloor ();
         // Move player with this method
         playerMovement();
 
@@ -199,4 +218,6 @@ public class PlayerController : MonoBehaviour
 
 
     }
+
+
 }
