@@ -23,5 +23,46 @@ public class PlayerAnimator : MonoBehaviour {
         {
             animator.SetBool("Walking", false);
         }
+
+        if (PlayerController.attackingSword1)
+        {
+            animator.SetBool("AttackingSword1", true);
+        }
+
+        else
+        {
+            animator.SetBool("AttackingSword1", false);
+        }
+
+
+        if (PlayerController.attackingSword2)
+        {
+            animator.SetBool("AttackingSword2", true);
+        }
+
+        else
+        {
+            animator.SetBool("AttackingSword2", false);
+        }
+
+        if (PlayerController.attackingSword2)
+        {
+            animator.SetBool("AttackingMagic1", true);
+        }
+
+        else
+        {
+            animator.SetBool("AttackingMagic1", false);
+        }
+
+        if (PlayerController.attackingSword2)
+        {
+            animator.SetBool("AttackingMagic2", true);
+        }
+
+        else
+        {
+            animator.SetBool("AttackingMagic2", false);
+        }
     }
 }
