@@ -476,17 +476,30 @@ public class GUIScript : MonoBehaviour {
 
         for(int i = 0; i < shopTextList.Length; i++) {
             Text tx = shopTextList[i];
-            tx.text = "+" + inventory[i].getValue().ToString();
+            if(inventory[i].getTier() < 4) {
+                tx.text = "+" + inventory[i].getValue()[inventory[i].getTier()].ToString();
+            }
+            else {
+                tx.text = "X";
+                tx.color = Color.black;
+            }
         }
 
         for(int i = 0; i < costTextList.Length; i++) {
             Text tx = costTextList[i];
-            tx.text = inventory[i].getCost().ToString();
+            if(inventory[i].getTier() < 4) {
+                tx.text = inventory[i].getCost()[inventory[i].getTier()].ToString();
+            }
+            else {
+                tx.text = "X";
+                tx.color = Color.black;
+            }
+
         }
 
         for(int i = 0; i < shopButtonList.Length; i++) {
             Button bt = shopButtonList[i];
-            if(inventory[i].getTier() < 4 && player.getGold() >= inventory[i].getCost()) {
+            if(inventory[i].getTier() < 4 && player.getGold() >= inventory[i].getCost()[inventory[i].getTier() - 1]) {
                 bt.interactable = true;
             }
             else {
@@ -629,10 +642,12 @@ public class GUIScript : MonoBehaviour {
     }
 
     public void UpgradeSword() {
-        inventory[0].setTier(inventory[0].getTier() + 1);
+        int currentTier = inventory[0].getTier();
+        int currentIndex = inventory[0].getTier() - 1;
+        inventory[0].setTier(currentTier + 1);
         player.setItems(inventory);
-        player.setAttack(player.getAttack() + inventory[0].getValue());
-        player.removeGold(inventory[0].getCost());
+        player.setAttack(player.getAttack() + inventory[0].getValue()[currentIndex]);
+        player.removeGold(inventory[0].getCost()[currentIndex]);
         UpdateGold();
         UpdateShop();
         UpdateItems();
@@ -640,10 +655,12 @@ public class GUIScript : MonoBehaviour {
     }
 
     public void UpgradeWand() {
+        int currentTier = inventory[1].getTier();
+        int currentIndex = inventory[1].getTier() - 1;
         inventory[1].setTier(inventory[1].getTier() + 1);
         player.setItems(inventory);
-        player.setMagic(player.getMagic() + inventory[1].getValue());
-        player.removeGold(inventory[1].getCost());
+        player.setMagic(player.getMagic() + inventory[1].getValue()[currentIndex]);
+        player.removeGold(inventory[1].getCost()[currentIndex]);
         UpdateGold();
         UpdateShop();
         UpdateItems();
@@ -651,10 +668,12 @@ public class GUIScript : MonoBehaviour {
     }
 
     public void UpgradeShield() {
+        int currentTier = inventory[2].getTier();
+        int currentIndex = inventory[2].getTier() - 1;
         inventory[2].setTier(inventory[2].getTier() + 1);
         player.setItems(inventory);
-        player.setArmor(player.getArmor() + inventory[2].getValue());
-        player.removeGold(inventory[2].getCost());
+        player.setArmor(player.getArmor() + inventory[2].getValue()[currentIndex]);
+        player.removeGold(inventory[2].getCost()[currentIndex]);
         UpdateGold();
         UpdateShop();
         UpdateItems();
@@ -662,10 +681,12 @@ public class GUIScript : MonoBehaviour {
     }
 
     public void UpgradeBoots() {
+        int currentTier = inventory[3].getTier();s
+        int currentIndex = inventory[3].getTier() - 1;
         inventory[3].setTier(inventory[3].getTier() + 1);
         player.setItems(inventory);
-        player.setAgility(player.getAgility() + inventory[3].getValue());
-        player.removeGold(inventory[3].getCost());
+        player.setAgility(player.getAgility() + inventory[3].getValue()[currentIndex]);
+        player.removeGold(inventory[3].getCost()[currentIndex]);
         UpdateGold();
         UpdateShop();
         UpdateItems();

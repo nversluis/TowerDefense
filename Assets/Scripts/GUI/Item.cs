@@ -5,11 +5,11 @@ public class Item {
     /* PARAMETERS */
     private string type;
     private int tier;
-    private float cost;
-    private float value;
+    private float[] cost;
+    private float[] value;
 
     /* CONSTRUCTORS */
-    public Item(string type, int tier, float cost, float value) {
+    public Item(string type, int tier, float[] cost, float[] value) {
         this.type = type;
         this.tier = tier;
         this.cost = cost;
@@ -19,8 +19,8 @@ public class Item {
     public Item() {
         type = "none";
         tier = 1;
-        cost = 1000;
-        value = 20;
+        cost = new float[5] {1000f, 5000f, 10000f, 75000f};
+        value = new float[5] {5f, 20f, 75f, 150f};
     }
 
     /* GETTERS */
@@ -32,11 +32,11 @@ public class Item {
         return tier;
     }
 
-    public float getCost() {
+    public float[] getCost() {
         return cost;
     }
 
-    public float getValue() {
+    public float[] getValue() {
         return value;
     }
 
@@ -49,11 +49,11 @@ public class Item {
         this.tier = tier;
     }
 
-    public void setCost(float cost) {
+    public void setCost(float[] cost) {
         this.cost = cost;
     }
 
-    public void setValue(float value) {
+    public void setValue(float[] value) {
         this.value = value;
     }
 
