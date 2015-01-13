@@ -77,6 +77,14 @@ MonoBehaviour:
   costBarricade: 50
   rewardenemy: 10
   rewardWave: 300
+  coolDownSword1Time: .5
+  coolDownSword2Time: 10
+  coolDownMagic1Time: .200000003
+  coolDownMagic2Time: 60
+  defense: 10
+  speed: 10
+  startSwordDamage: 2500
+  startMagicDamage: 1000
   planePrefab: {fileID: 100016, guid: eb0912c352095c645a4cc637dd9257b0, type: 2}
   wallPrefab: {fileID: 171850, guid: 0556f1d261c50e248934a3de0f8a97a4, type: 2}
   enemySpawner: {fileID: 100000, guid: c3a351ed1e54c354c99c7d460d83aa16, type: 2}
@@ -150,7 +158,7 @@ MonoBehaviour:
   headShot: {fileID: 0}
   bulletHit: {fileID: 0}
   damageText: {fileID: 100000, guid: 2173d4d4ee922db4a92d3e0e7293b9c8, type: 2}
-  GUI: {fileID: 158210, guid: d0d61fa94ffed8c4696555ed1e561ee4, type: 2}
+  GUI: {fileID: 125416, guid: 6dd1d023576b0fc409ea0dbd447c865f, type: 2}
   eventListener: {fileID: 100000, guid: ca10e4e4c259d0641ac5dc611b6604ac, type: 2}
   lengthMinimap: 200
   heightMinimap: 200

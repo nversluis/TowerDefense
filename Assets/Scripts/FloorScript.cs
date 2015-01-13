@@ -7,8 +7,8 @@ public class FloorScript : MonoBehaviour
 	Color transparentgreen = new Color (0, 255, 0, 0.1f);
 	Color transparentred = new Color (255, 0, 0, 0.1f);
 	private int i;
-	private GameObject ResourceManagerObj;
 	private GameObject player;
+	private GameObject ResourceManagerObj;
 	private ResourceManager resourceManager;
 	private PlayerData playerData = GUIScript.player;
 	private int cost;
@@ -128,8 +128,10 @@ public class FloorScript : MonoBehaviour
 
 	private void sellTower ()
 	{
+		GameObject tower = gameObject.transform.GetChild (1).gameObject;
+		TowerStats stats = tower.GetComponent<TowerStats> ();
+		GUIScript.player.addGold (stats.sellCost);
 		Destroy (gameObject.transform.GetChild (1).gameObject);
-		GUIScript.player.addGold (cost / 2);
 		WallScript.DestroyHotSpots();
 	}
 
@@ -137,29 +139,33 @@ public class FloorScript : MonoBehaviour
 	{
 		GameObject tower = gameObject.transform.GetChild (1).gameObject;
 		TowerStats stats = tower.GetComponent<TowerStats> ();
-		if (cost * 2 <= GUIScript.player.getGold ()) {
+		if (stats.upgradeCost <= GUIScript.player.getGold ()) {
 			stats.level++;
-			cost *= 2;
 			if (tower.name.Contains ("Fire")) {
 				stats.attack = (int)Mathf.Round (stats.attack * resourceManager.fireAttack);
 				stats.speed = (int)Mathf.Round (stats.speed * resourceManager.fireSpeed);
 				stats.specialDamage *= resourceManager.fireSpecial;
-				GUIScript.player.addGold (-cost);
+				stats.attackUpgrade = (int)(stats.attack * (resourceManager.fireAttack-1));
+				stats.speedUpgrade = (int)(stats.speed * (resourceManager.fireSpeed-1));
+				GUIScript.player.addGold (-stats.upgradeCost);
 			} else if (tower.name.Contains ("Poison")) {
 				stats.attack = (int)Mathf.Round (stats.attack * resourceManager.poisonAttack);
 				stats.speed = (int)Mathf.Round (stats.speed * resourceManager.poisonSpeed);
 				stats.specialDamage *= resourceManager.poisonSpecial;
-				GUIScript.player.addGold (-cost);
+				GUIScript.player.addGold (-stats.upgradeCost);
 			} else if (tower.name.Contains ("Ice")) {
 				stats.attack = (int)Mathf.Round (stats.attack * resourceManager.iceAttack);
 				stats.speed = (int)Mathf.Round (stats.speed * resourceManager.iceSpeed);
-				stats.specialDamage *= resourceManager.iceSpecial;
-				GUIScript.player.addGold (-cost);
+				stats.specialDamage += resourceManager.iceSpecial;
+				GUIScript.player.addGold (-stats.upgradeCost);
 			} else if (tower.name.Contains ("Spear")) {
 				//cost = resourceManager.costSpearTrap;
 			} else if (tower.name.Contains ("arricade")) {
 				cost = (int)resourceManager.costBarricade;
 			}
+			stats.sellCost += stats.upgradeCost / 2;
+			stats.upgradeCost *= 2;
+
 		} else {
 			Debug.Log ("no moneyzz");
 		}

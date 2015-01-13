@@ -79,6 +79,7 @@ public class GUIScript : MonoBehaviour {
 
 	[Header("Tower panel")]
 	public GameObject towerPanel;
+	public Text towerName;
 	public Text attack;
 	public Text speed;
 	public Text special;
@@ -142,8 +143,12 @@ public class GUIScript : MonoBehaviour {
     private GoalScript goalScript;
     private WaveSpawner waveSpawner;
 
+	private GameObject ResourceManagerObj;
+	private ResourceManager resourceManager;
     void Start() {
         /* Get private components */
+		ResourceManagerObj = GameObject.Find ("ResourceManager");
+		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
 
         // Camera Auiodsource
         cameraAudioSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
@@ -439,12 +444,20 @@ public class GUIScript : MonoBehaviour {
 				enemyPanel.SetActive (true);
 				towerPanel.SetActive (false);
 			}
-			else if(stats!=null){
+			else if(stats!=null && WeaponController.weapon==50){
 				enemyPanel.SetActive (false);
 				towerPanel.SetActive (true);
+				GameObject tower = stats.transform.gameObject;
+
+				towerName.text = tower.name.Replace("(Clone)","");
 				attack.text = "Attack: " + stats.attack;
 				speed.text = "Speed: " + stats.speed;
 				special.text = "Special: " + stats.specialDamage;
+				specialU.text = "↑" + resourceManager.iceSpecial;
+				sell.text = "Sell(+" + stats.sellCost + ")";
+				upgrade.text = "Upgrade(-" + stats.upgradeCost + ")";
+				attackU.text = "↑" + stats.attackUpgrade;
+				speedU.text = "↑" + stats.speedUpgrade;
 
 			} 
 			else {
