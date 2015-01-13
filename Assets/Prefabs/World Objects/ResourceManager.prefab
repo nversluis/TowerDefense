@@ -99,14 +99,17 @@ MonoBehaviour:
   pathUpdateRate: .300000012
   drawPath: 0
   automaticPathUpdating: 1
-  mutationProbability: .699999988
+  currentWave: 1
+  maxWaves: 20
   maxEnemies: 10
   toenameAantalEnemiesPerWave: 5
   timeBetweenWaves: 5
+  timeTillNextWave: 0
+  keepType: 1
+  keepDistribution: 1
+  mutationProbability: .699999988
   totalStatPoints: 100
   toenameTotalStatPointsPerWave: 30
-  currentWave: 1
-  maxWaves: 20
   maxTowerDistance: 50
   magicTower: {fileID: 100010, guid: 00820a827834982408befc67f6611fe1, type: 2}
   magicTowerBullet: {fileID: 100000, guid: 992585f8d90a7dd4aa9fb58097ade3cd, type: 2}
