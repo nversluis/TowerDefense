@@ -78,6 +78,14 @@ public class WaveSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown("return") || Input.GetKeyDown("enter"))
+        {
+            gameHasStarted = true;
+        }
+    }
+
+    void FixedUpdate()
+    {
         if (currentWave <= maxWaves)
         {
             if (!gameHasStarted)
@@ -93,10 +101,6 @@ public class WaveSpawner : MonoBehaviour
 
                 if (currentWave == 1)
                 {
-                    if (Input.GetKeyDown("return") || Input.GetKeyDown("enter"))
-                    {
-                        gameHasStarted = true;
-                    }
                     if (gameHasStarted)
                     {
                         waitTime = 0;
@@ -216,35 +220,6 @@ public class WaveSpawner : MonoBehaviour
             nextGenDistributions.Add(enemyStats.statDistribution);
             nextGenFitness.Add(enemyStats.fitness);
             enemies.Add(enemyGwarf);
-        }
-    }
-
-    void UpdateenemyCount()
-    {
-        if (enemies.Count > 0)
-        {
-            for (int i = 0; i < enemies.Count; i++)
-            {
-                if ((GameObject)(enemies[i]) == null)
-                {
-                    // Verwijder een enemy uit de lijst van enemies als die dood is
-                    enemies.Remove(enemies[i]);
-                }
-                else
-                {
-                    if (!allEnemiesSpawned)
-                    {
-                        nextGenFitness[i] = ((GameObject)(enemies[i])).GetComponent<EnemyStats>().fitness;
-                        //Debug.Log("nextGenFitness[" + i + "] = " + nextGenFitness[i]);
-                    }
-                    else
-                    {
-                        currentGenFitness[i] = ((GameObject)(enemies[i])).GetComponent<EnemyStats>().fitness;
-                        //Debug.Log("currentGenFitness[" + i + "] = " + currentGenFitness[i]);
-                    }
-                }
-
-            }
         }
     }
 
