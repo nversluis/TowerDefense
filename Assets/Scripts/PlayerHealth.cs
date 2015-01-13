@@ -12,7 +12,7 @@ public class PlayerHealth : MonoBehaviour {
 
     bool isDead = false;
 
-    void addPlayerDefense(int addDefense)
+    public void addPlayerDefense(int addDefense)
     {
         defence += addDefense;
     }
