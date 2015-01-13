@@ -12,7 +12,7 @@ public class PlayerHealth : MonoBehaviour {
 
     bool isDead = false;
 
-    void addPlayerDefense(int addDefense)
+    public void addPlayerDefense(int addDefense)
     {
         defence += addDefense;
     }
@@ -28,6 +28,7 @@ public class PlayerHealth : MonoBehaviour {
         playerData.setMaxHP(startingHealth);
         gui = GameObject.Find("GUIMain");
         guiScript = gui.GetComponent<GUIScript>();
+        defence = GameObject.Find("ResourceManager").GetComponent<ResourceManager>().defense;
 	}
 	
 	// Update is called once per frame

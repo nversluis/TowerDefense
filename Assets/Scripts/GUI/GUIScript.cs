@@ -8,6 +8,9 @@ public class GUIScript : MonoBehaviour {
     public static PlayerData player = new PlayerData();
     public static bool paused;
 
+    private PlayerHealth playerHealth;
+    private PlayerController playerController;
+
     private List<Item> inventory;
     private List<Skill> skillset;
 
@@ -146,6 +149,8 @@ public class GUIScript : MonoBehaviour {
         cameraAudioSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
 
 
+        playerHealth = GameObject.Find("Player").GetComponent<PlayerHealth>();
+        playerController = GameObject.Find("Player").GetComponent<PlayerController>();
 
         // Skills
 
@@ -345,10 +350,10 @@ public class GUIScript : MonoBehaviour {
     }
 
     void UpdateStats() {
-        StrStat.text = player.getAttack().ToString();
-        MagStat.text = player.getMagic().ToString();
-        DefStat.text = player.getArmor().ToString();
-        AgiStat.text = player.getAgility().ToString();
+        StrStat.text = "Tier " + inventory[0].getTier().ToString();
+        MagStat.text = "Tier " + inventory[1].getTier().ToString();
+        DefStat.text = "Tier " + inventory[2].getTier().ToString();
+        AgiStat.text = "Tier " + inventory[3].getTier().ToString();
     }
 
     void UpdateCooldowns() {
@@ -701,7 +706,7 @@ public class GUIScript : MonoBehaviour {
         int currentIndex = inventory[0].getTier() - 1;
         inventory[0].setTier(currentTier + 1);
         player.setItems(inventory);
-        player.setAttack(player.getAttack() + inventory[0].getValue()[currentIndex]);
+        playerController.addSwordDamage(inventory[0].getValue()[currentIndex]);
         player.removeGold(inventory[0].getCost()[currentIndex]);
         UpdateGold();
         UpdateShop();
@@ -714,7 +719,7 @@ public class GUIScript : MonoBehaviour {
         int currentIndex = inventory[1].getTier() - 1;
         inventory[1].setTier(inventory[1].getTier() + 1);
         player.setItems(inventory);
-        player.setMagic(player.getMagic() + inventory[1].getValue()[currentIndex]);
+        playerController.addMagicDamage(inventory[1].getValue()[currentIndex]);
         player.removeGold(inventory[1].getCost()[currentIndex]);
         UpdateGold();
         UpdateShop();
@@ -727,7 +732,7 @@ public class GUIScript : MonoBehaviour {
         int currentIndex = inventory[2].getTier() - 1;
         inventory[2].setTier(inventory[2].getTier() + 1);
         player.setItems(inventory);
-        player.setArmor(player.getArmor() + inventory[2].getValue()[currentIndex]);
+        playerHealth.addPlayerDefense(inventory[2].getValue()[currentIndex]);
         player.removeGold(inventory[2].getCost()[currentIndex]);
         UpdateGold();
         UpdateShop();
@@ -740,7 +745,7 @@ public class GUIScript : MonoBehaviour {
         int currentIndex = inventory[3].getTier() - 1;
         inventory[3].setTier(inventory[3].getTier() + 1);
         player.setItems(inventory);
-        player.setAgility(player.getAgility() + inventory[3].getValue()[currentIndex]);
+        playerController.addPlayerSpeed(inventory[3].getValue()[currentIndex]);
         player.removeGold(inventory[3].getCost()[currentIndex]);
         UpdateGold();
         UpdateShop();

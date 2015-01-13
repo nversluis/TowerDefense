@@ -18,13 +18,15 @@ public class ResourceManager : MonoBehaviour {
 	public int rewardWave;
 
     [Header("Player")]
-    public int startSwordDamage;
-    public int startMagicDamage;
+
     public float coolDownSword1Time;
     public float coolDownSword2Time;
     public float coolDownMagic1Time;
     public float coolDownMagic2Time;
-    
+    public int defense;
+    public int speed;
+    public int startSwordDamage;
+    public int startMagicDamage;    
 
 	[Header("Map Prefabs")]
 
