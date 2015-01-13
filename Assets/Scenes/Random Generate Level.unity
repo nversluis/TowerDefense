@@ -133,6 +133,14 @@ MonoBehaviour:
   pathUpdateRate: .300000012
   drawPath: 0
   automaticPathUpdating: 1
+  mutationProbability: .699999988
+  maxEnemies: 10
+  toenameAantalEnemiesPerWave: 5
+  timeBetweenWaves: 5
+  totalStatPoints: 100
+  toenameTotalStatPointsPerWave: 30
+  allEnemiesSpawned: 0
+  allEnemiesDead: 0
   currentWave: 1
   maxWaves: 10
   maxTowerDistance: 50
@@ -683,6 +691,30 @@ Prefab:
     - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
       propertyPath: speedReduceRate
       value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: mutationProbability
+      value: .699999988
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: maxEnemies
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: toenameAantalEnemiesPerWave
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: timeBetweenWaves
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: totalStatPoints
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: toenameTotalStatPointsPerWave
+      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}

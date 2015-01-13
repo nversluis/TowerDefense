@@ -15,7 +15,7 @@ public class WaveSpawner : MonoBehaviour
     public float mutationProbability;
 
     private int indexOfCurrentGen;
-    public bool spawning = true;
+    private bool spawning = true;
     public bool keepDistribution = false;
 
     GameObject gui;
@@ -64,6 +64,11 @@ public class WaveSpawner : MonoBehaviour
         EnemyGrobble = resourceManager.enemyGrobble;
         maxWaves = resourceManager.maxWaves;
         currentWave = resourceManager.currentWave;
+        maxEnemies = resourceManager.maxEnemies;
+        toenameAantalEnemiesPerWave = resourceManager.toenameAantalEnemiesPerWave;
+        timeBetweenWaves = resourceManager.timeBetweenWaves;
+        currentTotalStatPoints = resourceManager.totalStatPoints;
+        delta = resourceManager.toenameTotalStatPointsPerWave;
         enemies = new ArrayList();
         enemiesInWave = new ArrayList();
         currentGenDistributions = new List<List<float>>();
