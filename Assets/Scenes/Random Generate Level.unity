@@ -133,8 +133,14 @@ MonoBehaviour:
   pathUpdateRate: .300000012
   drawPath: 0
   automaticPathUpdating: 1
+  mutationProbability: .699999988
+  maxEnemies: 10
+  toenameAantalEnemiesPerWave: 5
+  timeBetweenWaves: 5
+  totalStatPoints: 100
+  toenameTotalStatPointsPerWave: 30
   currentWave: 1
-  maxWaves: 10
+  maxWaves: 20
   maxTowerDistance: 50
   magicTower: {fileID: 100010, guid: 00820a827834982408befc67f6611fe1, type: 2}
   magicTowerBullet: {fileID: 100000, guid: 992585f8d90a7dd4aa9fb58097ade3cd, type: 2}
@@ -1397,6 +1403,34 @@ Prefab:
     - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
       propertyPath: speedReduceRate
       value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: mutationProbability
+      value: .699999988
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: maxEnemies
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: toenameAantalEnemiesPerWave
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: timeBetweenWaves
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: totalStatPoints
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: toenameTotalStatPointsPerWave
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: maxWaves
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
