@@ -6,6 +6,8 @@ using System.Collections.Generic;
 public class GUIScript : MonoBehaviour {
     // Initialize a public variable containing all player data
     public static PlayerData player = new PlayerData();
+    private List<Item> inventory;
+    private List<Skill> skillset;
 
     [Header("Player HP")]
     public RectTransform frontPlayerHPBar;
@@ -54,12 +56,11 @@ public class GUIScript : MonoBehaviour {
     [Header("Result screen canvas")]
     public GameObject result;
     public Image resultImage;
+    public Text resultScoreText;
     public Sprite[] resultSprites = new Sprite[2];
 
     [Header("Crosshair")]
     public GameObject crosshair;
-    public Text resultText;
-    public Text resultScoreText;
 
     [Header("Tower Popup")]
     public GameObject TowerPopup;
@@ -98,6 +99,14 @@ public class GUIScript : MonoBehaviour {
 
     [Header("Headshot Image")]
     public GameObject headshotImage;
+
+    [Header("Item Shop")]
+    public GameObject shopPanel;
+    public Image[] shopImageList = new Image[4];
+    public Text[] shopTextList = new Text[4];
+    public Button[] shopButtonList = new Button[4];
+    public Text[] costTextList = new Text[4];
+
 
     [Header("Click sound")]
     public AudioClip click;
@@ -147,6 +156,11 @@ public class GUIScript : MonoBehaviour {
 
         /* Initialize */
 
+        // Player Data
+        skillset = player.getSkills();
+        inventory = player.getItems();
+
+
         // Skills 
         foreach(Image im in skillIconList) {
             im.fillClockwise = false;
@@ -162,7 +176,7 @@ public class GUIScript : MonoBehaviour {
             tx.enabled = false;
         }
 
-        foreach(Image im in skillSelectList){
+        foreach(Image im in skillSelectList) {
             im.enabled = false;
         }
 
@@ -173,7 +187,7 @@ public class GUIScript : MonoBehaviour {
             tx.text = (i + 1).ToString();
         }
 
-        foreach(Image im in towerSelectList){
+        foreach(Image im in towerSelectList) {
             im.enabled = false;
         }
 
@@ -208,6 +222,27 @@ public class GUIScript : MonoBehaviour {
 
         // Headshot image
         headshotImage.SetActive(false);
+
+        // Shop
+        shopPanel.SetActive(false);
+
+        for(int i = 0; i < shopImageList.Length; i++) {
+            Image im = shopImageList[i];
+            im.sprite = tier2[i];
+        }
+
+        for(int i = 0; i < shopTextList.Length; i++) {
+            Text tx = shopTextList[i];
+            tx.text = "+" + inventory[i].getValue().ToString();
+        }
+
+        for(int i = 0; i < costTextList.Length; i++) {
+            Text tx = costTextList[i];
+            tx.text = inventory[i].getCost().ToString();
+        }
+
+        // GUI
+        UpdateStats();
     }
 
     void FixedUpdate() {
@@ -223,28 +258,41 @@ public class GUIScript : MonoBehaviour {
         UpdateCooldowns();
         UpdateScore();
         UpdateGold();
-        UpdateStats();
         UpdateSelection();
-        UpdateItems();
         UpdateEnemyStats();
         UpdateWaveText();
     }
 
     void Update() {
         // Pause menu behaviour
-        if(Input.GetKeyDown("escape")) {
+        if(Input.GetKeyDown(KeyCode.Escape)) {
             PauseGame();
         }
 
-        if(!firstWaveStarted && Input.GetKeyDown("return")) {
+        if(!firstWaveStarted && Input.GetKeyDown(KeyCode.Escape)) {
             firstWaveText.enabled = false;
         }
         else if(!firstWaveStarted) {
             TextColorShift(firstWaveText);
         }
 
-        if(Input.GetKeyDown("tab")) {
+        if(Input.GetKeyDown(KeyCode.Tab)) {
             player.setTowerSelected(!player.getTowerSelected());
+        }
+
+        if(Input.GetKeyDown(KeyCode.Backslash)) {
+            shopPanel.SetActive(!shopPanel.activeSelf);
+            crosshair.SetActive(!crosshair.activeSelf);
+            playerScript.enabled = !playerScript.enabled;
+            cameraScript.enabled = !cameraScript.enabled;
+            Screen.lockCursor = !Screen.lockCursor;
+            Screen.showCursor = !Screen.showCursor;
+            if(Time.timeScale == 0.000001f) {
+                Time.timeScale = 1; ;
+            }
+            else {
+                Time.timeScale = 0.000001f;
+            }
         }
 
         scoreText.text = Statistics.Score().ToString();
@@ -401,6 +449,53 @@ public class GUIScript : MonoBehaviour {
         }
     }
 
+    void UpdateShop() {
+        for(int i = 0; i < shopImageList.Length; i++) {
+            Image im = shopImageList[i];
+            Item it = inventory[i];
+            int tier = it.getTier();
+
+            switch(tier) {
+                case 1:
+                    im.sprite = tier2[i];
+                    break;
+                case 2:
+                    im.sprite = tier3[i];
+                    break;
+                case 3:
+                    im.sprite = tier4[i];
+                    break;
+                default:
+                    im.sprite = tier4[i];
+                    im.color = new Color(0.5f, 0.5f, 0.5f, 1);
+                    costTextList[i].text = "Max level";
+                    break;
+            }
+        }
+
+
+        for(int i = 0; i < shopTextList.Length; i++) {
+            Text tx = shopTextList[i];
+            tx.text = "+" + inventory[i].getValue().ToString();
+        }
+
+        for(int i = 0; i < costTextList.Length; i++) {
+            Text tx = costTextList[i];
+            tx.text = inventory[i].getCost().ToString();
+        }
+
+        for(int i = 0; i < shopButtonList.Length; i++) {
+            Button bt = shopButtonList[i];
+            if(inventory[i].getTier() < 4 && player.getGold() >= inventory[i].getCost()) {
+                bt.interactable = true;
+            }
+            else {
+                bt.interactable = false;
+            }
+        }
+
+    }
+
     public void ButtonClick() {
         cameraAudioSource.PlayOneShot(click);
     }
@@ -420,7 +515,7 @@ public class GUIScript : MonoBehaviour {
                     towerSelectList[i].enabled = false;
                 }
             }
-            foreach(Image im in skillSelectList){
+            foreach(Image im in skillSelectList) {
                 im.enabled = false;
             }
         }
@@ -443,8 +538,6 @@ public class GUIScript : MonoBehaviour {
     }
 
     public void UpdateItems() {
-        List<Item> inventory = player.getItems();
-
         for(int i = 0; i < inventory.Count; i++) {
             Item item = inventory[i];
             Image image = itemIconList[i];
@@ -533,6 +626,50 @@ public class GUIScript : MonoBehaviour {
     public void HeadShot() {
         headshotImage.SetActive(true);
         Invoke("DisableHeadShot", 1.5f);
+    }
+
+    public void UpgradeSword() {
+        inventory[0].setTier(inventory[0].getTier() + 1);
+        player.setItems(inventory);
+        player.setAttack(player.getAttack() + inventory[0].getValue());
+        player.removeGold(inventory[0].getCost());
+        UpdateGold();
+        UpdateShop();
+        UpdateItems();
+        UpdateStats();
+    }
+
+    public void UpgradeWand() {
+        inventory[1].setTier(inventory[1].getTier() + 1);
+        player.setItems(inventory);
+        player.setMagic(player.getMagic() + inventory[1].getValue());
+        player.removeGold(inventory[1].getCost());
+        UpdateGold();
+        UpdateShop();
+        UpdateItems();
+        UpdateStats();
+    }
+
+    public void UpgradeShield() {
+        inventory[2].setTier(inventory[2].getTier() + 1);
+        player.setItems(inventory);
+        player.setArmor(player.getArmor() + inventory[2].getValue());
+        player.removeGold(inventory[2].getCost());
+        UpdateGold();
+        UpdateShop();
+        UpdateItems();
+        UpdateStats();
+    }
+
+    public void UpgradeBoots() {
+        inventory[3].setTier(inventory[3].getTier() + 1);
+        player.setItems(inventory);
+        player.setAgility(player.getAgility() + inventory[3].getValue());
+        player.removeGold(inventory[3].getCost());
+        UpdateGold();
+        UpdateShop();
+        UpdateItems();
+        UpdateStats();
     }
 
     void DisableHeadShot() {

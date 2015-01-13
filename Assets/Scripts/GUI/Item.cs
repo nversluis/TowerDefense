@@ -19,8 +19,8 @@ public class Item {
     public Item() {
         type = "none";
         tier = 1;
-        cost = 0;
-        value = 0;
+        cost = 1000;
+        value = 20;
     }
 
     /* GETTERS */
