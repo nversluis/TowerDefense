@@ -47,6 +47,8 @@ public class GuyantScript : MonoBehaviour
 
 	public float isSlowed = 1;
 
+	GameObject curFloor;
+
 	// Method for finding all necessary scripts
 	void GetScripts ()
 	{
@@ -194,6 +196,7 @@ public class GuyantScript : MonoBehaviour
 			if (enemyResources.isDead) {
 				// set speed to zero
 				rigidbody.velocity = Vector3.zero;
+				curFloor.GetComponent<FloorScript> ().hasEnemy = false;
 
 			}
 
@@ -290,6 +293,7 @@ public class GuyantScript : MonoBehaviour
 	//Update is called once per frame
 	void FixedUpdate ()
 	{
+		checkFloor ();
 
 		// Determine the walk speed of the enemy
 		WalkSpeed ();
@@ -362,6 +366,24 @@ public class GuyantScript : MonoBehaviour
 
 			// set new waypoints to old for next update
 			WaypointsNearOld = WaypointsNearNow;
+		}
+	}
+
+	void checkFloor(){
+		RaycastHit hit;
+		GameObject res = curFloor;
+		//Ray ray = new Ray(transform.position, -Vector3.up, out hit);
+		if (Physics.Raycast (transform.position, -Vector3.up, out hit)) {
+			if (hit.transform.name.Contains ("loor")) {
+				curFloor = hit.transform.gameObject;
+				if (res != null && res != curFloor) {
+					res.GetComponent<FloorScript> ().hasEnemy = false;
+					if(curFloor.transform.childCount==2)
+					WallScript.DestroyHotSpots ();
+				}
+				FloorScript floor = hit.transform.GetComponent<FloorScript> ();
+				floor.hasEnemy = true;
+			}
 		}
 	}
 
