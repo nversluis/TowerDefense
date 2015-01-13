@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     private GameObject camera;
     private GameObject Bullet;
 
-    private float playerSpeed = 15f;
+    private float playerSpeed;
     private float BulletSpeed = 100f;
     private float camAngleX;
     private float camAngleY;
@@ -188,16 +188,16 @@ public class PlayerController : MonoBehaviour
 
             if (WeaponController.weapon == 2 && !coolDownSword2)
             {
-                attackingSword3 = true;
-                coolDownSword1 = true;
-                Invoke("SetAttackAnimationFalse", 1f / 2f);
-                Invoke("setCoolDownSword1false", coolDownSword1Time);
+                //attackingSword3 = true;
+                //coolDownSword1 = true;
+                //Invoke("SetAttackAnimationFalse", 1f / 2f);
+                //Invoke("setCoolDownSword1false", coolDownSword1Time);
 
-                RaycastHit hit;
-                if (Physics.Raycast(transform.position + tijdelijk, transform.forward, out hit, 3f, enemyMask))
-                {
-                    hit.transform.gameObject.GetComponent<EnemyHealth>().TakeDamage(swordDamage, "physical", true);
-                }
+                //RaycastHit hit;
+                //if (Physics.Raycast(transform.position + tijdelijk, transform.forward, out hit, 3f, enemyMask))
+                //{
+                //    hit.transform.gameObject.GetComponent<EnemyHealth>().TakeDamage(swordDamage, "physical", true);
+                //}
 
             }
 
@@ -293,6 +293,7 @@ public class PlayerController : MonoBehaviour
         coolDownSword2Time = resourceManager.coolDownSword2Time;
         swordDamage = resourceManager.startSwordDamage;
         magicDamage = resourceManager.startMagicDamage;
+        playerSpeed = resourceManager.speed;
 
 
         
