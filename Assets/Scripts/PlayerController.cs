@@ -94,11 +94,18 @@ public class PlayerController : MonoBehaviour
     // Method that runs when left button is pressed
     private void OnLeftMouseDown()
     {
+        
         // if player presses Mouse0
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
+
             if (WeaponController.weapon == 1)
             {
+
+            }
+            if (WeaponController.weapon == 3)
+            {
+
                 // determining Angles of the camera with origin
                 camAngleX = camera.transform.rotation.eulerAngles.x;
                 camAngleY = camera.transform.rotation.eulerAngles.y;
@@ -155,6 +162,14 @@ public class PlayerController : MonoBehaviour
             distortion = distortion / 1.1f;
         }
 
+    }
+
+    void SetAttackAnimationFalse()
+    {
+    attackingSword1 = false;
+    attackingSword2 = false;
+    attackMagic1 = false;
+    attackMagic2 = false;
     }
 
     // Use this for initialization
