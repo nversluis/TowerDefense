@@ -243,6 +243,8 @@ public class GUIScript : MonoBehaviour {
 
         // GUI
         UpdateStats();
+        UpdateShop();
+        UpdateItems();
     }
 
     void FixedUpdate() {
@@ -477,10 +479,10 @@ public class GUIScript : MonoBehaviour {
         for(int i = 0; i < shopTextList.Length; i++) {
             Text tx = shopTextList[i];
             if(inventory[i].getTier() < 4) {
-                tx.text = "+" + inventory[i].getValue()[inventory[i].getTier()].ToString();
+                tx.text = "+" + inventory[i].getValue()[inventory[i].getTier() - 1].ToString();
             }
             else {
-                tx.text = "X";
+                tx.text = "MAX";
                 tx.color = Color.black;
             }
         }
@@ -488,10 +490,10 @@ public class GUIScript : MonoBehaviour {
         for(int i = 0; i < costTextList.Length; i++) {
             Text tx = costTextList[i];
             if(inventory[i].getTier() < 4) {
-                tx.text = inventory[i].getCost()[inventory[i].getTier()].ToString();
+                tx.text = inventory[i].getCost()[inventory[i].getTier() - 1].ToString();
             }
             else {
-                tx.text = "X";
+                tx.text = "MAX";
                 tx.color = Color.black;
             }
 
@@ -681,7 +683,7 @@ public class GUIScript : MonoBehaviour {
     }
 
     public void UpgradeBoots() {
-        int currentTier = inventory[3].getTier();s
+        int currentTier = inventory[3].getTier();
         int currentIndex = inventory[3].getTier() - 1;
         inventory[3].setTier(inventory[3].getTier() + 1);
         player.setItems(inventory);

@@ -19,8 +19,8 @@ public class Item {
     public Item() {
         type = "none";
         tier = 1;
-        cost = new float[5] {1000f, 5000f, 10000f, 75000f};
-        value = new float[5] {5f, 20f, 75f, 150f};
+        cost = new float[3] {1000f, 5000f, 25000f};
+        value = new float[3] {5f, 20f, 75f};
     }
 
     /* GETTERS */
