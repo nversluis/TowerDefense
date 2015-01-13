@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
     public static bool moving;
     public static bool attackingSword1;
     public static bool attackingSword2;
+    public static bool attackingSword3;
     public static bool attackMagic1;
     public static bool attackMagic2;
     public static bool idle;
@@ -72,6 +73,19 @@ public class PlayerController : MonoBehaviour
         //return the movement of the player according to camera rotation and input
         return movement;
 
+    }
+
+    public void addMagicDamage(int addDamage)
+    {
+        magicDamage += addDamage;
+    }
+    public void addSwordDamage(int addDamage)
+    {
+        swordDamage += addDamage;
+    }
+    public void addPlayerSpeed(int addSpeed)
+    {
+        playerSpeed += addSpeed;
     }
 
     void setCoolDownSword1false()
@@ -149,8 +163,20 @@ public class PlayerController : MonoBehaviour
             if (WeaponController.weapon == 1 && !coolDownSword1)
             {
                 SetAttackAnimationFalse();
+
+                int random = Random.Range(0, 2);
+                Debug.Log(random);
+                if (random == 0)
+                {
+                    attackingSword1 = true;
+                }
+
+                else
+                {
+                    attackingSword2 = true;
+                }
+
                 coolDownSword1 = true;
-                attackingSword1 = true;
                 Invoke("SetAttackAnimationFalse", 1f/2f);
                 Invoke("setCoolDownSword1false", coolDownSword1Time);
 
@@ -160,6 +186,20 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
+            if (WeaponController.weapon == 2 && !coolDownSword2)
+            {
+                attackingSword3 = true;
+                coolDownSword1 = true;
+                Invoke("SetAttackAnimationFalse", 1f / 2f);
+                Invoke("setCoolDownSword1false", coolDownSword1Time);
+
+                RaycastHit hit;
+                if (Physics.Raycast(transform.position + tijdelijk, transform.forward, out hit, 3f, enemyMask))
+                {
+                    hit.transform.gameObject.GetComponent<EnemyHealth>().TakeDamage(swordDamage, "physical", true);
+                }
+
+            }
 
             if (WeaponController.weapon == 3 && !coolDownMagic1)
             {
@@ -214,17 +254,12 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    public void addSwordDamage(int addedDamage)
-    {
-        swordDamage += addedDamage;
-    }
-
     // Decrease bullet distortion over time
     private void DecreaseBulletDistortion()
     {
         if (distortion > 0 )
         {
-            distortion = distortion / 1.1f;
+            distortion = distortion / 1.05f;
         }
 
     }

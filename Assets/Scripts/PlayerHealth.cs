@@ -5,13 +5,18 @@ public class PlayerHealth : MonoBehaviour {
 
     public int startingHealth = 5000;
     public int currentHealth;
-    public int defence = 10;
+    int defence;
     PlayerData playerData = GUIScript.player;
     GameObject gui;
     GUIScript guiScript;
 
     bool isDead = false;
 
+    void addPlayerDefense(int addDefense)
+    {
+        defence += addDefense;
+    }
+    
     void Awake()
     {
         currentHealth = startingHealth;

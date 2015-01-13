@@ -58,6 +58,16 @@ public class PlayerAnimator : MonoBehaviour {
 
         if (PlayerController.attackingSword2)
         {
+            animator.SetBool("AttackingSword3", true);
+        }
+
+        else
+        {
+            animator.SetBool("AttackingSword3", false);
+        }
+
+        if (PlayerController.attackMagic1)
+        {
             animator.SetBool("AttackingMagic1", true);
         }
 
@@ -66,7 +76,7 @@ public class PlayerAnimator : MonoBehaviour {
             animator.SetBool("AttackingMagic1", false);
         }
 
-        if (PlayerController.attackingSword2)
+        if (PlayerController.attackMagic2)
         {
             animator.SetBool("AttackingMagic2", true);
         }
