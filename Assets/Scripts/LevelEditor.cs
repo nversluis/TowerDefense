@@ -1270,10 +1270,9 @@ public class LevelEditor : MonoBehaviour
                 if (i < filesPerPage * currentPage && i >= filesPerPage * (currentPage - 1))
                 {
                     tempfilefound = true;
-                    Debug.Log(nextpage - prevpage);
 
                     nextpage += 1;
-                    Debug.Log(nextpage - prevpage);
+
                 }
 
                 else if (i <= filesPerPage * (currentPage - 1))
@@ -1295,7 +1294,9 @@ public class LevelEditor : MonoBehaviour
         {
 
             prevBut.gameObject.SetActive(false);
-
+        }
+        if (maxPages < 2){
+            nextBut.gameObject.SetActive(false);
         }
 
 
