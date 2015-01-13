@@ -117,7 +117,6 @@ public class barricade : MonoBehaviour
 									point.setPenalty (penalty);
 								}
 							}
-							Debug.Log (point.getPenalty());
 						}
 						else{
 							resourceManager.Nodes.Remove (point);
