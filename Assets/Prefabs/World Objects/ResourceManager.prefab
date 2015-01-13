@@ -39,7 +39,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 20.2024803, y: 9.92507648, z: 15.3468361}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 471860}
@@ -75,8 +75,8 @@ MonoBehaviour:
   costFireTrap: 100
   costPoisonTrap: 100
   costBarricade: 200
-  rewardenemy: 10
-  rewardWave: 300
+  rewardenemy: 5
+  rewardWave: 800
   coolDownSword1Time: .5
   coolDownSword2Time: 10
   coolDownMagic1Time: .200000003
@@ -89,7 +89,7 @@ MonoBehaviour:
   wallPrefab: {fileID: 171850, guid: 0556f1d261c50e248934a3de0f8a97a4, type: 2}
   enemySpawner: {fileID: 100000, guid: c3a351ed1e54c354c99c7d460d83aa16, type: 2}
   Minimapcamera: {fileID: 100000, guid: ea52609adf144e449bfeac563da51684, type: 2}
-  Gate: {fileID: 100000, guid: 16cf1baaf1edf034dadc94eb5ac10fa5, type: 2}
+  Gate: {fileID: 100000, guid: d4693b6abfa404c2083cd46be293e93c, type: 2}
   torch: {fileID: 100012, guid: 3abc6258d3b3848199581033a47549d6, type: 2}
   Goal: {fileID: 187034, guid: 238816a3ef63d0443b7f2d1338df4329, type: 2}
   length: 10
@@ -98,13 +98,13 @@ MonoBehaviour:
   height: 3
   nodeSize: 2.5
   NumberOfPaths: 3
-  drawNavigationGrid: 0
+  drawNavigationGrid: 1
   enemyTag: Enemy
   enemyGuyant: {fileID: 100052, guid: 6a25f25271f527644ab0b18b0e7c536e, type: 2}
   enemyGwarf: {fileID: 188948, guid: 37f21c745b6e3ff43942e88e21aba537, type: 2}
   enemyGrobble: {fileID: 0}
   walkSpeed: 5
-  pathUpdateRate: .300000012
+  pathUpdateRate: .5
   drawPath: 0
   automaticPathUpdating: 1
   currentWave: 1
@@ -112,7 +112,6 @@ MonoBehaviour:
   maxEnemies: 10
   toenameAantalEnemiesPerWave: 5
   timeBetweenWaves: 5
-  timeTillNextWave: 0
   keepType: 1
   keepDistribution: 1
   mutationProbability: .699999988
@@ -138,7 +137,7 @@ MonoBehaviour:
   iceSpecial: 1.5
   spearTrap: {fileID: 100004, guid: 78350e6548fc0ba4eb8337163c0d01b7, type: 2}
   barricade: {fileID: 156962, guid: 57e98e7c5749344e3a8e883f7e62ed72, type: 2}
-  barricadeHealth: 100
+  barricadeHealth: 500
   magicTowerHotSpot: {fileID: 100008, guid: b7ee6a2fbe7fbaa45abbee1c40b0d49d, type: 2}
   arrowTowerHotSpot: {fileID: 108536, guid: 330ca6b6c1ad3cf45a532231b13140aa, type: 2}
   poisonTrapHotspot: {fileID: 100006, guid: 12ce532ee4226dc40afed8a28552da9e, type: 2}
