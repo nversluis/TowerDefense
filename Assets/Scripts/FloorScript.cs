@@ -129,24 +129,32 @@ public class FloorScript : MonoBehaviour
 	{
 		GameObject tower = gameObject.transform.GetChild (1).gameObject;
 		TowerStats stats = tower.GetComponent<TowerStats> ();
-		if (tower.name.Contains ("Fire")) {
-			stats.attack = (int)Mathf.Round(stats.attack*resourceManager.fireAttack);
-			stats.speed = (int)Mathf.Round(stats.speed*resourceManager.fireSpeed);
-			stats.specialDamage *= resourceManager.fireSpecial;
-		} else if (tower.name.Contains ("Poison")) {
-			stats.attack = (int)Mathf.Round(stats.attack*resourceManager.poisonAttack);
-			stats.speed = (int)Mathf.Round(stats.speed*resourceManager.poisonSpeed);
-			stats.specialDamage *= resourceManager.poisonSpecial;
-		} else if (tower.name.Contains ("Ice")) {
-			stats.attack = (int)Mathf.Round(stats.attack*resourceManager.iceAttack);
-			stats.speed = (int)Mathf.Round(stats.speed*resourceManager.iceSpeed);
-			stats.specialDamage *= resourceManager.iceSpecial;
-		} else if (tower.name.Contains ("Spear")) {
-			//cost = resourceManager.costSpearTrap;
-		} else if (tower.name.Contains ("arricade")) {
-			cost = resourceManager.costBarricade;
+		if (cost * 2 <= GUIScript.player.getGold ()) {
+			stats.level++;
+			cost *= 2;
+			if (tower.name.Contains ("Fire")) {
+				stats.attack = (int)Mathf.Round (stats.attack * resourceManager.fireAttack);
+				stats.speed = (int)Mathf.Round (stats.speed * resourceManager.fireSpeed);
+				stats.specialDamage *= resourceManager.fireSpecial;
+				GUIScript.player.addGold (-cost);
+			} else if (tower.name.Contains ("Poison")) {
+				stats.attack = (int)Mathf.Round (stats.attack * resourceManager.poisonAttack);
+				stats.speed = (int)Mathf.Round (stats.speed * resourceManager.poisonSpeed);
+				stats.specialDamage *= resourceManager.poisonSpecial;
+				GUIScript.player.addGold (-cost);
+			} else if (tower.name.Contains ("Ice")) {
+				stats.attack = (int)Mathf.Round (stats.attack * resourceManager.iceAttack);
+				stats.speed = (int)Mathf.Round (stats.speed * resourceManager.iceSpeed);
+				stats.specialDamage *= resourceManager.iceSpecial;
+				GUIScript.player.addGold (-cost);
+			} else if (tower.name.Contains ("Spear")) {
+				//cost = resourceManager.costSpearTrap;
+			} else if (tower.name.Contains ("arricade")) {
+				cost = (int)resourceManager.costBarricade;
+			}
+		} else {
+			Debug.Log ("no moneyzz");
 		}
-
 
 		WallScript.DestroyHotSpots();
 	}

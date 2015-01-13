@@ -10,6 +10,7 @@ public class TowerStats : MonoBehaviour {
 	public int range;
 	public float specialDamage; //amount of slowness for the ice tower, amount of defence reduced for spear trap etc.
 
+	public int level;
 
 	// Use this for initialization
 	void Start () {
