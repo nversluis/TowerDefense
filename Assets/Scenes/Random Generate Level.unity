@@ -19,7 +19,7 @@ RenderSettings:
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientLight: {r: .200000003, g: .200000003, b: .200000003, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 16522f49031ff414abdf1f83f1b6a36c, type: 2}
+  m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 1
   m_FlareStrength: 1
   m_FlareFadeSpeed: 2.75
@@ -78,7 +78,7 @@ NavMeshSettings:
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 100000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
-  m_PrefabInternal: {fileID: 937690218}
+  m_PrefabInternal: {fileID: 1306103918}
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 14726754}
@@ -95,7 +95,7 @@ MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854,
     type: 2}
-  m_PrefabInternal: {fileID: 937690218}
+  m_PrefabInternal: {fileID: 1306103918}
   m_GameObject: {fileID: 14726752}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -133,8 +133,14 @@ MonoBehaviour:
   pathUpdateRate: .300000012
   drawPath: 0
   automaticPathUpdating: 1
+  mutationProbability: .699999988
+  maxEnemies: 10
+  toenameAantalEnemiesPerWave: 5
+  timeBetweenWaves: 5
+  totalStatPoints: 100
+  toenameTotalStatPointsPerWave: 30
   currentWave: 1
-  maxWaves: 10
+  maxWaves: 20
   maxTowerDistance: 50
   magicTower: {fileID: 100010, guid: 00820a827834982408befc67f6611fe1, type: 2}
   magicTowerBullet: {fileID: 100000, guid: 992585f8d90a7dd4aa9fb58097ade3cd, type: 2}
@@ -200,7 +206,7 @@ MonoBehaviour:
 Transform:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
-  m_PrefabInternal: {fileID: 937690218}
+  m_PrefabInternal: {fileID: 1306103918}
   m_GameObject: {fileID: 14726752}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -449,55 +455,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!1001 &937690218
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
-  m_RootGameObject: {fileID: 14726752}
-  m_IsPrefabParent: 0
-  m_IsExploded: 1
 --- !u!1 &970448469
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 171860, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
-  m_PrefabInternal: {fileID: 937690218}
+  m_PrefabInternal: {fileID: 1306103918}
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 970448471}
@@ -514,15 +476,15 @@ MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 11471860, guid: ac70d7e38b4e1eb4f8eacd13550d1854,
     type: 2}
-  m_PrefabInternal: {fileID: 937690218}
+  m_PrefabInternal: {fileID: 1306103918}
   m_GameObject: {fileID: 970448469}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 92f9af5e8e589724c914da601b8edf15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swordInput: 49
-  magicInput: 50
+  swordInput: 122
+  magicInput: 120
   tow1Input: 49
   tow2Input: 50
   tow3Input: 51
@@ -537,7 +499,7 @@ MonoBehaviour:
 Transform:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 471860, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
-  m_PrefabInternal: {fileID: 937690218}
+  m_PrefabInternal: {fileID: 1306103918}
   m_GameObject: {fileID: 970448469}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 14.8531599, y: .235073388, z: 6.41849422}
@@ -685,6 +647,82 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
+--- !u!1001 &1306103918
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: speedReduceRate
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: mutationProbability
+      value: .699999988
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: maxEnemies
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: toenameAantalEnemiesPerWave
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: timeBetweenWaves
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: totalStatPoints
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: toenameTotalStatPointsPerWave
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: maxWaves
+      value: 20
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+  m_RootGameObject: {fileID: 14726752}
+  m_IsPrefabParent: 0
+  m_IsExploded: 1
 --- !u!1001 &1313518620
 Prefab:
   m_ObjectHideFlags: 0

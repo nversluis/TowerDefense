@@ -54,7 +54,7 @@ public class EnemyStats : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+        
     }
 
     // Update is called once per frame
@@ -137,7 +137,7 @@ public class EnemyStats : MonoBehaviour
         float res;
         res = factorTime * leeftijd + factorDamage * enemyResources.totalDamage  + factorGateDistance / goalDistance;
         if (goalDistance < 4.1f) {
-            res *= (100+factorHitGoal)/100;
+            res *= factorHitGoal;
         }
         return res;
     }
