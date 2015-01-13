@@ -5391,7 +5391,7 @@ MonoBehaviour:
   special: {fileID: 11412262}
   sell: {fileID: 11412268}
   upgrade: {fileID: 11412266}
-  attackU: {fileID: 11412258}
+  attackU: {fileID: 11412270}
   speedU: {fileID: 11412276}
   specialU: {fileID: 11412282}
   waveText: {fileID: 11425244}

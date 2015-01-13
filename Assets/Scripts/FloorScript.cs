@@ -85,7 +85,7 @@ public class FloorScript : MonoBehaviour
 					GameObject baseOfTrap;
 					try {
 						baseOfTrap = gameObject.transform.GetChild (1).Find ("Base").gameObject;
-					
+						WallScript.DestroyHotSpots();
 						GameObject resTower = (GameObject)Instantiate (baseOfTrap, baseOfTrap.transform.position, baseOfTrap.transform.rotation);
 						resTower.gameObject.transform.localScale *= 1.001f / 2;
 						resTower.name = "blueTower";
@@ -143,20 +143,24 @@ public class FloorScript : MonoBehaviour
 			stats.level++;
 			if (tower.name.Contains ("Fire")) {
 				stats.attack = (int)Mathf.Round (stats.attack * resourceManager.fireAttack);
-				stats.speed = (int)Mathf.Round (stats.speed * resourceManager.fireSpeed);
-				stats.specialDamage *= resourceManager.fireSpecial;
+				stats.speed += resourceManager.fireSpeed;
+				stats.specialDamage += resourceManager.fireSpecial;
 				stats.attackUpgrade = (int)(stats.attack * (resourceManager.fireAttack-1));
-				stats.speedUpgrade = (int)(stats.speed * (resourceManager.fireSpeed-1));
-				GUIScript.player.addGold (-stats.upgradeCost);
-			} else if (tower.name.Contains ("Poison")) {
-				stats.attack = (int)Mathf.Round (stats.attack * resourceManager.poisonAttack);
-				stats.speed = (int)Mathf.Round (stats.speed * resourceManager.poisonSpeed);
-				stats.specialDamage *= resourceManager.poisonSpecial;
+				stats.speedUpgrade = resourceManager.fireSpeed;
 				GUIScript.player.addGold (-stats.upgradeCost);
 			} else if (tower.name.Contains ("Ice")) {
 				stats.attack = (int)Mathf.Round (stats.attack * resourceManager.iceAttack);
-				stats.speed = (int)Mathf.Round (stats.speed * resourceManager.iceSpeed);
+				stats.speed += resourceManager.iceSpeed;
 				stats.specialDamage += resourceManager.iceSpecial;
+				stats.attackUpgrade = (int)(stats.attack * (resourceManager.iceAttack-1));
+				stats.speedUpgrade = resourceManager.iceSpeed;
+				GUIScript.player.addGold (-stats.upgradeCost);
+			} else if (tower.name.Contains ("Poison")) {
+				stats.attack = (int)Mathf.Round (stats.attack * resourceManager.poisonAttack);
+				stats.speed += resourceManager.poisonSpeed;
+				stats.specialDamage += resourceManager.poisonSpecial;
+				stats.attackUpgrade = (int)(stats.attack * (resourceManager.poisonAttack-1));
+				stats.speedUpgrade = resourceManager.poisonSpeed;
 				GUIScript.player.addGold (-stats.upgradeCost);
 			} else if (tower.name.Contains ("Spear")) {
 				//cost = resourceManager.costSpearTrap;

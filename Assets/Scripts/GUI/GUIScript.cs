@@ -92,7 +92,7 @@ public class GUIScript : MonoBehaviour {
 
     private GameObject camera;
     private RectTransform rect;
-    private LayerMask enemyMask = ((1 << 12) | (1 << 10));
+	private LayerMask enemyMask = ((1 << 12) | (1 << 10) | (1 << 8));
     private RaycastHit hit;
 
     private float currentHP;
@@ -443,23 +443,44 @@ public class GUIScript : MonoBehaviour {
 				rect.localScale = new Vector3 ((currentHP / maxHP), 1, 1);
 				enemyPanel.SetActive (true);
 				towerPanel.SetActive (false);
-			}
-			else if(stats!=null && WeaponController.weapon==50){
+			} else if (stats != null && WeaponController.weapon == 50) {
 				enemyPanel.SetActive (false);
 				towerPanel.SetActive (true);
 				GameObject tower = stats.transform.gameObject;
 
-				towerName.text = tower.name.Replace("(Clone)","");
+				towerName.text = tower.name.Replace ("(Clone)", "");
 				attack.text = "Attack: " + stats.attack;
 				speed.text = "Speed: " + stats.speed;
-				special.text = "Special: " + stats.specialDamage;
-				specialU.text = "↑" + resourceManager.iceSpecial;
+				if (towerName.text.Contains ("Ice")) {
+					special.text = "Slowing with: " + stats.specialDamage;
+					specialU.text = "↑" + resourceManager.iceSpecial;
+				} else {
+					special.text = "";
+					specialU.text = "";
+				}
 				sell.text = "Sell(+" + stats.sellCost + ")";
 				upgrade.text = "Upgrade(-" + stats.upgradeCost + ")";
 				attackU.text = "↑" + stats.attackUpgrade;
 				speedU.text = "↑" + stats.speedUpgrade;
 
-			} 
+			} else if (hit.transform.name.Contains ("arricade") && WeaponController.weapon == 50) {
+				enemyPanel.SetActive (false);
+				towerPanel.SetActive (true);
+				GameObject tower = hit.transform.gameObject;
+				barricade bar = tower.GetComponent<barricade> ();
+				towerName.text = tower.name.Replace ("(Clone)", "");
+				attack.text = "Health: " + bar.health;
+				speed.text = "Maximu Health: " + bar.maxHealth;
+				speedU.text = "↑" + (resourceManager.barricadeHealth);
+				attackU.text = "↑" + (bar.maxHealth - bar.health);
+				special.text = "";
+				specialU.text = "";
+				sell.text = "Sell(+" + bar.totalCost/2 + ")";
+				if(bar.maxHealth!=bar.health)
+					upgrade.text = "Repair(-" + (bar.maxHealth-bar.health) + ")";
+				else
+					upgrade.text = "Upgrade(-" + bar.cost*bar.maxHealth/resourceManager.barricadeHealth + ")";
+			}
 			else {
 				enemyPanel.SetActive (false);
 				towerPanel.SetActive (false);

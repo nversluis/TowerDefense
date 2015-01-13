@@ -29,7 +29,7 @@ GameObject:
   - 95: {fileID: 9595870}
   - 114: {fileID: 11441846}
   m_Layer: 0
-  m_Name: Arrow_tower
+  m_Name: Arrow Tower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -345,6 +345,11 @@ MonoBehaviour:
   speed: 2
   range: 1
   specialDamage: 0
+  level: 0
+  sellCost: 0
+  upgradeCost: 0
+  speedUpgrade: 0
+  attackUpgrade: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

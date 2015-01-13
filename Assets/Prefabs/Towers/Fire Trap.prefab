@@ -48,7 +48,7 @@ GameObject:
   - 65: {fileID: 6500000}
   - 114: {fileID: 11439222}
   m_Layer: 13
-  m_Name: FireTrap
+  m_Name: Fire Trap
   m_TagString: TowerHotSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -280,6 +280,11 @@ MonoBehaviour:
   speed: 2
   range: 0
   specialDamage: 0
+  level: 0
+  sellCost: 0
+  upgradeCost: 0
+  speedUpgrade: 0
+  attackUpgrade: 0
 --- !u!198 &19800000
 ParticleSystem:
   m_ObjectHideFlags: 1

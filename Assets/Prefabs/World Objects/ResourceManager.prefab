@@ -74,7 +74,7 @@ MonoBehaviour:
   costIceTrap: 100
   costFireTrap: 100
   costPoisonTrap: 100
-  costBarricade: 50
+  costBarricade: 200
   rewardenemy: 10
   rewardWave: 300
   coolDownSword1Time: .5
@@ -98,7 +98,7 @@ MonoBehaviour:
   height: 3
   nodeSize: 2.5
   NumberOfPaths: 3
-  drawNavigationGrid: 1
+  drawNavigationGrid: 0
   enemyTag: Enemy
   enemyGuyant: {fileID: 100052, guid: 6a25f25271f527644ab0b18b0e7c536e, type: 2}
   enemyGwarf: {fileID: 188948, guid: 37f21c745b6e3ff43942e88e21aba537, type: 2}
@@ -126,7 +126,7 @@ MonoBehaviour:
   arrowTowerArrow: {fileID: 134150, guid: 90771dbe3ba00e64ca4476dc4825925c, type: 2}
   poisonTrap: {fileID: 100004, guid: 00395c20601754c63bd039223cee03ff, type: 2}
   poisonAttack: 1.5
-  poisonSpeed: 1.5
+  poisonSpeed: .5
   poisonSpecial: 1.5
   fireTrap: {fileID: 100004, guid: 5eeab821c266140c29d2d3654a690e34, type: 2}
   fireAttack: 1.5
@@ -134,9 +134,8 @@ MonoBehaviour:
   fireSpecial: 1.5
   iceTrap: {fileID: 100004, guid: 0c1d30373f75b41729f5e92345fc8692, type: 2}
   iceAttack: 1.5
-  iceSpeed: 1.5
+  iceSpeed: .25
   iceSpecial: 1.5
-  speedReduceRate: 200
   spearTrap: {fileID: 100004, guid: 78350e6548fc0ba4eb8337163c0d01b7, type: 2}
   barricade: {fileID: 156962, guid: 57e98e7c5749344e3a8e883f7e62ed72, type: 2}
   barricadeHealth: 100

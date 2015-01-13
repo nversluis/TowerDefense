@@ -58,8 +58,12 @@ public class FireTrapScript : MonoBehaviour
 		ResourceManager resourceManager = ResourceManagerObj.GetComponent<ResourceManager>();
 		partSys = gameObject.transform.GetChild (2).gameObject;
 		particleStartSize=partSys.particleSystem.startSize*resourceManager.planewidth/10;
-		damagePerShot = gameObject.GetComponent<TowerStats>().attack;
+		TowerStats stats = gameObject.GetComponent<TowerStats> ();
+		damagePerShot = stats.attack;
 		enemyOnTrap = new List<GameObject> ();
+
+		stats.speedUpgrade = resourceManager.fireSpeed;
+		stats.attackUpgrade = (resourceManager.fireAttack-1)*stats.attack;
 	}
 	
 	// Update is called once per frame

@@ -15,8 +15,8 @@ public class TowerStats : MonoBehaviour {
 	public int sellCost;
 	public int upgradeCost;
 
-	public int speedUpgrade;
-	public int attackUpgrade;
+	public float speedUpgrade;
+	public float attackUpgrade;
 
 	// Use this for initialization
 	void Start () {
