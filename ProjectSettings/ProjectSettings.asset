@@ -10,8 +10,13 @@ PlayerSettings:
   targetGlesGraphics: 1
   targetResolution: 0
   accelerometerFrequency: 60
+<<<<<<< .merge_file_a84380
   companyName: DefaultCompany
   productName: Unity
+=======
+  companyName: Minor Media
+  productName: Wrath of the Dwogres
+>>>>>>> .merge_file_a84000
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   defaultScreenWidth: 1024
@@ -105,15 +110,46 @@ PlayerSettings:
   AndroidSplashScreenScale: 0
   AndroidKeystoreName: 
   AndroidKeyaliasName: 
+<<<<<<< .merge_file_a84380
   resolutionDialogBanner: {fileID: 0}
+=======
+  resolutionDialogBanner: {fileID: 2800000, guid: 31a271d876003dc47bbf10d52a9ff91a,
+    type: 3}
+>>>>>>> .merge_file_a84000
   m_BuildTargetIcons:
   - m_BuildTarget: 
     m_Icons:
     - m_Icon: {fileID: 0}
       m_Size: 128
+<<<<<<< .merge_file_a84380
   m_BuildTargetBatching: []
   webPlayerTemplate: APPLICATION:Default
   m_TemplateCustomTags: {}
+=======
+  - m_BuildTarget: Standalone
+    m_Icons:
+    - m_Icon: {fileID: 2800000, guid: df493ea8f4bf9c04b94ba3264bfc091a, type: 3}
+      m_Size: 1024
+    - m_Icon: {fileID: 2800000, guid: df493ea8f4bf9c04b94ba3264bfc091a, type: 3}
+      m_Size: 512
+    - m_Icon: {fileID: 2800000, guid: df493ea8f4bf9c04b94ba3264bfc091a, type: 3}
+      m_Size: 256
+    - m_Icon: {fileID: 2800000, guid: df493ea8f4bf9c04b94ba3264bfc091a, type: 3}
+      m_Size: 128
+    - m_Icon: {fileID: 2800000, guid: df493ea8f4bf9c04b94ba3264bfc091a, type: 3}
+      m_Size: 48
+    - m_Icon: {fileID: 2800000, guid: df493ea8f4bf9c04b94ba3264bfc091a, type: 3}
+      m_Size: 32
+    - m_Icon: {fileID: 2800000, guid: df493ea8f4bf9c04b94ba3264bfc091a, type: 3}
+      m_Size: 16
+  m_BuildTargetBatching:
+  - m_BuildTarget: Standalone
+    m_StaticBatching: 1
+    m_DynamicBatching: 1
+  webPlayerTemplate: APPLICATION:Default
+  m_TemplateCustomTags: {}
+  locationUsageDescription: 
+>>>>>>> .merge_file_a84000
   XboxTitleId: 
   XboxImageXexPath: 
   XboxSpaPath: 

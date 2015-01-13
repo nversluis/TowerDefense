@@ -8,6 +8,10 @@ public class FloorScript : MonoBehaviour
 	Color transparentred = new Color (255, 0, 0, 0.1f);
 	private int i;
 	private GameObject ResourceManagerObj;
+<<<<<<< .merge_file_a82180
+=======
+	private GameObject player;
+>>>>>>> .merge_file_a82200
 	private ResourceManager resourceManager;
 	private PlayerData playerData = GUIScript.player;
 	private int cost;
@@ -20,6 +24,10 @@ public class FloorScript : MonoBehaviour
 		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
 		cost = 0;
 		inputManager = GameObject.Find ("KeyInputs").GetComponent<KeyInputManager> ();
+<<<<<<< .merge_file_a82180
+=======
+		transform.GetChild (0).renderer.material.color = Color.white;
+>>>>>>> .merge_file_a82200
 	}
 
 	void Update ()
@@ -38,7 +46,11 @@ public class FloorScript : MonoBehaviour
 
 				tower.gameObject.transform.localScale = new Vector3 (1, 1, 1) * planeW * 5;
 				if (TowerPrefab.name.Contains ("arricade")) {
+<<<<<<< .merge_file_a82180
 					tower.gameObject.transform.localScale /= 100/1.7f;
+=======
+					tower.gameObject.transform.localScale /= 100 / 1.7f;
+>>>>>>> .merge_file_a82200
 					tower.tag = "TowerHotSpot";
 				}
 
@@ -112,9 +124,25 @@ public class FloorScript : MonoBehaviour
 				//}
 
 			}
+<<<<<<< .merge_file_a82180
 
 
 		}
+=======
+		}	
+		//change the layer of the minimapplane of this floor if the player is too far, so it wont show on the minimap
+		if (player == null) {
+			player = GameObject.Find ("Player");
+		}
+		else if ((player.transform.position - transform.position).magnitude >= 75) {
+			transform.GetChild(0).gameObject.layer = 0;
+		} else {
+			transform.GetChild(0).gameObject.layer = 9;
+		}
+
+
+
+>>>>>>> .merge_file_a82200
 
 	}
 

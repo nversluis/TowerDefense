@@ -990,7 +990,16 @@ MonoBehaviour:
   statMutation: 24
   totalDamage: 0
   leeftijd: 0
+<<<<<<< .merge_file_a78768
   fitness: 0
+=======
+  goalDistance: 0
+  fitness: 0
+  factorTime: 3
+  factorDamage: .00499999989
+  factorGateDistance: 300
+  factorHitGoal: 10
+>>>>>>> .merge_file_a79116
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1

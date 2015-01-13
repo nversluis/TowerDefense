@@ -14,7 +14,11 @@ public class GwarfScript : MonoBehaviour
     GameObject player;
     GameObject goal;
     GameObject Target;
+<<<<<<< .merge_file_a83120
 	Vector3 barricade;
+=======
+	List<Vector3> barricades;
+>>>>>>> .merge_file_a83140
 
     GoalScript goalScript;
 
@@ -171,6 +175,7 @@ public class GwarfScript : MonoBehaviour
             }
 
 			// if the enemy is near the trap attack the trap
+<<<<<<< .merge_file_a83120
 			if ((barricade - transform.position).magnitude < 30f)
 			{
 				// set speed to zero and attack
@@ -179,6 +184,16 @@ public class GwarfScript : MonoBehaviour
 				enemyResources.attacking = true;
 			}
 
+=======
+			foreach (Vector3 barricade in barricades) {
+				if ((barricade - transform.position).magnitude < 30f) {
+					// set speed to zero and attack
+					rigidbody.velocity = Vector3.zero;
+					enemyResources.walking = false;
+					enemyResources.attacking = true;
+				}
+			}
+>>>>>>> .merge_file_a83140
             // when enemy is dead
             if (enemyResources.isDead)
             {
@@ -296,12 +311,20 @@ public class GwarfScript : MonoBehaviour
         {
             // determine a path to a goal
             List<WayPoint> WPPath = Navigator.Path(transform.position - new Vector3(0f, transform.position.y, 0f), Target.transform.position - new Vector3(0f, Target.transform.position.y, 0f), nodeSize, grid, dfactor);
+<<<<<<< .merge_file_a83120
+=======
+			barricades = new List<Vector3>();
+>>>>>>> .merge_file_a83140
 			if (WPPath != null) {
 				Path = new List<Vector3> ();
 				foreach (WayPoint wp in WPPath) {
 					Path.Add (wp.getPosition ());
 					if (wp.getBarCount () > 0) {
+<<<<<<< .merge_file_a83120
 						barricade = wp.getBarricade ();
+=======
+						barricades.Add(wp.getBarricade ());
+>>>>>>> .merge_file_a83140
 					}
 				}
 			}

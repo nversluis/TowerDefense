@@ -18,9 +18,13 @@ public class BulletController : MonoBehaviour
 
         RaycastHit hit;
         if (Physics.Raycast(PrevItLoc, transform.position - PrevItLoc, out hit, (PrevItLoc - transform.position).magnitude + 0.2f, ignoreMask))
+<<<<<<< .merge_file_a80980
         {
             
 
+=======
+        {           
+>>>>>>> .merge_file_a80428
             EnemyHealth enemyHealth = hit.collider.GetComponent<EnemyHealth>();
             Destroy(this.gameObject);
             GameObject boom = (GameObject)Instantiate(Boom, PrevItLoc, Quaternion.identity);
@@ -31,12 +35,21 @@ public class BulletController : MonoBehaviour
             }
             if (enemyHealth != null)
             {
+<<<<<<< .merge_file_a80980
                 enemyHealth.TakeDamage(damagePerShot, "magic", true);
             }
             if (hit.collider.Equals(hit.collider.GetComponent<BoxCollider>()))
             {
                 enemyHealth.HeadShot();
             }
+=======
+                enemyHealth.TakeDamage(damagePerShot, "magic", true);            
+	            if (hit.collider.Equals(hit.collider.GetComponent<BoxCollider>()))
+	            {
+	                enemyHealth.HeadShot();
+	            }
+			}
+>>>>>>> .merge_file_a80428
         }
         PrevItLoc = transform.position;
     }

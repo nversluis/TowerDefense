@@ -13,11 +13,20 @@ public class PlayerData {
     private float armorStat;
     private float agilityStat;
     private int selectedTower;
+<<<<<<< .merge_file_a81756
+=======
+    private int selectedSkill;
+    private bool towerSelected;
+>>>>>>> .merge_file_a81792
     private List<Skill> skillset;
     private List<Item> inventory;
 
     /* CONSTRUCTORS */
+<<<<<<< .merge_file_a81756
     public PlayerData(float currHP, float mHP, float gold, float score, float ad, float ap, float armor, float agi, int tower, List<Skill> skills, List<Item> items) {
+=======
+    public PlayerData(float currHP, float mHP, float gold, float score, float ad, float ap, float armor, float agi, int tower, int skill, bool towersel, List<Skill> skills, List<Item> items) {
+>>>>>>> .merge_file_a81792
         currentHP = currHP;
         maxHP = mHP;
         this.gold = gold;
@@ -27,6 +36,11 @@ public class PlayerData {
         armorStat = armor;
         agilityStat = agi;
         selectedTower = tower;
+<<<<<<< .merge_file_a81756
+=======
+        selectedSkill = skill;
+        towerSelected = towersel;
+>>>>>>> .merge_file_a81792
         skillset = skills;
         inventory = items;
     }
@@ -41,6 +55,11 @@ public class PlayerData {
         armorStat = 10;
         agilityStat = 10;
         selectedTower = 0;
+<<<<<<< .merge_file_a81756
+=======
+        selectedSkill = 0;
+        towerSelected = true;
+>>>>>>> .merge_file_a81792
         skillset = new List<Skill>();
         inventory = new List<Item>();
 
@@ -87,6 +106,17 @@ public class PlayerData {
         return selectedTower;
     }
 
+<<<<<<< .merge_file_a81756
+=======
+    public int getSkill() {
+        return selectedSkill;
+    }
+
+    public bool getTowerSelected() {
+        return towerSelected;
+    }
+
+>>>>>>> .merge_file_a81792
     public List<Skill> getSkills() {
         return skillset;
     }
@@ -132,11 +162,29 @@ public class PlayerData {
         selectedTower = towerNumber;
     }
 
+<<<<<<< .merge_file_a81756
+=======
+    public void setSkill(int skillNumber) {
+        selectedSkill = skillNumber;
+    }
+
+    public void setTowerSelected(bool towersel) {
+        towerSelected = towersel;
+    }
+
+>>>>>>> .merge_file_a81792
     public void addToSkills(Skill skill) {
         skillset.Add(skill);
     }
 
+<<<<<<< .merge_file_a81756
     public void getItems(Item item) {
         inventory.Add(item);
     }
+=======
+    public void addToItems(Item item) {
+        inventory.Add(item);
+    }
+
+>>>>>>> .merge_file_a81792
 }

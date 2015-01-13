@@ -41,16 +41,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxEnemies: 10
+<<<<<<< .merge_file_a79376
+=======
+  mutationProbability: .699999988
+>>>>>>> .merge_file_a79404
   spawning: 1
   keepDistribution: 0
   toenameAantalEnemiesPerWave: 5
   maxX: .300000012
   maxZ: .300000012
   allEnemiesSpawned: 0
+<<<<<<< .merge_file_a79376
   timeBetweenWaves: 5
   currentTotalStatPoints: 100
   delta: 30
   spawnTime: .200000003
+=======
+  allEnemiesDead: 0
+  timeBetweenWaves: 5
+  currentTotalStatPoints: 100
+  delta: 30
+  spawnTime: .5
+>>>>>>> .merge_file_a79404
 --- !u!114 &11415504
 MonoBehaviour:
   m_ObjectHideFlags: 1
