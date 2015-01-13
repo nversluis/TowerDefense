@@ -24,6 +24,7 @@ public class FloorScript : MonoBehaviour
 		inputManager = GameObject.Find ("KeyInputs").GetComponent<KeyInputManager> ();
 		transform.GetChild (0).renderer.material.color = Color.white;
 		hasEnemy = false;
+		gameObject.layer = 10;
 	}
 
 	void Update ()
