@@ -111,6 +111,12 @@ MonoBehaviour:
   costBarricade: 50
   rewardenemy: 10
   rewardWave: 300
+  startSwordDamage: 2500
+  startMagicDamage: 1000
+  coolDownSword1Time: .5
+  coolDownSword2Time: 10
+  coolDownMagic1Time: .200000003
+  coolDownMagic2Time: 60
   planePrefab: {fileID: 100016, guid: eb0912c352095c645a4cc637dd9257b0, type: 2}
   wallPrefab: {fileID: 171850, guid: 0556f1d261c50e248934a3de0f8a97a4, type: 2}
   enemySpawner: {fileID: 100000, guid: c3a351ed1e54c354c99c7d460d83aa16, type: 2}
@@ -295,6 +301,30 @@ Prefab:
     - target: {fileID: 400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
       propertyPath: m_RootOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: startSwordDamage
+      value: 2500
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: startMagicDamage
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: coolDownSword1Time
+      value: .5
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: coolDownSword2Time
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: coolDownMagic1Time
+      value: .200000003
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: coolDownMagic2Time
+      value: 60
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
@@ -733,7 +763,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22400002, guid: c59155148cd0fed47933eb2f34d04fb2, type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 22400002, guid: c59155148cd0fed47933eb2f34d04fb2, type: 2}
       propertyPath: m_AnchoredPosition.x
