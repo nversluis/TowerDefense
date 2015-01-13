@@ -31,8 +31,8 @@ public class WaveSpawner : MonoBehaviour
     //float orcHeigthSpawn = 3.27f;
     private PlayerData playerData = GUIScript.player;
 
-    private bool gameHasStarted = false;
     bool Won;
+    private bool gameHasStarted = false;
     public bool allEnemiesSpawned = false;
     public bool allEnemiesDead = false;
 
@@ -76,7 +76,7 @@ public class WaveSpawner : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         if (currentWave <= maxWaves)
         {
@@ -93,7 +93,7 @@ public class WaveSpawner : MonoBehaviour
 
                 if (currentWave == 1)
                 {
-                    if (Input.GetKeyDown("return"))
+                    if (Input.GetKeyDown("return") || Input.GetKeyDown("enter"))
                     {
                         gameHasStarted = true;
                     }
