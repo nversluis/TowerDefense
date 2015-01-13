@@ -52,7 +52,7 @@ MonoBehaviour:
   timeBetweenWaves: 5
   currentTotalStatPoints: 100
   delta: 30
-  spawnTime: .200000003
+  spawnTime: .5
 --- !u!114 &11415504
 MonoBehaviour:
   m_ObjectHideFlags: 1
