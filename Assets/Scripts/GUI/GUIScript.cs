@@ -109,6 +109,12 @@ public class GUIScript : MonoBehaviour {
     public Button[] shopButtonList = new Button[4];
     public Text[] costTextList = new Text[4];
 
+    [Header("Wave Countdown")]
+    public GameObject countdownPanel;
+    public Image countNumber;
+    public Sprite[] countSpriteList = new Sprite[10];
+
+    private Animator countAnimator;
 
     [Header("Click sound")]
     public AudioClip click;
@@ -148,6 +154,9 @@ public class GUIScript : MonoBehaviour {
 
         frontGateHPBar = frontGateHP.GetComponent<RectTransform>();
         rearGateHPBar = rearGateHP.GetComponent<RectTransform>();
+
+        // Countdown
+        countAnimator = countNumber.GetComponent<Animator>();
 
         // Scripts
 
@@ -244,6 +253,10 @@ public class GUIScript : MonoBehaviour {
             tx.text = inventory[i].getCost().ToString();
         }
 
+        // Countdown
+        countdownPanel.SetActive(false);
+        countNumber.sprite = countSpriteList[0];
+
         // GUI
         paused = false;
 
@@ -278,8 +291,11 @@ public class GUIScript : MonoBehaviour {
 
         if(!firstWaveStarted && Input.GetKeyDown(KeyCode.Return)) {
             firstWaveText.enabled = false;
+            firstWaveStarted = true;
+            WaveCountdown();
         }
         else if(!firstWaveStarted) {
+            firstWaveText.enabled = true;
             TextColorShift(firstWaveText);
         }
 
@@ -704,6 +720,20 @@ public class GUIScript : MonoBehaviour {
         UpdateShop();
         UpdateItems();
         UpdateStats();
+    }
+
+    public void WaveCountdown(int time = 5) {
+        countdownPanel.SetActive(true);
+        StartCoroutine(ImageFlyIn(countSpriteList, time));
+    }
+
+    IEnumerator ImageFlyIn(Sprite[] spLst, int time) {
+        for(int i = 0; i <= time; i++) {
+            countNumber.sprite = spLst[time - i];
+            countAnimator.SetTrigger("Counting");      
+            yield return new WaitForSeconds(1f);
+        }
+        countdownPanel.SetActive(false);
     }
 
     void DisableHeadShot() {
