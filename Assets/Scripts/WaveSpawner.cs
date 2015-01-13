@@ -12,6 +12,9 @@ public class WaveSpawner : MonoBehaviour
     private GameObject EnemyGrobble;
 
     public int maxEnemies;
+    public int startMaxEnemies;
+    public int startTotalStatPoints;
+
     public float mutationProbability;
 
     private int indexOfCurrentGen;
@@ -68,13 +71,19 @@ public class WaveSpawner : MonoBehaviour
         EnemyGrobble = resourceManager.enemyGrobble;
         maxWaves = resourceManager.maxWaves;
         currentWave = resourceManager.currentWave;
-        maxEnemies = resourceManager.maxEnemies;
         toenameAantalEnemiesPerWave = resourceManager.toenameAantalEnemiesPerWave;
         timeBetweenWaves = resourceManager.timeBetweenWaves;
         currentTotalStatPoints = resourceManager.totalStatPoints;
+        maxEnemies = resourceManager.maxEnemies;
         delta = resourceManager.toenameTotalStatPointsPerWave;
         keepType = resourceManager.keepType;
         keepDistribution = resourceManager.keepDistribution;
+        currentTotalStatPoints = (currentWave - 1) * delta + currentTotalStatPoints;
+        resourceManager.totalStatPoints = currentTotalStatPoints;
+        maxEnemies = (currentWave - 1) * toenameAantalEnemiesPerWave + maxEnemies;
+        resourceManager.maxEnemies = maxEnemies;
+        startMaxEnemies = resourceManager.maxEnemies;
+        startTotalStatPoints = resourceManager.totalStatPoints;
         enemies = new ArrayList();
         enemiesInWave = new ArrayList();
         currentGenDistributions = new List<List<float>>();
@@ -116,7 +125,8 @@ public class WaveSpawner : MonoBehaviour
                 {
                     if (gameHasStarted)
                     {
-                        waitTime = 0;
+                        //waitTime = 0;
+                        waitTime = timeBetweenWaves;
                     }
                     else
                     {
@@ -128,12 +138,17 @@ public class WaveSpawner : MonoBehaviour
                     waitTime = timeBetweenWaves;
                 }
 
-                timer += Time.deltaTime;
+                if (gameHasStarted || currentWave > 1)
+                {
+                    timer += Time.deltaTime;
+                }
 
                 if (waitTime < int.MaxValue && waitTime - timer > 0)
                 {
                     resourceManager.timeTillNextWave = Mathf.Round(waitTime - timer);
                 }
+
+                //Debug.Log(resourceManager.timeTillNextWave);
 
                 if (timer > waitTime)
                 {
@@ -145,7 +160,6 @@ public class WaveSpawner : MonoBehaviour
                             // Spawn enemies tot het maximale aantal enemies wordt bereikt
                             Spawnenemy();
                         }
-
                     }
                     else
                     {
@@ -176,12 +190,18 @@ public class WaveSpawner : MonoBehaviour
                 {
                     // Voeg gold toe voor de speler na elke wave
                     playerData.addGold(resourceManager.rewardWave);
-                    // Als alle enemies dood zijn, ga naar de volgende wave
+                    // Ga naar de volgende wave
                     currentWave++;
+                    resourceManager.currentWave++;
                     // Verhoog het aantal enemies in de wave
-                    maxEnemies += toenameAantalEnemiesPerWave;
+                    maxEnemies = (currentWave - 1) * resourceManager.toenameAantalEnemiesPerWave + startMaxEnemies;
+                    resourceManager.maxEnemies = maxEnemies;
+                    // maxEnemies = resourceManager.maxEnemies;
+                    // maxEnemies += toenameAantalEnemiesPerWave;
                     // Verhoog de totale stat points
-                    currentTotalStatPoints += delta;
+                    currentTotalStatPoints = (currentWave - 1) * delta + startTotalStatPoints;
+                    resourceManager.totalStatPoints = currentTotalStatPoints;
+                    //currentTotalStatPoints += delta;
                     // Enemies mogen weer gespawnd worden
                     spawning = true;
                 }
@@ -379,7 +399,6 @@ public class WaveSpawner : MonoBehaviour
 
         return distribution;
     }
-
 
     public int GetCurrentWave()
     {
