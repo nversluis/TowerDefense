@@ -920,7 +920,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackDamage: 0
   playerDistance: 0
+<<<<<<< .merge_file_a78540
+=======
   damageMultiplier: 20
+>>>>>>> .merge_file_a78560
   totalDamage: 0
   player: {fileID: 0}
   invoked: 0
@@ -954,9 +957,13 @@ MonoBehaviour:
   attacking: 0
   isDead: 0
   isSlowed: 0
+<<<<<<< .merge_file_a78540
+  attackDamage: 0
+=======
   dieDistance: 0
   attackDamage: 0
   totalDamage: 0
+>>>>>>> .merge_file_a78560
 --- !u!114 &11488900
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -968,16 +975,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c928c7d5088d06b4cb70a96bac54f291, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< .merge_file_a78540
+=======
   statDistribution: []
+>>>>>>> .merge_file_a78560
   totalStatPoints: 100
   health: 0
   attack: 0
   defense: 0
+<<<<<<< .merge_file_a78540
+=======
   magicDefense: 0
+>>>>>>> .merge_file_a78560
   speedMultiplier: 0
   dfactor: 0
   goalImportance: 0
   playerImportance: 0
+<<<<<<< .merge_file_a78540
+  respawn: 0
+  statsMutation: 1
+  totalDamage: 0
+=======
   healthDistributionFactor: 0
   attackDistributionFactor: 0
   defenseDistributionFactor: 0
@@ -992,6 +1010,7 @@ MonoBehaviour:
   factorDamage: .00499999989
   factorGateDistance: 300
   factorHitGoal: 10
+>>>>>>> .merge_file_a78560
 --- !u!114 &11488904
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1006,7 +1025,10 @@ MonoBehaviour:
   startingHealth: 100
   currentHealth: 0
   defense: 0
+<<<<<<< .merge_file_a78540
+=======
   magicDefense: 0
+>>>>>>> .merge_file_a78560
   enemyStats: {fileID: 11488900}
   spawnPosition: {x: 0, y: 0, z: 0}
   deathPosition: {x: 0, y: 0, z: 0}

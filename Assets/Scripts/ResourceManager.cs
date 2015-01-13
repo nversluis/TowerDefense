@@ -98,6 +98,7 @@ public class ResourceManager : MonoBehaviour {
 	public AudioClip backgroundMusic;
     public AudioClip headShot;
     public AudioClip bulletHit;
+    public AudioClip guyantOef;
 
 	[Header("HitSplash")]
 	public GameObject damageText;

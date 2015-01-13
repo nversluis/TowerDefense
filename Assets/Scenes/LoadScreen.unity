@@ -152,7 +152,6 @@ MonoBehaviour:
   m_Script: {fileID: 1301386320, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Priority: 3
   ignoreReversedGraphics: 0
   blockingObjects: 0
   m_BlockingMask:
@@ -518,6 +517,14 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: headShot
+      value: 
+      objectReference: {fileID: 8300000, guid: e1c1ec5c2f14d734d90ca9d30aa270d6, type: 3}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: guyantOef
+      value: 
+      objectReference: {fileID: 8300000, guid: 2f98ad84aba801b4dac4150f9233d4b2, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
   m_RootGameObject: {fileID: 1573082610}
@@ -1245,6 +1252,18 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 2013470879}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI,
             Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2032451289}
+        m_MethodName: TabClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2130,6 +2149,7 @@ MonoBehaviour:
   speedReduceRate: .5
   spearTrap: {fileID: 100004, guid: 78350e6548fc0ba4eb8337163c0d01b7, type: 2}
   barricade: {fileID: 156962, guid: 57e98e7c5749344e3a8e883f7e62ed72, type: 2}
+  barricadeHealth: 100
   magicTowerHotSpot: {fileID: 100008, guid: b7ee6a2fbe7fbaa45abbee1c40b0d49d, type: 2}
   arrowTowerHotSpot: {fileID: 108536, guid: 330ca6b6c1ad3cf45a532231b13140aa, type: 2}
   poisonTrapHotspot: {fileID: 100006, guid: 12ce532ee4226dc40afed8a28552da9e, type: 2}
@@ -2144,7 +2164,10 @@ MonoBehaviour:
   magicBullet: {fileID: 100000, guid: 1b2fbfa5bc2ebc9428f28105eca1c5c9, type: 2}
   bulletSpeed: 30
   magicBulletSound: {fileID: 8300000, guid: b87f856579306f4479099fc0301b292f, type: 3}
-  backgroundMusic: {fileID: 8300000, guid: d27975801f9078a498ff2b86f1b7b508, type: 3}
+  backgroundMusic: {fileID: 8300000, guid: 93319560fc89719479fe343352695b59, type: 3}
+  headShot: {fileID: 8300000, guid: e1c1ec5c2f14d734d90ca9d30aa270d6, type: 3}
+  bulletHit: {fileID: 0}
+  guyantOef: {fileID: 8300000, guid: 2f98ad84aba801b4dac4150f9233d4b2, type: 3}
   damageText: {fileID: 100000, guid: 2173d4d4ee922db4a92d3e0e7293b9c8, type: 2}
   GUI: {fileID: 158210, guid: d0d61fa94ffed8c4696555ed1e561ee4, type: 2}
   eventListener: {fileID: 100000, guid: ca10e4e4c259d0641ac5dc611b6604ac, type: 2}
@@ -2229,7 +2252,6 @@ MonoBehaviour:
   m_Script: {fileID: 1301386320, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Priority: 3
   ignoreReversedGraphics: 1
   blockingObjects: 0
   m_BlockingMask:
@@ -2587,6 +2609,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2032451289}
+        m_MethodName: TabClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &2013470880
@@ -2658,6 +2692,7 @@ MonoBehaviour:
   shhhh: {fileID: 8300000, guid: 4c73f8c40f80c7943aab067140e1c078, type: 3}
   click: {fileID: 8300000, guid: f637386b733e23840ace6809c509330a, type: 3}
   startGame: {fileID: 8300000, guid: 2f98ad84aba801b4dac4150f9233d4b2, type: 3}
+  tab: {fileID: 8300000, guid: 715d3f2126e7bca46836890ebf4ec587, type: 3}
 --- !u!4 &2032451290
 Transform:
   m_ObjectHideFlags: 0

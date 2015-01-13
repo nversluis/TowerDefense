@@ -23,7 +23,11 @@ public class EnemyHealth : MonoBehaviour {
     BoxCollider boxCollider;
     CapsuleCollider capsuleCollider;
 
+<<<<<<< .merge_file_a80780
+    Text guiHeadShot;
+=======
     GUIScript guiMain;
+>>>>>>> .merge_file_a80868
     AudioSource cameraAudioSource;
     AudioClip headShot;
 
@@ -58,7 +62,11 @@ public class EnemyHealth : MonoBehaviour {
 		textObject = resourceManager.damageText;
 		nodeSize = resourceManager.nodeSize;
         animator = GetComponent<Animator>();
+<<<<<<< .merge_file_a80780
+        guiHeadShot = GameObject.Find("HeadShotText").GetComponent<Text>();
+=======
         guiMain = GameObject.Find("GUIMain").GetComponent<GUIScript>();
+>>>>>>> .merge_file_a80868
         boxCollider = this.gameObject.GetComponent<BoxCollider>();
         capsuleCollider = this.gameObject.GetComponent<CapsuleCollider>();
         cameraAudioSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
@@ -206,9 +214,24 @@ public class EnemyHealth : MonoBehaviour {
         if (currentHealth <= 0 && !enemyResources.isDead)
         {
             cameraAudioSource.PlayOneShot(headShot,2f);
+<<<<<<< .merge_file_a80780
+            guiHeadShot.text = "HeadShot!";
+            Death(true,true);
+            Invoke("DeleteHeadshotText",1.5f);
+        }
+    }
+
+    void DeleteHeadshotText()
+    {
+        guiHeadShot.text = "";
+
+    }
+
+=======
             Death(true,true);
             guiMain.HeadShot();
         }
     }
 
+>>>>>>> .merge_file_a80868
 }

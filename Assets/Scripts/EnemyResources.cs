@@ -11,7 +11,10 @@ public class EnemyResources : MonoBehaviour {
     
     public int attackDamage;
     public int totalDamage;
+<<<<<<< .merge_file_a80808
+=======
 
 	public GameObject targetBarricade;
+>>>>>>> .merge_file_a81060
     
 }
