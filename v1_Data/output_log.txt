@@ -1,0 +1,59 @@
+Initialize engine version: 4.6.1f1 (d1db7a1b5196)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA Quadro K1000M  (ID=0xffc)
+    Vendor:   NVIDIA
+    VRAM:     1995 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\Leon\Documents\Unity\TowerDefence\v1_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\Leon\Documents\Unity\TowerDefence\v1_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\Leon\Documents\Unity\TowerDefence\v1_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading C:\Users\Leon\Documents\Unity\TowerDefence\v1_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\Leon\Documents\Unity\TowerDefence\v1_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\Leon\Documents\Unity\TowerDefence\v1_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\Leon\Documents\Unity\TowerDefence\v1_Data\Managed\Assembly-UnityScript-firstpass.dll (this message is harmless)
+Loading C:\Users\Leon\Documents\Unity\TowerDefence\v1_Data\Managed\Assembly-UnityScript-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\Leon\Documents\Unity\TowerDefence\v1_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\Leon\Documents\Unity\TowerDefence\v1_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+- Completed reload, in  0.082 seconds
+desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+Platform assembly: C:\Users\Leon\Documents\Unity\TowerDefence\v1_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\Leon\Documents\Unity\TowerDefence\v1_Data\Managed\System.dll (this message is harmless)
+UnloadTime: 2.371195 ms
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+
+Unloading 26 unused Assets to reduce memory usage. Loaded Objects now: 1889.
+Total: 2.123544 ms (FindLiveObjects: 0.048191 ms CreateObjectMapping: 0.021864 ms MarkObjects: 0.902250 ms  DeleteObjects: 0.356080 ms)
+
+UnloadTime: 1.070919 ms
+Unloading 1 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+
+Unloading 202 unused Assets to reduce memory usage. Loaded Objects now: 1748.
+Total: 9.451314 ms (FindLiveObjects: 0.081657 ms CreateObjectMapping: 0.047745 ms MarkObjects: 0.630950 ms  DeleteObjects: 8.254560 ms)
+
+UnloadTime: 0.947317 ms
+Unloading 1 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+
+Unloading 27 unused Assets to reduce memory usage. Loaded Objects now: 1565.
+Total: 5.043140 ms (FindLiveObjects: 0.047298 ms CreateObjectMapping: 0.026772 ms MarkObjects: 0.574280 ms  DeleteObjects: 3.957941 ms)
+
+UnloadTime: 24.993040 ms
+Unloading 1 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+
+Unloading 401 unused Assets to reduce memory usage. Loaded Objects now: 1748.
+Total: 3.012854 ms (FindLiveObjects: 0.075856 ms CreateObjectMapping: 0.069163 ms MarkObjects: 0.936608 ms  DeleteObjects: 1.434586 ms)
+
+NullReferenceException
+  at (wrapper managed-to-native) UnityEngine.RectTransform:INTERNAL_set_anchorMin (UnityEngine.Vector2&)
+  at UnityEngine.RectTransform.set_anchorMin (Vector2 value) [0x00000] in <filename unknown>:0 
+  at UnityEngine.UI.Slider.UpdateVisuals () [0x00000] in <filename unknown>:0 
+  at UnityEngine.UI.Slider.OnRectTransformDimensionsChange () [0x00000] in <filename unknown>:0 
+UnityEngine.Canvas:set_scaleFactor(Single)
+UnityEngine.UI.CanvasScaler:SetScaleFactor(Single)
+UnityEngine.UI.CanvasScaler:OnDisable()
+ 
+(Filename:  Line: -1)
+

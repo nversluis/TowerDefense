@@ -91,7 +91,7 @@ public class GuyantScript : MonoBehaviour
 //            // else speed is is normal speed;
 //            speedReduce = 1;
 //        }
-		walkSpeed = normalWalkSpeed * speedReduce;
+		walkSpeed = normalWalkSpeed / speedReduce;
 	}
 
 	// Method for the movement of the enemy
