@@ -36,6 +36,7 @@ public class EnemyStats : MonoBehaviour
     EnemyResources enemyResources;
     EnemyHealth enemyHealth;
     GameObject goal;
+    GameObject guiscript;
 
     // fitness variabelen
     public float factorTime;
@@ -45,6 +46,7 @@ public class EnemyStats : MonoBehaviour
 
     void Awake()
     {
+        guiscript = GameObject.Find("GUIMain");
         goal = GameObject.Find("Goal");
         generateDistribution();
         enemyResources = GetComponent<EnemyResources>();

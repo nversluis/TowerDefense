@@ -3,7 +3,7 @@ using System.Collections;
 
 public class GwarfBulletScript : MonoBehaviour
 {
-    private int damagePerShot = 1500;
+    private int damagePerShot;
     Transform Player;
     GameObject gwarf;
     Vector3 PrevItLoc;
@@ -45,6 +45,7 @@ public class GwarfBulletScript : MonoBehaviour
     {
         Player = GameObject.Find("Player").transform;
         gwarf = GameObject.Find("Gwarf");
+        damagePerShot = gwarf.GetComponent<GwarfAttack>().attackDamage;
         PrevItLoc = transform.position;
         enemyResources = gwarf.GetComponent<EnemyResources>();
     }
