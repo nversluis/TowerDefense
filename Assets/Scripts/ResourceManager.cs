@@ -67,7 +67,6 @@ public class ResourceManager : MonoBehaviour {
     public int maxEnemies;
     public int toenameAantalEnemiesPerWave;
     public int timeBetweenWaves;
-    public float timeTillNextWave;
     public bool keepType;
     public bool keepDistribution;
     public float mutationProbability;

@@ -22,6 +22,7 @@ public class WaveSpawner : MonoBehaviour
     private bool eersteWaveDoorlopen = false;
     public bool keepDistribution;
     public bool keepType;
+    private bool counting;
 
     GameObject gui;
     GUIScript guiScript;
@@ -100,7 +101,7 @@ public class WaveSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown("return") || Input.GetKeyDown("enter"))
+        if (Input.GetKeyDown("return"))
         {
             gameHasStarted = true;
         }
@@ -138,17 +139,18 @@ public class WaveSpawner : MonoBehaviour
                     waitTime = timeBetweenWaves;
                 }
 
-                if (gameHasStarted || currentWave > 1)
+                if (gameHasStarted)
                 {
                     timer += Time.deltaTime;
                 }
 
                 if (waitTime < int.MaxValue && waitTime - timer > 0)
                 {
-                    resourceManager.timeTillNextWave = Mathf.Round(waitTime - timer);
+                    if (counting) {
+                        guiScript.WaveCountdown(resourceManager.timeBetweenWaves);
+                        counting = false;
+                    }
                 }
-
-                //Debug.Log(resourceManager.timeTillNextWave);
 
                 if (timer > waitTime)
                 {
@@ -196,12 +198,12 @@ public class WaveSpawner : MonoBehaviour
                     // Verhoog het aantal enemies in de wave
                     maxEnemies = (currentWave - 1) * resourceManager.toenameAantalEnemiesPerWave + startMaxEnemies;
                     resourceManager.maxEnemies = maxEnemies;
-                    // maxEnemies = resourceManager.maxEnemies;
-                    // maxEnemies += toenameAantalEnemiesPerWave;
                     // Verhoog de totale stat points
                     currentTotalStatPoints = (currentWave - 1) * delta + startTotalStatPoints;
                     resourceManager.totalStatPoints = currentTotalStatPoints;
                     //currentTotalStatPoints += delta;
+                    // Wave countdown mag weer plaatsvinden
+                    counting = true;
                     // Enemies mogen weer gespawnd worden
                     spawning = true;
                 }
