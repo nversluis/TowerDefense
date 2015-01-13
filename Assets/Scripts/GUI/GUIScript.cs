@@ -6,6 +6,8 @@ using System.Collections.Generic;
 public class GUIScript : MonoBehaviour {
     // Initialize a public variable containing all player data
     public static PlayerData player = new PlayerData();
+    public static bool paused;
+
     private List<Item> inventory;
     private List<Skill> skillset;
 
@@ -169,6 +171,7 @@ public class GUIScript : MonoBehaviour {
 
         for(int i = 0; i < skillTextList.Count; i++) {
             Text tx = skillTextList[i];
+            tx.enabled = true;
             tx.text = (i + 1).ToString();
         }
 
@@ -242,6 +245,8 @@ public class GUIScript : MonoBehaviour {
         }
 
         // GUI
+        paused = false;
+
         UpdateStats();
         UpdateShop();
         UpdateItems();
@@ -271,7 +276,7 @@ public class GUIScript : MonoBehaviour {
             PauseGame();
         }
 
-        if(!firstWaveStarted && Input.GetKeyDown(KeyCode.Escape)) {
+        if(!firstWaveStarted && Input.GetKeyDown(KeyCode.Return)) {
             firstWaveText.enabled = false;
         }
         else if(!firstWaveStarted) {
@@ -289,11 +294,13 @@ public class GUIScript : MonoBehaviour {
             cameraScript.enabled = !cameraScript.enabled;
             Screen.lockCursor = !Screen.lockCursor;
             Screen.showCursor = !Screen.showCursor;
-            if(Time.timeScale == 0.000001f) {
+            if(Time.timeScale == 0) {
                 Time.timeScale = 1; ;
+                paused = false;
             }
             else {
-                Time.timeScale = 0.000001f;
+                paused = true;
+                Time.timeScale = 0;
             }
         }
 
@@ -586,6 +593,7 @@ public class GUIScript : MonoBehaviour {
             Screen.showCursor = true;
             canvas.SetActive(true);
             pause = true;
+            paused = true;
             Time.timeScale = 0;
         }
         else {
@@ -596,6 +604,7 @@ public class GUIScript : MonoBehaviour {
     // Functions for the quit and resume buttons
     public void Resume() {
         pause = false;
+        paused = false;
         canvas.SetActive(false);
         Time.timeScale = 1;
         crosshair.SetActive(true);
@@ -608,6 +617,7 @@ public class GUIScript : MonoBehaviour {
     public void Quit() {
         pause = false;
         Time.timeScale = 1;
+        paused = false;
         Application.LoadLevel("Main Menu");
     }
 
@@ -632,6 +642,7 @@ public class GUIScript : MonoBehaviour {
             resultImage.sprite = resultSprites[0];
         }
         Time.timeScale = 0;
+        paused = true;
     }
 
     public GameObject getPopUpPanel() {
