@@ -88,8 +88,13 @@ public class FloorScript : MonoBehaviour
 						resTower.name = "blueTower";
 						resTower.gameObject.transform.parent = gameObject.transform;
 						resTower.tag = "TowerHotSpot";
+						Color col;
+						if(cost*2<=playerData.getGold()){
+							col = new Color(0,0,255,0.1f);
+						} else
+							col = new Color(255,0,0,0.1f);
 						foreach (Renderer child in resTower.GetComponentsInChildren<Renderer>()) {
-							child.material.color = new Color (0, 0, 255, 0.1f);
+							child.material.color = col;
 							child.material.shader = Shader.Find ("Transparent/Diffuse");
 						}
 					} catch (System.Exception e) {
