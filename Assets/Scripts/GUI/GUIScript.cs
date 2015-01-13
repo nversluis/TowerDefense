@@ -6,6 +6,8 @@ using System.Collections.Generic;
 public class GUIScript : MonoBehaviour {
     // Initialize a public variable containing all player data
     public static PlayerData player = new PlayerData();
+    public static bool paused;
+
     private List<Item> inventory;
     private List<Skill> skillset;
 
@@ -169,6 +171,7 @@ public class GUIScript : MonoBehaviour {
 
         for(int i = 0; i < skillTextList.Count; i++) {
             Text tx = skillTextList[i];
+            tx.enabled = true;
             tx.text = (i + 1).ToString();
         }
 
@@ -242,7 +245,11 @@ public class GUIScript : MonoBehaviour {
         }
 
         // GUI
+        paused = false;
+
         UpdateStats();
+        UpdateShop();
+        UpdateItems();
     }
 
     void FixedUpdate() {
@@ -269,7 +276,7 @@ public class GUIScript : MonoBehaviour {
             PauseGame();
         }
 
-        if(!firstWaveStarted && Input.GetKeyDown(KeyCode.Escape)) {
+        if(!firstWaveStarted && Input.GetKeyDown(KeyCode.Return)) {
             firstWaveText.enabled = false;
         }
         else if(!firstWaveStarted) {
@@ -287,11 +294,13 @@ public class GUIScript : MonoBehaviour {
             cameraScript.enabled = !cameraScript.enabled;
             Screen.lockCursor = !Screen.lockCursor;
             Screen.showCursor = !Screen.showCursor;
-            if(Time.timeScale == 0.000001f) {
+            if(Time.timeScale == 0) {
                 Time.timeScale = 1; ;
+                paused = false;
             }
             else {
-                Time.timeScale = 0.000001f;
+                paused = true;
+                Time.timeScale = 0;
             }
         }
 
@@ -476,17 +485,30 @@ public class GUIScript : MonoBehaviour {
 
         for(int i = 0; i < shopTextList.Length; i++) {
             Text tx = shopTextList[i];
-            tx.text = "+" + inventory[i].getValue().ToString();
+            if(inventory[i].getTier() < 4) {
+                tx.text = "+" + inventory[i].getValue()[inventory[i].getTier() - 1].ToString();
+            }
+            else {
+                tx.text = "MAX";
+                tx.color = Color.black;
+            }
         }
 
         for(int i = 0; i < costTextList.Length; i++) {
             Text tx = costTextList[i];
-            tx.text = inventory[i].getCost().ToString();
+            if(inventory[i].getTier() < 4) {
+                tx.text = inventory[i].getCost()[inventory[i].getTier() - 1].ToString();
+            }
+            else {
+                tx.text = "MAX";
+                tx.color = Color.black;
+            }
+
         }
 
         for(int i = 0; i < shopButtonList.Length; i++) {
             Button bt = shopButtonList[i];
-            if(inventory[i].getTier() < 4 && player.getGold() >= inventory[i].getCost()) {
+            if(inventory[i].getTier() < 4 && player.getGold() >= inventory[i].getCost()[inventory[i].getTier() - 1]) {
                 bt.interactable = true;
             }
             else {
@@ -571,6 +593,7 @@ public class GUIScript : MonoBehaviour {
             Screen.showCursor = true;
             canvas.SetActive(true);
             pause = true;
+            paused = true;
             Time.timeScale = 0;
         }
         else {
@@ -581,6 +604,7 @@ public class GUIScript : MonoBehaviour {
     // Functions for the quit and resume buttons
     public void Resume() {
         pause = false;
+        paused = false;
         canvas.SetActive(false);
         Time.timeScale = 1;
         crosshair.SetActive(true);
@@ -593,6 +617,7 @@ public class GUIScript : MonoBehaviour {
     public void Quit() {
         pause = false;
         Time.timeScale = 1;
+        paused = false;
         Application.LoadLevel("Main Menu");
     }
 
@@ -617,6 +642,7 @@ public class GUIScript : MonoBehaviour {
             resultImage.sprite = resultSprites[0];
         }
         Time.timeScale = 0;
+        paused = true;
     }
 
     public GameObject getPopUpPanel() {
@@ -629,10 +655,12 @@ public class GUIScript : MonoBehaviour {
     }
 
     public void UpgradeSword() {
-        inventory[0].setTier(inventory[0].getTier() + 1);
+        int currentTier = inventory[0].getTier();
+        int currentIndex = inventory[0].getTier() - 1;
+        inventory[0].setTier(currentTier + 1);
         player.setItems(inventory);
-        player.setAttack(player.getAttack() + inventory[0].getValue());
-        player.removeGold(inventory[0].getCost());
+        player.setAttack(player.getAttack() + inventory[0].getValue()[currentIndex]);
+        player.removeGold(inventory[0].getCost()[currentIndex]);
         UpdateGold();
         UpdateShop();
         UpdateItems();
@@ -640,10 +668,12 @@ public class GUIScript : MonoBehaviour {
     }
 
     public void UpgradeWand() {
+        int currentTier = inventory[1].getTier();
+        int currentIndex = inventory[1].getTier() - 1;
         inventory[1].setTier(inventory[1].getTier() + 1);
         player.setItems(inventory);
-        player.setMagic(player.getMagic() + inventory[1].getValue());
-        player.removeGold(inventory[1].getCost());
+        player.setMagic(player.getMagic() + inventory[1].getValue()[currentIndex]);
+        player.removeGold(inventory[1].getCost()[currentIndex]);
         UpdateGold();
         UpdateShop();
         UpdateItems();
@@ -651,10 +681,12 @@ public class GUIScript : MonoBehaviour {
     }
 
     public void UpgradeShield() {
+        int currentTier = inventory[2].getTier();
+        int currentIndex = inventory[2].getTier() - 1;
         inventory[2].setTier(inventory[2].getTier() + 1);
         player.setItems(inventory);
-        player.setArmor(player.getArmor() + inventory[2].getValue());
-        player.removeGold(inventory[2].getCost());
+        player.setArmor(player.getArmor() + inventory[2].getValue()[currentIndex]);
+        player.removeGold(inventory[2].getCost()[currentIndex]);
         UpdateGold();
         UpdateShop();
         UpdateItems();
@@ -662,10 +694,12 @@ public class GUIScript : MonoBehaviour {
     }
 
     public void UpgradeBoots() {
+        int currentTier = inventory[3].getTier();
+        int currentIndex = inventory[3].getTier() - 1;
         inventory[3].setTier(inventory[3].getTier() + 1);
         player.setItems(inventory);
-        player.setAgility(player.getAgility() + inventory[3].getValue());
-        player.removeGold(inventory[3].getCost());
+        player.setAgility(player.getAgility() + inventory[3].getValue()[currentIndex]);
+        player.removeGold(inventory[3].getCost()[currentIndex]);
         UpdateGold();
         UpdateShop();
         UpdateItems();
