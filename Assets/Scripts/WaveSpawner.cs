@@ -16,7 +16,9 @@ public class WaveSpawner : MonoBehaviour
 
     private int indexOfCurrentGen;
     private bool spawning = true;
-    public bool keepDistribution = false;
+    private bool eersteWaveDoorlopen = false;
+    public bool keepDistribution;
+    public bool keepType;
 
     GameObject gui;
     GUIScript guiScript;
@@ -51,6 +53,8 @@ public class WaveSpawner : MonoBehaviour
     List<List<float>> nextGenDistributions;
     List<float> currentGenFitness;
     List<float> nextGenFitness;
+    List<float> currentGenType;
+    List<float> nextGenType;
     EnemyStats enemyStats;
 
     Text waveText;
@@ -69,12 +73,16 @@ public class WaveSpawner : MonoBehaviour
         timeBetweenWaves = resourceManager.timeBetweenWaves;
         currentTotalStatPoints = resourceManager.totalStatPoints;
         delta = resourceManager.toenameTotalStatPointsPerWave;
+        keepType = resourceManager.keepType;
+        keepDistribution = resourceManager.keepDistribution;
         enemies = new ArrayList();
         enemiesInWave = new ArrayList();
         currentGenDistributions = new List<List<float>>();
         nextGenDistributions = new List<List<float>>();
         currentGenFitness = new List<float>();
         nextGenFitness = new List<float>();
+        currentGenType = new List<float>();
+        nextGenType = new List<float>();
 
         gui = GameObject.Find("GUIMain");
         guiScript = gui.GetComponent<GUIScript>();
@@ -121,7 +129,11 @@ public class WaveSpawner : MonoBehaviour
                 }
 
                 timer += Time.deltaTime;
-                //Debug.Log("timer: " + timer + " " + "waitTime: " + waitTime);
+
+                if (waitTime < int.MaxValue && waitTime - timer > 0)
+                {
+                    resourceManager.timeTillNextWave = Mathf.Round(waitTime - timer);
+                }
 
                 if (timer > waitTime)
                 {
@@ -139,7 +151,12 @@ public class WaveSpawner : MonoBehaviour
                     {
                         allEnemiesSpawned = true;
                         spawning = false;
-                        keepDistribution = true;
+
+                        eersteWaveDoorlopen = true;
+
+                        currentGenType.Clear();
+                        currentGenType = new List<float>(nextGenType);
+                        nextGenType.Clear();
 
                         currentGenDistributions.Clear();
                         currentGenDistributions = new List<List<float>>(nextGenDistributions);
@@ -189,6 +206,15 @@ public class WaveSpawner : MonoBehaviour
         float randX = Random.Range(-maxX / 2, maxX / 2);
         float randZ = Random.Range(-maxZ / 2, maxZ / 2);
 
+        if (eersteWaveDoorlopen)
+        {
+            selectEnemy();
+            if (keepDistribution)
+            {
+                enemyNumber = currentGenType[indexOfCurrentGen];
+            }
+        }
+
         if (enemyNumber == 1)
         {
             GameObject enemyGuyant = (GameObject)Instantiate(EnemyGuyant, transform.position + new Vector3(randX, 7.34f / 4, randZ), Quaternion.identity);
@@ -197,13 +223,17 @@ public class WaveSpawner : MonoBehaviour
             enemyStats = enemyGuyant.GetComponent<EnemyStats>();
             // Genereer enemies met toenemende stats per wave
             enemyStats.totalStatPoints = currentTotalStatPoints;
-            if (keepDistribution)
+            if (eersteWaveDoorlopen)
             {
-                enemyStats.statDistribution = getRouletteWheelDistribution();
-                enemyStats.mutate(mutationProbability);
-                enemyStats.generateDistribution();
+                if (keepDistribution)
+                {
+                    enemyStats.statDistribution = getDistribution(indexOfCurrentGen);
+                    enemyStats.mutate(mutationProbability);
+                    enemyStats.generateDistribution();
+                }
             }
             enemyStats.generateenemyStats();
+            nextGenType.Add(enemyNumber);
             nextGenDistributions.Add(enemyStats.statDistribution);
             nextGenFitness.Add(enemyStats.fitness);
             enemies.Add(enemyGuyant);
@@ -216,13 +246,17 @@ public class WaveSpawner : MonoBehaviour
             enemyStats = enemyGwarf.GetComponent<EnemyStats>();
             // Genereer enemies met toenemende stats per wave
             enemyStats.totalStatPoints = currentTotalStatPoints;
-            if (keepDistribution)
+            if (eersteWaveDoorlopen)
             {
-                enemyStats.statDistribution = getRouletteWheelDistribution();
-                enemyStats.mutate(mutationProbability);
-                enemyStats.generateDistribution();
+                if (keepDistribution)
+                {
+                    enemyStats.statDistribution = getDistribution(indexOfCurrentGen);
+                    enemyStats.mutate(mutationProbability);
+                    enemyStats.generateDistribution();
+                }
             }
             enemyStats.generateenemyStats();
+            nextGenType.Add(enemyNumber);
             nextGenDistributions.Add(enemyStats.statDistribution);
             nextGenFitness.Add(enemyStats.fitness);
             enemies.Add(enemyGwarf);
@@ -277,7 +311,7 @@ public class WaveSpawner : MonoBehaviour
         return distribution;
     }
 
-    public List<float> getRouletteWheelDistribution()
+    /*public List<float> getRouletteWheelDistribution()
     {
         float total = 0;
         float randomFloat;
@@ -299,6 +333,33 @@ public class WaveSpawner : MonoBehaviour
 
         List<float> distribution = currentGenDistributions[indexOfCurrentGen];
         return distribution;
+    }*/
+
+    public List<float> getDistribution(int index)
+    {
+        return currentGenDistributions[index];
+    }
+
+    public void selectEnemy()
+    {
+        float total = 0;
+        float randomFloat;
+        List<float> chances = new List<float>();
+
+        for (int i = 0; i < currentGenFitness.Count; i++)
+        {
+            // upper limit on the roulette wheel of current enemy
+            total += currentGenFitness[i];
+            chances.Add(total);
+        }
+
+        randomFloat = Random.Range(0.0f, 1.0f) * chances[chances.Count - 1];
+        indexOfCurrentGen = 0;
+        while (randomFloat > chances[indexOfCurrentGen])
+        {
+            indexOfCurrentGen++;
+        }
+        //return indexOfCurrentGen;
     }
 
     public List<float> getBestDistribution()

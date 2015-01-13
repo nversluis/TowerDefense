@@ -100,7 +100,16 @@ MonoBehaviour:
   drawPath: 0
   automaticPathUpdating: 1
   currentWave: 1
-  maxWaves: 10
+  maxWaves: 20
+  maxEnemies: 10
+  toenameAantalEnemiesPerWave: 5
+  timeBetweenWaves: 5
+  timeTillNextWave: 0
+  keepType: 1
+  keepDistribution: 1
+  mutationProbability: .699999988
+  totalStatPoints: 100
+  toenameTotalStatPointsPerWave: 30
   maxTowerDistance: 50
   magicTower: {fileID: 100010, guid: 00820a827834982408befc67f6611fe1, type: 2}
   magicTowerBullet: {fileID: 100000, guid: 992585f8d90a7dd4aa9fb58097ade3cd, type: 2}
@@ -119,7 +128,7 @@ MonoBehaviour:
   iceAttack: 1.5
   iceSpeed: 1.5
   iceSpecial: 1.5
-  speedReduceRate: 2
+  speedReduceRate: 200
   spearTrap: {fileID: 100004, guid: 78350e6548fc0ba4eb8337163c0d01b7, type: 2}
   barricade: {fileID: 156962, guid: 57e98e7c5749344e3a8e883f7e62ed72, type: 2}
   barricadeHealth: 100
