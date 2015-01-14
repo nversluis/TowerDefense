@@ -50,9 +50,17 @@ public class PlayerData {
         skillset = new List<Skill>();
         inventory = new List<Item>();
 
+        // Sword
+        inventory.Add(new Item(1, new float[3] { 1000f, 5000f, 25000f }, new int[3] { 1000, 2500, 7500}));
+        // Wand
+        inventory.Add(new Item(1, new float[3] { 1000f, 5000f, 25000f }, new int[3] { 500, 1500, 4000 }));
+        // Shield
+        inventory.Add(new Item(1, new float[3] { 1000f, 5000f, 25000f }, new int[3] { 5, 10, 25 }));
+        // Boots
+        inventory.Add(new Item(1, new float[3] { 750f, 3500f, 10000f }, new int[3] { 1, 3, 5 }));
+
         for(int i = 0; i < 4; i++) {
             skillset.Add(new Skill());
-            inventory.Add(new Item());
         }
     }
 

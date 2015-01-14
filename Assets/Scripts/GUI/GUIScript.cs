@@ -317,7 +317,6 @@ public class GUIScript : MonoBehaviour {
         if(!firstWaveStarted && Input.GetKeyDown(KeyCode.Return)) {
             firstWaveText.enabled = false;
             firstWaveStarted = true;
-            WaveCountdown();
         }
         else if(!firstWaveStarted) {
             firstWaveText.enabled = true;
