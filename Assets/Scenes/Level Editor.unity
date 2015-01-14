@@ -1167,9 +1167,9 @@ MonoBehaviour:
   endPos: {x: 0, y: 0}
   magicBullet: {fileID: 100000, guid: 1b2fbfa5bc2ebc9428f28105eca1c5c9, type: 2}
   bulletSpeed: 30
-  magicBulletSound: {fileID: 8300000, guid: b87f856579306f4479099fc0301b292f, type: 3}
+  magicBulletSound: {fileID: 8300000, guid: 42344adbb5b50174e8ff2339e2d67aca, type: 3}
   backgroundMusic: {fileID: 8300000, guid: 93319560fc89719479fe343352695b59, type: 3}
-  headShot: {fileID: 0}
+  headShot: {fileID: 8300000, guid: 42344adbb5b50174e8ff2339e2d67aca, type: 3}
   bulletHit: {fileID: 0}
   damageText: {fileID: 100000, guid: 2173d4d4ee922db4a92d3e0e7293b9c8, type: 2}
   GUI: {fileID: 125416, guid: 6dd1d023576b0fc409ea0dbd447c865f, type: 2}
