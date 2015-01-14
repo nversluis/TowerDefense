@@ -914,7 +914,7 @@ public class LevelEditor : MonoBehaviour
 		GenerateFloor ();
 		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: You build the floors, we place the walls!...";
 		yield return new WaitForSeconds (0.1f);
-        RandomMaze.GenerateWall(positions, planewidth, wallPrefab, torch, height, length, width, GameObject.Find("World"));
+		RandomMaze.GenerateWall(positions, planewidth, wallPrefab, torch, height, length-1, width-1, GameObject.Find("World"), endPos);
 		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Dwogres wanted a red carpet to walk on, generating...";
 		yield return new WaitForSeconds (0.1f);
 		Nodes = RandomMaze.SpawnNodes (positions, nodeSize, planewidth, Nodes, length, width, drawNavigationGrid, true);
@@ -1270,10 +1270,9 @@ public class LevelEditor : MonoBehaviour
                 if (i < filesPerPage * currentPage && i >= filesPerPage * (currentPage - 1))
                 {
                     tempfilefound = true;
-                    Debug.Log(nextpage - prevpage);
 
                     nextpage += 1;
-                    Debug.Log(nextpage - prevpage);
+
                 }
 
                 else if (i <= filesPerPage * (currentPage - 1))
@@ -1295,7 +1294,9 @@ public class LevelEditor : MonoBehaviour
         {
 
             prevBut.gameObject.SetActive(false);
-
+        }
+        if (maxPages < 2){
+            nextBut.gameObject.SetActive(false);
         }
 
 

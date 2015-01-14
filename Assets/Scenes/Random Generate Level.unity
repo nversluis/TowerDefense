@@ -19,7 +19,7 @@ RenderSettings:
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientLight: {r: .200000003, g: .200000003, b: .200000003, a: 1}
-  m_SkyboxMaterial: {fileID: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 16522f49031ff414abdf1f83f1b6a36c, type: 2}
   m_HaloStrength: 1
   m_FlareStrength: 1
   m_FlareFadeSpeed: 2.75
@@ -78,7 +78,7 @@ NavMeshSettings:
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 100000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
-  m_PrefabInternal: {fileID: 289174993}
+  m_PrefabInternal: {fileID: 617111019}
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 14726754}
@@ -95,7 +95,7 @@ MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854,
     type: 2}
-  m_PrefabInternal: {fileID: 289174993}
+  m_PrefabInternal: {fileID: 617111019}
   m_GameObject: {fileID: 14726752}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -108,9 +108,9 @@ MonoBehaviour:
   costIceTrap: 100
   costFireTrap: 100
   costPoisonTrap: 100
-  costBarricade: 50
-  rewardenemy: 10
-  rewardWave: 300
+  costBarricade: 200
+  rewardenemy: 5
+  rewardWave: 800
   coolDownSword1Time: .5
   coolDownSword2Time: 10
   coolDownMagic1Time: .200000003
@@ -123,7 +123,7 @@ MonoBehaviour:
   wallPrefab: {fileID: 171850, guid: 0556f1d261c50e248934a3de0f8a97a4, type: 2}
   enemySpawner: {fileID: 100000, guid: c3a351ed1e54c354c99c7d460d83aa16, type: 2}
   Minimapcamera: {fileID: 100000, guid: ea52609adf144e449bfeac563da51684, type: 2}
-  Gate: {fileID: 100000, guid: 16cf1baaf1edf034dadc94eb5ac10fa5, type: 2}
+  Gate: {fileID: 100000, guid: d4693b6abfa404c2083cd46be293e93c, type: 2}
   torch: {fileID: 100012, guid: 3abc6258d3b3848199581033a47549d6, type: 2}
   Goal: {fileID: 187034, guid: 238816a3ef63d0443b7f2d1338df4329, type: 2}
   length: 10
@@ -138,7 +138,7 @@ MonoBehaviour:
   enemyGwarf: {fileID: 188948, guid: 37f21c745b6e3ff43942e88e21aba537, type: 2}
   enemyGrobble: {fileID: 0}
   walkSpeed: 5
-  pathUpdateRate: .300000012
+  pathUpdateRate: .5
   drawPath: 0
   automaticPathUpdating: 1
   currentWave: 1
@@ -146,13 +146,12 @@ MonoBehaviour:
   maxEnemies: 10
   toenameAantalEnemiesPerWave: 5
   timeBetweenWaves: 5
-  timeTillNextWave: 0
   keepType: 1
   keepDistribution: 1
   mutationProbability: .699999988
   totalStatPoints: 100
   toenameTotalStatPointsPerWave: 30
-  maxTowerDistance: 50
+  maxTowerDistance: 15
   magicTower: {fileID: 100010, guid: 00820a827834982408befc67f6611fe1, type: 2}
   magicTowerBullet: {fileID: 100000, guid: 992585f8d90a7dd4aa9fb58097ade3cd, type: 2}
   coolDownTimeMagicTower: 1
@@ -160,7 +159,7 @@ MonoBehaviour:
   arrowTowerArrow: {fileID: 134150, guid: 90771dbe3ba00e64ca4476dc4825925c, type: 2}
   poisonTrap: {fileID: 100004, guid: 00395c20601754c63bd039223cee03ff, type: 2}
   poisonAttack: 1.5
-  poisonSpeed: 1.5
+  poisonSpeed: .5
   poisonSpecial: 1.5
   fireTrap: {fileID: 100004, guid: 5eeab821c266140c29d2d3654a690e34, type: 2}
   fireAttack: 1.5
@@ -168,12 +167,11 @@ MonoBehaviour:
   fireSpecial: 1.5
   iceTrap: {fileID: 100004, guid: 0c1d30373f75b41729f5e92345fc8692, type: 2}
   iceAttack: 1.5
-  iceSpeed: 1.5
+  iceSpeed: .25
   iceSpecial: 1.5
-  speedReduceRate: 200
   spearTrap: {fileID: 100004, guid: 78350e6548fc0ba4eb8337163c0d01b7, type: 2}
   barricade: {fileID: 156962, guid: 57e98e7c5749344e3a8e883f7e62ed72, type: 2}
-  barricadeHealth: 100
+  barricadeHealth: 500
   magicTowerHotSpot: {fileID: 100008, guid: b7ee6a2fbe7fbaa45abbee1c40b0d49d, type: 2}
   arrowTowerHotSpot: {fileID: 108536, guid: 330ca6b6c1ad3cf45a532231b13140aa, type: 2}
   poisonTrapHotspot: {fileID: 100006, guid: 12ce532ee4226dc40afed8a28552da9e, type: 2}
@@ -192,7 +190,7 @@ MonoBehaviour:
   headShot: {fileID: 0}
   bulletHit: {fileID: 0}
   damageText: {fileID: 100000, guid: 2173d4d4ee922db4a92d3e0e7293b9c8, type: 2}
-  GUI: {fileID: 158210, guid: d0d61fa94ffed8c4696555ed1e561ee4, type: 2}
+  GUI: {fileID: 125416, guid: 6dd1d023576b0fc409ea0dbd447c865f, type: 2}
   eventListener: {fileID: 100000, guid: ca10e4e4c259d0641ac5dc611b6604ac, type: 2}
   lengthMinimap: 200
   heightMinimap: 200
@@ -217,7 +215,7 @@ MonoBehaviour:
 Transform:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
-  m_PrefabInternal: {fileID: 289174993}
+  m_PrefabInternal: {fileID: 617111019}
   m_GameObject: {fileID: 14726752}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -265,7 +263,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
---- !u!1001 &289174993
+--- !u!1001 &617111019
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -305,37 +303,9 @@ Prefab:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
-      propertyPath: startSwordDamage
-      value: 2500
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
-      propertyPath: startMagicDamage
-      value: 1000
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
-      propertyPath: coolDownSword1Time
-      value: .5
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
-      propertyPath: coolDownSword2Time
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
-      propertyPath: coolDownMagic1Time
-      value: .200000003
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
-      propertyPath: coolDownMagic2Time
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
-      propertyPath: speed
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
-      propertyPath: defense
-      value: 10
-      objectReference: {fileID: 0}
+      propertyPath: Gate
+      value: 
+      objectReference: {fileID: 100000, guid: d4693b6abfa404c2083cd46be293e93c, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
   m_RootGameObject: {fileID: 14726752}
@@ -546,7 +516,7 @@ Transform:
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 171860, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
-  m_PrefabInternal: {fileID: 289174993}
+  m_PrefabInternal: {fileID: 617111019}
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 970448471}
@@ -563,7 +533,7 @@ MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 11471860, guid: ac70d7e38b4e1eb4f8eacd13550d1854,
     type: 2}
-  m_PrefabInternal: {fileID: 289174993}
+  m_PrefabInternal: {fileID: 617111019}
   m_GameObject: {fileID: 970448469}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -588,7 +558,7 @@ MonoBehaviour:
 Transform:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 471860, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
-  m_PrefabInternal: {fileID: 289174993}
+  m_PrefabInternal: {fileID: 617111019}
   m_GameObject: {fileID: 970448469}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 14.8531599, y: .235073388, z: 6.41849422}
@@ -773,7 +743,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22400002, guid: c59155148cd0fed47933eb2f34d04fb2, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 22400002, guid: c59155148cd0fed47933eb2f34d04fb2, type: 2}
       propertyPath: m_AnchoredPosition.x
@@ -931,7 +901,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 428956, guid: a0a7501bf09b9ae4abe34bdfb695191b, type: 2}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a0a7501bf09b9ae4abe34bdfb695191b, type: 2}

@@ -306,7 +306,7 @@ public class LoadScreenScript : MonoBehaviour
         GenerateFloor();
         LoadingScreen.GetComponentInChildren<Text>().text = "Loading: You build the floors, we place the walls!...";
         yield return new WaitForSeconds(0.1f);
-        RandomMaze.GenerateWall(positions, planewidth, wallPrefab, torch, height, length, width, GameObject.Find("World"));
+        RandomMaze.GenerateWall(positions, planewidth, wallPrefab, torch, height, length, width, GameObject.Find("World"),endPos);
         LoadingScreen.GetComponentInChildren<Text>().text = "Loading: Dwogres wanted a red carpet to walk on, generating...";
         yield return new WaitForSeconds(0.1f);
         Nodes = RandomMaze.SpawnNodes(positions, nodeSize, planewidth, Nodes, length, width, drawNavigationGrid, true);

@@ -62,7 +62,10 @@ public class PoisonTrap : MonoBehaviour
 		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
 		partSys = gameObject.transform.GetChild (2).gameObject;
 		particleStartSize = partSys.particleSystem.startSize * resourceManager.planewidth / 5;
-		damagePerShot = gameObject.GetComponent < TowerStats> ().attack;
+		TowerStats stats = gameObject.GetComponent < TowerStats> ();
+		damagePerShot = stats.attack;
+		stats.speedUpgrade = resourceManager.poisonSpeed;
+		stats.attackUpgrade = (resourceManager.poisonAttack-1)*stats.attack;
 	}
 	
 	// Update is called once per frame
