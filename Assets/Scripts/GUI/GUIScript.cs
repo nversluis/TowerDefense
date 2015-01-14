@@ -320,11 +320,11 @@ public class GUIScript : MonoBehaviour {
         }
         else if(!firstWaveStarted) {
             firstWaveText.enabled = true;
+            WaveCountdown();
             TextColorShift(firstWaveText);
         }
 
         if(Input.GetKeyDown(KeyCode.Tab)) {
-            skillset[0].startCooldown();
             player.setTowerSelected(!player.getTowerSelected());
         }
 
