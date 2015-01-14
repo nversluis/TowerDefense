@@ -917,7 +917,7 @@ public class LevelEditor : MonoBehaviour
 		RandomMaze.GenerateWall(positions, planewidth, wallPrefab, torch, height, length-1, width-1, GameObject.Find("World"), endPos);
 		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Dwogres wanted a red carpet to walk on, generating...";
 		yield return new WaitForSeconds (0.1f);
-		Nodes = RandomMaze.SpawnNodes (positions, nodeSize, planewidth, Nodes, length, width, drawNavigationGrid, true);
+		Nodes = RandomMaze.SpawnNodes (positions, nodeSize, planewidth, Nodes, length, width, drawNavigationGrid, true,endPos);
 		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Giving birth to Player...";
 		yield return new WaitForSeconds (0.1f);
         Destroy(backGroundCamera.GetComponent<AudioListener>());
