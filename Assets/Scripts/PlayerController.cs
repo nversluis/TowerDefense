@@ -409,7 +409,8 @@ public class PlayerController : MonoBehaviour
 		RaycastHit hit;
 		GameObject res = curFloor;
 		//Ray ray = new Ray(transform.position, -Vector3.up, out hit);
-		if (Physics.Raycast (transform.position, -Vector3.up, out hit)) {
+        if (Physics.Raycast(transform.position + tijdelijk, -Vector3.up, out hit))
+        {
 			if (hit.transform.name.Contains ("loor")) {
 				curFloor = hit.transform.gameObject;
 				if (res != null && res != curFloor) {

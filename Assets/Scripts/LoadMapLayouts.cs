@@ -586,24 +586,27 @@ public class LoadMapLayouts : MonoBehaviour {
 
     public void GenerateLevel()
     {
-        for (int i = 0; i < positions.Count; i++)
-        { //get right sizes of the positions array
-            positions[i] = (Vector2)positions[i];
-            Vector2 tempPos = (Vector2)positions[i];
-            ResourceManager.mostNorth = Mathf.Max(ResourceManager.mostNorth, (int)tempPos.y);
-            ResourceManager.mostEast = Mathf.Max(ResourceManager.mostEast, (int)tempPos.x);
-            ResourceManager.mostSouth = Mathf.Min(ResourceManager.mostSouth, (int)tempPos.y);
-            ResourceManager.mostWest = Mathf.Min(ResourceManager.mostWest, (int)tempPos.x);
+        if (currentFileSelected != null && currentFilesSelected.Count == 1)
+        {
+            for (int i = 0; i < positions.Count; i++)
+            { //get right sizes of the positions array
+                positions[i] = (Vector2)positions[i];
+                Vector2 tempPos = (Vector2)positions[i];
+                ResourceManager.mostNorth = Mathf.Max(ResourceManager.mostNorth, (int)tempPos.y);
+                ResourceManager.mostEast = Mathf.Max(ResourceManager.mostEast, (int)tempPos.x);
+                ResourceManager.mostSouth = Mathf.Min(ResourceManager.mostSouth, (int)tempPos.y);
+                ResourceManager.mostWest = Mathf.Min(ResourceManager.mostWest, (int)tempPos.x);
+            }
+            startPos = new Vector2(startPos.x, startPos.z);
+            endPos = new Vector2(endPos.x, endPos.z);
+            resourceManager.startPos = startPos;
+            resourceManager.endPos = endPos;
+            loadingScreen.SetActive(true);
+            cameraAudioSource.PlayOneShot(startGame, 5);
+            Invoke("startSpawn", 1.802f);
+            // spawnLevel();
+            resourceManager.Nodes = Nodes;
         }
-        startPos = new Vector2(startPos.x, startPos.z);
-        endPos = new Vector2(endPos.x, endPos.z);
-        resourceManager.startPos = startPos;
-        resourceManager.endPos = endPos;
-        loadingScreen.SetActive(true);
-        cameraAudioSource.PlayOneShot(startGame, 5);
-        Invoke("startSpawn", 1.802f);
-        // spawnLevel();
-        resourceManager.Nodes = Nodes;
     }
     void startSpawn()
     {
@@ -620,7 +623,7 @@ public class LoadMapLayouts : MonoBehaviour {
         GenerateFloor();
         loadingScreen.GetComponentInChildren<Text>().text = "Loading: You build the floors, we place the walls!...";
         yield return new WaitForSeconds(0.1f);
-		RandomMaze.GenerateWall(positions, planewidth, resourceManager.wallPrefab, resourceManager.torch, resourceManager.height, length, width, GameObject.Find("World"),endPos);
+		RandomMaze.GenerateWall(positions, planewidth, resourceManager.wallPrefab, resourceManager.torch, resourceManager.height, length-1, width-1, GameObject.Find("World"),endPos);
         loadingScreen.GetComponentInChildren<Text>().text = "Loading: Dwogres wanted a red carpet to walk on, generating...";
         yield return new WaitForSeconds(0.1f);
 		Nodes = RandomMaze.SpawnNodes(positions, resourceManager.nodeSize, planewidth, Nodes, length, width, resourceManager.drawNavigationGrid, true, endPos);

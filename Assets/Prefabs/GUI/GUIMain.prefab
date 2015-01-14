@@ -4204,7 +4204,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Sprite: {fileID: 21300000, guid: 4ffda9a76f96d334a92d34e062a8a55f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ffc37ff1d6e2e494b86dcd219e47fb21, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -4225,7 +4225,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Sprite: {fileID: 21300000, guid: 8b035d76c20beee4b893e1853a44dabf, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7b75d99fd18248042b9a33842d2fb9b4, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -5236,8 +5236,8 @@ MonoBehaviour:
   resultImage: {fileID: 11440992}
   resultScoreText: {fileID: 11458166}
   resultSprites:
-  - {fileID: 21300000, guid: 4ffda9a76f96d334a92d34e062a8a55f, type: 3}
-  - {fileID: 21300000, guid: 556f793fb56a91c4ea55acadbf92037d, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
   crosshair: {fileID: 158134}
   TowerPopup: {fileID: 163510}
   enemyFace: {fileID: 11430874}
@@ -5292,15 +5292,15 @@ MonoBehaviour:
   countNumber: {fileID: 11469840}
   countSpriteList:
   - {fileID: 21300000, guid: 9cec47b85b0356b408b94024aeddc8ac, type: 3}
-  - {fileID: 21300000, guid: 6dea6f802d231cb46be366fca6c32df9, type: 3}
-  - {fileID: 21300000, guid: 62c9e1d3cb73beb47a75a9ea1ca7a3c0, type: 3}
-  - {fileID: 21300000, guid: 19110ecf429d42b43941eb4f70d098fa, type: 3}
-  - {fileID: 21300000, guid: 80178d5d7cf97d44db4b5af689ccfa38, type: 3}
-  - {fileID: 21300000, guid: c3918feb275e6384e87c44dfd8c8046c, type: 3}
-  - {fileID: 21300000, guid: 7b922dcedc094f748acc85834abb9021, type: 3}
-  - {fileID: 21300000, guid: 2e5dba85d23ec8e49904a49983123539, type: 3}
-  - {fileID: 21300000, guid: 0db93caafb7a6f44b91c06569f00be8d, type: 3}
-  - {fileID: 21300000, guid: 9467ffe8bfc7d174badd7ae6805b3e94, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   click: {fileID: 8300000, guid: f637386b733e23840ace6809c509330a, type: 3}
 --- !u!114 &11458206
 MonoBehaviour:
