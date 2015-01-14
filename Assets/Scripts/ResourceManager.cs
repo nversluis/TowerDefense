@@ -26,7 +26,12 @@ public class ResourceManager : MonoBehaviour {
     public int defense;
     public int speed;
     public int startSwordDamage;
-    public int startMagicDamage;    
+    public int startMagicDamage;
+    public int specialSwordDamage;
+    public int specialMagicDamage;
+    public GameObject hitParticles;
+    public GameObject hitExplosionParticles;
+
 
 	[Header("Map Prefabs")]
 
@@ -125,6 +130,16 @@ public class ResourceManager : MonoBehaviour {
 	public AudioClip backgroundMusic;
     public AudioClip headShot;
     public AudioClip bulletHit;
+    public AudioClip hitEnemy;
+    public AudioClip hitEnemy2;
+    public AudioClip hitEnemy3;
+
+    public AudioClip sword;
+    public AudioClip sword2;
+    public AudioClip sword3;
+
+    public AudioClip swordSpecial;
+    public AudioClip magicSpecial;
 
 	[Header("HitSplash")]
 	public GameObject damageText;
