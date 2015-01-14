@@ -77,6 +77,9 @@ public class ResourceManager : MonoBehaviour {
     public float mutationProbability;
     public int totalStatPoints;
     public int toenameTotalStatPointsPerWave;
+    public float startSpawnTime;
+    public float currentSpawnTime;
+    public float AfnameSpawnTimeFactor;
 
 	[Header("Towers")]
 	public float maxTowerDistance;

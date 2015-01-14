@@ -85,6 +85,8 @@ public class WaveSpawner : MonoBehaviour
         resourceManager.maxEnemies = maxEnemies;
         startMaxEnemies = resourceManager.maxEnemies;
         startTotalStatPoints = resourceManager.totalStatPoints;
+        resourceManager.currentSpawnTime = resourceManager.startSpawnTime * Mathf.Pow(resourceManager.AfnameSpawnTimeFactor, (currentWave - 1));
+        spawnTime = resourceManager.currentSpawnTime;
         enemies = new ArrayList();
         enemiesInWave = new ArrayList();
         currentGenDistributions = new List<List<float>>();
@@ -202,6 +204,9 @@ public class WaveSpawner : MonoBehaviour
                     currentTotalStatPoints = (currentWave - 1) * delta + startTotalStatPoints;
                     resourceManager.totalStatPoints = currentTotalStatPoints;
                     //currentTotalStatPoints += delta;
+                    spawnTime = resourceManager.startSpawnTime * Mathf.Pow(resourceManager.AfnameSpawnTimeFactor, (currentWave - 1));
+                    Debug.Log(spawnTime);
+                    resourceManager.currentSpawnTime = spawnTime;
                     // Wave countdown mag weer plaatsvinden
                     counting = true;
                     // Enemies mogen weer gespawnd worden
@@ -231,7 +236,7 @@ public class WaveSpawner : MonoBehaviour
         if (eersteWaveDoorlopen)
         {
             selectEnemy();
-            if (keepDistribution)
+            if (keepType)
             {
                 enemyNumber = (int)currentGenType[indexOfCurrentGen];
             }
