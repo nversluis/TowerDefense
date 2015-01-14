@@ -26,7 +26,7 @@ public class GrobbleAttack : MonoBehaviour
 
         enemyStats = GetComponent<EnemyStats>();
         enemyResources = GetComponent<EnemyResources>();
-        attackDamage = enemyStats.attack * damageMultiplier /2;
+        attackDamage = enemyStats.attack * damageMultiplier;
 
     }
 
