@@ -54,10 +54,10 @@ public class PlayerController : MonoBehaviour
     private LayerMask ignoreMaskTraps = ~(1 << 13);
     private LayerMask enemyMask = (1 << 12);
 
-    bool coolDownSword1;
-    bool coolDownSword2;
-    bool coolDownMagic1;
-    bool coolDownMagic2;
+    public bool coolDownSword1;
+    public bool coolDownSword2;
+    public bool coolDownMagic1;
+    public bool coolDownMagic2;
 
     float coolDownSword1Time;
     float coolDownSword2Time;
