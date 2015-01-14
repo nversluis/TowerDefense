@@ -244,7 +244,7 @@ public class RandomMaze : MonoBehaviour
 							n = 2;
 							hasGate = 1;
 							GameObject gate = (GameObject)Instantiate(resourceManager.Gate, new Vector3(endPos.x+0.55f, 0, endPos.y)*planewidth, Quaternion.Euler(0,-90,0));
-							gate.transform.localScale /= 2;
+							gate.transform.localScale /= 1.9f;
 						} else {
 							n = 0;
 						}
@@ -262,7 +262,7 @@ public class RandomMaze : MonoBehaviour
 							n = 2;
 							hasGate = 2;
 							GameObject gate = (GameObject)Instantiate(resourceManager.Gate, new Vector3(endPos.x-0.55f, 0, endPos.y)*planewidth, Quaternion.Euler(0,90,0));
-							gate.transform.localScale /= 2;
+							gate.transform.localScale /= 1.9f;
 						} else {
 							n = 0;
 						}
@@ -281,7 +281,7 @@ public class RandomMaze : MonoBehaviour
 							n = 2;
 							hasGate = 3;
 							GameObject gate = (GameObject)Instantiate(resourceManager.Gate, new Vector3(endPos.x, 0, endPos.y+0.55f)*planewidth, Quaternion.Euler(0,180,0));
-							gate.transform.localScale /= 2;
+							gate.transform.localScale /= 1.9f;
 						} else {
 							n = 0;
 						}
@@ -299,7 +299,7 @@ public class RandomMaze : MonoBehaviour
 							n = 2;
 							hasGate = 4;
 							GameObject gate = (GameObject)Instantiate(resourceManager.Gate, new Vector3(endPos.x, 0, endPos.y-0.55f)*planewidth, Quaternion.Euler(0,0,0));
-							gate.transform.localScale /= 2;
+							gate.transform.localScale /= 1.9f;
 						} else {
 							n = 0;
 						}
