@@ -359,7 +359,6 @@ public class RandomMaze : MonoBehaviour
 			for (float j = 0; j < 6*nodeSize; j+=nodeSize) {
 				if (hasGate == 3) {
 					Vector3 WPpos = new Vector3 (endPos.x * planewidth + i, 0, (endPos.y + 0.5f) * planewidth + j);
-					Debug.Log (WPpos);
 					if (!NodesPos.Contains (WPpos)) {
 						NodesPos.Add (WPpos);
 						Nodes.Add (new WayPoint (WPpos));
@@ -367,7 +366,6 @@ public class RandomMaze : MonoBehaviour
 				}
 				else if(hasGate == 1){
 					Vector3 WPpos = new Vector3 ((endPos.x+0.5f) * planewidth + j, 0, (endPos.y) * planewidth + i);
-					Debug.Log (WPpos);
 					if (!NodesPos.Contains (WPpos)) {
 						NodesPos.Add (WPpos);
 						Nodes.Add (new WayPoint (WPpos));
@@ -375,7 +373,6 @@ public class RandomMaze : MonoBehaviour
 				}
 				else if(hasGate == 2){
 					Vector3 WPpos = new Vector3 ((endPos.x-0.5f) * planewidth - j, 0, (endPos.y) * planewidth + i);
-					Debug.Log (WPpos);
 					if (!NodesPos.Contains (WPpos)) {
 						NodesPos.Add (WPpos);
 						Nodes.Add (new WayPoint (WPpos));
@@ -383,7 +380,6 @@ public class RandomMaze : MonoBehaviour
 				}
 				if (hasGate == 4) {
 					Vector3 WPpos = new Vector3 (endPos.x * planewidth + i, 0, (endPos.y - 0.5f) * planewidth - j);
-					Debug.Log (WPpos);
 					if (!NodesPos.Contains (WPpos)) {
 						NodesPos.Add (WPpos);
 						Nodes.Add (new WayPoint (WPpos));

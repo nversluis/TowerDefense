@@ -1118,7 +1118,7 @@ MonoBehaviour:
   enemyTag: Enemy
   enemyGuyant: {fileID: 100052, guid: 6a25f25271f527644ab0b18b0e7c536e, type: 2}
   enemyGwarf: {fileID: 188948, guid: 37f21c745b6e3ff43942e88e21aba537, type: 2}
-  enemyGrobble: {fileID: 0}
+  enemyGrobble: {fileID: 142686, guid: 3e58d9d15ddcc37499fb1d10726fb518, type: 2}
   walkSpeed: 5
   pathUpdateRate: .5
   drawPath: 0
@@ -1172,7 +1172,7 @@ MonoBehaviour:
   headShot: {fileID: 8300000, guid: 42344adbb5b50174e8ff2339e2d67aca, type: 3}
   bulletHit: {fileID: 0}
   damageText: {fileID: 100000, guid: 2173d4d4ee922db4a92d3e0e7293b9c8, type: 2}
-  GUI: {fileID: 125416, guid: 6dd1d023576b0fc409ea0dbd447c865f, type: 2}
+  GUI: {fileID: 158210, guid: d0d61fa94ffed8c4696555ed1e561ee4, type: 2}
   eventListener: {fileID: 100000, guid: ca10e4e4c259d0641ac5dc611b6604ac, type: 2}
   lengthMinimap: 200
   heightMinimap: 200
