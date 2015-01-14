@@ -8,17 +8,21 @@ public class Skill {
     private float cdTime;
     private string name;
 
+    private float timeStamp;
+
     /* CONSTRUCTORS */
     public Skill(int id, float cdP, float cdT) {
         this.id = id;
         cdPercent = cdP;
         cdTime = cdT;
+        timeStamp = 0;
     }
 
     public Skill() {
         id = 0;
         cdPercent = 0;
         cdTime = 5;
+        timeStamp = 0;
     }
 
     /* GETTERS */
@@ -45,5 +49,19 @@ public class Skill {
 
     public void setCdTime(float cdT) {
         cdTime = cdT;
+    }
+
+    /* UPDATER */
+    public void startCooldown() {
+        timeStamp = Time.time + cdTime;
+    }
+
+    public void UpdateCooldown() {
+        if(Time.time < timeStamp) {
+            cdPercent = (timeStamp - Time.time) / cdTime;
+        }
+        else {
+            cdPercent = 0;
+        }
     }
 }
