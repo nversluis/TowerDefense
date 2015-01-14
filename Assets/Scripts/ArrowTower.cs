@@ -10,6 +10,7 @@ public class ArrowTower : MonoBehaviour {
 	private GameObject arrow;
 	private List<GameObject> enemyOnTrap;
 	public int amountOfArrows;
+	TowerStats stats;
 
 	// Use this for initialization
 	void Start () {
@@ -19,6 +20,10 @@ public class ArrowTower : MonoBehaviour {
 		arrow = resourceManager.arrowTowerArrow;
 		enemyOnTrap=new List<GameObject>();
 		amountOfArrows = 20;
+		stats = transform.parent.gameObject.GetComponent<TowerStats> ();
+		stats.sellCost = resourceManager.costMagicTower / 2;
+		stats.upgradeCost = resourceManager.costMagicTower;
+		stats.attackUpgrade = stats.attack / 2;
 	}
 
 	void OnTriggerEnter(Collider col)
@@ -26,7 +31,7 @@ public class ArrowTower : MonoBehaviour {
 		if (col.gameObject.tag == enemyTag &&!enemyOnTrap.Contains(col.gameObject)) {
 			enemyOnTrap.Add (col.gameObject);
 			if (enemyOnTrap.Count == 1) {
-				InvokeRepeating ("Shooting", 0, 2/transform.parent.gameObject.GetComponent<TowerStats>().speed);
+				InvokeRepeating ("Shooting", 0, 1/stats.speed);
 			}
 		}
 	}
@@ -53,7 +58,7 @@ public class ArrowTower : MonoBehaviour {
 		bullet.transform.parent = gameObject.transform.parent;
 		bullet.transform.localPosition = new Vector3 (0, 3.8f - Mathf.Floor (Random.value * 8) * 1.075f, 3.775f - Mathf.Floor (Random.value * 8) * 1.075f);
 		bullet.transform.up = -transform.right;
-		bullet.GetComponent<Arrow> ().damagePerShot = transform.parent.gameObject.GetComponent<TowerStats> ().attack;
+		bullet.GetComponent<Arrow> ().damagePerShot = stats.attack;
 		bullet.rigidbody.velocity = -transform.right*100;
 	}
 
