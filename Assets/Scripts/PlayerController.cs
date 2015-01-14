@@ -71,6 +71,8 @@ public class PlayerController : MonoBehaviour
     int specialSwordDamage;
     int specialMagicDamage;
 
+    private PlayerData player = GUIScript.player;
+
     // Method for getting player input
     private Vector3 playerInput()
     {
@@ -235,6 +237,7 @@ public class PlayerController : MonoBehaviour
                 if (random == 0)
                 {
                     attackingSword1 = true;
+
                 }
 
                 else
@@ -260,6 +263,7 @@ public class PlayerController : MonoBehaviour
 
                 }
                 coolDownSword1 = true;
+                player.getSkills()[0].startCooldown();
                 Invoke("SetAttackAnimationFalse", 1f/2f);
                 Invoke("setCoolDownSword1false", coolDownSword1Time);
 
@@ -276,6 +280,7 @@ public class PlayerController : MonoBehaviour
                 idle = false;
                 attackingSword3 = true;
                 coolDownSword2 = true;
+                player.getSkills()[1].startCooldown();
                 Invoke("SetAttackAnimationFalse", 1f);
                 Invoke("setCoolDownSword2false", coolDownSword2Time);
 
@@ -293,6 +298,7 @@ public class PlayerController : MonoBehaviour
             {
                 SetAttackAnimationFalse();
                 coolDownMagic1 = true;
+                player.getSkills()[2].startCooldown();
                 attackMagic1 = true;
                 Invoke("SetAttackAnimationFalse", .1f);
                 Invoke("setCoolDownMagic1false", coolDownMagic1Time);
@@ -333,6 +339,7 @@ public class PlayerController : MonoBehaviour
             {
                 SetAttackAnimationFalse();
                 coolDownMagic2 = true;
+                player.getSkills()[3].startCooldown();
                 attackMagic2 = true;
                 Invoke("SetAttackAnimationFalse", .1f);
                 Invoke("setCoolDownMagic2false", coolDownMagic2Time);
@@ -419,9 +426,13 @@ public class PlayerController : MonoBehaviour
 		Bullet = resourceManager.magicBullet;
 		magic = resourceManager.magicBulletSound;
         coolDownMagic1Time = resourceManager.coolDownMagic1Time;
+        player.getSkills()[2].setCdTime(coolDownMagic1Time);
         coolDownMagic2Time = resourceManager.coolDownMagic2Time;
+        player.getSkills()[3].setCdTime(coolDownMagic2Time);
         coolDownSword1Time = resourceManager.coolDownSword1Time;
+        player.getSkills()[0].setCdTime(coolDownSword1Time);
         coolDownSword2Time = resourceManager.coolDownSword2Time;
+        player.getSkills()[1].setCdTime(coolDownSword2Time);
         swordDamage = resourceManager.startSwordDamage;
         magicDamage = resourceManager.startMagicDamage;
         playerSpeed = resourceManager.speed;
