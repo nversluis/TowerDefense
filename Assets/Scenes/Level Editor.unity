@@ -1141,7 +1141,7 @@ MonoBehaviour:
   swordSpecial: {fileID: 8300000, guid: b9d2b2be796af4c4babc0e7b45417efb, type: 3}
   magicSpecial: {fileID: 8300000, guid: 9491b2328b60fb247b636f2c0592fe4a, type: 3}
   damageText: {fileID: 100000, guid: 2173d4d4ee922db4a92d3e0e7293b9c8, type: 2}
-  GUI: {fileID: 125416, guid: 6dd1d023576b0fc409ea0dbd447c865f, type: 2}
+  GUI: {fileID: 158210, guid: d0d61fa94ffed8c4696555ed1e561ee4, type: 2}
   eventListener: {fileID: 100000, guid: ca10e4e4c259d0641ac5dc611b6604ac, type: 2}
   lengthMinimap: 200
   heightMinimap: 200
@@ -2487,7 +2487,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 0
+    m_Mode: 3
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -5436,7 +5436,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 0
+    m_Mode: 3
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -7406,6 +7406,22 @@ Prefab:
       propertyPath: m_Text
       value: The game is not optimized for maps this big. Take a map that is between
         7 X 7 and 25 X 25 if you want a normal sized map.
+      objectReference: {fileID: 0}
+    - target: {fileID: 127960, guid: c7b0d6b287897fc45891367c6ef76cd2, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11428008, guid: c7b0d6b287897fc45891367c6ef76cd2, type: 2}
+      propertyPath: m_Navigation.m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 11428082, guid: c7b0d6b287897fc45891367c6ef76cd2, type: 2}
+      propertyPath: m_Navigation.m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 128096, guid: c7b0d6b287897fc45891367c6ef76cd2, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c7b0d6b287897fc45891367c6ef76cd2, type: 2}
