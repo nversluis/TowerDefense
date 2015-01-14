@@ -315,12 +315,12 @@ public class GUIScript : MonoBehaviour {
         }
 
         if(!firstWaveStarted && Input.GetKeyDown(KeyCode.Return)) {
+            WaveCountdown();
             firstWaveText.enabled = false;
             firstWaveStarted = true;
         }
         else if(!firstWaveStarted) {
             firstWaveText.enabled = true;
-            WaveCountdown();
             TextColorShift(firstWaveText);
         }
 
