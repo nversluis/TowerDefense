@@ -39,7 +39,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 20.2024803, y: 9.92507648, z: 15.3468361}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 471860}
@@ -68,25 +68,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7321a888faeaae47875ca40443ccd1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startGold: 50000
-  costMagicTower: 100
-  costArrowTower: 100
-  costIceTrap: 100
+  startGold: 1000
+  costMagicTower: 175
+  costArrowTower: 150
+  costIceTrap: 50
   costFireTrap: 100
-  costPoisonTrap: 100
+  costPoisonTrap: 75
   costBarricade: 200
-  rewardenemy: 5
-  rewardWave: 800
+  rewardenemy: 10
+  rewardWave: 400
   coolDownSword1Time: .5
   coolDownSword2Time: 10
   coolDownMagic1Time: .200000003
-  coolDownMagic2Time: 60
+  coolDownMagic2Time: 30
   defense: 10
   speed: 10
   startSwordDamage: 5000
   startMagicDamage: 1000
-  specialSwordDamage: 0
-  specialMagicDamage: 0
+  specialSwordDamage: 15000
+  specialMagicDamage: 60000
   hitParticles: {fileID: 145544, guid: 9c7b8546eb84bce41a909a9dc0d3f737, type: 2}
   hitExplosionParticles: {fileID: 147396, guid: c675be9dc898e2b4e95ed4ebcbefa4a3,
     type: 2}
@@ -213,9 +213,9 @@ MonoBehaviour:
   tow3Input: 51
   tow4Input: 52
   tow5Input: 53
-  tow6Input: 54
-  tow7Input: 55
-  upgradeMenuInput: 56
+  tow6Input: 96
+  tow7Input: 54
+  upgradeMenuInput: 55
   upgradeInput: 323
   sellInput: 324
 --- !u!1001 &100100000
