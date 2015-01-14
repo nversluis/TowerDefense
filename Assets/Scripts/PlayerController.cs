@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
 	private ResourceManager resourceManager;
     GameObject hitParticles;
     GameObject hitExplosionParticles;
+    GameObject explosionBullet;
 
     AudioSource cameraAudio;
     AudioClip sword;
@@ -293,7 +294,7 @@ public class PlayerController : MonoBehaviour
                 SetAttackAnimationFalse();
                 coolDownMagic1 = true;
                 attackMagic1 = true;
-                Invoke("SetAttackAnimationFalse", 1f / 2f);
+                Invoke("SetAttackAnimationFalse", .1f);
                 Invoke("setCoolDownMagic1false", coolDownMagic1Time);
 
                 // determining Angles of the camera with origin
@@ -328,7 +329,47 @@ public class PlayerController : MonoBehaviour
                 audio.PlayOneShot(magic,15f);
             }
 
+            if (WeaponController.weapon == 4 && !coolDownMagic2)
+            {
+                SetAttackAnimationFalse();
+                coolDownMagic2 = true;
+                attackMagic2 = true;
+                Invoke("SetAttackAnimationFalse", .1f);
+                Invoke("setCoolDownMagic2false", coolDownMagic2Time);
+
+                // determining Angles of the camera with origin
+                camAngleX = camera.transform.rotation.eulerAngles.x;
+                camAngleY = camera.transform.rotation.eulerAngles.y;
+
+                // initializing correctionAngle and hit
+                Vector3 camShootDistance;
+                RaycastHit hit;
+
+			
+                // creating a bullet in front of 1 unit away from Player
+                GameObject bullet = (GameObject)Instantiate(explosionBullet, transform.position + new Vector3((Mathf.Sin(camAngleY * Mathf.Deg2Rad)), 0f, Mathf.Cos(camAngleY * Mathf.Deg2Rad)) + tijdelijk, Quaternion.identity);
+
+                // Casting a ray and storing information to hit
+                if (!Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, Mathf.Infinity, ignoreMaskBullet))
+                {
+                    camShootDistance = transform.forward;
+
+                }
+                else
+                {
+                    camShootDistance = hit.point - (transform.position + tijdelijk + new Vector3(Mathf.Sin(camAngleY * Mathf.Deg2Rad), 0f, Mathf.Cos(camAngleY * Mathf.Deg2Rad)));
+                    camShootDistance = camShootDistance + ((new Vector3(Random.Range(-50, 50), Random.Range(-50, 50), Random.Range(-50, 50)).normalized * distortion) * camShootDistance.magnitude) / 80f; ;
+                }
+
+                // add the force to the bullet
+                bullet.rigidbody.velocity = camShootDistance.normalized * BulletSpeed;
+               
+                // looking in the direction of the camera
+                audio.PlayOneShot(magic,15f);
+            }
+
         }
+
     }
 
     // Method that distorts the direction of the bullet
@@ -397,6 +438,8 @@ public class PlayerController : MonoBehaviour
         magicSpecial = resourceManager.magicSpecial;
 
         hitExplosionParticles = resourceManager.hitExplosionParticles;
+
+        explosionBullet = resourceManager.ExplosionMagic;
 
     }
 

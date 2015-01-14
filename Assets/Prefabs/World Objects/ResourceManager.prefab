@@ -90,6 +90,8 @@ MonoBehaviour:
   hitParticles: {fileID: 145544, guid: 9c7b8546eb84bce41a909a9dc0d3f737, type: 2}
   hitExplosionParticles: {fileID: 147396, guid: c675be9dc898e2b4e95ed4ebcbefa4a3,
     type: 2}
+  ExplosionMagic: {fileID: 174878, guid: 5c51f2aabae1e714d901652599f2a030, type: 2}
+  Explosion: {fileID: 188316, guid: 682d12b381496814dafffe473889b401, type: 2}
   planePrefab: {fileID: 100016, guid: eb0912c352095c645a4cc637dd9257b0, type: 2}
   wallPrefab: {fileID: 171850, guid: 0556f1d261c50e248934a3de0f8a97a4, type: 2}
   enemySpawner: {fileID: 100000, guid: c3a351ed1e54c354c99c7d460d83aa16, type: 2}
