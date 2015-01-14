@@ -9,25 +9,19 @@ public class Item {
     private int[] value;
 
     /* CONSTRUCTORS */
-    public Item(string type, int tier, float[] cost, int[] value) {
-        this.type = type;
+    public Item(int tier, float[] cost, int[] value) {
         this.tier = tier;
         this.cost = cost;
         this.value = value;
     }
 
     public Item() {
-        type = "none";
         tier = 1;
         cost = new float[3] {1000f, 5000f, 25000f};
         value = new int[3] {5, 20, 75};
     }
 
     /* GETTERS */
-    public string getType() {
-        return type;
-    }
-
     public int getTier() {
         return tier;
     }
@@ -41,10 +35,6 @@ public class Item {
     }
 
     /* SETTERS */
-    public void setType(string type) {
-        this.type = type;
-    }
-
     public void setTier(int tier) {
         this.tier = tier;
     }

@@ -39,7 +39,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 20.2024803, y: 9.92507648, z: 15.3468361}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 471860}
@@ -169,7 +169,7 @@ MonoBehaviour:
   swordSpecial: {fileID: 8300000, guid: b9d2b2be796af4c4babc0e7b45417efb, type: 3}
   magicSpecial: {fileID: 8300000, guid: 9491b2328b60fb247b636f2c0592fe4a, type: 3}
   damageText: {fileID: 100000, guid: 2173d4d4ee922db4a92d3e0e7293b9c8, type: 2}
-  GUI: {fileID: 125416, guid: 6dd1d023576b0fc409ea0dbd447c865f, type: 2}
+  GUI: {fileID: 158210, guid: d0d61fa94ffed8c4696555ed1e561ee4, type: 2}
   eventListener: {fileID: 100000, guid: ca10e4e4c259d0641ac5dc611b6604ac, type: 2}
   lengthMinimap: 200
   heightMinimap: 200
