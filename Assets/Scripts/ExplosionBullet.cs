@@ -20,7 +20,6 @@ public class ExplosionBullet : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(PrevItLoc, transform.position - PrevItLoc, out hit, (PrevItLoc - transform.position).magnitude + 0.2f, ignoreMask))
         {
-            Debug.Log(hit.transform.name);
             GameObject boom = (GameObject)Instantiate(Explosion, PrevItLoc, Quaternion.identity);
             Collider[] hitCollider = Physics.OverlapSphere(transform.position, 10f, enemys);
             foreach (Collider collide in hitCollider)
@@ -31,7 +30,6 @@ public class ExplosionBullet : MonoBehaviour
                 {
                     
                     enemyHealth.TakeDamage((int)(damagePerShot/(Vector3.Distance(transform.position, collide.transform.position))), "magic", true);
-                    Debug.Log(Vector3.Distance(transform.position, collide.transform.position));
                     if (hit.collider.Equals(hit.collider.GetComponent<BoxCollider>()))
                     {
                         enemyHealth.HeadShot();
