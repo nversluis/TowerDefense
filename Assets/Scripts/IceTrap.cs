@@ -68,6 +68,8 @@ public class IceTrap : MonoBehaviour
 		partSys = gameObject.transform.GetChild (2).gameObject;
 		particleStartSize = partSys.particleSystem.startSize * resourceManager.planewidth / 10;
 		damagePerShot = gameObject.GetComponent<TowerStats> ().attack;
+		gameObject.GetComponent<TowerStats> ().speedUpgrade = resourceManager.iceSpeed;
+		gameObject.GetComponent<TowerStats> ().attackUpgrade = resourceManager.iceAttack;
 	}
 
 	// Update is called once per frame

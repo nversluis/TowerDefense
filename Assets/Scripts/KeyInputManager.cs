@@ -3,8 +3,10 @@ using System.Collections;
 
 public class KeyInputManager : MonoBehaviour {
 
-	public KeyCode swordInput;
-	public KeyCode magicInput;
+	public KeyCode sword1Input;
+	public KeyCode sword2Input;
+	public KeyCode magic1Input;
+	public KeyCode magic2Input;
 	public KeyCode tow1Input;
 	public KeyCode tow2Input;
 	public KeyCode tow3Input;

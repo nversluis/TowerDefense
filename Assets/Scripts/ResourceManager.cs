@@ -17,6 +17,16 @@ public class ResourceManager : MonoBehaviour {
 	public int rewardenemy;
 	public int rewardWave;
 
+    [Header("Player")]
+
+    public float coolDownSword1Time;
+    public float coolDownSword2Time;
+    public float coolDownMagic1Time;
+    public float coolDownMagic2Time;
+    public int defense;
+    public int speed;
+    public int startSwordDamage;
+    public int startMagicDamage;    
 
 	[Header("Map Prefabs")]
 
@@ -51,9 +61,17 @@ public class ResourceManager : MonoBehaviour {
     public bool drawPath;
     public bool automaticPathUpdating;
 
-	[Header("Waves")]
+    [Header("Waves")]
     public int currentWave;
-	public int maxWaves;
+    public int maxWaves;
+    public int maxEnemies;
+    public int toenameAantalEnemiesPerWave;
+    public int timeBetweenWaves;
+    public bool keepType;
+    public bool keepDistribution;
+    public float mutationProbability;
+    public int totalStatPoints;
+    public int toenameTotalStatPointsPerWave;
 
 	[Header("Towers")]
 	public float maxTowerDistance;
@@ -78,7 +96,7 @@ public class ResourceManager : MonoBehaviour {
 	public float iceAttack;
 	public float iceSpeed;
 	public float iceSpecial;
-	public float speedReduceRate;
+	//public float speedReduceRate;
 	public GameObject spearTrap;
 	public GameObject barricade;
 	public int barricadeHealth;

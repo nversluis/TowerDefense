@@ -73,8 +73,12 @@ public class WayPoint {
 
 	public void setBarricade(Vector3 obj)
 	{
-		barricade = obj;
-		barricadeCount += 1;
+		if (barricade != obj) {
+			barricade = obj;
+			barricadeCount += 1;
+		}
+		if (barricadeCount >= 2)
+			barricadeCount = 2;
 	}
 
 	public Vector3 getBarricade()
