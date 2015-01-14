@@ -340,15 +340,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 1000
-  attack: 1500
+  attack: 300
   defence: 20
-  speed: 2
+  speed: .25
   range: 1
   specialDamage: 0
   level: 0
   sellCost: 0
   upgradeCost: 0
-  speedUpgrade: 0
+  speedUpgrade: .25
   attackUpgrade: 0
 --- !u!1001 &100100000
 Prefab:
