@@ -11,7 +11,7 @@ GameObject:
   - 15: {fileID: 1547394}
   - 12: {fileID: 1247394}
   - 26: {fileID: 2647394}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: OuterCore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,7 +26,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 447396}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SpecialSwordParticle
   m_TagString: Untagged
   m_Icon: {fileID: 0}

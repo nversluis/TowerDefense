@@ -31,6 +31,8 @@ public class ResourceManager : MonoBehaviour {
     public int specialMagicDamage;
     public GameObject hitParticles;
     public GameObject hitExplosionParticles;
+    public GameObject ExplosionMagic;
+    public GameObject Explosion;
 
 
 	[Header("Map Prefabs")]
