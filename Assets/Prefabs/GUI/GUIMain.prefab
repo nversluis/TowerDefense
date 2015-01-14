@@ -5249,6 +5249,7 @@ MonoBehaviour:
   enemyText: {fileID: 11430876}
   enemyPanel: {fileID: 130872}
   towerPanel: {fileID: 158266}
+  towerName: {fileID: 11430878}
   attack: {fileID: 11430880}
   speed: {fileID: 11430882}
   special: {fileID: 11430884}
