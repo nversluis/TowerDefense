@@ -44,8 +44,8 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: New AttackingMagic2
-    m_Type: 3
+  - m_Name: AttackingMagic2
+    m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
@@ -250,6 +250,26 @@ Transition:
   m_Solo: 0
   m_Mute: 0
   m_CanTransitionToSelf: 0
+--- !u!1101 &110181092
+Transition:
+  serializedVersion: 2
+  m_ObjectHideFlags: 3
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_SrcState: {fileID: 0}
+  m_DstState: {fileID: 110276742}
+  m_TransitionDuration: .100000001
+  m_TransitionOffset: 0
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: AttackingSword3
+    m_EventTreshold: 0
+    m_ExitTime: .899999976
+  m_Atomic: 1
+  m_Solo: 0
+  m_Mute: 0
+  m_CanTransitionToSelf: 0
 --- !u!1101 &110185482
 Transition:
   serializedVersion: 2
@@ -350,6 +370,21 @@ State:
   m_IKOnFeet: 0
   m_Mirror: 0
   m_Tag: 
+--- !u!1102 &110276742
+State:
+  m_ObjectHideFlags: 3
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Attack3
+  m_Speed: 3
+  m_CycleOffset: 0
+  m_Motions:
+  - {fileID: 7400000, guid: c6429e29ab802d54a95bcbcc8ab8c529, type: 2}
+  m_ParentStateMachine: {fileID: 110700000}
+  m_Position: {x: 204, y: 360, z: 0}
+  m_IKOnFeet: 0
+  m_Mirror: 0
+  m_Tag: 
 --- !u!1102 &110287348
 State:
   m_ObjectHideFlags: 3
@@ -378,17 +413,12 @@ StateMachine:
   - {fileID: 110216726}
   - {fileID: 110251948}
   - {fileID: 110287348}
+  - {fileID: 110276742}
   m_ChildStateMachine: []
   m_ChildStateMachinePosition: []
   m_OrderedTransitions:
     data:
-      first: {fileID: 110287348}
-      second: []
-    data:
-      first: {fileID: 110251948}
-      second: []
-    data:
-      first: {fileID: 110216726}
+      first: {fileID: 110276742}
       second: []
     data:
       first: {fileID: 0}
@@ -397,8 +427,18 @@ StateMachine:
       - {fileID: 110135840}
       - {fileID: 110124800}
       - {fileID: 110147426}
+      - {fileID: 110181092}
     data:
       first: {fileID: 110200000}
+      second: []
+    data:
+      first: {fileID: 110216726}
+      second: []
+    data:
+      first: {fileID: 110251948}
+      second: []
+    data:
+      first: {fileID: 110287348}
       second: []
   m_MotionSetCount: 1
   m_AnyStatePosition: {x: 72, y: 240, z: 0}

@@ -7,6 +7,20 @@ public class PlayerController : MonoBehaviour
 {
 	private GameObject ResourceManagerObj;
 	private ResourceManager resourceManager;
+    GameObject hitParticles;
+    GameObject hitExplosionParticles;
+
+    AudioSource cameraAudio;
+    AudioClip sword;
+    AudioClip sword2;
+    AudioClip sword3;
+
+    AudioClip hitEnemy;
+    AudioClip hitEnemy2;
+    AudioClip hitEnemy3;
+
+    AudioClip swordSpecial;
+    AudioClip magicSpecial;
 
     // initializing some global variables
     private GameObject camera;
@@ -53,6 +67,8 @@ public class PlayerController : MonoBehaviour
 
     int swordDamage;
     int magicDamage;
+    int specialSwordDamage;
+    int specialMagicDamage;
 
     // Method for getting player input
     private Vector3 playerInput()
@@ -152,6 +168,54 @@ public class PlayerController : MonoBehaviour
         return Physics.Raycast(ray, distance+0.5f,ignoreMaskTraps);
     }
 
+    IEnumerator DestroyParticles(GameObject particles)
+    {
+        yield return new WaitForSeconds(0.4f);
+        Destroy(particles);
+    }
+
+    IEnumerator DestroyParticles2(GameObject particles)
+    {
+        yield return new WaitForSeconds(3f);
+        Destroy(particles);
+    }
+
+    IEnumerator HitEnemy(RaycastHit hit)
+    {
+        yield return new WaitForSeconds(0.2f);
+        hit.transform.gameObject.GetComponent<EnemyHealth>().TakeDamage(specialSwordDamage, "physical", true);
+        GameObject particles = (GameObject)Instantiate(hitParticles, hit.transform.position, Quaternion.identity);
+        particles.transform.localScale = new Vector3(3, 3, 3);
+        StartCoroutine(DestroyParticles(particles));
+        int random = Random.Range(0, 3);
+
+        if (random == 0)
+        {
+
+            cameraAudio.PlayOneShot(hitEnemy);
+        }
+        else if (random == 1)
+        {
+            cameraAudio.PlayOneShot(hitEnemy2);
+
+        }
+        else if (random == 2)
+        {
+            cameraAudio.PlayOneShot(hitEnemy3);
+
+        }
+    }
+
+    IEnumerator SpecialHitEnemy(RaycastHit hit)
+    {
+        yield return new WaitForSeconds(0.2f);
+        hit.transform.gameObject.GetComponent<EnemyHealth>().TakeDamage(specialSwordDamage, "physical", true);
+        GameObject particles = (GameObject)Instantiate(hitExplosionParticles, hit.transform.position, Quaternion.identity);
+        StartCoroutine(DestroyParticles2(particles));
+        cameraAudio.PlayOneShot(swordSpecial);
+        
+    }
+
     // Method that runs when left button is pressed
     private void OnLeftMouseDown()
     {
@@ -165,7 +229,6 @@ public class PlayerController : MonoBehaviour
                 SetAttackAnimationFalse();
 
                 int random = Random.Range(0, 2);
-                Debug.Log(random);
                 if (random == 0)
                 {
                     attackingSword1 = true;
@@ -176,28 +239,48 @@ public class PlayerController : MonoBehaviour
                     attackingSword2 = true;
                 }
 
+                random = Random.Range(0, 3);
+
+                if (random == 0)
+                {
+
+                    cameraAudio.PlayOneShot(sword);
+                }
+                else if (random == 1)
+                {
+                    cameraAudio.PlayOneShot(sword2);
+
+                }
+                else if (random == 2)
+                {
+                    cameraAudio.PlayOneShot(sword3);
+
+                }
                 coolDownSword1 = true;
                 Invoke("SetAttackAnimationFalse", 1f/2f);
                 Invoke("setCoolDownSword1false", coolDownSword1Time);
 
                 RaycastHit hit;
-                if(Physics.Raycast(transform.position + tijdelijk, transform.forward, out hit, 3f, enemyMask)){
-                    hit.transform.gameObject.GetComponent<EnemyHealth>().TakeDamage(swordDamage, "physical", true);
+                if(Physics.Raycast(transform.position + tijdelijk, transform.forward, out hit, 4f, enemyMask)){
+                    StartCoroutine(HitEnemy(hit));
+                
                 }
             }
 
             if (WeaponController.weapon == 2 && !coolDownSword2)
             {
-                //attackingSword3 = true;
-                //coolDownSword1 = true;
-                //Invoke("SetAttackAnimationFalse", 1f / 2f);
-                //Invoke("setCoolDownSword1false", coolDownSword1Time);
+                attackingSword3 = true;
+                coolDownSword1 = true;
+                Invoke("SetAttackAnimationFalse", 2f);
+                Invoke("setCoolDownSword1false", coolDownSword1Time);
 
-                //RaycastHit hit;
-                //if (Physics.Raycast(transform.position + tijdelijk, transform.forward, out hit, 3f, enemyMask))
-                //{
-                //    hit.transform.gameObject.GetComponent<EnemyHealth>().TakeDamage(swordDamage, "physical", true);
-                //}
+                RaycastHit hit;
+                if (Physics.Raycast(transform.position + tijdelijk, transform.forward, out hit, 3f, enemyMask))
+                {
+                    hit.transform.gameObject.GetComponent<EnemyHealth>().TakeDamage(specialSwordDamage, "physical", true);
+                    StartCoroutine(SpecialHitEnemy(hit));
+
+                }
 
             }
 
@@ -268,6 +351,8 @@ public class PlayerController : MonoBehaviour
     {
     attackingSword1 = false;
     attackingSword2 = false;
+    attackingSword3 = false;
+
     attackMagic1 = false;
     attackMagic2 = false;
     }
@@ -284,6 +369,7 @@ public class PlayerController : MonoBehaviour
         // Do not display cursor
         Screen.showCursor = false;
         camera = GameObject.Find("Main Camera");
+        cameraAudio = camera.GetComponent<AudioSource>();
         startPosition = transform.position;
 		Bullet = resourceManager.magicBullet;
 		magic = resourceManager.magicBulletSound;
@@ -294,9 +380,20 @@ public class PlayerController : MonoBehaviour
         swordDamage = resourceManager.startSwordDamage;
         magicDamage = resourceManager.startMagicDamage;
         playerSpeed = resourceManager.speed;
+        hitParticles = resourceManager.hitParticles;
+        sword = resourceManager.sword;
+        sword2 = resourceManager.sword2;
+        sword3 = resourceManager.sword3;
 
+        hitEnemy = resourceManager.hitEnemy;
+        hitEnemy2 = resourceManager.hitEnemy2;
+        hitEnemy3 = resourceManager.hitEnemy3;
 
-        
+        swordSpecial = resourceManager.swordSpecial;
+        magicSpecial = resourceManager.magicSpecial;
+
+        hitExplosionParticles = resourceManager.hitExplosionParticles;
+
     }
 
     // Update void which updates every frame

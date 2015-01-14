@@ -3,9 +3,9 @@ using System.Collections;
 
 public class EnemyResources : MonoBehaviour {
 
-    public bool walking;
-    public bool attacking;
-    public bool isDead;
+    public bool walking = true;
+    public bool attacking = false;
+    public bool isDead = false;
 	public float isSlowed;
     public float dieDistance;
     

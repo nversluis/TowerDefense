@@ -128,6 +128,7 @@ public class GwarfScript : MonoBehaviour
                 // set rotations in other directions to zero
                 transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
 
+
             }
             else
             {

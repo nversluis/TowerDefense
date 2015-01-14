@@ -315,9 +315,9 @@ public class GUIScript : MonoBehaviour {
         }
 
         if(!firstWaveStarted && Input.GetKeyDown(KeyCode.Return)) {
+            WaveCountdown();
             firstWaveText.enabled = false;
             firstWaveStarted = true;
-            WaveCountdown();
         }
         else if(!firstWaveStarted) {
             firstWaveText.enabled = true;
@@ -325,7 +325,6 @@ public class GUIScript : MonoBehaviour {
         }
 
         if(Input.GetKeyDown(KeyCode.Tab)) {
-            skillset[0].startCooldown();
             player.setTowerSelected(!player.getTowerSelected());
         }
 
