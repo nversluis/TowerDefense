@@ -196,6 +196,7 @@ public class GuyantScript : MonoBehaviour
 			if (enemyResources.isDead) {
 				// set speed to zero
 				rigidbody.velocity = Vector3.zero;
+                enemyResources.attacking = false;
 				curFloor.GetComponent<FloorScript> ().hasEnemy = false;
 
 			}

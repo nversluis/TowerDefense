@@ -224,7 +224,7 @@ public class WaveSpawner : MonoBehaviour
 
     void Spawnenemy()
     {
-        float enemyNumber = Mathf.Round(Random.Range(1f, 2f));
+        int enemyNumber = Random.Range(1, 4);
         float randX = Random.Range(-maxX / 2, maxX / 2);
         float randZ = Random.Range(-maxZ / 2, maxZ / 2);
 
@@ -233,7 +233,7 @@ public class WaveSpawner : MonoBehaviour
             selectEnemy();
             if (keepDistribution)
             {
-                enemyNumber = currentGenType[indexOfCurrentGen];
+                enemyNumber = (int)currentGenType[indexOfCurrentGen];
             }
         }
 
@@ -282,6 +282,29 @@ public class WaveSpawner : MonoBehaviour
             nextGenDistributions.Add(enemyStats.statDistribution);
             nextGenFitness.Add(enemyStats.fitness);
             enemies.Add(enemyGwarf);
+        }
+        else if (enemyNumber == 3)
+        {
+            GameObject enemyGrobble = (GameObject)Instantiate(EnemyGrobble, transform.position + new Vector3(randX, 1f, randZ), Quaternion.identity);
+            enemyGrobble.gameObject.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+            enemyGrobble.name = "Grobble";
+            enemyStats = enemyGrobble.GetComponent<EnemyStats>();
+            // Genereer enemies met toenemende stats per wave
+            enemyStats.totalStatPoints = currentTotalStatPoints;
+            if (eersteWaveDoorlopen)
+            {
+                if (keepDistribution)
+                {
+                    enemyStats.statDistribution = getDistribution(indexOfCurrentGen);
+                    enemyStats.mutate(mutationProbability);
+                    enemyStats.generateDistribution();
+                }
+            }
+            enemyStats.generateenemyStats();
+            nextGenType.Add(enemyNumber);
+            nextGenDistributions.Add(enemyStats.statDistribution);
+            nextGenFitness.Add(enemyStats.fitness);
+            enemies.Add(enemyGrobble);
         }
     }
 

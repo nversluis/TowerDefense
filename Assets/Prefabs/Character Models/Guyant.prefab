@@ -960,7 +960,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb62654e802dfa548a9a2ed07527e944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walking: 0
+  walking: 1
   attacking: 0
   isDead: 0
   isSlowed: 0
