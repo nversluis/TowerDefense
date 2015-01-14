@@ -134,6 +134,10 @@ public class PlayerData {
         this.gold -= gold;
     }
 
+    public void setGold(float gold) {
+        this.gold = gold;
+    }
+
     public void setScore(float score) {
         this.score = score;
     }
