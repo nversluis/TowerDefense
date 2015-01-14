@@ -96,23 +96,18 @@ public class WallScript : MonoBehaviour
 						child.material.shader = Shader.Find ("Transparent/Diffuse");
 					}
 				}
-				if (Input.GetKeyUp (inputManager.upgradeInput)) {
-					upgradeTower ();
+				if (gameObject.transform.childCount == 2) {
+					if (Input.GetKeyUp (inputManager.upgradeInput)) {
+						upgradeTower ();
+					}
+
+					//upgrade the tower - todo
+					if (Input.GetKeyUp (inputManager.sellInput)) {
+						sellTower ();
+					}
 				}
 
-				//upgrade the tower - todo
-				if (Input.GetKeyUp (inputManager.sellInput)) {
-					sellTower ();
-				}
-
-				//bring up the menu to show ot sell or upgrade tower (with costs) and upgrade stats
-				if (Input.GetMouseButtonDown (1)) {
-					//	showMenu ();
-				}
-
-				if (Input.GetKeyUp (KeyCode.C)) {
-					GameObject.Find ("GUIMain").GetComponent<GUIScript> ().getPopUpPanel ().SetActive (false);
-				}
+				
 			}
 
 		}
@@ -121,23 +116,29 @@ public class WallScript : MonoBehaviour
 
 	private void sellTower ()
 	{
-		DestroyHotSpots ();
+		GameObject tower = gameObject.transform.GetChild (0).gameObject;
+		TowerStats stats = tower.GetComponent<TowerStats> ();
 		Destroy (gameObject.transform.GetChild (0).gameObject);
-		GUIScript.player.addGold (cost / 2);
-		GameObject.Find ("GUIMain").GetComponent<GUIScript> ().getPopUpPanel ().SetActive (false);
+		playerData.addGold (stats.sellCost);
+		DestroyHotSpots ();
 	}
 
 	private void upgradeTower ()
 	{
-		Debug.Log ("Not yet implemented");
-		GameObject.Find ("GUIMain").GetComponent<GUIScript> ().getPopUpPanel ().SetActive (false);
+		GameObject tower = gameObject.transform.GetChild (0).gameObject;
+		TowerStats stats = tower.GetComponent<TowerStats> ();
+		if (stats.upgradeCost <= playerData.getGold ()) {
+			stats.level++;
+			stats.attack += (int)stats.attackUpgrade;
+			stats.speed += stats.speedUpgrade;
+			stats.attackUpgrade = stats.attack / 2;
+			playerData.addGold (-stats.upgradeCost);
+			stats.sellCost *= 2;
+			stats.upgradeCost *= 2;
+		}
+
 	}
 
-	private void showMenu ()
-	{
-		GameObject popUpPanel = GameObject.Find ("GUIMain").GetComponent<GUIScript> ().getPopUpPanel ();
-		popUpPanel.SetActive (true);
-	}
 
 
 	//Method to Destroy all hotspots. Called in different scripts.

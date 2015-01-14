@@ -10,7 +10,7 @@ public class MagicTowerScript : MonoBehaviour {
     private List<GameObject> enemysInRange;
    	private GameObject bullet;
     private int bulletSpeed;
-    private float coolDownTime;
+    private float fireRate;
 	private string enemyTag;
 	private AudioClip magic;
 
@@ -18,6 +18,7 @@ public class MagicTowerScript : MonoBehaviour {
     
     GameObject enemy;
     Vector3 enemyVel;
+	bool isShooting;
     //CharacterController enemyCharController;
 
 
@@ -26,15 +27,18 @@ public class MagicTowerScript : MonoBehaviour {
 		ResourceManagerObj = GameObject.Find ("ResourceManager");
 		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
         enemysInRange = new List<GameObject>();
-
+		isShooting = false;
 		bullet = resourceManager.magicTowerBullet;
 		magic = resourceManager.magicBulletSound;
 		enemyTag = resourceManager.enemyTag;
 		bulletSpeed = resourceManager.bulletSpeed;
-		coolDownTime = resourceManager.coolDownTimeMagicTower;
-		coolDownTime = transform.parent.GetComponent<TowerStats> ().speed;
-		InvokeRepeating("Shooting", 0f, coolDownTime);
-		scaleRange (transform.parent.GetComponent<TowerStats> ().range);
+		TowerStats stats = transform.parent.GetComponent<TowerStats> ();
+		fireRate = stats.speed;
+		InvokeRepeating("Shooting", 0f, 1/fireRate);
+		scaleRange (stats.range);
+		stats.sellCost = resourceManager.costMagicTower / 2;
+		stats.upgradeCost = resourceManager.costMagicTower;
+		stats.attackUpgrade = stats.attack / 2;
     }
     void OnTriggerEnter(Collider col)
     {
@@ -72,6 +76,17 @@ public class MagicTowerScript : MonoBehaviour {
             {
 				enemysInRange.Remove (enemysInRange [i]);
 			}
+		}
+
+
+		if (enemysInRange.Count == 0) {
+			CancelInvoke ();
+			isShooting = false;
+		} else if(!isShooting) {
+			TowerStats stats = transform.parent.GetComponent<TowerStats> ();
+			fireRate = stats.speed;
+			InvokeRepeating ("Shooting", 0f, 1 / fireRate);
+			isShooting = true;
 		}
     }
 
