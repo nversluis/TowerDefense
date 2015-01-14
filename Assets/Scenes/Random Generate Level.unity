@@ -117,8 +117,13 @@ MonoBehaviour:
   coolDownMagic2Time: 60
   defense: 10
   speed: 10
-  startSwordDamage: 2500
+  startSwordDamage: 5000
   startMagicDamage: 1000
+  specialSwordDamage: 0
+  specialMagicDamage: 0
+  hitParticles: {fileID: 145544, guid: 9c7b8546eb84bce41a909a9dc0d3f737, type: 2}
+  hitExplosionParticles: {fileID: 147396, guid: c675be9dc898e2b4e95ed4ebcbefa4a3,
+    type: 2}
   planePrefab: {fileID: 100016, guid: eb0912c352095c645a4cc637dd9257b0, type: 2}
   wallPrefab: {fileID: 171850, guid: 0556f1d261c50e248934a3de0f8a97a4, type: 2}
   enemySpawner: {fileID: 100000, guid: c3a351ed1e54c354c99c7d460d83aa16, type: 2}
@@ -146,7 +151,7 @@ MonoBehaviour:
   maxEnemies: 10
   toenameAantalEnemiesPerWave: 5
   timeBetweenWaves: 5
-  keepType: 1
+  keepType: 0
   keepDistribution: 1
   mutationProbability: .699999988
   totalStatPoints: 100
@@ -185,10 +190,18 @@ MonoBehaviour:
   endPos: {x: 0, y: 0}
   magicBullet: {fileID: 100000, guid: 1b2fbfa5bc2ebc9428f28105eca1c5c9, type: 2}
   bulletSpeed: 30
-  magicBulletSound: {fileID: 8300000, guid: 42344adbb5b50174e8ff2339e2d67aca, type: 3}
+  magicBulletSound: {fileID: 8300000, guid: b87f856579306f4479099fc0301b292f, type: 3}
   backgroundMusic: {fileID: 8300000, guid: 93319560fc89719479fe343352695b59, type: 3}
-  headShot: {fileID: 8300000, guid: 42344adbb5b50174e8ff2339e2d67aca, type: 3}
+  headShot: {fileID: 8300000, guid: e1c1ec5c2f14d734d90ca9d30aa270d6, type: 3}
   bulletHit: {fileID: 0}
+  hitEnemy: {fileID: 8300000, guid: 361434778d812fa42a7732b0f8909d5c, type: 3}
+  hitEnemy2: {fileID: 8300000, guid: 50eca040e9fb93e4783d794ae0ac8852, type: 3}
+  hitEnemy3: {fileID: 8300000, guid: a8f5d9fc2b914fd4ab668a5b1723221a, type: 3}
+  sword: {fileID: 8300000, guid: d289fe74e2833da4197b73c22dd12f00, type: 3}
+  sword2: {fileID: 8300000, guid: 314b1693fff14d947b5ae6d5d5829ab0, type: 3}
+  sword3: {fileID: 8300000, guid: 5fbadd7f7d9e681468b00932fa27fdbe, type: 3}
+  swordSpecial: {fileID: 8300000, guid: b9d2b2be796af4c4babc0e7b45417efb, type: 3}
+  magicSpecial: {fileID: 8300000, guid: 9491b2328b60fb247b636f2c0592fe4a, type: 3}
   damageText: {fileID: 100000, guid: 2173d4d4ee922db4a92d3e0e7293b9c8, type: 2}
   GUI: {fileID: 158210, guid: d0d61fa94ffed8c4696555ed1e561ee4, type: 2}
   eventListener: {fileID: 100000, guid: ca10e4e4c259d0641ac5dc611b6604ac, type: 2}
@@ -361,6 +374,7 @@ MonoBehaviour:
   m_Script: {fileID: 1301386320, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Priority: 3
   ignoreReversedGraphics: 1
   blockingObjects: 0
   m_BlockingMask:

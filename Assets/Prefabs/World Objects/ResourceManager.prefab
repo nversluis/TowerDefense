@@ -113,8 +113,8 @@ MonoBehaviour:
   drawPath: 0
   automaticPathUpdating: 1
   currentWave: 1
-  maxWaves: 10
-  maxEnemies: 10
+  maxWaves: 20
+  maxEnemies: 20
   toenameAantalEnemiesPerWave: 5
   timeBetweenWaves: 5
   keepType: 0
@@ -122,6 +122,9 @@ MonoBehaviour:
   mutationProbability: .699999988
   totalStatPoints: 100
   toenameTotalStatPointsPerWave: 30
+  startSpawnTime: .5
+  currentSpawnTime: 0
+  AfnameSpawnTimeFactor: .99000001
   maxTowerDistance: 15
   magicTower: {fileID: 100010, guid: 00820a827834982408befc67f6611fe1, type: 2}
   magicTowerBullet: {fileID: 100000, guid: 992585f8d90a7dd4aa9fb58097ade3cd, type: 2}
