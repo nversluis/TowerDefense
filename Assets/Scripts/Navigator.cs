@@ -339,6 +339,7 @@ public class Navigator : MonoBehaviour
 
 	public static List<WayPoint> FindWayPointsNear (Vector3 position, List<WayPoint> grid, float gridSize)
 	{
+		position = new Vector3 (position.x, 0, position.z);
 		List<WayPoint> wayPointsNear = new List<WayPoint> ();
 		List<Vector3> nearNodes = FindGridPositionsNear (position, grid, gridSize);  
 		for (int i = 0; i < nearNodes.Count; i++) {

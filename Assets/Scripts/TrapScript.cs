@@ -47,7 +47,7 @@ public class TrapScript : MonoBehaviour
 
 	public void BuildTrap ()
 	{
-		if (cost <= playerData.getGold ()) {
+		if (cost <= playerData.getGold () && !transform.parent.gameObject.GetComponent<FloorScript>().hasEnemy) {
 			GameObject trap = (GameObject)Instantiate (realTrap, transform.position, Quaternion.identity);//Instantiantion of the tower
 			trap.gameObject.transform.localScale = new Vector3 (1, 1, 1) * planeW / 20;
 			trap.transform.parent = gameObject.transform.parent;
@@ -57,6 +57,9 @@ public class TrapScript : MonoBehaviour
 			WallScript.DestroyHotSpots ();
 			trap.SetActiveRecursively (true); 
 			playerData.addGold (-cost);
+			TowerStats stats = trap.GetComponent<TowerStats> ();
+			stats.upgradeCost = cost;
+			stats.sellCost = cost/2;
 		} else {
 
 		}
@@ -67,7 +70,7 @@ public class TrapScript : MonoBehaviour
 		if (Input.GetMouseButtonDown (0)) {
 			BuildTrap ();
 		}
-		if (cost > playerData.getGold ()) {
+		if (cost > playerData.getGold () || transform.parent.gameObject.GetComponent<FloorScript>().hasEnemy) {
 			foreach (Renderer child in gameObject.GetComponentsInChildren<Renderer>()) {
 				foreach (Material mat in child.materials) {
 					mat.shader = Shader.Find ("Transparent/Diffuse");

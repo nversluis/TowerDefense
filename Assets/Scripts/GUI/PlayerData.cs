@@ -122,6 +122,10 @@ public class PlayerData {
 		this.gold += gold;
 	}
 
+    public void removeGold(float gold) {
+        this.gold -= gold;
+    }
+
     public void setScore(float score) {
         this.score = score;
     }
@@ -160,6 +164,14 @@ public class PlayerData {
 
     public void addToItems(Item item) {
         inventory.Add(item);
+    }
+
+    public void setSkills(List<Skill> skills) {
+        skillset = skills;
+    }
+
+    public void setItems(List<Item> items) {
+        inventory = items;
     }
 
 }

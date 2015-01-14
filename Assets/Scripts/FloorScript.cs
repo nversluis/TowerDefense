@@ -7,12 +7,13 @@ public class FloorScript : MonoBehaviour
 	Color transparentgreen = new Color (0, 255, 0, 0.1f);
 	Color transparentred = new Color (255, 0, 0, 0.1f);
 	private int i;
-	private GameObject ResourceManagerObj;
 	private GameObject player;
+	private GameObject ResourceManagerObj;
 	private ResourceManager resourceManager;
 	private PlayerData playerData = GUIScript.player;
 	private int cost;
 	private KeyInputManager inputManager;
+	public bool hasEnemy;
 
 	void Start ()
 	{
@@ -22,6 +23,8 @@ public class FloorScript : MonoBehaviour
 		cost = 0;
 		inputManager = GameObject.Find ("KeyInputs").GetComponent<KeyInputManager> ();
 		transform.GetChild (0).renderer.material.color = Color.white;
+		hasEnemy = false;
+		gameObject.layer = 10;
 	}
 
 	void Update ()
@@ -52,7 +55,7 @@ public class FloorScript : MonoBehaviour
 				foreach (Renderer child in tower.GetComponentsInChildren<Renderer>()) {
 					foreach (Material mat in child.materials) {
 						mat.shader = Shader.Find ("Transparent/Diffuse");
-						if (cost >= playerData.getGold ()) {
+						if (cost >= playerData.getGold () || hasEnemy) {
 							mat.color = transparentred;
 						} else {
 							mat.color = transparentgreen;
@@ -82,14 +85,19 @@ public class FloorScript : MonoBehaviour
 					GameObject baseOfTrap;
 					try {
 						baseOfTrap = gameObject.transform.GetChild (1).Find ("Base").gameObject;
-					
+						WallScript.DestroyHotSpots();
 						GameObject resTower = (GameObject)Instantiate (baseOfTrap, baseOfTrap.transform.position, baseOfTrap.transform.rotation);
 						resTower.gameObject.transform.localScale *= 1.001f / 2;
 						resTower.name = "blueTower";
 						resTower.gameObject.transform.parent = gameObject.transform;
 						resTower.tag = "TowerHotSpot";
+						Color col;
+						if(cost*2<=playerData.getGold()){
+							col = new Color(0,0,255,0.1f);
+						} else
+							col = new Color(255,0,0,0.1f);
 						foreach (Renderer child in resTower.GetComponentsInChildren<Renderer>()) {
-							child.material.color = new Color (0, 0, 255, 0.1f);
+							child.material.color = col;
 							child.material.shader = Shader.Find ("Transparent/Diffuse");
 						}
 					} catch (System.Exception e) {
@@ -120,8 +128,10 @@ public class FloorScript : MonoBehaviour
 
 	private void sellTower ()
 	{
+		GameObject tower = gameObject.transform.GetChild (1).gameObject;
+		TowerStats stats = tower.GetComponent<TowerStats> ();
+		GUIScript.player.addGold (stats.sellCost);
 		Destroy (gameObject.transform.GetChild (1).gameObject);
-		GUIScript.player.addGold (cost / 2);
 		WallScript.DestroyHotSpots();
 	}
 
@@ -129,24 +139,40 @@ public class FloorScript : MonoBehaviour
 	{
 		GameObject tower = gameObject.transform.GetChild (1).gameObject;
 		TowerStats stats = tower.GetComponent<TowerStats> ();
-		if (tower.name.Contains ("Fire")) {
-			stats.attack = (int)Mathf.Round(stats.attack*resourceManager.fireAttack);
-			stats.speed = (int)Mathf.Round(stats.speed*resourceManager.fireSpeed);
-			stats.specialDamage *= resourceManager.fireSpecial;
-		} else if (tower.name.Contains ("Poison")) {
-			stats.attack = (int)Mathf.Round(stats.attack*resourceManager.poisonAttack);
-			stats.speed = (int)Mathf.Round(stats.speed*resourceManager.poisonSpeed);
-			stats.specialDamage *= resourceManager.poisonSpecial;
-		} else if (tower.name.Contains ("Ice")) {
-			stats.attack = (int)Mathf.Round(stats.attack*resourceManager.iceAttack);
-			stats.speed = (int)Mathf.Round(stats.speed*resourceManager.iceSpeed);
-			stats.specialDamage *= resourceManager.iceSpecial;
-		} else if (tower.name.Contains ("Spear")) {
-			//cost = resourceManager.costSpearTrap;
-		} else if (tower.name.Contains ("arricade")) {
-			cost = resourceManager.costBarricade;
-		}
+		if (stats.upgradeCost <= GUIScript.player.getGold ()) {
+			stats.level++;
+			if (tower.name.Contains ("Fire")) {
+				stats.attack = (int)Mathf.Round (stats.attack * resourceManager.fireAttack);
+				stats.speed += resourceManager.fireSpeed;
+				stats.specialDamage += resourceManager.fireSpecial;
+				stats.attackUpgrade = (int)(stats.attack * (resourceManager.fireAttack-1));
+				stats.speedUpgrade = resourceManager.fireSpeed;
+				GUIScript.player.addGold (-stats.upgradeCost);
+			} else if (tower.name.Contains ("Ice")) {
+				stats.attack = (int)Mathf.Round (stats.attack * resourceManager.iceAttack);
+				stats.speed += resourceManager.iceSpeed;
+				stats.specialDamage += resourceManager.iceSpecial;
+				stats.attackUpgrade = (int)(stats.attack * (resourceManager.iceAttack-1));
+				stats.speedUpgrade = resourceManager.iceSpeed;
+				GUIScript.player.addGold (-stats.upgradeCost);
+			} else if (tower.name.Contains ("Poison")) {
+				stats.attack = (int)Mathf.Round (stats.attack * resourceManager.poisonAttack);
+				stats.speed += resourceManager.poisonSpeed;
+				stats.specialDamage += resourceManager.poisonSpecial;
+				stats.attackUpgrade = (int)(stats.attack * (resourceManager.poisonAttack-1));
+				stats.speedUpgrade = resourceManager.poisonSpeed;
+				GUIScript.player.addGold (-stats.upgradeCost);
+			} else if (tower.name.Contains ("Spear")) {
+				//cost = resourceManager.costSpearTrap;
+			} else if (tower.name.Contains ("arricade")) {
+				cost = (int)resourceManager.costBarricade;
+			}
+			stats.sellCost += stats.upgradeCost / 2;
+			stats.upgradeCost *= 2;
 
+		} else {
+			Debug.Log ("no moneyzz");
+		}
 
 		WallScript.DestroyHotSpots();
 	}

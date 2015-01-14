@@ -37,13 +37,16 @@ public class WallScript : MonoBehaviour
 	{
 
 		if (gameObject == CameraController.hitObject) { //if the object you are looking at is the wall
+			if (player == null) {
+				player = GameObject.Find ("Player");
+			}
 			Vector3 normal = CameraController.hit.normal;
 			//Destroy all objects
 			if (gameObject.transform.childCount != 2) {
 				DestroyHotSpots ();
 			}
 			GameObject TowerPrefab = WeaponController.curTower;
-			if (TowerPrefab != null && gameObject.transform.childCount == 0) { 
+			if (TowerPrefab != null && gameObject.transform.childCount == 0 && Vector3.Distance (player.transform.position, transform.position) <= maxDistance) { 
 				Vector3 normalToWall = CameraController.hit.normal;
 				Vector3 TowerOffset = new Vector3 (Mathf.Sin (transform.eulerAngles.y / 180 * Mathf.PI), 0, Mathf.Cos (transform.eulerAngles.y / 180 * Mathf.PI)) * planeW / 50;
 				GameObject tower = (GameObject)Instantiate (TowerPrefab, transform.position, transform.rotation);
@@ -51,9 +54,7 @@ public class WallScript : MonoBehaviour
 				tower.gameObject.transform.Rotate (new Vector3 (-90, 0, 0));
 				tower.gameObject.transform.Rotate (new Vector3 (0, -90, 0));
 				//tower.gameObject.transform.position += tower.gameObject.transform.forward * planeW / 58;
-				if (player == null) {
-					player = GameObject.Find ("Player");
-				}
+
 				//set costs
 				if (TowerPrefab.name.Contains ("magic")) {
 					cost = resourceManager.costMagicTower;

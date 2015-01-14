@@ -14,7 +14,7 @@ public class TowerScript : MonoBehaviour
 	private GameObject realTower;
 	private GameObject redTower;
 	private int cost;
-
+	GameObject player;
     float MaxDistance;
     Color transparentgreen = new Color(0, 255, 0, 0.1f); //Color of the green prefab
     Color transparentred = new Color(255, 0, 0, 0.1f); //Color of the red prefab
@@ -32,6 +32,7 @@ public class TowerScript : MonoBehaviour
 			realTower = resourceManager.arrowTower;
 			cost = resourceManager.costArrowTower;
 		}
+		player = GameObject.Find ("Player");
 
     }
 
@@ -67,7 +68,7 @@ public class TowerScript : MonoBehaviour
 	
 
         //Delete hotspots
-        if (gameObject == CameraController.hitObject && gameObject.tag.Equals("Tower"))
+		if (gameObject == CameraController.hitObject && gameObject.tag.Equals("Tower") || (player.transform.position-transform.position).magnitude>resourceManager.maxTowerDistance)
             WallScript.DestroyHotSpots();
 
         //change hotspots according to distance

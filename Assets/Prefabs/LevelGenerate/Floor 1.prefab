@@ -12,7 +12,7 @@ GameObject:
   - 64: {fileID: 6400000}
   - 23: {fileID: 2300000}
   - 114: {fileID: 11400000}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Floor 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf7e4b1497137c043a2807dd214cb420, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hasEnemy: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

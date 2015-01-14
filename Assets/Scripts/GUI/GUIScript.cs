@@ -6,6 +6,13 @@ using System.Collections.Generic;
 public class GUIScript : MonoBehaviour {
     // Initialize a public variable containing all player data
     public static PlayerData player = new PlayerData();
+    public static bool paused;
+
+    private PlayerHealth playerHealth;
+    private PlayerController playerController;
+
+    private List<Item> inventory;
+    private List<Skill> skillset;
 
     [Header("Player HP")]
     public RectTransform frontPlayerHPBar;
@@ -54,12 +61,11 @@ public class GUIScript : MonoBehaviour {
     [Header("Result screen canvas")]
     public GameObject result;
     public Image resultImage;
+    public Text resultScoreText;
     public Sprite[] resultSprites = new Sprite[2];
 
     [Header("Crosshair")]
     public GameObject crosshair;
-    public Text resultText;
-    public Text resultScoreText;
 
     [Header("Tower Popup")]
     public GameObject TowerPopup;
@@ -71,9 +77,22 @@ public class GUIScript : MonoBehaviour {
     public Text enemyText;
     public GameObject enemyPanel;
 
+	[Header("Tower panel")]
+	public GameObject towerPanel;
+	public Text towerName;
+	public Text attack;
+	public Text speed;
+	public Text special;
+	public Text sell;
+	public Text upgrade;
+	public Text attackU;
+	public Text speedU;
+	public Text specialU;
+
+
     private GameObject camera;
     private RectTransform rect;
-    private LayerMask enemyMask = ((1 << 12) | (1 << 10));
+	private LayerMask enemyMask = ((1 << 12) | (1 << 10) | (1 << 8));
     private RaycastHit hit;
 
     private float currentHP;
@@ -99,6 +118,20 @@ public class GUIScript : MonoBehaviour {
     [Header("Headshot Image")]
     public GameObject headshotImage;
 
+    [Header("Item Shop")]
+    public GameObject shopPanel;
+    public Image[] shopImageList = new Image[4];
+    public Text[] shopTextList = new Text[4];
+    public Button[] shopButtonList = new Button[4];
+    public Text[] costTextList = new Text[4];
+
+    [Header("Wave Countdown")]
+    public GameObject countdownPanel;
+    public Image countNumber;
+    public Sprite[] countSpriteList = new Sprite[10];
+
+    private Animator countAnimator;
+
     [Header("Click sound")]
     public AudioClip click;
 
@@ -110,13 +143,19 @@ public class GUIScript : MonoBehaviour {
     private GoalScript goalScript;
     private WaveSpawner waveSpawner;
 
+	private GameObject ResourceManagerObj;
+	private ResourceManager resourceManager;
     void Start() {
         /* Get private components */
+		ResourceManagerObj = GameObject.Find ("ResourceManager");
+		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
 
         // Camera Auiodsource
         cameraAudioSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
 
 
+        playerHealth = GameObject.Find("Player").GetComponent<PlayerHealth>();
+        playerController = GameObject.Find("Player").GetComponent<PlayerController>();
 
         // Skills
 
@@ -138,6 +177,9 @@ public class GUIScript : MonoBehaviour {
         frontGateHPBar = frontGateHP.GetComponent<RectTransform>();
         rearGateHPBar = rearGateHP.GetComponent<RectTransform>();
 
+        // Countdown
+        countAnimator = countNumber.GetComponent<Animator>();
+
         // Scripts
 
         playerScript = GameObject.Find("Player").GetComponent<PlayerController>();
@@ -147,6 +189,11 @@ public class GUIScript : MonoBehaviour {
 
         /* Initialize */
 
+        // Player Data
+        skillset = player.getSkills();
+        inventory = player.getItems();
+
+
         // Skills 
         foreach(Image im in skillIconList) {
             im.fillClockwise = false;
@@ -155,6 +202,7 @@ public class GUIScript : MonoBehaviour {
 
         for(int i = 0; i < skillTextList.Count; i++) {
             Text tx = skillTextList[i];
+            tx.enabled = true;
             tx.text = (i + 1).ToString();
         }
 
@@ -162,7 +210,7 @@ public class GUIScript : MonoBehaviour {
             tx.enabled = false;
         }
 
-        foreach(Image im in skillSelectList){
+        foreach(Image im in skillSelectList) {
             im.enabled = false;
         }
 
@@ -173,7 +221,7 @@ public class GUIScript : MonoBehaviour {
             tx.text = (i + 1).ToString();
         }
 
-        foreach(Image im in towerSelectList){
+        foreach(Image im in towerSelectList) {
             im.enabled = false;
         }
 
@@ -208,6 +256,35 @@ public class GUIScript : MonoBehaviour {
 
         // Headshot image
         headshotImage.SetActive(false);
+
+        // Shop
+        shopPanel.SetActive(false);
+
+        for(int i = 0; i < shopImageList.Length; i++) {
+            Image im = shopImageList[i];
+            im.sprite = tier2[i];
+        }
+
+        for(int i = 0; i < shopTextList.Length; i++) {
+            Text tx = shopTextList[i];
+            tx.text = "+" + inventory[i].getValue().ToString();
+        }
+
+        for(int i = 0; i < costTextList.Length; i++) {
+            Text tx = costTextList[i];
+            tx.text = inventory[i].getCost().ToString();
+        }
+
+        // Countdown
+        countdownPanel.SetActive(false);
+        countNumber.sprite = countSpriteList[0];
+
+        // GUI
+        paused = false;
+
+        UpdateStats();
+        UpdateShop();
+        UpdateItems();
     }
 
     void FixedUpdate() {
@@ -223,28 +300,46 @@ public class GUIScript : MonoBehaviour {
         UpdateCooldowns();
         UpdateScore();
         UpdateGold();
-        UpdateStats();
         UpdateSelection();
-        UpdateItems();
         UpdateEnemyStats();
         UpdateWaveText();
     }
 
     void Update() {
         // Pause menu behaviour
-        if(Input.GetKeyDown("escape")) {
+        if(Input.GetKeyDown(KeyCode.Escape)) {
             PauseGame();
         }
 
-        if(!firstWaveStarted && Input.GetKeyDown("return")) {
+        if(!firstWaveStarted && Input.GetKeyDown(KeyCode.Return)) {
             firstWaveText.enabled = false;
+            firstWaveStarted = true;
+            WaveCountdown();
         }
         else if(!firstWaveStarted) {
+            firstWaveText.enabled = true;
             TextColorShift(firstWaveText);
         }
 
-        if(Input.GetKeyDown("tab")) {
+        if(Input.GetKeyDown(KeyCode.Tab)) {
             player.setTowerSelected(!player.getTowerSelected());
+        }
+
+        if(Input.GetKeyDown(KeyCode.Backslash)) {
+            shopPanel.SetActive(!shopPanel.activeSelf);
+            crosshair.SetActive(!crosshair.activeSelf);
+            playerScript.enabled = !playerScript.enabled;
+            cameraScript.enabled = !cameraScript.enabled;
+            Screen.lockCursor = !Screen.lockCursor;
+            Screen.showCursor = !Screen.showCursor;
+            if(Time.timeScale == 0) {
+                Time.timeScale = 1; ;
+                paused = false;
+            }
+            else {
+                paused = true;
+                Time.timeScale = 0;
+            }
         }
 
         scoreText.text = Statistics.Score().ToString();
@@ -260,10 +355,10 @@ public class GUIScript : MonoBehaviour {
     }
 
     void UpdateStats() {
-        StrStat.text = player.getAttack().ToString();
-        MagStat.text = player.getMagic().ToString();
-        DefStat.text = player.getArmor().ToString();
-        AgiStat.text = player.getAgility().ToString();
+        StrStat.text = "Tier " + inventory[0].getTier().ToString();
+        MagStat.text = "Tier " + inventory[1].getTier().ToString();
+        DefStat.text = "Tier " + inventory[2].getTier().ToString();
+        AgiStat.text = "Tier " + inventory[3].getTier().ToString();
     }
 
     void UpdateCooldowns() {
@@ -325,30 +420,73 @@ public class GUIScript : MonoBehaviour {
         rearBar.localScale = new Vector3((bufferedHP / maxHP), 1, 1);
     }
 
-    void UpdateEnemyStats() {
-        if(Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, Mathf.Infinity, enemyMask) && hit.transform.tag == "Enemy") {
-            EnemyHealth enemyHealth = hit.transform.GetComponent<EnemyHealth>();
-            currentHP = enemyHealth.currentHealth;
-            maxHP = enemyHealth.startingHealth;
-            enemyText.text = hit.transform.name;
-            switch(hit.transform.name) {
-                case "Guyant":
-                    enemyFace.sprite = enemyFaces[0];
-                    break;
-                case "Gwarf":
-                    enemyFace.sprite = enemyFaces[1];
-                    break;
-                case "Grobble":
-                    enemyFace.sprite = enemyFaces[2];
-                    break;
-            }
-            rect.localScale = new Vector3((currentHP / maxHP), 1, 1);
-            enemyPanel.SetActive(true);
-        }
-        else {
-            enemyPanel.SetActive(false);
-        }
-    }
+	void UpdateEnemyStats ()
+	{
+		if (Physics.Raycast (camera.transform.position, camera.transform.forward, out hit, Mathf.Infinity,enemyMask)) {
+			TowerStats stats = hit.transform.GetComponentInChildren<TowerStats> ();
+			if (hit.transform.tag == "Enemy") {
+				EnemyHealth enemyHealth = hit.transform.GetComponent<EnemyHealth> ();
+				currentHP = enemyHealth.currentHealth;
+				maxHP = enemyHealth.startingHealth;
+				enemyText.text = hit.transform.name;
+				switch (hit.transform.name) {
+				case "Guyant":
+					enemyFace.sprite = enemyFaces [0];
+					break;
+				case "Gwarf":
+					enemyFace.sprite = enemyFaces [1];
+					break;
+				case "Grobble":
+					enemyFace.sprite = enemyFaces [2];
+					break;
+				}
+				rect.localScale = new Vector3 ((currentHP / maxHP), 1, 1);
+				enemyPanel.SetActive (true);
+				towerPanel.SetActive (false);
+			} else if (stats != null && WeaponController.weapon == 50) {
+				enemyPanel.SetActive (false);
+				towerPanel.SetActive (true);
+				GameObject tower = stats.transform.gameObject;
+
+				towerName.text = tower.name.Replace ("(Clone)", "");
+				attack.text = "Attack: " + stats.attack;
+				speed.text = "Speed: " + stats.speed;
+				if (towerName.text.Contains ("Ice")) {
+					special.text = "Slowing with: " + stats.specialDamage;
+					specialU.text = "↑" + resourceManager.iceSpecial;
+				} else {
+					special.text = "";
+					specialU.text = "";
+				}
+				sell.text = "Sell(+" + stats.sellCost + ")";
+				upgrade.text = "Upgrade(-" + stats.upgradeCost + ")";
+				attackU.text = "↑" + stats.attackUpgrade;
+				speedU.text = "↑" + stats.speedUpgrade;
+
+			} else if (hit.transform.name.Contains ("arricade") && WeaponController.weapon == 50) {
+				enemyPanel.SetActive (false);
+				towerPanel.SetActive (true);
+				GameObject tower = hit.transform.gameObject;
+				barricade bar = tower.GetComponent<barricade> ();
+				towerName.text = tower.name.Replace ("(Clone)", "");
+				attack.text = "Health: " + bar.health;
+				speed.text = "Maximu Health: " + bar.maxHealth;
+				speedU.text = "↑" + (resourceManager.barricadeHealth);
+				attackU.text = "↑" + (bar.maxHealth - bar.health);
+				special.text = "";
+				specialU.text = "";
+				sell.text = "Sell(+" + bar.totalCost/2 + ")";
+				if(bar.maxHealth!=bar.health)
+					upgrade.text = "Repair(-" + (bar.maxHealth-bar.health) + ")";
+				else
+					upgrade.text = "Upgrade(-" + bar.cost*bar.maxHealth/resourceManager.barricadeHealth + ")";
+			}
+			else {
+				enemyPanel.SetActive (false);
+				towerPanel.SetActive (false);
+			}       
+		}
+	}
 
     void UpdateWaveText() {
         int waveNo = waveSpawner.GetCurrentWave();
@@ -401,6 +539,66 @@ public class GUIScript : MonoBehaviour {
         }
     }
 
+    void UpdateShop() {
+        for(int i = 0; i < shopImageList.Length; i++) {
+            Image im = shopImageList[i];
+            Item it = inventory[i];
+            int tier = it.getTier();
+
+            switch(tier) {
+                case 1:
+                    im.sprite = tier2[i];
+                    break;
+                case 2:
+                    im.sprite = tier3[i];
+                    break;
+                case 3:
+                    im.sprite = tier4[i];
+                    break;
+                default:
+                    im.sprite = tier4[i];
+                    im.color = new Color(0.5f, 0.5f, 0.5f, 1);
+                    costTextList[i].text = "Max level";
+                    break;
+            }
+        }
+
+
+        for(int i = 0; i < shopTextList.Length; i++) {
+            Text tx = shopTextList[i];
+            if(inventory[i].getTier() < 4) {
+                tx.text = "+" + inventory[i].getValue()[inventory[i].getTier() - 1].ToString();
+            }
+            else {
+                tx.text = "MAX";
+                tx.color = Color.black;
+            }
+        }
+
+        for(int i = 0; i < costTextList.Length; i++) {
+            Text tx = costTextList[i];
+            if(inventory[i].getTier() < 4) {
+                tx.text = inventory[i].getCost()[inventory[i].getTier() - 1].ToString();
+            }
+            else {
+                tx.text = "MAX";
+                tx.color = Color.black;
+            }
+
+        }
+
+        for(int i = 0; i < shopButtonList.Length; i++) {
+            Button bt = shopButtonList[i];
+            if(inventory[i].getTier() < 4 && player.getGold() >= inventory[i].getCost()[inventory[i].getTier() - 1]) {
+                bt.interactable = true;
+            }
+            else {
+                bt.interactable = false;
+            }
+        }
+
+    }
+
     public void ButtonClick() {
         cameraAudioSource.PlayOneShot(click);
     }
@@ -420,7 +618,7 @@ public class GUIScript : MonoBehaviour {
                     towerSelectList[i].enabled = false;
                 }
             }
-            foreach(Image im in skillSelectList){
+            foreach(Image im in skillSelectList) {
                 im.enabled = false;
             }
         }
@@ -443,8 +641,6 @@ public class GUIScript : MonoBehaviour {
     }
 
     public void UpdateItems() {
-        List<Item> inventory = player.getItems();
-
         for(int i = 0; i < inventory.Count; i++) {
             Item item = inventory[i];
             Image image = itemIconList[i];
@@ -478,6 +674,7 @@ public class GUIScript : MonoBehaviour {
             Screen.showCursor = true;
             canvas.SetActive(true);
             pause = true;
+            paused = true;
             Time.timeScale = 0;
         }
         else {
@@ -488,6 +685,7 @@ public class GUIScript : MonoBehaviour {
     // Functions for the quit and resume buttons
     public void Resume() {
         pause = false;
+        paused = false;
         canvas.SetActive(false);
         Time.timeScale = 1;
         crosshair.SetActive(true);
@@ -500,6 +698,7 @@ public class GUIScript : MonoBehaviour {
     public void Quit() {
         pause = false;
         Time.timeScale = 1;
+        paused = false;
         Application.LoadLevel("Main Menu");
     }
 
@@ -524,6 +723,7 @@ public class GUIScript : MonoBehaviour {
             resultImage.sprite = resultSprites[0];
         }
         Time.timeScale = 0;
+        paused = true;
     }
 
     public GameObject getPopUpPanel() {
@@ -533,6 +733,72 @@ public class GUIScript : MonoBehaviour {
     public void HeadShot() {
         headshotImage.SetActive(true);
         Invoke("DisableHeadShot", 1.5f);
+    }
+
+    public void UpgradeSword() {
+        int currentTier = inventory[0].getTier();
+        int currentIndex = inventory[0].getTier() - 1;
+        inventory[0].setTier(currentTier + 1);
+        player.setItems(inventory);
+        playerController.addSwordDamage(inventory[0].getValue()[currentIndex]);
+        player.removeGold(inventory[0].getCost()[currentIndex]);
+        UpdateGold();
+        UpdateShop();
+        UpdateItems();
+        UpdateStats();
+    }
+
+    public void UpgradeWand() {
+        int currentTier = inventory[1].getTier();
+        int currentIndex = inventory[1].getTier() - 1;
+        inventory[1].setTier(inventory[1].getTier() + 1);
+        player.setItems(inventory);
+        playerController.addMagicDamage(inventory[1].getValue()[currentIndex]);
+        player.removeGold(inventory[1].getCost()[currentIndex]);
+        UpdateGold();
+        UpdateShop();
+        UpdateItems();
+        UpdateStats();
+    }
+
+    public void UpgradeShield() {
+        int currentTier = inventory[2].getTier();
+        int currentIndex = inventory[2].getTier() - 1;
+        inventory[2].setTier(inventory[2].getTier() + 1);
+        player.setItems(inventory);
+        playerHealth.addPlayerDefense(inventory[2].getValue()[currentIndex]);
+        player.removeGold(inventory[2].getCost()[currentIndex]);
+        UpdateGold();
+        UpdateShop();
+        UpdateItems();
+        UpdateStats();
+    }
+
+    public void UpgradeBoots() {
+        int currentTier = inventory[3].getTier();
+        int currentIndex = inventory[3].getTier() - 1;
+        inventory[3].setTier(inventory[3].getTier() + 1);
+        player.setItems(inventory);
+        playerController.addPlayerSpeed(inventory[3].getValue()[currentIndex]);
+        player.removeGold(inventory[3].getCost()[currentIndex]);
+        UpdateGold();
+        UpdateShop();
+        UpdateItems();
+        UpdateStats();
+    }
+
+    public void WaveCountdown(int time = 5) {
+        countdownPanel.SetActive(true);
+        StartCoroutine(ImageFlyIn(countSpriteList, time));
+    }
+
+    IEnumerator ImageFlyIn(Sprite[] spLst, int time) {
+        for(int i = 0; i <= time; i++) {
+            countNumber.sprite = spLst[time - i];
+            countAnimator.SetTrigger("Counting");      
+            yield return new WaitForSeconds(1f);
+        }
+        countdownPanel.SetActive(false);
     }
 
     void DisableHeadShot() {
