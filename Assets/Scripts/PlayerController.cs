@@ -94,10 +94,12 @@ public class PlayerController : MonoBehaviour
     public void addMagicDamage(int addDamage)
     {
         magicDamage += addDamage;
+        specialMagicDamage += 3 * addDamage;
     }
     public void addSwordDamage(int addDamage)
     {
         swordDamage += addDamage;
+        specialSwordDamage += 2 * addDamage;
     }
     public void addPlayerSpeed(int addSpeed)
     {
@@ -269,10 +271,12 @@ public class PlayerController : MonoBehaviour
 
             if (WeaponController.weapon == 2 && !coolDownSword2)
             {
+                SetAttackAnimationFalse();
+                idle = false;
                 attackingSword3 = true;
-                coolDownSword1 = true;
-                Invoke("SetAttackAnimationFalse", 2f);
-                Invoke("setCoolDownSword1false", coolDownSword1Time);
+                coolDownSword2 = true;
+                Invoke("SetAttackAnimationFalse", 1f);
+                Invoke("setCoolDownSword2false", coolDownSword2Time);
 
                 RaycastHit hit;
                 if (Physics.Raycast(transform.position + tijdelijk, transform.forward, out hit, 3f, enemyMask))
@@ -359,7 +363,7 @@ public class PlayerController : MonoBehaviour
 
     bool OtherAnimationTrue()
     {
-        return attackingSword1 || attackingSword2 || attackMagic1 || attackMagic2;
+        return attackingSword1 || attackingSword2 || attackMagic1 || attackMagic2 || attackingSword3;
     } 
     // Use this for initialization
     void Start()
