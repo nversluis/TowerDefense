@@ -121,6 +121,10 @@ public class LevelEditor : MonoBehaviour
 	private GameObject ResourceManagerObj;
 	private ResourceManager resourceManager;
 
+    bool ready;
+
+    public GameObject spacebar;
+
 	void Start ()
 	{
 		playing = false;
@@ -900,7 +904,13 @@ public class LevelEditor : MonoBehaviour
 	{
         NewMapScreenButtonCheck();
 
-        
+        if (ready && Input.GetKeyDown(KeyCode.Space))
+        {
+            LoadingScreen.SetActive(false);
+            Time.timeScale = 1;
+            Destroy(this.gameObject);
+
+        }
 	}
 
 
@@ -929,7 +939,11 @@ public class LevelEditor : MonoBehaviour
 		resourceManager.Nodes = Nodes;
 
         disableLevelEditor();
-        LoadingScreen.SetActive(false);
+
+        Time.timeScale = 0;
+        ready = true;
+        spacebar.SetActive(true);
+        LoadingScreen.GetComponentInChildren<Text>().gameObject.SetActive(false);
 
 	}
 
@@ -996,7 +1010,6 @@ public class LevelEditor : MonoBehaviour
 		cam.gameObject.SetActive (false);
 		Destroy (canvas);
         Destroy(GameObject.Find("EditorLight"));
-        Destroy(this.gameObject);
         
 	}
 
