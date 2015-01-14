@@ -113,8 +113,8 @@ MonoBehaviour:
   drawPath: 0
   automaticPathUpdating: 1
   currentWave: 1
-  maxWaves: 30
-  maxEnemies: 10
+  maxWaves: 20
+  maxEnemies: 20
   toenameAantalEnemiesPerWave: 5
   timeBetweenWaves: 5
   keepType: 0
