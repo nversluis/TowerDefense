@@ -422,6 +422,8 @@ public class RandomMaze : MonoBehaviour
 				}
 			}
 		}
+
+
 	//}
 
 	//Method to find all Nodes around a current node

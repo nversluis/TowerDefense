@@ -56,7 +56,7 @@ public class PlayerAnimator : MonoBehaviour {
             animator.SetBool("AttackingSword2", false);
         }
 
-        if (PlayerController.attackingSword2)
+        if (PlayerController.attackingSword3)
         {
             animator.SetBool("AttackingSword3", true);
         }

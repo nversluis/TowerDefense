@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-public class GwarfScript : MonoBehaviour
+public class GrobbleScript : MonoBehaviour
 {
     EnemyHealth enemyHealth;
     EnemyStats enemystats;
@@ -14,9 +14,12 @@ public class GwarfScript : MonoBehaviour
     GameObject player;
     GameObject goal;
     GameObject Target;
-	List<Vector3> barricades;
+    List<Vector3> barricades;
 
     GoalScript goalScript;
+
+    WayPoint collisionWayPointOld;
+    WayPoint collisionWayPoint;
 
     List<WayPoint> grid;
     List<WayPoint> WaypointsNearNow = new List<WayPoint>();
@@ -32,17 +35,23 @@ public class GwarfScript : MonoBehaviour
     float walkSpeed;
     float dfactor;
     float pathUpdateRate;
-    float penalty = 5f;
+    float penalty = 25;
     float speedReduce;
+
+    float goalImportance;
+    float playerImportance;
 
     int i = 0;
 
     bool drawPath;
     bool automaticPathUpdating;
 
+    bool justGaveInformation;
+
     public float isSlowed = 1;
 
-	GameObject curFloor;
+    GameObject curFloor;
+
     // Method for finding all necessary scripts
     void GetScripts()
     {
@@ -64,10 +73,16 @@ public class GwarfScript : MonoBehaviour
         grid = resourceManager.Nodes;
         nodeSize = resourceManager.nodeSize;
         drawPath = resourceManager.drawPath;
-        normalWalkSpeed = resourceManager.walkSpeed * enemystats.speedMultiplier;
+        normalWalkSpeed = resourceManager.walkSpeed * enemystats.speedMultiplier + 3;
         pathUpdateRate = resourceManager.pathUpdateRate;
         dfactor = enemystats.dfactor;
         automaticPathUpdating = resourceManager.automaticPathUpdating;
+        goalImportance = enemystats.goalImportance * 1.5f;
+        if (goalImportance > 1)
+        {
+            goalImportance = 1;
+        }
+        playerImportance = enemystats.playerImportance *0.7f;
 
 
     }
@@ -75,7 +90,18 @@ public class GwarfScript : MonoBehaviour
     // Method for determining the speed of the enemy
     void WalkSpeed()
     {
-		speedReduce = enemyResources.isSlowed;
+        speedReduce = enemyResources.isSlowed;
+        //        // if the enemy is slowed
+        //        if (enemyResources.isSlowed)
+        //        {
+        //            // reduce speed
+        //            speedReduce = resourceManager.speedReduceRate;
+        //        }
+        //        else
+        //        {
+        //            // else speed is is normal speed;
+        //            speedReduce = 1;
+        //        }
         walkSpeed = normalWalkSpeed / speedReduce;
     }
 
@@ -89,7 +115,6 @@ public class GwarfScript : MonoBehaviour
             // if the enemy is not near its goal
             if (i < Path.Count - 1)
             {
-
                 if (!enemyResources.isDead)
                 {
                     // the enemy is walking and not attacking
@@ -123,11 +148,10 @@ public class GwarfScript : MonoBehaviour
                 rigidbody.angularVelocity = Vector3.zero;
 
                 // rotate in the direction of where it is walking
-                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(Quaternion.LookRotation(dir.normalized).eulerAngles+new Vector3(0,270,0)), Time.deltaTime * 5f);
+                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(Quaternion.LookRotation(dir.normalized).eulerAngles + new Vector3(0, 90, 0)), Time.deltaTime * 5f);
 
                 // set rotations in other directions to zero
                 transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
-
 
             }
             else
@@ -160,39 +184,51 @@ public class GwarfScript : MonoBehaviour
 
             }
 
-            RaycastHit hit;
-            Physics.Raycast(transform.position,player.transform.position + new Vector3(0f,2f,0f)-transform.position,out hit);
-
             // if the player is near the enemy attack the player
-            if ((player.transform.position - transform.position).magnitude < 30f && Target.Equals(player) && hit.transform.name == "Player")
+            if ((player.transform.position - transform.position).magnitude < 3f)
             {
+
                 // set speed to zero and attack
                 rigidbody.velocity = Vector3.zero;
                 enemyResources.walking = false;
                 enemyResources.attacking = true;
             }
 
-			// if the enemy is near the trap attack the trap
-			foreach (Vector3 barricade in barricades) {
-				if ((barricade - transform.position).magnitude < 30f) {
-					// set speed to zero and attack
-					rigidbody.velocity = Vector3.zero;
-					enemyResources.walking = false;
-					enemyResources.attacking = true;
-				}
-			}
+
+            // if the enemy is near the barricade attack the barricade
+            bool attackingBar = false;
+            foreach (Vector3 barricade in barricades)
+            {
+                if (barricade != null && (barricade - transform.position).magnitude < 5f && !attackingBar)
+                {
+                    // set speed to zero and attack
+                    rigidbody.velocity = Vector3.zero;
+                    enemyResources.walking = false;
+                    enemyResources.attacking = true;
+                    attackingBar = true;
+                    foreach (GameObject tarBar in resourceManager.allBarricades)
+                    {
+                        if (tarBar.transform.position == barricade)
+                        {
+                            enemyResources.targetBarricade = tarBar;
+                        }
+                    }
+
+                }
+            }
+
             // when enemy is dead
             if (enemyResources.isDead)
             {
                 // set speed to zero
                 rigidbody.velocity = Vector3.zero;
-                enemyResources.walking = false;
                 enemyResources.attacking = false;
-				curFloor.GetComponent<FloorScript> ().hasEnemy = false;
+                curFloor.GetComponent<FloorScript>().hasEnemy = false;
+
             }
 
             // when enemy reaches the end
-            if ((goal.transform.position - transform.position).magnitude < 2f)
+            if ((goal.transform.position - transform.position).magnitude < 4f)
             {
                 // enemy has won
                 goalScript.removeLife();
@@ -209,7 +245,7 @@ public class GwarfScript : MonoBehaviour
     void DetermineTarget()
     {
         // checking whether player or goal is more interesting
-        if ((transform.position - player.transform.position).magnitude / enemystats.playerImportance < (transform.position - goal.transform.position).magnitude / enemystats.goalImportance)
+        if ((transform.position - player.transform.position).magnitude / playerImportance < (transform.position - goal.transform.position).magnitude / goalImportance)
         {
             Target = player;
         }
@@ -226,13 +262,15 @@ public class GwarfScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q) && !automaticPathUpdating)
         {
             List<WayPoint> WPPath = Navigator.Path(transform.position, PlayerController.location, nodeSize, grid);
-			if (WPPath != null) {
-				Path = new List<Vector3> ();
-				foreach (WayPoint wp in WPPath) {
-					Path.Add (wp.getPosition ());
-				}
-			}
-			i = 0;
+            if (WPPath != null)
+            {
+                Path = new List<Vector3>();
+                foreach (WayPoint wp in WPPath)
+                {
+                    Path.Add(wp.getPosition());
+                }
+            }
+            i = 0;
         }
 
         // When draw path is enabled draw the path with own dfactor
@@ -254,6 +292,28 @@ public class GwarfScript : MonoBehaviour
         }
     }
 
+    void DeadPosition()
+    {
+        if (enemyResources.isDead && !justGaveInformation)
+        {
+            float distance = 0;
+            Target = goal;
+            List<WayPoint> WPPath = Navigator.Path(transform.position - new Vector3(0f, transform.position.y, 0f), Target.transform.position - new Vector3(0f, Target.transform.position.y, 0f), nodeSize, grid, dfactor);
+            Path = new List<Vector3>();
+            foreach (WayPoint wp in WPPath)
+            {
+                Path.Add(wp.getPosition());
+            }
+            for (int i = 0; i < Path.Count - 1; i++)
+            {
+                distance = distance + Vector3.Distance(Path[i], Path[i + 1]);
+            }
+
+            enemyResources.dieDistance = distance;
+            justGaveInformation = true;
+        }
+    }
+
     // Use this for initialization
     void Start()
     {
@@ -271,13 +331,13 @@ public class GwarfScript : MonoBehaviour
             Target = goal;
             BuildPath();
         }
-		enemyResources.isSlowed=1;
+        enemyResources.isSlowed = 1;
     }
 
     //Update is called once per frame
     void FixedUpdate()
     {
-		checkFloor ();
+        checkFloor();
 
         // Determine the walk speed of the enemy
         WalkSpeed();
@@ -298,29 +358,36 @@ public class GwarfScript : MonoBehaviour
         // When enemy is not dead
         if (!enemyResources.isDead)
         {
+
             // determine a path to a goal
             List<WayPoint> WPPath = Navigator.Path(transform.position - new Vector3(0f, transform.position.y, 0f), Target.transform.position - new Vector3(0f, Target.transform.position.y, 0f), nodeSize, grid, dfactor);
-			barricades = new List<Vector3>();
-			if (WPPath != null) {
-				Path = new List<Vector3> ();
-				foreach (WayPoint wp in WPPath) {
-					Path.Add (wp.getPosition ());
-					if (wp.getBarCount () > 0) {
-						barricades.Add(wp.getBarricade ());
-					}
-				}
-			}
-			// if drawPath is enabled also calculate a second path without dfactor
+            barricades = new List<Vector3>();
+            if (WPPath != null)
+            {
+                Path = new List<Vector3>();
+                foreach (WayPoint wp in WPPath)
+                {
+                    Path.Add(wp.getPosition());
+                    if (wp.getBarCount() > 0)
+                    {
+                        barricades.Add(wp.getBarricade());
+                    }
+
+                }
+            }
+            // if drawPath is enabled also calculate a second path without dfactor
             if (drawPath)
             {
                 List<WayPoint> WPPath2 = Navigator.Path(transform.position - new Vector3(0f, transform.position.y, 0f), Target.transform.position - new Vector3(0f, Target.transform.position.y, 0f), nodeSize, grid);
-				if (WPPath2 != null) {
-					Path2 = new List<Vector3> ();
-					foreach (WayPoint wp in WPPath2) {
-						Path2.Add (wp.getPosition ());
-					}
-				}
-			}
+                if (WPPath2 != null)
+                {
+                    Path2 = new List<Vector3>();
+                    foreach (WayPoint wp in WPPath2)
+                    {
+                        Path2.Add(wp.getPosition());
+                    }
+                }
+            }
 
             // set i back to 0;
             i = 0;
@@ -328,15 +395,17 @@ public class GwarfScript : MonoBehaviour
             // for each waypoint from previous update set the penalty back to original
             foreach (WayPoint waypoint in WaypointsNearOld)
             {
-				try{
-                waypoint.setPenalty(waypoint.getPenalty() - penalty);
+                try
+                {
+                    waypoint.setPenalty(waypoint.getPenalty() - penalty);
 
-                // if penalty is lower than 0 set it to 0
-                if (waypoint.getPenalty() < 0)
-                    waypoint.setPenalty(0);
-				}
-				catch {
-				}
+                    // if penalty is lower than 0 set it to 0
+                    if (waypoint.getPenalty() < 0)
+                        waypoint.setPenalty(0);
+                }
+                catch
+                {
+                }
             }
 
             // Find waypoints that are close
@@ -345,12 +414,13 @@ public class GwarfScript : MonoBehaviour
             // for each waypoint it is close to now set a penalty
             foreach (WayPoint waypoint in WaypointsNearNow)
             {
-				try {
-                waypoint.setPenalty(waypoint.getPenalty() + penalty);
-				}
-				catch {
-
-				}
+                try
+                {
+                    waypoint.setPenalty(waypoint.getPenalty() + penalty);
+                }
+                catch
+                {
+                }
             }
 
             // set new waypoints to old for next update
@@ -358,22 +428,27 @@ public class GwarfScript : MonoBehaviour
         }
     }
 
-	void checkFloor(){
-		RaycastHit hit;
-		GameObject res = curFloor;
-		//Ray ray = new Ray(transform.position, -Vector3.up, out hit);
-		if (Physics.Raycast (transform.position, -Vector3.up, out hit)) {
-			if (hit.transform.name.Contains ("loor")) {
-				curFloor = hit.transform.gameObject;
-				if (res != null && res != curFloor) {
-					res.GetComponent<FloorScript> ().hasEnemy = false;
-					if(curFloor.transform.childCount==2)
-					WallScript.DestroyHotSpots ();
-				}
-				FloorScript floor = hit.transform.GetComponent<FloorScript> ();
-				floor.hasEnemy = true;
-			}
-		}
-	}
+    void checkFloor()
+    {
+        RaycastHit hit;
+        GameObject res = curFloor;
+        //Ray ray = new Ray(transform.position, -Vector3.up, out hit);
+        if (Physics.Raycast(transform.position, -Vector3.up, out hit))
+        {
+            if (hit.transform.name.Contains("loor"))
+            {
+                curFloor = hit.transform.gameObject;
+                if (res != null && res != curFloor)
+                {
+                    res.GetComponent<FloorScript>().hasEnemy = false;
+                    if (curFloor.transform.childCount == 2)
+                        WallScript.DestroyHotSpots();
+                }
+                FloorScript floor = hit.transform.GetComponent<FloorScript>();
+                floor.hasEnemy = true;
+            }
+        }
+    }
+
 
 }
