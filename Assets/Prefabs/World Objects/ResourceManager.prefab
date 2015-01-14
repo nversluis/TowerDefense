@@ -124,7 +124,7 @@ MonoBehaviour:
   toenameTotalStatPointsPerWave: 30
   startSpawnTime: .5
   currentSpawnTime: 0
-  AfnameSpawnTimeFactor: .899999976
+  AfnameSpawnTimeFactor: .99000001
   maxTowerDistance: 15
   magicTower: {fileID: 100010, guid: 00820a827834982408befc67f6611fe1, type: 2}
   magicTowerBullet: {fileID: 100000, guid: 992585f8d90a7dd4aa9fb58097ade3cd, type: 2}
