@@ -56,7 +56,7 @@ public class GUIScript : MonoBehaviour {
 
     [Header("Pause menu canvas")]
     public GameObject canvas;
-    private bool pause;
+    private bool pauseMenu;
 
     [Header("Result screen canvas")]
     public GameObject result;
@@ -124,6 +124,8 @@ public class GUIScript : MonoBehaviour {
     public Text[] shopTextList = new Text[4];
     public Button[] shopButtonList = new Button[4];
     public Text[] costTextList = new Text[4];
+
+    private bool pauseShop;
 
     [Header("Wave Countdown")]
     public GameObject countdownPanel;
@@ -227,7 +229,7 @@ public class GUIScript : MonoBehaviour {
 
         // Pause menu
         canvas.SetActive(false);
-        pause = false;
+        pauseMenu = false;
 
         // Result menu
         result.SetActive(false);
@@ -259,6 +261,7 @@ public class GUIScript : MonoBehaviour {
 
         // Shop
         shopPanel.SetActive(false);
+        pauseShop = false;
 
         for(int i = 0; i < shopImageList.Length; i++) {
             Image im = shopImageList[i];
@@ -307,7 +310,7 @@ public class GUIScript : MonoBehaviour {
 
     void Update() {
         // Pause menu behaviour
-        if(Input.GetKeyDown(KeyCode.Escape)) {
+        if(pauseShop == false && Input.GetKeyDown(KeyCode.Escape)) {
             PauseGame();
         }
 
@@ -322,10 +325,11 @@ public class GUIScript : MonoBehaviour {
         }
 
         if(Input.GetKeyDown(KeyCode.Tab)) {
+            skillset[0].startCooldown();
             player.setTowerSelected(!player.getTowerSelected());
         }
 
-        if(Input.GetKeyDown(KeyCode.Backslash)) {
+        if(pauseMenu == false && Input.GetKeyDown(KeyCode.E)) {
             shopPanel.SetActive(!shopPanel.activeSelf);
             crosshair.SetActive(!crosshair.activeSelf);
             playerScript.enabled = !playerScript.enabled;
@@ -335,11 +339,14 @@ public class GUIScript : MonoBehaviour {
             if(Time.timeScale == 0) {
                 Time.timeScale = 1; ;
                 paused = false;
+                pauseShop = false;
             }
             else {
                 paused = true;
+                pauseShop = true;
                 Time.timeScale = 0;
             }
+
         }
 
         scoreText.text = Statistics.Score().ToString();
@@ -365,12 +372,14 @@ public class GUIScript : MonoBehaviour {
         List<Skill> skillset = player.getSkills();
         for(int i = 0; i < skillset.Count; i++) {
             Image icon = skillIconList[i];
-            Text text = skillTextList[i];
+            Text text = skillCooldownList[i];
             Skill skill = skillset[i];
+            skill.UpdateCooldown();
             float cdPercentage = skill.getCdPercent();
             float cooldownTime = skill.getCdTime();
 
-            float timeRemaining = cdPercentage * cooldownTime / 100;
+
+            float timeRemaining = cdPercentage * cooldownTime;
             if(timeRemaining < 1) {
                 if(timeRemaining == 0) {
                     text.enabled = false;
@@ -384,7 +393,7 @@ public class GUIScript : MonoBehaviour {
                 text.text = Mathf.RoundToInt(timeRemaining).ToString();
                 text.enabled = true;
             }
-            icon.fillAmount = cdPercentage / 100f;
+            icon.fillAmount = cdPercentage;
         }
     }
 
@@ -666,15 +675,15 @@ public class GUIScript : MonoBehaviour {
     }
 
     public void PauseGame() {
-        if(pause == false) {
+        if(pauseMenu == false) {
             crosshair.SetActive(false);
             playerScript.enabled = false;
             cameraScript.enabled = false;
             Screen.lockCursor = false;
             Screen.showCursor = true;
             canvas.SetActive(true);
-            pause = true;
             paused = true;
+            pauseMenu = true;
             Time.timeScale = 0;
         }
         else {
@@ -684,8 +693,8 @@ public class GUIScript : MonoBehaviour {
 
     // Functions for the quit and resume buttons
     public void Resume() {
-        pause = false;
         paused = false;
+        pauseMenu = false;
         canvas.SetActive(false);
         Time.timeScale = 1;
         crosshair.SetActive(true);
@@ -696,7 +705,6 @@ public class GUIScript : MonoBehaviour {
     }
 
     public void Quit() {
-        pause = false;
         Time.timeScale = 1;
         paused = false;
         Application.LoadLevel("Main Menu");
