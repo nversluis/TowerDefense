@@ -4792,12 +4792,21 @@ MonoBehaviour:
   HP: {fileID: 11425448}
   enemyText: {fileID: 11425472}
   enemyPanel: {fileID: 125502}
+  towerPanel: {fileID: 0}
+  attack: {fileID: 0}
+  speed: {fileID: 0}
+  special: {fileID: 0}
+  sell: {fileID: 0}
+  upgrade: {fileID: 0}
+  attackU: {fileID: 0}
+  speedU: {fileID: 0}
+  specialU: {fileID: 0}
   waveText: {fileID: 11425244}
   frontGateHP: {fileID: 11425358}
   rearGateHP: {fileID: 11425314}
   HPSprites:
   - {fileID: 21300000, guid: bceca475c1d219844aecd51b6244d34c, type: 3}
-  - {fileID: 21300000, guid: eea42e280309547ffb85d53da0ad2044, type: 3}
+  - {fileID: 0}
   - {fileID: 21300000, guid: 03466d760feae4da0aabbbb1dc79af85, type: 3}
   firstWaveText: {fileID: 11425462}
   headshotImage: {fileID: 125278}

@@ -83,7 +83,7 @@ public class PlayerAnimator : MonoBehaviour {
 
         else
         {
-            animator.SetBool("AttackingMagic2", false);
+            //animator.SetBool("AttackingMagic2", false);
         }
     }
 }
