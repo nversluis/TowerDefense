@@ -183,7 +183,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator HitEnemy(RaycastHit hit)
     {
         yield return new WaitForSeconds(0.2f);
-        hit.transform.gameObject.GetComponent<EnemyHealth>().TakeDamage(specialSwordDamage, "physical", true);
+        hit.transform.gameObject.GetComponent<EnemyHealth>().TakeDamage(swordDamage, "physical", true);
         GameObject particles = (GameObject)Instantiate(hitParticles, hit.transform.position, Quaternion.identity);
         particles.transform.localScale = new Vector3(3, 3, 3);
         StartCoroutine(DestroyParticles(particles));

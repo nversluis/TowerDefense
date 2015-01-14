@@ -290,9 +290,9 @@ MonoBehaviour:
   tow3Input: 51
   tow4Input: 52
   tow5Input: 53
-  tow6Input: 54
-  tow7Input: 55
-  upgradeMenuInput: 56
+  tow6Input: 55
+  tow7Input: 54
+  upgradeMenuInput: 55
   upgradeInput: 323
   sellInput: 324
 --- !u!1001 &160553878
@@ -2537,6 +2537,22 @@ Prefab:
       propertyPath: magicBulletSound
       value: 
       objectReference: {fileID: 8300000, guid: b87f856579306f4479099fc0301b292f, type: 3}
+    - target: {fileID: 11471860, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: tow6Input
+      value: 55
+      objectReference: {fileID: 0}
+    - target: {fileID: 11471860, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: tow5Input
+      value: 53
+      objectReference: {fileID: 0}
+    - target: {fileID: 11471860, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: upgradeMenuInput
+      value: 55
+      objectReference: {fileID: 0}
+    - target: {fileID: 11471860, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: tow7Input
+      value: 54
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
   m_RootGameObject: {fileID: 1573082610}
