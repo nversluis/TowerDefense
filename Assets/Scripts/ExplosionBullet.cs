@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class ExplosionBullet : MonoBehaviour
 {
-    private int damagePerShot = 20000;
+    private int damagePerShot;
     Transform Player;
     Vector3 PrevItLoc;
     public static float maxBulletDistance = 200;
@@ -51,8 +51,10 @@ public class ExplosionBullet : MonoBehaviour
     {
 
         Player = GameObject.Find("Player").transform;
+        damagePerShot = Player.GetComponent<PlayerController>().specialMagicDamage;
         PrevItLoc = transform.position;
         Explosion = GameObject.Find("ResourceManager").GetComponent<ResourceManager>().Explosion;
+
 
     }
 

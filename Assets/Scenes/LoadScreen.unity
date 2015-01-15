@@ -290,7 +290,7 @@ MonoBehaviour:
   tow3Input: 51
   tow4Input: 52
   tow5Input: 53
-  tow6Input: 55
+  tow6Input: 57
   tow7Input: 54
   upgradeMenuInput: 55
   upgradeInput: 323
@@ -2168,14 +2168,14 @@ MonoBehaviour:
   height: 3
   nodeSize: 2.5
   NumberOfPaths: 3
-  drawNavigationGrid: 1
+  drawNavigationGrid: 0
   enemyTag: Enemy
   enemyGuyant: {fileID: 100052, guid: 6a25f25271f527644ab0b18b0e7c536e, type: 2}
   enemyGwarf: {fileID: 188948, guid: 37f21c745b6e3ff43942e88e21aba537, type: 2}
   enemyGrobble: {fileID: 142686, guid: 3e58d9d15ddcc37499fb1d10726fb518, type: 2}
   walkSpeed: 5
   pathUpdateRate: .5
-  drawPath: 0
+  drawPath: 1
   automaticPathUpdating: 1
   currentWave: 1
   maxWaves: 20
@@ -2622,7 +2622,7 @@ Prefab:
       objectReference: {fileID: 8300000, guid: b87f856579306f4479099fc0301b292f, type: 3}
     - target: {fileID: 11471860, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
       propertyPath: tow6Input
-      value: 55
+      value: 57
       objectReference: {fileID: 0}
     - target: {fileID: 11471860, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
       propertyPath: tow5Input
@@ -2635,6 +2635,18 @@ Prefab:
     - target: {fileID: 11471860, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
       propertyPath: tow7Input
       value: 54
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: automaticPathUpdating
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: drawPath
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: drawNavigationGrid
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}

@@ -9,7 +9,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 433172}
   - 33: {fileID: 3333172}
-  - 135: {fileID: 13533172}
   - 23: {fileID: 2333172}
   m_Layer: 9
   m_Name: Sphere
@@ -831,18 +830,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2615b3fa81322314db608486d14e2b6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!135 &13533172
-SphereCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 133172}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: .5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &13650354
 CapsuleCollider:
   m_ObjectHideFlags: 1
