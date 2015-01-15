@@ -91,6 +91,7 @@ public class RandomMaze : MonoBehaviour
 		NodesPos = new List<Vector3> ();
 		Nodes = new List<WayPoint> ();
         LoadingScreen.SetActive(true);
+        Screen.showCursor = false;
 
         cameraAudioSource.PlayOneShot(startGame, 5f);
 
