@@ -46,7 +46,7 @@ public class PlayerData {
         agilityStat = 10;
         selectedTower = 0;
         selectedSkill = 0;
-        towerSelected = true;
+        towerSelected = false;
         skillset = new List<Skill>();
         inventory = new List<Item>();
 

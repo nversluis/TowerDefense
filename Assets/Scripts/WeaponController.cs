@@ -48,9 +48,12 @@ public class WeaponController : MonoBehaviour
 		FloorTower3 = resourceManager.iceTrapHotspot;
 		FloorTower4 = resourceManager.spearTrapHotspot;
 		barricade = resourceManager.barricade;
-		curTower = Tower1;
-		curFloorTower = null;
-		weapon = 25;
+        weapSelected = true;
+        curTower = null;
+        curFloorTower = null;
+        weapon = 1;
+        player.setSkill(0);
+        WallScript.DestroyHotSpots();
 		trapGridSize = 1;
 	}
 
