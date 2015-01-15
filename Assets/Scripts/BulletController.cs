@@ -29,11 +29,12 @@ public class BulletController : MonoBehaviour
             }
             if (enemyHealth != null)
             {
-                enemyHealth.TakeDamage(damagePerShot, "magic", true);            
 	            if (hit.collider.Equals(hit.collider.GetComponent<BoxCollider>()))
 	            {
 	                enemyHealth.HeadShot();
 	            }
+                enemyHealth.TakeDamage(damagePerShot, "magic", true);            
+
 			}
         }
         PrevItLoc = transform.position;

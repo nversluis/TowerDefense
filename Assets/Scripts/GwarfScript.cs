@@ -188,7 +188,15 @@ public class GwarfScript : MonoBehaviour
                 rigidbody.velocity = Vector3.zero;
                 enemyResources.walking = false;
                 enemyResources.attacking = false;
-				curFloor.GetComponent<FloorScript> ().hasEnemy = false;
+
+                try
+                {
+                    curFloor.GetComponent<FloorScript>().hasEnemy = false;
+                }
+                catch
+                {
+                    Debug.Log("buiten de gate gekilled");
+                }
             }
 
             // when enemy reaches the end
