@@ -37,7 +37,7 @@ public class WaveSpawner : MonoBehaviour
     //float orcHeigthSpawn = 3.27f;
     private PlayerData playerData = GUIScript.player;
 
-    bool Won;
+    bool Won = false;
     private bool gameHasStarted = false;
     public bool allEnemiesSpawned = false;
     public bool allEnemiesDead = false;
@@ -60,6 +60,8 @@ public class WaveSpawner : MonoBehaviour
     List<float> currentGenType;
     List<float> nextGenType;
     EnemyStats enemyStats;
+
+    Statistics statistics;
 
     Text waveText;
     // Use this for initialization
@@ -205,7 +207,6 @@ public class WaveSpawner : MonoBehaviour
                     resourceManager.totalStatPoints = currentTotalStatPoints;
                     //currentTotalStatPoints += delta;
                     spawnTime = resourceManager.startSpawnTime * Mathf.Pow(resourceManager.AfnameSpawnTimeFactor, (currentWave - 1));
-                    Debug.Log(spawnTime);
                     resourceManager.currentSpawnTime = spawnTime;
                     // Wave countdown mag weer plaatsvinden
                     counting = true;
@@ -224,6 +225,12 @@ public class WaveSpawner : MonoBehaviour
         {
             guiScript.resultScoreText.text = Statistics.Score().ToString();
             guiScript.EndGame("You Won!");
+            ScoreServer.sendScoreToServer();
+
+
+            //new ScoreServer().sendScoreToServer(); // send score speler
+            Won = false; 
+
         }
     }
 
