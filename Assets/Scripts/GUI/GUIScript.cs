@@ -135,6 +135,9 @@ public class GUIScript : MonoBehaviour {
 
     private Animator countAnimator;
 
+    [Header("Score Submit")]
+    public InputField nameInput;
+
     [Header("Click sound")]
     public AudioClip click;
 
@@ -758,6 +761,13 @@ public class GUIScript : MonoBehaviour {
     }
 
     public void Quit() {
+        Time.timeScale = 1;
+        paused = false;
+        Application.LoadLevel("Main Menu");
+    }
+
+    public void QuitAfterEnd() {
+        ScoreServer.sendScoreToServer(/*nameInput.text*/);
         Time.timeScale = 1;
         paused = false;
         Application.LoadLevel("Main Menu");
