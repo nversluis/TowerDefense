@@ -795,6 +795,8 @@ public class GUIScript : MonoBehaviour {
         }
         Time.timeScale = 0;
         paused = true;
+        pauseMenu = true;
+        pauseShop = true;
     }
 
     public GameObject getPopUpPanel() {
