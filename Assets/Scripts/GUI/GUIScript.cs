@@ -767,7 +767,7 @@ public class GUIScript : MonoBehaviour {
     }
 
     public void QuitAfterEnd() {
-        ScoreServer.sendScoreToServer(/*nameInput.text*/);
+        ScoreServer.sendScoreToServer(nameInput.text);
         Time.timeScale = 1;
         paused = false;
         Application.LoadLevel("Main Menu");
