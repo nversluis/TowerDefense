@@ -9,10 +9,10 @@ GameObject:
   m_Component:
   - 4: {fileID: 474878}
   - 33: {fileID: 3374884}
-  - 135: {fileID: 13574884}
   - 23: {fileID: 2374884}
   - 114: {fileID: 11409186}
   - 54: {fileID: 5447342}
+  - 135: {fileID: 13574884}
   m_Layer: 2
   m_Name: SpecialMagic
   m_TagString: Untagged
@@ -332,8 +332,8 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: .0500000007
-  m_UseGravity: 1
+  m_AngularDrag: 0
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -351,7 +351,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
 --- !u!135 &13574884
 SphereCollider:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 174878}
