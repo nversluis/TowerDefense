@@ -122,6 +122,7 @@ public class GUIScript : MonoBehaviour {
     public GameObject shopPanel;
     public Image[] shopImageList = new Image[4];
     public Text[] shopTextList = new Text[4];
+    public Text[] shopCurrentList = new Text[4];
     public Button[] shopButtonList = new Button[4];
     public Text[] costTextList = new Text[4];
 
@@ -192,8 +193,6 @@ public class GUIScript : MonoBehaviour {
         /* Initialize */
 
         // Player Data
-        skillset = player.getSkills();
-        inventory = player.getItems();
         player.setGold(resourceManager.startGold);
         player.setAttack(resourceManager.startSwordDamage);
         player.setMagic(resourceManager.startMagicDamage);
@@ -202,8 +201,20 @@ public class GUIScript : MonoBehaviour {
         player.setTower(0);
         player.setSkill(0);
         player.setTowerSelected(false);
+        List<Item> newItems = new List<Item>();
+        // Sword
+        newItems.Add(new Item(1, new float[3] { 500f, 1000f, 3000f }, new int[3] { (int)(0.5 * player.getAttack()), (int)(1 * player.getAttack()), (int)(2 * player.getAttack()) }));
+        // Wand
+        newItems.Add(new Item(1, new float[3] { 500f, 1000f, 3000f }, new int[3] { (int)(0.5 * player.getMagic()), (int)(1 * player.getMagic()), (int)(2 * player.getMagic()) }));
+        // Shield
+        newItems.Add(new Item(1, new float[3] { 500f, 1000f, 3000f }, new int[3] { (int)(0.5 * player.getArmor()), (int)(1 * player.getArmor()), (int)(2 * player.getArmor()) }));
+        // Boots
+        newItems.Add(new Item(1, new float[3] { 300f, 750f, 2000f }, new int[3] { (int)(0.1 * player.getAgility()), (int)(0.3 * player.getAgility()), (int)(0.5 * player.getAgility()) }));
+        player.setItems(newItems);
 
-
+        skillset = player.getSkills();
+        inventory = player.getItems();
+    
         // Skills 
         foreach(Image im in skillIconList) {
             im.fillClockwise = false;
@@ -279,10 +290,29 @@ public class GUIScript : MonoBehaviour {
             tx.text = "+" + inventory[i].getValue().ToString();
         }
 
-        for(int i = 0; i < costTextList.Length; i++) {
-            Text tx = costTextList[i];
-            tx.text = inventory[i].getCost().ToString();
+        for(int i = 0; i < shopCurrentList.Length; i++) {
+            Text tx = shopCurrentList[i];
+            switch(i){
+                case 0:
+                    //tx.text = playerController.getAtkStat().ToString();
+                    break;
+                case 1:
+                    //tx.text = playerController.getMagStat().ToString();
+                    break;
+                case 2:
+                    //tx.text = playerHealth.getDefStat().ToString();
+                    break;
+                case 3:
+                    //tx.text = playerController.getAgiStat().ToString();
+                    break;
+
+            }
         }
+
+            for(int i = 0; i < costTextList.Length; i++) {
+                Text tx = costTextList[i];
+                tx.text = inventory[i].getCost().ToString();
+            }
 
         // Countdown
         countdownPanel.SetActive(false);
@@ -598,7 +628,6 @@ public class GUIScript : MonoBehaviour {
                 tx.text = "MAX";
                 tx.color = Color.black;
             }
-
         }
 
         for(int i = 0; i < shopButtonList.Length; i++) {
@@ -608,6 +637,25 @@ public class GUIScript : MonoBehaviour {
             }
             else {
                 bt.interactable = false;
+            }
+        }
+
+        for(int i = 0; i < shopCurrentList.Length; i++) {
+            Text tx = shopCurrentList[i];
+            switch(i) {
+                case 0:
+                    //tx.text = playerController.getAtkStat().ToString();
+                    break;
+                case 1:
+                    //tx.text = playerController.getMagStat().ToString();
+                    break;
+                case 2:
+                    //tx.text = playerHealth.getDefStat().ToString();
+                    break;
+                case 3:
+                    //tx.text = playerController.getAgiStat().ToString();
+                    break;
+
             }
         }
 
