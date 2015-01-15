@@ -135,6 +135,9 @@ public class GUIScript : MonoBehaviour {
 
     private Animator countAnimator;
 
+    [Header("Score Submit")]
+    public InputField nameInput;
+
     [Header("Click sound")]
     public AudioClip click;
 
@@ -294,16 +297,16 @@ public class GUIScript : MonoBehaviour {
             Text tx = shopCurrentList[i];
             switch(i){
                 case 0:
-                    //tx.text = playerController.getAtkStat().ToString();
+                    tx.text = playerController.getAtkStat().ToString();
                     break;
                 case 1:
-                    //tx.text = playerController.getMagStat().ToString();
+                    tx.text = playerController.getMagStat().ToString();
                     break;
                 case 2:
-                    //tx.text = playerHealth.getDefStat().ToString();
+                    tx.text = playerHealth.getDefStat().ToString();
                     break;
                 case 3:
-                    //tx.text = playerController.getAgiStat().ToString();
+                    tx.text = playerController.getAgiStat().ToString();
                     break;
 
             }
@@ -615,7 +618,7 @@ public class GUIScript : MonoBehaviour {
             }
             else {
                 tx.text = "MAX";
-                tx.color = Color.black;
+                tx.color = Color.blue;
             }
         }
 
@@ -626,7 +629,7 @@ public class GUIScript : MonoBehaviour {
             }
             else {
                 tx.text = "MAX";
-                tx.color = Color.black;
+                tx.color = Color.blue;
             }
         }
 
@@ -644,16 +647,16 @@ public class GUIScript : MonoBehaviour {
             Text tx = shopCurrentList[i];
             switch(i) {
                 case 0:
-                    //tx.text = playerController.getAtkStat().ToString();
+                    tx.text = playerController.getAtkStat().ToString();
                     break;
                 case 1:
-                    //tx.text = playerController.getMagStat().ToString();
+                    tx.text = playerController.getMagStat().ToString();
                     break;
                 case 2:
-                    //tx.text = playerHealth.getDefStat().ToString();
+                    tx.text = playerHealth.getDefStat().ToString();
                     break;
                 case 3:
-                    //tx.text = playerController.getAgiStat().ToString();
+                    tx.text = playerController.getAgiStat().ToString();
                     break;
 
             }
@@ -763,6 +766,13 @@ public class GUIScript : MonoBehaviour {
         Application.LoadLevel("Main Menu");
     }
 
+    public void QuitAfterEnd() {
+        ScoreServer.sendScoreToServer(nameInput.text);
+        Time.timeScale = 1;
+        paused = false;
+        Application.LoadLevel("Main Menu");
+    }
+
     public void EndGame(string reason = "none") {
         result.SetActive(true);
         resultScoreText.text = player.getScore().ToString();
@@ -785,6 +795,8 @@ public class GUIScript : MonoBehaviour {
         }
         Time.timeScale = 0;
         paused = true;
+        pauseMenu = true;
+        pauseShop = true;
     }
 
     public GameObject getPopUpPanel() {
