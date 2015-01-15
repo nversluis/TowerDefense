@@ -4,9 +4,11 @@ using UnityEngine.UI;
 
 public class GoalScript : MonoBehaviour {
 
-	private float health;
-	private float maxHealth;
+	public float health;
+	public float maxHealth;
     private bool Lost;
+	private GameObject ResourceManagerObj;
+	private ResourceManager resourceManager;
 
     GameObject gui;
     GUIScript guiScript;
@@ -16,7 +18,10 @@ public class GoalScript : MonoBehaviour {
       //  livesText = GameObject.Find("NumOfLives").GetComponent<Text>(); ;
         //gui = GameObject.Find("GUIMain");
         //guiScript = gui.GetComponent<GUIScript>();
-		health = 5000;
+
+		ResourceManagerObj = GameObject.Find ("ResourceManager");
+		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
+		health = resourceManager.gateHealth;
 		maxHealth = health;
 	}
 	

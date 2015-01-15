@@ -47,6 +47,7 @@ public class GwarfScript : MonoBehaviour
 
 	private Vector3 curTarget;
 	public bool attackingGoal;
+	public bool attackingBar;
 
 	GameObject curFloor;
 	// Method for finding all necessary scripts
@@ -163,12 +164,6 @@ public class GwarfScript : MonoBehaviour
 			Debug.DrawRay (transform.position, goalLoc - transform.position);
 			if ((goalLoc - transform.position).magnitude < 30f && goalHit.transform.name == "Goal") {
 
-//					Debug.Log (hit.transform.name);
-//					if(hit.transform.renderer.material.color == new Color (0, 255, 0, 1))
-//						hit.transform.renderer.material.color = new Color (255, 0, 0, 1);
-//					else
-//						hit.transform.renderer.material.color = new Color (0, 255, 0, 1);
-
 				// set speed to zero and attack
 				enemyResources.walking = false;
 				enemyResources.attacking = true;
@@ -178,6 +173,7 @@ public class GwarfScript : MonoBehaviour
 				if (!attackingGoal) {
 					curTarget = goalLoc;
 					attackingGoal = true;
+					attackingBar = false;
 					InvokeRepeating ("Shoot", timeBetweenAttacks / 1.5f, timeBetweenAttacks);
 
 				}
@@ -185,6 +181,7 @@ public class GwarfScript : MonoBehaviour
 			} else if ((player.transform.position - transform.position).magnitude < 30f && Target.Equals (player) && hit.transform.name == "Player") { // if the player is near the enemy attack the player
 				CancelInvoke ("Shoot");
 				attackingGoal = false;
+				attackingBar = false;
 				transform.LookAt(new Vector3(player.transform.position.x,transform.position.y,player.transform.position.z));
 				transform.Rotate (0, -90, 0);
 				// set speed to zero and attack
@@ -192,21 +189,34 @@ public class GwarfScript : MonoBehaviour
 				enemyResources.walking = false;
 				enemyResources.attacking = true;
 			} else {
-				CancelInvoke ("Shoot");
-				//attacking = false;
-				enemyResources.attacking = false;
-			}
-			
-
-			// if the enemy is near the trap attack the trap
-			foreach (Vector3 barricade in barricades) {
-				if ((barricade - transform.position).magnitude < 30f) {
-					// set speed to zero and attack
-					rigidbody.velocity = Vector3.zero;
-					enemyResources.walking = false;
-					enemyResources.attacking = true;
+				foreach (Vector3 barricade in barricades) {
+					if ((barricade - transform.position).magnitude < 30f) {
+						Physics.Raycast (transform.position, barricade - transform.position, out hit);
+						if (hit.transform.position == barricade) {
+							// set speed to zero and attack
+							rigidbody.velocity = Vector3.zero;
+							enemyResources.walking = false;
+							enemyResources.attacking = true;
+							transform.LookAt(new Vector3(goalLoc.x,transform.position.y,goalLoc.z));
+							transform.Rotate (0, -90, 0);
+							if (!attackingBar) {
+								curTarget = barricade;
+								attackingBar = true;
+								InvokeRepeating ("Shoot", timeBetweenAttacks / 1.5f, timeBetweenAttacks);
+							}
+							break;
+						}
+					}
+				}
+				if (!attackingBar) {
+					CancelInvoke ("Shoot");
+					attackingGoal = false;
+					attackingBar = false;
 				}
 			}
+
+
+
 			// when enemy is dead
 			if (enemyResources.isDead) {
 				// set speed to zero

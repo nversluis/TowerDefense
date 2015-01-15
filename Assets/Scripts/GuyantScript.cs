@@ -163,6 +163,17 @@ public class GuyantScript : MonoBehaviour
 
 			}
 
+
+
+			//if enemy is near the gate, attack the gate
+			if ((new Vector3 (goal.transform.position.x, transform.position.y, goal.transform.position.z) - transform.position).magnitude < 4f) {
+				// set speed to zero and attack
+				rigidbody.velocity = Vector3.zero;
+				enemyResources.walking = false;
+				enemyResources.attacking = true;
+			}
+
+
 			// if the player is near the enemy attack the player
 			if ((player.transform.position - transform.position).magnitude < 3f) {
 
@@ -173,10 +184,10 @@ public class GuyantScript : MonoBehaviour
 			}
 
 
-			// if the enemy is near the barricade attack the barricade
+
 			bool attackingBar = false;
-			foreach (Vector3 barricade in barricades) {
-				if (barricade != null && (barricade - transform.position).magnitude < 5f && !attackingBar) {
+			foreach (Vector3 barricade in barricades) {// if the enemy is near the barricade attack the barricade
+				if (barricade != null && (new Vector3(barricade.x,transform.position.y,barricade.z) - transform.position).magnitude < 5f && !attackingBar) {
 					// set speed to zero and attack
 					rigidbody.velocity = Vector3.zero;
 					enemyResources.walking = false;
@@ -208,16 +219,6 @@ public class GuyantScript : MonoBehaviour
 
 			}
 
-			// when enemy reaches the end
-			if ((goal.transform.position - transform.position).magnitude < 4f) {
-				// enemy has won
-				goalScript.removeLife ();
-
-				// destroy it
-				Destroy (this.gameObject);
-				// GetComponent<EnemyResources>().isDead = true;
-				// this.transform.position = GetComponent<EnemyHealth>().deathPosition;
-			}
 		}
 	}
 
