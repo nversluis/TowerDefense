@@ -25,6 +25,8 @@ public class GwarfAttack : MonoBehaviour
 
 	Vector3 endLoc = new Vector3();
 
+	GwarfScript gs;
+
     void Start()
     {
         totalDamage = 0;
@@ -35,7 +37,8 @@ public class GwarfAttack : MonoBehaviour
         enemyStats = GetComponent<EnemyStats>();
         enemyResources = GetComponent<EnemyResources>();
         attackDamage = enemyStats.attack * damageMultiplier;
-		endLoc = GameObject.Find ("Goal").transform.position;
+		gs = gameObject.GetComponent<GwarfScript> ();
+
     }
 
     void Attack()
@@ -82,7 +85,7 @@ public class GwarfAttack : MonoBehaviour
 
     void Update()
     {
-        if (enemyResources.attacking && playerHealth.currentHealth > 0)
+		if (enemyResources.attacking && playerHealth.currentHealth > 0 && !gs.attackingGoal)
         {
             if (!invoked)
             {

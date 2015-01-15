@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class GwarfScript : MonoBehaviour
 {
 	EnemyHealth enemyHealth;
+	private float timeBetweenAttacks = 2.917f / 2f;
 	EnemyStats enemystats;
 	ResourceManager resourceManager;
 	EnemyResources enemyResources;
@@ -43,6 +44,9 @@ public class GwarfScript : MonoBehaviour
 	public float isSlowed = 1;
 
 	Vector3 goalLoc = new Vector3 ();
+
+	private Vector3 curTarget;
+	public bool attackingGoal;
 
 	GameObject curFloor;
 	// Method for finding all necessary scripts
@@ -152,29 +156,45 @@ public class GwarfScript : MonoBehaviour
 				nextPointDistance.y = 0;
 
 			}
-
 			RaycastHit hit;
+			RaycastHit goalHit;
 			Physics.Raycast (transform.position, player.transform.position + new Vector3 (0f, 2f, 0f) - transform.position, out hit);
-            
-			// if the player is near the enemy attack the player
-			if ((player.transform.position - transform.position).magnitude < 30f && Target.Equals (player) && hit.transform.name == "Player") {
+			Physics.Raycast (transform.position, goalLoc - transform.position, out goalHit);
+			Debug.DrawRay (transform.position, goalLoc - transform.position);
+			if ((goalLoc - transform.position).magnitude < 30f && goalHit.transform.name == "Goal") {
+
+//					Debug.Log (hit.transform.name);
+//					if(hit.transform.renderer.material.color == new Color (0, 255, 0, 1))
+//						hit.transform.renderer.material.color = new Color (255, 0, 0, 1);
+//					else
+//						hit.transform.renderer.material.color = new Color (0, 255, 0, 1);
+
+				// set speed to zero and attack
+				enemyResources.walking = false;
+				enemyResources.attacking = true;
+				rigidbody.velocity = Vector3.zero;
+				transform.LookAt(new Vector3(goalLoc.x,transform.position.y,goalLoc.z));
+				transform.Rotate (0, -90, 0);
+				if (!attackingGoal) {
+					curTarget = goalLoc;
+					attackingGoal = true;
+					InvokeRepeating ("Shoot", timeBetweenAttacks / 1.5f, timeBetweenAttacks);
+
+				}
+			
+			} else if ((player.transform.position - transform.position).magnitude < 30f && Target.Equals (player) && hit.transform.name == "Player") { // if the player is near the enemy attack the player
+				CancelInvoke ("Shoot");
+				attackingGoal = false;
+				transform.LookAt(new Vector3(player.transform.position.x,transform.position.y,player.transform.position.z));
+				transform.Rotate (0, -90, 0);
 				// set speed to zero and attack
 				rigidbody.velocity = Vector3.zero;
 				enemyResources.walking = false;
 				enemyResources.attacking = true;
-			}
-		
-			if ((goalLoc - transform.position).magnitude < 30f) {
-				RaycastHit goalHit;
-				if (Physics.Raycast (transform.position + (goalLoc - transform.position) / 100, goalLoc, out hit)) {
-					Debug.Log (hit.transform.name);
-					if (hit.transform.name == "Goal") {
-						// set speed to zero and attack
-						rigidbody.velocity = Vector3.zero;
-						enemyResources.walking = false;
-						enemyResources.attacking = true;
-					}
-				}
+			} else {
+				CancelInvoke ("Shoot");
+				//attacking = false;
+				enemyResources.attacking = false;
 			}
 			
 
@@ -251,6 +271,17 @@ public class GwarfScript : MonoBehaviour
 		}
 	}
 
+	void Shoot ()
+	{
+		enemyResources.walking = false;
+		enemyResources.attacking = true;
+		Vector3 targetLoc = curTarget;
+		GwarfAttack ga = gameObject.GetComponent<GwarfAttack> ();
+		GameObject Bullet = (GameObject)Instantiate (ga.bullet, transform.position, Quaternion.identity);
+		Vector3 dir = (targetLoc - transform.position).normalized;
+		Bullet.rigidbody.velocity = ga.bulletSpeed * dir;
+	}
+
 
 	// Use this for initialization
 	void Start ()
@@ -267,6 +298,7 @@ public class GwarfScript : MonoBehaviour
 			BuildPath ();
 		}
 		enemyResources.isSlowed = 1;
+		attackingGoal = false;
 	}
 
 
