@@ -46,7 +46,7 @@ public class PlayerData {
         agilityStat = 10;
         selectedTower = 0;
         selectedSkill = 0;
-        towerSelected = true;
+        towerSelected = false;
         skillset = new List<Skill>();
         inventory = new List<Item>();
 
@@ -132,6 +132,10 @@ public class PlayerData {
 
     public void removeGold(float gold) {
         this.gold -= gold;
+    }
+
+    public void setGold(float gold) {
+        this.gold = gold;
     }
 
     public void setScore(float score) {

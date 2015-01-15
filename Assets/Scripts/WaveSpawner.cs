@@ -37,7 +37,7 @@ public class WaveSpawner : MonoBehaviour
     //float orcHeigthSpawn = 3.27f;
     private PlayerData playerData = GUIScript.player;
 
-    bool Won;
+    bool Won = false;
     private bool gameHasStarted = false;
     public bool allEnemiesSpawned = false;
     public bool allEnemiesDead = false;
@@ -60,6 +60,8 @@ public class WaveSpawner : MonoBehaviour
     List<float> currentGenType;
     List<float> nextGenType;
     EnemyStats enemyStats;
+
+    Statistics statistics;
 
     Text waveText;
     // Use this for initialization
@@ -85,6 +87,8 @@ public class WaveSpawner : MonoBehaviour
         resourceManager.maxEnemies = maxEnemies;
         startMaxEnemies = resourceManager.maxEnemies;
         startTotalStatPoints = resourceManager.totalStatPoints;
+        resourceManager.currentSpawnTime = resourceManager.startSpawnTime * Mathf.Pow(resourceManager.AfnameSpawnTimeFactor, (currentWave - 1));
+        spawnTime = resourceManager.currentSpawnTime;
         enemies = new ArrayList();
         enemiesInWave = new ArrayList();
         currentGenDistributions = new List<List<float>>();
@@ -202,6 +206,8 @@ public class WaveSpawner : MonoBehaviour
                     currentTotalStatPoints = (currentWave - 1) * delta + startTotalStatPoints;
                     resourceManager.totalStatPoints = currentTotalStatPoints;
                     //currentTotalStatPoints += delta;
+                    spawnTime = resourceManager.startSpawnTime * Mathf.Pow(resourceManager.AfnameSpawnTimeFactor, (currentWave - 1));
+                    resourceManager.currentSpawnTime = spawnTime;
                     // Wave countdown mag weer plaatsvinden
                     counting = true;
                     // Enemies mogen weer gespawnd worden
@@ -219,6 +225,12 @@ public class WaveSpawner : MonoBehaviour
         {
             guiScript.resultScoreText.text = Statistics.Score().ToString();
             guiScript.EndGame("You Won!");
+            ScoreServer.sendScoreToServer();
+
+
+            //new ScoreServer().sendScoreToServer(); // send score speler
+            Won = false; 
+
         }
     }
 
@@ -231,7 +243,7 @@ public class WaveSpawner : MonoBehaviour
         if (eersteWaveDoorlopen)
         {
             selectEnemy();
-            if (keepDistribution)
+            if (keepType)
             {
                 enemyNumber = (int)currentGenType[indexOfCurrentGen];
             }

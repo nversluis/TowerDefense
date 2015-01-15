@@ -194,6 +194,14 @@ public class GUIScript : MonoBehaviour {
         // Player Data
         skillset = player.getSkills();
         inventory = player.getItems();
+        player.setGold(resourceManager.startGold);
+        player.setAttack(resourceManager.startSwordDamage);
+        player.setMagic(resourceManager.startMagicDamage);
+        player.setArmor(10);
+        player.setAgility(10);
+        player.setTower(0);
+        player.setSkill(0);
+        player.setTowerSelected(false);
 
 
         // Skills 
@@ -241,8 +249,6 @@ public class GUIScript : MonoBehaviour {
         enemyPanel.SetActive(false);
         rect = HP.GetComponent<RectTransform>();
         camera = GameObject.Find("Main Camera");
-        currentHP = 100;
-        maxHP = 100;
 
         // Buffered HP's
         fPlayerBufferedHP = 0;

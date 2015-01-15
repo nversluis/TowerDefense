@@ -166,7 +166,7 @@ public class GwarfScript : MonoBehaviour
 		
 			if ((goalLoc - transform.position).magnitude < 30f) {
 				RaycastHit goalHit;
-				if (Physics.Raycast (transform.position+(goalLoc-transform.position)/100, goalLoc, out hit)) {
+				if (Physics.Raycast (transform.position + (goalLoc - transform.position) / 100, goalLoc, out hit)) {
 					Debug.Log (hit.transform.name);
 					if (hit.transform.name == "Goal") {
 						// set speed to zero and attack
@@ -251,6 +251,7 @@ public class GwarfScript : MonoBehaviour
 		}
 	}
 
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -268,9 +269,23 @@ public class GwarfScript : MonoBehaviour
 		enemyResources.isSlowed = 1;
 	}
 
+
 	//Update is called once per frame
 	void FixedUpdate ()
 	{
+		// When draw path is enabled draw the path with own dfactor
+		if (Path != null && drawPath) {
+			for (int k = 0; k < Path.Count - 1; k++) {
+				Debug.DrawLine (Path [k], Path [k + 1]);
+			}
+		}
+
+		// when draw path is enabled draw the path without dfactor
+		if (Path2 != null && drawPath) {
+			for (int k = 0; k < Path2.Count - 1; k++) {
+				Debug.DrawLine (Path2 [k], Path2 [k + 1], Color.red);
+			}
+		}
 		checkFloor ();
 
 		// Determine the walk speed of the enemy

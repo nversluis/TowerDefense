@@ -9,6 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400000}
   - 114: {fileID: 11400000}
+  - 114: {fileID: 11444152}
   m_Layer: 0
   m_Name: ResourceManager
   m_TagString: Untagged
@@ -68,28 +69,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7321a888faeaae47875ca40443ccd1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startGold: 50000
-  costMagicTower: 100
-  costArrowTower: 100
-  costIceTrap: 100
+  name: Hero
+  startGold: 1000
+  costMagicTower: 175
+  costArrowTower: 150
+  costIceTrap: 50
   costFireTrap: 100
-  costPoisonTrap: 100
+  costPoisonTrap: 75
   costBarricade: 200
-  rewardenemy: 5
-  rewardWave: 800
+  rewardenemy: 10
+  rewardWave: 600
   coolDownSword1Time: .5
   coolDownSword2Time: 10
   coolDownMagic1Time: .200000003
-  coolDownMagic2Time: 60
+  coolDownMagic2Time: 30
   defense: 10
   speed: 10
   startSwordDamage: 5000
   startMagicDamage: 1000
-  specialSwordDamage: 0
-  specialMagicDamage: 0
+  specialSwordDamage: 15000
+  specialMagicDamage: 60000
   hitParticles: {fileID: 145544, guid: 9c7b8546eb84bce41a909a9dc0d3f737, type: 2}
   hitExplosionParticles: {fileID: 147396, guid: c675be9dc898e2b4e95ed4ebcbefa4a3,
     type: 2}
+  ExplosionMagic: {fileID: 174878, guid: 5c51f2aabae1e714d901652599f2a030, type: 2}
+  Explosion: {fileID: 188316, guid: 682d12b381496814dafffe473889b401, type: 2}
   planePrefab: {fileID: 100016, guid: eb0912c352095c645a4cc637dd9257b0, type: 2}
   wallPrefab: {fileID: 171850, guid: 0556f1d261c50e248934a3de0f8a97a4, type: 2}
   enemySpawner: {fileID: 100000, guid: c3a351ed1e54c354c99c7d460d83aa16, type: 2}
@@ -103,7 +107,7 @@ MonoBehaviour:
   height: 3
   nodeSize: 2.5
   NumberOfPaths: 3
-  drawNavigationGrid: 1
+  drawNavigationGrid: 0
   enemyTag: Enemy
   enemyGuyant: {fileID: 100052, guid: 6a25f25271f527644ab0b18b0e7c536e, type: 2}
   enemyGwarf: {fileID: 188948, guid: 37f21c745b6e3ff43942e88e21aba537, type: 2}
@@ -113,15 +117,18 @@ MonoBehaviour:
   drawPath: 0
   automaticPathUpdating: 1
   currentWave: 1
-  maxWaves: 10
-  maxEnemies: 10
-  toenameAantalEnemiesPerWave: 5
+  maxWaves: 20
+  maxEnemies: 15
+  toenameAantalEnemiesPerWave: 3
   timeBetweenWaves: 5
   keepType: 0
   keepDistribution: 1
   mutationProbability: .699999988
-  totalStatPoints: 100
-  toenameTotalStatPointsPerWave: 30
+  totalStatPoints: 80
+  toenameTotalStatPointsPerWave: 10
+  startSpawnTime: 1
+  currentSpawnTime: 0
+  AfnameSpawnTimeFactor: .99000001
   maxTowerDistance: 15
   magicTower: {fileID: 100010, guid: 00820a827834982408befc67f6611fe1, type: 2}
   magicTowerBullet: {fileID: 100000, guid: 992585f8d90a7dd4aa9fb58097ade3cd, type: 2}
@@ -190,6 +197,17 @@ MonoBehaviour:
   playerKillsScore: 20
   towerKillsScore: 10
   allBarricades: []
+--- !u!114 &11444152
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6598bf6490f73f479b3c30c72f4f29b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11471860
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -210,9 +228,9 @@ MonoBehaviour:
   tow3Input: 51
   tow4Input: 52
   tow5Input: 53
-  tow6Input: 54
-  tow7Input: 55
-  upgradeMenuInput: 56
+  tow6Input: 57
+  tow7Input: 54
+  upgradeMenuInput: 55
   upgradeInput: 323
   sellInput: 324
 --- !u!1001 &100100000

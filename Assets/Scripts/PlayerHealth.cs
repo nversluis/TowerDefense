@@ -29,7 +29,16 @@ public class PlayerHealth : MonoBehaviour {
         gui = GameObject.Find("GUIMain");
         guiScript = gui.GetComponent<GUIScript>();
         defence = GameObject.Find("ResourceManager").GetComponent<ResourceManager>().defense;
+        InvokeRepeating("RegainHealth",0f,1f);
 	}
+
+    void RegainHealth()
+    {
+        if (currentHealth < 5001)
+        {
+            currentHealth += 17;
+        }
+    }
 	
 	// Update is called once per frame
     void Update()
@@ -56,6 +65,8 @@ public class PlayerHealth : MonoBehaviour {
         isDead = true;
         guiScript.resultScoreText.text = Statistics.Score().ToString();
         guiScript.EndGame("Player");
+        ScoreServer.sendScoreToServer();
+        //new ScoreServer().sendScoreToServer(); 
 
         //Destroy(this.gameObject);
     }

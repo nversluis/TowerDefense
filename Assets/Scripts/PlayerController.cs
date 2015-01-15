@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
 	private ResourceManager resourceManager;
     GameObject hitParticles;
     GameObject hitExplosionParticles;
+    GameObject explosionBullet;
 
     AudioSource cameraAudio;
     AudioClip sword;
@@ -53,10 +54,10 @@ public class PlayerController : MonoBehaviour
     private LayerMask ignoreMaskTraps = ~(1 << 13);
     private LayerMask enemyMask = (1 << 12);
 
-    bool coolDownSword1;
-    bool coolDownSword2;
-    bool coolDownMagic1;
-    bool coolDownMagic2;
+    public bool coolDownSword1;
+    public bool coolDownSword2;
+    public bool coolDownMagic1;
+    public bool coolDownMagic2;
 
     float coolDownSword1Time;
     float coolDownSword2Time;
@@ -66,9 +67,11 @@ public class PlayerController : MonoBehaviour
     Vector3 tijdelijk = new Vector3(0, 1, 0);
 
     int swordDamage;
-    int magicDamage;
+    public int magicDamage;
     int specialSwordDamage;
-    int specialMagicDamage;
+    public int specialMagicDamage;
+
+    private PlayerData player = GUIScript.player;
 
     // Method for getting player input
     private Vector3 playerInput()
@@ -94,10 +97,12 @@ public class PlayerController : MonoBehaviour
     public void addMagicDamage(int addDamage)
     {
         magicDamage += addDamage;
+        specialMagicDamage += 3 * addDamage;
     }
     public void addSwordDamage(int addDamage)
     {
         swordDamage += addDamage;
+        specialSwordDamage += 2 * addDamage;
     }
     public void addPlayerSpeed(int addSpeed)
     {
@@ -183,7 +188,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator HitEnemy(RaycastHit hit)
     {
         yield return new WaitForSeconds(0.2f);
-        hit.transform.gameObject.GetComponent<EnemyHealth>().TakeDamage(specialSwordDamage, "physical", true);
+        hit.transform.gameObject.GetComponent<EnemyHealth>().TakeDamage(swordDamage, "physical", true);
         GameObject particles = (GameObject)Instantiate(hitParticles, hit.transform.position, Quaternion.identity);
         particles.transform.localScale = new Vector3(3, 3, 3);
         StartCoroutine(DestroyParticles(particles));
@@ -210,6 +215,7 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(0.2f);
         hit.transform.gameObject.GetComponent<EnemyHealth>().TakeDamage(specialSwordDamage, "physical", true);
+        Debug.Log(specialSwordDamage);
         GameObject particles = (GameObject)Instantiate(hitExplosionParticles, hit.transform.position, Quaternion.identity);
         StartCoroutine(DestroyParticles2(particles));
         cameraAudio.PlayOneShot(swordSpecial);
@@ -232,6 +238,7 @@ public class PlayerController : MonoBehaviour
                 if (random == 0)
                 {
                     attackingSword1 = true;
+
                 }
 
                 else
@@ -257,6 +264,7 @@ public class PlayerController : MonoBehaviour
 
                 }
                 coolDownSword1 = true;
+                player.getSkills()[0].startCooldown();
                 Invoke("SetAttackAnimationFalse", 1f/2f);
                 Invoke("setCoolDownSword1false", coolDownSword1Time);
 
@@ -269,15 +277,17 @@ public class PlayerController : MonoBehaviour
 
             if (WeaponController.weapon == 2 && !coolDownSword2)
             {
+                SetAttackAnimationFalse();
+                idle = false;
                 attackingSword3 = true;
-                coolDownSword1 = true;
-                Invoke("SetAttackAnimationFalse", 2f);
-                Invoke("setCoolDownSword1false", coolDownSword1Time);
+                coolDownSword2 = true;
+                player.getSkills()[1].startCooldown();
+                Invoke("SetAttackAnimationFalse", 1f);
+                Invoke("setCoolDownSword2false", coolDownSword2Time);
 
                 RaycastHit hit;
                 if (Physics.Raycast(transform.position + tijdelijk, transform.forward, out hit, 3f, enemyMask))
                 {
-                    hit.transform.gameObject.GetComponent<EnemyHealth>().TakeDamage(specialSwordDamage, "physical", true);
                     StartCoroutine(SpecialHitEnemy(hit));
 
                 }
@@ -288,8 +298,9 @@ public class PlayerController : MonoBehaviour
             {
                 SetAttackAnimationFalse();
                 coolDownMagic1 = true;
+                player.getSkills()[2].startCooldown();
                 attackMagic1 = true;
-                Invoke("SetAttackAnimationFalse", 1f / 2f);
+                Invoke("SetAttackAnimationFalse", .1f);
                 Invoke("setCoolDownMagic1false", coolDownMagic1Time);
 
                 // determining Angles of the camera with origin
@@ -324,7 +335,48 @@ public class PlayerController : MonoBehaviour
                 audio.PlayOneShot(magic,15f);
             }
 
+            if (WeaponController.weapon == 4 && !coolDownMagic2)
+            {
+                SetAttackAnimationFalse();
+                coolDownMagic2 = true;
+                player.getSkills()[3].startCooldown();
+                attackMagic2 = true;
+                Invoke("SetAttackAnimationFalse", .1f);
+                Invoke("setCoolDownMagic2false", coolDownMagic2Time);
+
+                // determining Angles of the camera with origin
+                camAngleX = camera.transform.rotation.eulerAngles.x;
+                camAngleY = camera.transform.rotation.eulerAngles.y;
+
+                // initializing correctionAngle and hit
+                Vector3 camShootDistance;
+                RaycastHit hit;
+
+			
+                // creating a bullet in front of 1 unit away from Player
+                GameObject bullet = (GameObject)Instantiate(explosionBullet, transform.position + new Vector3((Mathf.Sin(camAngleY * Mathf.Deg2Rad)), 0f, Mathf.Cos(camAngleY * Mathf.Deg2Rad)) + tijdelijk, Quaternion.identity);
+
+                // Casting a ray and storing information to hit
+                if (!Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, Mathf.Infinity, ignoreMaskBullet))
+                {
+                    camShootDistance = transform.forward;
+
+                }
+                else
+                {
+                    camShootDistance = hit.point - (transform.position + tijdelijk + new Vector3(Mathf.Sin(camAngleY * Mathf.Deg2Rad), 0f, Mathf.Cos(camAngleY * Mathf.Deg2Rad)));
+                    camShootDistance = camShootDistance + ((new Vector3(Random.Range(-50, 50), Random.Range(-50, 50), Random.Range(-50, 50)).normalized * distortion) * camShootDistance.magnitude) / 80f; ;
+                }
+
+                // add the force to the bullet
+                bullet.rigidbody.velocity = camShootDistance.normalized * BulletSpeed;
+               
+                // looking in the direction of the camera
+                audio.PlayOneShot(magic,15f);
+            }
+
         }
+
     }
 
     // Method that distorts the direction of the bullet
@@ -359,7 +411,7 @@ public class PlayerController : MonoBehaviour
 
     bool OtherAnimationTrue()
     {
-        return attackingSword1 || attackingSword2 || attackMagic1 || attackMagic2;
+        return attackingSword1 || attackingSword2 || attackMagic1 || attackMagic2 || attackingSword3;
     } 
     // Use this for initialization
     void Start()
@@ -374,11 +426,17 @@ public class PlayerController : MonoBehaviour
 		Bullet = resourceManager.magicBullet;
 		magic = resourceManager.magicBulletSound;
         coolDownMagic1Time = resourceManager.coolDownMagic1Time;
+        player.getSkills()[2].setCdTime(coolDownMagic1Time);
         coolDownMagic2Time = resourceManager.coolDownMagic2Time;
+        player.getSkills()[3].setCdTime(coolDownMagic2Time);
         coolDownSword1Time = resourceManager.coolDownSword1Time;
+        player.getSkills()[0].setCdTime(coolDownSword1Time);
         coolDownSword2Time = resourceManager.coolDownSword2Time;
+        player.getSkills()[1].setCdTime(coolDownSword2Time);
         swordDamage = resourceManager.startSwordDamage;
         magicDamage = resourceManager.startMagicDamage;
+        specialSwordDamage = resourceManager.specialSwordDamage;
+        specialMagicDamage = resourceManager.specialMagicDamage;
         playerSpeed = resourceManager.speed;
         hitParticles = resourceManager.hitParticles;
         sword = resourceManager.sword;
@@ -393,6 +451,8 @@ public class PlayerController : MonoBehaviour
         magicSpecial = resourceManager.magicSpecial;
 
         hitExplosionParticles = resourceManager.hitExplosionParticles;
+
+        explosionBullet = resourceManager.ExplosionMagic;
 
     }
 
@@ -409,7 +469,8 @@ public class PlayerController : MonoBehaviour
 		RaycastHit hit;
 		GameObject res = curFloor;
 		//Ray ray = new Ray(transform.position, -Vector3.up, out hit);
-		if (Physics.Raycast (transform.position, -Vector3.up, out hit)) {
+        if (Physics.Raycast(transform.position + tijdelijk, -Vector3.up, out hit))
+        {
 			if (hit.transform.name.Contains ("loor")) {
 				curFloor = hit.transform.gameObject;
 				if (res != null && res != curFloor) {

@@ -76,6 +76,10 @@ public class LoadMapLayouts : MonoBehaviour {
 
     ResourceManager resourceManager;
 
+    bool ready;
+
+    public GameObject spacebar;
+
     void Start()
     {
         cameraAudioSource = GameObject.Find("BackGroundCamera").GetComponent<AudioSource>();
@@ -586,24 +590,27 @@ public class LoadMapLayouts : MonoBehaviour {
 
     public void GenerateLevel()
     {
-        for (int i = 0; i < positions.Count; i++)
-        { //get right sizes of the positions array
-            positions[i] = (Vector2)positions[i];
-            Vector2 tempPos = (Vector2)positions[i];
-            ResourceManager.mostNorth = Mathf.Max(ResourceManager.mostNorth, (int)tempPos.y);
-            ResourceManager.mostEast = Mathf.Max(ResourceManager.mostEast, (int)tempPos.x);
-            ResourceManager.mostSouth = Mathf.Min(ResourceManager.mostSouth, (int)tempPos.y);
-            ResourceManager.mostWest = Mathf.Min(ResourceManager.mostWest, (int)tempPos.x);
+        if (currentFileSelected != null && currentFilesSelected.Count == 1)
+        {
+            for (int i = 0; i < positions.Count; i++)
+            { //get right sizes of the positions array
+                positions[i] = (Vector2)positions[i];
+                Vector2 tempPos = (Vector2)positions[i];
+                ResourceManager.mostNorth = Mathf.Max(ResourceManager.mostNorth, (int)tempPos.y);
+                ResourceManager.mostEast = Mathf.Max(ResourceManager.mostEast, (int)tempPos.x);
+                ResourceManager.mostSouth = Mathf.Min(ResourceManager.mostSouth, (int)tempPos.y);
+                ResourceManager.mostWest = Mathf.Min(ResourceManager.mostWest, (int)tempPos.x);
+            }
+            startPos = new Vector2(startPos.x, startPos.z);
+            endPos = new Vector2(endPos.x, endPos.z);
+            resourceManager.startPos = startPos;
+            resourceManager.endPos = endPos;
+            loadingScreen.SetActive(true);
+            cameraAudioSource.PlayOneShot(startGame, 5);
+            Invoke("startSpawn", 1.802f);
+            // spawnLevel();
+            resourceManager.Nodes = Nodes;
         }
-        startPos = new Vector2(startPos.x, startPos.z);
-        endPos = new Vector2(endPos.x, endPos.z);
-        resourceManager.startPos = startPos;
-        resourceManager.endPos = endPos;
-        loadingScreen.SetActive(true);
-        cameraAudioSource.PlayOneShot(startGame, 5);
-        Invoke("startSpawn", 1.802f);
-        // spawnLevel();
-        resourceManager.Nodes = Nodes;
     }
     void startSpawn()
     {
@@ -631,9 +638,12 @@ public class LoadMapLayouts : MonoBehaviour {
         loadingScreen.GetComponentInChildren<Text>().text = "Loading: Lighting torches...";
 
         resourceManager.Nodes = Nodes;
-
         disableLevelEditor();
-        loadingScreen.SetActive(false);
+        Time.timeScale = 0;
+        ready = true;
+        loadingScreen.GetComponentInChildren<Text>().gameObject.SetActive(false);
+        spacebar.SetActive(true);
+
 
     }
     void GenerateFloor()
@@ -661,10 +671,18 @@ public class LoadMapLayouts : MonoBehaviour {
         cam.gameObject.SetActive(false);
         Destroy(canvas);
         Destroy(GameObject.Find("EditorLight"));
-        Destroy(this.gameObject);
 
     }
     void Update()
     {
+        
+        if (ready && Input.GetKeyDown(KeyCode.Space))
+        {
+            
+            loadingScreen.SetActive(false);
+            Time.timeScale = 1;
+            Destroy(this.gameObject);
+
+        }
     }
 }
