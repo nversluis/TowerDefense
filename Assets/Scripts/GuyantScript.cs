@@ -197,7 +197,14 @@ public class GuyantScript : MonoBehaviour
 				// set speed to zero
 				rigidbody.velocity = Vector3.zero;
                 enemyResources.attacking = false;
-				curFloor.GetComponent<FloorScript> ().hasEnemy = false;
+                try
+                {
+                    curFloor.GetComponent<FloorScript>().hasEnemy = false;
+                }
+                catch
+                {
+                    Debug.Log("Buiten de gate gekilled");
+                }
 
 			}
 
