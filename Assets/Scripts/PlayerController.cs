@@ -96,14 +96,33 @@ public class PlayerController : MonoBehaviour
 
     public void addMagicDamage(int addDamage)
     {
+        float ratio = specialMagicDamage / magicDamage;
         magicDamage += addDamage;
-        specialMagicDamage += 3 * addDamage;
+        specialMagicDamage +=(int)( ratio * addDamage);
     }
     public void addSwordDamage(int addDamage)
     {
+        float ratio = specialSwordDamage / swordDamage;
+
         swordDamage += addDamage;
-        specialSwordDamage += 2 * addDamage;
+        specialSwordDamage += (int)(ratio * addDamage);
     }
+
+    public int getAtkStat()
+    {
+        return swordDamage;
+    }
+
+    public int getMagStat()
+    {
+        return magicDamage;
+    }
+
+    public float getAgiStat()
+    {
+        return playerSpeed;
+    }
+
     public void addPlayerSpeed(int addSpeed)
     {
         playerSpeed += addSpeed;
