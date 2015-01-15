@@ -20,7 +20,7 @@ public class ScoreServer : MonoBehaviour {
 
 	}
 
-    static public void sendScoreToServer()
+    static public void sendScoreToServer(string naam)
     {
         WWW www = new WWW("http://drproject.twi.tudelft.nl:8087/setScore?naam=" + naam + "&score=" + Statistics.score);
 

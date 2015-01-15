@@ -210,10 +210,17 @@ public class GwarfScript : MonoBehaviour
 			// when enemy is dead
 			if (enemyResources.isDead) {
 				// set speed to zero
+				try
+				{
+					curFloor.GetComponent<FloorScript>().hasEnemy = false;
+				}
+				catch
+				{
+					Debug.Log("buiten de gate gekilled");
+				}
 				rigidbody.velocity = Vector3.zero;
 				enemyResources.walking = false;
 				enemyResources.attacking = false;
-				curFloor.GetComponent<FloorScript> ().hasEnemy = false;
 			}
 
 			// when enemy reaches the end
