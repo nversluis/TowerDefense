@@ -345,6 +345,7 @@ public class GUIScript : MonoBehaviour {
         UpdateSelection();
         UpdateEnemyStats();
         UpdateWaveText();
+        UpdateShop();
     }
 
     void Update() {
@@ -641,6 +642,8 @@ public class GUIScript : MonoBehaviour {
             else {
                 bt.interactable = false;
             }
+            //Debug.Log("Current gold: " + player.getGold());
+            //Debug.Log("Current cost: " + inventory[i].getCost()[inventory[i].getTier() - 1]);
         }
 
         for(int i = 0; i < shopCurrentList.Length; i++) {
