@@ -201,7 +201,7 @@ public class GUIScript : MonoBehaviour {
         player.setAgility(10);
         player.setTower(0);
         player.setSkill(0);
-        player.setTowerSelected(true);
+        player.setTowerSelected(false);
 
 
         // Skills 

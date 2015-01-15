@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class BulletController : MonoBehaviour
 {
-	private int damagePerShot= 1500;
+    private int damagePerShot;
 	Transform Player;
 	Vector3 PrevItLoc;
 	public static float maxBulletDistance = 200;
@@ -43,8 +43,9 @@ public class BulletController : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
-
+        
 		Player = GameObject.Find("Player").transform;
+        damagePerShot = Player.GetComponent<PlayerController>().magicDamage;
 		PrevItLoc = transform.position;
 	}
 

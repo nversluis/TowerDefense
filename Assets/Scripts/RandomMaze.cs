@@ -48,6 +48,9 @@ public class RandomMaze : MonoBehaviour
     public AudioClip startGame;
     public GameObject mainCamera;
 
+    bool ready;
+    public GameObject spacebar;
+
 
 
 
@@ -88,6 +91,7 @@ public class RandomMaze : MonoBehaviour
 		NodesPos = new List<Vector3> ();
 		Nodes = new List<WayPoint> ();
         LoadingScreen.SetActive(true);
+        Screen.showCursor = false;
 
         cameraAudioSource.PlayOneShot(startGame, 5f);
 
@@ -125,9 +129,19 @@ public class RandomMaze : MonoBehaviour
 		//MakeNodeList (nodeSize,NodesPos,Nodes);
 		//create the minimap camera
 		resourceManager.Nodes = Nodes;
-		LoadingScreen.SetActive (false);
-
+        Time.timeScale = 0;
+        ready = true;
+        spacebar.SetActive(true);
+        LoadingScreen.GetComponentInChildren<Text>().gameObject.SetActive(false);
+        
 	}
+    void Update()
+    {
+        if(ready && Input.GetKeyDown(KeyCode.Space)){
+            LoadingScreen.SetActive(false);
+            Time.timeScale = 1;
+        }
+    }
 
 	//generate floors
 	private void GenerateFloor ()

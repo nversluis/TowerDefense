@@ -67,9 +67,9 @@ public class PlayerController : MonoBehaviour
     Vector3 tijdelijk = new Vector3(0, 1, 0);
 
     int swordDamage;
-    int magicDamage;
+    public int magicDamage;
     int specialSwordDamage;
-    int specialMagicDamage;
+    public int specialMagicDamage;
 
     private PlayerData player = GUIScript.player;
 
@@ -215,6 +215,7 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(0.2f);
         hit.transform.gameObject.GetComponent<EnemyHealth>().TakeDamage(specialSwordDamage, "physical", true);
+        Debug.Log(specialSwordDamage);
         GameObject particles = (GameObject)Instantiate(hitExplosionParticles, hit.transform.position, Quaternion.identity);
         StartCoroutine(DestroyParticles2(particles));
         cameraAudio.PlayOneShot(swordSpecial);
@@ -287,7 +288,6 @@ public class PlayerController : MonoBehaviour
                 RaycastHit hit;
                 if (Physics.Raycast(transform.position + tijdelijk, transform.forward, out hit, 3f, enemyMask))
                 {
-                    hit.transform.gameObject.GetComponent<EnemyHealth>().TakeDamage(specialSwordDamage, "physical", true);
                     StartCoroutine(SpecialHitEnemy(hit));
 
                 }
@@ -435,6 +435,8 @@ public class PlayerController : MonoBehaviour
         player.getSkills()[1].setCdTime(coolDownSword2Time);
         swordDamage = resourceManager.startSwordDamage;
         magicDamage = resourceManager.startMagicDamage;
+        specialSwordDamage = resourceManager.specialSwordDamage;
+        specialMagicDamage = resourceManager.specialMagicDamage;
         playerSpeed = resourceManager.speed;
         hitParticles = resourceManager.hitParticles;
         sword = resourceManager.sword;

@@ -9,6 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400000}
   - 114: {fileID: 11400000}
+  - 114: {fileID: 11444152}
   m_Layer: 0
   m_Name: ResourceManager
   m_TagString: Untagged
@@ -39,7 +40,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 20.2024803, y: 9.92507648, z: 15.3468361}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 471860}
@@ -68,6 +69,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7321a888faeaae47875ca40443ccd1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  name: Hero
   startGold: 1000
   costMagicTower: 175
   costArrowTower: 150
@@ -76,7 +78,7 @@ MonoBehaviour:
   costPoisonTrap: 75
   costBarricade: 200
   rewardenemy: 10
-  rewardWave: 400
+  rewardWave: 600
   coolDownSword1Time: .5
   coolDownSword2Time: 10
   coolDownMagic1Time: .200000003
@@ -105,7 +107,7 @@ MonoBehaviour:
   height: 3
   nodeSize: 2.5
   NumberOfPaths: 3
-  drawNavigationGrid: 1
+  drawNavigationGrid: 0
   enemyTag: Enemy
   enemyGuyant: {fileID: 100052, guid: 6a25f25271f527644ab0b18b0e7c536e, type: 2}
   enemyGwarf: {fileID: 188948, guid: 37f21c745b6e3ff43942e88e21aba537, type: 2}
@@ -116,15 +118,15 @@ MonoBehaviour:
   automaticPathUpdating: 1
   currentWave: 1
   maxWaves: 20
-  maxEnemies: 20
-  toenameAantalEnemiesPerWave: 5
+  maxEnemies: 15
+  toenameAantalEnemiesPerWave: 3
   timeBetweenWaves: 5
   keepType: 0
   keepDistribution: 1
   mutationProbability: .699999988
-  totalStatPoints: 100
-  toenameTotalStatPointsPerWave: 30
-  startSpawnTime: .5
+  totalStatPoints: 80
+  toenameTotalStatPointsPerWave: 10
+  startSpawnTime: 1
   currentSpawnTime: 0
   AfnameSpawnTimeFactor: .99000001
   maxTowerDistance: 15
@@ -195,6 +197,17 @@ MonoBehaviour:
   playerKillsScore: 20
   towerKillsScore: 10
   allBarricades: []
+--- !u!114 &11444152
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6598bf6490f73f479b3c30c72f4f29b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11471860
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -215,7 +228,7 @@ MonoBehaviour:
   tow3Input: 51
   tow4Input: 52
   tow5Input: 53
-  tow6Input: 96
+  tow6Input: 57
   tow7Input: 54
   upgradeMenuInput: 55
   upgradeInput: 323
