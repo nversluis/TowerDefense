@@ -254,7 +254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 1000
-  attack: 750
+  attack: 200
   defence: 10
   speed: .25
   range: 0

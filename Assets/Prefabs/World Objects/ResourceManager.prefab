@@ -71,7 +71,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Hero
   gateHealth: 50000
-  startGold: 1000
+  startGold: 800
   costMagicTower: 175
   costArrowTower: 150
   costIceTrap: 50
@@ -79,7 +79,7 @@ MonoBehaviour:
   costPoisonTrap: 75
   costBarricade: 200
   rewardenemy: 10
-  rewardWave: 600
+  rewardWave: 400
   coolDownSword1Time: .5
   coolDownSword2Time: 10
   coolDownMagic1Time: .200000003
@@ -101,7 +101,7 @@ MonoBehaviour:
   Minimapcamera: {fileID: 100000, guid: ea52609adf144e449bfeac563da51684, type: 2}
   Gate: {fileID: 100000, guid: d4693b6abfa404c2083cd46be293e93c, type: 2}
   torch: {fileID: 100012, guid: 3abc6258d3b3848199581033a47549d6, type: 2}
-  Goal: {fileID: 151086, guid: e63dfe4362b35f24cb1c787445b9a07e, type: 2}
+  Goal: {fileID: 187034, guid: 238816a3ef63d0443b7f2d1338df4329, type: 2}
   length: 10
   width: 10
   planewidth: 10
@@ -119,17 +119,17 @@ MonoBehaviour:
   automaticPathUpdating: 1
   currentWave: 1
   maxWaves: 20
-  maxEnemies: 15
-  toenameAantalEnemiesPerWave: 3
+  maxEnemies: 20
+  toenameAantalEnemiesPerWave: 5
   timeBetweenWaves: 5
   keepType: 0
   keepDistribution: 1
   mutationProbability: .699999988
-  totalStatPoints: 80
-  toenameTotalStatPointsPerWave: 10
-  startSpawnTime: 1
+  totalStatPoints: 150
+  toenameTotalStatPointsPerWave: 30
+  startSpawnTime: .699999988
   currentSpawnTime: 0
-  AfnameSpawnTimeFactor: .99000001
+  AfnameSpawnTimeFactor: .970000029
   maxTowerDistance: 15
   magicTower: {fileID: 100010, guid: 00820a827834982408befc67f6611fe1, type: 2}
   magicTowerBullet: {fileID: 100000, guid: 992585f8d90a7dd4aa9fb58097ade3cd, type: 2}
@@ -176,7 +176,7 @@ MonoBehaviour:
   sword3: {fileID: 8300000, guid: 5fbadd7f7d9e681468b00932fa27fdbe, type: 3}
   swordSpecial: {fileID: 8300000, guid: b9d2b2be796af4c4babc0e7b45417efb, type: 3}
   magicSpecial: {fileID: 8300000, guid: 9491b2328b60fb247b636f2c0592fe4a, type: 3}
-  kaboom: {fileID: 0}
+  kaboom: {fileID: 8300000, guid: 74c79c67d74e07d47b730298d182b72c, type: 3}
   damageText: {fileID: 100000, guid: 2173d4d4ee922db4a92d3e0e7293b9c8, type: 2}
   GUI: {fileID: 158210, guid: d0d61fa94ffed8c4696555ed1e561ee4, type: 2}
   eventListener: {fileID: 100000, guid: ca10e4e4c259d0641ac5dc611b6604ac, type: 2}
@@ -192,10 +192,10 @@ MonoBehaviour:
   killsScore: 0
   guyantKillsScore: 20
   gwarfKillsScore: 20
-  grobbleKillsScore: 20
-  headshotsScore: 40
-  killStreakScore: 100
-  headShotStreakScore: 200
+  grobbleKillsScore: 15
+  headshotsScore: 50
+  killStreakScore: 200
+  headShotStreakScore: 400
   playerKillsScore: 20
   towerKillsScore: 10
   allBarricades: []
