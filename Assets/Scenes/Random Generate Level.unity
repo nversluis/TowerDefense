@@ -83,6 +83,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 14726754}
   - 114: {fileID: 14726753}
+  - 114: {fileID: 14726755}
   m_Layer: 0
   m_Name: ResourceManager
   m_TagString: Untagged
@@ -102,6 +103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7321a888faeaae47875ca40443ccd1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  name: Hero
   startGold: 1000
   costMagicTower: 175
   costArrowTower: 150
@@ -110,7 +112,7 @@ MonoBehaviour:
   costPoisonTrap: 75
   costBarricade: 200
   rewardenemy: 10
-  rewardWave: 400
+  rewardWave: 600
   coolDownSword1Time: .5
   coolDownSword2Time: 10
   coolDownMagic1Time: .200000003
@@ -139,7 +141,7 @@ MonoBehaviour:
   height: 3
   nodeSize: 2.5
   NumberOfPaths: 3
-  drawNavigationGrid: 1
+  drawNavigationGrid: 0
   enemyTag: Enemy
   enemyGuyant: {fileID: 100052, guid: 6a25f25271f527644ab0b18b0e7c536e, type: 2}
   enemyGwarf: {fileID: 188948, guid: 37f21c745b6e3ff43942e88e21aba537, type: 2}
@@ -150,15 +152,15 @@ MonoBehaviour:
   automaticPathUpdating: 1
   currentWave: 1
   maxWaves: 20
-  maxEnemies: 20
-  toenameAantalEnemiesPerWave: 5
+  maxEnemies: 15
+  toenameAantalEnemiesPerWave: 3
   timeBetweenWaves: 5
   keepType: 0
   keepDistribution: 1
   mutationProbability: .699999988
-  totalStatPoints: 100
-  toenameTotalStatPointsPerWave: 30
-  startSpawnTime: .5
+  totalStatPoints: 80
+  toenameTotalStatPointsPerWave: 10
+  startSpawnTime: 1
   currentSpawnTime: 0
   AfnameSpawnTimeFactor: .99000001
   maxTowerDistance: 15
@@ -242,6 +244,18 @@ Transform:
   - {fileID: 970448471}
   m_Father: {fileID: 0}
   m_RootOrder: 1
+--- !u!114 &14726755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11444152, guid: ac70d7e38b4e1eb4f8eacd13550d1854,
+    type: 2}
+  m_PrefabInternal: {fileID: 617111019}
+  m_GameObject: {fileID: 14726752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6598bf6490f73f479b3c30c72f4f29b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &238715492
 GameObject:
   m_ObjectHideFlags: 0
@@ -569,7 +583,7 @@ MonoBehaviour:
   tow3Input: 51
   tow4Input: 52
   tow5Input: 53
-  tow6Input: 96
+  tow6Input: 57
   tow7Input: 54
   upgradeMenuInput: 55
   upgradeInput: 323
@@ -617,7 +631,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Sprite: {fileID: 21300000, guid: 5ef5372d5ff2a0949ba41919dcc40f14, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c9b8f2fd3d8e2f843bcbd8e80941e5f0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -888,9 +902,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Sprite: {fileID: 21300000, guid: 61d724d2514fcb04cb7bf27cb92fa1a8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: eac384b75b509a24386dcc674edcc584, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -1026,6 +1040,16 @@ Prefab:
       propertyPath: m_SizeDelta.y
       value: -972
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: c59155148cd0fed47933eb2f34d04fb2, type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c9b8f2fd3d8e2f843bcbd8e80941e5f0,
+        type: 3}
+    - target: {fileID: 11459960, guid: c59155148cd0fed47933eb2f34d04fb2, type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: eac384b75b509a24386dcc674edcc584,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c59155148cd0fed47933eb2f34d04fb2, type: 2}
   m_RootGameObject: {fileID: 760114883}
