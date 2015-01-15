@@ -5364,10 +5364,10 @@ MonoBehaviour:
   - {fileID: 11426200}
   - {fileID: 11426198}
   shopCurrentList:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11426222}
+  - {fileID: 11426216}
+  - {fileID: 11426202}
+  - {fileID: 11426196}
   shopButtonList:
   - {fileID: 11426238}
   - {fileID: 11426244}
