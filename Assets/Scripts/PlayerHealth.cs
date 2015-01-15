@@ -16,6 +16,11 @@ public class PlayerHealth : MonoBehaviour {
     {
         defence += addDefense;
     }
+
+    public int getDefStat()
+    {
+        return defence;
+    }
     
     void Awake()
     {
@@ -65,7 +70,7 @@ public class PlayerHealth : MonoBehaviour {
         isDead = true;
         guiScript.resultScoreText.text = Statistics.Score().ToString();
         guiScript.EndGame("Player");
-        ScoreServer.sendScoreToServer();
+        //ScoreServer.sendScoreToServer();
         //new ScoreServer().sendScoreToServer(); 
 
         //Destroy(this.gameObject);
