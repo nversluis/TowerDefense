@@ -17,7 +17,7 @@ public class ScoreServer : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Debug.Log("naam = " + naam);
+
 	}
 
     static public void sendScoreToServer()
