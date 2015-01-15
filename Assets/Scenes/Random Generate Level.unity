@@ -116,7 +116,7 @@ MonoBehaviour:
   coolDownSword1Time: .5
   coolDownSword2Time: 10
   coolDownMagic1Time: .200000003
-  coolDownMagic2Time: 30
+  coolDownMagic2Time: 60
   defense: 10
   speed: 10
   startSwordDamage: 5000
@@ -338,6 +338,10 @@ Prefab:
       propertyPath: Gate
       value: 
       objectReference: {fileID: 100000, guid: d4693b6abfa404c2083cd46be293e93c, type: 2}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: coolDownMagic2Time
+      value: 60
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
   m_RootGameObject: {fileID: 14726752}

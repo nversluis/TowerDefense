@@ -16,6 +16,11 @@ public class PlayerHealth : MonoBehaviour {
     {
         defence += addDefense;
     }
+
+    public int getDefStat()
+    {
+        return defence;
+    }
     
     void Awake()
     {
