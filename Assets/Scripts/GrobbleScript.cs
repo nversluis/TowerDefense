@@ -41,7 +41,7 @@ public class GrobbleScript : MonoBehaviour
     float goalImportance;
     float playerImportance;
 
-    public int i = 0;
+    int i = 0;
 
     bool drawPath;
     bool automaticPathUpdating;
