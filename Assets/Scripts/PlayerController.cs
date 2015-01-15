@@ -384,11 +384,11 @@ public class PlayerController : MonoBehaviour
                 else
                 {
                     camShootDistance = hit.point - (transform.position + tijdelijk + new Vector3(Mathf.Sin(camAngleY * Mathf.Deg2Rad), 0f, Mathf.Cos(camAngleY * Mathf.Deg2Rad)));
-                    camShootDistance = camShootDistance + ((new Vector3(Random.Range(-50, 50), Random.Range(-50, 50), Random.Range(-50, 50)).normalized * distortion) * camShootDistance.magnitude) / 80f; ;
                 }
 
                 // add the force to the bullet
                 bullet.rigidbody.velocity = camShootDistance.normalized * BulletSpeed;
+                AddBulletDistortion();
                
                 // looking in the direction of the camera
                 audio.PlayOneShot(magic,15f);

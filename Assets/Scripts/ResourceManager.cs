@@ -149,6 +149,8 @@ public class ResourceManager : MonoBehaviour {
     public AudioClip swordSpecial;
     public AudioClip magicSpecial;
 
+    public AudioClip kaboom;
+
 	[Header("HitSplash")]
 	public GameObject damageText;
 
