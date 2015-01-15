@@ -82,17 +82,6 @@ public class GuyantScript : MonoBehaviour
 	void WalkSpeed ()
 	{
 		speedReduce = enemyResources.isSlowed;
-//        // if the enemy is slowed
-//        if (enemyResources.isSlowed)
-//        {
-//            // reduce speed
-//            speedReduce = resourceManager.speedReduceRate;
-//        }
-//        else
-//        {
-//            // else speed is is normal speed;
-//            speedReduce = 1;
-//        }
 		walkSpeed = normalWalkSpeed / speedReduce;
 	}
 
@@ -175,34 +164,30 @@ public class GuyantScript : MonoBehaviour
 
 
 			// if the player is near the enemy attack the player
-			if ((player.transform.position - transform.position).magnitude < 3f) {
+			else if ((player.transform.position - transform.position).magnitude < 3f) {
 
 				// set speed to zero and attack
 				rigidbody.velocity = Vector3.zero;
 				enemyResources.walking = false;
 				enemyResources.attacking = true;
-			}
-
-
-
-			bool attackingBar = false;
-			foreach (Vector3 barricade in barricades) {// if the enemy is near the barricade attack the barricade
-				if (barricade != null && (new Vector3(barricade.x,transform.position.y,barricade.z) - transform.position).magnitude < 5f && !attackingBar) {
-					// set speed to zero and attack
-					rigidbody.velocity = Vector3.zero;
-					enemyResources.walking = false;
-					enemyResources.attacking = true;
-					attackingBar = true;
-					foreach(GameObject tarBar in resourceManager.allBarricades)
-					{
-						if (tarBar.transform.position == barricade) {
-							enemyResources.targetBarricade = tarBar;
+			} else {
+				bool attackingBar = false;
+				foreach (Vector3 barricade in barricades) {// if the enemy is near the barricade attack the barricade
+					if (barricade != null && (new Vector3 (barricade.x, transform.position.y, barricade.z) - transform.position).magnitude < 5f && !attackingBar) {
+						// set speed to zero and attack
+						rigidbody.velocity = Vector3.zero;
+						enemyResources.walking = false;
+						enemyResources.attacking = true;
+						attackingBar = true;
+						foreach (GameObject tarBar in resourceManager.allBarricades) {
+							if (tarBar.transform.position == barricade) {
+								enemyResources.targetBarricade = tarBar;
+							}
 						}
-					}
 
+					}
 				}
 			}
-
 			// when enemy is dead
 			if (enemyResources.isDead) {
 				// set speed to zero

@@ -34,7 +34,6 @@ public class GuyantAttack : MonoBehaviour
 	{
 		GameObject barricade = enemyResources.targetBarricade;
 		GameObject goal = GameObject.Find("Goal");
-		Debug.Log((new Vector3(goal.transform.position.x,transform.position.y,goal.transform.position.z)-transform.position).magnitude);
 		if(goal!=null && (new Vector3(goal.transform.position.x,transform.position.y,goal.transform.position.z)-transform.position).magnitude<5f){
 			goal.GetComponent<GoalScript>().removeLife(attackDamage);
 			transform.LookAt(new Vector3(goal.transform.position.x,transform.position.y,goal.transform.position.z));

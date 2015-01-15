@@ -232,8 +232,6 @@ public class RandomMaze : MonoBehaviour
 	//Method to generate walls
 	public static void GenerateWall (ArrayList positions, float planewidth, GameObject wallPrefab, GameObject torch, float height, int length, int width, GameObject parent, Vector2 endPos, Vector2 startPos)
 	{
-		Debug.Log (startPos);
-		Debug.Log (length);
 		hasGate = 0;
 		hasEnd = 0;
 		int n;
@@ -242,7 +240,6 @@ public class RandomMaze : MonoBehaviour
 		for (int l = 0; l <= length; l++) { //for the complete length of the map
 			for (int w = -width; w <= width; w++) { //and for the complete width of the map
 				if (positions.Contains (new Vector2 (l, w))) {
-					Debug.Log (hasEnd);
 					if (!positions.Contains (new Vector2 (l + 1, w))) { //If there no floor east, create a wall east
 						if ((l + w) % 2 == 1 && new Vector2 (l, w) != endPos && new Vector2 (l, w) != startPos)
 							GenerateTorch (l + 0.5f, w, 90, torch, planewidth, height);
@@ -279,7 +276,6 @@ public class RandomMaze : MonoBehaviour
 							gate.transform.localScale /= 1.9f;
 						} else if (l == 0 && new Vector2 (l, w) == startPos && hasEnd == 0) {
 							hasEnd = 2;
-							Debug.Log (2);
 							GameObject end = (GameObject)Instantiate (resourceManager.Goal, new Vector3 (startPos.x - 0.55f, 1, startPos.y) * planewidth, Quaternion.Euler (0, 90, 0));
 							end.name = "Goal";
 							end.transform.localScale *= 1.8f;
@@ -306,7 +302,6 @@ public class RandomMaze : MonoBehaviour
 							gate.transform.localScale /= 1.9f;
 						} else if (w == width && new Vector2 (l, w) == startPos && hasEnd == 0) {
 							hasEnd = 3;
-							Debug.Log (1);
 							GameObject end = (GameObject)Instantiate (resourceManager.Goal, new Vector3 (startPos.x, 1, startPos.y + 0.55f) * planewidth, Quaternion.Euler (0, 180, 0));
 							end.name = "Goal";
 							end.transform.localScale *= 1.8f;
@@ -332,7 +327,6 @@ public class RandomMaze : MonoBehaviour
 							gate.transform.localScale /= 1.9f;
 						} else if (new Vector2 (l, w) == startPos && hasEnd == 0) {
 							hasEnd = 4;
-							Debug.Log (1);
 							GameObject end = (GameObject)Instantiate (resourceManager.Goal, new Vector3 (startPos.x, 1, startPos.y - 0.55f) * planewidth, Quaternion.Euler (0, 0, 0));
 							end.name = "Goal";
 							end.transform.localScale *= 1.8f;
