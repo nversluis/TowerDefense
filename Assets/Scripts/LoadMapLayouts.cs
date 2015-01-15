@@ -76,6 +76,10 @@ public class LoadMapLayouts : MonoBehaviour {
 
     ResourceManager resourceManager;
 
+    bool ready;
+
+    public GameObject spacebar;
+
     void Start()
     {
         cameraAudioSource = GameObject.Find("BackGroundCamera").GetComponent<AudioSource>();
@@ -634,9 +638,12 @@ public class LoadMapLayouts : MonoBehaviour {
         loadingScreen.GetComponentInChildren<Text>().text = "Loading: Lighting torches...";
 
         resourceManager.Nodes = Nodes;
-
         disableLevelEditor();
-        loadingScreen.SetActive(false);
+        Time.timeScale = 0;
+        ready = true;
+        loadingScreen.GetComponentInChildren<Text>().gameObject.SetActive(false);
+        spacebar.SetActive(true);
+
 
     }
     void GenerateFloor()
@@ -664,10 +671,18 @@ public class LoadMapLayouts : MonoBehaviour {
         cam.gameObject.SetActive(false);
         Destroy(canvas);
         Destroy(GameObject.Find("EditorLight"));
-        Destroy(this.gameObject);
 
     }
     void Update()
     {
+        
+        if (ready && Input.GetKeyDown(KeyCode.Space))
+        {
+            
+            loadingScreen.SetActive(false);
+            Time.timeScale = 1;
+            Destroy(this.gameObject);
+
+        }
     }
 }

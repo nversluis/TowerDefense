@@ -283,7 +283,23 @@ public class GuyantScript : MonoBehaviour
 		// Repeat the pathfinding process
 		if (automaticPathUpdating) {
 			Target = goal;
-			InvokeRepeating ("BuildPath", 0, pathUpdateRate);
+			// determine a path to a goal
+			List<WayPoint> WPPath = Navigator.Path (transform.position - new Vector3 (0f, transform.position.y, 0f), Target.transform.position - new Vector3 (0f, Target.transform.position.y, 0f), nodeSize, grid, dfactor);
+			barricades = new List<Vector3> ();
+            if (WPPath != null)
+            {
+                Path = new List<Vector3>();
+                foreach (WayPoint wp in WPPath)
+                {
+                    Path.Add(wp.getPosition());
+                    if (wp.getBarCount() > 0)
+                    {
+                        barricades.Add(wp.getBarricade());
+                    }
+
+                }
+            }
+			InvokeRepeating ("BuildPath", 5, pathUpdateRate);
 		} else {
 			Target = goal;
 			BuildPath ();

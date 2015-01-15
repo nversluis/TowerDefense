@@ -5,6 +5,9 @@ using System.Collections.Generic;
 public class ResourceManager : MonoBehaviour {
 	private PlayerData playerData = GUIScript.player;
 
+    [Header("Naam")]
+    public string name;
+
 	//prefabs
 	[Header("Costs")]
 	public int startGold;
@@ -31,6 +34,8 @@ public class ResourceManager : MonoBehaviour {
     public int specialMagicDamage;
     public GameObject hitParticles;
     public GameObject hitExplosionParticles;
+    public GameObject ExplosionMagic;
+    public GameObject Explosion;
 
 
 	[Header("Map Prefabs")]

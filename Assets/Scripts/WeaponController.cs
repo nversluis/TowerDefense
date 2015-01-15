@@ -48,9 +48,12 @@ public class WeaponController : MonoBehaviour
 		FloorTower3 = resourceManager.iceTrapHotspot;
 		FloorTower4 = resourceManager.spearTrapHotspot;
 		barricade = resourceManager.barricade;
-		curTower = Tower1;
-		curFloorTower = null;
-		weapon = 25;
+        weapSelected = true;
+        curTower = null;
+        curFloorTower = null;
+        weapon = 1;
+        player.setSkill(0);
+        WallScript.DestroyHotSpots();
 		trapGridSize = 1;
 	}
 
@@ -141,26 +144,30 @@ public class WeaponController : MonoBehaviour
 			WallScript.DestroyHotSpots ();
 			weapon = 65; 
 			player.setTower (4);
-		} else if (Input.GetKey (inputManager.tow6Input)&& weapon!=75 && !weapSelected) {
-			curTower = null;
-			curFloorTower = FloorTower4;
-			WallScript.DestroyHotSpots ();
-			weapon = 75; 
-			player.setTower (5);
+        //} else if (Input.GetKey (inputManager.tow6Input)&& weapon!=75 && !weapSelected) {
+        //    curTower = null;
+        //    curFloorTower = FloorTower4;
+        //    WallScript.DestroyHotSpots ();
+        //    weapon = 75; 
+        //    player.setTower (5);
 		} else if (Input.GetKey (inputManager.tow7Input)&& weapon!=85 && !weapSelected) {
 			curTower = null;
 			curFloorTower = barricade;
 			WallScript.DestroyHotSpots ();
 			weapon = 85; 
-			player.setTower (6);
+			player.setTower (5);
 		}
-		else if (Input.GetKey (inputManager.upgradeMenuInput) && !weapSelected) {
-			curTower = null;
-			curFloorTower = null;
-			WallScript.DestroyHotSpots ();
-			weapon = 50; //arbitrary 
-			//player.setTower (7);
-		}
+
+        else if (Input.GetKey(inputManager.upgradeMenuInput) && weapon != 50 && !weapSelected)
+        {
+            curTower = null;
+            curFloorTower = null;
+            WallScript.DestroyHotSpots();
+            weapon = 50; //arbitrary 
+            player.setTower(6);
+
+
+        }
 	}
 
 

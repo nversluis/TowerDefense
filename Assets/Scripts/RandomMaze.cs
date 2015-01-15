@@ -48,6 +48,9 @@ public class RandomMaze : MonoBehaviour
     public AudioClip startGame;
     public GameObject mainCamera;
 
+    bool ready;
+    public GameObject spacebar;
+
 
 
 
@@ -88,6 +91,7 @@ public class RandomMaze : MonoBehaviour
 		NodesPos = new List<Vector3> ();
 		Nodes = new List<WayPoint> ();
         LoadingScreen.SetActive(true);
+        Screen.showCursor = false;
 
         cameraAudioSource.PlayOneShot(startGame, 5f);
 
@@ -125,9 +129,19 @@ public class RandomMaze : MonoBehaviour
 		//MakeNodeList (nodeSize,NodesPos,Nodes);
 		//create the minimap camera
 		resourceManager.Nodes = Nodes;
-		LoadingScreen.SetActive (false);
-
+        Time.timeScale = 0;
+        ready = true;
+        spacebar.SetActive(true);
+        LoadingScreen.GetComponentInChildren<Text>().gameObject.SetActive(false);
+        
 	}
+    void Update()
+    {
+        if(ready && Input.GetKeyDown(KeyCode.Space)){
+            LoadingScreen.SetActive(false);
+            Time.timeScale = 1;
+        }
+    }
 
 	//generate floors
 	private void GenerateFloor ()
@@ -244,7 +258,7 @@ public class RandomMaze : MonoBehaviour
 							n = 2;
 							hasGate = 1;
 							GameObject gate = (GameObject)Instantiate(resourceManager.Gate, new Vector3(endPos.x+0.55f, 0, endPos.y)*planewidth, Quaternion.Euler(0,-90,0));
-							gate.transform.localScale /= 2;
+							gate.transform.localScale /= 1.9f;
 						} else {
 							n = 0;
 						}
@@ -262,7 +276,7 @@ public class RandomMaze : MonoBehaviour
 							n = 2;
 							hasGate = 2;
 							GameObject gate = (GameObject)Instantiate(resourceManager.Gate, new Vector3(endPos.x-0.55f, 0, endPos.y)*planewidth, Quaternion.Euler(0,90,0));
-							gate.transform.localScale /= 2;
+							gate.transform.localScale /= 1.9f;
 						} else {
 							n = 0;
 						}
@@ -281,7 +295,7 @@ public class RandomMaze : MonoBehaviour
 							n = 2;
 							hasGate = 3;
 							GameObject gate = (GameObject)Instantiate(resourceManager.Gate, new Vector3(endPos.x, 0, endPos.y+0.55f)*planewidth, Quaternion.Euler(0,180,0));
-							gate.transform.localScale /= 2;
+							gate.transform.localScale /= 1.9f;
 						} else {
 							n = 0;
 						}
@@ -299,7 +313,7 @@ public class RandomMaze : MonoBehaviour
 							n = 2;
 							hasGate = 4;
 							GameObject gate = (GameObject)Instantiate(resourceManager.Gate, new Vector3(endPos.x, 0, endPos.y-0.55f)*planewidth, Quaternion.Euler(0,0,0));
-							gate.transform.localScale /= 2;
+							gate.transform.localScale /= 1.9f;
 						} else {
 							n = 0;
 						}
