@@ -24,6 +24,7 @@ public class Statistics : MonoBehaviour {
     static int towerKillsScore;
 
     static float lastKillTime = 0;
+    public static int score;
 
     static int currentKillStreak;
     static int currentHeadShotStreak;
@@ -168,11 +169,17 @@ public class Statistics : MonoBehaviour {
         score += playerKills * playerKillsScore;
         score += towerKills * towerKillsScore;
 
+        //Debug.Log("score = " + score);
         return score;
     }
 
+
+
+
+
     void Update()
     {
+        Statistics.score = Score();
     }
 
 }

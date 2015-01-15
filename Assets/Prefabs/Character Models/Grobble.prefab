@@ -816,7 +816,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackDamage: 0
   playerDistance: 0
-  damageMultiplier: 50
+  damageMultiplier: 25
   totalDamage: 0
   player: {fileID: 0}
   invoked: 0
