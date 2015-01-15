@@ -65,7 +65,7 @@ public class PlayerHealth : MonoBehaviour {
         isDead = true;
         guiScript.resultScoreText.text = Statistics.Score().ToString();
         guiScript.EndGame("Player");
-        ScoreServer.sendScoreToServer();
+        //ScoreServer.sendScoreToServer();
         //new ScoreServer().sendScoreToServer(); 
 
         //Destroy(this.gameObject);
