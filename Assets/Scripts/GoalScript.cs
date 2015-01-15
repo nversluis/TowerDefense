@@ -4,8 +4,8 @@ using UnityEngine.UI;
 
 public class GoalScript : MonoBehaviour {
 
-	private float lives;
-	private float maxLives;
+	private float health;
+	private float maxHealth;
     private bool Lost;
 
     GameObject gui;
@@ -14,19 +14,18 @@ public class GoalScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
       //  livesText = GameObject.Find("NumOfLives").GetComponent<Text>(); ;
-        gui = GameObject.Find("GUIMain");
-        guiScript = gui.GetComponent<GUIScript>();
-		lives = 15;
-		maxLives = lives;
+        //gui = GameObject.Find("GUIMain");
+        //guiScript = gui.GetComponent<GUIScript>();
+		health = 5000;
+		maxHealth = health;
 	}
 	
 	// Update is called once per frame
 	void Update () {
        // livesText.text = lives.ToString();
-
-        if (lives < 1)
+		if (health <= 0)
         {
-            lives = 0;
+            health = 0;
             Lost = true;
         }
 
@@ -38,14 +37,24 @@ public class GoalScript : MonoBehaviour {
 	}
 
     public float getLives() {
-        return lives;
+		return health;
     }
 
     public float getMaxLives() {
-        return maxLives;
+        return maxHealth;
     }
 
-    public void removeLife() {
-        lives -= 1;
+	public void removeLife(int damage) {
+		health -= damage;
     }
+
+	public void removeLife() {
+		health -= 1000;
+	}
+
+	public void setGui()
+	{
+		gui = GameObject.Find("GUIMain");
+		guiScript = gui.GetComponent<GUIScript>();
+	}
 }

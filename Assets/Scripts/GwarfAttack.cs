@@ -23,6 +23,8 @@ public class GwarfAttack : MonoBehaviour
 
     LayerMask allowMask = 1 << 10;
 
+	Vector3 endLoc = new Vector3();
+
     void Start()
     {
         totalDamage = 0;
@@ -33,7 +35,7 @@ public class GwarfAttack : MonoBehaviour
         enemyStats = GetComponent<EnemyStats>();
         enemyResources = GetComponent<EnemyResources>();
         attackDamage = enemyStats.attack * damageMultiplier;
-
+		endLoc = GameObject.Find ("Goal").transform.position;
     }
 
     void Attack()

@@ -1068,7 +1068,7 @@ MonoBehaviour:
   Minimapcamera: {fileID: 100000, guid: ea52609adf144e449bfeac563da51684, type: 2}
   Gate: {fileID: 100000, guid: d4693b6abfa404c2083cd46be293e93c, type: 2}
   torch: {fileID: 100012, guid: 3abc6258d3b3848199581033a47549d6, type: 2}
-  Goal: {fileID: 187034, guid: 238816a3ef63d0443b7f2d1338df4329, type: 2}
+  Goal: {fileID: 151086, guid: e63dfe4362b35f24cb1c787445b9a07e, type: 2}
   length: 10
   width: 10
   planewidth: 10
@@ -1141,7 +1141,7 @@ MonoBehaviour:
   swordSpecial: {fileID: 8300000, guid: b9d2b2be796af4c4babc0e7b45417efb, type: 3}
   magicSpecial: {fileID: 8300000, guid: 9491b2328b60fb247b636f2c0592fe4a, type: 3}
   damageText: {fileID: 100000, guid: 2173d4d4ee922db4a92d3e0e7293b9c8, type: 2}
-  GUI: {fileID: 125416, guid: 6dd1d023576b0fc409ea0dbd447c865f, type: 2}
+  GUI: {fileID: 158210, guid: d0d61fa94ffed8c4696555ed1e561ee4, type: 2}
   eventListener: {fileID: 100000, guid: ca10e4e4c259d0641ac5dc611b6604ac, type: 2}
   lengthMinimap: 200
   heightMinimap: 200
