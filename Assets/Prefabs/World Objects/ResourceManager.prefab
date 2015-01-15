@@ -175,7 +175,7 @@ MonoBehaviour:
   sword3: {fileID: 8300000, guid: 5fbadd7f7d9e681468b00932fa27fdbe, type: 3}
   swordSpecial: {fileID: 8300000, guid: b9d2b2be796af4c4babc0e7b45417efb, type: 3}
   magicSpecial: {fileID: 8300000, guid: 9491b2328b60fb247b636f2c0592fe4a, type: 3}
-  kaboom: {fileID: 8300000, guid: 74c79c67d74e07d47b730298d182b72c, type: 3}
+  kaboom: {fileID: 0}
   damageText: {fileID: 100000, guid: 2173d4d4ee922db4a92d3e0e7293b9c8, type: 2}
   GUI: {fileID: 158210, guid: d0d61fa94ffed8c4696555ed1e561ee4, type: 2}
   eventListener: {fileID: 100000, guid: ca10e4e4c259d0641ac5dc611b6604ac, type: 2}
