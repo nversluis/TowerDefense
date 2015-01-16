@@ -61,7 +61,7 @@ public class TrapScript : MonoBehaviour
 			stats.upgradeCost = cost;
 			stats.sellCost = cost/2;
 		} else {
-
+			GameObject.Find("GUIMain").GetComponent<GUIScript>().Notification ("NoGold");
 		}
 	}
 
