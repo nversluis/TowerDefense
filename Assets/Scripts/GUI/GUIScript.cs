@@ -77,22 +77,22 @@ public class GUIScript : MonoBehaviour {
     public Text enemyText;
     public GameObject enemyPanel;
 
-	[Header("Tower panel")]
-	public GameObject towerPanel;
-	public Text towerName;
-	public Text attack;
-	public Text speed;
-	public Text special;
-	public Text sell;
-	public Text upgrade;
-	public Text attackU;
-	public Text speedU;
-	public Text specialU;
+    [Header("Tower panel")]
+    public GameObject towerPanel;
+    public Text towerName;
+    public Text attack;
+    public Text speed;
+    public Text special;
+    public Text sell;
+    public Text upgrade;
+    public Text attackU;
+    public Text speedU;
+    public Text specialU;
 
 
     private GameObject camera;
     private RectTransform rect;
-	private LayerMask enemyMask = ((1 << 12) | (1 << 10) | (1 << 8));
+    private LayerMask enemyMask = ((1 << 12) | (1 << 10) | (1 << 8));
     private RaycastHit hit;
 
     private float currentHP;
@@ -115,8 +115,9 @@ public class GUIScript : MonoBehaviour {
     private bool firstWaveStarted;
     private string shiftDir;
 
-    [Header("Headshot Image")]
-    public GameObject headshotImage;
+    [Header("Notifications")]
+    public GameObject notificationImage;
+    public Sprite[] notificationSprites = new Sprite[3];
 
     [Header("Item Shop")]
     public GameObject shopPanel;
@@ -149,12 +150,12 @@ public class GUIScript : MonoBehaviour {
     private GoalScript goalScript;
     private WaveSpawner waveSpawner;
 
-	private GameObject ResourceManagerObj;
-	private ResourceManager resourceManager;
+    private GameObject ResourceManagerObj;
+    private ResourceManager resourceManager;
     void Start() {
         /* Get private components */
-		ResourceManagerObj = GameObject.Find ("ResourceManager");
-		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
+        ResourceManagerObj = GameObject.Find("ResourceManager");
+        resourceManager = ResourceManagerObj.GetComponent<ResourceManager>();
 
         // Camera Auiodsource
         cameraAudioSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
@@ -217,7 +218,7 @@ public class GUIScript : MonoBehaviour {
 
         skillset = player.getSkills();
         inventory = player.getItems();
-    
+
         // Skills 
         foreach(Image im in skillIconList) {
             im.fillClockwise = false;
@@ -277,7 +278,7 @@ public class GUIScript : MonoBehaviour {
         shiftDir = "down";
 
         // Headshot image
-        headshotImage.SetActive(false);
+        notificationImage.SetActive(false);
 
         // Shop
         shopPanel.SetActive(false);
@@ -295,7 +296,7 @@ public class GUIScript : MonoBehaviour {
 
         for(int i = 0; i < shopCurrentList.Length; i++) {
             Text tx = shopCurrentList[i];
-            switch(i){
+            switch(i) {
                 case 0:
                     tx.text = playerController.getAtkStat().ToString();
                     break;
@@ -312,10 +313,10 @@ public class GUIScript : MonoBehaviour {
             }
         }
 
-            for(int i = 0; i < costTextList.Length; i++) {
-                Text tx = costTextList[i];
-                tx.text = inventory[i].getCost().ToString();
-            }
+        for(int i = 0; i < costTextList.Length; i++) {
+            Text tx = costTextList[i];
+            tx.text = inventory[i].getCost().ToString();
+        }
 
         // Countdown
         countdownPanel.SetActive(false);
@@ -468,73 +469,75 @@ public class GUIScript : MonoBehaviour {
         rearBar.localScale = new Vector3((bufferedHP / maxHP), 1, 1);
     }
 
-	void UpdateEnemyStats ()
-	{
-		if (Physics.Raycast (camera.transform.position, camera.transform.forward, out hit, Mathf.Infinity,enemyMask)) {
-			TowerStats stats = hit.transform.GetComponentInChildren<TowerStats> ();
-			if (hit.transform.tag == "Enemy") {
-				EnemyHealth enemyHealth = hit.transform.GetComponent<EnemyHealth> ();
-				currentHP = enemyHealth.currentHealth;
-				maxHP = enemyHealth.startingHealth;
-				enemyText.text = hit.transform.name;
-				switch (hit.transform.name) {
-				case "Guyant":
-					enemyFace.sprite = enemyFaces [0];
-					break;
-				case "Gwarf":
-					enemyFace.sprite = enemyFaces [1];
-					break;
-				case "Grobble":
-					enemyFace.sprite = enemyFaces [2];
-					break;
-				}
-				rect.localScale = new Vector3 ((currentHP / maxHP), 1, 1);
-				enemyPanel.SetActive (true);
-				towerPanel.SetActive (false);
-			} else if (stats != null && WeaponController.weapon == 50) {
-				enemyPanel.SetActive (false);
-				towerPanel.SetActive (true);
-				GameObject tower = stats.transform.gameObject;
+    void UpdateEnemyStats() {
+        if(Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, Mathf.Infinity, enemyMask)) {
+            TowerStats stats = hit.transform.GetComponentInChildren<TowerStats>();
+            if(hit.transform.tag == "Enemy") {
+                EnemyHealth enemyHealth = hit.transform.GetComponent<EnemyHealth>();
+                currentHP = enemyHealth.currentHealth;
+                maxHP = enemyHealth.startingHealth;
+                enemyText.text = hit.transform.name;
+                switch(hit.transform.name) {
+                    case "Guyant":
+                        enemyFace.sprite = enemyFaces[0];
+                        break;
+                    case "Gwarf":
+                        enemyFace.sprite = enemyFaces[1];
+                        break;
+                    case "Grobble":
+                        enemyFace.sprite = enemyFaces[2];
+                        break;
+                }
+                rect.localScale = new Vector3((currentHP / maxHP), 1, 1);
+                enemyPanel.SetActive(true);
+                towerPanel.SetActive(false);
+            }
+            else if(stats != null && WeaponController.weapon == 50) {
+                enemyPanel.SetActive(false);
+                towerPanel.SetActive(true);
+                GameObject tower = stats.transform.gameObject;
 
-				towerName.text = tower.name.Replace ("(Clone)", "");
-				attack.text = "Attack: " + stats.attack;
-				speed.text = "Speed: " + stats.speed;
-				if (towerName.text.Contains ("Ice")) {
-					special.text = "Slowing with: " + stats.specialDamage;
+                towerName.text = tower.name.Replace("(Clone)", "");
+                attack.text = "Attack: " + stats.attack;
+                speed.text = "Speed: " + stats.speed;
+                if(towerName.text.Contains("Ice")) {
+                    special.text = "Slowing with: " + stats.specialDamage;
                     specialU.text = "↑" + GameObject.Find("TowerStats").GetComponent<TowerResources>().iceSpecialDamage;
-				} else {
-					special.text = "";
-					specialU.text = "";
-				}
-				sell.text = "Sell(+" + stats.sellCost + ")";
-				upgrade.text = "Upgrade(-" + stats.upgradeCost + ")";
-				attackU.text = "↑" + stats.attackUpgrade;
-				speedU.text = "↑" + stats.speedUpgrade;
+                }
+                else {
+                    special.text = "";
+                    specialU.text = "";
+                }
+                sell.text = "Sell(+" + stats.sellCost + ")";
+                upgrade.text = "Upgrade(-" + stats.upgradeCost + ")";
+                attackU.text = "↑" + stats.attackUpgrade;
+                speedU.text = "↑" + stats.speedUpgrade;
 
-			} else if (hit.transform.name.Contains ("arricade") && WeaponController.weapon == 50) {
-				enemyPanel.SetActive (false);
-				towerPanel.SetActive (true);
-				GameObject tower = hit.transform.gameObject;
-				barricade bar = tower.GetComponent<barricade> ();
-				towerName.text = tower.name.Replace ("(Clone)", "");
-				attack.text = "Health: " + bar.health;
-				speed.text = "Maximum Health: " + bar.maxHealth;
-				speedU.text = "↑" + (resourceManager.barricadeHealth);
-				attackU.text = "↑" + (bar.maxHealth - bar.health);
-				special.text = "";
-				specialU.text = "";
-				sell.text = "Sell(+" + bar.totalCost/2 + ")";
-				if(bar.maxHealth!=bar.health)
-					upgrade.text = "Repair(-" + (bar.maxHealth-bar.health) + ")";
-				else
-					upgrade.text = "Upgrade(-" + bar.cost*bar.maxHealth/resourceManager.barricadeHealth + ")";
-			}
-			else {
-				enemyPanel.SetActive (false);
-				towerPanel.SetActive (false);
-			}       
-		}
-	}
+            }
+            else if(hit.transform.name.Contains("arricade") && WeaponController.weapon == 50) {
+                enemyPanel.SetActive(false);
+                towerPanel.SetActive(true);
+                GameObject tower = hit.transform.gameObject;
+                barricade bar = tower.GetComponent<barricade>();
+                towerName.text = tower.name.Replace("(Clone)", "");
+                attack.text = "Health: " + bar.health;
+                speed.text = "Maximum Health: " + bar.maxHealth;
+                speedU.text = "↑" + (resourceManager.barricadeHealth);
+                attackU.text = "↑" + (bar.maxHealth - bar.health);
+                special.text = "";
+                specialU.text = "";
+                sell.text = "Sell(+" + bar.totalCost / 2 + ")";
+                if(bar.maxHealth != bar.health)
+                    upgrade.text = "Repair(-" + (bar.maxHealth - bar.health) + ")";
+                else
+                    upgrade.text = "Upgrade(-" + bar.cost * bar.maxHealth / resourceManager.barricadeHealth + ")";
+            }
+            else {
+                enemyPanel.SetActive(false);
+                towerPanel.SetActive(false);
+            }
+        }
+    }
 
     void UpdateWaveText() {
         int waveNo = waveSpawner.GetCurrentWave();
@@ -804,9 +807,24 @@ public class GUIScript : MonoBehaviour {
         return TowerPopup;
     }
 
-    public void HeadShot() {
-        headshotImage.SetActive(true);
-        Invoke("DisableHeadShot", 1.5f);
+    public void Notification(string reason) {
+        Image image = notificationImage.GetComponent<Image>();
+        switch(reason) {
+            case "Headshot":
+                image.sprite = notificationSprites[0];
+                break;
+            case "NoGold":
+                image.sprite = notificationSprites[1];
+                break;
+            case "LastWave":
+                image.sprite = notificationSprites[2];
+                break;
+            default:
+                image.sprite = null;
+                break;
+        }
+        notificationImage.SetActive(true);
+        Invoke("DisableNotification", 1.5f);
     }
 
     public void UpgradeSword() {
@@ -895,14 +913,14 @@ public class GUIScript : MonoBehaviour {
     IEnumerator ImageFlyIn(Sprite[] spLst, int time) {
         for(int i = 0; i <= time; i++) {
             countNumber.sprite = spLst[time - i];
-            countAnimator.SetTrigger("Counting");      
+            countAnimator.SetTrigger("Counting");
             yield return new WaitForSeconds(1f);
         }
         countdownPanel.SetActive(false);
     }
 
-    void DisableHeadShot() {
-        headshotImage.SetActive(false);
+    void DisableNotification() {
+        notificationImage.SetActive(false);
     }
 
 }
