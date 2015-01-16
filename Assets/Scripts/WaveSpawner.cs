@@ -225,10 +225,6 @@ public class WaveSpawner : MonoBehaviour
         {
             guiScript.resultScoreText.text = Statistics.Score().ToString();
             guiScript.EndGame("You Won!");
-            //ScoreServer.sendScoreToServer();
-
-
-            //new ScoreServer().sendScoreToServer(); // send score speler
             Won = false; 
 
         }
