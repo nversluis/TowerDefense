@@ -23,8 +23,6 @@ public class torchFire : MonoBehaviour {
 	}
 
 
-
-
 	private float NormalDist(){
 		float u1 =	Random.Range (0.001f, 100);
 		float u2 = Random.Range (0.001f, 100);

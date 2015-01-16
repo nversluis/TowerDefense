@@ -30,7 +30,7 @@ public class FloorScript : MonoBehaviour
 	void Update ()
 	{
 		//Debug.Log (CameraController.hitObject.name);
-		if (gameObject == CameraController.hitObject) { //if the object you are looking at is the floor
+		if (gameObject == CameraController.hitObject && gameObject.transform.parent.name.Contains("loor")) { //if the object you are looking at is the floor
 			if (gameObject.transform.childCount == 1) {
 				WallScript.DestroyHotSpots ();//Destroy all hotspots
 			}

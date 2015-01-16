@@ -153,14 +153,14 @@ MonoBehaviour:
   automaticPathUpdating: 1
   currentWave: 1
   maxWaves: 20
-  maxEnemies: 20
+  maxEnemies: 15
   toenameAantalEnemiesPerWave: 2
   timeBetweenWaves: 5
   keepType: 0
   keepDistribution: 1
   mutationProbability: .699999988
-  totalStatPoints: 150
-  toenameTotalStatPointsPerWave: 15
+  totalStatPoints: 80
+  toenameTotalStatPointsPerWave: 10
   startSpawnTime: .699999988
   currentSpawnTime: 0
   AfnameSpawnTimeFactor: .970000029
@@ -461,7 +461,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &854036927
 Light:
   m_ObjectHideFlags: 0
