@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-public class ScoreServer : MonoBehaviour {
+public class ScoreServer : MonoBehaviour
+{
 
     ResourceManager resourceManager;
     GameObject ResourceManagerObj;
@@ -14,8 +15,10 @@ public class ScoreServer : MonoBehaviour {
 
     static string scores;
 
-	// Use this for initialization
-	void Start () {
+
+    // Use this for initialization
+    void Start()
+    {
         ResourceManagerObj = GameObject.Find("ResourceManager");
         resourceManager = ResourceManagerObj.GetComponent<ResourceManager>();
         naam = resourceManager.name;
@@ -26,16 +29,18 @@ public class ScoreServer : MonoBehaviour {
         WWW www = new WWW(url);
         StartCoroutine(WaitForRequest(www));
     }
-	
-	// Update is called once per frame
-	void Update () {
-        getScoreFromServer();
+
+    // Update is called once per frame
+    void Update()
+    {
+        //getScoreFromServer();
         //splitScore();
-	}
+        // printMatrix(getHiscores(10));
+    }
 
     static public void sendScoreToServer(string naam)
     {
-        WWW www = new WWW("http://drproject.twi.tudelft.nl:8087/setScore?naam=" + naam + "&score=" + Statistics.score);
+        WWW www = new WWW("http://drproject.twi.tudelft.nl:8087/setStatistics?naam=" + naam + "&score=" + Statistics.score + "&waves=" + Statistics.currentWave);
 
         WaitForRequest(www);
     }
@@ -50,7 +55,6 @@ public class ScoreServer : MonoBehaviour {
     {
         yield return www;
         scores = www.text.ToString();
-        //Debug.Log(scores);
         splitScore();
     }
 
@@ -71,4 +75,30 @@ public class ScoreServer : MonoBehaviour {
         }
     }
 
+    public List<List<string>> getHiscores(int totRank)
+    {
+        List<List<string>> hiscoresTotRank = new List<List<string>>();
+
+        getScoreFromServer();
+
+        //Debug.Log("hiscores[0][0] = " + hiscores[0][0]);
+
+        for (int i = 0; i < totRank; i++)
+        {
+            hiscoresTotRank.Add(hiscores[i]);
+        }
+        return hiscoresTotRank;
+    }
+
+    public void printMatrix(List<List<string>> matrix)
+    {
+        for (int i = 0; i < matrix.Count; i++)
+        {
+            for (int j = 0; j < matrix[i].Count; j++)
+            {
+                Debug.Log(matrix[i][j]);
+            }
+        }
+
+    }
 }
