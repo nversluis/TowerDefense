@@ -6,14 +6,15 @@ public class MenuController : MonoBehaviour {
     // Objects
     public Animator startBtnAnim, quitBtnAnim, optionBtnAnim, editorBtnAnim, loadBtnAnim,optionPnlAnim;
     public GameObject optionPnl;
-    public Slider slider1, slider2, slider3, slider4, slider5;
     public AudioClip click;
     public GameObject mainCamera;
+    public Slider[] sliders = new Slider[3];
+    public Text[] sliderValues = new Text[3];
     AudioSource cameraAudioSource;
 
     // Slider values
-    float val1, val2, val3, val4, val5;
-    float old1, old2, old3, old4, old5;
+    int val1, val2, val3;
+    int old1, old2, old3;
     
     public void ButtonClick()
     {
@@ -24,6 +25,16 @@ public class MenuController : MonoBehaviour {
 
         cameraAudioSource = mainCamera.GetComponent<AudioSource>();
 
+        // Set options on first run
+        if(!PlayerPrefs.HasKey("BGM")) {
+            PlayerPrefs.SetInt("BGM", 100);
+        }
+        if(!PlayerPrefs.HasKey("SFX")) {
+            PlayerPrefs.SetInt("SFX", 100);
+        } 
+        if(!PlayerPrefs.HasKey("Difficulty")) {
+            PlayerPrefs.SetInt("Difficulty", 1);
+        }
 
         // Menu startup animation
         startBtnAnim.SetBool("Hidden", false);
@@ -35,37 +46,51 @@ public class MenuController : MonoBehaviour {
         // Options panel is not used; turn it off
         optionPnl.SetActive(false);
         // Load user preferences
-        val1 = PlayerPrefs.GetFloat("slider1");
-        val2 = PlayerPrefs.GetFloat("slider2");
-        val3 = PlayerPrefs.GetFloat("slider3");
-        val4 = PlayerPrefs.GetFloat("slider4");
-        val5 = PlayerPrefs.GetFloat("slider5");
+        val1 = PlayerPrefs.GetInt("BGM");
+        val2 = PlayerPrefs.GetInt("SFX");
+        val3 = PlayerPrefs.GetInt("Difficulty");
         // Set sliders to correct values
-        slider1.value = val1;
-        slider2.value = val2;
-        slider3.value = val3;
-        slider4.value = val4;
-        slider5.value = val5;
+        sliders[0].value = val1;
+        sliders[1].value = val2;
+        sliders[2].value = val3;
     }
 
-    void LateUpdate() {
+    void FixedUpdate() {
+        UpdateSliderVals();
+    }
+
+    void UpdateSliderVals() {
         // Extract values from sliders as long as the options panel is active
         if(optionPnl.activeSelf == true) {
-            val1 = slider1.value;
-            val2 = slider2.value;
-            val3 = slider3.value;
-            val4 = slider4.value;
-            val5 = slider5.value;
+            val1 = (int)sliders[0].value;
+            val2 = (int)sliders[1].value;
+            val3 = (int)sliders[2].value;
+        }
+        sliderValues[0].text = val1.ToString();
+        sliderValues[1].text = val2.ToString();
+        // Difficulty slider
+        switch(val3) {
+            case 0:
+                sliderValues[2].text = "n00b";
+                break;
+            case 1:
+                sliderValues[2].text = "Average";
+                break;
+            case 2:
+                sliderValues[2].text = "Expert";
+                break;
+            case 3:
+                sliderValues[2].text = "Godlike";
+                break;
         }
     }
+
     // Apply new options
     public void ApplyOptions() {
         // Save preferences
-        PlayerPrefs.SetFloat("slider1", val1);
-        PlayerPrefs.SetFloat("slider2", val2);
-        PlayerPrefs.SetFloat("slider3", val3);
-        PlayerPrefs.SetFloat("slider4", val4);
-        PlayerPrefs.SetFloat("slider5", val5);
+        PlayerPrefs.SetInt("BGM", val1);
+        PlayerPrefs.SetInt("SFX", val2);
+        PlayerPrefs.SetInt("Difficulty", val3);
         // And close the screen
         CloseOptionScreen();
     }
@@ -83,8 +108,6 @@ public class MenuController : MonoBehaviour {
         old1 = val1;
         old2 = val2;
         old3 = val3;
-        old4 = val4;
-        old5 = val5;
     }
     // Undo the changes made to the options
     public void CancelOptionScreen() {
@@ -92,13 +115,10 @@ public class MenuController : MonoBehaviour {
         val1 = old1;
         val2 = old2;
         val3 = old3;
-        val4 = old4;
-        val5 = old5;
-        slider1.value = val1;
-        slider2.value = val2;
-        slider3.value = val3;
-        slider4.value = val4;
-        slider5.value = val5;
+
+        sliders[0].value = val1;
+        sliders[1].value = val2;
+        sliders[2].value = val3;
         // And close the screen
         CloseOptionScreen();
     }

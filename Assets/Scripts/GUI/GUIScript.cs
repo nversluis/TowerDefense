@@ -501,7 +501,7 @@ public class GUIScript : MonoBehaviour {
 				speed.text = "Speed: " + stats.speed;
 				if (towerName.text.Contains ("Ice")) {
 					special.text = "Slowing with: " + stats.specialDamage;
-					specialU.text = "↑" + resourceManager.iceSpecial;
+                    specialU.text = "↑" + GameObject.Find("TowerStats").GetComponent<TowerResources>().iceSpecialDamage;
 				} else {
 					special.text = "";
 					specialU.text = "";
@@ -518,7 +518,7 @@ public class GUIScript : MonoBehaviour {
 				barricade bar = tower.GetComponent<barricade> ();
 				towerName.text = tower.name.Replace ("(Clone)", "");
 				attack.text = "Health: " + bar.health;
-				speed.text = "Maximu Health: " + bar.maxHealth;
+				speed.text = "Maximum Health: " + bar.maxHealth;
 				speedU.text = "↑" + (resourceManager.barricadeHealth);
 				attackU.text = "↑" + (bar.maxHealth - bar.health);
 				special.text = "";
@@ -642,8 +642,6 @@ public class GUIScript : MonoBehaviour {
             else {
                 bt.interactable = false;
             }
-            //Debug.Log("Current gold: " + player.getGold());
-            //Debug.Log("Current cost: " + inventory[i].getCost()[inventory[i].getTier() - 1]);
         }
 
         for(int i = 0; i < shopCurrentList.Length; i++) {
@@ -866,6 +864,32 @@ public class GUIScript : MonoBehaviour {
     public void WaveCountdown(int time = 5) {
         countdownPanel.SetActive(true);
         StartCoroutine(ImageFlyIn(countSpriteList, time));
+    }
+
+    public void UpdateBuildTower() {
+        /*
+        if(player.getTowerSelected()) {
+            enemyPanel.SetActive(false);
+            towerPanel.SetActive(true);
+            GameObject tower = stats.transform.gameObject;
+
+            towerName.text = tower.name.Replace("(Clone)", "");
+            attack.text = "Attack: " + stats.attack;
+            speed.text = "Speed: " + stats.speed;
+            if(towerName.text.Contains("Ice")) {
+                special.text = "Slowing with: " + stats.specialDamage;
+                specialU.enabled = false;
+            }
+            else {
+                special.text = "";
+                specialU.enabled = false;
+            }
+            sell.enabled = false;
+            upgrade.text = "Build(-" + stats.buildCost + ")";
+            attackU.text = "↑" + stats.attackUpgrade;
+            speedU.text = "↑" + stats.speedUpgrade;
+        }
+         */
     }
 
     IEnumerator ImageFlyIn(Sprite[] spLst, int time) {
