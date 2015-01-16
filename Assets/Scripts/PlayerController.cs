@@ -332,7 +332,7 @@ public class PlayerController : MonoBehaviour
 
 			
                 // creating a bullet in front of 1 unit away from Player
-                GameObject bullet = (GameObject)Instantiate(Bullet, transform.position + new Vector3((Mathf.Sin(camAngleY * Mathf.Deg2Rad)), 0f, Mathf.Cos(camAngleY * Mathf.Deg2Rad)) + tijdelijk, Quaternion.identity);
+                GameObject bullet = (GameObject)Instantiate(Bullet, transform.position + tijdelijk, Quaternion.identity);
 
                 // Casting a ray and storing information to hit
                 if (!Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, Mathf.Infinity, ignoreMaskBullet))
@@ -342,7 +342,7 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
-                    camShootDistance = hit.point - (transform.position + tijdelijk + new Vector3(Mathf.Sin(camAngleY * Mathf.Deg2Rad), 0f, Mathf.Cos(camAngleY * Mathf.Deg2Rad)));
+                    camShootDistance = hit.point - (transform.position + tijdelijk);
                     camShootDistance = camShootDistance + ((new Vector3(Random.Range(-50, 50), Random.Range(-50, 50), Random.Range(-50, 50)).normalized * distortion) * camShootDistance.magnitude) / 80f; ;
                 }
 
@@ -373,7 +373,7 @@ public class PlayerController : MonoBehaviour
 
 			
                 // creating a bullet in front of 1 unit away from Player
-                GameObject bullet = (GameObject)Instantiate(explosionBullet, transform.position + new Vector3((Mathf.Sin(camAngleY * Mathf.Deg2Rad)), 0f, Mathf.Cos(camAngleY * Mathf.Deg2Rad)) + tijdelijk, Quaternion.identity);
+                GameObject bullet = (GameObject)Instantiate(explosionBullet, transform.position + tijdelijk, Quaternion.identity);
 
                 // Casting a ray and storing information to hit
                 if (!Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, Mathf.Infinity, ignoreMaskBullet))
@@ -383,7 +383,7 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
-                    camShootDistance = hit.point - (transform.position + tijdelijk + new Vector3(Mathf.Sin(camAngleY * Mathf.Deg2Rad), 0f, Mathf.Cos(camAngleY * Mathf.Deg2Rad)));
+                    camShootDistance = hit.point - (transform.position + tijdelijk );
                 }
 
                 // add the force to the bullet
