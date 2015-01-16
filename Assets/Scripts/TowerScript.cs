@@ -46,12 +46,15 @@ public class TowerScript : MonoBehaviour
 			tower.tag = "Tower"; //Give tower a new tag, so it wont be destroyed because its a hotspot
 			tower.transform.parent = gameObject.transform.parent;
 			//tower.collider.isTrigger = false; //remove the trigger, cant walk trough it
-			Destroy (gameObject); // Destroy all hotspots
 			tower.SetActiveRecursively (true); //Active its children (the trigger)
 			gameObject.layer = 13;
 			playerData.addGold (-cost);
-		}else {
-			Debug.Log("Not enough gold to build " + realTower.name);
+			Debug.Log (cost);
+			Destroy (gameObject); // Destroy all hotspots
+
+		}
+		else {
+			GameObject.Find("GUIMain").GetComponent<GUIScript>().Notification ("NoGold");
 		}
     }
 
@@ -60,7 +63,7 @@ public class TowerScript : MonoBehaviour
     void Update()
     {
         //check for click to build tower
-        if (Input.GetMouseButtonUp(0) && gameObject.tag.Equals("TowerHotSpot"))
+        if (Input.GetMouseButtonUp(0) && gameObject.tag.Contains("HotSpot"))
         {
             BuildTower();
         }

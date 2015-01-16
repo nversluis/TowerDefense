@@ -135,6 +135,8 @@ public class WallScript : MonoBehaviour
 			playerData.addGold (-stats.upgradeCost);
 			stats.sellCost *= 2;
 			stats.upgradeCost *= 2;
+		} else {
+			GameObject.Find("GUIMain").GetComponent<GUIScript>().Notification ("NoGold");
 		}
 
 	}
