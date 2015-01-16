@@ -8136,6 +8136,42 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 144812, guid: d0d61fa94ffed8c4696555ed1e561ee4, type: 2}
+      propertyPath: m_Name
+      value: NotificationImage
+      objectReference: {fileID: 0}
+    - target: {fileID: 11458204, guid: d0d61fa94ffed8c4696555ed1e561ee4, type: 2}
+      propertyPath: notificationImage
+      value: 
+      objectReference: {fileID: 1697328650}
+    - target: {fileID: 11458204, guid: d0d61fa94ffed8c4696555ed1e561ee4, type: 2}
+      propertyPath: notificationSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 7b75d99fd18248042b9a33842d2fb9b4,
+        type: 3}
+    - target: {fileID: 11458204, guid: d0d61fa94ffed8c4696555ed1e561ee4, type: 2}
+      propertyPath: notificationSprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300000, guid: 7f2abc04317bb5a4eac97cfed8632adc,
+        type: 3}
+    - target: {fileID: 11458204, guid: d0d61fa94ffed8c4696555ed1e561ee4, type: 2}
+      propertyPath: notificationSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: 678a7857cd5a6b84da9c857cc2895538,
+        type: 3}
+    - target: {fileID: 22444812, guid: d0d61fa94ffed8c4696555ed1e561ee4, type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 800
+      objectReference: {fileID: 0}
+    - target: {fileID: 22444812, guid: d0d61fa94ffed8c4696555ed1e561ee4, type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 11444812, guid: d0d61fa94ffed8c4696555ed1e561ee4, type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 678a7857cd5a6b84da9c857cc2895538,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d0d61fa94ffed8c4696555ed1e561ee4, type: 2}
   m_RootGameObject: {fileID: 1700862205}
@@ -9309,7 +9345,7 @@ GameObject:
   - 222: {fileID: 1697328653}
   - 114: {fileID: 1697328652}
   m_Layer: 5
-  m_Name: HeadShotImage
+  m_Name: NotificationImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9331,7 +9367,7 @@ RectTransform:
   m_AnchorMin: {x: .5, y: 1}
   m_AnchorMax: {x: .5, y: 1}
   m_AnchoredPosition: {x: 0, y: -134}
-  m_SizeDelta: {x: 400, y: 200}
+  m_SizeDelta: {x: 800, y: 100}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &1697328652
 MonoBehaviour:
@@ -9347,7 +9383,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Sprite: {fileID: 21300000, guid: 7b75d99fd18248042b9a33842d2fb9b4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 678a7857cd5a6b84da9c857cc2895538, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -9474,7 +9510,11 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 21300000, guid: 03466d760feae4da0aabbbb1dc79af85, type: 3}
   firstWaveText: {fileID: 1498030111}
-  headshotImage: {fileID: 1697328650}
+  notificationImage: {fileID: 1697328650}
+  notificationSprites:
+  - {fileID: 21300000, guid: 7b75d99fd18248042b9a33842d2fb9b4, type: 3}
+  - {fileID: 21300000, guid: 678a7857cd5a6b84da9c857cc2895538, type: 3}
+  - {fileID: 21300000, guid: 7f2abc04317bb5a4eac97cfed8632adc, type: 3}
   shopPanel: {fileID: 239878168}
   shopImageList:
   - {fileID: 1823694737}

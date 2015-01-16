@@ -207,7 +207,7 @@ public class EnemyHealth : MonoBehaviour {
         {
             cameraAudioSource.PlayOneShot(headShot,2f);
             Death(true,true);
-            guiMain.HeadShot();
+            guiMain.Notification("Headshot");
         }
     }
 
