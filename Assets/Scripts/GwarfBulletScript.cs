@@ -34,6 +34,9 @@ public class GwarfBulletScript : MonoBehaviour
 			} else if(hit.transform.gameObject.name.Contains("arricade")) {
 				hit.transform.gameObject.GetComponent<barricade> ().TakeDamage(damagePerShot);
 				enemyResources.totalDamage += damagePerShot;
+			} else if(hit.transform.gameObject.name.Contains("Goal")) {
+				hit.transform.gameObject.GetComponent<GoalScript> ().removeLife(damagePerShot);
+				enemyResources.totalDamage += damagePerShot;
 			}
         }
         PrevItLoc = transform.position;
