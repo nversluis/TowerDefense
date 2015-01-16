@@ -80,9 +80,6 @@ public class GwarfScript : MonoBehaviour
 		automaticPathUpdating = resourceManager.automaticPathUpdating;
 
 		goalLoc = GameObject.Find ("Goal").transform.position - new Vector3 (0, -5, 0);;
-
-
-
 	}
 
 	// Method for determining the speed of the enemy
@@ -164,7 +161,7 @@ public class GwarfScript : MonoBehaviour
 				RaycastHit hit;
 				RaycastHit goalHit;
 				Physics.Raycast (transform.position, player.transform.position + new Vector3 (0f, 2f, 0f) - transform.position, out hit);
-				Physics.Raycast (transform.position, goalLoc + randVector - transform.position, out goalHit);
+				Physics.Raycast (transform.position, goalLoc- transform.position, out goalHit);
 				Debug.DrawRay (transform.position, goalLoc - transform.position);
 				if ((goalLoc - transform.position).magnitude < 20f && goalHit.transform.name == "Goal") {
 
@@ -175,7 +172,7 @@ public class GwarfScript : MonoBehaviour
 					transform.LookAt (new Vector3 (goalLoc.x, transform.position.y, goalLoc.z));
 					transform.Rotate (0, -90, 0);
 					if (!attackingGoal) {
-						curTarget = goalLoc + randVector;
+						curTarget = goalLoc;
 						attackingGoal = true;
 						attackingBar = false;
 						InvokeRepeating ("Shoot", timeBetweenAttacks / 1.5f, timeBetweenAttacks);
