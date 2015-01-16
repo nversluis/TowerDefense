@@ -14,28 +14,52 @@ public class ScoreServer : MonoBehaviour
     static List<List<string>> hiscores;
 
     static string scores;
+    static string url;
+
+    bool getting = true;
+
+    float counter;
+
+    WWW www;
 
 
     // Use this for initialization
     void Start()
     {
+        
         ResourceManagerObj = GameObject.Find("ResourceManager");
         resourceManager = ResourceManagerObj.GetComponent<ResourceManager>();
         naam = resourceManager.name;
+        counter = 0;
 
         hiscores = new List<List<string>>();
 
         string url = "http://drproject.twi.tudelft.nl:8087/getScore";
-        WWW www = new WWW(url);
+        www = new WWW(url);
         StartCoroutine(WaitForRequest(www));
     }
 
     // Update is called once per frame
     void Update()
     {
-        //getScoreFromServer();
-        //splitScore();
-        // printMatrix(getHiscores(10));
+        // haal scores van server
+        if (getting)
+        {
+            getScoreFromServer();
+            if (hiscores.Count > 0)
+            {
+                getting = false;
+            }
+            else
+            {
+                counter += Time.deltaTime;
+                if (counter > 10)
+                {
+                    Debug.Log("could not retrieve hiscores");
+                    getting = false;
+                }
+            }
+        }
     }
 
     static public void sendScoreToServer(string naam)
@@ -47,15 +71,18 @@ public class ScoreServer : MonoBehaviour
 
     public void getScoreFromServer()
     {
-        WWW www = new WWW("http://drproject.twi.tudelft.nl:8087/getScore");
+        WWW www = new WWW(url);
         WaitForRequest(www);
     }
 
     static IEnumerator WaitForRequest(WWW www)
     {
         yield return www;
-        scores = www.text.ToString();
-        splitScore();
+        if (www.error == null || www.error == "")
+        {
+            scores = www.text.ToString();
+            splitScore();
+        }
     }
 
     public static void splitScore()
@@ -71,6 +98,7 @@ public class ScoreServer : MonoBehaviour
             score = new List<string>();
             score.Add(split[i]);
             score.Add(split[i + 1]);
+
             hiscores.Add(score);
         }
     }
@@ -79,13 +107,26 @@ public class ScoreServer : MonoBehaviour
     {
         List<List<string>> hiscoresTotRank = new List<List<string>>();
 
-        getScoreFromServer();
-
-        //Debug.Log("hiscores[0][0] = " + hiscores[0][0]);
-
-        for (int i = 0; i < totRank; i++)
+        if (hiscores.Count != 0)
         {
-            hiscoresTotRank.Add(hiscores[i]);
+            for (int i = 0; i < totRank; i++)
+            {
+                hiscoresTotRank.Add(hiscores[i]);
+            }
+        }
+        return hiscoresTotRank;
+    }
+
+    public List<List<string>> getHiscores()
+    {
+        List<List<string>> hiscoresTotRank = new List<List<string>>();
+
+        if (hiscores.Count != 0)
+        {
+            for (int i = 0; i < hiscores.Count; i++)
+            {
+                hiscoresTotRank.Add(hiscores[i]);
+            }
         }
         return hiscoresTotRank;
     }
