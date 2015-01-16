@@ -32,6 +32,8 @@ public class WaveSpawner : MonoBehaviour
     private int maxWaves;
     private int currentWave;
 
+    public int startRewardWave;
+
     public float maxX;
     public float maxZ;
     //float orcHeigthSpawn = 3.27f;
@@ -50,6 +52,7 @@ public class WaveSpawner : MonoBehaviour
     public int delta;
 
     public float spawnTime; // in seconden
+    public float RewardWaveFactor;
 
     public ArrayList enemies;
     public ArrayList enemiesInWave;
@@ -89,6 +92,8 @@ public class WaveSpawner : MonoBehaviour
         startTotalStatPoints = resourceManager.totalStatPoints;
         resourceManager.currentSpawnTime = resourceManager.startSpawnTime * Mathf.Pow(resourceManager.AfnameSpawnTimeFactor, (currentWave - 1));
         spawnTime = resourceManager.currentSpawnTime;
+        startRewardWave = resourceManager.rewardWave;
+        RewardWaveFactor = resourceManager.rewardWaveFactor;
         enemies = new ArrayList();
         enemiesInWave = new ArrayList();
         currentGenDistributions = new List<List<float>>();
@@ -194,6 +199,7 @@ public class WaveSpawner : MonoBehaviour
             {
                 if (enemies.Count == 0)
                 {
+                    resourceManager.rewardWave = (int)Mathf.Round((startRewardWave * Mathf.Pow(RewardWaveFactor, (currentWave - 1))));
                     // Voeg gold toe voor de speler na elke wave
                     playerData.addGold(resourceManager.rewardWave);
                     // Ga naar de volgende wave
