@@ -112,7 +112,7 @@ MonoBehaviour:
   coolDownSword1Time: .5
   coolDownSword2Time: 10
   coolDownMagic1Time: .200000003
-  coolDownMagic2Time: .100000001
+  coolDownMagic2Time: 60
   defense: 10
   speed: 10
   startSwordDamage: 5000
