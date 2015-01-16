@@ -91,17 +91,6 @@ public class GrobbleScript : MonoBehaviour
     void WalkSpeed()
     {
         speedReduce = enemyResources.isSlowed;
-        //        // if the enemy is slowed
-        //        if (enemyResources.isSlowed)
-        //        {
-        //            // reduce speed
-        //            speedReduce = resourceManager.speedReduceRate;
-        //        }
-        //        else
-        //        {
-        //            // else speed is is normal speed;
-        //            speedReduce = 1;
-        //        }
         walkSpeed = normalWalkSpeed / speedReduce;
     }
 
@@ -184,39 +173,43 @@ public class GrobbleScript : MonoBehaviour
 
             }
 
-            // if the player is near the enemy attack the player
-            if ((player.transform.position - transform.position).magnitude < 3f)
-            {
+			//if enemy is near the gate, attack the gate
+			if ((new Vector3 (goal.transform.position.x, transform.position.y, goal.transform.position.z) - transform.position).magnitude < 4f) {
+				// set speed to zero and attack
+				rigidbody.velocity = Vector3.zero;
+				enemyResources.walking = false;
+				enemyResources.attacking = true;
+			}
 
-                // set speed to zero and attack
-                rigidbody.velocity = Vector3.zero;
-                enemyResources.walking = false;
-                enemyResources.attacking = true;
-            }
+            // if the player is near the enemy attack the player
+            else if ((player.transform.position - transform.position).magnitude < 3f) {
+
+				// set speed to zero and attack
+				rigidbody.velocity = Vector3.zero;
+				enemyResources.walking = false;
+				enemyResources.attacking = true;
+			}
 
 
             // if the enemy is near the barricade attack the barricade
-            bool attackingBar = false;
-            foreach (Vector3 barricade in barricades)
-            {
-                if (barricade != null && (barricade - transform.position).magnitude < 5f && !attackingBar)
-                {
-                    // set speed to zero and attack
-                    rigidbody.velocity = Vector3.zero;
-                    enemyResources.walking = false;
-                    enemyResources.attacking = true;
-                    attackingBar = true;
-                    foreach (GameObject tarBar in resourceManager.allBarricades)
-                    {
-                        if (tarBar.transform.position == barricade)
-                        {
-                            enemyResources.targetBarricade = tarBar;
-                        }
-                    }
+			else {
+				bool attackingBar = false;
+				foreach (Vector3 barricade in barricades) {
+					if (barricade != null && (barricade - transform.position).magnitude < 5f && !attackingBar) {
+						// set speed to zero and attack
+						rigidbody.velocity = Vector3.zero;
+						enemyResources.walking = false;
+						enemyResources.attacking = true;
+						attackingBar = true;
+						foreach (GameObject tarBar in resourceManager.allBarricades) {
+							if (tarBar.transform.position == barricade) {
+								enemyResources.targetBarricade = tarBar;
+							}
+						}
 
-                }
-            }
-
+					}
+				}
+			}
             // when enemy is dead
             if (enemyResources.isDead)
             {

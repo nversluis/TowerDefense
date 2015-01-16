@@ -26,6 +26,7 @@ public class Navigator : MonoBehaviour
 	public static List<WayPoint> Path (Vector3 startPoint, Vector3 endPoint, float gridSize, List<WayPoint> grid, float D = 0.15f)
 	{
 
+		startPoint = new Vector3 (startPoint.x, 0, startPoint.z);
 		/** INITIALIZATION **/
 
 		/* DEBUG */

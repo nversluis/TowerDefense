@@ -7,7 +7,7 @@ public class ResourceManager : MonoBehaviour {
 
     [Header("Naam")]
     public string name;
-
+	public int gateHealth;
 	//prefabs
 	[Header("Costs")]
 	public int startGold;
