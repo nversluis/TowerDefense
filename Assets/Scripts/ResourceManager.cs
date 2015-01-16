@@ -85,6 +85,7 @@ public class ResourceManager : MonoBehaviour {
     public float startSpawnTime;
     public float currentSpawnTime;
     public float AfnameSpawnTimeFactor;
+    public float rewardWaveFactor;
 
 	[Header("Towers")]
 	public float maxTowerDistance;
