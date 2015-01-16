@@ -501,7 +501,7 @@ public class GUIScript : MonoBehaviour {
 				speed.text = "Speed: " + stats.speed;
 				if (towerName.text.Contains ("Ice")) {
 					special.text = "Slowing with: " + stats.specialDamage;
-					specialU.text = "↑" + resourceManager.iceSpecial;
+                    specialU.text = "↑" + GameObject.Find("TowerStats").GetComponent<TowerResources>().iceSpecialDamage;
 				} else {
 					special.text = "";
 					specialU.text = "";
