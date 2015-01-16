@@ -169,7 +169,7 @@ public class FloorScript : MonoBehaviour
 			stats.upgradeCost *= 2;
 
 		} else {
-			Debug.Log ("no moneyzz");
+			GameObject.Find("GUIMain").GetComponent<GUIScript>().Notification ("NoGold");
 		}
 
 		WallScript.DestroyHotSpots();
