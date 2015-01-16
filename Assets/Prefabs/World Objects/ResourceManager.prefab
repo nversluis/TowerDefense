@@ -120,13 +120,13 @@ MonoBehaviour:
   currentWave: 1
   maxWaves: 20
   maxEnemies: 20
-  toenameAantalEnemiesPerWave: 5
+  toenameAantalEnemiesPerWave: 2
   timeBetweenWaves: 5
   keepType: 0
   keepDistribution: 1
   mutationProbability: .699999988
   totalStatPoints: 150
-  toenameTotalStatPointsPerWave: 30
+  toenameTotalStatPointsPerWave: 15
   startSpawnTime: .699999988
   currentSpawnTime: 0
   AfnameSpawnTimeFactor: .970000029
