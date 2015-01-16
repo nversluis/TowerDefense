@@ -48,6 +48,10 @@ ModelImporter:
     7400000: Default Take
     7400002: ArmatureAction
     7400004: Run
+    7400006: Idle
+    7400008: Attack
+    7400010: Jump
+    7400012: Jump_001
     9500000: //RootNode
     13700000: Cube
     13700002: Plane
