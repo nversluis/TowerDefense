@@ -47,6 +47,9 @@ public class GuyantScript : MonoBehaviour
 
 	public float isSlowed = 1;
 
+	public bool throughGate;
+	bool isInvoked;
+
 	GameObject curFloor;
 
 	// Method for finding all necessary scripts
@@ -153,38 +156,39 @@ public class GuyantScript : MonoBehaviour
 			}
 
 
-
-			//if enemy is near the gate, attack the gate
-			if ((new Vector3 (goal.transform.position.x, transform.position.y, goal.transform.position.z) - transform.position).magnitude < 4f) {
-				// set speed to zero and attack
-				rigidbody.velocity = Vector3.zero;
-				enemyResources.walking = false;
-				enemyResources.attacking = true;
-			}
+			if (throughGate) {
+				//if enemy is near the gate, attack the gate
+				if ((new Vector3 (goal.transform.position.x, transform.position.y, goal.transform.position.z) - transform.position).magnitude < 4f) {
+					// set speed to zero and attack
+					rigidbody.velocity = Vector3.zero;
+					enemyResources.walking = false;
+					enemyResources.attacking = true;
+				}
 
 
 			// if the player is near the enemy attack the player
 			else if ((player.transform.position - transform.position).magnitude < 3f) {
 
-				// set speed to zero and attack
-				rigidbody.velocity = Vector3.zero;
-				enemyResources.walking = false;
-				enemyResources.attacking = true;
-			} else {
-				bool attackingBar = false;
-				foreach (Vector3 barricade in barricades) {// if the enemy is near the barricade attack the barricade
-					if (barricade != null && (new Vector3 (barricade.x, transform.position.y, barricade.z) - transform.position).magnitude < 5f && !attackingBar) {
-						// set speed to zero and attack
-						rigidbody.velocity = Vector3.zero;
-						enemyResources.walking = false;
-						enemyResources.attacking = true;
-						attackingBar = true;
-						foreach (GameObject tarBar in resourceManager.allBarricades) {
-							if (tarBar.transform.position == barricade) {
-								enemyResources.targetBarricade = tarBar;
+					// set speed to zero and attack
+					rigidbody.velocity = Vector3.zero;
+					enemyResources.walking = false;
+					enemyResources.attacking = true;
+				} else {
+					bool attackingBar = false;
+					foreach (Vector3 barricade in barricades) {// if the enemy is near the barricade attack the barricade
+						if (barricade != null && (new Vector3 (barricade.x, transform.position.y, barricade.z) - transform.position).magnitude < 5f && !attackingBar) {
+							// set speed to zero and attack
+							rigidbody.velocity = Vector3.zero;
+							enemyResources.walking = false;
+							enemyResources.attacking = true;
+							attackingBar = true;
+							foreach (GameObject tarBar in resourceManager.allBarricades) {
+								if (tarBar.transform.position == barricade) {
+									enemyResources.targetBarricade = tarBar;
+								}
 							}
-						}
 
+						}
 					}
 				}
 			}
@@ -270,39 +274,25 @@ public class GuyantScript : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
+		throughGate = false;
 		// Getting all necessary scripts
 		GetScripts ();
 
-		// Repeat the pathfinding process
-		if (automaticPathUpdating) {
-			Target = goal;
-			// determine a path to a goal
-			List<WayPoint> WPPath = Navigator.Path (transform.position - new Vector3 (0f, transform.position.y, 0f), Target.transform.position - new Vector3 (0f, Target.transform.position.y, 0f), nodeSize, grid, dfactor);
-			barricades = new List<Vector3> ();
-            if (WPPath != null)
-            {
-                Path = new List<Vector3>();
-                foreach (WayPoint wp in WPPath)
-                {
-                    Path.Add(wp.getPosition());
-                    if (wp.getBarCount() > 0)
-                    {
-                        barricades.Add(wp.getBarricade());
-                    }
-
-                }
-            }
-			InvokeRepeating ("BuildPath", 5, pathUpdateRate);
-		} else {
-			Target = goal;
-			BuildPath ();
-		}
+		// BuildPath
+		Target = goal;
+		BuildPath ();
+		
 		enemyResources.isSlowed = 1;
 	}
 
 	//Update is called once per frame
 	void FixedUpdate ()
 	{
+		if (!isInvoked &&throughGate) {
+			Target = goal;
+			InvokeRepeating ("BuildPath", 0, pathUpdateRate);
+			isInvoked = true;
+		}
 		checkFloor ();
 
 		// Determine the walk speed of the enemy

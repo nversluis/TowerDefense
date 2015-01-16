@@ -157,6 +157,7 @@ public class RandomMaze : MonoBehaviour
 						GameObject ceil = (GameObject)Instantiate (planePrefab, new Vector3 ((curPos [0]) * planewidth, height * planewidth, (curPos [1]) * planewidth), Quaternion.identity); //Instantiate a floor at current position
 						ceil.transform.Rotate (new Vector3 (180, 0, 0));
 						ceil.gameObject.transform.localScale = new Vector3 (planewidth / 20, 0.1f, planewidth / 20); //Scale the floor
+						ceil.name = "Ceiling";
 						ResourceManager.mostNorth = Mathf.Max (ResourceManager.mostNorth, (int)curPos [1]);
 						ResourceManager.mostEast = Mathf.Max (ResourceManager.mostEast, (int)curPos [0]);
 						ResourceManager.mostSouth = Mathf.Min (ResourceManager.mostSouth, (int)curPos [1]);
@@ -208,6 +209,7 @@ public class RandomMaze : MonoBehaviour
 		GameObject ceil2 = (GameObject)Instantiate (planePrefab, new Vector3 (endPos [0] * planewidth, height * planewidth, endPos [1] * planewidth), Quaternion.identity); //Instantiate a floor at current position
 		ceil2.transform.Rotate (new Vector3 (180, 0, 0));
 		ceil2.gameObject.transform.localScale = new Vector3 (planewidth / 20, 0.1f, planewidth / 20); //Scale the floor
+		ceil2.name = "Ceiling";
 
 		positions.Add (endPos); //Add the end position to position
 		   

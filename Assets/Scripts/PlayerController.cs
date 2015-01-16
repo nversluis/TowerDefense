@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 [RequireComponent(typeof(AudioSource))]
 
@@ -22,6 +23,8 @@ public class PlayerController : MonoBehaviour
 
     AudioClip swordSpecial;
     AudioClip magicSpecial;
+
+    int volume;
 
     // initializing some global variables
     private GameObject camera;
@@ -49,6 +52,7 @@ public class PlayerController : MonoBehaviour
     public static Vector3 location;
     Vector3 startPosition;
 	GameObject curFloor;
+
 
     private LayerMask ignoreMaskBullet = ~((1 << 11) | (1 << 13));
     private LayerMask ignoreMaskTraps = ~(1 << 13);
@@ -216,16 +220,16 @@ public class PlayerController : MonoBehaviour
         if (random == 0)
         {
 
-            cameraAudio.PlayOneShot(hitEnemy);
+            cameraAudio.PlayOneShot(hitEnemy,volume);
         }
         else if (random == 1)
         {
-            cameraAudio.PlayOneShot(hitEnemy2);
+            cameraAudio.PlayOneShot(hitEnemy2,volume);
 
         }
         else if (random == 2)
         {
-            cameraAudio.PlayOneShot(hitEnemy3);
+            cameraAudio.PlayOneShot(hitEnemy3,volume);
 
         }
     }
@@ -237,7 +241,7 @@ public class PlayerController : MonoBehaviour
         Debug.Log(specialSwordDamage);
         GameObject particles = (GameObject)Instantiate(hitExplosionParticles, hit.transform.position, Quaternion.identity);
         StartCoroutine(DestroyParticles2(particles));
-        cameraAudio.PlayOneShot(swordSpecial);
+        cameraAudio.PlayOneShot(swordSpecial,volume);
         
     }
 
@@ -270,16 +274,16 @@ public class PlayerController : MonoBehaviour
                 if (random == 0)
                 {
 
-                    cameraAudio.PlayOneShot(sword);
+                    cameraAudio.PlayOneShot(sword,volume);
                 }
                 else if (random == 1)
                 {
-                    cameraAudio.PlayOneShot(sword2);
+                    cameraAudio.PlayOneShot(sword2,volume);
 
                 }
                 else if (random == 2)
                 {
-                    cameraAudio.PlayOneShot(sword3);
+                    cameraAudio.PlayOneShot(sword3,volume);
 
                 }
                 coolDownSword1 = true;
@@ -332,7 +336,7 @@ public class PlayerController : MonoBehaviour
 
 			
                 // creating a bullet in front of 1 unit away from Player
-                GameObject bullet = (GameObject)Instantiate(Bullet, transform.position + new Vector3((Mathf.Sin(camAngleY * Mathf.Deg2Rad)), 0f, Mathf.Cos(camAngleY * Mathf.Deg2Rad)) + tijdelijk, Quaternion.identity);
+                GameObject bullet = (GameObject)Instantiate(Bullet, transform.position + tijdelijk, Quaternion.identity);
 
                 // Casting a ray and storing information to hit
                 if (!Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, Mathf.Infinity, ignoreMaskBullet))
@@ -342,7 +346,7 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
-                    camShootDistance = hit.point - (transform.position + tijdelijk + new Vector3(Mathf.Sin(camAngleY * Mathf.Deg2Rad), 0f, Mathf.Cos(camAngleY * Mathf.Deg2Rad)));
+                    camShootDistance = hit.point - (transform.position + tijdelijk);
                     camShootDistance = camShootDistance + ((new Vector3(Random.Range(-50, 50), Random.Range(-50, 50), Random.Range(-50, 50)).normalized * distortion) * camShootDistance.magnitude) / 80f; ;
                 }
 
@@ -351,7 +355,7 @@ public class PlayerController : MonoBehaviour
                 AddBulletDistortion();
                
                 // looking in the direction of the camera
-                audio.PlayOneShot(magic,15f);
+                audio.PlayOneShot(magic,15*volume);
             }
 
             if (WeaponController.weapon == 4 && !coolDownMagic2)
@@ -373,7 +377,7 @@ public class PlayerController : MonoBehaviour
 
 			
                 // creating a bullet in front of 1 unit away from Player
-                GameObject bullet = (GameObject)Instantiate(explosionBullet, transform.position + new Vector3((Mathf.Sin(camAngleY * Mathf.Deg2Rad)), 0f, Mathf.Cos(camAngleY * Mathf.Deg2Rad)) + tijdelijk, Quaternion.identity);
+                GameObject bullet = (GameObject)Instantiate(explosionBullet, transform.position + tijdelijk, Quaternion.identity);
 
                 // Casting a ray and storing information to hit
                 if (!Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, Mathf.Infinity, ignoreMaskBullet))
@@ -383,7 +387,7 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
-                    camShootDistance = hit.point - (transform.position + tijdelijk + new Vector3(Mathf.Sin(camAngleY * Mathf.Deg2Rad), 0f, Mathf.Cos(camAngleY * Mathf.Deg2Rad)));
+                    camShootDistance = hit.point - (transform.position + tijdelijk );
                 }
 
                 // add the force to the bullet
@@ -391,7 +395,7 @@ public class PlayerController : MonoBehaviour
                 AddBulletDistortion();
                
                 // looking in the direction of the camera
-                audio.PlayOneShot(magic,15f);
+                audio.PlayOneShot(magic,15f*volume);
             }
 
         }
@@ -461,6 +465,8 @@ public class PlayerController : MonoBehaviour
         sword = resourceManager.sword;
         sword2 = resourceManager.sword2;
         sword3 = resourceManager.sword3;
+        volume = PlayerPrefs.GetInt("SFX")/100;
+
 
         hitEnemy = resourceManager.hitEnemy;
         hitEnemy2 = resourceManager.hitEnemy2;

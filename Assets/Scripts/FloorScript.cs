@@ -30,7 +30,7 @@ public class FloorScript : MonoBehaviour
 	void Update ()
 	{
 		//Debug.Log (CameraController.hitObject.name);
-		if (gameObject == CameraController.hitObject) { //if the object you are looking at is the floor
+		if (gameObject == CameraController.hitObject && gameObject.transform.parent.name.Contains("loor")) { //if the object you are looking at is the floor
 			if (gameObject.transform.childCount == 1) {
 				WallScript.DestroyHotSpots ();//Destroy all hotspots
 			}
@@ -142,25 +142,23 @@ public class FloorScript : MonoBehaviour
 		if (stats.upgradeCost <= GUIScript.player.getGold ()) {
 			stats.level++;
 			if (tower.name.Contains ("Fire")) {
-				stats.attack = (int)Mathf.Round (stats.attack * resourceManager.fireAttack);
-				stats.speed += resourceManager.fireSpeed;
-				stats.specialDamage += resourceManager.fireSpecial;
-				stats.attackUpgrade = (int)(stats.attack * (resourceManager.fireAttack-1));
-				stats.speedUpgrade = resourceManager.fireSpeed;
+                stats.attack = (int)Mathf.Round(stats.attack * GameObject.Find("TowerStats").GetComponent<TowerResources>().fireAttackUpgrade);
+                stats.speed += GameObject.Find("TowerStats").GetComponent<TowerResources>().fireSpeed;
+                stats.attackUpgrade = (int)(stats.attack * (GameObject.Find("TowerStats").GetComponent<TowerResources>().fireAttack - 1));
+                stats.speedUpgrade = GameObject.Find("TowerStats").GetComponent<TowerResources>().fireSpeed;
 				GUIScript.player.addGold (-stats.upgradeCost);
 			} else if (tower.name.Contains ("Ice")) {
-				stats.attack = (int)Mathf.Round (stats.attack * resourceManager.iceAttack);
-				stats.speed += resourceManager.iceSpeed;
-				stats.specialDamage += resourceManager.iceSpecial;
-				stats.attackUpgrade = (int)(stats.attack * (resourceManager.iceAttack-1));
-				stats.speedUpgrade = resourceManager.iceSpeed;
+                stats.attack = (int)Mathf.Round(stats.attack * GameObject.Find("TowerStats").GetComponent<TowerResources>().iceAttackUpgrade);
+                stats.speed += GameObject.Find("TowerStats").GetComponent<TowerResources>().iceSpeed;
+                stats.specialDamage += GameObject.Find("TowerStats").GetComponent<TowerResources>().iceSpecialDamage;
+                stats.attackUpgrade = (int)(stats.attack * (GameObject.Find("TowerStats").GetComponent<TowerResources>().iceAttack - 1));
+                stats.speedUpgrade = GameObject.Find("TowerStats").GetComponent<TowerResources>().iceSpeed;
 				GUIScript.player.addGold (-stats.upgradeCost);
 			} else if (tower.name.Contains ("Poison")) {
-				stats.attack = (int)Mathf.Round (stats.attack * resourceManager.poisonAttack);
-				stats.speed += resourceManager.poisonSpeed;
-				stats.specialDamage += resourceManager.poisonSpecial;
-				stats.attackUpgrade = (int)(stats.attack * (resourceManager.poisonAttack-1));
-				stats.speedUpgrade = resourceManager.poisonSpeed;
+				stats.attack = (int)Mathf.Round (stats.attack *  GameObject.Find("TowerStats").GetComponent<TowerResources>().poisonAttackUpgrade);
+                stats.speed += GameObject.Find("TowerStats").GetComponent<TowerResources>().poisonSpeed;
+                stats.attackUpgrade = (int)(stats.attack * (GameObject.Find("TowerStats").GetComponent<TowerResources>().poisonAttack - 1));
+                stats.speedUpgrade = GameObject.Find("TowerStats").GetComponent<TowerResources>().poisonSpeed;
 				GUIScript.player.addGold (-stats.upgradeCost);
 			} else if (tower.name.Contains ("Spear")) {
 				//cost = resourceManager.costSpearTrap;
@@ -171,7 +169,7 @@ public class FloorScript : MonoBehaviour
 			stats.upgradeCost *= 2;
 
 		} else {
-			Debug.Log ("no moneyzz");
+			GameObject.Find("GUIMain").GetComponent<GUIScript>().Notification ("NoGold");
 		}
 
 		WallScript.DestroyHotSpots();
