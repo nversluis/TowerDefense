@@ -49,7 +49,10 @@ public class GwarfScript : MonoBehaviour
 	public bool attackingGoal;
 	public bool attackingBar;
 
+	public bool throughGate;
+
 	GameObject curFloor;
+	bool isInvoked;
 	// Method for finding all necessary scripts
 	void GetScripts ()
 	{
@@ -76,7 +79,7 @@ public class GwarfScript : MonoBehaviour
 		dfactor = enemystats.dfactor;
 		automaticPathUpdating = resourceManager.automaticPathUpdating;
 
-		goalLoc = GameObject.Find ("Goal").transform.position;
+		goalLoc = GameObject.Find ("Goal").transform.position - new Vector3 (0, -5, 0);;
 
 
 
@@ -157,64 +160,65 @@ public class GwarfScript : MonoBehaviour
 				nextPointDistance.y = 0;
 
 			}
-			RaycastHit hit;
-			RaycastHit goalHit;
-			Physics.Raycast (transform.position, player.transform.position + new Vector3 (0f, 2f, 0f) - transform.position, out hit);
-			Physics.Raycast (transform.position, goalLoc - transform.position, out goalHit);
-			Debug.DrawRay (transform.position, goalLoc - transform.position);
-			if ((goalLoc - transform.position).magnitude < 30f && goalHit.transform.name == "Goal") {
+			if (throughGate) {
+				RaycastHit hit;
+				RaycastHit goalHit;
+				Physics.Raycast (transform.position, player.transform.position + new Vector3 (0f, 2f, 0f) - transform.position, out hit);
+				Physics.Raycast (transform.position, goalLoc + randVector - transform.position, out goalHit);
+				Debug.DrawRay (transform.position, goalLoc - transform.position);
+				if ((goalLoc - transform.position).magnitude < 20f && goalHit.transform.name == "Goal") {
 
-				// set speed to zero and attack
-				enemyResources.walking = false;
-				enemyResources.attacking = true;
-				rigidbody.velocity = Vector3.zero;
-				transform.LookAt(new Vector3(goalLoc.x,transform.position.y,goalLoc.z));
-				transform.Rotate (0, -90, 0);
-				if (!attackingGoal) {
-					curTarget = goalLoc;
-					attackingGoal = true;
-					attackingBar = false;
-					InvokeRepeating ("Shoot", timeBetweenAttacks / 1.5f, timeBetweenAttacks);
+					// set speed to zero and attack
+					enemyResources.walking = false;
+					enemyResources.attacking = true;
+					rigidbody.velocity = Vector3.zero;
+					transform.LookAt (new Vector3 (goalLoc.x, transform.position.y, goalLoc.z));
+					transform.Rotate (0, -90, 0);
+					if (!attackingGoal) {
+						curTarget = goalLoc + randVector;
+						attackingGoal = true;
+						attackingBar = false;
+						InvokeRepeating ("Shoot", timeBetweenAttacks / 1.5f, timeBetweenAttacks);
 
-				}
-			
-			} else if ((player.transform.position - transform.position).magnitude < 30f && Target.Equals (player) && hit.transform.name == "Player") { // if the player is near the enemy attack the player
-				CancelInvoke ("Shoot");
-				attackingGoal = false;
-				attackingBar = false;
-				transform.LookAt(new Vector3(player.transform.position.x,transform.position.y,player.transform.position.z));
-				transform.Rotate (0, -90, 0);
-				// set speed to zero and attack
-				rigidbody.velocity = Vector3.zero;
-				enemyResources.walking = false;
-				enemyResources.attacking = true;
-			} else {
-				foreach (Vector3 barricade in barricades) {
-					if ((barricade - transform.position).magnitude < 30f) {
-						Physics.Raycast (transform.position, barricade - transform.position, out hit);
-						if (hit.transform.position == barricade) {
-							// set speed to zero and attack
-							rigidbody.velocity = Vector3.zero;
-							enemyResources.walking = false;
-							enemyResources.attacking = true;
-							transform.LookAt(new Vector3(goalLoc.x,transform.position.y,goalLoc.z));
-							transform.Rotate (0, -90, 0);
-							if (!attackingBar) {
-								curTarget = barricade;
-								attackingBar = true;
-								InvokeRepeating ("Shoot", timeBetweenAttacks / 1.5f, timeBetweenAttacks);
-							}
-							break;
-						}
 					}
-				}
-				if (!attackingBar) {
+			
+				} else if ((player.transform.position - transform.position).magnitude < 30f && Target.Equals (player) && hit.transform.name == "Player") { // if the player is near the enemy attack the player
 					CancelInvoke ("Shoot");
 					attackingGoal = false;
 					attackingBar = false;
+					transform.LookAt (new Vector3 (player.transform.position.x, transform.position.y, player.transform.position.z));
+					transform.Rotate (0, -90, 0);
+					// set speed to zero and attack
+					rigidbody.velocity = Vector3.zero;
+					enemyResources.walking = false;
+					enemyResources.attacking = true;
+				} else {
+					foreach (Vector3 barricade in barricades) {
+						if ((barricade - transform.position).magnitude < 30f) {
+							Physics.Raycast (transform.position, barricade - transform.position, out hit);
+							if (hit.transform.position == barricade) {
+								// set speed to zero and attack
+								rigidbody.velocity = Vector3.zero;
+								enemyResources.walking = false;
+								enemyResources.attacking = true;
+								transform.LookAt (new Vector3 (goalLoc.x, transform.position.y, goalLoc.z));
+								transform.Rotate (0, -90, 0);
+								if (!attackingBar) {
+									curTarget = barricade;
+									attackingBar = true;
+									InvokeRepeating ("Shoot", timeBetweenAttacks / 1.5f, timeBetweenAttacks);
+								}
+								break;
+							}
+						}
+					}
+					if (!attackingBar) {
+						CancelInvoke ("Shoot");
+						attackingGoal = false;
+						attackingBar = false;
+					}
 				}
 			}
-
 
 
 			// when enemy is dead
@@ -303,17 +307,15 @@ public class GwarfScript : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
+		throughGate = false;
+		isInvoked = false;
 		// Getting all necessary scripts
 		GetScripts ();
 
-		// Repeat the pathfinding process
-		if (automaticPathUpdating) {
-			Target = goal;
-			InvokeRepeating ("BuildPath", 0, pathUpdateRate);
-		} else {
-			Target = goal;
-			BuildPath ();
-		}
+		// BuildPath
+		Target = goal;
+		BuildPath ();
+
 		enemyResources.isSlowed = 1;
 		attackingGoal = false;
 	}
@@ -322,6 +324,12 @@ public class GwarfScript : MonoBehaviour
 	//Update is called once per frame
 	void FixedUpdate ()
 	{
+		if (!isInvoked &&throughGate) {
+			Target = goal;
+			InvokeRepeating ("BuildPath", 0, pathUpdateRate);
+			isInvoked = true;
+		}
+
 		// When draw path is enabled draw the path with own dfactor
 		if (Path != null && drawPath) {
 			for (int k = 0; k < Path.Count - 1; k++) {
