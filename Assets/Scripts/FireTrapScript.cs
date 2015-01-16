@@ -62,8 +62,8 @@ public class FireTrapScript : MonoBehaviour
 		damagePerShot = stats.attack;
 		enemyOnTrap = new List<GameObject> ();
 
-		stats.speedUpgrade = resourceManager.fireSpeed;
-		stats.attackUpgrade = (resourceManager.fireAttack-1)*stats.attack;
+		stats.speedUpgrade = GameObject.Find("TowerStats").GetComponent<TowerResources>().fireSpeedUpgrade;
+        stats.attackUpgrade = (GameObject.Find("TowerStats").GetComponent<TowerResources>().fireAttackUpgrade - 1) * stats.attack;
 	}
 	
 	// Update is called once per frame
