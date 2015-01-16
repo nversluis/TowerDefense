@@ -25,6 +25,7 @@ public class Statistics : MonoBehaviour {
 
     static float lastKillTime = 0;
     public static int score;
+    public static int currentWave;
 
     static int currentKillStreak;
     static int currentHeadShotStreak;
@@ -43,6 +44,7 @@ public class Statistics : MonoBehaviour {
         headShotStreakScore = resourceManager.headshotsScore;
         playerKillsScore = resourceManager.playerKillsScore;
         towerKillsScore = resourceManager.towerKillsScore;
+        //currentWave = resourceManager.currentWave;
 
         StartStatistics();
     }
@@ -180,6 +182,7 @@ public class Statistics : MonoBehaviour {
     void Update()
     {
         Statistics.score = Score();
+        Statistics.currentWave = resourceManager.currentWave;
     }
 
 }
