@@ -43,13 +43,10 @@ public class RandomMaze : MonoBehaviour
 	//Positions of the waypoints/nodes
 	public static List<WayPoint> Nodes;
 	//List with all Nodes
-    private static bool drawNavigationGrid;
-    AudioSource cameraAudioSource;
-    public AudioClip startGame;
-    public GameObject mainCamera;
-
-    bool ready;
-    public GameObject spacebar;
+	private static bool drawNavigationGrid;
+	AudioSource cameraAudioSource;
+	public AudioClip startGame;
+	public GameObject mainCamera;
 
 
 
@@ -65,7 +62,7 @@ public class RandomMaze : MonoBehaviour
 		ResourceManagerObj = GameObject.Find ("ResourceManager");
 		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
 		mainCamera = resourceManager.mainCamera;
-        cameraAudioSource = mainCamera.GetComponent<AudioSource>();
+		cameraAudioSource = mainCamera.GetComponent<AudioSource> ();
 		length = resourceManager.length;
 		width = resourceManager.width;
 		planewidth = resourceManager.planewidth;
@@ -78,7 +75,7 @@ public class RandomMaze : MonoBehaviour
 		Minimapcamera = resourceManager.Minimapcamera;
 		Gate = resourceManager.Gate;
 		torch = resourceManager.torch;
-        drawNavigationGrid = resourceManager.drawNavigationGrid;
+		drawNavigationGrid = resourceManager.drawNavigationGrid;
 		player = resourceManager.player;
 		camera = resourceManager.mainCamera;
 		startPos = new Vector2 (0, 0); //Start position where enemy´s spawn
@@ -90,58 +87,48 @@ public class RandomMaze : MonoBehaviour
 		positions = new ArrayList ();
 		NodesPos = new List<Vector3> ();
 		Nodes = new List<WayPoint> ();
-        LoadingScreen.SetActive(true);
-        Screen.showCursor = false;
+		LoadingScreen.SetActive (true);
 
-        cameraAudioSource.PlayOneShot(startGame, 5f);
+		cameraAudioSource.PlayOneShot (startGame, 5f);
 
-        Invoke("LevelSpawner", 1.802f);
+		Invoke ("LevelSpawner", 1.802f);
 	}
 
-    void LevelSpawner()
-    {
+	void LevelSpawner ()
+	{
 
-        StartCoroutine(spawnLevel());
+		StartCoroutine (spawnLevel ());
 
-    }
+	}
 
-	IEnumerator spawnLevel(){
+	IEnumerator spawnLevel ()
+	{
 
-        //Destroy(mainCamera);
-		LoadingScreen.GetComponentInChildren<Text>().text = "Loading: Building a castle..";
-        //Time.timeScale = 1;
-        yield return new WaitForSeconds(0.1f);
+		//Destroy(mainCamera);
+		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Building a castle..";
+		//Time.timeScale = 1;
+		yield return new WaitForSeconds (0.1f);
 		GenerateFloor ();
 		//Generate walls
 		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: We forgot walls, building walls...";
-		yield return new WaitForSeconds(0.1f);
-		GenerateWall (positions,planewidth,wallPrefab,torch,height,length,width,gameObject,endPos);
+		yield return new WaitForSeconds (0.1f);
+		GenerateWall (positions, planewidth, wallPrefab, torch, height, length, width, gameObject, endPos, startPos);
 		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Dwogres wanted a red carpet to walk on, generating..";
-		yield return new WaitForSeconds(0.1f);
-		Nodes=SpawnNodes (positions,nodeSize, planewidth, Nodes,length,width,drawNavigationGrid,false,endPos);
-		LoadingScreen.GetComponentInChildren<Text>().text = "Loading: Giving birth to Player...=";
-		yield return new WaitForSeconds(0.1f);
-        spawnPlayer(player, camera, resourceManager.Goal, enemySpawner, resourceManager.GUI, resourceManager.eventListener, startPos * planewidth, endPos, Minimapcamera, width, length, planewidth);
+		yield return new WaitForSeconds (0.1f);
+		Nodes = SpawnNodes (positions, nodeSize, planewidth, Nodes, length, width, drawNavigationGrid, false, endPos, startPos);
+		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Giving birth to Player...=";
+		yield return new WaitForSeconds (0.1f);
+		spawnPlayer (player, camera, resourceManager.Goal, enemySpawner, resourceManager.GUI, resourceManager.eventListener, startPos * planewidth, endPos, Minimapcamera, width, length, planewidth);
 		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Lightning torches..";
-        //yield return new WaitForSeconds(0.1f);
-        //createSingleObjects (planewidth,enemySpawner,endPos,startPos);
+		//yield return new WaitForSeconds(0.1f);
+		//createSingleObjects (planewidth,enemySpawner,endPos,startPos);
 		//generate Nodes;
 		//MakeNodeList (nodeSize,NodesPos,Nodes);
 		//create the minimap camera
 		resourceManager.Nodes = Nodes;
-        Time.timeScale = 0;
-        ready = true;
-        spacebar.SetActive(true);
-        LoadingScreen.GetComponentInChildren<Text>().gameObject.SetActive(false);
-        
+		LoadingScreen.SetActive (false);
+
 	}
-    void Update()
-    {
-        if(ready && Input.GetKeyDown(KeyCode.Space)){
-            LoadingScreen.SetActive(false);
-            Time.timeScale = 1;
-        }
-    }
 
 	//generate floors
 	private void GenerateFloor ()
@@ -152,7 +139,7 @@ public class RandomMaze : MonoBehaviour
 		float south;
 		float west;
 		float rnd;
-		ResourceManager.mostNorth =0;
+		ResourceManager.mostNorth = 0;
 		ResourceManager.mostEast = 0;
 		ResourceManager.mostSouth = 10000;
 		ResourceManager.mostWest = 100000;
@@ -228,7 +215,7 @@ public class RandomMaze : MonoBehaviour
 	}
 
 
-	public static void GenerateTorch (float n, float w, float angle,GameObject torch,float planewidth,float height)
+	public static void GenerateTorch (float n, float w, float angle, GameObject torch, float planewidth, float height)
 	{
 		float torchGrootte = 2;
 
@@ -241,79 +228,109 @@ public class RandomMaze : MonoBehaviour
 	}
 
 	static int hasGate;
+	static int hasEnd;
 	//Method to generate walls
-	public static void GenerateWall (ArrayList positions,float planewidth,GameObject wallPrefab, GameObject torch,float height,int length,int width,GameObject parent,Vector2 endPos)
+	public static void GenerateWall (ArrayList positions, float planewidth, GameObject wallPrefab, GameObject torch, float height, int length, int width, GameObject parent, Vector2 endPos, Vector2 startPos)
 	{
 		hasGate = 0;
+		hasEnd = 0;
 		int n;
 		GameObject ResourceManagerObj = GameObject.Find ("ResourceManager");
 		ResourceManager resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
 		for (int l = 0; l <= length; l++) { //for the complete length of the map
 			for (int w = -width; w <= width; w++) { //and for the complete width of the map
 				if (positions.Contains (new Vector2 (l, w))) {
-					if (!positions.Contains (new Vector2 (l + 1, w))){ //If there no floor east, create a wall east
-						if ((l + w) % 2 == 0 && new Vector2 (l, w) != endPos)
-							GenerateTorch (l + 0.5f, w, 90,torch,planewidth,height);
-						if (l==length && new Vector2 (l, w) == endPos && hasGate==0) {
+					if (!positions.Contains (new Vector2 (l + 1, w))) { //If there no floor east, create a wall east
+						if ((l + w) % 2 == 1 && new Vector2 (l, w) != endPos && new Vector2 (l, w) != startPos)
+							GenerateTorch (l + 0.5f, w, 90, torch, planewidth, height);
+						if (l == length && new Vector2 (l, w) == endPos && hasGate == 0) {
 							n = 2;
 							hasGate = 1;
-							GameObject gate = (GameObject)Instantiate(resourceManager.Gate, new Vector3(endPos.x+0.55f, 0, endPos.y)*planewidth, Quaternion.Euler(0,-90,0));
+							GameObject gate = (GameObject)Instantiate (resourceManager.Gate, new Vector3 (endPos.x + 0.55f, 0, endPos.y) * planewidth, Quaternion.Euler (0, -90, 0));
 							gate.transform.localScale /= 1.9f;
+						} else if (l == length && new Vector2 (l, w) == startPos && hasEnd == 0) {
+							hasEnd = 1;
+							GameObject end = (GameObject)Instantiate (resourceManager.Goal, new Vector3 (startPos.x + 0.55f, 1, startPos.y) * planewidth, Quaternion.Euler (0, -90, 0));
+							end.name = "Goal";
+							end.transform.localScale *= 1.8f;
+							n = 1;
 						} else {
 							n = 0;
 						}
 						for (int h = n; h < height; h++) {
-							GameObject wall = (GameObject)Instantiate (wallPrefab, new Vector3 ((l + 0.5f) * planewidth, (h+.5f)* planewidth, w * planewidth), Quaternion.Euler (90, -90, 0));
+							GameObject wall = (GameObject)Instantiate (wallPrefab, new Vector3 ((l + 0.5f) * planewidth, (h + .5f) * planewidth, w * planewidth), Quaternion.Euler (90, -90, 0));
 							//wall.gameObject.transform.localScale = new Vector3 (planewidth / 10 + .001f,planewidth, height * planewidth / 10 + .001f);
 							wall.transform.parent = parent.gameObject.transform;
 							wall.name = "Wall";
 						}
-					}
-					if (!positions.Contains (new Vector2 (l - 1, w))) { //If there is no floor west, create a wall west
-						if ((l + w) % 2 == 0 && new Vector2 (l, w) != endPos)
-							GenerateTorch (l - 0.5f, w, -90,torch,planewidth,height);
-						if (l==0 &&new Vector2 (l, w) == endPos && hasGate==0) {
-							n = 2;
-							hasGate = 2;
-							GameObject gate = (GameObject)Instantiate(resourceManager.Gate, new Vector3(endPos.x-0.55f, 0, endPos.y)*planewidth, Quaternion.Euler(0,90,0));
-							gate.transform.localScale /= 1.9f;
-						} else {
-							n = 0;
-						}
-						for (int h = n; h<height; h++){
-							GameObject wall = (GameObject)Instantiate (wallPrefab, new Vector3 ((l - 0.5f) * planewidth, (h+.5f) * planewidth, w * planewidth), Quaternion.Euler (90, 90, 0));
-						//wall.gameObject.transform.localScale = new Vector3 (planewidth / 10 + .001f, height * planewidth, height * planewidth / 10 + .001f);
-						wall.transform.parent = parent.gameObject.transform;
-						wall.name = "Wall";
-						}
+
 
 					}
-					if (!positions.Contains (new Vector2 (l, w + 1))) { //If there is no floor north, create a wall north
-						if ((l + w) % 2 == 1 && new Vector2 (l, w) != endPos)
-							GenerateTorch (l, w + 0.5f, 0,torch,planewidth,height);
-						if (w==width &&new Vector2 (l, w) == endPos && hasGate==0) {
+					if (!positions.Contains (new Vector2 (l - 1, w))) { //If there is no floor west, create a wall west
+						if ((l + w) % 2 == 1 && new Vector2 (l, w) != endPos && new Vector2 (l, w) != startPos)
+							GenerateTorch (l - 0.5f, w, -90, torch, planewidth, height);
+						if (l == 0 && new Vector2 (l, w) == endPos && hasGate == 0) {
 							n = 2;
-							hasGate = 3;
-							GameObject gate = (GameObject)Instantiate(resourceManager.Gate, new Vector3(endPos.x, 0, endPos.y+0.55f)*planewidth, Quaternion.Euler(0,180,0));
+							hasGate = 2;
+							GameObject gate = (GameObject)Instantiate (resourceManager.Gate, new Vector3 (endPos.x - 0.55f, 0, endPos.y) * planewidth, Quaternion.Euler (0, 90, 0));
 							gate.transform.localScale /= 1.9f;
+						} else if (l == 0 && new Vector2 (l, w) == startPos && hasEnd == 0) {
+							hasEnd = 2;
+							GameObject end = (GameObject)Instantiate (resourceManager.Goal, new Vector3 (startPos.x - 0.55f, 1, startPos.y) * planewidth, Quaternion.Euler (0, 90, 0));
+							end.name = "Goal";
+							end.transform.localScale *= 1.8f;
+							n = 1;
 						} else {
 							n = 0;
 						}
 						for (int h = n; h < height; h++) {
-							GameObject wall = (GameObject)Instantiate (wallPrefab, new Vector3 (l * planewidth, (h+.5f) * planewidth, (w + 0.5f) * planewidth), Quaternion.Euler (-90, 0, 0));
+							GameObject wall = (GameObject)Instantiate (wallPrefab, new Vector3 ((l - 0.5f) * planewidth, (h + .5f) * planewidth, w * planewidth), Quaternion.Euler (90, 90, 0));
 							//wall.gameObject.transform.localScale = new Vector3 (planewidth / 10 + .001f, height * planewidth, height * planewidth / 10 + .001f);
 							wall.transform.parent = parent.gameObject.transform;
 							wall.name = "Wall";
 						}
+
+
+					}
+					if (!positions.Contains (new Vector2 (l, w + 1))) { //If there is no floor north, create a wall north
+						if ((l + w) % 2 == 0 && new Vector2 (l, w) != endPos && new Vector2 (l, w) != startPos)
+							GenerateTorch (l, w + 0.5f, 0, torch, planewidth, height);
+						if (w == width && new Vector2 (l, w) == endPos && hasGate == 0) {
+							n = 2;
+							hasGate = 3;
+							GameObject gate = (GameObject)Instantiate (resourceManager.Gate, new Vector3 (endPos.x, 0, endPos.y + 0.55f) * planewidth, Quaternion.Euler (0, 180, 0));
+							gate.transform.localScale /= 1.9f;
+						} else if (w == width && new Vector2 (l, w) == startPos && hasEnd == 0) {
+							hasEnd = 3;
+							GameObject end = (GameObject)Instantiate (resourceManager.Goal, new Vector3 (startPos.x, 1, startPos.y + 0.55f) * planewidth, Quaternion.Euler (0, 180, 0));
+							end.name = "Goal";
+							end.transform.localScale *= 1.8f;
+							n = 1;
+						} else {
+							n = 0;
+						}
+						for (int h = n; h < height; h++) {
+							GameObject wall = (GameObject)Instantiate (wallPrefab, new Vector3 (l * planewidth, (h + .5f) * planewidth, (w + 0.5f) * planewidth), Quaternion.Euler (-90, 0, 0));
+							//wall.gameObject.transform.localScale = new Vector3 (planewidth / 10 + .001f, height * planewidth, height * planewidth / 10 + .001f);
+							wall.transform.parent = parent.gameObject.transform;
+							wall.name = "Wall";
+						}
+
 					}
 					if (!positions.Contains (new Vector2 (l, w - 1))) { //If there is no floor south, create a wall south
-						if ((l + w) % 2 == 1 && new Vector2 (l, w) != endPos)
-							GenerateTorch (l, w - 0.5f, 180,torch,planewidth,height);
-						if (new Vector2 (l, w) == endPos && hasGate==0) {
+						if ((l + w) % 2 == 0 && new Vector2 (l, w) != endPos && new Vector2 (l, w) != startPos)
+							GenerateTorch (l, w - 0.5f, 180, torch, planewidth, height);
+						if (new Vector2 (l, w) == endPos && hasGate == 0) {
 							n = 2;
 							hasGate = 4;
-							GameObject gate = (GameObject)Instantiate(resourceManager.Gate, new Vector3(endPos.x, 0, endPos.y-0.55f)*planewidth, Quaternion.Euler(0,0,0));
+							GameObject gate = (GameObject)Instantiate (resourceManager.Gate, new Vector3 (endPos.x, 0, endPos.y - 0.55f) * planewidth, Quaternion.Euler (0, 0, 0));
 							gate.transform.localScale /= 1.9f;
+						} else if (new Vector2 (l, w) == startPos && hasEnd == 0) {
+							hasEnd = 4;
+							GameObject end = (GameObject)Instantiate (resourceManager.Goal, new Vector3 (startPos.x, 1, startPos.y - 0.55f) * planewidth, Quaternion.Euler (0, 0, 0));
+							end.name = "Goal";
+							end.transform.localScale *= 1.8f;
+							n = 1;
 						} else {
 							n = 0;
 						}
@@ -324,6 +341,7 @@ public class RandomMaze : MonoBehaviour
 							wall.name = "Wall";
 						}
 
+
 					}
 				}
 			}
@@ -331,10 +349,9 @@ public class RandomMaze : MonoBehaviour
 	}
 
 	//Method to spawn nodes
-	public static List<WayPoint> SpawnNodes (ArrayList positions, float nodeSize, float planewidth, List<WayPoint> Nodes,int length, int width, bool drawNavigationGrid, bool isLevelEdMap, Vector3 endPos)
+	public static List<WayPoint> SpawnNodes (ArrayList positions, float nodeSize, float planewidth, List<WayPoint> Nodes, int length, int width, bool drawNavigationGrid, bool isLevelEdMap, Vector3 endPos, Vector2 startPos)
 	{
-        NodesPos = new List<Vector3>();
-
+		NodesPos = new List<Vector3> ();
 		for (int i = 0; i < positions.Count; i++) {
 			Vector2 curPosi = (Vector2)positions [i];
 			float l = curPosi [0];
@@ -343,14 +360,18 @@ public class RandomMaze : MonoBehaviour
 			float estart = 0;
 			float nend = 0;
 			float eend = 0;
+			int offset = 0;
+			if (isLevelEdMap) {
+				offset = 0;
+			}
 
-			if (!positions.Contains (new Vector2 (l - 1, w))) //If there is no floor south, start the nodes one nodeSize from the south wall. 
+			if (!positions.Contains (new Vector2 (l - 1, w)) && curPosi != new Vector2 (startPos.x-offset, startPos.y-offset)) //If there is no floor south, start the nodes one nodeSize from the south wall. 
                 nstart = nodeSize;
-			if (!positions.Contains (new Vector2 (l + 1, w))) //If there is no floor north, end the nodes one nodeSize from the north wall
+			if (!positions.Contains (new Vector2 (l + 1, w)) && curPosi != new Vector2 (startPos.x-offset, startPos.y-offset)) //If there is no floor north, end the nodes one nodeSize from the north wall
                 nend = nodeSize;
-			if (!positions.Contains (new Vector2 (l, w - 1)))
+			if (!positions.Contains (new Vector2 (l, w - 1)) && curPosi != new Vector2 (startPos.x-offset, startPos.y-offset)) //West
 				estart = nodeSize;
-			if (!positions.Contains (new Vector2 (l, w + 1)))
+			if (!positions.Contains (new Vector2 (l, w + 1)) && curPosi != new Vector2 (startPos.x-offset, startPos.y-offset)) // East
 				eend = nodeSize;
 
 			for (float n = nstart; n <= planewidth - nend; n = n + nodeSize) {
@@ -369,24 +390,22 @@ public class RandomMaze : MonoBehaviour
 		}
 
 		//Nodes at end position:
-		for (float i = -nodeSize; i <= nodeSize; i+=nodeSize) {
-			for (float j = 0; j < 6*nodeSize; j+=nodeSize) {
+		for (float i = -nodeSize; i <= nodeSize; i += nodeSize) {
+			for (float j = 0; j < 6 * nodeSize; j += nodeSize) {
 				if (hasGate == 3) {
 					Vector3 WPpos = new Vector3 (endPos.x * planewidth + i, 0, (endPos.y + 0.5f) * planewidth + j);
 					if (!NodesPos.Contains (WPpos)) {
 						NodesPos.Add (WPpos);
 						Nodes.Add (new WayPoint (WPpos));
 					}
-				}
-				else if(hasGate == 1){
-					Vector3 WPpos = new Vector3 ((endPos.x+0.5f) * planewidth + j, 0, (endPos.y) * planewidth + i);
+				} else if (hasGate == 1) {
+					Vector3 WPpos = new Vector3 ((endPos.x + 0.5f) * planewidth + j, 0, (endPos.y) * planewidth + i);
 					if (!NodesPos.Contains (WPpos)) {
 						NodesPos.Add (WPpos);
 						Nodes.Add (new WayPoint (WPpos));
 					}
-				}
-				else if(hasGate == 2){
-					Vector3 WPpos = new Vector3 ((endPos.x-0.5f) * planewidth - j, 0, (endPos.y) * planewidth + i);
+				} else if (hasGate == 2) {
+					Vector3 WPpos = new Vector3 ((endPos.x - 0.5f) * planewidth - j, 0, (endPos.y) * planewidth + i);
 					if (!NodesPos.Contains (WPpos)) {
 						NodesPos.Add (WPpos);
 						Nodes.Add (new WayPoint (WPpos));
@@ -438,9 +457,9 @@ public class RandomMaze : MonoBehaviour
 		}
 
 
-	//}
+		//}
 
-	//Method to find all Nodes around a current node
+		//Method to find all Nodes around a current node
 
 //	public static void MakeNodeList (float nodeSize,List<Vector3> NodesPos,List<WayPoint> Nodes)
 //	{
@@ -462,10 +481,9 @@ public class RandomMaze : MonoBehaviour
 					int r = NodesPos.IndexOf (dir + (Vector3)NodesPos [i]);
 					Nodes [i].AddNode (Nodes [r]);
 
-                    if (drawNavigationGrid)
-                    {
-                        Debug.DrawLine((Vector3)NodesPos[i], dir + (Vector3)NodesPos[i], Color.green, 200f, false);
-                    }
+					if (drawNavigationGrid) {
+						Debug.DrawLine ((Vector3)NodesPos [i], dir + (Vector3)NodesPos [i], Color.green, 200f, false);
+					}
 				}
 			}
 		}
@@ -481,48 +499,49 @@ public class RandomMaze : MonoBehaviour
 			return 0;
 	}
 
-//	public static void RemoveNodes (ArrayList positions,int length, int width,float planewidth,List<Vector3> NodesPos,List<WayPoint> Nodes)
-//	{
-//
-//	}
+	//	public static void RemoveNodes (ArrayList positions,int length, int width,float planewidth,List<Vector3> NodesPos,List<WayPoint> Nodes)
+	//	{
+	//
+	//	}
 
 
 
-    //public static void createSingleObjects (float planewidth,GameObject enemySpawner, Vector2 endPos, Vector2 startPos)
-    //{
-    //    //Gate
-    //    //GameObject GateObj = (GameObject)Instantiate (Gate, new Vector3 (-planewidth / 2, height * planewidth / 2, -planewidth / 2), Quaternion.identity);
-    //    //GateObj.transform.localScale = new Vector3 (planewidth * 0.028f, planewidth * height / 150, planewidth);
-    //}
+	//public static void createSingleObjects (float planewidth,GameObject enemySpawner, Vector2 endPos, Vector2 startPos)
+	//{
+	//    //Gate
+	//    //GameObject GateObj = (GameObject)Instantiate (Gate, new Vector3 (-planewidth / 2, height * planewidth / 2, -planewidth / 2), Quaternion.identity);
+	//    //GateObj.transform.localScale = new Vector3 (planewidth * 0.028f, planewidth * height / 150, planewidth);
+	//}
 
-    public static void spawnPlayer(GameObject player, GameObject camera, GameObject Goal2, GameObject enemySpawner, GameObject Gui, GameObject EventList, Vector2 startPos, Vector2 endPos, GameObject Minimapcamera, int width, int length, float planewidth)
+	public static void spawnPlayer (GameObject player, GameObject camera, GameObject Goal2, GameObject enemySpawner, GameObject Gui, GameObject EventList, Vector2 startPos, Vector2 endPos, GameObject Minimapcamera, int width, int length, float planewidth)
 	{			
 
 		GameObject MainCamera = (GameObject)Instantiate (camera, new Vector3 (0f, 0f, 0f), Quaternion.identity);
 		MainCamera.name = "Main Camera";
-        if (GameObject.Find("EventListener") != null)
-        {
-            GameObject EventListener = (GameObject)Instantiate(EventList, new Vector3(0f, 0f, 0f), Quaternion.identity);
-        }
-		GameObject Player = (GameObject)Instantiate (player, new Vector3 (startPos.x, 0.5f, startPos.y)* planewidth, Quaternion.identity);
+		if (GameObject.Find ("EventListener") != null) {
+			GameObject EventListener = (GameObject)Instantiate (EventList, new Vector3 (0f, 0f, 0f), Quaternion.identity);
+		}
+		GameObject Player = (GameObject)Instantiate (player, new Vector3 (startPos.x, 0.5f, startPos.y) * planewidth, Quaternion.identity);
 		Player.gameObject.transform.localScale = new Vector3 (0.05f, 0.05f, 0.05f);
 		Player.name = "Player";
-        GameObject Goal = (GameObject)Instantiate(Goal2, new Vector3(startPos.x, 0.01f, startPos.y) * planewidth, Quaternion.identity);
-        Goal.transform.name = "Goal";
+		//GameObject Goal = (GameObject)Instantiate(Goal2, new Vector3(startPos.x, 0.01f, startPos.y) * planewidth, Quaternion.identity);
+		//Goal.transform.name = "Goal";
 		Vector3 enemyPos = new Vector3 ();
 		if (hasGate == 1) {
 			enemyPos = new Vector3 ((endPos.x + 1.5f) * planewidth, 0f, endPos.y * planewidth);
-		} else if(hasGate == 2) {
+		} else if (hasGate == 2) {
 			enemyPos = new Vector3 ((endPos.x - 1.5f) * planewidth, 0f, endPos.y * planewidth);
-		} else if(hasGate == 3) {
-			enemyPos = new Vector3 (endPos.x * planewidth, 0f, (endPos.y+1.5f) * planewidth);
-		}else if(hasGate == 4) {
-			enemyPos = new Vector3 (endPos.x * planewidth, 0f, (endPos.y-1.5f) * planewidth);
+		} else if (hasGate == 3) {
+			enemyPos = new Vector3 (endPos.x * planewidth, 0f, (endPos.y + 1.5f) * planewidth);
+		} else if (hasGate == 4) {
+			enemyPos = new Vector3 (endPos.x * planewidth, 0f, (endPos.y - 1.5f) * planewidth);
 		}  
 
-		enemySpawner = (GameObject)Instantiate(enemySpawner, enemyPos, Quaternion.identity); 
+		enemySpawner = (GameObject)Instantiate (enemySpawner, enemyPos, Quaternion.identity); 
 		GameObject gui = (GameObject)Instantiate (Gui, new Vector3 (0f, 0f, 0f), Quaternion.identity);
 		gui.transform.name = "GUIMain";
+		GameObject goal = GameObject.Find ("Goal");
+		goal.GetComponent<GoalScript> ().setGui ();
 		//minimapcamera
 		GameObject cam = (GameObject)Instantiate (Minimapcamera, new Vector3 (length / 2, Mathf.Max (width, length), 0) * planewidth, Quaternion.Euler (90, 0, 0));
 		//cam.camera.rect = new Rect (0.8f, 0.7f, 0.3f, 0.3f);

@@ -40,7 +40,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 20.2024803, y: 9.92507648, z: 15.3468361}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 471860}
@@ -70,6 +70,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Hero
+  gateHealth: 50000
   startGold: 800
   costMagicTower: 175
   costArrowTower: 150
@@ -100,7 +101,7 @@ MonoBehaviour:
   Minimapcamera: {fileID: 100000, guid: ea52609adf144e449bfeac563da51684, type: 2}
   Gate: {fileID: 100000, guid: d4693b6abfa404c2083cd46be293e93c, type: 2}
   torch: {fileID: 100012, guid: 3abc6258d3b3848199581033a47549d6, type: 2}
-  Goal: {fileID: 187034, guid: 238816a3ef63d0443b7f2d1338df4329, type: 2}
+  Goal: {fileID: 151086, guid: e63dfe4362b35f24cb1c787445b9a07e, type: 2}
   length: 10
   width: 10
   planewidth: 10

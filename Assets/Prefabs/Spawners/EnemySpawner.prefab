@@ -47,8 +47,8 @@ MonoBehaviour:
   keepDistribution: 0
   keepType: 0
   toenameAantalEnemiesPerWave: 5
-  maxX: .300000012
-  maxZ: .300000012
+  maxX: .100000001
+  maxZ: .100000001
   allEnemiesSpawned: 0
   allEnemiesDead: 0
   timeBetweenWaves: 5
