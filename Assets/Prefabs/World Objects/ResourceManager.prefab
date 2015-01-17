@@ -180,7 +180,7 @@ MonoBehaviour:
   spearTrapHotspot: {fileID: 100002, guid: 367c8fea0f4dedc40a8d62d0e56e3666, type: 2}
   camOffset: 3
   mainCamera: {fileID: 100000, guid: dd773a3570af80e458efc1407d736bdc, type: 2}
-  player: {fileID: 100002, guid: 9edc1a7a41b114241945f4f7e510d868, type: 2}
+  player: {fileID: 121700, guid: 06dd4d5fc1fb695459bbddbf8e99d5e3, type: 2}
   startPos: {x: 0, y: 0}
   endPos: {x: 0, y: 0}
   magicBullet: {fileID: 100000, guid: 1b2fbfa5bc2ebc9428f28105eca1c5c9, type: 2}

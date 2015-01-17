@@ -524,7 +524,7 @@ public class RandomMaze : MonoBehaviour
 			GameObject EventListener = (GameObject)Instantiate (EventList, new Vector3 (0f, 0f, 0f), Quaternion.identity);
 		}
 		GameObject Player = (GameObject)Instantiate (player, new Vector3 (startPos.x, 0.5f, startPos.y) * planewidth, Quaternion.identity);
-		Player.gameObject.transform.localScale = new Vector3 (0.05f, 0.05f, 0.05f);
+		Player.gameObject.transform.localScale = new Vector3 (1f, 1f, 1f)/2;
 		Player.name = "Player";
 		//GameObject Goal = (GameObject)Instantiate(Goal2, new Vector3(startPos.x, 0.01f, startPos.y) * planewidth, Quaternion.identity);
 		//Goal.transform.name = "Goal";

@@ -46,6 +46,9 @@ public class PlayerController : MonoBehaviour
     public static bool attackMagic1;
     public static bool attackMagic2;
     public static bool idle;
+	public static bool jumping;
+
+	bool inAir;
 
     private AudioClip magic;
     private bool jumped;
@@ -80,6 +83,7 @@ public class PlayerController : MonoBehaviour
     // Method for getting player input
     private Vector3 playerInput()
     {
+
 
         // determining the camera angle around origin y and the inputs of the user
         camAngleY = camera.transform.rotation.eulerAngles.y;
@@ -155,12 +159,12 @@ public class PlayerController : MonoBehaviour
     private void playerMovement()
     {
         // Checking if the player is moving
-        if ((Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0) && !OtherAnimationTrue())
+        if ((Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0) && !jumping)
         {
             idle = false;
             moving = true;
         }
-        else if (!OtherAnimationTrue())
+        else if (!OtherAnimationTrue() && !jumping)
         {
 
             idle = true;
@@ -168,7 +172,6 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-
             idle = false;
             moving = false;
         }
@@ -182,7 +185,20 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded() && rigidbody.velocity.y < 1)
         {
             rigidbody.velocity = rigidbody.velocity + new Vector3(0f, jumpSpeed, 0f);
+			jumping = true;
+			idle = false;
+			moving = false;
+			SetAttackAnimationFalse ();
+			Invoke ("SetJumpAnimationFalse", .5f);
         }
+
+		if (inAir && isGrounded ()) {
+			inAir = false;
+			jumping = false;
+			moving = false;
+			idle = true;
+		}
+
     }
 
 
@@ -250,18 +266,18 @@ public class PlayerController : MonoBehaviour
     {
         
         // if player presses Mouse0
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+		if (Input.GetKeyDown(KeyCode.Mouse0) && !OtherAnimationTrue())
         {
 
-            if (WeaponController.weapon == 1 && !coolDownSword1)
+			if (WeaponController.weapon == 1 && !coolDownSword1 && isGrounded())
             {
                 SetAttackAnimationFalse();
 
-                int random = Random.Range(0, 2);
+                int random = 0;
                 if (random == 0)
                 {
                     attackingSword1 = true;
-
+					jumping = false;
                 }
 
                 else
@@ -288,7 +304,11 @@ public class PlayerController : MonoBehaviour
                 }
                 coolDownSword1 = true;
                 player.getSkills()[0].startCooldown();
-                Invoke("SetAttackAnimationFalse", 1f/2f);
+				if (moving) {
+					Invoke ("SetAttackAnimationFalse", 1f);
+				} else {
+					Invoke ("SetAttackAnimationFalse", 2f/3f);
+				}
                 Invoke("setCoolDownSword1false", coolDownSword1Time);
 
                 RaycastHit hit;
@@ -298,7 +318,7 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-            if (WeaponController.weapon == 2 && !coolDownSword2)
+			if (WeaponController.weapon == 2 && !coolDownSword2 && isGrounded())
             {
                 SetAttackAnimationFalse();
                 idle = false;
@@ -432,6 +452,11 @@ public class PlayerController : MonoBehaviour
     attackMagic2 = false;
     }
 
+	void SetJumpAnimationFalse()
+	{
+		inAir = true;
+	}
+
     bool OtherAnimationTrue()
     {
         return attackingSword1 || attackingSword2 || attackMagic1 || attackMagic2 || attackingSword3;
@@ -483,11 +508,11 @@ public class PlayerController : MonoBehaviour
 
     // Update void which updates every frame
     void Update()
-    {
-        // Run this method
-        OnLeftMouseDown();
-        location = transform.position;
-        Jumping();
+	{
+		// Run this method
+		OnLeftMouseDown ();
+		location = transform.position;
+		Jumping ();
     }
 
 	void checkFloor(){
