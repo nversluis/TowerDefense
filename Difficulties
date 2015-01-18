@@ -1,19 +1,23 @@
 Difficulties
 
 
+Gold reward increase: 1.05
+Start sword damage: 1500
+Start magic damage: 750
 
 
 - Easy
-Enemy start health: 80
+Start statpoints: 100
 Increase stat points: 10
 increase enemys: 2
 Start enemys: 15
+
 
 - Medium
 Enemy start health: 120
 Increase health: 10
 Increase enemys: 2
-Start enemys:
+Start enemys: 
 
 - Hard
 

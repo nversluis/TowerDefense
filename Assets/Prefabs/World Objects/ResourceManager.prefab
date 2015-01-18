@@ -108,17 +108,17 @@ MonoBehaviour:
   costPoisonTrap: 75
   costBarricade: 200
   rewardenemy: 10
-  rewardWave: 400
+  rewardWave: 200
   coolDownSword1Time: .5
   coolDownSword2Time: 10
   coolDownMagic1Time: .200000003
   coolDownMagic2Time: 60
   defense: 10
   speed: 10
-  startSwordDamage: 5000
-  startMagicDamage: 1000
+  startSwordDamage: 1500
+  startMagicDamage: 750
   specialSwordDamage: 15000
-  specialMagicDamage: 60000
+  specialMagicDamage: 30000
   hitParticles: {fileID: 145544, guid: 9c7b8546eb84bce41a909a9dc0d3f737, type: 2}
   hitExplosionParticles: {fileID: 147396, guid: c675be9dc898e2b4e95ed4ebcbefa4a3,
     type: 2}
@@ -148,14 +148,14 @@ MonoBehaviour:
   automaticPathUpdating: 1
   currentWave: 1
   maxWaves: 20
-  maxEnemies: 15
+  maxEnemies: 18
   toenameAantalEnemiesPerWave: 2
   timeBetweenWaves: 5
   keepType: 0
   keepDistribution: 1
   mutationProbability: .699999988
-  totalStatPoints: 80
-  toenameTotalStatPointsPerWave: 10
+  totalStatPoints: 120
+  toenameTotalStatPointsPerWave: 15
   startSpawnTime: .699999988
   currentSpawnTime: 0
   AfnameSpawnTimeFactor: .970000029
