@@ -37,17 +37,20 @@ public class GuyantAttack : MonoBehaviour
 		if(goal!=null && (new Vector3(goal.transform.position.x,transform.position.y,goal.transform.position.z)-transform.position).magnitude<5f){
 			goal.GetComponent<GoalScript>().removeLife(attackDamage);
 			transform.LookAt(new Vector3(goal.transform.position.x,transform.position.y,goal.transform.position.z));
+			enemyResources.totalGateDamage += attackDamage;
 		}
 
 		else if (barricade != null && (barricade.transform.position - transform.position).magnitude < 5f) {
 			barricade.GetComponent<barricade> ().TakeDamage (attackDamage);
 			transform.LookAt(new Vector3(barricade.transform.position.x,transform.position.y,barricade.transform.position.z));
+			enemyResources.totalDamage += attackDamage;
 		}
 		else if (playerHealth.currentHealth > 0 && (player.transform.position - transform.position).magnitude < 3f) {
 			playerHealth.TakeDamage (attackDamage);
 			transform.LookAt(new Vector3(player.transform.position.x,transform.position.y,player.transform.position.z));
+			enemyResources.totalDamage += attackDamage;
 		} 
-		enemyResources.totalDamage += attackDamage;
+
 	}
 
 	void Update ()

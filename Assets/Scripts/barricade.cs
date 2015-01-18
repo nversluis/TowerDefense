@@ -17,6 +17,7 @@ public class barricade : MonoBehaviour
 	public int maxHealth;
 	public int health;
 
+	public int level;
 
 	// Use this for initialization
 	void Start ()
@@ -88,6 +89,7 @@ public class barricade : MonoBehaviour
 			playerData.addGold (-cost);
 			resourceManager.allBarricades.Add (trap);
 			setPenalties (health/5);
+			Statistics.barricadesBuilt = Statistics.barricadesBuilt + 1;
 			WallScript.DestroyHotSpots ();
 			//Destroy (gameObject);
 		} else {
@@ -141,11 +143,12 @@ public class barricade : MonoBehaviour
 			totalCost += (maxHealth - health);
 			health = maxHealth;
 		} else {
-			if(cost*maxHealth/resourceManager.barricadeHealth<=playerData.getGold())
+			if(cost*maxHealth/resourceManager.barricadeHealth<=playerData.getGold() && level<5)
 			{
 				totalCost +=(cost*maxHealth/resourceManager.barricadeHealth);
 				playerData.addGold (-(cost*maxHealth/resourceManager.barricadeHealth));
 				maxHealth += resourceManager.barricadeHealth / 2;
+				level++;
 
 			}
 		}	

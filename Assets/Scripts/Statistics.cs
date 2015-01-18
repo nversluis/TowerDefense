@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Statistics : MonoBehaviour {
 
@@ -29,6 +30,14 @@ public class Statistics : MonoBehaviour {
 
     static int currentKillStreak;
     static int currentHeadShotStreak;
+
+	public static int fireTrapsBuilt;
+	public static int iceTrapsBuilt;
+	public static int poisonTrapsBuilt;
+	public static int magicTowersBuilt;
+	public static int arrowTowersBuilt;
+	public static int barricadesBuilt;
+
 
     ResourceManager resourceManager;
 
