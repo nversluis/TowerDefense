@@ -4,13 +4,14 @@ Difficulties
 Gold reward increase: 1.05
 Start sword damage: 1500
 Start magic damage: 750
-
+Reward wave: 400
 
 - Easy
 Start statpoints: 100
 Increase stat points: 10
 increase enemys: 2
 Start enemys: 15
+
 
 
 - Medium
@@ -20,10 +21,15 @@ Increase enemys: 3
 Start enemys: 15
 
 - Hard
-Start statpoints: 180
-Increase stat points: 18
+Start statpoints: 170
+Increase stat points: 17
 increase enemys: 3
 Start enemys: 20
 
+
 - Insane
+Start statpoints: 200
+Increase stat points: 20
+increase enemys: 3
+Start enemys: 24
 
