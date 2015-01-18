@@ -148,14 +148,14 @@ MonoBehaviour:
   automaticPathUpdating: 1
   currentWave: 1
   maxWaves: 20
-  maxEnemies: 18
-  toenameAantalEnemiesPerWave: 2
+  maxEnemies: 15
+  toenameAantalEnemiesPerWave: 3
   timeBetweenWaves: 5
   keepType: 0
   keepDistribution: 1
   mutationProbability: .699999988
-  totalStatPoints: 120
-  toenameTotalStatPointsPerWave: 15
+  totalStatPoints: 150
+  toenameTotalStatPointsPerWave: 14
   startSpawnTime: .699999988
   currentSpawnTime: 0
   AfnameSpawnTimeFactor: .970000029
