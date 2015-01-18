@@ -21,6 +21,7 @@ public class MagicTowerScript : MonoBehaviour {
 	bool isShooting;
     //CharacterController enemyCharController;
 
+    float volume;
 
     void Start()
     {
@@ -38,6 +39,7 @@ public class MagicTowerScript : MonoBehaviour {
 		stats.sellCost = resourceManager.costMagicTower / 2;
 		stats.upgradeCost = resourceManager.costMagicTower;
 		stats.attackUpgrade = stats.attack / 2;
+        volume = (float)PlayerPrefs.GetInt("SFX") / 100f;
     }
     void OnTriggerEnter(Collider col)
     {
@@ -172,7 +174,7 @@ public class MagicTowerScript : MonoBehaviour {
 			GameObject Bullet = (GameObject)Instantiate(bullet, transform.parent.position, Quaternion.identity);
             Bullet.rigidbody.velocity = Shoot;
 			Bullet.GetComponent<MagicTowerBulletScript> ().damagePerShot = transform.parent.GetComponent<TowerStats> ().attack;
-			audio.PlayOneShot(magic,15f);
+			audio.PlayOneShot(magic,15f*volume);
 
         }
     }

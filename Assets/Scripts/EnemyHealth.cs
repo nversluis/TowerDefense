@@ -26,7 +26,8 @@ public class EnemyHealth : MonoBehaviour {
     GUIScript guiMain;
     AudioSource cameraAudioSource;
     AudioClip headShot;
-
+    AudioClip[] painSound;
+    AudioClip[] deadSound;
 
 	public bool isPoisoned;
 	public float poisonAmount = 0;
@@ -37,6 +38,11 @@ public class EnemyHealth : MonoBehaviour {
     Animator animator;
 
     float counter;
+
+    float volume;
+
+    float avgProbDeadsound;
+    float avgProbPainSound;
 
     void Awake()
     {
@@ -63,6 +69,26 @@ public class EnemyHealth : MonoBehaviour {
         capsuleCollider = this.gameObject.GetComponent<CapsuleCollider>();
         cameraAudioSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
         headShot = resourceManager.headShot;
+        avgProbPainSound = resourceManager.avgProbPainSound;
+        avgProbDeadsound = resourceManager.avgProbDeadSound;
+
+        volume = (float)PlayerPrefs.GetInt("SFX") / 100f;
+
+        if (gameObject.name == "Guyant")
+        {
+            painSound = resourceManager.guyantPainSound;
+            deadSound = resourceManager.guyantDeadSound;
+        }
+        else if (gameObject.name == "Gwarf")
+        {
+            painSound = resourceManager.gwarfPainSound;
+            deadSound = resourceManager.gwarfDeadSound;
+        }
+        else
+        {
+            painSound = resourceManager.grobblePainSound;
+            deadSound = resourceManager.grobblePainSound;
+        }
 
 
         
@@ -128,7 +154,38 @@ public class EnemyHealth : MonoBehaviour {
         if (currentHealth <= 0 && !enemyResources.isDead)
         {
             Death(attackedByPlayer,false);
+            int i = 0;
+            while (true)
+            {
+                if (Random.Range(0f, 1f) < avgProbDeadsound / deadSound.Length)
+                {
+                    GetComponent<AudioSource>().PlayOneShot(deadSound[i],volume);
+                    break;
+                }
+
+                i++;
+
+                if (i > deadSound.Length - 1)
+                {
+                    i = 0;
+                }
+            }
+
         }
+
+        if (currentHealth > 0)
+        {
+            for (int i = 0; i < painSound.Length; i++)
+            {
+                if (Random.Range(0f, 1f) < avgProbPainSound / painSound.Length)
+                {
+                    GetComponent<AudioSource>().PlayOneShot(painSound[i], volume);
+
+                }
+            }
+        }
+
+
     }
 
 	public void TakePoisonDamage(int amount)
@@ -205,7 +262,7 @@ public class EnemyHealth : MonoBehaviour {
         currentHealth = 0;
         if (currentHealth <= 0 && !enemyResources.isDead)
         {
-            cameraAudioSource.PlayOneShot(headShot,2f);
+            cameraAudioSource.PlayOneShot(headShot,2*volume);
             Death(true,true);
             guiMain.Notification("Headshot");
         }

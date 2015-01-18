@@ -11,6 +11,8 @@ public class ArrowTower : MonoBehaviour {
 	private List<GameObject> enemyOnTrap;
 	public int amountOfArrows;
 	TowerStats stats;
+    AudioSource audiosource;
+    AudioClip[] arrows;
 
 	// Use this for initialization
 	void Start () {
@@ -18,6 +20,7 @@ public class ArrowTower : MonoBehaviour {
 		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
 		enemyTag = resourceManager.enemyTag;
 		arrow = resourceManager.arrowTowerArrow;
+        arrows = resourceManager.arrows;
 		enemyOnTrap=new List<GameObject>();
 		amountOfArrows = 20;
 		stats = transform.parent.gameObject.GetComponent<TowerStats> ();
@@ -59,7 +62,10 @@ public class ArrowTower : MonoBehaviour {
 		bullet.transform.localPosition = new Vector3 (0, 3.8f - Mathf.Floor (Random.value * 8) * 1.075f, 3.775f - Mathf.Floor (Random.value * 8) * 1.075f);
 		bullet.transform.up = -transform.right;
 		bullet.GetComponent<Arrow> ().damagePerShot = stats.attack;
-		bullet.rigidbody.velocity = -transform.right*100;
+		bullet.rigidbody.velocity = -transform.right*100*Random.Range(0.3f,1f);
+        int i = Random.Range(0,4);
+        audiosource = bullet.GetComponent<AudioSource>();
+        audiosource.PlayOneShot(arrows[i]);
 	}
 
 

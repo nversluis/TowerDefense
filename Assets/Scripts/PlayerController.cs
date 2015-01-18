@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     AudioClip swordSpecial;
     AudioClip magicSpecial;
 
-    int volume;
+    float volume;
 
     // initializing some global variables
     private GameObject camera;
@@ -46,8 +46,12 @@ public class PlayerController : MonoBehaviour
     public static bool attackMagic1;
     public static bool attackMagic2;
     public static bool idle;
+	public static bool jumping;
+
+	bool inAir;
 
     private AudioClip magic;
+    AudioClip walking;
     private bool jumped;
     public static Vector3 location;
     Vector3 startPosition;
@@ -77,9 +81,12 @@ public class PlayerController : MonoBehaviour
 
     private PlayerData player = GUIScript.player;
 
+    bool invoked;
+
     // Method for getting player input
     private Vector3 playerInput()
     {
+
 
         // determining the camera angle around origin y and the inputs of the user
         camAngleY = camera.transform.rotation.eulerAngles.y;
@@ -155,12 +162,12 @@ public class PlayerController : MonoBehaviour
     private void playerMovement()
     {
         // Checking if the player is moving
-        if ((Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0) && !OtherAnimationTrue())
+        if ((Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0) && !jumping)
         {
             idle = false;
             moving = true;
         }
-        else if (!OtherAnimationTrue())
+        else if (!OtherAnimationTrue() && !jumping)
         {
 
             idle = true;
@@ -168,7 +175,6 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-
             idle = false;
             moving = false;
         }
@@ -182,7 +188,20 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded() && rigidbody.velocity.y < 1)
         {
             rigidbody.velocity = rigidbody.velocity + new Vector3(0f, jumpSpeed, 0f);
+			jumping = true;
+			idle = false;
+			moving = false;
+			SetAttackAnimationFalse ();
+			Invoke ("SetJumpAnimationFalse", .5f);
         }
+
+		if (inAir && isGrounded ()) {
+			inAir = false;
+			jumping = false;
+			moving = false;
+			idle = true;
+		}
+
     }
 
 
@@ -216,20 +235,20 @@ public class PlayerController : MonoBehaviour
         particles.transform.localScale = new Vector3(3, 3, 3);
         StartCoroutine(DestroyParticles(particles));
         int random = Random.Range(0, 3);
-
+        
         if (random == 0)
         {
-
-            cameraAudio.PlayOneShot(hitEnemy,volume);
+            
+            cameraAudio.PlayOneShot(hitEnemy, volume);
         }
         else if (random == 1)
         {
-            cameraAudio.PlayOneShot(hitEnemy2,volume);
+            cameraAudio.PlayOneShot(hitEnemy2, volume);
 
         }
         else if (random == 2)
         {
-            cameraAudio.PlayOneShot(hitEnemy3,volume);
+            cameraAudio.PlayOneShot(hitEnemy3, volume);
 
         }
     }
@@ -238,11 +257,15 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(0.2f);
         hit.transform.gameObject.GetComponent<EnemyHealth>().TakeDamage(specialSwordDamage, "physical", true);
-        Debug.Log(specialSwordDamage);
         GameObject particles = (GameObject)Instantiate(hitExplosionParticles, hit.transform.position, Quaternion.identity);
         StartCoroutine(DestroyParticles2(particles));
-        cameraAudio.PlayOneShot(swordSpecial,volume);
+        cameraAudio.PlayOneShot(swordSpecial, volume);
         
+    }
+
+    void Walking()
+    {
+        cameraAudio.PlayOneShot(walking, volume);
     }
 
     // Method that runs when left button is pressed
@@ -250,18 +273,18 @@ public class PlayerController : MonoBehaviour
     {
         
         // if player presses Mouse0
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+		if (Input.GetKeyDown(KeyCode.Mouse0) && !OtherAnimationTrue())
         {
 
-            if (WeaponController.weapon == 1 && !coolDownSword1)
+			if (WeaponController.weapon == 1 && !coolDownSword1 && isGrounded())
             {
                 SetAttackAnimationFalse();
 
-                int random = Random.Range(0, 2);
+                int random = 0;
                 if (random == 0)
                 {
                     attackingSword1 = true;
-
+					jumping = false;
                 }
 
                 else
@@ -270,25 +293,28 @@ public class PlayerController : MonoBehaviour
                 }
 
                 random = Random.Range(0, 3);
-
                 if (random == 0)
                 {
 
-                    cameraAudio.PlayOneShot(sword,volume);
+                    cameraAudio.PlayOneShot(sword, volume);
                 }
                 else if (random == 1)
                 {
-                    cameraAudio.PlayOneShot(sword2,volume);
+                    cameraAudio.PlayOneShot(sword2, volume);
 
                 }
                 else if (random == 2)
                 {
-                    cameraAudio.PlayOneShot(sword3,volume);
+                    cameraAudio.PlayOneShot(sword3, volume);
 
                 }
                 coolDownSword1 = true;
                 player.getSkills()[0].startCooldown();
-                Invoke("SetAttackAnimationFalse", 1f/2f);
+				if (moving) {
+					Invoke ("SetAttackAnimationFalse", 1f);
+				} else {
+					Invoke ("SetAttackAnimationFalse", 2f/3f);
+				}
                 Invoke("setCoolDownSword1false", coolDownSword1Time);
 
                 RaycastHit hit;
@@ -298,7 +324,7 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-            if (WeaponController.weapon == 2 && !coolDownSword2)
+			if (WeaponController.weapon == 2 && !coolDownSword2 && isGrounded())
             {
                 SetAttackAnimationFalse();
                 idle = false;
@@ -337,7 +363,7 @@ public class PlayerController : MonoBehaviour
 			
                 // creating a bullet in front of 1 unit away from Player
                 GameObject bullet = (GameObject)Instantiate(Bullet, transform.position + tijdelijk, Quaternion.identity);
-
+                AudioSource bulletAudio = bullet.GetComponent<AudioSource>();
                 // Casting a ray and storing information to hit
                 if (!Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, Mathf.Infinity, ignoreMaskBullet))
                 {
@@ -355,7 +381,7 @@ public class PlayerController : MonoBehaviour
                 AddBulletDistortion();
                
                 // looking in the direction of the camera
-                audio.PlayOneShot(magic,15*volume);
+                bulletAudio.PlayOneShot(magic, 10 * volume);
             }
 
             if (WeaponController.weapon == 4 && !coolDownMagic2)
@@ -378,6 +404,7 @@ public class PlayerController : MonoBehaviour
 			
                 // creating a bullet in front of 1 unit away from Player
                 GameObject bullet = (GameObject)Instantiate(explosionBullet, transform.position + tijdelijk, Quaternion.identity);
+                AudioSource bulletAudio = bullet.GetComponent<AudioSource>();
 
                 // Casting a ray and storing information to hit
                 if (!Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, Mathf.Infinity, ignoreMaskBullet))
@@ -395,7 +422,7 @@ public class PlayerController : MonoBehaviour
                 AddBulletDistortion();
                
                 // looking in the direction of the camera
-                audio.PlayOneShot(magic,15f*volume);
+                bulletAudio.PlayOneShot(magic, 10f * volume);
             }
 
         }
@@ -432,6 +459,11 @@ public class PlayerController : MonoBehaviour
     attackMagic2 = false;
     }
 
+	void SetJumpAnimationFalse()
+	{
+		inAir = true;
+	}
+
     bool OtherAnimationTrue()
     {
         return attackingSword1 || attackingSword2 || attackMagic1 || attackMagic2 || attackingSword3;
@@ -465,8 +497,8 @@ public class PlayerController : MonoBehaviour
         sword = resourceManager.sword;
         sword2 = resourceManager.sword2;
         sword3 = resourceManager.sword3;
-        volume = PlayerPrefs.GetInt("SFX")/100;
-
+        volume = (float)PlayerPrefs.GetInt("SFX")/100f;
+        walking = resourceManager.walking;
 
         hitEnemy = resourceManager.hitEnemy;
         hitEnemy2 = resourceManager.hitEnemy2;
@@ -478,16 +510,27 @@ public class PlayerController : MonoBehaviour
         hitExplosionParticles = resourceManager.hitExplosionParticles;
 
         explosionBullet = resourceManager.ExplosionMagic;
-
+        
     }
 
     // Update void which updates every frame
     void Update()
-    {
-        // Run this method
-        OnLeftMouseDown();
-        location = transform.position;
-        Jumping();
+	{
+		// Run this method
+		OnLeftMouseDown ();
+		location = transform.position;
+		Jumping ();
+
+        if (moving && !invoked)
+        {
+            InvokeRepeating("Walking", 0f, 1.097f);
+            invoked = true;
+        }
+        if (!moving)
+        {
+            invoked = false;
+            CancelInvoke("Walking");
+        }
     }
 
 	void checkFloor(){

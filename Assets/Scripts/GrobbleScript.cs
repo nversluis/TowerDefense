@@ -30,6 +30,9 @@ public class GrobbleScript : MonoBehaviour
 
 	List<float> oldList = new List<float> ();
 
+    AudioClip walking;
+    float volume;
+
 	float nodeSize;
 	float normalWalkSpeed;
 	float walkSpeed;
@@ -51,7 +54,7 @@ public class GrobbleScript : MonoBehaviour
 	public float isSlowed = 1;
 	public bool throughGate;
 	bool isInvoked;
-
+    bool invoked;
 	GameObject curFloor;
 
 	// Method for finding all necessary scripts
@@ -299,8 +302,15 @@ public class GrobbleScript : MonoBehaviour
 		BuildPath ();
 
 		enemyResources.isSlowed = 1;
+
+        walking = resourceManager.walking;
+        volume = (float)PlayerPrefs.GetInt("SFX") / 100f;
 	}
 
+    void Walking()
+    {
+        audio.PlayOneShot(walking, volume);
+    }
 	//Update is called once per frame
 	void FixedUpdate ()
 	{
@@ -323,6 +333,17 @@ public class GrobbleScript : MonoBehaviour
 
 		// Debug
 		Debuging ();
+
+        if (enemyResources.walking && !invoked)
+        {
+            InvokeRepeating("Walking", 0f, 1.097f);
+            invoked = true;
+        }
+        if (!enemyResources.walking)
+        {
+            invoked = false;
+            CancelInvoke("Walking");
+        }
 
 	}
 

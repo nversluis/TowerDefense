@@ -70,6 +70,8 @@ public class ResourceManager : MonoBehaviour {
     public float pathUpdateRate;
     public bool drawPath;
     public bool automaticPathUpdating;
+    public float avgProbPainSound;
+    public float avgProbDeadSound;
 
     [Header("Waves")]
     public int currentWave;
@@ -85,6 +87,7 @@ public class ResourceManager : MonoBehaviour {
     public float startSpawnTime;
     public float currentSpawnTime;
     public float AfnameSpawnTimeFactor;
+    public float rewardWaveFactor;
 
 	[Header("Towers")]
 	public float maxTowerDistance;
@@ -126,7 +129,12 @@ public class ResourceManager : MonoBehaviour {
 	public GameObject magicBullet;
 	public int bulletSpeed;
 
-	[Header("Audio")]
+    [Header("Audio")]
+    public AudioClip inGameMusic;
+    public AudioClip menuMusic;
+    public AudioClip editorMusic;
+    public AudioClip countSound;
+    public AudioClip goSound;
 	public AudioClip magicBulletSound;
 	public AudioClip backgroundMusic;
     public AudioClip headShot;
@@ -134,6 +142,17 @@ public class ResourceManager : MonoBehaviour {
     public AudioClip hitEnemy;
     public AudioClip hitEnemy2;
     public AudioClip hitEnemy3;
+    public AudioClip[] arrows;
+    public AudioClip walking;
+    public AudioClip enemyHit;
+    public AudioClip[] guyantPainSound;
+    public AudioClip[] guyantDeadSound;
+
+    public AudioClip[] gwarfPainSound;
+    public AudioClip[] gwarfDeadSound;
+
+    public AudioClip[] grobblePainSound;
+    public AudioClip[] grobbleDeadSound;
 
     public AudioClip sword;
     public AudioClip sword2;

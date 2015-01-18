@@ -120,6 +120,7 @@ public class LoadScreenScript : MonoBehaviour
     // Use this for initialization
     private GameObject ResourceManagerObj;
     private ResourceManager resourceManager;
+    float volume;
 
     void Start()
     {
@@ -162,6 +163,7 @@ public class LoadScreenScript : MonoBehaviour
         currentButtonsSelected = new List<Button>();
         currentFilesSelected = new List<string>();
         cameraAudioSource = backGroundCamera.GetComponent<AudioSource>();
+        volume = (float)PlayerPrefs.GetInt("SFX") / 100f;
 
         if (!File.Exists(AppPath))
         {
@@ -172,7 +174,7 @@ public class LoadScreenScript : MonoBehaviour
 
     public void ButtonClick()
     {
-        cameraAudioSource.PlayOneShot(click);
+        cameraAudioSource.PlayOneShot(click,volume);
     }
 
 
@@ -346,7 +348,7 @@ public class LoadScreenScript : MonoBehaviour
                 resourceManager.startPos = startPos;
                 resourceManager.endPos = endPos;
                 LoadingScreen.SetActive(true);
-                cameraAudioSource.PlayOneShot(startGame, 5);
+                cameraAudioSource.PlayOneShot(startGame, 5*volume);
                 Invoke("startSpawn", 1.802f);
                 // spawnLevel();
 
@@ -666,7 +668,7 @@ public class LoadScreenScript : MonoBehaviour
 
                     but.onClick.AddListener(delegate
                     {
-                        cameraAudioSource.PlayOneShot(shhhh);
+                        cameraAudioSource.PlayOneShot(shhhh,volume);
                         selectFileName(but);
                     });
                 }

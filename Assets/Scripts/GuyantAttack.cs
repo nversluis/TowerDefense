@@ -16,6 +16,10 @@ public class GuyantAttack : MonoBehaviour
 	EnemyStats enemyStats;
 	bool playerInRange;
 	public bool invoked = false;
+    AudioClip hit;
+
+    float volume;
+
 
 	void Start ()
 	{
@@ -27,6 +31,9 @@ public class GuyantAttack : MonoBehaviour
 		enemyStats = GetComponent<EnemyStats> ();
 		enemyResources = GetComponent<EnemyResources> ();
 		attackDamage = enemyStats.attack * damageMultiplier;
+
+        volume = (float)PlayerPrefs.GetInt("SFX") / 100f;
+        hit = GameObject.Find("ResourceManager").GetComponent<ResourceManager>().enemyHit;
 
 	}
 
@@ -46,7 +53,8 @@ public class GuyantAttack : MonoBehaviour
 		else if (playerHealth.currentHealth > 0 && (player.transform.position - transform.position).magnitude < 3f) {
 			playerHealth.TakeDamage (attackDamage);
 			transform.LookAt(new Vector3(player.transform.position.x,transform.position.y,player.transform.position.z));
-		} 
+		}
+        audio.PlayOneShot(hit, volume);
 		enemyResources.totalDamage += attackDamage;
 	}
 

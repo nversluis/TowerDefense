@@ -26,9 +26,12 @@ public class GwarfAttack : MonoBehaviour
 	Vector3 endLoc = new Vector3();
 
 	GwarfScript gs;
+    float volume;
 
     void Start()
     {
+        volume = (float)PlayerPrefs.GetInt("SFX") / 100f;
+
         totalDamage = 0;
 
         player = GameObject.Find("Player");
@@ -78,7 +81,7 @@ public class GwarfAttack : MonoBehaviour
         {
             GameObject Bullet = (GameObject)Instantiate(bullet, transform.position, Quaternion.identity);
             Bullet.rigidbody.velocity = Shoot;
-            audio.PlayOneShot(magic, 15f);
+            audio.PlayOneShot(magic, 15f*volume);
         }
 
     }

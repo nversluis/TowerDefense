@@ -46,12 +46,14 @@ public class TowerScript : MonoBehaviour
 			tower.tag = "Tower"; //Give tower a new tag, so it wont be destroyed because its a hotspot
 			tower.transform.parent = gameObject.transform.parent;
 			//tower.collider.isTrigger = false; //remove the trigger, cant walk trough it
-			Destroy (gameObject); // Destroy all hotspots
 			tower.SetActiveRecursively (true); //Active its children (the trigger)
 			gameObject.layer = 13;
 			playerData.addGold (-cost);
-		}else {
-			Debug.Log("Not enough gold to build " + realTower.name);
+			Destroy (gameObject); // Destroy all hotspots
+
+		}
+		else {
+			GameObject.Find("GUIMain").GetComponent<GUIScript>().Notification ("NoGold");
 		}
     }
 
@@ -60,7 +62,7 @@ public class TowerScript : MonoBehaviour
     void Update()
     {
         //check for click to build tower
-        if (Input.GetMouseButtonUp(0) && gameObject.tag.Equals("TowerHotSpot"))
+        if (Input.GetMouseButtonUp(0) && gameObject.tag.Contains("HotSpot"))
         {
             BuildTower();
         }
@@ -74,7 +76,7 @@ public class TowerScript : MonoBehaviour
         //change hotspots according to distance
         if (!tag.Equals("Tower"))
         {
-            GameObject Player = GameObject.FindGameObjectWithTag("Player");
+            GameObject Player = GameObject.Find("Player");
 			if ((Vector3.Distance(Player.transform.position, transform.position) >= MaxDistance)||(cost>playerData.getGold()))
             {
                 if (!tag.Equals("HotSpotRed"))
