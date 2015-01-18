@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7321a888faeaae47875ca40443ccd1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Difficulty: 0
   name: Hero
   gateHealth: 50000
   startGold: 800
@@ -148,14 +149,14 @@ MonoBehaviour:
   automaticPathUpdating: 1
   currentWave: 1
   maxWaves: 20
-  maxEnemies: 15
-  toenameAantalEnemiesPerWave: 3
+  maxEnemies: 0f0000000f0000001400000018000000
+  toenameAantalEnemiesPerWave: 02000000030000000300000003000000
   timeBetweenWaves: 5
   keepType: 1
   keepDistribution: 1
   mutationProbability: .699999988
-  totalStatPoints: 150
-  toenameTotalStatPointsPerWave: 14
+  totalStatPoints: 6400000096000000aa000000c8000000
+  toenameTotalStatPointsPerWave: 0a0000000e0000001100000014000000
   startSpawnTime: .699999988
   currentSpawnTime: 0
   AfnameSpawnTimeFactor: .970000029
