@@ -5352,6 +5352,15 @@ MonoBehaviour:
   attackU: {fileID: 11430892}
   speedU: {fileID: 11430898}
   specialU: {fileID: 11402524}
+  TowerIM: {fileID: 11496038}
+  TowerSprites:
+  - {fileID: 21300000, guid: 60da0393039e0fa40b345ef27018949c, type: 3}
+  - {fileID: 21300000, guid: 8e3f52a0c6c34204cb96e51886f9f0e4, type: 3}
+  - {fileID: 21300000, guid: 4fd195e833674014abd35cd85d59b702, type: 3}
+  - {fileID: 21300000, guid: 9fcb1d2a196fcca428f8288fa83e8279, type: 3}
+  - {fileID: 21300000, guid: 3508f5ca0060a6f4c9bc3d075097ec0e, type: 3}
+  - {fileID: 21300000, guid: 51058279fd441ea4e9fab8d564a3535e, type: 3}
+  - {fileID: 21300000, guid: 1e80551a2eea63c4c87292501d30241a, type: 3}
   waveText: {fileID: 11482112}
   frontGateHP: {fileID: 11420240}
   rearGateHP: {fileID: 11420236}

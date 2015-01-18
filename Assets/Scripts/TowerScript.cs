@@ -49,6 +49,12 @@ public class TowerScript : MonoBehaviour
 			tower.SetActiveRecursively (true); //Active its children (the trigger)
 			gameObject.layer = 13;
 			playerData.addGold (-cost);
+			if (gameObject.name.Contains ("magic")) {
+				Statistics.magicTowersBuilt = Statistics.magicTowersBuilt++;
+			} else if (gameObject.name.Contains ("Arrow")) {
+				Statistics.arrowTowersBuilt = Statistics.arrowTowersBuilt++;
+			}
+
 			Destroy (gameObject); // Destroy all hotspots
 
 		}

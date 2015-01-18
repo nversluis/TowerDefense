@@ -109,6 +109,7 @@ public class MenuController : MonoBehaviour {
         musicVolume = (float)PlayerPrefs.GetInt("BGM") / 100f;
         backingAudio.volume = musicVolume * 0.5f;
 
+		ResourceManager.Difficulty = val3;
         // And close the screen
         CloseOptionScreen();
     }

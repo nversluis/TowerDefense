@@ -41,8 +41,8 @@ public class EnemyStats : MonoBehaviour
     // fitness variabelen
     public float factorTime;
     public float factorDamage;
+    public float factorGateDamage;
     public float factorGateDistance;
-    public float factorHitGoal;   // in procenten
 
     void Awake()
     {
@@ -136,12 +136,7 @@ public class EnemyStats : MonoBehaviour
 
     public float getFitness()
     {
-        float res;
-        res = factorTime * leeftijd + factorDamage * enemyResources.totalDamage  + factorGateDistance / goalDistance;
-        if (goalDistance < 4.1f) {
-            res *= factorHitGoal;
-        }
-        return res;
+        return factorTime * leeftijd + factorDamage * enemyResources.totalDamage + factorGateDamage * enemyResources.totalGateDamage  + factorGateDistance / goalDistance;
     }
 
     /// <summary>

@@ -88,6 +88,8 @@ public class GUIScript : MonoBehaviour {
     public Text attackU;
     public Text speedU;
     public Text specialU;
+	public Image TowerIM;
+	public Sprite[] TowerSprites = new Sprite[7];
 
 
     private GameObject camera;
@@ -520,11 +522,21 @@ public class GUIScript : MonoBehaviour {
                 if(towerName.text.Contains("Ice")) {
                     special.text = "Slowing with: " + stats.specialDamage;
                     specialU.text = "↑" + GameObject.Find("TowerStats").GetComponent<TowerResources>().iceSpecialDamage;
+					TowerIM.sprite = TowerSprites [4];
                 }
                 else {
                     special.text = "";
                     specialU.text = "";
                 }
+				if (towerName.text.Contains ("Magic")) {
+					TowerIM.sprite = TowerSprites [0];
+				} else if (towerName.text.Contains ("Arrow")) {
+					TowerIM.sprite = TowerSprites [1];
+				} else if (towerName.text.Contains ("Fire")) {
+					TowerIM.sprite = TowerSprites [2];
+				} else if (towerName.text.Contains ("Poison")) {
+					TowerIM.sprite = TowerSprites [3];
+				} 
                 sell.text = "Sell(+" + stats.sellCost + ")";
                 upgrade.text = "Upgrade(-" + stats.upgradeCost + ")";
                 attackU.text = "↑" + stats.attackUpgrade;
@@ -536,13 +548,21 @@ public class GUIScript : MonoBehaviour {
                 towerPanel.SetActive(true);
                 GameObject tower = hit.transform.gameObject;
                 barricade bar = tower.GetComponent<barricade>();
-                towerName.text = tower.name.Replace("(Clone)", "");
+
+				string levelText;
+				if (bar.level < 5) {
+					levelText = "(Level: " + bar.level + ")";
+				} else {
+					levelText = "(Level: 5, MAXED)";
+				}
+                towerName.text = tower.name.Replace("(Clone)", levelText);
                 attack.text = "Health: " + bar.health;
                 speed.text = "Maximum Health: " + bar.maxHealth;
                 speedU.text = "↑" + (resourceManager.barricadeHealth);
                 attackU.text = "↑" + (bar.maxHealth - bar.health);
                 special.text = "";
                 specialU.text = "";
+				TowerIM.sprite = TowerSprites [5];
                 sell.text = "Sell(+" + bar.totalCost / 2 + ")";
                 if(bar.maxHealth != bar.health)
                     upgrade.text = "Repair(-" + (bar.maxHealth - bar.health) + ")";

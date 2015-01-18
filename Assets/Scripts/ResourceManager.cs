@@ -5,6 +5,8 @@ using System.Collections.Generic;
 public class ResourceManager : MonoBehaviour {
 	private PlayerData playerData = GUIScript.player;
 
+	public static int Difficulty = 1;
+
     [Header("Naam")]
     public string name;
 	public int gateHealth;
@@ -76,14 +78,14 @@ public class ResourceManager : MonoBehaviour {
     [Header("Waves")]
     public int currentWave;
     public int maxWaves;
-    public int maxEnemies;
-    public int toenameAantalEnemiesPerWave;
+	public List<int> maxEnemies;
+    public List<int> toenameAantalEnemiesPerWave;
     public int timeBetweenWaves;
     public bool keepType;
     public bool keepDistribution;
     public float mutationProbability;
-    public int totalStatPoints;
-    public int toenameTotalStatPointsPerWave;
+    public List<int> totalStatPoints;
+    public List<int> toenameTotalStatPointsPerWave;
     public float startSpawnTime;
     public float currentSpawnTime;
     public float AfnameSpawnTimeFactor;

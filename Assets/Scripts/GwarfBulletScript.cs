@@ -5,7 +5,7 @@ public class GwarfBulletScript : MonoBehaviour
 {
     private int damagePerShot;
     Transform Player;
-    GameObject gwarf;
+    public GameObject gwarf;
     Vector3 PrevItLoc;
     public static float maxBulletDistance = 200;
     public static GameObject hitObject;
@@ -36,7 +36,7 @@ public class GwarfBulletScript : MonoBehaviour
 				enemyResources.totalDamage += damagePerShot;
 			} else if(hit.transform.gameObject.name.Contains("Goal")) {
 				hit.transform.gameObject.GetComponent<GoalScript> ().removeLife(damagePerShot);
-				enemyResources.totalDamage += damagePerShot;
+				enemyResources.totalGateDamage += damagePerShot;
 			}
         }
         PrevItLoc = transform.position;
@@ -47,7 +47,7 @@ public class GwarfBulletScript : MonoBehaviour
     void Start()
     {
         Player = GameObject.Find("Player").transform;
-        gwarf = GameObject.Find("Gwarf");
+		//gwarf = gameObject.transform.parent;
         damagePerShot = gwarf.GetComponent<GwarfAttack>().attackDamage;
         PrevItLoc = transform.position;
         enemyResources = gwarf.GetComponent<EnemyResources>();

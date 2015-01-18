@@ -82,6 +82,8 @@ public class GwarfAttack : MonoBehaviour
             GameObject Bullet = (GameObject)Instantiate(bullet, transform.position, Quaternion.identity);
             Bullet.rigidbody.velocity = Shoot;
             audio.PlayOneShot(magic, 15f*volume);
+
+			Bullet.GetComponent<GwarfBulletScript> ().gwarf = gameObject;
         }
 
     }

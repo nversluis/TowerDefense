@@ -15,6 +15,7 @@ public class TrapScript : MonoBehaviour
 	Color transparentgreen = new Color(0, 255, 0, 0.1f); //Color of the green prefab
 	Color transparentred = new Color(255, 0, 0, 0.1f); //Color of the red prefab
 	// Use this for initialization
+
 	void Start ()
 	{
 
@@ -54,12 +55,24 @@ public class TrapScript : MonoBehaviour
 			float randHoek = 90 * Mathf.Floor (Random.value * 4);
 			trap.transform.RotateAround (transform.position, Vector3.up, randHoek);
 			trap.tag = "Tower";
-			WallScript.DestroyHotSpots ();
 			trap.SetActiveRecursively (true); 
 			playerData.addGold (-cost);
 			TowerStats stats = trap.GetComponent<TowerStats> ();
 			stats.upgradeCost = cost;
 			stats.sellCost = cost/2;
+
+			if (gameObject.name.Contains ("Fire")) {
+				Statistics.fireTrapsBuilt = Statistics.fireTrapsBuilt + 1;
+			} else if (gameObject.name.Contains ("Poison")) {
+				Statistics.poisonTrapsBuilt = Statistics.poisonTrapsBuilt+1;
+			} else if (gameObject.name.Contains ("Ice")) {
+				Statistics.iceTrapsBuilt = Statistics.iceTrapsBuilt+1;
+			} else if (gameObject.name.Contains ("arricade")) {
+				//Statistics.barricadesBuilt [0]++;
+			} 
+
+			WallScript.DestroyHotSpots ();
+
 		} else {
 			GameObject.Find("GUIMain").GetComponent<GUIScript>().Notification ("NoGold");
 		}

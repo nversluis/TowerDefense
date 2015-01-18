@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 400000}
   - 114: {fileID: 11400000}
   - 114: {fileID: 11444152}
+  - 114: {fileID: 11498968}
   m_Layer: 0
   m_Name: ResourceManager
   m_TagString: Untagged
@@ -108,15 +109,15 @@ MonoBehaviour:
   costPoisonTrap: 75
   costBarricade: 200
   rewardenemy: 10
-  rewardWave: 200
-  coolDownSword1Time: .699999988
+  rewardWave: 400
+  coolDownSword1Time: .5
   coolDownSword2Time: 10
   coolDownMagic1Time: .200000003
   coolDownMagic2Time: 60
   defense: 10
   speed: 10
-  startSwordDamage: 1500
-  startMagicDamage: 750
+  startSwordDamage: 2000
+  startMagicDamage: 1000
   specialSwordDamage: 15000
   specialMagicDamage: 30000
   hitParticles: {fileID: 145544, guid: 9c7b8546eb84bce41a909a9dc0d3f737, type: 2}
@@ -150,14 +151,14 @@ MonoBehaviour:
   avgProbDeadSound: 1
   currentWave: 1
   maxWaves: 20
-  maxEnemies: 15
-  toenameAantalEnemiesPerWave: 3
+  maxEnemies: 0f0000000f0000001400000018000000
+  toenameAantalEnemiesPerWave: 02000000030000000300000003000000
   timeBetweenWaves: 5
-  keepType: 0
+  keepType: 1
   keepDistribution: 1
   mutationProbability: .699999988
-  totalStatPoints: 150
-  toenameTotalStatPointsPerWave: 14
+  totalStatPoints: 6400000096000000aa000000c8000000
+  toenameTotalStatPointsPerWave: 0a0000000e0000001100000014000000
   startSpawnTime: .699999988
   currentSpawnTime: 0
   AfnameSpawnTimeFactor: .970000029
@@ -333,6 +334,17 @@ MonoBehaviour:
   iceSpeed: .25
   iceSpeedUpgrade: .25
   iceSpecialDamage: 2
+--- !u!114 &11498968
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae95ee95735af1a4abfd78108d27b763, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

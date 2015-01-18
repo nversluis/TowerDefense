@@ -201,6 +201,7 @@ public class EnemyHealth : MonoBehaviour {
 			poisonAmount *= 0.5f;
 			if (poisonAmount <= 1) {
 				isPoisoned = false;
+				transform.Find ("Poison particle").gameObject.SetActive (false);
 			}
 		}
 	}

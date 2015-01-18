@@ -42,6 +42,7 @@ public class PoisonTrap : MonoBehaviour
 			if (enemy != null) {
 				EnemyHealth enemyHealth = enemy.collider.GetComponent<EnemyHealth> ();
 				enemyHealth.TakePoisonDamage (damagePerShot);
+				enemy.transform.Find ("Poison particle").gameObject.SetActive (true);
 
 			}
 		} 
