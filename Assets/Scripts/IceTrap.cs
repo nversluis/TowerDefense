@@ -16,6 +16,7 @@ public class IceTrap : MonoBehaviour
 	void OnTriggerEnter (Collider col)
 	{
 		if (col.gameObject.tag == (enemyTag) && !enemyOnTrap.Contains (col.gameObject)) {
+			col.gameObject.transform.Find ("Ice particle").gameObject.SetActive (true);
             EnemyResources enemyResources = col.gameObject.collider.GetComponent<EnemyResources>();
 			enemyResources.isSlowed = gameObject.GetComponent<TowerStats> ().specialDamage;
 			if (gameObject.transform.GetChild (2).gameObject.activeSelf == false)
@@ -32,6 +33,7 @@ public class IceTrap : MonoBehaviour
 			enemyOnTrap.Remove (col.gameObject);
             EnemyResources enemyResources = col.gameObject.collider.GetComponent<EnemyResources>();
             enemyResources.isSlowed = 1;
+			col.gameObject.transform.Find ("Ice particle").gameObject.SetActive (false);
 		}
 	}
 

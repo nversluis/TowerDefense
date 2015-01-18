@@ -50,9 +50,11 @@ public class WallScript : MonoBehaviour
 				Vector3 normalToWall = CameraController.hit.normal;
 				Vector3 TowerOffset = new Vector3 (Mathf.Sin (transform.eulerAngles.y / 180 * Mathf.PI), 0, Mathf.Cos (transform.eulerAngles.y / 180 * Mathf.PI)) * planeW / 50;
 				GameObject tower = (GameObject)Instantiate (TowerPrefab, transform.position, transform.rotation);
+
 				tower.gameObject.transform.localScale = new Vector3 (1, 1, 1) * planeW * 10/2;
 				tower.gameObject.transform.Rotate (new Vector3 (-90, 0, 0));
 				tower.gameObject.transform.Rotate (new Vector3 (0, -90, 0));
+				tower.transform.parent = gameObject.transform;
 				//tower.gameObject.transform.position += tower.gameObject.transform.forward * planeW / 58;
 
 				//set costs
@@ -77,7 +79,7 @@ public class WallScript : MonoBehaviour
 					child.material.shader = Shader.Find ("Transparent/Diffuse");
 				}				
 				tower.layer = 14;
-				tower.transform.parent = gameObject.transform;
+
 			}
 			//Sell the tower
 			if (WeaponController.weapon == 50) {
@@ -90,9 +92,14 @@ public class WallScript : MonoBehaviour
 					resTower.gameObject.transform.parent = gameObject.transform;
 					resTower.tag = "TowerHotSpot";
 					//resTower.transform.GetChild (0).gameObject.SetActive (false);
+					Color col;
+					if(cost*2<=playerData.getGold() && transform.GetChild (0).GetComponent<TowerStats> ().level<5){
+						col = new Color(0,0,255,0.1f);
+					} else
+						col = new Color(255,0,0,0.1f);
 					foreach (Renderer child in resTower.GetComponentsInChildren<Renderer>()) 
 					{
-						child.material.color = new Color (0, 0, 255, 0.1f);
+						child.material.color = col;
 						child.material.shader = Shader.Find ("Transparent/Diffuse");
 					}
 				}
@@ -127,18 +134,20 @@ public class WallScript : MonoBehaviour
 	{
 		GameObject tower = gameObject.transform.GetChild (0).gameObject;
 		TowerStats stats = tower.GetComponent<TowerStats> ();
-		if (stats.upgradeCost <= playerData.getGold ()) {
-			stats.level++;
-			stats.attack += (int)stats.attackUpgrade;
-			stats.speed += stats.speedUpgrade;
-			stats.attackUpgrade = stats.attack / 2;
-			playerData.addGold (-stats.upgradeCost);
-			stats.sellCost *= 2;
-			stats.upgradeCost *= 2;
-		} else {
-			GameObject.Find("GUIMain").GetComponent<GUIScript>().Notification ("NoGold");
+		if (stats.level < 5) {
+			if (stats.upgradeCost <= playerData.getGold ()) {
+				stats.level++;
+				stats.attack += (int)stats.attackUpgrade;
+				stats.speed += stats.speedUpgrade;
+				stats.attackUpgrade = stats.attack / 2;
+				playerData.addGold (-stats.upgradeCost);
+				stats.sellCost *= 2;
+				stats.upgradeCost *= 2;
+			} else {
+				GameObject.Find ("GUIMain").GetComponent<GUIScript> ().Notification ("NoGold");
+			}
 		}
-
+		WallScript.DestroyHotSpots();
 	}
 
 
