@@ -109,7 +109,7 @@ MonoBehaviour:
   costBarricade: 200
   rewardenemy: 10
   rewardWave: 400
-  coolDownSword1Time: .5
+  coolDownSword1Time: .699999988
   coolDownSword2Time: 10
   coolDownMagic1Time: .200000003
   coolDownMagic2Time: 60

@@ -49,7 +49,6 @@ public class TowerScript : MonoBehaviour
 			tower.SetActiveRecursively (true); //Active its children (the trigger)
 			gameObject.layer = 13;
 			playerData.addGold (-cost);
-			Debug.Log (cost);
 			Destroy (gameObject); // Destroy all hotspots
 
 		}
@@ -77,7 +76,7 @@ public class TowerScript : MonoBehaviour
         //change hotspots according to distance
         if (!tag.Equals("Tower"))
         {
-            GameObject Player = GameObject.FindGameObjectWithTag("Player");
+            GameObject Player = GameObject.Find("Player");
 			if ((Vector3.Distance(Player.transform.position, transform.position) >= MaxDistance)||(cost>playerData.getGold()))
             {
                 if (!tag.Equals("HotSpotRed"))

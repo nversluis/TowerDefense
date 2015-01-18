@@ -219,7 +219,7 @@ public class RandomMaze : MonoBehaviour
 
 	public static void GenerateTorch (float n, float w, float angle, GameObject torch, float planewidth, float height)
 	{
-		float torchGrootte = 2;
+		float torchGrootte = 1;
 
 		GameObject torchObj = (GameObject)Instantiate (torch, new Vector3 (n * planewidth, height * planewidth / 8, w * planewidth), Quaternion.Euler (0, angle, 0));
 		torchObj.transform.localScale = new Vector3 (1, 1, 1) * planewidth * torchGrootte / 50;

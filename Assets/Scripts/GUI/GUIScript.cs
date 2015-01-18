@@ -496,8 +496,15 @@ public class GUIScript : MonoBehaviour {
                 enemyPanel.SetActive(false);
                 towerPanel.SetActive(true);
                 GameObject tower = stats.transform.gameObject;
+				string levelText;
 
-                towerName.text = tower.name.Replace("(Clone)", "");
+				if (stats.level < 5) {
+					levelText = "(Level: " + stats.level + ")";
+				} else {
+					levelText = "(Level: 5, MAXED)";
+				}
+
+				towerName.text = tower.name.Replace("(Clone)", levelText);
                 attack.text = "Attack: " + stats.attack;
                 speed.text = "Speed: " + stats.speed;
                 if(towerName.text.Contains("Ice")) {
