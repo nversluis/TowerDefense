@@ -70,6 +70,7 @@ public class WaveSpawner : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+
         ResourceManagerObj = GameObject.Find("ResourceManager");
         resourceManager = ResourceManagerObj.GetComponent<ResourceManager>();
         EnemyGuyant = resourceManager.enemyGuyant;
@@ -77,19 +78,19 @@ public class WaveSpawner : MonoBehaviour
         EnemyGrobble = resourceManager.enemyGrobble;
         maxWaves = resourceManager.maxWaves;
         currentWave = resourceManager.currentWave;
-        toenameAantalEnemiesPerWave = resourceManager.toenameAantalEnemiesPerWave;
+		toenameAantalEnemiesPerWave = (resourceManager.toenameAantalEnemiesPerWave)[ResourceManager.Difficulty];
         timeBetweenWaves = resourceManager.timeBetweenWaves;
-        currentTotalStatPoints = resourceManager.totalStatPoints;
-        maxEnemies = resourceManager.maxEnemies;
-        delta = resourceManager.toenameTotalStatPointsPerWave;
+		currentTotalStatPoints = resourceManager.totalStatPoints[ResourceManager.Difficulty];
+		maxEnemies = resourceManager.maxEnemies[ResourceManager.Difficulty];
+		delta = resourceManager.toenameTotalStatPointsPerWave[ResourceManager.Difficulty];
         keepType = resourceManager.keepType;
         keepDistribution = resourceManager.keepDistribution;
         currentTotalStatPoints = (currentWave - 1) * delta + currentTotalStatPoints;
-        resourceManager.totalStatPoints = currentTotalStatPoints;
+		resourceManager.totalStatPoints[ResourceManager.Difficulty] = currentTotalStatPoints;
         maxEnemies = (currentWave - 1) * toenameAantalEnemiesPerWave + maxEnemies;
-        resourceManager.maxEnemies = maxEnemies;
-        startMaxEnemies = resourceManager.maxEnemies;
-        startTotalStatPoints = resourceManager.totalStatPoints;
+		resourceManager.maxEnemies[ResourceManager.Difficulty] = maxEnemies;
+		startMaxEnemies = resourceManager.maxEnemies[ResourceManager.Difficulty];
+		startTotalStatPoints = resourceManager.totalStatPoints[ResourceManager.Difficulty];
         resourceManager.currentSpawnTime = resourceManager.startSpawnTime * Mathf.Pow(resourceManager.AfnameSpawnTimeFactor, (currentWave - 1));
         spawnTime = resourceManager.currentSpawnTime;
         startRewardWave = resourceManager.rewardWave;
@@ -206,11 +207,11 @@ public class WaveSpawner : MonoBehaviour
                     currentWave++;
                     resourceManager.currentWave++;
                     // Verhoog het aantal enemies in de wave
-                    maxEnemies = (currentWave - 1) * resourceManager.toenameAantalEnemiesPerWave + startMaxEnemies;
-                    resourceManager.maxEnemies = maxEnemies;
+					maxEnemies = (currentWave - 1) * resourceManager.toenameAantalEnemiesPerWave[ResourceManager.Difficulty] + startMaxEnemies;
+					resourceManager.maxEnemies[ResourceManager.Difficulty] = maxEnemies;
                     // Verhoog de totale stat points
                     currentTotalStatPoints = (currentWave - 1) * delta + startTotalStatPoints;
-                    resourceManager.totalStatPoints = currentTotalStatPoints;
+					resourceManager.totalStatPoints[ResourceManager.Difficulty] = currentTotalStatPoints;
                     //currentTotalStatPoints += delta;
                     spawnTime = resourceManager.startSpawnTime * Mathf.Pow(resourceManager.AfnameSpawnTimeFactor, (currentWave - 1));
                     resourceManager.currentSpawnTime = spawnTime;

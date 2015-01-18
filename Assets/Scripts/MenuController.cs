@@ -91,6 +91,7 @@ public class MenuController : MonoBehaviour {
         PlayerPrefs.SetInt("BGM", val1);
         PlayerPrefs.SetInt("SFX", val2);
         PlayerPrefs.SetInt("Difficulty", val3);
+		ResourceManager.Difficulty = val3;
         // And close the screen
         CloseOptionScreen();
     }
