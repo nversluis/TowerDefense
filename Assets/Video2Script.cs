@@ -42,4 +42,12 @@ public class Video2Script : MonoBehaviour {
             Application.LoadLevel("Main menu");
         }
 	}
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Space))
+        {
+            Application.LoadLevel("Main menu");
+        }
+    }
 }
