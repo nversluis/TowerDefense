@@ -118,7 +118,6 @@ public class ScoreServer : MonoBehaviour
         scores = scores.Replace("<br/>", ",");
 
         string[] split = scores.Split(',');
-        Debug.Log("split.Length = " + split.Length);
 
         for (int i = 0; i < split.Length - 2; i = i + 3)
         {
