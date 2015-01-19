@@ -7,7 +7,7 @@ using System.IO;
 
 public class VideoScript : MonoBehaviour {
 
-    public Sprite[] image;
+    Sprite[] image;
     int spriteNum = 0;
     public Image videoImage;
     public AudioSource camAudio;
@@ -17,6 +17,7 @@ public class VideoScript : MonoBehaviour {
 	void Start () {
         InvokeRepeating("Video", 1f, 1/30f);
         camAudio = GameObject.Find("Main Camera").GetComponent<AudioSource>();
+        image = Resources.LoadAll<Sprite>("Minor Media IMG Sequence");
     }
 
 
@@ -37,9 +38,17 @@ public class VideoScript : MonoBehaviour {
         }
         spriteNum += 1;
 
-        if (spriteNum > 151)
+        if (spriteNum > image.Length-1 )
         {
-            Application.LoadLevel("Main menu");
+            Application.LoadLevel("Movie2");
+        }
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Space))
+        {
+            Application.LoadLevel("Movie2");
         }
     }
 }
