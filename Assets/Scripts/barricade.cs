@@ -88,7 +88,7 @@ public class barricade : MonoBehaviour
 			trap.SetActiveRecursively (true); 
 			playerData.addGold (-cost);
 			resourceManager.allBarricades.Add (trap);
-			setPenalties (maxHealth/5);
+			setPenalties (maxHealth/2);
 			Statistics.barricadesBuilt = Statistics.barricadesBuilt + 1;
 			WallScript.DestroyHotSpots ();
 			//Destroy (gameObject);
@@ -149,11 +149,11 @@ public class barricade : MonoBehaviour
 				playerData.addGold (-(cost*maxHealth/resourceManager.barricadeHealth));
 				maxHealth += resourceManager.barricadeHealth / 2;
 				level++;
-				setPenalties (maxHealth/5);
+				setPenalties (maxHealth/2);
 
 			}
 		}	
-		setPenalties (maxHealth / 5);
+		setPenalties (maxHealth / 2);
 
 	}
 
