@@ -117,7 +117,7 @@ public class RandomMaze : MonoBehaviour
 
 	    Destroy(mainCamera);
 		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Building a castle..";
-		//Time.timeScale = 1;
+        Time.timeScale = 1;
 		yield return new WaitForSeconds (0.1f);
 		GenerateFloor ();
 		//Generate walls

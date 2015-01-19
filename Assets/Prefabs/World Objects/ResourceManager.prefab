@@ -109,15 +109,15 @@ MonoBehaviour:
   costPoisonTrap: 75
   costBarricade: 200
   rewardenemy: 10
-  rewardWave: 400
+  rewardWave: 500
   coolDownSword1Time: .5
   coolDownSword2Time: 10
   coolDownMagic1Time: .200000003
   coolDownMagic2Time: 60
   defense: 10
   speed: 10
-  startSwordDamage: 2000
-  startMagicDamage: 1000
+  startSwordDamage: 5000
+  startMagicDamage: 3000
   specialSwordDamage: 15000
   specialMagicDamage: 30000
   hitParticles: {fileID: 145544, guid: 9c7b8546eb84bce41a909a9dc0d3f737, type: 2}
@@ -138,14 +138,14 @@ MonoBehaviour:
   height: 3
   nodeSize: 2.5
   NumberOfPaths: 3
-  drawNavigationGrid: 1
+  drawNavigationGrid: 0
   enemyTag: Enemy
   enemyGuyant: {fileID: 100052, guid: 6a25f25271f527644ab0b18b0e7c536e, type: 2}
   enemyGwarf: {fileID: 188948, guid: 37f21c745b6e3ff43942e88e21aba537, type: 2}
   enemyGrobble: {fileID: 142686, guid: 3e58d9d15ddcc37499fb1d10726fb518, type: 2}
   walkSpeed: 5
   pathUpdateRate: .5
-  drawPath: 1
+  drawPath: 0
   automaticPathUpdating: 1
   avgProbPainSound: .5
   avgProbDeadSound: 1
