@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class GwarfScript : MonoBehaviour
 {
+	public bool showInfo;
+
 	EnemyHealth enemyHealth;
 	private float timeBetweenAttacks = 2.917f / 2f;
 	EnemyStats enemystats;
@@ -164,7 +166,7 @@ public class GwarfScript : MonoBehaviour
 				nextPointDistance.y = 0;
 
 			}
-			if (throughGate) {
+			if (throughGate && !enemyResources.isDead) {
 				RaycastHit hit;
 				RaycastHit goalHit;
 				Physics.Raycast (transform.position, player.transform.position + new Vector3 (0f, 2f, 0f) - transform.position, out hit);
@@ -298,15 +300,20 @@ public class GwarfScript : MonoBehaviour
 
 	void Shoot ()
 	{
-		enemyResources.walking = false;
-		enemyResources.attacking = true;
-		Vector3 targetLoc = curTarget;
-		GwarfAttack ga = gameObject.GetComponent<GwarfAttack> ();
-		GameObject Bullet = (GameObject)Instantiate (ga.bullet, transform.position, Quaternion.identity);
-		Bullet.GetComponent<GwarfBulletScript> ().gwarf = gameObject;
-		Bullet.GetComponent<GwarfBulletScript> ().damagePerShot = ga.attackDamage;
-		Vector3 dir = (targetLoc - transform.position).normalized;
-		Bullet.rigidbody.velocity = ga.bulletSpeed * dir;
+		if (!enemyResources.isDead) {
+			enemyResources.walking = false;
+			enemyResources.attacking = true;
+			Vector3 targetLoc = curTarget;
+			GwarfAttack ga = gameObject.GetComponent<GwarfAttack> ();
+			GameObject Bullet = (GameObject)Instantiate (ga.bullet, transform.position, Quaternion.identity);
+			Bullet.GetComponent<GwarfBulletScript> ().gwarf = gameObject;
+			Bullet.GetComponent<GwarfBulletScript> ().damagePerShot = ga.attackDamage;
+			Vector3 dir = (targetLoc - transform.position).normalized;
+			Bullet.rigidbody.velocity = ga.bulletSpeed * dir;
+		} else {
+			CancelInvoke ();
+		}
+		
 	}
 
 

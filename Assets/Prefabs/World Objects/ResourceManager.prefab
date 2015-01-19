@@ -145,7 +145,7 @@ MonoBehaviour:
   enemyGrobble: {fileID: 142686, guid: 3e58d9d15ddcc37499fb1d10726fb518, type: 2}
   walkSpeed: 5
   pathUpdateRate: .5
-  drawPath: 0
+  drawPath: 1
   automaticPathUpdating: 1
   avgProbPainSound: .5
   avgProbDeadSound: 1
