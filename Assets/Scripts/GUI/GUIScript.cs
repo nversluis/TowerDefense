@@ -88,17 +88,20 @@ public class GUIScript : MonoBehaviour {
     public Text attackU;
     public Text speedU;
     public Text specialU;
-	public Image TowerIM;
-	public Sprite[] TowerSprites = new Sprite[7];
+    public Text description;
+    public Image TowerIM;
+    public Sprite[] TowerSprites = new Sprite[7];
 
 
     private GameObject camera;
     private RectTransform rect;
     private LayerMask enemyMask = ((1 << 12) | (1 << 10) | (1 << 8));
     private RaycastHit hit;
+    private TowerResources towerResources;
 
     private float currentHP;
     private float maxHP;
+    private bool disabledOnce;
 
     [Header("Wave progress and Gate HP")]
     public Text waveText;
@@ -191,6 +194,8 @@ public class GUIScript : MonoBehaviour {
             towerSelectList.Add(im.transform.FindChild("Select").GetComponent<Image>());
         }
 
+        towerResources = GameObject.Find("TowerStats").GetComponent<TowerResources>();
+
         // Gate HP Bars
 
         frontGateHPBar = frontGateHP.GetComponent<RectTransform>();
@@ -261,6 +266,8 @@ public class GUIScript : MonoBehaviour {
         foreach(Image im in towerSelectList) {
             im.enabled = false;
         }
+
+        disabledOnce = false;
 
         // Pause menu
         canvas.SetActive(false);
@@ -359,6 +366,7 @@ public class GUIScript : MonoBehaviour {
         UpdateEnemyStats();
         UpdateWaveText();
         UpdateShop();
+        UpdateBuildTower();
     }
 
     void Update() {
@@ -508,35 +516,39 @@ public class GUIScript : MonoBehaviour {
                 enemyPanel.SetActive(false);
                 towerPanel.SetActive(true);
                 GameObject tower = stats.transform.gameObject;
-				string levelText;
+                string levelText;
 
-				if (stats.level < 5) {
-					levelText = "(Level: " + stats.level + ")";
-				} else {
-					levelText = "(Level: 5, MAXED)";
-				}
+                if(stats.level < 5) {
+                    levelText = "(Level: " + stats.level + ")";
+                }
+                else {
+                    levelText = "(Level: 5, MAXED)";
+                }
 
-				towerName.text = tower.name.Replace("(Clone)", levelText);
+                towerName.text = tower.name.Replace("(Clone)", levelText);
                 attack.text = "Attack: " + stats.attack;
                 speed.text = "Speed: " + stats.speed;
                 if(towerName.text.Contains("Ice")) {
                     special.text = "Slowing with: " + stats.specialDamage;
                     specialU.text = "↑" + GameObject.Find("TowerStats").GetComponent<TowerResources>().iceSpecialDamage;
-					TowerIM.sprite = TowerSprites [4];
+                    TowerIM.sprite = TowerSprites[4];
                 }
                 else {
                     special.text = "";
                     specialU.text = "";
                 }
-				if (towerName.text.Contains ("Magic")) {
-					TowerIM.sprite = TowerSprites [0];
-				} else if (towerName.text.Contains ("Arrow")) {
-					TowerIM.sprite = TowerSprites [1];
-				} else if (towerName.text.Contains ("Fire")) {
-					TowerIM.sprite = TowerSprites [2];
-				} else if (towerName.text.Contains ("Poison")) {
-					TowerIM.sprite = TowerSprites [3];
-				} 
+                if(towerName.text.Contains("Magic")) {
+                    TowerIM.sprite = TowerSprites[0];
+                }
+                else if(towerName.text.Contains("Arrow")) {
+                    TowerIM.sprite = TowerSprites[1];
+                }
+                else if(towerName.text.Contains("Fire")) {
+                    TowerIM.sprite = TowerSprites[2];
+                }
+                else if(towerName.text.Contains("Poison")) {
+                    TowerIM.sprite = TowerSprites[3];
+                }
                 sell.text = "Sell(+" + stats.sellCost + ")";
                 upgrade.text = "Upgrade(-" + stats.upgradeCost + ")";
                 attackU.text = "↑" + stats.attackUpgrade;
@@ -549,12 +561,13 @@ public class GUIScript : MonoBehaviour {
                 GameObject tower = hit.transform.gameObject;
                 barricade bar = tower.GetComponent<barricade>();
 
-				string levelText;
-				if (bar.level < 5) {
-					levelText = "(Level: " + bar.level + ")";
-				} else {
-					levelText = "(Level: 5, MAXED)";
-				}
+                string levelText;
+                if(bar.level < 5) {
+                    levelText = "(Level: " + bar.level + ")";
+                }
+                else {
+                    levelText = "(Level: 5, MAXED)";
+                }
                 towerName.text = tower.name.Replace("(Clone)", levelText);
                 attack.text = "Health: " + bar.health;
                 speed.text = "Maximum Health: " + bar.maxHealth;
@@ -562,7 +575,7 @@ public class GUIScript : MonoBehaviour {
                 attackU.text = "↑" + (bar.maxHealth - bar.health);
                 special.text = "";
                 specialU.text = "";
-				TowerIM.sprite = TowerSprites [5];
+                TowerIM.sprite = TowerSprites[5];
                 sell.text = "Sell(+" + bar.totalCost / 2 + ")";
                 if(bar.maxHealth != bar.health)
                     upgrade.text = "Repair(-" + (bar.maxHealth - bar.health) + ")";
@@ -706,7 +719,7 @@ public class GUIScript : MonoBehaviour {
     }
 
     public void ButtonClick() {
-        cameraAudioSource.PlayOneShot(click,volume);
+        cameraAudioSource.PlayOneShot(click, volume);
     }
 
     public void UpdateSelection() {
@@ -922,29 +935,112 @@ public class GUIScript : MonoBehaviour {
     }
 
     public void UpdateBuildTower() {
-        /*
-        if(player.getTowerSelected()) {
-            enemyPanel.SetActive(false);
-            towerPanel.SetActive(true);
-            GameObject tower = stats.transform.gameObject;
-
-            towerName.text = tower.name.Replace("(Clone)", "");
-            attack.text = "Attack: " + stats.attack;
-            speed.text = "Speed: " + stats.speed;
-            if(towerName.text.Contains("Ice")) {
-                special.text = "Slowing with: " + stats.specialDamage;
-                specialU.enabled = false;
+        if(player.getTowerSelected() && player.getTower() != 6) {
+            switch(player.getTower()) {
+                case 0:
+                    towerName.text = "Magic Tower";
+                    attack.text = "Attack Damage: " + towerResources.magicAttack.ToString();
+                    speed.text = "Attack Speed: " + towerResources.magicSpeed.ToString();
+                    special.text = "";
+                    specialU.enabled = false;
+                    sell.enabled = false;
+                    upgrade.text = "Build(-" + resourceManager.costMagicTower.ToString() + ")";
+                    attackU.enabled = false;
+                    speedU.enabled = false;
+                    description.text = "A simple tower that shoots magical orbs at enemies, dealing magic damage.\nPlace it on a wall.";
+                    TowerIM.sprite = TowerSprites[0];
+                    disabledOnce = false;
+                    enemyPanel.SetActive(false);
+                    towerPanel.SetActive(true);
+                    break;
+                case 1:
+                    towerName.text = "Spear Tower";
+                    attack.text = "Attack Damage: " + towerResources.arrowAttack.ToString();
+                    speed.text = "Attack Speed: " + towerResources.arrowSpeed.ToString();
+                    special.text = "";
+                    specialU.enabled = false;
+                    sell.enabled = false;
+                    upgrade.text = "Build(-" + resourceManager.costArrowTower.ToString() + ")";
+                    attackU.enabled = false;
+                    speedU.enabled = false;
+                    description.text = "A simple tower that shoots arrow at enemies, dealing physical damage.\nPlace it on a wall.";
+                    TowerIM.sprite = TowerSprites[1];
+                    disabledOnce = false;
+                    enemyPanel.SetActive(false);
+                    towerPanel.SetActive(true);
+                    break;
+                case 2:
+                    towerName.text = "Fire Trap";
+                    attack.text = "Attack Damage: " + towerResources.fireAttack.ToString();
+                    speed.text = "Attack Speed: " + towerResources.fireAttack.ToString();
+                    special.text = "";
+                    specialU.enabled = false;
+                    sell.enabled = false;
+                    upgrade.text = "Build(-" + resourceManager.costFireTrap.ToString() + ")";
+                    attackU.enabled = false;
+                    speedU.enabled = false;
+                    description.text = "A trap that makes fire erupt from the ground as soon as enemies step on it, dealing magic damage as long as they stand on it.\nPlace it on the floor.";
+                    TowerIM.sprite = TowerSprites[2];
+                    disabledOnce = false;
+                    enemyPanel.SetActive(false);
+                    towerPanel.SetActive(true);
+                    break;
+                case 3:
+                    towerName.text = "Poison Trap";
+                    attack.text = "Attack Damage: " + towerResources.poisonAttack.ToString();
+                    speed.text = "Attack Speed: " + towerResources.poisonAttack.ToString();
+                    special.text = "";
+                    specialU.enabled = false;
+                    sell.enabled = false;
+                    upgrade.text = "Build(-" + resourceManager.costPoisonTrap.ToString() + ")";
+                    attackU.enabled = false;
+                    speedU.enabled = false;
+                    description.text = "A trap with deadly venom, poisoning enemies the instant they step on it, dealing magic damage over time.\nPlace it on the floor.";
+                    TowerIM.sprite = TowerSprites[3];
+                    disabledOnce = false;
+                    enemyPanel.SetActive(false);
+                    towerPanel.SetActive(true);
+                    break;
+                case 4:
+                    towerName.text = "Ice Trap";
+                    attack.text = "Attack Damage: " + towerResources.iceAttack.ToString();
+                    speed.text = "Attack Speed: " + towerResources.iceAttack.ToString();
+                    special.text = "Slowing Effect: " + towerResources.iceSpecialDamage.ToString();
+                    specialU.enabled = false;
+                    sell.enabled = false;
+                    upgrade.text = "Build(-" + resourceManager.costIceTrap.ToString() + ")";
+                    attackU.enabled = false;
+                    speedU.enabled = false;
+                    description.text = "An ice cold trap, damaging and slowing down all enemies that touch it.\nPlace it on the floor.";
+                    TowerIM.sprite = TowerSprites[4];
+                    disabledOnce = false;
+                    enemyPanel.SetActive(false);
+                    towerPanel.SetActive(true);
+                    break;
+                case 5:
+                    towerName.text = "Barricade";
+                    attack.text = "Health: " + resourceManager.barricadeHealth.ToString();
+                    speed.text = "";
+                    special.text = "";
+                    specialU.enabled = false;
+                    sell.enabled = false;
+                    upgrade.text = "Build(-" + resourceManager.costMagicTower.ToString() + ")";
+                    attackU.enabled = false;
+                    speedU.enabled = false;
+                    description.text = "A wall with spikes so that enemies cannot climb it. They can, however, try to smash it. Use it to stall enemies.\nPlace it on the floor.";
+                    TowerIM.sprite = TowerSprites[5];
+                    disabledOnce = false;
+                    enemyPanel.SetActive(false);
+                    towerPanel.SetActive(true);
+                    break;
+                default:
+                    if(!disabledOnce) {
+                        towerPanel.SetActive(false);
+                        disabledOnce = true;
+                    }
+                    break;
             }
-            else {
-                special.text = "";
-                specialU.enabled = false;
-            }
-            sell.enabled = false;
-            upgrade.text = "Build(-" + stats.buildCost + ")";
-            attackU.text = "↑" + stats.attackUpgrade;
-            speedU.text = "↑" + stats.speedUpgrade;
         }
-         */
     }
 
     IEnumerator ImageFlyIn(Sprite[] spLst, int time) {
@@ -953,12 +1049,10 @@ public class GUIScript : MonoBehaviour {
             countAnimator.SetTrigger("Counting");
             yield return new WaitForSeconds(0.45f);
 
-            if (time - i > 0)
-            {
+            if(time - i > 0) {
                 cameraAudioSource.PlayOneShot(countSound, volume * 2);
             }
-            else
-            {
+            else {
                 cameraAudioSource.PlayOneShot(goSound, volume * 2);
             }
             yield return new WaitForSeconds(0.55f);
