@@ -13,6 +13,8 @@ public class ScoreServer : MonoBehaviour
     static List<string> score;
     static List<List<string>> hiscores;
 
+    static int moeilijkheidsgraad;
+
     static string scores;
     static string url;
 
@@ -26,7 +28,7 @@ public class ScoreServer : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        
+
         ResourceManagerObj = GameObject.Find("ResourceManager");
         resourceManager = ResourceManagerObj.GetComponent<ResourceManager>();
         naam = resourceManager.name;
@@ -34,7 +36,7 @@ public class ScoreServer : MonoBehaviour
 
         hiscores = new List<List<string>>();
 
-        string url = "http://drproject.twi.tudelft.nl:8087/getScore";
+        url = "http://drproject.twi.tudelft.nl:8087/getScore";
         www = new WWW(url);
         StartCoroutine(WaitForRequest(www));
     }
@@ -64,8 +66,8 @@ public class ScoreServer : MonoBehaviour
 
     static public void sendScoreToServer(string naam)
     {
-        WWW www = new WWW("http://drproject.twi.tudelft.nl:8087/setStatistics?naam=" + naam +  "&difficulty=" + ResourceManager.Difficulty + "&score=" + Statistics.score + "&waves=" + Statistics.currentWave
-            + "&kills=" + Statistics.kills + "&killstreak=" + Statistics.killStreak + "&headshots=" + Statistics.headshots + "&headshotstreak=" + Statistics.headShotStreak 
+        WWW www = new WWW("http://drproject.twi.tudelft.nl:8087/setStatistics?naam=" + naam + "&difficulty=" + ResourceManager.Difficulty + "&score=" + Statistics.score + "&waves=" + Statistics.currentWave
+            + "&kills=" + Statistics.kills + "&killstreak=" + Statistics.killStreak + "&headshots=" + Statistics.headshots + "&headshotstreak=" + Statistics.headShotStreak
             + "&firetrapsbuilt=" + Statistics.fireTrapsBuilt + "&icetrapsbuilt=" + Statistics.iceTrapsBuilt + "&poisontrapsbuilt=" + Statistics.poisonTrapsBuilt + "&magictowersbuilt=" + Statistics.magicTowersBuilt
             + "&arrowtowersbuilt=" + Statistics.arrowTowersBuilt + "&barricadebuilt=" + Statistics.barricadesBuilt);
 
@@ -74,6 +76,7 @@ public class ScoreServer : MonoBehaviour
 
     public void getScoreFromServer()
     {
+        moeilijkheidsgraad = 0;
         WWW www = new WWW(url);
         WaitForRequest(www);
     }
@@ -91,44 +94,109 @@ public class ScoreServer : MonoBehaviour
     public static void splitScore()
     {
         scores = scores.Replace("Naam: ", "");
+        scores = scores.Replace(", Difficulty: ", ",");
         scores = scores.Replace(", Score: ", ",");
         scores = scores.Replace("<br/>", ",");
 
         string[] split = scores.Split(',');
 
-        for (int i = 0; i < split.Length - 1; i = i + 2)
+        for (int i = 0; i < split.Length - 2; i = i + 3)
         {
             score = new List<string>();
+            // Naam
             score.Add(split[i]);
+            // Difficulty
             score.Add(split[i + 1]);
+            // Score
+            score.Add(split[i + 2]);
 
             hiscores.Add(score);
         }
     }
 
-    public List<List<string>> getHiscores(int totRank)
-    {
-        List<List<string>> hiscoresTotRank = new List<List<string>>();
-
-        if (hiscores.Count != 0)
-        {
-            for (int i = 0; i < totRank; i++)
-            {
-                hiscoresTotRank.Add(hiscores[i]);
-            }
-        }
-        return hiscoresTotRank;
-    }
-
     public List<List<string>> getHiscores()
     {
         List<List<string>> hiscoresTotRank = new List<List<string>>();
+        List<string> score;
 
         if (hiscores.Count != 0)
         {
             for (int i = 0; i < hiscores.Count; i++)
             {
-                hiscoresTotRank.Add(hiscores[i]);
+                score = new List<string>();
+                // voeg naam toe
+                score.Add(hiscores[i][0]);
+                // voeg score toe
+                score.Add(hiscores[i][2]);
+                hiscoresTotRank.Add(score);
+            }
+        }
+        return hiscoresTotRank;
+    }
+
+    public List<List<string>> getHiscores(int difficulty)
+    {
+        List<List<string>> hiscoresTotRank = new List<List<string>>();
+        List<string> score;
+
+        if (hiscores.Count != 0)
+        {
+            for (int i = 0; i < hiscores.Count; i++)
+            {
+                if (hiscores[i][1] == "" + difficulty)
+                {
+                    score = new List<string>();
+                    // voeg naam toe
+                    score.Add(hiscores[i][0]);
+                    // voeg score toe
+                    score.Add(hiscores[i][2]);
+                    hiscoresTotRank.Add(score);
+                }
+            }
+        }
+        return hiscoresTotRank;
+    }
+
+    public List<List<string>> getHiscores(int difficulty, int totRank)
+    {
+        List<List<string>> hiscoresTotRank = new List<List<string>>();
+        List<string> score;
+        int grootte = 0;
+        int aantal = 0;
+
+        if (hiscores.Count != 0)
+        {
+            for (int i = 0; i < hiscores.Count; i++)
+            {
+                if (hiscores[i][1] == "" + difficulty)
+                {
+                    grootte++;
+                }
+            }
+        }
+
+        if (totRank > grootte)
+        {
+            totRank = grootte;
+        }
+
+        if (hiscores.Count != 0)
+        {
+            for (int i = 0; i < hiscores.Count; i++)
+            {
+                if (hiscores[i][1] == "" + difficulty)
+                {
+                    if (aantal < totRank)
+                    {
+                        score = new List<string>();
+                        // voeg naam toe
+                        score.Add(hiscores[i][0]);
+                        // voeg score toe
+                        score.Add(hiscores[i][2]);
+                        hiscoresTotRank.Add(score);
+                        aantal++;
+                    }
+                }
             }
         }
         return hiscoresTotRank;
