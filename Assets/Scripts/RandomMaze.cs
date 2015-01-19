@@ -45,16 +45,20 @@ public class RandomMaze : MonoBehaviour
 	//List with all Nodes
 	private static bool drawNavigationGrid;
 	AudioSource cameraAudioSource;
+    static AudioSource backingAudio;
 	public AudioClip startGame;
 	public GameObject mainCamera;
 
 
-
-
-
-
+    float volume;
+    static float musicVolume;
+    static AudioClip inGameMusic;
 	private GameObject ResourceManagerObj;
 	ResourceManager resourceManager;
+
+    bool ready;
+
+    public GameObject spacebar;
 
 	//Use this for initialization
 	void Awake ()
@@ -62,6 +66,7 @@ public class RandomMaze : MonoBehaviour
 		ResourceManagerObj = GameObject.Find ("ResourceManager");
 		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
 		mainCamera = resourceManager.mainCamera;
+        inGameMusic = resourceManager.inGameMusic;
 		cameraAudioSource = mainCamera.GetComponent<AudioSource> ();
 		length = resourceManager.length;
 		width = resourceManager.width;
@@ -88,8 +93,14 @@ public class RandomMaze : MonoBehaviour
 		NodesPos = new List<Vector3> ();
 		Nodes = new List<WayPoint> ();
 		LoadingScreen.SetActive (true);
+        volume = (float)PlayerPrefs.GetInt("SFX") / 100f;
+        musicVolume = (float)PlayerPrefs.GetInt("BGM") / 100f;
 
-		cameraAudioSource.PlayOneShot (startGame, 5f);
+        mainCamera = (GameObject)Instantiate(mainCamera);
+        Destroy(mainCamera.GetComponent<CameraController>());
+        cameraAudioSource = mainCamera.GetComponent<AudioSource>();
+
+        cameraAudioSource.PlayOneShot(startGame, 5f * volume);
 
 		Invoke ("LevelSpawner", 1.802f);
 	}
@@ -104,7 +115,7 @@ public class RandomMaze : MonoBehaviour
 	IEnumerator spawnLevel ()
 	{
 
-		//Destroy(mainCamera);
+	    Destroy(mainCamera);
 		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Building a castle..";
 		//Time.timeScale = 1;
 		yield return new WaitForSeconds (0.1f);
@@ -126,9 +137,24 @@ public class RandomMaze : MonoBehaviour
 		//MakeNodeList (nodeSize,NodesPos,Nodes);
 		//create the minimap camera
 		resourceManager.Nodes = Nodes;
-		LoadingScreen.SetActive (false);
+
+        Time.timeScale = 0;
+        ready = true;
+        LoadingScreen.GetComponentInChildren<Text>().gameObject.SetActive(false);
+        spacebar.SetActive(true);
 
 	}
+
+    void Update()
+    {
+        if (ready && Input.GetKeyDown(KeyCode.Space))
+        {
+
+            LoadingScreen.SetActive(false);
+            Time.timeScale = 1;
+
+        }
+    }
 
 	//generate floors
 	private void GenerateFloor ()
@@ -219,7 +245,7 @@ public class RandomMaze : MonoBehaviour
 
 	public static void GenerateTorch (float n, float w, float angle, GameObject torch, float planewidth, float height)
 	{
-		float torchGrootte = 2;
+		float torchGrootte = 1;
 
 		GameObject torchObj = (GameObject)Instantiate (torch, new Vector3 (n * planewidth, height * planewidth / 8, w * planewidth), Quaternion.Euler (0, angle, 0));
 		torchObj.transform.localScale = new Vector3 (1, 1, 1) * planewidth * torchGrootte / 50;
@@ -515,6 +541,8 @@ public class RandomMaze : MonoBehaviour
 	//    //GateObj.transform.localScale = new Vector3 (planewidth * 0.028f, planewidth * height / 150, planewidth);
 	//}
 
+
+
 	public static void spawnPlayer (GameObject player, GameObject camera, GameObject Goal2, GameObject enemySpawner, GameObject Gui, GameObject EventList, Vector2 startPos, Vector2 endPos, GameObject Minimapcamera, int width, int length, float planewidth)
 	{			
 
@@ -523,8 +551,14 @@ public class RandomMaze : MonoBehaviour
 		if (GameObject.Find ("EventListener") != null) {
 			GameObject EventListener = (GameObject)Instantiate (EventList, new Vector3 (0f, 0f, 0f), Quaternion.identity);
 		}
+        backingAudio = GameObject.Find("backingAudio").GetComponent<AudioSource>();
+
+        backingAudio.GetComponent<AudioSource>().clip = inGameMusic;
+        backingAudio.GetComponent<AudioSource>().volume = musicVolume * 0.5f;
+
+        backingAudio.GetComponent<AudioSource>().Play();
 		GameObject Player = (GameObject)Instantiate (player, new Vector3 (startPos.x, 0.5f, startPos.y) * planewidth, Quaternion.identity);
-		Player.gameObject.transform.localScale = new Vector3 (0.05f, 0.05f, 0.05f);
+		Player.gameObject.transform.localScale = new Vector3 (1f, 1f, 1f)/2;
 		Player.name = "Player";
 		//GameObject Goal = (GameObject)Instantiate(Goal2, new Vector3(startPos.x, 0.01f, startPos.y) * planewidth, Quaternion.identity);
 		//Goal.transform.name = "Goal";

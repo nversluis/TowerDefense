@@ -11,19 +11,29 @@ public class MenuController : MonoBehaviour {
     public Slider[] sliders = new Slider[3];
     public Text[] sliderValues = new Text[3];
     AudioSource cameraAudioSource;
-
+    AudioSource backingAudio;
+    AudioClip menuMusic;
+    float volume;
+    float musicVolume;
     // Slider values
     int val1, val2, val3;
     int old1, old2, old3;
     
     public void ButtonClick()
     {
-        cameraAudioSource.PlayOneShot(click);
+        cameraAudioSource.PlayOneShot(click, volume);
     }
 
     void Start() {
+        volume = (float)PlayerPrefs.GetInt("SFX") / 100f;
+        musicVolume = (float)PlayerPrefs.GetInt("BGM") / 100f;
+        menuMusic = GameObject.Find("ResourceManager").GetComponent<ResourceManager>().menuMusic;
+        backingAudio = GameObject.Find("backingAudio").GetComponent<AudioSource>();
+        cameraAudioSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
+        backingAudio.clip = menuMusic;
+        backingAudio.volume = musicVolume * 0.5f;
 
-        cameraAudioSource = mainCamera.GetComponent<AudioSource>();
+        backingAudio.Play();
 
         // Set options on first run
         if(!PlayerPrefs.HasKey("BGM")) {
@@ -57,6 +67,9 @@ public class MenuController : MonoBehaviour {
 
     void FixedUpdate() {
         UpdateSliderVals();
+        musicVolume = (float)val1/100f;
+        backingAudio.volume = musicVolume * 0.5f;
+
     }
 
     void UpdateSliderVals() {
@@ -71,7 +84,7 @@ public class MenuController : MonoBehaviour {
         // Difficulty slider
         switch(val3) {
             case 0:
-                sliderValues[2].text = "n00b";
+                sliderValues[2].text = "Easy";
                 break;
             case 1:
                 sliderValues[2].text = "Average";
@@ -91,6 +104,12 @@ public class MenuController : MonoBehaviour {
         PlayerPrefs.SetInt("BGM", val1);
         PlayerPrefs.SetInt("SFX", val2);
         PlayerPrefs.SetInt("Difficulty", val3);
+
+        volume = (float)PlayerPrefs.GetInt("SFX") / 100f;
+        musicVolume = (float)PlayerPrefs.GetInt("BGM") / 100f;
+        backingAudio.volume = musicVolume * 0.5f;
+
+		ResourceManager.Difficulty = val3;
         // And close the screen
         CloseOptionScreen();
     }

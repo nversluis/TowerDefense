@@ -9,10 +9,10 @@ public class ExplosionScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        int volume = PlayerPrefs.GetInt("SFX")/100;
+        float volume = (float)PlayerPrefs.GetInt("SFX") / 100f;
         audio = GetComponent<AudioSource>();
         kaboom = GameObject.Find("ResourceManager").GetComponent<ResourceManager>().kaboom;
-        audio.PlayOneShot(kaboom,2 * volume);
+        audio.PlayOneShot(kaboom, volume);
         StartCoroutine(DestroyExplosion());
         
 	}

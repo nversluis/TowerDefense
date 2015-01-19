@@ -5,6 +5,8 @@ using System.Collections.Generic;
 public class ResourceManager : MonoBehaviour {
 	private PlayerData playerData = GUIScript.player;
 
+	public static int Difficulty = 1;
+
     [Header("Naam")]
     public string name;
 	public int gateHealth;
@@ -70,21 +72,24 @@ public class ResourceManager : MonoBehaviour {
     public float pathUpdateRate;
     public bool drawPath;
     public bool automaticPathUpdating;
+    public float avgProbPainSound;
+    public float avgProbDeadSound;
 
     [Header("Waves")]
     public int currentWave;
     public int maxWaves;
-    public int maxEnemies;
-    public int toenameAantalEnemiesPerWave;
+	public List<int> maxEnemies;
+    public List<int> toenameAantalEnemiesPerWave;
     public int timeBetweenWaves;
     public bool keepType;
     public bool keepDistribution;
     public float mutationProbability;
-    public int totalStatPoints;
-    public int toenameTotalStatPointsPerWave;
+    public List<int> totalStatPoints;
+    public List<int> toenameTotalStatPointsPerWave;
     public float startSpawnTime;
     public float currentSpawnTime;
     public float AfnameSpawnTimeFactor;
+    public float rewardWaveFactor;
 
 	[Header("Towers")]
 	public float maxTowerDistance;
@@ -126,7 +131,12 @@ public class ResourceManager : MonoBehaviour {
 	public GameObject magicBullet;
 	public int bulletSpeed;
 
-	[Header("Audio")]
+    [Header("Audio")]
+    public AudioClip inGameMusic;
+    public AudioClip menuMusic;
+    public AudioClip editorMusic;
+    public AudioClip countSound;
+    public AudioClip goSound;
 	public AudioClip magicBulletSound;
 	public AudioClip backgroundMusic;
     public AudioClip headShot;
@@ -134,6 +144,17 @@ public class ResourceManager : MonoBehaviour {
     public AudioClip hitEnemy;
     public AudioClip hitEnemy2;
     public AudioClip hitEnemy3;
+    public AudioClip[] arrows;
+    public AudioClip walking;
+    public AudioClip enemyHit;
+    public AudioClip[] guyantPainSound;
+    public AudioClip[] guyantDeadSound;
+
+    public AudioClip[] gwarfPainSound;
+    public AudioClip[] gwarfDeadSound;
+
+    public AudioClip[] grobblePainSound;
+    public AudioClip[] grobbleDeadSound;
 
     public AudioClip sword;
     public AudioClip sword2;

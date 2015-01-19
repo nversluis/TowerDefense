@@ -88,6 +88,8 @@ public class GUIScript : MonoBehaviour {
     public Text attackU;
     public Text speedU;
     public Text specialU;
+	public Image TowerIM;
+	public Sprite[] TowerSprites = new Sprite[7];
 
 
     private GameObject camera;
@@ -141,6 +143,8 @@ public class GUIScript : MonoBehaviour {
 
     [Header("Click sound")]
     public AudioClip click;
+    AudioClip countSound;
+    AudioClip goSound;
 
     AudioSource cameraAudioSource;
 
@@ -152,10 +156,18 @@ public class GUIScript : MonoBehaviour {
 
     private GameObject ResourceManagerObj;
     private ResourceManager resourceManager;
+
+    float volume;
     void Start() {
+
+        volume = (float)PlayerPrefs.GetInt("SFX") / 100f;
+
         /* Get private components */
         ResourceManagerObj = GameObject.Find("ResourceManager");
         resourceManager = ResourceManagerObj.GetComponent<ResourceManager>();
+
+        goSound = resourceManager.goSound;
+        countSound = resourceManager.countSound;
 
         // Camera Auiodsource
         cameraAudioSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
@@ -496,18 +508,35 @@ public class GUIScript : MonoBehaviour {
                 enemyPanel.SetActive(false);
                 towerPanel.SetActive(true);
                 GameObject tower = stats.transform.gameObject;
+				string levelText;
 
-                towerName.text = tower.name.Replace("(Clone)", "");
+				if (stats.level < 5) {
+					levelText = "(Level: " + stats.level + ")";
+				} else {
+					levelText = "(Level: 5, MAXED)";
+				}
+
+				towerName.text = tower.name.Replace("(Clone)", levelText);
                 attack.text = "Attack: " + stats.attack;
                 speed.text = "Speed: " + stats.speed;
                 if(towerName.text.Contains("Ice")) {
                     special.text = "Slowing with: " + stats.specialDamage;
                     specialU.text = "↑" + GameObject.Find("TowerStats").GetComponent<TowerResources>().iceSpecialDamage;
+					TowerIM.sprite = TowerSprites [4];
                 }
                 else {
                     special.text = "";
                     specialU.text = "";
                 }
+				if (towerName.text.Contains ("Magic")) {
+					TowerIM.sprite = TowerSprites [0];
+				} else if (towerName.text.Contains ("Arrow")) {
+					TowerIM.sprite = TowerSprites [1];
+				} else if (towerName.text.Contains ("Fire")) {
+					TowerIM.sprite = TowerSprites [2];
+				} else if (towerName.text.Contains ("Poison")) {
+					TowerIM.sprite = TowerSprites [3];
+				} 
                 sell.text = "Sell(+" + stats.sellCost + ")";
                 upgrade.text = "Upgrade(-" + stats.upgradeCost + ")";
                 attackU.text = "↑" + stats.attackUpgrade;
@@ -519,13 +548,21 @@ public class GUIScript : MonoBehaviour {
                 towerPanel.SetActive(true);
                 GameObject tower = hit.transform.gameObject;
                 barricade bar = tower.GetComponent<barricade>();
-                towerName.text = tower.name.Replace("(Clone)", "");
+
+				string levelText;
+				if (bar.level < 5) {
+					levelText = "(Level: " + bar.level + ")";
+				} else {
+					levelText = "(Level: 5, MAXED)";
+				}
+                towerName.text = tower.name.Replace("(Clone)", levelText);
                 attack.text = "Health: " + bar.health;
                 speed.text = "Maximum Health: " + bar.maxHealth;
                 speedU.text = "↑" + (resourceManager.barricadeHealth);
                 attackU.text = "↑" + (bar.maxHealth - bar.health);
                 special.text = "";
                 specialU.text = "";
+				TowerIM.sprite = TowerSprites [5];
                 sell.text = "Sell(+" + bar.totalCost / 2 + ")";
                 if(bar.maxHealth != bar.health)
                     upgrade.text = "Repair(-" + (bar.maxHealth - bar.health) + ")";
@@ -669,7 +706,7 @@ public class GUIScript : MonoBehaviour {
     }
 
     public void ButtonClick() {
-        cameraAudioSource.PlayOneShot(click);
+        cameraAudioSource.PlayOneShot(click,volume);
     }
 
     public void UpdateSelection() {
@@ -914,7 +951,18 @@ public class GUIScript : MonoBehaviour {
         for(int i = 0; i <= time; i++) {
             countNumber.sprite = spLst[time - i];
             countAnimator.SetTrigger("Counting");
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.45f);
+
+            if (time - i > 0)
+            {
+                cameraAudioSource.PlayOneShot(countSound, volume * 2);
+            }
+            else
+            {
+                cameraAudioSource.PlayOneShot(goSound, volume * 2);
+            }
+            yield return new WaitForSeconds(0.55f);
+
         }
         countdownPanel.SetActive(false);
     }

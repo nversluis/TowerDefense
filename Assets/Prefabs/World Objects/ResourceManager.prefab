@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 400000}
   - 114: {fileID: 11400000}
   - 114: {fileID: 11444152}
+  - 114: {fileID: 11498968}
   m_Layer: 0
   m_Name: ResourceManager
   m_TagString: Untagged
@@ -115,10 +116,10 @@ MonoBehaviour:
   coolDownMagic2Time: 60
   defense: 10
   speed: 10
-  startSwordDamage: 5000
+  startSwordDamage: 2000
   startMagicDamage: 1000
   specialSwordDamage: 15000
-  specialMagicDamage: 60000
+  specialMagicDamage: 30000
   hitParticles: {fileID: 145544, guid: 9c7b8546eb84bce41a909a9dc0d3f737, type: 2}
   hitExplosionParticles: {fileID: 147396, guid: c675be9dc898e2b4e95ed4ebcbefa4a3,
     type: 2}
@@ -146,19 +147,22 @@ MonoBehaviour:
   pathUpdateRate: .5
   drawPath: 0
   automaticPathUpdating: 1
+  avgProbPainSound: .5
+  avgProbDeadSound: 1
   currentWave: 1
   maxWaves: 20
-  maxEnemies: 15
-  toenameAantalEnemiesPerWave: 2
+  maxEnemies: 0f0000000f0000001400000018000000
+  toenameAantalEnemiesPerWave: 02000000030000000300000003000000
   timeBetweenWaves: 5
-  keepType: 0
+  keepType: 1
   keepDistribution: 1
   mutationProbability: .699999988
-  totalStatPoints: 80
-  toenameTotalStatPointsPerWave: 10
+  totalStatPoints: 6400000096000000aa000000c8000000
+  toenameTotalStatPointsPerWave: 0a0000000e0000001100000014000000
   startSpawnTime: .699999988
   currentSpawnTime: 0
   AfnameSpawnTimeFactor: .970000029
+  rewardWaveFactor: 1.04999995
   maxTowerDistance: 15
   magicTower: {fileID: 100010, guid: 00820a827834982408befc67f6611fe1, type: 2}
   magicTowerBullet: {fileID: 100000, guid: 992585f8d90a7dd4aa9fb58097ade3cd, type: 2}
@@ -179,18 +183,61 @@ MonoBehaviour:
   spearTrapHotspot: {fileID: 100002, guid: 367c8fea0f4dedc40a8d62d0e56e3666, type: 2}
   camOffset: 3
   mainCamera: {fileID: 100000, guid: dd773a3570af80e458efc1407d736bdc, type: 2}
-  player: {fileID: 100002, guid: 9edc1a7a41b114241945f4f7e510d868, type: 2}
+  player: {fileID: 121700, guid: 06dd4d5fc1fb695459bbddbf8e99d5e3, type: 2}
   startPos: {x: 0, y: 0}
   endPos: {x: 0, y: 0}
   magicBullet: {fileID: 100000, guid: 1b2fbfa5bc2ebc9428f28105eca1c5c9, type: 2}
   bulletSpeed: 30
+  inGameMusic: {fileID: 8300000, guid: 93319560fc89719479fe343352695b59, type: 3}
+  menuMusic: {fileID: 8300000, guid: 59d33c1fbf12c2f4d97298e5139fad7f, type: 3}
+  editorMusic: {fileID: 8300000, guid: ca801931ce5296e45b39fbcd9fa4b899, type: 3}
+  countSound: {fileID: 8300000, guid: 8e5e85285356c9149846d88e12c4d13d, type: 3}
+  goSound: {fileID: 8300000, guid: be0b455750353064f8d56d11a7d6f35e, type: 3}
   magicBulletSound: {fileID: 8300000, guid: b87f856579306f4479099fc0301b292f, type: 3}
   backgroundMusic: {fileID: 8300000, guid: 93319560fc89719479fe343352695b59, type: 3}
   headShot: {fileID: 8300000, guid: e1c1ec5c2f14d734d90ca9d30aa270d6, type: 3}
-  bulletHit: {fileID: 0}
+  bulletHit: {fileID: 8300000, guid: 4b5772c4ccf680547b4eea64dc890e19, type: 3}
   hitEnemy: {fileID: 8300000, guid: 361434778d812fa42a7732b0f8909d5c, type: 3}
   hitEnemy2: {fileID: 8300000, guid: 50eca040e9fb93e4783d794ae0ac8852, type: 3}
   hitEnemy3: {fileID: 8300000, guid: a8f5d9fc2b914fd4ab668a5b1723221a, type: 3}
+  arrows:
+  - {fileID: 8300000, guid: e2f055a0690972c4ab0bc2697d492a2f, type: 3}
+  - {fileID: 8300000, guid: a81546e30f93ae7458ba684f2a5c1a68, type: 3}
+  - {fileID: 8300000, guid: 18bc3c14f5ab2df439c491ac6eec832c, type: 3}
+  - {fileID: 8300000, guid: 54e7ab501103ab449be27eabdf1df8c9, type: 3}
+  walking: {fileID: 8300000, guid: 2cde946e48cb5754486927f554d26831, type: 3}
+  enemyHit: {fileID: 8300000, guid: 4b5772c4ccf680547b4eea64dc890e19, type: 3}
+  guyantPainSound:
+  - {fileID: 8300000, guid: 73f68cfb8ef76134a85ed292530ecdf1, type: 3}
+  - {fileID: 8300000, guid: ba26a120e1c6e0a4184679296fcc11b0, type: 3}
+  - {fileID: 8300000, guid: 56fd688c092f4cc47bc263be9ce77305, type: 3}
+  - {fileID: 8300000, guid: fc68fb4b892f07848b67da0c57fdadd2, type: 3}
+  - {fileID: 8300000, guid: 3a40191df0171e34fa0782e340455394, type: 3}
+  guyantDeadSound:
+  - {fileID: 8300000, guid: fd08e718584daa6438fcc0a8fdcf3cb9, type: 3}
+  - {fileID: 8300000, guid: 5d5195125a6f0e84ea075f8fb3731db0, type: 3}
+  - {fileID: 8300000, guid: 878678cd06a7b8c4e863e8dfde321fbc, type: 3}
+  - {fileID: 8300000, guid: 066a18cbff154be479c2fb2e1089730c, type: 3}
+  gwarfPainSound:
+  - {fileID: 8300000, guid: a4559cfb646853045b90a27b62bd8bdc, type: 3}
+  - {fileID: 8300000, guid: 8cf2fe13798b3f349add16d3ff03451d, type: 3}
+  - {fileID: 8300000, guid: e5abc4bed270a6542b8bd3a479748dee, type: 3}
+  - {fileID: 8300000, guid: 55c6341cbaf1b194594c40c2ca11e4f0, type: 3}
+  - {fileID: 8300000, guid: 528d1f06173388440b8e3320a820f8b3, type: 3}
+  - {fileID: 8300000, guid: ebd733562292bbb47806717f8b75121f, type: 3}
+  gwarfDeadSound:
+  - {fileID: 8300000, guid: 5e5a4aefb4f85f34e909b28f72bd1cd0, type: 3}
+  - {fileID: 8300000, guid: 51983997cf7eb704bb6e0f5dc880743d, type: 3}
+  - {fileID: 8300000, guid: bc6ca12f80adf4b46b28f5c2b5cfbb67, type: 3}
+  - {fileID: 8300000, guid: 6cf7ed5fa5b962f4a856324cd3adad6a, type: 3}
+  grobblePainSound:
+  - {fileID: 8300000, guid: 3ab6f870cc2a8fa4fb3d533e27b63dd8, type: 3}
+  - {fileID: 8300000, guid: 513fadd2fa8738048992a1726f64738b, type: 3}
+  - {fileID: 8300000, guid: afae12ebbe5896c49ad8eed750e8b59b, type: 3}
+  - {fileID: 8300000, guid: 6e9395a303cb95a409443d43fdee2c6b, type: 3}
+  grobbleDeadSound:
+  - {fileID: 8300000, guid: 0873587c8d2eeb54b960aeb40986b8f0, type: 3}
+  - {fileID: 8300000, guid: f2853a9a40113af4795ea18672f9008a, type: 3}
   sword: {fileID: 8300000, guid: d289fe74e2833da4197b73c22dd12f00, type: 3}
   sword2: {fileID: 8300000, guid: 314b1693fff14d947b5ae6d5d5829ab0, type: 3}
   sword3: {fileID: 8300000, guid: 5fbadd7f7d9e681468b00932fa27fdbe, type: 3}
@@ -287,6 +334,17 @@ MonoBehaviour:
   iceSpeed: .25
   iceSpeedUpgrade: .25
   iceSpecialDamage: 2
+--- !u!114 &11498968
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae95ee95735af1a4abfd78108d27b763, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

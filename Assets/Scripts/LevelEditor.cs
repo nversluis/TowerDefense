@@ -116,6 +116,8 @@ public class LevelEditor : MonoBehaviour
     public AudioClip startGame;
     public AudioClip shhhh;
 
+    float volume;
+
 
 	// Use this for initialization
 	private GameObject ResourceManagerObj;
@@ -125,9 +127,12 @@ public class LevelEditor : MonoBehaviour
 
     public GameObject spacebar;
 
+    AudioClip editor;
+
 	void Start ()
 	{
-		playing = false;
+        volume = (float)PlayerPrefs.GetInt("SFX") / 100f;
+        playing = false;
 		ResourceManagerObj = GameObject.Find ("ResourceManager");
 		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
 		torch = resourceManager.torch;
@@ -167,6 +172,12 @@ public class LevelEditor : MonoBehaviour
         currentFilesSelected = new List<string>();
         cameraAudioSource = backGroundCamera.GetComponent<AudioSource>();
 
+        float musicVolume = (float)PlayerPrefs.GetInt("BGM") / 100f;
+        editor = resourceManager.editorMusic;
+        GameObject.Find("backingMusic").GetComponent<AudioSource>().clip = editor;
+        GameObject.Find("backingMusic").GetComponent<AudioSource>().volume = musicVolume;
+        GameObject.Find("backingMusic").GetComponent<AudioSource>().Play();
+
 		if (!File.Exists (AppPath)) {
 			Directory.CreateDirectory (AppPath);
 		}
@@ -174,7 +185,7 @@ public class LevelEditor : MonoBehaviour
 
 
     public void ButtonClick(){
-        cameraAudioSource.PlayOneShot(click);
+        cameraAudioSource.PlayOneShot(click,volume);
     }
     // Method for the new map button
     public void NewMapButton()
@@ -967,7 +978,7 @@ public class LevelEditor : MonoBehaviour
 				resourceManager.startPos = startPos;
 				resourceManager.endPos = endPos;
 				LoadingScreen.SetActive (true);
-                cameraAudioSource.PlayOneShot(startGame,5);
+                cameraAudioSource.PlayOneShot(startGame,5*volume);
                 Invoke("startSpawn", 1.802f);
                // spawnLevel();
                 editing = false;
@@ -1273,7 +1284,7 @@ public class LevelEditor : MonoBehaviour
                     
                     but.onClick.AddListener(delegate
                     {
-                        cameraAudioSource.PlayOneShot(shhhh);
+                        cameraAudioSource.PlayOneShot(shhhh,volume);
                         selectFileName(but);
                     });
                 }

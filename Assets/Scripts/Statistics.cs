@@ -1,34 +1,43 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Statistics : MonoBehaviour {
 
-    static int kills;
-    static int guyantKills;
-    static int gwarfKills;
-    static int grobbleKills;
-    static int headshots;
-    static int killStreak;
-    static int headShotStreak;
-    static int playerKills;
-    static int towerKills;
+    public static int kills;
+    public static int guyantKills;
+    public static int gwarfKills;
+    public static int grobbleKills;
+    public static int headshots;
+    public static int killStreak;
+    public static int headShotStreak;
+    public static int playerKills;
+    public static int towerKills;
 
-    static int killsScore;
-    static int guyantKillsScore;
-    static int gwarfKillsScore;
-    static int grobbleKillsScore;
-    static int headshotsScore;
-    static int killStreakScore;
-    static int headShotStreakScore;
-    static int playerKillsScore;
-    static int towerKillsScore;
+    public static int killsScore;
+    public static int guyantKillsScore;
+    public static int gwarfKillsScore;
+    public static int grobbleKillsScore;
+    public static int headshotsScore;
+    public static int killStreakScore;
+    public static int headShotStreakScore;
+    public static int playerKillsScore;
+    public static int towerKillsScore;
 
-    static float lastKillTime = 0;
+    public static float lastKillTime = 0;
     public static int score;
     public static int currentWave;
 
-    static int currentKillStreak;
-    static int currentHeadShotStreak;
+    public static int currentKillStreak;
+    public static int currentHeadShotStreak;
+
+	public static int fireTrapsBuilt;
+	public static int iceTrapsBuilt;
+	public static int poisonTrapsBuilt;
+	public static int magicTowersBuilt;
+	public static int arrowTowersBuilt;
+	public static int barricadesBuilt;
+
 
     ResourceManager resourceManager;
 

@@ -49,8 +49,11 @@ public class GuyantScript : MonoBehaviour
 
 	public bool throughGate;
 	bool isInvoked;
-
+    bool invoked;
 	GameObject curFloor;
+
+    float volume;
+    AudioClip walking;
 
 	// Method for finding all necessary scripts
 	void GetScripts ()
@@ -283,7 +286,16 @@ public class GuyantScript : MonoBehaviour
 		BuildPath ();
 		
 		enemyResources.isSlowed = 1;
+
+        walking = resourceManager.walking;
+        volume = (float)PlayerPrefs.GetInt("SFX") / 100f;
+
 	}
+
+    void Walking()
+    {
+        audio.PlayOneShot(walking, volume);
+    }
 
 	//Update is called once per frame
 	void FixedUpdate ()
@@ -306,6 +318,17 @@ public class GuyantScript : MonoBehaviour
 
 		// Debug
 		Debuging ();
+
+        if (enemyResources.walking && !invoked)
+        {
+            InvokeRepeating("Walking", 0f, 1.097f);
+            invoked = true;
+        }
+        if (!enemyResources.walking)
+        {
+            invoked = false;
+            CancelInvoke("Walking");
+        }
 
 	}
 

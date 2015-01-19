@@ -15,7 +15,7 @@ public class PlayerAnimator : MonoBehaviour {
 
     void Update()
     {
-        if (PlayerController.moving)
+		if (PlayerController.moving  && !(PlayerController.attackingSword1 || PlayerController.attackingSword2 || PlayerController.attackingSword3))
         {
             animator.SetBool("Walking", true);
 
@@ -24,6 +24,44 @@ public class PlayerAnimator : MonoBehaviour {
         {
             animator.SetBool("Walking", false);
         }
+
+		if (PlayerController.moving && (PlayerController.attackingSword1 || PlayerController.attackingSword2 || PlayerController.attackingSword3)) {
+			animator.SetBool ("AttWalk", true);
+		} else {
+			animator.SetBool ("AttWalk", false);
+			if (PlayerController.attackingSword1)
+			{
+				animator.SetBool("AttackingSword1", true);
+			}
+
+			else
+			{
+				animator.SetBool("AttackingSword1", false);
+			}
+
+
+			if (PlayerController.attackingSword2)
+			{
+				animator.SetBool("AttackingSword2", true);
+			}
+
+			else
+			{
+				animator.SetBool("AttackingSword2", false);
+			}
+
+			if (PlayerController.attackingSword3)
+			{
+				animator.SetBool("AttackingSword3", true);
+			}
+
+			else
+			{
+				animator.SetBool("AttackingSword3", false);
+			}
+
+		}
+
 
         if (PlayerController.idle)
         {
@@ -35,36 +73,7 @@ public class PlayerAnimator : MonoBehaviour {
             animator.SetBool("Idle", false);
         }
 
-        if (PlayerController.attackingSword1)
-        {
-            animator.SetBool("AttackingSword1", true);
-        }
-
-        else
-        {
-            animator.SetBool("AttackingSword1", false);
-        }
-
-
-        if (PlayerController.attackingSword2)
-        {
-            animator.SetBool("AttackingSword2", true);
-        }
-
-        else
-        {
-            animator.SetBool("AttackingSword2", false);
-        }
-
-        if (PlayerController.attackingSword3)
-        {
-            animator.SetBool("AttackingSword3", true);
-        }
-
-        else
-        {
-            animator.SetBool("AttackingSword3", false);
-        }
+       
 
         if (PlayerController.attackMagic1)
         {
@@ -85,5 +94,13 @@ public class PlayerAnimator : MonoBehaviour {
         {
             //animator.SetBool("AttackingMagic2", false);
         }
+
+		if (PlayerController.jumping) {
+			animator.SetBool ("Jumping", true);
+		}
+		else
+		{
+			animator.SetBool ("Jumping", false);
+		}
     }
 }

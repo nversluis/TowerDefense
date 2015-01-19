@@ -17,6 +17,10 @@ public class GrobbleAttack : MonoBehaviour
     bool playerInRange;
     public bool invoked = false;
 
+    AudioClip hit;
+
+    float volume;
+
     void Start()
     {
         totalDamage = 0;
@@ -28,6 +32,8 @@ public class GrobbleAttack : MonoBehaviour
         enemyResources = GetComponent<EnemyResources>();
         attackDamage = enemyStats.attack * damageMultiplier;
 
+        volume = (float)PlayerPrefs.GetInt("SFX") / 100f;
+        hit = GameObject.Find("ResourceManager").GetComponent<ResourceManager>().enemyHit;
     }
 
     void Attack()
@@ -50,6 +56,9 @@ public class GrobbleAttack : MonoBehaviour
 			transform.LookAt(new Vector3(player.transform.position.x,transform.position.y,player.transform.position.z));
         }
         enemyResources.totalDamage += attackDamage;
+
+        audio.PlayOneShot(hit, volume);
+
     }
 
     void Update()

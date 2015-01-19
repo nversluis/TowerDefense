@@ -40,6 +40,7 @@ public class GwarfScript : MonoBehaviour
 
 	bool drawPath;
 	bool automaticPathUpdating;
+    bool invoked;
 
 	public float isSlowed = 1;
 
@@ -53,6 +54,9 @@ public class GwarfScript : MonoBehaviour
 
 	GameObject curFloor;
 	bool isInvoked;
+
+    AudioClip walking;
+    float volume;
 	// Method for finding all necessary scripts
 	void GetScripts ()
 	{
@@ -79,7 +83,10 @@ public class GwarfScript : MonoBehaviour
 		dfactor = enemystats.dfactor;
 		automaticPathUpdating = resourceManager.automaticPathUpdating;
 
-		goalLoc = GameObject.Find ("Goal").transform.position - new Vector3 (0, -5, 0);;
+		goalLoc = GameObject.Find ("Goal").transform.position - new Vector3 (0, -5, 0);
+
+        walking = resourceManager.walking;
+        volume = (float)PlayerPrefs.GetInt("SFX")/100f;
 	}
 
 	// Method for determining the speed of the enemy
@@ -317,6 +324,10 @@ public class GwarfScript : MonoBehaviour
 		attackingGoal = false;
 	}
 
+    void Walking()
+    {
+        audio.PlayOneShot(walking, volume);
+    }
 
 	//Update is called once per frame
 	void FixedUpdate ()
@@ -353,6 +364,17 @@ public class GwarfScript : MonoBehaviour
 
 		// Debug
 		Debuging ();
+
+        if (enemyResources.walking && !invoked)
+        {
+            InvokeRepeating("Walking", 0f, 1.097f);
+            invoked = true;
+        }
+        if (!enemyResources.walking)
+        {
+            invoked = false;
+            CancelInvoke("Walking");
+        }
 
 	}
 

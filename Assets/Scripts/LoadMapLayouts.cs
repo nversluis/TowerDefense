@@ -80,8 +80,17 @@ public class LoadMapLayouts : MonoBehaviour {
 
     public GameObject spacebar;
 
+    float volume;
+
+    AudioClip editor;
+
     void Start()
     {
+        volume = (float)PlayerPrefs.GetInt("SFX") / 100f;
+
+        float musicVolume = (float)PlayerPrefs.GetInt("BGM") / 100f;
+
+
         cameraAudioSource = GameObject.Find("BackGroundCamera").GetComponent<AudioSource>();
         resourceManager = GameObject.Find("ResourceManager").GetComponent<ResourceManager>();
 
@@ -92,6 +101,8 @@ public class LoadMapLayouts : MonoBehaviour {
         Cend = resourceManager.end;
         CConnected = resourceManager.connected;
         CNotConnected = resourceManager.notConnected;
+
+        editor = resourceManager.editorMusic;
 
         currentPage = 1;
 
@@ -118,16 +129,19 @@ public class LoadMapLayouts : MonoBehaviour {
         predefinedButton.colors = cb;
 
         ShowSavedMaps();
+        GameObject.Find("backingMusic").GetComponent<AudioSource>().clip = editor;
+        GameObject.Find("backingMusic").GetComponent<AudioSource>().volume = musicVolume;
+        GameObject.Find("backingMusic").GetComponent<AudioSource>().Play();
     }
 
     public void ButtonClick()
     {
-        cameraAudioSource.PlayOneShot(click);
+        cameraAudioSource.PlayOneShot(click,volume);
     }
 
     public void TabClick()
     {
-        cameraAudioSource.PlayOneShot(tab);
+        cameraAudioSource.PlayOneShot(tab,volume);
     }
 
     public void PredefinedButton1(Button predefinedbutton)
@@ -273,7 +287,7 @@ public class LoadMapLayouts : MonoBehaviour {
 
                     but.onClick.AddListener(delegate
                     {
-                        cameraAudioSource.PlayOneShot(shhhh);
+                        cameraAudioSource.PlayOneShot(shhhh,volume);
                         selectFileName(but);
                     });
                 }
@@ -606,7 +620,7 @@ public class LoadMapLayouts : MonoBehaviour {
             resourceManager.startPos = startPos;
             resourceManager.endPos = endPos;
             loadingScreen.SetActive(true);
-            cameraAudioSource.PlayOneShot(startGame, 5);
+            cameraAudioSource.PlayOneShot(startGame, 5*volume);
             Invoke("startSpawn", 1.802f);
             // spawnLevel();
             resourceManager.Nodes = Nodes;
