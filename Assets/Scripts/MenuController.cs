@@ -4,8 +4,8 @@ using System.Collections;
 // The control script for the main menu
 public class MenuController : MonoBehaviour {
     // Objects
-    public Animator startBtnAnim, quitBtnAnim, optionBtnAnim, editorBtnAnim, loadBtnAnim,optionPnlAnim;
-    public GameObject optionPnl;
+    public Animator startBtnAnim, quitBtnAnim, optionBtnAnim, editorBtnAnim, loadBtnAnim, scoreBtnAnim, optionPnlAnim, scorePnlAnim;
+    public GameObject optionPnl, scorePnl;
     public AudioClip click;
     public GameObject mainCamera;
     public Slider[] sliders = new Slider[3];
@@ -53,9 +53,9 @@ public class MenuController : MonoBehaviour {
         optionBtnAnim.SetBool("Hidden", false);
         editorBtnAnim.SetBool("Hidden", false);
         loadBtnAnim.SetBool("Hidden", false);
+        scoreBtnAnim.SetBool("Hidden", false);
         optionPnlAnim.SetBool("Hidden", true);
-        // Options panel is not used; turn it off
-        optionPnl.SetActive(false);
+        scorePnlAnim.SetBool("Hidden", true);
         // Load user preferences
         val1 = PlayerPrefs.GetInt("BGM");
         val2 = PlayerPrefs.GetInt("SFX");
@@ -75,7 +75,7 @@ public class MenuController : MonoBehaviour {
 
     void UpdateSliderVals() {
         // Extract values from sliders as long as the options panel is active
-        if(optionPnl.activeSelf == true) {
+        if(!optionPnlAnim.GetBool("Hidden")) {
             val1 = (int)sliders[0].value;
             val2 = (int)sliders[1].value;
             val3 = (int)sliders[2].value;
@@ -117,18 +117,41 @@ public class MenuController : MonoBehaviour {
     // Open the option screen
     public void OpenOptionScreen() {
         // Option screen transition animation
-        optionPnl.SetActive(true);
         startBtnAnim.SetBool("Hidden", true);
         quitBtnAnim.SetBool("Hidden", true);
         optionBtnAnim.SetBool("Hidden", true);
         editorBtnAnim.SetBool("Hidden", true);
         loadBtnAnim.SetBool("Hidden", true);
+        scoreBtnAnim.SetBool("Hidden", true);
         optionPnlAnim.SetBool("Hidden", false);
+        scorePnlAnim.SetBool("Hidden", true);
+
+        loadBtnAnim.SetTrigger("GoLeft");
+        optionBtnAnim.SetTrigger("GoLeft");
+        editorBtnAnim.SetTrigger("GoLeft");
+
         // Store old slider values in case of cancel
         old1 = val1;
         old2 = val2;
         old3 = val3;
     }
+
+    public void OpenScoreScreen() {
+        // Score screen transition animation
+        startBtnAnim.SetBool("Hidden", true);
+        quitBtnAnim.SetBool("Hidden", true);
+        optionBtnAnim.SetBool("Hidden", true);
+        editorBtnAnim.SetBool("Hidden", true);
+        scoreBtnAnim.SetBool("Hidden", true);
+        loadBtnAnim.SetBool("Hidden", true);
+        optionPnlAnim.SetBool("Hidden", true);
+        scorePnlAnim.SetBool("Hidden", false);
+
+        loadBtnAnim.SetTrigger("GoRight");
+        optionBtnAnim.SetTrigger("GoRight");
+        editorBtnAnim.SetTrigger("GoRight");
+    }
+
     // Undo the changes made to the options
     public void CancelOptionScreen() {
         // Set old values back to before opening the options
@@ -143,16 +166,16 @@ public class MenuController : MonoBehaviour {
         CloseOptionScreen();
     }
     // Function that closes the option screen
-    void CloseOptionScreen() {
+    public void CloseOptionScreen() {
         // Return to main menu animation
         startBtnAnim.SetBool("Hidden", false);
         quitBtnAnim.SetBool("Hidden", false);
         optionBtnAnim.SetBool("Hidden", false);
         editorBtnAnim.SetBool("Hidden", false);
         loadBtnAnim.SetBool("Hidden", false);
+        scoreBtnAnim.SetBool("Hidden", false);
         optionPnlAnim.SetBool("Hidden", true);
-        // Wait until options screen is off-screen before disabling it
-        StartCoroutine(InactiveAfter(optionPnl, 1));
+        scorePnlAnim.SetBool("Hidden", true);
     }
 
     public void LoadGameAudio() {
@@ -174,10 +197,5 @@ public class MenuController : MonoBehaviour {
 
     public void QuitGame() {
         Application.Quit();
-    }
-    // Coroutine that waits to disable an object until after a certain time
-    IEnumerator InactiveAfter(GameObject obj, float t) {
-        yield return new WaitForSeconds(t);
-        obj.SetActive(false);
     }
 }
