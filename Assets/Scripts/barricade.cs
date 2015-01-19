@@ -93,7 +93,7 @@ public class barricade : MonoBehaviour
 			WallScript.DestroyHotSpots ();
 			//Destroy (gameObject);
 		} else {
-
+			GameObject.Find("GUIMain").GetComponent<GUIScript>().Notification ("NoGold");
 		}
 	}
 
