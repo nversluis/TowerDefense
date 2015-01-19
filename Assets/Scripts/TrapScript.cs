@@ -48,31 +48,32 @@ public class TrapScript : MonoBehaviour
 
 	public void BuildTrap ()
 	{
-		if (cost <= playerData.getGold () && !transform.parent.gameObject.GetComponent<FloorScript>().hasEnemy) {
-			GameObject trap = (GameObject)Instantiate (realTrap, transform.position, Quaternion.identity);//Instantiantion of the tower
-			trap.gameObject.transform.localScale = new Vector3 (1, 1, 1) * planeW / 20;
-			trap.transform.parent = gameObject.transform.parent;
-			float randHoek = 90 * Mathf.Floor (Random.value * 4);
-			trap.transform.RotateAround (transform.position, Vector3.up, randHoek);
-			trap.tag = "Tower";
-			trap.SetActiveRecursively (true); 
-			playerData.addGold (-cost);
-			TowerStats stats = trap.GetComponent<TowerStats> ();
-			stats.upgradeCost = cost;
-			stats.sellCost = cost/2;
+		if (cost <= playerData.getGold ()) {
+			if (!transform.parent.gameObject.GetComponent<FloorScript> ().hasEnemy) {
+				GameObject trap = (GameObject)Instantiate (realTrap, transform.position, Quaternion.identity);//Instantiantion of the tower
+				trap.gameObject.transform.localScale = new Vector3 (1, 1, 1) * planeW / 20;
+				trap.transform.parent = gameObject.transform.parent;
+				float randHoek = 90 * Mathf.Floor (Random.value * 4);
+				trap.transform.RotateAround (transform.position, Vector3.up, randHoek);
+				trap.tag = "Tower";
+				trap.SetActiveRecursively (true); 
+				playerData.addGold (-cost);
+				TowerStats stats = trap.GetComponent<TowerStats> ();
+				stats.upgradeCost = cost;
+				stats.sellCost = cost / 2;
 
-			if (gameObject.name.Contains ("Fire")) {
-				Statistics.fireTrapsBuilt = Statistics.fireTrapsBuilt + 1;
-			} else if (gameObject.name.Contains ("Poison")) {
-				Statistics.poisonTrapsBuilt = Statistics.poisonTrapsBuilt+1;
-			} else if (gameObject.name.Contains ("Ice")) {
-				Statistics.iceTrapsBuilt = Statistics.iceTrapsBuilt+1;
-			} else if (gameObject.name.Contains ("arricade")) {
-				//Statistics.barricadesBuilt [0]++;
-			} 
+				if (gameObject.name.Contains ("Fire")) {
+					Statistics.fireTrapsBuilt = Statistics.fireTrapsBuilt + 1;
+				} else if (gameObject.name.Contains ("Poison")) {
+					Statistics.poisonTrapsBuilt = Statistics.poisonTrapsBuilt + 1;
+				} else if (gameObject.name.Contains ("Ice")) {
+					Statistics.iceTrapsBuilt = Statistics.iceTrapsBuilt + 1;
+				} else if (gameObject.name.Contains ("arricade")) {
+					//Statistics.barricadesBuilt [0]++;
+				} 
 
-			WallScript.DestroyHotSpots ();
-
+				WallScript.DestroyHotSpots ();
+			}
 		} else {
 			GameObject.Find("GUIMain").GetComponent<GUIScript>().Notification ("NoGold");
 		}

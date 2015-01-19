@@ -88,6 +88,7 @@ public class EnemyHealth : MonoBehaviour {
         {
             painSound = resourceManager.grobblePainSound;
             deadSound = resourceManager.grobblePainSound;
+            startingHealth = (int)(enemyStats.health * 0.3f);
         }
 
 

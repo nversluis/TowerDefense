@@ -38,7 +38,15 @@ public class VideoScript : MonoBehaviour {
         }
         spriteNum += 1;
 
-        if (spriteNum > image.Length-1)
+        if (spriteNum > image.Length-1 )
+        {
+            Application.LoadLevel("Movie2");
+        }
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Space))
         {
             Application.LoadLevel("Movie2");
         }

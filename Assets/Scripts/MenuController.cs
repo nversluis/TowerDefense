@@ -25,6 +25,7 @@ public class MenuController : MonoBehaviour {
     }
 
     void Start() {
+        Time.timeScale = 1;
         volume = (float)PlayerPrefs.GetInt("SFX") / 100f;
         musicVolume = (float)PlayerPrefs.GetInt("BGM") / 100f;
         menuMusic = GameObject.Find("ResourceManager").GetComponent<ResourceManager>().menuMusic;
