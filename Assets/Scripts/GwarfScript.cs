@@ -112,7 +112,7 @@ public class GwarfScript : MonoBehaviour
 				}
 
 				// walk to the next point to smooth the walking of the enemy
-				dir = (Path [i + 1] - (transform.position - new Vector3 (0f, transform.position.y, 0f))).normalized * walkSpeed;
+				dir = (Path [i] - (transform.position - new Vector3 (0f, transform.position.y, 0f))).normalized * walkSpeed;
 			} else {
 				// else walk to the current point
 				dir = (Path [i] - (transform.position - new Vector3 (0f, transform.position.y, 0f))).normalized * walkSpeed;
@@ -149,7 +149,7 @@ public class GwarfScript : MonoBehaviour
 			// when not close to the goal
 			if (i < Path.Count - 1) {
 				// determine the distance to the next point in only x and z
-				Vector3 nextPointDistance = (Path [i + 1] - transform.position - new Vector3 (0f, transform.position.y, 0f));
+				Vector3 nextPointDistance = (Path [i] - transform.position - new Vector3 (0f, transform.position.y, 0f));
 				nextPointDistance.y = 0;
 
 				// if the distance is smaller than 1 increase i by 1
@@ -303,6 +303,8 @@ public class GwarfScript : MonoBehaviour
 		Vector3 targetLoc = curTarget;
 		GwarfAttack ga = gameObject.GetComponent<GwarfAttack> ();
 		GameObject Bullet = (GameObject)Instantiate (ga.bullet, transform.position, Quaternion.identity);
+		Bullet.GetComponent<GwarfBulletScript> ().gwarf = gameObject;
+		Bullet.GetComponent<GwarfBulletScript> ().damagePerShot = ga.attackDamage;
 		Vector3 dir = (targetLoc - transform.position).normalized;
 		Bullet.rigidbody.velocity = ga.bulletSpeed * dir;
 	}

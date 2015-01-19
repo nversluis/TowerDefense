@@ -138,14 +138,14 @@ MonoBehaviour:
   height: 3
   nodeSize: 2.5
   NumberOfPaths: 3
-  drawNavigationGrid: 0
+  drawNavigationGrid: 1
   enemyTag: Enemy
   enemyGuyant: {fileID: 100052, guid: 6a25f25271f527644ab0b18b0e7c536e, type: 2}
   enemyGwarf: {fileID: 188948, guid: 37f21c745b6e3ff43942e88e21aba537, type: 2}
   enemyGrobble: {fileID: 142686, guid: 3e58d9d15ddcc37499fb1d10726fb518, type: 2}
   walkSpeed: 5
   pathUpdateRate: .5
-  drawPath: 0
+  drawPath: 1
   automaticPathUpdating: 1
   avgProbPainSound: .5
   avgProbDeadSound: 1
@@ -154,7 +154,7 @@ MonoBehaviour:
   maxEnemies: 0f0000000f0000001400000018000000
   toenameAantalEnemiesPerWave: 02000000030000000300000003000000
   timeBetweenWaves: 5
-  keepType: 1
+  keepType: 0
   keepDistribution: 1
   mutationProbability: .699999988
   totalStatPoints: 6400000096000000aa000000c8000000
