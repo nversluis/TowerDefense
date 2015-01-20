@@ -49,11 +49,11 @@ public class GuyantScript : MonoBehaviour
 
 	public bool throughGate;
 	bool isInvoked;
-    bool invoked;
+	bool invoked;
 	GameObject curFloor;
 
-    float volume;
-    AudioClip walking;
+	float volume;
+	AudioClip walking;
 
 	// Method for finding all necessary scripts
 	void GetScripts ()
@@ -106,7 +106,7 @@ public class GuyantScript : MonoBehaviour
 				}
 
 				// walk to the next point to smooth the walking of the enemy
-				dir = (Path [i + 1] - (transform.position - new Vector3 (0f, transform.position.y, 0f))).normalized * walkSpeed;
+				dir = (Path [i] - (transform.position - new Vector3 (0f, transform.position.y, 0f))).normalized * walkSpeed;
 			} else {
 				// else walk to the current point
 				dir = (Path [i] - (transform.position - new Vector3 (0f, transform.position.y, 0f))).normalized * walkSpeed;
@@ -142,7 +142,7 @@ public class GuyantScript : MonoBehaviour
 			// when not close to the goal
 			if (i < Path.Count - 1) {
 				// determine the distance to the next point in only x and z
-				Vector3 nextPointDistance = (Path [i + 1] - transform.position - new Vector3 (0f, transform.position.y, 0f));
+				Vector3 nextPointDistance = (Path [i] - transform.position - new Vector3 (0f, transform.position.y, 0f));
 				nextPointDistance.y = 0;
 
 				// if the distance is smaller than 1 increase i by 1
@@ -169,8 +169,8 @@ public class GuyantScript : MonoBehaviour
 				}
 
 
-			// if the player is near the enemy attack the player
-			else if ((player.transform.position - transform.position).magnitude < 3f) {
+				// if the player is near the enemy attack the player
+				else if ((player.transform.position - transform.position).magnitude < 3f) {
 
 					// set speed to zero and attack
 					rigidbody.velocity = Vector3.zero;
@@ -199,15 +199,12 @@ public class GuyantScript : MonoBehaviour
 			if (enemyResources.isDead) {
 				// set speed to zero
 				rigidbody.velocity = Vector3.zero;
-                enemyResources.attacking = false;
-                try
-                {
-                    curFloor.GetComponent<FloorScript>().hasEnemy = false;
-                }
-                catch
-                {
-                    Debug.Log("Buiten de gate gekilled");
-                }
+				enemyResources.attacking = false;
+				try {
+					curFloor.GetComponent<FloorScript> ().hasEnemy = false;
+				} catch {
+					Debug.Log ("Buiten de gate gekilled");
+				}
 
 			}
 
@@ -287,20 +284,20 @@ public class GuyantScript : MonoBehaviour
 		
 		enemyResources.isSlowed = 1;
 
-        walking = resourceManager.walking;
-        volume = (float)PlayerPrefs.GetInt("SFX") / 100f;
+		walking = resourceManager.walking;
+		volume = (float)PlayerPrefs.GetInt ("SFX") / 100f;
 
 	}
 
-    void Walking()
-    {
-        audio.PlayOneShot(walking, volume);
-    }
+	void Walking ()
+	{
+		audio.PlayOneShot (walking, volume);
+	}
 
 	//Update is called once per frame
 	void FixedUpdate ()
 	{
-		if (!isInvoked &&throughGate) {
+		if (!isInvoked && throughGate) {
 			Target = goal;
 			InvokeRepeating ("BuildPath", 0, pathUpdateRate);
 			isInvoked = true;
@@ -319,16 +316,14 @@ public class GuyantScript : MonoBehaviour
 		// Debug
 		Debuging ();
 
-        if (enemyResources.walking && !invoked)
-        {
-            InvokeRepeating("Walking", 0f, 1.097f);
-            invoked = true;
-        }
-        if (!enemyResources.walking)
-        {
-            invoked = false;
-            CancelInvoke("Walking");
-        }
+		if (enemyResources.walking && !invoked) {
+			InvokeRepeating ("Walking", 0f, 1.097f);
+			invoked = true;
+		}
+		if (!enemyResources.walking) {
+			invoked = false;
+			CancelInvoke ("Walking");
+		}
 
 	}
 
@@ -345,7 +340,7 @@ public class GuyantScript : MonoBehaviour
 				foreach (WayPoint wp in WPPath) {
 					Path.Add (wp.getPosition ());
 					if (wp.getBarCount () > 0) {
-						barricades.Add(wp.getBarricade ());
+						barricades.Add (wp.getBarricade ());
 					}
 
 				}
@@ -392,7 +387,8 @@ public class GuyantScript : MonoBehaviour
 		}
 	}
 
-	void checkFloor(){
+	void checkFloor ()
+	{
 		RaycastHit hit;
 		GameObject res = curFloor;
 		//Ray ray = new Ray(transform.position, -Vector3.up, out hit);
@@ -401,8 +397,8 @@ public class GuyantScript : MonoBehaviour
 				curFloor = hit.transform.gameObject;
 				if (res != null && res != curFloor) {
 					res.GetComponent<FloorScript> ().hasEnemy = false;
-					if(curFloor.transform.childCount==2)
-					WallScript.DestroyHotSpots ();
+					if (curFloor.transform.childCount == 2)
+						WallScript.DestroyHotSpots ();
 				}
 				FloorScript floor = hit.transform.GetComponent<FloorScript> ();
 				floor.hasEnemy = true;

@@ -60,8 +60,6 @@ public class GuyantAttack : MonoBehaviour
 
 	void Update ()
 	{
-
-
 		if (enemyResources.attacking) {
 			if (!invoked) {
 				InvokeRepeating ("Attack", timeBetweenAttacks / 1.8f, timeBetweenAttacks);

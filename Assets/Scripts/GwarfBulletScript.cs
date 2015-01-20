@@ -3,7 +3,7 @@ using System.Collections;
 
 public class GwarfBulletScript : MonoBehaviour
 {
-    private int damagePerShot;
+    public int damagePerShot;
     Transform Player;
     public GameObject gwarf;
     Vector3 PrevItLoc;
@@ -21,6 +21,7 @@ public class GwarfBulletScript : MonoBehaviour
         {
             PlayerHealth playerHealth = hit.collider.GetComponent<PlayerHealth>();
             Destroy(this.gameObject);
+			//Debug.Log (damagePerShot);
             GameObject boom = (GameObject)Instantiate(Boom, PrevItLoc, Quaternion.identity);
             if (hit.rigidbody != null)
             {
@@ -30,13 +31,13 @@ public class GwarfBulletScript : MonoBehaviour
             if (playerHealth != null)
             {
                 playerHealth.TakeDamage(damagePerShot);
-                enemyResources.totalDamage += damagePerShot;
-			} else if(hit.transform.gameObject.name.Contains("arricade")) {
+				gwarf.GetComponent<EnemyResources> ().totalDamage += damagePerShot;
+			} else if(hit.transform.name.Contains("arricade")) {
 				hit.transform.gameObject.GetComponent<barricade> ().TakeDamage(damagePerShot);
-				enemyResources.totalDamage += damagePerShot;
-			} else if(hit.transform.gameObject.name.Contains("Goal")) {
+				gwarf.GetComponent<EnemyResources> ().totalDamage += damagePerShot;
+			} else if(hit.transform.name.Contains("oal")) {
 				hit.transform.gameObject.GetComponent<GoalScript> ().removeLife(damagePerShot);
-				enemyResources.totalGateDamage += damagePerShot;
+				gwarf.GetComponent<EnemyResources> ().totalGateDamage += damagePerShot;
 			}
         }
         PrevItLoc = transform.position;
@@ -44,13 +45,15 @@ public class GwarfBulletScript : MonoBehaviour
 
 
     // Use this for initialization
-    void Start()
+    void Awake()
     {
         Player = GameObject.Find("Player").transform;
+		PrevItLoc = transform.position;
 		//gwarf = gameObject.transform.parent;
-        damagePerShot = gwarf.GetComponent<GwarfAttack>().attackDamage;
-        PrevItLoc = transform.position;
-        enemyResources = gwarf.GetComponent<EnemyResources>();
+		if (gwarf != null) {
+			//damagePerShot = gwarf.GetComponent<GwarfAttack> ().attackDamage;        
+			enemyResources = gwarf.GetComponent<EnemyResources> ();
+		}
     }
 
     void FixedUpdate()
