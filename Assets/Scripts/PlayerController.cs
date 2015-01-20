@@ -552,7 +552,7 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Period))
             {
-                if (Time.timeScale < 1.8)
+                if (Time.timeScale < 1.6)
                 {
 
                     Time.timeScale += 0.2f;
@@ -565,13 +565,17 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Comma))
             {
-                if (Time.timeScale > 1.2)
+                if (Time.timeScale > 1.2 && Time.timeScale <1.8)
                 {
                     Time.timeScale -= 0.2f;
                 }
-                else
+                else if (Time.timeScale <1.2)
                 {
                     Time.timeScale = 1;
+                }
+                else if (Time.timeScale > 1.8)
+                {
+                    Time.timeScale = 1.6f;
                 }
             }
         }

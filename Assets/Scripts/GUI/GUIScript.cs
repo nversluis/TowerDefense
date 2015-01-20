@@ -151,6 +151,9 @@ public class GUIScript : MonoBehaviour {
 
     AudioSource cameraAudioSource;
 
+    public Sprite[] arrows;
+    public GameObject arrow;
+
     // Scripts
     private PlayerController playerScript;
     private CameraController cameraScript;
@@ -411,6 +414,24 @@ public class GUIScript : MonoBehaviour {
 
         scoreText.text = Statistics.Score().ToString();
         resultScoreText.text = Statistics.Score().ToString();
+
+        if (Time.timeScale != 0)
+        {
+            if (Time.timeScale < 1.9)
+            {
+                int i = (int)Mathf.Round(((Time.timeScale - 1) * 5));
+                arrow.GetComponent<Image>().sprite = arrows[i];
+
+            }
+            else
+            {
+                int i = 4;
+                arrow.GetComponent<Image>().sprite = arrows[i];
+
+
+            }
+
+        }
     }
 
     void UpdateGold() {

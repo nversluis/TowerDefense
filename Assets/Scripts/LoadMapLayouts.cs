@@ -5,7 +5,8 @@ using System.IO;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 
-public class LoadMapLayouts : MonoBehaviour {
+public class LoadMapLayouts : MonoBehaviour
+{
 
     public static List<Vector3> posConnected = new List<Vector3>();
 
@@ -48,7 +49,7 @@ public class LoadMapLayouts : MonoBehaviour {
     int width;
     int length;
     int connected;
-    
+
 
     float planewidth;
 
@@ -136,12 +137,12 @@ public class LoadMapLayouts : MonoBehaviour {
 
     public void ButtonClick()
     {
-        cameraAudioSource.PlayOneShot(click,volume);
+        cameraAudioSource.PlayOneShot(click, volume);
     }
 
     public void TabClick()
     {
-        cameraAudioSource.PlayOneShot(tab,volume);
+        cameraAudioSource.PlayOneShot(tab, volume);
     }
 
     public void PredefinedButton1(Button predefinedbutton)
@@ -267,7 +268,7 @@ public class LoadMapLayouts : MonoBehaviour {
 
             if (connected == 1)
             {
-               
+
                 if (i < nextpage && i >= prevpage)
                 {
 
@@ -287,7 +288,7 @@ public class LoadMapLayouts : MonoBehaviour {
 
                     but.onClick.AddListener(delegate
                     {
-                        cameraAudioSource.PlayOneShot(shhhh,volume);
+                        cameraAudioSource.PlayOneShot(shhhh, volume);
                         selectFileName(but);
                     });
                 }
@@ -308,7 +309,7 @@ public class LoadMapLayouts : MonoBehaviour {
                     k += 1;
                 }
             }
-            maxPages = (int)Mathf.Ceil(((float)dirFiles.Length-numNotConnected) / (float)filesPerPage);
+            maxPages = (int)Mathf.Ceil(((float)dirFiles.Length - numNotConnected) / (float)filesPerPage);
 
         }
 
@@ -620,7 +621,7 @@ public class LoadMapLayouts : MonoBehaviour {
             resourceManager.startPos = startPos;
             resourceManager.endPos = endPos;
             loadingScreen.SetActive(true);
-            cameraAudioSource.PlayOneShot(startGame, 5*volume);
+            cameraAudioSource.PlayOneShot(startGame, 5 * volume);
             Invoke("startSpawn", 1.802f);
             // spawnLevel();
             resourceManager.Nodes = Nodes;
@@ -641,10 +642,10 @@ public class LoadMapLayouts : MonoBehaviour {
         GenerateFloor();
         loadingScreen.GetComponentInChildren<Text>().text = "Loading: You build the floors, we place the walls!...";
         yield return new WaitForSeconds(0.1f);
-		RandomMaze.GenerateWall(positions, planewidth, resourceManager.wallPrefab, resourceManager.torch, resourceManager.height, length-1, width-1, GameObject.Find("World"),endPos,startPos);
+        RandomMaze.GenerateWall(positions, planewidth, resourceManager.wallPrefab, resourceManager.torch, resourceManager.height, length - 1, width - 1, GameObject.Find("World"), endPos, startPos);
         loadingScreen.GetComponentInChildren<Text>().text = "Loading: Dwogres wanted a red carpet to walk on, generating...";
         yield return new WaitForSeconds(0.1f);
-		Nodes = RandomMaze.SpawnNodes(positions, resourceManager.nodeSize, planewidth, Nodes, length, width, resourceManager.drawNavigationGrid, true, endPos ,startPos);
+        Nodes = RandomMaze.SpawnNodes(positions, resourceManager.nodeSize, planewidth, Nodes, length, width, resourceManager.drawNavigationGrid, true, endPos, startPos);
         loadingScreen.GetComponentInChildren<Text>().text = "Loading: Giving birth to Player...";
         yield return new WaitForSeconds(0.1f);
         Destroy(backGroundCamera.GetComponent<AudioListener>());
@@ -689,14 +690,19 @@ public class LoadMapLayouts : MonoBehaviour {
     }
     void Update()
     {
-        
         if (ready && Input.GetKeyDown(KeyCode.Space))
         {
-            
+
             loadingScreen.SetActive(false);
             Time.timeScale = 1;
-            Destroy(this.gameObject);
 
+            Invoke("deleteScript", 0.01f);
         }
+    }
+
+    void deleteScript()
+    {
+        PlayerController.started = true;
+        Destroy(this.GetComponent<LoadMapLayouts>());
     }
 }
