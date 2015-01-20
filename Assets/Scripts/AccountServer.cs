@@ -35,8 +35,9 @@ public class AccountServer : MonoBehaviour {
         bool res = false;
         if (!usernameInGebruik(naam))
         {
-            if (ScoreServer.connected)
+            if (true)
             {
+                Debug.Log("Derp");
                 WWW www = new WWW("http://drproject.twi.tudelft.nl:8087/setAccount?username=" + naam + "&password=" + password);
                 WaitForRequest(www);
                 res = true;

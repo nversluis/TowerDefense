@@ -9,12 +9,11 @@ public class LoginScript : MonoBehaviour {
 
 	void Start () {
         notification.text = "Please log in or register to make full use of the statistics in this game. You can play offline, but then only your local highscore will be available.";
-        login.text = "";
-        password.text = "";
+        //password.inputType =
 	}
 
     public void Login(){
-        if(true){
+        if(AccountServer.usernamePasswordMatch(login.text, password.text)){
             PlayerPrefs.SetString("Login", login.text);
             PlayerPrefs.SetString("Password", password.text);
             PlayerPrefs.SetInt("Online", 1);
@@ -26,7 +25,7 @@ public class LoginScript : MonoBehaviour {
     }
 
     public void Register(){
-        if(true){
+        if(AccountServer.register(login.text, password.text)){
             PlayerPrefs.SetString("Login", login.text);
             PlayerPrefs.SetString("Password", password.text);
             PlayerPrefs.SetInt("Online", 1);
