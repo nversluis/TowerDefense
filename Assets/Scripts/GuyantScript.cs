@@ -218,7 +218,7 @@ public class GuyantScript : MonoBehaviour
 	void DetermineTarget ()
 	{
 		// checking whether player or goal is more interesting
-		if ((transform.position - player.transform.position).magnitude / enemystats.playerImportance < (transform.position - goal.transform.position).magnitude / enemystats.goalImportance) {
+		if (enemystats.playerImportance != 0 && (transform.position - player.transform.position).magnitude / enemystats.playerImportance < (transform.position - goal.transform.position).magnitude / enemystats.goalImportance) {
 			Target = player;
 		} else {
 			Target = goal;
