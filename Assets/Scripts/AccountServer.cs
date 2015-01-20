@@ -30,11 +30,19 @@ public class AccountServer : MonoBehaviour {
         }
 	}
 
-    static public void sendScoreToServer(string naam, string password)
+    public static bool register(string naam, string password)
     {
-        WWW www = new WWW("http://drproject.twi.tudelft.nl:8087/setAccount?username=" + naam + "&password=" + password);
-
-        WaitForRequest(www);
+        bool res = false;
+        if (!usernameInGebruik(naam))
+        {
+            if (ScoreServer.connected)
+            {
+                WWW www = new WWW("http://drproject.twi.tudelft.nl:8087/setAccount?username=" + naam + "&password=" + password);
+                WaitForRequest(www);
+                res = true;
+            }
+        }
+        return res;
     }
 
     public void getAccountFromServer()

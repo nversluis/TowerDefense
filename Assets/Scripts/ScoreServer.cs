@@ -17,7 +17,7 @@ public class ScoreServer : MonoBehaviour
     static string urlStatistics;
 
     public static bool getting = true;
-    public bool connected;
+    public static bool connected;
 
     float counter;
     int waitTime = 10;
