@@ -93,7 +93,9 @@ public class WallScript : MonoBehaviour
 					resTower.tag = "TowerHotSpot";
 					//resTower.transform.GetChild (0).gameObject.SetActive (false);
 					Color col;
-					if(cost*2<=playerData.getGold() && transform.GetChild (0).GetComponent<TowerStats> ().level<5){
+					int upgradeCost = transform.GetChild(0).gameObject.GetComponent<TowerStats>().upgradeCost;
+					
+					if(upgradeCost<=playerData.getGold() && transform.GetChild (0).GetComponent<TowerStats> ().level<5){
 						col = new Color(0,0,255,0.1f);
 					} else
 						col = new Color(255,0,0,0.1f);
