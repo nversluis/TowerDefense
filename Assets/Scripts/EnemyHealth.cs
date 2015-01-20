@@ -52,7 +52,6 @@ public class EnemyHealth : MonoBehaviour {
     void Start()
     {
         enemyResources = GetComponent<EnemyResources>();
-        resourceManager = GetComponent<ResourceManager>();
 		ResourceManagerObj = GameObject.Find ("ResourceManager");
 		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
         startingHealth = enemyStats.health*10;
@@ -88,8 +87,8 @@ public class EnemyHealth : MonoBehaviour {
         {
             painSound = resourceManager.grobblePainSound;
             deadSound = resourceManager.grobblePainSound;
-            defense = enemyStats.defense / 2;
-            magicDefense = enemyStats.defense / 2;
+            defense = enemyStats.defense / 3 + 1;
+            magicDefense = enemyStats.defense / 3 + 1;
             
             //startingHealth = enemyStats.health;
         }

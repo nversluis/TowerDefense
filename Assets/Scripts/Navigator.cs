@@ -67,25 +67,15 @@ public class Navigator : MonoBehaviour
 		startWP.setGCost (0);
 		WayPoint endWP = new WayPoint (endPoint);
 
-		/* DEBUG */
-		//Debug.Log("There are " + startNodes.Count + " locations to look for nodes:");
-		//for(int i = 0; i < startNodes.Count; i++) {
-		//    //Debug.Log("Node " + i + ": " + startNodes[i]);
-		//    Debug.DrawLine(startPoint, startNodes[i], Color.white, 2, false);
-		//}
-		/* DEBUG */
+	
 
 		// Add found nodes to destination list of start node if they are visible and set their state to open
 		bool openDestinationsExist = false;
-
 		List<WayPoint> startNodes = FindWayPointsNear (startPoint, grid, gridSize);
+		int test = startNodes.Count;
 		for (int i = 0; i < startNodes.Count; i++) {
 			WayPoint dest = startNodes [i];
-			try {
-			dest.setGCost (CalculateGCost (startWP, dest, D));
-			}
-			catch {
-			}
+			dest.setGCost (CalculateGCost (startWP, dest));
 			float FCost = CalculateFCost (startWP, dest, endWP, D);
 			if (FCost == -1)
 				return null;
@@ -96,6 +86,13 @@ public class Navigator : MonoBehaviour
 			// There are still open destinations
 			openDestinationsExist = true;
 		}
+		/* DEBUG */
+		//Debug.Log("There are " + startNodes.Count + " locations to look for nodes:");
+		for(int i = 0; i < startNodes.Count; i++) {
+			//Debug.Log("Node " + i + ": " + startNodes[i]);
+			Debug.DrawLine(startPoint, startNodes[i].getPosition(), Color.white, 2, false);
+		}
+		/* DEBUG */
 
 		// Our current WP is the starting WP
 		WayPoint currentWP = startWP;
@@ -138,7 +135,7 @@ public class Navigator : MonoBehaviour
 				WayPoint neighbour = currentWP.getDestinations () [i];
 				// Don't even try if it's closed
 				if (!(neighbour.getState () == "closed")) {
-					float potential_g_Cost = CalculateGCost (currentWP, neighbour, D);
+					float potential_g_Cost = CalculateGCost (currentWP, neighbour);
 					// If a cheaper g cost is found via the current WayPoint, update it
 					if (neighbour.getState () == "open" && potential_g_Cost < neighbour.getGCost ()) {
 						neighbour.setGCost (potential_g_Cost);
@@ -245,7 +242,7 @@ public class Navigator : MonoBehaviour
 	}
 
 	// Function that calculates the g-cost between two waypoints (cost based on distance from start point)
-	static float CalculateGCost (WayPoint current, WayPoint destination, float D)
+	static float CalculateGCost (WayPoint current, WayPoint destination)
 	{
 		try {
 			return current.getGCost () + (current.getPosition () - destination.getPosition ()).magnitude + destination.getPenalty ();
@@ -258,7 +255,7 @@ public class Navigator : MonoBehaviour
 	static float CalculateFCost (WayPoint current, WayPoint destination, WayPoint endpoint, float D)
 	{
 		// Distance from current node to destination
-		float g_cost = CalculateGCost (current, destination, D);
+		float g_cost = CalculateGCost (current, destination);
 		if (g_cost == -1) {
 			return -1;
 		}
@@ -342,12 +339,16 @@ public class Navigator : MonoBehaviour
 	{
 		position = new Vector3 (position.x, 0, position.z);
 		List<WayPoint> wayPointsNear = new List<WayPoint> ();
-		List<Vector3> nearNodes = FindGridPositionsNear (position, grid, gridSize);  
+		List<Vector3> nearNodes = FindGridPositionsNear (position, grid, gridSize); 
 		for (int i = 0; i < nearNodes.Count; i++) {
+			//Debug.DrawRay(position+new Vector3(0,1,0), nearNodes [i] - position+new Vector3(0,1,0), Color.red, 2, false);
 			if (position != nearNodes [i] && !Physics.Raycast (position, nearNodes [i] - position, (position - nearNodes [i]).magnitude + .1f, layerMask)) {
+			//	Debug.DrawRay(position, nearNodes [i] - position, Color.blue, 2, false);
 				// Add node to destination if it's reachable
 				WayPoint newDest = FindWayPointAt (nearNodes [i], grid);
-				wayPointsNear.Add (newDest);
+				if (newDest != null) {
+					wayPointsNear.Add (newDest);
+				}
 			}
 		}
 		return wayPointsNear;

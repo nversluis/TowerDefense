@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 // The control script for the main menu
 public class MenuController : MonoBehaviour {
     // Objects
@@ -10,6 +11,9 @@ public class MenuController : MonoBehaviour {
     public GameObject mainCamera;
     public Slider[] sliders = new Slider[3];
     public Text[] sliderValues = new Text[3];
+    public GameObject hiScoreText;
+    public Sprite logoBG, noLogoBG;
+    public Image background;
     AudioSource cameraAudioSource;
     AudioSource backingAudio;
     AudioClip menuMusic;
@@ -18,6 +22,9 @@ public class MenuController : MonoBehaviour {
     // Slider values
     int val1, val2, val3;
     int old1, old2, old3;
+
+    private Text textPrototype;
+    private List<Text> hiScoreList;
     
     public void ButtonClick()
     {
@@ -31,6 +38,7 @@ public class MenuController : MonoBehaviour {
         menuMusic = GameObject.Find("ResourceManager").GetComponent<ResourceManager>().menuMusic;
         backingAudio = GameObject.Find("backingAudio").GetComponent<AudioSource>();
         cameraAudioSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
+        textPrototype = hiScoreText.GetComponent<Text>();
         backingAudio.clip = menuMusic;
         backingAudio.volume = musicVolume * 0.5f;
 
@@ -67,6 +75,24 @@ public class MenuController : MonoBehaviour {
         sliders[0].value = val1;
         sliders[1].value = val2;
         sliders[2].value = val3;
+
+        hiScoreList = new List<Text>();
+
+        hiScoreList.Add(textPrototype);
+        for(int i = 1; i < 11; i++) {
+            GameObject hiscoretext2 = (GameObject)Instantiate(hiScoreText);
+            hiscoretext2.transform.parent = scorePnl.transform;
+            Text text2 = hiscoretext2.GetComponent<Text>();
+            RectTransform transform = text2.rectTransform;
+            transform.localScale = new Vector3(0.5f, 0.5f, 0);
+            if(i == 10) {
+                transform.anchoredPosition = hiScoreList[9].rectTransform.anchoredPosition + new Vector2(0, -100f);
+            }
+            else {
+                transform.anchoredPosition = textPrototype.rectTransform.anchoredPosition + new Vector2(0, -35f * (float)i);
+            }
+            hiScoreList.Add(text2);
+        }
     }
 
     void FixedUpdate() {
@@ -157,6 +183,8 @@ public class MenuController : MonoBehaviour {
         loadBtnAnim.SetTrigger("GoRight");
         optionBtnAnim.SetTrigger("GoRight");
         editorBtnAnim.SetTrigger("GoRight");
+
+        background.sprite = noLogoBG;
     }
 
     // Undo the changes made to the options
@@ -184,6 +212,19 @@ public class MenuController : MonoBehaviour {
         creditsBtnAnim.SetBool("Hidden", false);
         optionPnlAnim.SetBool("Hidden", true);
         scorePnlAnim.SetBool("Hidden", true);
+    }
+
+    public void CloseScoreScreen() {
+        // Return to main menu animation
+        CloseOptionScreen();
+        background.sprite = logoBG;
+    }
+
+    void updateHiScores() {
+        List<List<string>> HiScores = ScoreServer.getHiscores(0);
+        hiScoreList[0].text = HiScores[0][0] + "," + HiScores[0][1];        
+
+        //hiScoreText.text = ScoreServer.getStatisticsNaam(PlayerPrefs.GetString("Login"));
     }
 
     public void LoadGameAudio() {

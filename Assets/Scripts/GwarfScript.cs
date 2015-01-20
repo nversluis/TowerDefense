@@ -59,6 +59,9 @@ public class GwarfScript : MonoBehaviour
 
     AudioClip walking;
     float volume;
+
+    public bool test;
+
 	// Method for finding all necessary scripts
 	void GetScripts ()
 	{
@@ -393,6 +396,12 @@ public class GwarfScript : MonoBehaviour
 		if (!enemyResources.isDead) {
 			// determine a path to a goal
 			List<WayPoint> WPPath = Navigator.Path (transform.position - new Vector3 (0f, transform.position.y, 0f), Target.transform.position - new Vector3 (0f, Target.transform.position.y, 0f), nodeSize, grid, dfactor);
+
+            if (test)
+            {
+                Debug.Log("path updated, start point at: " + WPPath[0].getPosition());
+            }
+
 			barricades = new List<Vector3> ();
 			if (WPPath != null) {
 				Path = new List<Vector3> ();

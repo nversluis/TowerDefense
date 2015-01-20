@@ -532,7 +532,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 188906}
-  m_LocalRotation: {x: .705169976, y: .0593618415, z: .171869665, w: .685326397}
+  m_LocalRotation: {x: .705170035, y: .0593618453, z: .17186968, w: .685326457}
   m_LocalPosition: {x: -.822604537, y: 7.54371285e-08, z: -3.7252903e-08}
   m_LocalScale: {x: .999999821, y: .999999881, z: 1}
   m_Children:
@@ -712,7 +712,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 188936}
-  m_LocalRotation: {x: .0627980232, y: .976040244, z: -.0130864549, w: .207919732}
+  m_LocalRotation: {x: .0627980307, y: .976040304, z: -.0130864559, w: .207919747}
   m_LocalPosition: {x: -.944791436, y: -.306082249, z: .679416358}
   m_LocalScale: {x: 1.00000012, y: .999999881, z: 1.00000024}
   m_Children:
@@ -819,7 +819,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 188948}
   m_LocalRotation: {x: 0, y: .707106829, z: 0, w: -.707106829}
-  m_LocalPosition: {x: -7.8322506, y: 496.956116, z: 222.130157}
+  m_LocalPosition: {x: -0, y: 0, z: 11.3999996}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 488946}
@@ -998,6 +998,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21fda6213d9dc994da890879c550dd70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  showInfo: 0
   isSlowed: 1
   attackingGoal: 0
   attackingBar: 0
@@ -1321,7 +1322,7 @@ ParticleSystem:
         rgba: 4294234927
       minMaxState: 0
     startSize:
-      scalar: 3
+      scalar: 1.5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2373,7 +2374,7 @@ ParticleSystem:
         rgba: 4278234389
       minMaxState: 0
     startSize:
-      scalar: 3
+      scalar: 1.5
       maxCurve:
         serializedVersion: 2
         m_Curve:

@@ -5,16 +5,24 @@ using System.Collections;
 public class LoginScript : MonoBehaviour {
 
     public Text notification;
+    public Button loginBtn, passBtn;
     public InputField login, password;
 
-	void Start () {
-        notification.text = "Please log in or register to make full use of the statistics in this game. You can play offline, but then only your local highscore will be available.";
-        login.text = "";
-        password.text = "";
+	void Update () {
+        if(ScoreServer.connected) {
+            notification.text = "Please log in or register to make full use of the statistics in this game. You can play offline, but then only your local highscore will be available.";
+            loginBtn.interactable = true;
+            passBtn.interactable = true;
+        }
+        else {
+            notification.text = "No connection to the server. Please check your internet connection or play offline.";
+            loginBtn.interactable = false;
+            passBtn.interactable = false;
+        }
 	}
 
     public void Login(){
-        if(true){
+        if(AccountServer.usernamePasswordMatch(login.text, password.text)){
             PlayerPrefs.SetString("Login", login.text);
             PlayerPrefs.SetString("Password", password.text);
             PlayerPrefs.SetInt("Online", 1);
@@ -26,7 +34,7 @@ public class LoginScript : MonoBehaviour {
     }
 
     public void Register(){
-        if(true){
+        if(AccountServer.register(login.text, password.text)){
             PlayerPrefs.SetString("Login", login.text);
             PlayerPrefs.SetString("Password", password.text);
             PlayerPrefs.SetInt("Online", 1);
