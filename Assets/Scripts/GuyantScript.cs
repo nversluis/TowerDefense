@@ -55,6 +55,9 @@ public class GuyantScript : MonoBehaviour
 	float volume;
 	AudioClip walking;
 
+    public bool test;
+
+
 	// Method for finding all necessary scripts
 	void GetScripts ()
 	{
@@ -334,6 +337,12 @@ public class GuyantScript : MonoBehaviour
 
 			// determine a path to a goal
 			List<WayPoint> WPPath = Navigator.Path (transform.position - new Vector3 (0f, transform.position.y, 0f), Target.transform.position - new Vector3 (0f, Target.transform.position.y, 0f), nodeSize, grid, dfactor);
+
+            if (test)
+            {
+                Debug.Log("path updated, start point at: " + WPPath[0].getPosition());
+            }
+
 			barricades = new List<Vector3> ();
 			if (WPPath != null) {
 				Path = new List<Vector3> ();
@@ -342,9 +351,9 @@ public class GuyantScript : MonoBehaviour
 					if (wp.getBarCount () > 0) {
 						barricades.Add (wp.getBarricade ());
 					}
-
 				}
 			}
+
 			// if drawPath is enabled also calculate a second path without dfactor
 			if (drawPath) {
 				List <WayPoint> WPPath2 = Navigator.Path (transform.position - new Vector3 (0f, transform.position.y, 0f), Target.transform.position - new Vector3 (0f, Target.transform.position.y, 0f), nodeSize, grid);

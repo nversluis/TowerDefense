@@ -153,7 +153,14 @@ public class RandomMaze : MonoBehaviour
             LoadingScreen.SetActive(false);
             Time.timeScale = 1;
 
+            Invoke("deleteScript", 0.01f);
         }
+    }
+
+    void deleteScript()
+    {
+        PlayerController.started = true;
+        Destroy(this.GetComponent<RandomMaze>());
     }
 
 	//generate floors
@@ -557,7 +564,7 @@ public class RandomMaze : MonoBehaviour
         backingAudio.GetComponent<AudioSource>().volume = musicVolume * 0.5f;
 
         backingAudio.GetComponent<AudioSource>().Play();
-		GameObject Player = (GameObject)Instantiate (player, new Vector3 (startPos.x, 0.5f, startPos.y) * planewidth, Quaternion.identity);
+		GameObject Player = (GameObject)Instantiate (player, new Vector3 (startPos.x, 0f, startPos.y) * planewidth, Quaternion.identity);
 		Player.gameObject.transform.localScale = new Vector3 (1f, 1f, 1f)/2;
 		Player.name = "Player";
 		//GameObject Goal = (GameObject)Instantiate(Goal2, new Vector3(startPos.x, 0.01f, startPos.y) * planewidth, Quaternion.identity);

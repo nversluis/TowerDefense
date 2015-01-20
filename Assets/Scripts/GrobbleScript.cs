@@ -57,6 +57,8 @@ public class GrobbleScript : MonoBehaviour
     bool invoked;
 	GameObject curFloor;
 
+    public bool test;
+
 	// Method for finding all necessary scripts
 	void GetScripts ()
 	{
@@ -78,7 +80,7 @@ public class GrobbleScript : MonoBehaviour
 		grid = resourceManager.Nodes;
 		nodeSize = resourceManager.nodeSize;
 		drawPath = resourceManager.drawPath;
-		normalWalkSpeed = resourceManager.walkSpeed * enemystats.speedMultiplier + 1;
+		normalWalkSpeed = resourceManager.walkSpeed * enemystats.speedMultiplier + 3;
 		pathUpdateRate = resourceManager.pathUpdateRate;
 		dfactor = enemystats.dfactor;
 		automaticPathUpdating = resourceManager.automaticPathUpdating;
@@ -354,7 +356,13 @@ public class GrobbleScript : MonoBehaviour
 
 			// determine a path to a goal
 			List<WayPoint> WPPath = Navigator.Path (transform.position - new Vector3 (0f, transform.position.y, 0f), Target.transform.position - new Vector3 (0f, Target.transform.position.y, 0f), nodeSize, grid, dfactor);
-			barricades = new List<Vector3> ();
+
+            if (test)
+            {
+                Debug.Log("path updated, start point at: " + WPPath[1].getPosition());
+            }
+            
+            barricades = new List<Vector3> ();
 			if (WPPath != null) {
 				Path = new List<Vector3> ();
 				foreach (WayPoint wp in WPPath) {
