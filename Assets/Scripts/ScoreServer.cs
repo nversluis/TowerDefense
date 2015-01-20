@@ -16,7 +16,7 @@ public class ScoreServer : MonoBehaviour
     static string urlScores;
     static string urlStatistics;
 
-    bool getting = true;
+    public bool getting = true;
     public bool connected;
 
     float counter;
