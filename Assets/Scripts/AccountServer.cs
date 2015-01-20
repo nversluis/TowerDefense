@@ -10,16 +10,11 @@ public class AccountServer : MonoBehaviour {
     static string accountInfo;
     static List<List<string>> accounts;
 
-    private GameObject ResourceManagerObj;
-    private ScoreServer scoreServer;
-
     WWW getAccount;
 
 	// Use this for initialization
 	void Start ()
     {
-        ResourceManagerObj = GameObject.Find("ResourceManager");
-        scoreServer = ResourceManagerObj.GetComponent<ScoreServer>();
         urlGetAccount = "http://drproject.twi.tudelft.nl:8087/getAccount";
         getAccount = new WWW(urlGetAccount);
         StartCoroutine(WaitForRequest(getAccount));
@@ -29,7 +24,7 @@ public class AccountServer : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (scoreServer.getting)
+        if (ScoreServer.getting)
         {
             getAccountFromServer();
         }
@@ -80,12 +75,12 @@ public class AccountServer : MonoBehaviour {
         }
     }
 
-    public List<List<string>> getAccounts()
+    public static List<List<string>> getAccounts()
     {
         return accounts;
     }
 
-    public List<string> getUsernames()
+    public static List<string> getUsernames()
     {
         List<string> namen = new List<string>();
 
@@ -99,7 +94,7 @@ public class AccountServer : MonoBehaviour {
         return namen;
     }
 
-    public List<string> getPasswords()
+    public static List<string> getPasswords()
     {
         List<string> passwords = new List<string>();
 
@@ -122,6 +117,29 @@ public class AccountServer : MonoBehaviour {
                 Debug.Log("matrix[" + i + "][" + j + "] = " + matrix[i][j]);
             }
         }
+    }
+
+    public static bool usernameInGebruik(string naam)
+    {
+        return getUsernames().Contains(naam);
+    }
+
+    public static bool usernamePasswordMatch(string naam, string wachtwoord)
+    {
+        bool res = false;
+
+        List<string> gebruikersnamen = getUsernames();
+        List<string> wachtwoorden = getPasswords();
+
+        if (gebruikersnamen.Contains(naam) && wachtwoord.Contains(wachtwoord))
+        {
+            int index = gebruikersnamen.IndexOf(naam);
+            if (accounts[index][1] == wachtwoord)
+            {
+                res = true;
+            }
+        }
+        return res;
     }
 
     public void printArray(List<string> array)
