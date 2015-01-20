@@ -90,7 +90,7 @@ public class MenuController : MonoBehaviour {
         // Difficulty slider
         switch(val3) {
             case 0:
-                sliderValues[2].text = "Easy";
+                sliderValues[2].text = "Beginner";
                 break;
             case 1:
                 sliderValues[2].text = "Average";

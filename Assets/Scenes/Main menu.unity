@@ -987,7 +987,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: High Scores
+  m_Text: Statistics
 --- !u!222 &457626480
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2498,6 +2498,7 @@ GameObject:
   - 114: {fileID: 1146031731}
   - 114: {fileID: 1146031730}
   - 114: {fileID: 1146031733}
+  - 114: {fileID: 1146031734}
   m_Layer: 0
   m_Name: ResourceManager
   m_TagString: Untagged
@@ -2517,6 +2518,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6598bf6490f73f479b3c30c72f4f29b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  connected: 0
 --- !u!114 &1146031731
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2575,7 +2577,7 @@ MonoBehaviour:
   enemyGrobble: {fileID: 142686, guid: 3e58d9d15ddcc37499fb1d10726fb518, type: 2}
   walkSpeed: 5
   pathUpdateRate: .5
-  drawPath: 0
+  drawPath: 1
   automaticPathUpdating: 1
   avgProbPainSound: .5
   avgProbDeadSound: 1
@@ -2720,6 +2722,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae95ee95735af1a4abfd78108d27b763, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1146031734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11402192, guid: ac70d7e38b4e1eb4f8eacd13550d1854,
+    type: 2}
+  m_PrefabInternal: {fileID: 1362945866}
+  m_GameObject: {fileID: 1146031729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2588c1b34f7fbee499db829d0025092b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1149349411
@@ -2921,7 +2935,7 @@ RectTransform:
   m_RootOrder: 6
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -132.5, y: -65}
+  m_AnchoredPosition: {x: -132.5, y: -60}
   m_SizeDelta: {x: 225, y: 80}
   m_Pivot: {x: .5, y: .5}
 --- !u!95 &1193691568
@@ -3472,7 +3486,7 @@ RectTransform:
   m_RootOrder: 7
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 132.5, y: -65}
+  m_AnchoredPosition: {x: 132.5, y: -60}
   m_SizeDelta: {x: 225, y: 80}
   m_Pivot: {x: .5, y: .5}
 --- !u!95 &1379453773
