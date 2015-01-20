@@ -26,7 +26,11 @@ public class PlayerAnimator : MonoBehaviour {
         }
 
 		if (PlayerController.moving && (PlayerController.attackingSword1 || PlayerController.attackingSword2 || PlayerController.attackingSword3)) {
-			animator.SetBool ("AttWalk", true);
+			if (!(animator.GetBool ("AttackingSword1") || animator.GetBool ("AttackingSword2"))) {
+				animator.SetBool ("AttWalk", true);
+			}
+			//animator.SetBool("AttackingSword1", false);
+			//animator.SetBool("AttackingSword2", false);
 		} else {
 			animator.SetBool ("AttWalk", false);
 			if (PlayerController.attackingSword1)
