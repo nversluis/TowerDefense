@@ -232,6 +232,17 @@ public class ScoreServer : MonoBehaviour
         return hiscoresTotRank;
     }
 
+    public int getPositionOnHiscores(string naam)
+    {
+        for (int i = 0; i < hiscores.Count; i++)
+        {
+            if (hiscores[i][0] == naam && hiscores[i][1] == "" + Statistics.score)
+                return i + 1;
+        }
+        return 0;
+
+    }
+
     public List<List<string>> getHiscoresDifficultyTotRank(int difficulty, int totRank)
     {
         List<List<string>> hiscoresTotRank = new List<List<string>>();
