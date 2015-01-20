@@ -82,6 +82,7 @@ public class PlayerController : MonoBehaviour
     private PlayerData player = GUIScript.player;
 
     bool invoked;
+    public static bool started;
 
     // Method for getting player input
     private Vector3 playerInput()
@@ -499,6 +500,7 @@ public class PlayerController : MonoBehaviour
         sword3 = resourceManager.sword3;
         volume = (float)PlayerPrefs.GetInt("SFX")/100f;
         walking = resourceManager.walking;
+        started = false;
 
         hitEnemy = resourceManager.hitEnemy;
         hitEnemy2 = resourceManager.hitEnemy2;
@@ -516,20 +518,48 @@ public class PlayerController : MonoBehaviour
     // Update void which updates every frame
     void Update()
 	{
-		// Run this method
-		OnLeftMouseDown ();
-		location = transform.position;
-		Jumping ();
+        if (started)
+        {
+            // Run this method
+            OnLeftMouseDown();
+            location = transform.position;
+            Jumping();
 
-        if (moving && !invoked)
-        {
-            InvokeRepeating("Walking", 0f, 1.097f);
-            invoked = true;
-        }
-        if (!moving)
-        {
-            invoked = false;
-            CancelInvoke("Walking");
+            if (moving && !invoked)
+            {
+                InvokeRepeating("Walking", 0f, 1.097f);
+                invoked = true;
+            }
+            if (!moving)
+            {
+                invoked = false;
+                CancelInvoke("Walking");
+            }
+
+            if (Input.GetKeyDown(KeyCode.Period))
+            {
+                if (Time.timeScale < 1.8)
+                {
+
+                    Time.timeScale += 0.2f;
+                }
+                else
+                {
+                    Time.timeScale = 2;
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.Comma))
+            {
+                if (Time.timeScale > 1.2)
+                {
+                    Time.timeScale -= 0.2f;
+                }
+                else
+                {
+                    Time.timeScale = 1;
+                }
+            }
         }
     }
 
