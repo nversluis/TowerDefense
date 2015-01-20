@@ -16,8 +16,8 @@ public class ScoreServer : MonoBehaviour
     static string urlScores;
     static string urlStatistics;
 
-    bool getting = true;
-    public bool connected;
+    public static bool getting = true;
+    public static bool connected;
 
     float counter;
     int waitTime = 10;
@@ -230,6 +230,22 @@ public class ScoreServer : MonoBehaviour
             }
         }
         return hiscoresTotRank;
+    }
+
+    public int getPositionOnHiscores(string naam)
+    {
+        if (connected)
+        {
+            getScoreFromServer();
+        }
+
+        for (int i = 0; i < hiscores.Count; i++)
+        {
+            if (hiscores[i][0] == naam && hiscores[i][2] == "" + Statistics.score)
+                return i + 1;
+        }
+        return 0;
+
     }
 
     public List<List<string>> getHiscoresDifficultyTotRank(int difficulty, int totRank)

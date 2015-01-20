@@ -52,7 +52,6 @@ public class EnemyHealth : MonoBehaviour {
     void Start()
     {
         enemyResources = GetComponent<EnemyResources>();
-        resourceManager = GetComponent<ResourceManager>();
 		ResourceManagerObj = GameObject.Find ("ResourceManager");
 		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
         startingHealth = enemyStats.health*10;
