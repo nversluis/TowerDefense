@@ -56,6 +56,7 @@ ModelImporter:
     7400016: Jump_Attack
     7400018: Jump_Magic
     7400020: Run_Magic
+    7400022: Dance
     9500000: //RootNode
     13700000: Cube
     13700002: Plane
