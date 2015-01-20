@@ -104,8 +104,8 @@ public class EnemyStats : MonoBehaviour
         }
         this.speedMultiplier = Random.Range(0.90f, 1.10f);
         this.dfactor = Random.Range(0.05f, 0.80f);
-        this.goalImportance = Random.Range(0.4f, 1f);
-        this.playerImportance = Random.Range(0, 0.6f);
+        this.goalImportance = Random.Range(0.6f, 1f);
+        this.playerImportance = Random.Range(0, 0.3f);
     }
 
     public void generateDistribution()

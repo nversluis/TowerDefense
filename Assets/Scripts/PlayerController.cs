@@ -257,7 +257,21 @@ public class PlayerController : MonoBehaviour
     IEnumerator SpecialHitEnemy(RaycastHit hit)
     {
         yield return new WaitForSeconds(0.2f);
-        hit.transform.gameObject.GetComponent<EnemyHealth>().TakeDamage(specialSwordDamage, "physical", true);
+
+        LayerMask enemys = (1 << 12);
+        Collider[] hitCollider = Physics.OverlapSphere(hit.transform.position, 10f, enemys);
+        
+        foreach (Collider collide in hitCollider)
+        {
+            EnemyHealth enemyHealth = collide.collider.GetComponent<EnemyHealth>();
+
+            if (enemyHealth != null)
+            {
+                collide.transform.gameObject.GetComponent<EnemyHealth>().TakeDamage((int)(specialSwordDamage / (Vector3.Distance(transform.position, collide.transform.position))), "physical", true);
+                Debug.Log(hit.transform.name + " " + (int)(specialSwordDamage / (Vector3.Distance(transform.position, collide.transform.position))));
+            }
+        }
+
         GameObject particles = (GameObject)Instantiate(hitExplosionParticles, hit.transform.position, Quaternion.identity);
         StartCoroutine(DestroyParticles2(particles));
         cameraAudio.PlayOneShot(swordSpecial, volume);
