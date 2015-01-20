@@ -1,0 +1,115 @@
+fileFormatVersion: 2
+guid: f1d61d2f3341ac746ad62cf3ea4c19d9
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: Armature
+    100002: Cube
+    100004: Foot_L
+    100006: Foot_R
+    100008: Hand1_L
+    100010: Hand1_R
+    100012: Hand2_L
+    100014: Hand2_R
+    100016: LowerArm_L
+    100018: LowerArm_R
+    100020: LowerLeg_L
+    100022: LowerLeg_R
+    100024: //RootNode
+    100026: Plane
+    100028: Stommach
+    100030: Stommach_001
+    100032: UpperArm_L
+    100034: UpperArm_R
+    100036: UpperLeg_L
+    100038: UpperLeg_R
+    400000: Armature
+    400002: Cube
+    400004: Foot_L
+    400006: Foot_R
+    400008: Hand1_L
+    400010: Hand1_R
+    400012: Hand2_L
+    400014: Hand2_R
+    400016: LowerArm_L
+    400018: LowerArm_R
+    400020: LowerLeg_L
+    400022: LowerLeg_R
+    400024: //RootNode
+    400026: Plane
+    400028: Stommach
+    400030: Stommach_001
+    400032: UpperArm_L
+    400034: UpperArm_R
+    400036: UpperLeg_L
+    400038: UpperLeg_R
+    4300000: Plane
+    4300002: Cube
+    7400000: Default Take
+    7400002: Attack
+    7400004: Idle
+    7400006: Jump
+    7400008: Magic1
+    7400010: Run
+    7400012: Run_Attack
+    7400014: Run_Attack2
+    7400016: Jump_Attack
+    7400018: Jump_Magic
+    7400020: Run_Magic
+    9500000: //RootNode
+    13700000: Cube
+    13700002: Plane
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 
