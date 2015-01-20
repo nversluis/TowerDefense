@@ -223,12 +223,13 @@ public class WaveSpawner : MonoBehaviour
         }
         else
         {
-            currentWave = maxWaves;
             Won = true;
         }
 
         if (Won)
         {
+            currentWave = maxWaves;
+            resourceManager.currentWave = maxWaves;
             guiScript.resultScoreText.text = Statistics.Score().ToString();
             guiScript.EndGame("You Won!");
             Won = false; 
