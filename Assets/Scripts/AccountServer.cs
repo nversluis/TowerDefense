@@ -24,15 +24,25 @@ public class AccountServer : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
-        getAccountFromServer();
+        if (ScoreServer.getting)
+        {
+            getAccountFromServer();
+        }
 	}
 
-    static public void sendScoreToServer(string naam, string password)
+    public static bool register(string naam, string password)
     {
-        WWW www = new WWW("http://drproject.twi.tudelft.nl:8087/setAccount?username=" + naam + "&password=" + password);
-
-        WaitForRequest(www);
+        bool res = false;
+        if (!usernameInGebruik(naam))
+        {
+            if (ScoreServer.connected)
+            {
+                WWW www = new WWW("http://drproject.twi.tudelft.nl:8087/setAccount?username=" + naam + "&password=" + password);
+                WaitForRequest(www);
+                res = true;
+            }
+        }
+        return res;
     }
 
     public void getAccountFromServer()
@@ -64,18 +74,46 @@ public class AccountServer : MonoBehaviour {
         for (int i = 0; i < split.Length - 1; i = i + 2)
         {
             info = new List<string>();
-            // Naam
+            // Username
             info.Add(split[i]);
-            // Difficulty
+            // Password
             info.Add(split[i + 1]);
 
             accounts.Add(info);
         }
     }
 
-    public List<List<string>> getAccounts()
+    public static List<List<string>> getAccounts()
     {
         return accounts;
+    }
+
+    public static List<string> getUsernames()
+    {
+        List<string> namen = new List<string>();
+
+        if (accounts.Count > 0)
+        {
+            for (int i = 0; i < accounts.Count; i++)
+            {
+                namen.Add(accounts[i][0]);
+            }
+        }
+        return namen;
+    }
+
+    public static List<string> getPasswords()
+    {
+        List<string> passwords = new List<string>();
+
+        if (accounts.Count > 0)
+        {
+            for (int i = 0; i < accounts.Count; i++)
+            {
+                passwords.Add(accounts[i][1]);
+            }
+        }
+        return passwords;
     }
 
     public void printMatrix(List<List<string>> matrix)
@@ -87,7 +125,37 @@ public class AccountServer : MonoBehaviour {
                 Debug.Log("matrix[" + i + "][" + j + "] = " + matrix[i][j]);
             }
         }
+    }
 
+    public static bool usernameInGebruik(string naam)
+    {
+        return getUsernames().Contains(naam);
+    }
+
+    public static bool usernamePasswordMatch(string naam, string wachtwoord)
+    {
+        bool res = false;
+
+        List<string> gebruikersnamen = getUsernames();
+        List<string> wachtwoorden = getPasswords();
+
+        if (gebruikersnamen.Contains(naam) && wachtwoord.Contains(wachtwoord))
+        {
+            int index = gebruikersnamen.IndexOf(naam);
+            if (accounts[index][1] == wachtwoord)
+            {
+                res = true;
+            }
+        }
+        return res;
+    }
+
+    public void printArray(List<string> array)
+    {
+        for (int i = 0; i < array.Count; i++)
+        {
+            Debug.Log("array[" + i + "] = " + array[i]);
+        }
     }
 
 }
