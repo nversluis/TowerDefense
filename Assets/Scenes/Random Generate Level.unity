@@ -106,7 +106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Hero
-  gateHealth: 50000
+  gateHealth: 50000000
   startGold: 800
   costMagicTower: 175
   costArrowTower: 150
@@ -144,14 +144,14 @@ MonoBehaviour:
   height: 3
   nodeSize: 2.5
   NumberOfPaths: 3
-  drawNavigationGrid: 0
+  drawNavigationGrid: 1
   enemyTag: Enemy
   enemyGuyant: {fileID: 100052, guid: 6a25f25271f527644ab0b18b0e7c536e, type: 2}
   enemyGwarf: {fileID: 188948, guid: 37f21c745b6e3ff43942e88e21aba537, type: 2}
   enemyGrobble: {fileID: 142686, guid: 3e58d9d15ddcc37499fb1d10726fb518, type: 2}
   walkSpeed: 5
   pathUpdateRate: .5
-  drawPath: 1
+  drawPath: 0
   automaticPathUpdating: 1
   avgProbPainSound: .5
   avgProbDeadSound: 1
@@ -298,7 +298,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6598bf6490f73f479b3c30c72f4f29b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  connected: 0
 --- !u!114 &14726756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1172,6 +1171,18 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
       propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: drawPath
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: gateHealth
+      value: 50000000
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ac70d7e38b4e1eb4f8eacd13550d1854, type: 2}
+      propertyPath: drawNavigationGrid
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
