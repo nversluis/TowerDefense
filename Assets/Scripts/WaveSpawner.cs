@@ -70,7 +70,6 @@ public class WaveSpawner : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
         ResourceManagerObj = GameObject.Find("ResourceManager");
         resourceManager = ResourceManagerObj.GetComponent<ResourceManager>();
         EnemyGuyant = resourceManager.enemyGuyant;
