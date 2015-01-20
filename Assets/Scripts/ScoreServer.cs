@@ -209,7 +209,7 @@ public class ScoreServer : MonoBehaviour
         return hiscoresTotRank;
     }
 
-    public List<List<string>> getHiscores(int difficulty)
+    public static List<List<string>> getHiscores(int difficulty)
     {
         List<List<string>> hiscoresTotRank = new List<List<string>>();
         List<string> score;
@@ -232,7 +232,7 @@ public class ScoreServer : MonoBehaviour
         return hiscoresTotRank;
     }
 
-    public List<List<string>> getHiscoresDifficultyTotRank(int difficulty, int totRank)
+    public static List<List<string>> getHiscoresDifficultyTotRank(int difficulty, int totRank)
     {
         List<List<string>> hiscoresTotRank = new List<List<string>>();
         List<string> score;
@@ -291,7 +291,7 @@ public class ScoreServer : MonoBehaviour
         return res;
     }
 
-    public List<List<string>> getStatisticsNaam(string naam)
+    public static List<List<string>> getStatisticsNaam(string naam)
     {
         List<List<string>> res = new List<List<string>>();
         List<string> stats;

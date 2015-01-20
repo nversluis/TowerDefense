@@ -5,11 +5,20 @@ using System.Collections;
 public class LoginScript : MonoBehaviour {
 
     public Text notification;
+    public Button loginBtn, passBtn;
     public InputField login, password;
 
-	void Start () {
-        notification.text = "Please log in or register to make full use of the statistics in this game. You can play offline, but then only your local highscore will be available.";
-        //password.inputType =
+	void Update () {
+        if(ScoreServer.connected) {
+            notification.text = "Please log in or register to make full use of the statistics in this game. You can play offline, but then only your local highscore will be available.";
+            loginBtn.interactable = true;
+            passBtn.interactable = true;
+        }
+        else {
+            notification.text = "No connection to the server. Please check your internet connection or play offline.";
+            loginBtn.interactable = false;
+            passBtn.interactable = false;
+        }
 	}
 
     public void Login(){
