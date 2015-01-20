@@ -10,11 +10,16 @@ public class AccountServer : MonoBehaviour {
     static string accountInfo;
     static List<List<string>> accounts;
 
+    private GameObject ResourceManagerObj;
+    private ScoreServer scoreServer;
+
     WWW getAccount;
 
 	// Use this for initialization
 	void Start ()
     {
+        ResourceManagerObj = GameObject.Find("ResourceManager");
+        scoreServer = ResourceManagerObj.GetComponent<ScoreServer>();
         urlGetAccount = "http://drproject.twi.tudelft.nl:8087/getAccount";
         getAccount = new WWW(urlGetAccount);
         StartCoroutine(WaitForRequest(getAccount));
@@ -24,8 +29,10 @@ public class AccountServer : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
-        getAccountFromServer();
+        if (scoreServer.getting)
+        {
+            getAccountFromServer();
+        }
 	}
 
     static public void sendScoreToServer(string naam, string password)
@@ -64,9 +71,9 @@ public class AccountServer : MonoBehaviour {
         for (int i = 0; i < split.Length - 1; i = i + 2)
         {
             info = new List<string>();
-            // Naam
+            // Username
             info.Add(split[i]);
-            // Difficulty
+            // Password
             info.Add(split[i + 1]);
 
             accounts.Add(info);
@@ -78,6 +85,34 @@ public class AccountServer : MonoBehaviour {
         return accounts;
     }
 
+    public List<string> getUsernames()
+    {
+        List<string> namen = new List<string>();
+
+        if (accounts.Count > 0)
+        {
+            for (int i = 0; i < accounts.Count; i++)
+            {
+                namen.Add(accounts[i][0]);
+            }
+        }
+        return namen;
+    }
+
+    public List<string> getPasswords()
+    {
+        List<string> passwords = new List<string>();
+
+        if (accounts.Count > 0)
+        {
+            for (int i = 0; i < accounts.Count; i++)
+            {
+                passwords.Add(accounts[i][1]);
+            }
+        }
+        return passwords;
+    }
+
     public void printMatrix(List<List<string>> matrix)
     {
         for (int i = 0; i < matrix.Count; i++)
@@ -87,7 +122,14 @@ public class AccountServer : MonoBehaviour {
                 Debug.Log("matrix[" + i + "][" + j + "] = " + matrix[i][j]);
             }
         }
+    }
 
+    public void printArray(List<string> array)
+    {
+        for (int i = 0; i < array.Count; i++)
+        {
+            Debug.Log("array[" + i + "] = " + array[i]);
+        }
     }
 
 }
