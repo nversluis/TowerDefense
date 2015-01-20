@@ -22,7 +22,7 @@ public class ScoreServer : MonoBehaviour
     float counter;
     int waitTime = 10;
 
-    WWW wwwScores;
+    static WWW wwwScores;
     WWW wwwStatistics;
 
     // Use this for initialization
@@ -78,7 +78,7 @@ public class ScoreServer : MonoBehaviour
         //WaitForRequest(www);
     }
 
-    public void getScoreFromServer()
+    public static void getScoreFromServer()
     {
         //WWW www = new WWW(urlScores);
         WaitForRequest(wwwScores);
@@ -189,7 +189,7 @@ public class ScoreServer : MonoBehaviour
         }
     }
 
-    public List<List<string>> getHiscores()
+    public static List<List<string>> getHiscores()
     {
         List<List<string>> hiscoresTotRank = new List<List<string>>();
         List<string> score;
@@ -209,7 +209,7 @@ public class ScoreServer : MonoBehaviour
         return hiscoresTotRank;
     }
 
-    public List<List<string>> getHiscores(int difficulty)
+    public static List<List<string>> getHiscores(int difficulty)
     {
         List<List<string>> hiscoresTotRank = new List<List<string>>();
         List<string> score;
@@ -232,7 +232,7 @@ public class ScoreServer : MonoBehaviour
         return hiscoresTotRank;
     }
 
-    public int getPositionOnHiscores(string naam)
+    public static int getPositionOnHiscores(string naam)
     {
         if (connected)
         {
