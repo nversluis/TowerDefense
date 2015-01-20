@@ -75,7 +75,7 @@ public class ScoreServer : MonoBehaviour
             + "&firetrapsbuilt=" + Statistics.fireTrapsBuilt + "&icetrapsbuilt=" + Statistics.iceTrapsBuilt + "&poisontrapsbuilt=" + Statistics.poisonTrapsBuilt + "&magictowersbuilt=" + Statistics.magicTowersBuilt
             + "&arrowtowersbuilt=" + Statistics.arrowTowersBuilt + "&barricadebuilt=" + Statistics.barricadesBuilt);
 
-        WaitForRequest(www);
+        //WaitForRequest(www);
     }
 
     public void getScoreFromServer()

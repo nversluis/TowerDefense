@@ -4,8 +4,8 @@ using System.Collections;
 // The control script for the main menu
 public class MenuController : MonoBehaviour {
     // Objects
-    public Animator startBtnAnim, quitBtnAnim, optionBtnAnim, editorBtnAnim, loadBtnAnim, scoreBtnAnim, optionPnlAnim, scorePnlAnim;
-    public GameObject optionPnl, scorePnl;
+    public Animator startBtnAnim, quitBtnAnim, optionBtnAnim, editorBtnAnim, loadBtnAnim, scoreBtnAnim, creditsBtnAnim, optionPnlAnim, scorePnlAnim;
+    public GameObject optionPnl, scorePnl, creditsPnl;
     public AudioClip click;
     public GameObject mainCamera;
     public Slider[] sliders = new Slider[3];
@@ -47,6 +47,8 @@ public class MenuController : MonoBehaviour {
             PlayerPrefs.SetInt("Difficulty", 1);
         }
 
+        creditsPnl.SetActive(false);
+
         // Menu startup animation
         startBtnAnim.SetBool("Hidden", false);
         quitBtnAnim.SetBool("Hidden", false);
@@ -54,6 +56,7 @@ public class MenuController : MonoBehaviour {
         editorBtnAnim.SetBool("Hidden", false);
         loadBtnAnim.SetBool("Hidden", false);
         scoreBtnAnim.SetBool("Hidden", false);
+        creditsBtnAnim.SetBool("Hidden", false);
         optionPnlAnim.SetBool("Hidden", true);
         scorePnlAnim.SetBool("Hidden", true);
         // Load user preferences
@@ -70,7 +73,9 @@ public class MenuController : MonoBehaviour {
         UpdateSliderVals();
         musicVolume = (float)val1/100f;
         backingAudio.volume = musicVolume * 0.5f;
-
+        if(Input.GetKey(KeyCode.Space)) {
+            creditsPnl.SetActive(false);
+        }
     }
 
     void UpdateSliderVals() {
@@ -123,6 +128,7 @@ public class MenuController : MonoBehaviour {
         editorBtnAnim.SetBool("Hidden", true);
         loadBtnAnim.SetBool("Hidden", true);
         scoreBtnAnim.SetBool("Hidden", true);
+        creditsBtnAnim.SetBool("Hidden", true);
         optionPnlAnim.SetBool("Hidden", false);
         scorePnlAnim.SetBool("Hidden", true);
 
@@ -144,6 +150,7 @@ public class MenuController : MonoBehaviour {
         editorBtnAnim.SetBool("Hidden", true);
         scoreBtnAnim.SetBool("Hidden", true);
         loadBtnAnim.SetBool("Hidden", true);
+        creditsBtnAnim.SetBool("Hidden", true);
         optionPnlAnim.SetBool("Hidden", true);
         scorePnlAnim.SetBool("Hidden", false);
 
@@ -174,6 +181,7 @@ public class MenuController : MonoBehaviour {
         editorBtnAnim.SetBool("Hidden", false);
         loadBtnAnim.SetBool("Hidden", false);
         scoreBtnAnim.SetBool("Hidden", false);
+        creditsBtnAnim.SetBool("Hidden", false);
         optionPnlAnim.SetBool("Hidden", true);
         scorePnlAnim.SetBool("Hidden", true);
     }
@@ -193,6 +201,10 @@ public class MenuController : MonoBehaviour {
 
     public void LoadMap() {
         Application.LoadLevel("LoadScreen");
+    }
+
+    public void CreditsScreen() {
+        creditsPnl.SetActive(true);
     }
 
     public void QuitGame() {
