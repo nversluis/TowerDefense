@@ -935,18 +935,18 @@ public class GUIScript : MonoBehaviour {
     }
 
     public void UpdateBuildTower() {
-        if(player.getTowerSelected() && player.getTower() != 6) {
+        if(player.getTowerSelected()) {
             switch(player.getTower()) {
                 case 0:
                     towerName.text = "Magic Tower";
                     attack.text = "Attack Damage: " + towerResources.magicAttack.ToString();
                     speed.text = "Attack Speed: " + towerResources.magicSpeed.ToString();
                     special.text = "";
-                    specialU.enabled = false;
-                    sell.enabled = false;
+                    specialU.text = "";
+                    sell.text = "";
                     upgrade.text = "Build(-" + resourceManager.costMagicTower.ToString() + ")";
-                    attackU.enabled = false;
-                    speedU.enabled = false;
+                    attackU.text = "";
+                    speedU.text = "";
                     description.text = "A simple tower that shoots magical orbs at enemies, dealing magic damage.\nPlace it on a wall.";
                     TowerIM.sprite = TowerSprites[0];
                     disabledOnce = false;
@@ -958,11 +958,11 @@ public class GUIScript : MonoBehaviour {
                     attack.text = "Attack Damage: " + towerResources.arrowAttack.ToString();
                     speed.text = "Attack Speed: " + towerResources.arrowSpeed.ToString();
                     special.text = "";
-                    specialU.enabled = false;
-                    sell.enabled = false;
+                    specialU.text = "";
+                    sell.text = "";
                     upgrade.text = "Build(-" + resourceManager.costArrowTower.ToString() + ")";
-                    attackU.enabled = false;
-                    speedU.enabled = false;
+                    attackU.text = "";
+                    speedU.text = "";
                     description.text = "A simple tower that shoots arrow at enemies, dealing physical damage.\nPlace it on a wall.";
                     TowerIM.sprite = TowerSprites[1];
                     disabledOnce = false;
@@ -974,11 +974,11 @@ public class GUIScript : MonoBehaviour {
                     attack.text = "Attack Damage: " + towerResources.fireAttack.ToString();
                     speed.text = "Attack Speed: " + towerResources.fireAttack.ToString();
                     special.text = "";
-                    specialU.enabled = false;
-                    sell.enabled = false;
+                    specialU.text = "";
+                    sell.text = "";
                     upgrade.text = "Build(-" + resourceManager.costFireTrap.ToString() + ")";
-                    attackU.enabled = false;
-                    speedU.enabled = false;
+                    attackU.text = "";
+                    speedU.text = "";
                     description.text = "A trap that makes fire erupt from the ground as soon as enemies step on it, dealing magic damage as long as they stand on it.\nPlace it on the floor.";
                     TowerIM.sprite = TowerSprites[2];
                     disabledOnce = false;
@@ -990,11 +990,11 @@ public class GUIScript : MonoBehaviour {
                     attack.text = "Attack Damage: " + towerResources.poisonAttack.ToString();
                     speed.text = "Attack Speed: " + towerResources.poisonAttack.ToString();
                     special.text = "";
-                    specialU.enabled = false;
-                    sell.enabled = false;
+                    specialU.text = "";
+                    sell.text = "";
                     upgrade.text = "Build(-" + resourceManager.costPoisonTrap.ToString() + ")";
-                    attackU.enabled = false;
-                    speedU.enabled = false;
+                    attackU.text = "";
+                    speedU.text = "";
                     description.text = "A trap with deadly venom, poisoning enemies the instant they step on it, dealing magic damage over time.\nPlace it on the floor.";
                     TowerIM.sprite = TowerSprites[3];
                     disabledOnce = false;
@@ -1006,11 +1006,11 @@ public class GUIScript : MonoBehaviour {
                     attack.text = "Attack Damage: " + towerResources.iceAttack.ToString();
                     speed.text = "Attack Speed: " + towerResources.iceAttack.ToString();
                     special.text = "Slowing Effect: " + towerResources.iceSpecialDamage.ToString();
-                    specialU.enabled = false;
-                    sell.enabled = false;
+                    specialU.text = "";
+                    sell.text = "";
                     upgrade.text = "Build(-" + resourceManager.costIceTrap.ToString() + ")";
-                    attackU.enabled = false;
-                    speedU.enabled = false;
+                    attackU.text = "";
+                    speedU.text = "";
                     description.text = "An ice cold trap, damaging and slowing down all enemies that touch it.\nPlace it on the floor.";
                     TowerIM.sprite = TowerSprites[4];
                     disabledOnce = false;
@@ -1022,11 +1022,11 @@ public class GUIScript : MonoBehaviour {
                     attack.text = "Health: " + resourceManager.barricadeHealth.ToString();
                     speed.text = "";
                     special.text = "";
-                    specialU.enabled = false;
-                    sell.enabled = false;
+                    specialU.text = "";
+                    sell.text = "";
                     upgrade.text = "Build(-" + resourceManager.costMagicTower.ToString() + ")";
-                    attackU.enabled = false;
-                    speedU.enabled = false;
+                    attackU.text = "";
+                    speedU.text = "";
                     description.text = "A wall with spikes so that enemies cannot climb it. They can, however, try to smash it. Use it to stall enemies.\nPlace it on the floor.";
                     TowerIM.sprite = TowerSprites[5];
                     disabledOnce = false;
@@ -1035,6 +1035,7 @@ public class GUIScript : MonoBehaviour {
                     break;
                 default:
                     if(!disabledOnce) {
+                        description.text = "";
                         towerPanel.SetActive(false);
                         disabledOnce = true;
                     }
