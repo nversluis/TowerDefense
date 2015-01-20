@@ -234,9 +234,14 @@ public class ScoreServer : MonoBehaviour
 
     public int getPositionOnHiscores(string naam)
     {
+        if (connected)
+        {
+            getScoreFromServer();
+        }
+
         for (int i = 0; i < hiscores.Count; i++)
         {
-            if (hiscores[i][0] == naam && hiscores[i][1] == "" + Statistics.score)
+            if (hiscores[i][0] == naam && hiscores[i][2] == "" + Statistics.score)
                 return i + 1;
         }
         return 0;
