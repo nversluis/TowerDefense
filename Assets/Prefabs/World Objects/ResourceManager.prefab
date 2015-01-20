@@ -11,6 +11,7 @@ GameObject:
   - 114: {fileID: 11400000}
   - 114: {fileID: 11444152}
   - 114: {fileID: 11498968}
+  - 114: {fileID: 11402192}
   m_Layer: 0
   m_Name: ResourceManager
   m_TagString: Untagged
@@ -266,6 +267,17 @@ MonoBehaviour:
   playerKillsScore: 20
   towerKillsScore: 10
   allBarricades: []
+--- !u!114 &11402192
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2588c1b34f7fbee499db829d0025092b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11444152
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -277,6 +289,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6598bf6490f73f479b3c30c72f4f29b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  connected: 0
 --- !u!114 &11471860
 MonoBehaviour:
   m_ObjectHideFlags: 1
