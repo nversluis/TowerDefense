@@ -486,19 +486,19 @@ public class PlayerController : MonoBehaviour
         startPosition = transform.position;
 		Bullet = resourceManager.magicBullet;
 		magic = resourceManager.magicBulletSound;
-        coolDownMagic1Time = resourceManager.coolDownMagic1Time;
+        coolDownMagic1Time = resourceManager.coolDownMagic1Time[ResourceManager.Difficulty];
         player.getSkills()[2].setCdTime(coolDownMagic1Time);
-        coolDownMagic2Time = resourceManager.coolDownMagic2Time;
+        coolDownMagic2Time = resourceManager.coolDownMagic2Time[ResourceManager.Difficulty];
         player.getSkills()[3].setCdTime(coolDownMagic2Time);
-        coolDownSword1Time = resourceManager.coolDownSword1Time;
+        coolDownSword1Time = resourceManager.coolDownSword1Time[ResourceManager.Difficulty];
         player.getSkills()[0].setCdTime(coolDownSword1Time);
-        coolDownSword2Time = resourceManager.coolDownSword2Time;
+        coolDownSword2Time = resourceManager.coolDownSword2Time[ResourceManager.Difficulty];
         player.getSkills()[1].setCdTime(coolDownSword2Time);
-        swordDamage = resourceManager.startSwordDamage;
-        magicDamage = resourceManager.startMagicDamage;
-        specialSwordDamage = resourceManager.specialSwordDamage;
-        specialMagicDamage = resourceManager.specialMagicDamage;
-        playerSpeed = resourceManager.speed;
+        swordDamage = resourceManager.startSwordDamage[ResourceManager.Difficulty];
+        magicDamage = resourceManager.startMagicDamage[ResourceManager.Difficulty];
+        specialSwordDamage = resourceManager.specialSwordDamage[ResourceManager.Difficulty];
+        specialMagicDamage = resourceManager.specialMagicDamage[ResourceManager.Difficulty];
+        playerSpeed = resourceManager.speed[ResourceManager.Difficulty];
         hitParticles = resourceManager.hitParticles;
         sword = resourceManager.sword;
         sword2 = resourceManager.sword2;
@@ -543,7 +543,7 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Period))
             {
-                if (Time.timeScale < 1.8)
+                if (Time.timeScale < 1.6)
                 {
 
                     Time.timeScale += 0.2f;
@@ -556,13 +556,17 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Comma))
             {
-                if (Time.timeScale > 1.2)
+                if (Time.timeScale > 1.2 && Time.timeScale <1.8)
                 {
                     Time.timeScale -= 0.2f;
                 }
-                else
+                else if (Time.timeScale <1.2)
                 {
                     Time.timeScale = 1;
+                }
+                else if (Time.timeScale > 1.8)
+                {
+                    Time.timeScale = 1.6f;
                 }
             }
         }

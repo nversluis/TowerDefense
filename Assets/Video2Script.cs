@@ -39,7 +39,7 @@ public class Video2Script : MonoBehaviour {
 
         if (i > 177)
         {
-            Application.LoadLevel("Main menu");
+            Application.LoadLevel("Login");
         }
 	}
 
@@ -47,7 +47,7 @@ public class Video2Script : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Space))
         {
-            Application.LoadLevel("Main menu");
+            Application.LoadLevel("Login");
         }
     }
 }

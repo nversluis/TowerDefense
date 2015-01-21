@@ -64,15 +64,15 @@ public class FloorScript : MonoBehaviour
 				}
 
 				if (TowerPrefab.name.Contains ("Fire")) {
-					cost = resourceManager.costFireTrap;
+                    cost = resourceManager.costFireTrap[ResourceManager.Difficulty];
 				} else if (TowerPrefab.name.Contains ("Poison")) {
-					cost = resourceManager.costPoisonTrap;
+                    cost = resourceManager.costPoisonTrap[ResourceManager.Difficulty];
 				} else if (TowerPrefab.name.Contains ("Ice")) {
-					cost = resourceManager.costIceTrap;
+                    cost = resourceManager.costIceTrap[ResourceManager.Difficulty];
 				} else if (TowerPrefab.name.Contains ("Spear")) {
 					//cost = resourceManager.costSpearTrap;
 				} else if (TowerPrefab.name.Contains ("arricade")) {
-					cost = resourceManager.costBarricade;
+                    cost = resourceManager.costBarricade[ResourceManager.Difficulty];
 				}
 
 				//tower.transform.GetChild (0).gameObject.renderer.material.shader = Shader.Find ("Transparent/Diffuse");
@@ -164,7 +164,7 @@ public class FloorScript : MonoBehaviour
 				} else if (tower.name.Contains ("Spear")) {
 					//cost = resourceManager.costSpearTrap;
 				} else if (tower.name.Contains ("arricade")) {
-					cost = (int)resourceManager.costBarricade;
+                    cost = (int)resourceManager.costBarricade[ResourceManager.Difficulty];
 				}
 				stats.sellCost += stats.upgradeCost / 2;
 				stats.upgradeCost *= 2;

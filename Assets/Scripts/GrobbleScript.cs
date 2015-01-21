@@ -80,7 +80,7 @@ public class GrobbleScript : MonoBehaviour
 		grid = resourceManager.Nodes;
 		nodeSize = resourceManager.nodeSize;
 		drawPath = resourceManager.drawPath;
-		normalWalkSpeed = resourceManager.walkSpeed * enemystats.speedMultiplier + 3;
+        normalWalkSpeed = resourceManager.walkSpeed[ResourceManager.Difficulty] * enemystats.speedMultiplier + 3;
 		pathUpdateRate = resourceManager.pathUpdateRate;
 		dfactor = enemystats.dfactor;
 		automaticPathUpdating = resourceManager.automaticPathUpdating;

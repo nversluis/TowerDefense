@@ -59,9 +59,9 @@ public class WallScript : MonoBehaviour
 
 				//set costs
 				if (TowerPrefab.name.Contains ("magic")) {
-					cost = resourceManager.costMagicTower;
+                    cost = resourceManager.costMagicTower[ResourceManager.Difficulty];
 				} else if (TowerPrefab.name.Contains ("Arrow")) {
-					cost = resourceManager.costArrowTower;
+                    cost = resourceManager.costArrowTower[ResourceManager.Difficulty];
 				}
 
 				if ((Vector3.Distance (player.transform.position, transform.position) <= maxDistance) && cost <= playerData.getGold ()) {

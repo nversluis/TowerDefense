@@ -83,7 +83,7 @@ public class GAWaveSpawner : MonoBehaviour
             if (AllEnemiesDead())
             {
                 Debug.Log("Alle enemies zijn dood");
-				playerData.addGold(resourceManager.rewardWave);
+                playerData.addGold(resourceManager.rewardWave[ResourceManager.Difficulty]);
 
                 if (currentWave < maxWaves)
                 {

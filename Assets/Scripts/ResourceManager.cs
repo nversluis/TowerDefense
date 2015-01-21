@@ -5,35 +5,35 @@ using System.Collections.Generic;
 public class ResourceManager : MonoBehaviour {
 	private PlayerData playerData = GUIScript.player;
 
-	public static int Difficulty = 1;
+    public static int Difficulty;
 
     [Header("Naam")]
     public string name;
 	public int gateHealth;
 	//prefabs
 	[Header("Costs")]
-	public int startGold;
-	public int costMagicTower;
-	public int costArrowTower;
-	public int costIceTrap;
-	public int costFireTrap;
-	public int costPoisonTrap;
-	public int costBarricade;
-	public int rewardenemy;
-	public int rewardWave;
+	public int[] startGold;
+	public int[] costMagicTower;
+	public int[] costArrowTower;
+	public int[] costIceTrap;
+	public int[] costFireTrap;
+	public int[] costPoisonTrap;
+	public int[] costBarricade;
+	public int[] rewardenemy;
+	public int[] rewardWave;
 
     [Header("Player")]
 
-    public float coolDownSword1Time;
-    public float coolDownSword2Time;
-    public float coolDownMagic1Time;
-    public float coolDownMagic2Time;
-    public int defense;
-    public int speed;
-    public int startSwordDamage;
-    public int startMagicDamage;
-    public int specialSwordDamage;
-    public int specialMagicDamage;
+    public float[] coolDownSword1Time;
+    public float[] coolDownSword2Time;
+    public float[] coolDownMagic1Time;
+    public float[] coolDownMagic2Time;
+    public int[] defense;
+    public int[] speed;
+    public int[] startSwordDamage;
+    public int[] startMagicDamage;
+    public int[] specialSwordDamage;
+    public int[] specialMagicDamage;
     public GameObject hitParticles;
     public GameObject hitExplosionParticles;
     public GameObject ExplosionMagic;
@@ -59,7 +59,7 @@ public class ResourceManager : MonoBehaviour {
 	public float planewidth;//Size of the planes
 	public float height;
 	public float nodeSize;
-	public int NumberOfPaths;
+	public int[] NumberOfPaths;
     public bool drawNavigationGrid;
 
 	[Header("Enemies")]
@@ -68,7 +68,7 @@ public class ResourceManager : MonoBehaviour {
 	public GameObject enemyGwarf;
 	public GameObject enemyGrobble;
 	public List<WayPoint> Nodes;
-    public float walkSpeed;
+    public float[] walkSpeed;
     public float pathUpdateRate;
     public bool drawPath;
     public bool automaticPathUpdating;
@@ -77,19 +77,19 @@ public class ResourceManager : MonoBehaviour {
 
     [Header("Waves")]
     public int currentWave;
-    public int maxWaves;
+    public int[] maxWaves;
 	public List<int> maxEnemies;
     public List<int> toenameAantalEnemiesPerWave;
-    public int timeBetweenWaves;
+    public int[] timeBetweenWaves;
     public bool keepType;
     public bool keepDistribution;
     public float mutationProbability;
     public List<int> totalStatPoints;
     public List<int> toenameTotalStatPointsPerWave;
-    public float startSpawnTime;
+    public float[] startSpawnTime;
     public float currentSpawnTime;
-    public float AfnameSpawnTimeFactor;
-    public float rewardWaveFactor;
+    public float[] AfnameSpawnTimeFactor;
+    public float[] rewardWaveFactor;
 
 	[Header("Towers")]
 	public float maxTowerDistance;
@@ -98,7 +98,6 @@ public class ResourceManager : MonoBehaviour {
 
 	public GameObject magicTower;
     public GameObject magicTowerBullet;
-	public float coolDownTimeMagicTower;
 	public GameObject arrowTower;
 	public GameObject arrowTowerArrow;
 
@@ -205,7 +204,8 @@ public class ResourceManager : MonoBehaviour {
 	public List<GameObject> allBarricades;
 
 	void Start(){
-		playerData.addGold (startGold);
+        playerData.addGold(startGold[Difficulty]);
+        Difficulty = PlayerPrefs.GetInt("Difficulty");
 	}
 
 

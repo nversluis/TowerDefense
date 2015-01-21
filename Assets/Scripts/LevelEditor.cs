@@ -910,20 +910,26 @@ public class LevelEditor : MonoBehaviour
         }
     }
     
-    // Update is called once per frame
-	void Update ()
-	{
+
+    void Update()
+    {
         NewMapScreenButtonCheck();
 
         if (ready && Input.GetKeyDown(KeyCode.Space))
         {
+
             LoadingScreen.SetActive(false);
             Time.timeScale = 1;
-            Destroy(this.gameObject);
 
+            Invoke("deleteScript", 0.01f);
         }
-	}
+    }
 
+    void deleteScript()
+    {
+        PlayerController.started = true;
+        Destroy(this.GetComponent<LevelEditor>());
+    }
 
     // Method generating the map that has just been built and displaying the loading screen with some text
 	IEnumerator spawnLevel ()

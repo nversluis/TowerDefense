@@ -61,8 +61,12 @@ public class GUIScript : MonoBehaviour {
     [Header("Result screen canvas")]
     public GameObject result;
     public Image resultImage;
+    public Image scoreBar;
+    public Text hiScoreText;
     public Text resultScoreText;
     public Sprite[] resultSprites = new Sprite[2];
+
+    private float bufferedScore;
 
     [Header("Crosshair")]
     public GameObject crosshair;
@@ -141,15 +145,15 @@ public class GUIScript : MonoBehaviour {
 
     private Animator countAnimator;
 
-    [Header("Score Submit")]
-    public InputField nameInput;
-
     [Header("Click sound")]
     public AudioClip click;
     AudioClip countSound;
     AudioClip goSound;
 
     AudioSource cameraAudioSource;
+
+    public Sprite[] arrows;
+    public GameObject arrow;
 
     // Scripts
     private PlayerController playerScript;
@@ -161,7 +165,9 @@ public class GUIScript : MonoBehaviour {
     private ResourceManager resourceManager;
 
     float volume;
+    float timescale;
     void Start() {
+        bufferedScore = 0;
 
         volume = (float)PlayerPrefs.GetInt("SFX") / 100f;
 
@@ -214,9 +220,9 @@ public class GUIScript : MonoBehaviour {
         /* Initialize */
 
         // Player Data
-        player.setGold(resourceManager.startGold);
-        player.setAttack(resourceManager.startSwordDamage);
-        player.setMagic(resourceManager.startMagicDamage);
+        player.setGold(resourceManager.startGold[ResourceManager.Difficulty]);
+        player.setAttack(resourceManager.startSwordDamage[ResourceManager.Difficulty]);
+        player.setMagic(resourceManager.startMagicDamage[ResourceManager.Difficulty]);
         player.setArmor(10);
         player.setAgility(10);
         player.setTower(0);
@@ -397,20 +403,38 @@ public class GUIScript : MonoBehaviour {
             Screen.lockCursor = !Screen.lockCursor;
             Screen.showCursor = !Screen.showCursor;
             if(Time.timeScale == 0) {
-                Time.timeScale = 1; ;
+                Time.timeScale = timescale; ;
                 paused = false;
                 pauseShop = false;
             }
             else {
                 paused = true;
                 pauseShop = true;
+                timescale = Time.timeScale;
                 Time.timeScale = 0;
             }
 
         }
 
         scoreText.text = Statistics.Score().ToString();
-        resultScoreText.text = Statistics.Score().ToString();
+
+        if (Time.timeScale != 0)
+        {
+            if (Time.timeScale < 1.9)
+            {
+                int i = (int)Mathf.Round(((Time.timeScale - 1) * 5));
+                arrow.GetComponent<Image>().sprite = arrows[i];
+
+            }
+            else
+            {
+                int i = 4;
+                arrow.GetComponent<Image>().sprite = arrows[i];
+
+
+            }
+
+        }
     }
 
     void UpdateGold() {
@@ -794,6 +818,7 @@ public class GUIScript : MonoBehaviour {
             canvas.SetActive(true);
             paused = true;
             pauseMenu = true;
+            timescale = Time.timeScale;
             Time.timeScale = 0;
         }
         else {
@@ -806,7 +831,7 @@ public class GUIScript : MonoBehaviour {
         paused = false;
         pauseMenu = false;
         canvas.SetActive(false);
-        Time.timeScale = 1;
+        Time.timeScale = timescale;
         crosshair.SetActive(true);
         Screen.showCursor = false;
         Screen.lockCursor = true;
@@ -815,21 +840,22 @@ public class GUIScript : MonoBehaviour {
     }
 
     public void Quit() {
-        Time.timeScale = 1;
+        Time.timeScale = timescale;
         paused = false;
         Application.LoadLevel("Main Menu");
     }
 
     public void QuitAfterEnd() {
-        ScoreServer.sendScoreToServer(nameInput.text);
-        Time.timeScale = 1;
+        ScoreServer.sendScoreToServer(PlayerPrefs.GetString("Login"));
+        Time.timeScale = timescale;
         paused = false;
         Application.LoadLevel("Main Menu");
     }
 
     public void EndGame(string reason = "none") {
+        int hiScore = int.Parse(ScoreServer.getHiscores(PlayerPrefs.GetInt("Difficulty"))[0][1]);
+        hiScoreText.text = hiScore.ToString();
         result.SetActive(true);
-        resultScoreText.text = player.getScore().ToString();
         Screen.showCursor = true;
         Screen.lockCursor = false;
         playerScript.enabled = false;
@@ -847,6 +873,9 @@ public class GUIScript : MonoBehaviour {
         else {
             resultImage.sprite = resultSprites[0];
         }
+        float countScore = Statistics.score;
+        StartCoroutine(ScoreCounter(countScore, hiScore, scoreBar, resultScoreText));
+        timescale = Time.timeScale;
         Time.timeScale = 0;
         paused = true;
         pauseMenu = true;
@@ -944,7 +973,7 @@ public class GUIScript : MonoBehaviour {
                     special.text = "";
                     specialU.text = "";
                     sell.text = "";
-                    upgrade.text = "Build(-" + resourceManager.costMagicTower.ToString() + ")";
+                    upgrade.text = "Build(-" + resourceManager.costMagicTower[ResourceManager.Difficulty].ToString() + ")";
                     attackU.text = "";
                     speedU.text = "";
                     description.text = "A simple tower that shoots magical orbs at enemies, dealing magic damage.\nPlace it on a wall.";
@@ -960,7 +989,7 @@ public class GUIScript : MonoBehaviour {
                     special.text = "";
                     specialU.text = "";
                     sell.text = "";
-                    upgrade.text = "Build(-" + resourceManager.costArrowTower.ToString() + ")";
+                    upgrade.text = "Build(-" + resourceManager.costArrowTower[ResourceManager.Difficulty].ToString() + ")";
                     attackU.text = "";
                     speedU.text = "";
                     description.text = "A simple tower that shoots arrow at enemies, dealing physical damage.\nPlace it on a wall.";
@@ -976,7 +1005,7 @@ public class GUIScript : MonoBehaviour {
                     special.text = "";
                     specialU.text = "";
                     sell.text = "";
-                    upgrade.text = "Build(-" + resourceManager.costFireTrap.ToString() + ")";
+                    upgrade.text = "Build(-" + resourceManager.costFireTrap[ResourceManager.Difficulty].ToString() + ")";
                     attackU.text = "";
                     speedU.text = "";
                     description.text = "A trap that makes fire erupt from the ground as soon as enemies step on it, dealing magic damage as long as they stand on it.\nPlace it on the floor.";
@@ -992,7 +1021,7 @@ public class GUIScript : MonoBehaviour {
                     special.text = "";
                     specialU.text = "";
                     sell.text = "";
-                    upgrade.text = "Build(-" + resourceManager.costPoisonTrap.ToString() + ")";
+                    upgrade.text = "Build(-" + resourceManager.costPoisonTrap[ResourceManager.Difficulty].ToString() + ")";
                     attackU.text = "";
                     speedU.text = "";
                     description.text = "A trap with deadly venom, poisoning enemies the instant they step on it, dealing magic damage over time.\nPlace it on the floor.";
@@ -1008,7 +1037,7 @@ public class GUIScript : MonoBehaviour {
                     special.text = "Slowing Effect: " + towerResources.iceSpecialDamage.ToString();
                     specialU.text = "";
                     sell.text = "";
-                    upgrade.text = "Build(-" + resourceManager.costIceTrap.ToString() + ")";
+                    upgrade.text = "Build(-" + resourceManager.costIceTrap[ResourceManager.Difficulty].ToString() + ")";
                     attackU.text = "";
                     speedU.text = "";
                     description.text = "An ice cold trap, damaging and slowing down all enemies that touch it.\nPlace it on the floor.";
@@ -1024,7 +1053,7 @@ public class GUIScript : MonoBehaviour {
                     special.text = "";
                     specialU.text = "";
                     sell.text = "";
-                    upgrade.text = "Build(-" + resourceManager.costMagicTower.ToString() + ")";
+                    upgrade.text = "Build(-" + resourceManager.costMagicTower[ResourceManager.Difficulty].ToString() + ")";
                     attackU.text = "";
                     speedU.text = "";
                     description.text = "A wall with spikes so that enemies cannot climb it. They can, however, try to smash it. Use it to stall enemies.\nPlace it on the floor.";
@@ -1060,6 +1089,33 @@ public class GUIScript : MonoBehaviour {
 
         }
         countdownPanel.SetActive(false);
+    }
+
+    IEnumerator ScoreCounter(float score, int hiScore, Image img, Text txt) {
+        while(bufferedScore != score) {
+            if(bufferedScore < score) {
+                bufferedScore += (score - bufferedScore) / 60f;
+                if(Mathf.Abs(score - bufferedScore) < score / 60f) {
+                    bufferedScore = score;
+                }
+            }
+            txt.text = "" + (int)bufferedScore;
+            Debug.Log("Scale: " + (float)((int)bufferedScore / hiScore));
+            if(bufferedScore < hiScore) {
+                img.rectTransform.localScale = new Vector3((float)(bufferedScore / hiScore), 1, 1);
+            }
+            else {
+                img.rectTransform.localScale = new Vector3(1, 1, 1);
+            }
+            yield return StartCoroutine(WaitForRealSeconds(1 / 1000f));
+        }
+    }
+
+    IEnumerator WaitForRealSeconds(float time) {
+        float start = Time.realtimeSinceStartup;
+        while(Time.realtimeSinceStartup < start + time) {
+            yield return null;
+        }
     }
 
     void DisableNotification() {

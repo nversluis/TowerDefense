@@ -213,7 +213,7 @@ public class EnemyHealth : MonoBehaviour {
     {
         if (!enemyResources.isDead)
         {
-            playerData.addGold(resourceManager.rewardenemy);
+            playerData.addGold(resourceManager.rewardenemy[ResourceManager.Difficulty]);
             List<WayPoint> WPoints = new List<WayPoint>();
             WPoints = Navigator.FindWayPointsNear(transform.position, resourceManager.Nodes, nodeSize);
             foreach (WayPoint wp in WPoints)

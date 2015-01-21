@@ -73,7 +73,7 @@ public class RandomMaze : MonoBehaviour
 		planewidth = resourceManager.planewidth;
 		height = resourceManager.height;
 		nodeSize = resourceManager.nodeSize;
-		NumberOfPaths = resourceManager.NumberOfPaths;
+        NumberOfPaths = resourceManager.NumberOfPaths[ResourceManager.Difficulty];
 		planePrefab = resourceManager.planePrefab;
 		wallPrefab = resourceManager.wallPrefab;
 		enemySpawner = resourceManager.enemySpawner;

@@ -27,10 +27,10 @@ public class TowerScript : MonoBehaviour
         MaxDistance = resourceManager.maxTowerDistance;
 		if (gameObject.name.Contains ("magic")) {
 			realTower = resourceManager.magicTower;
-			cost = resourceManager.costMagicTower;
+            cost = resourceManager.costMagicTower[ResourceManager.Difficulty];
 		} else if (gameObject.name.Contains ("Arrow")) {
 			realTower = resourceManager.arrowTower;
-			cost = resourceManager.costArrowTower;
+            cost = resourceManager.costArrowTower[ResourceManager.Difficulty];
 		}
 		player = GameObject.Find ("Player");
 

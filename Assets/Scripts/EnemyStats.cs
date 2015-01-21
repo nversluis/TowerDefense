@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class EnemyStats : MonoBehaviour
 {
@@ -73,6 +74,8 @@ public class EnemyStats : MonoBehaviour
         leeftijd += Time.deltaTime;
         fitness = getFitness();
         goalDistance = Vector3.Distance(goal.transform.position, this.transform.position);
+
+
     }
 
     public void generateenemyStats()
