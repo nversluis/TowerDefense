@@ -19,6 +19,8 @@ public class ScoreServer : MonoBehaviour
     public static bool getting = true;
     public static bool connected;
 
+    bool activated;
+
     float counter;
     int waitTime = 10;
 
@@ -28,24 +30,20 @@ public class ScoreServer : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        counter = 0;
-
         hiscores = new List<List<string>>();
         statistics = new List<List<string>>();
 
+        counter = 0;
+
         urlScores = "http://drproject.twi.tudelft.nl:8087/getScore";
         wwwScores = new WWW(urlScores);
-        if (getting)
-        {
-            StartCoroutine(WaitForRequest(wwwScores));
-        }
 
         urlStatistics = "http://drproject.twi.tudelft.nl:8087/getStatistics";
         wwwStatistics = new WWW(urlStatistics);
-        if (getting)
-        {
-            StartCoroutine(WaitForRequestStatistics(wwwStatistics));
-        }
+
+        StartCoroutine(WaitForRequest(wwwScores));
+        StartCoroutine(WaitForRequestStatistics(wwwStatistics));
+
     }
 
     // Update is called once per frame
@@ -54,7 +52,6 @@ public class ScoreServer : MonoBehaviour
         // haal scores van server
         if (getting)
         {
-
             getScoreFromServer();
             getStatisticsFromServer();
             if (hiscores.Count > 0 && statistics.Count > 0)
@@ -371,7 +368,8 @@ public class ScoreServer : MonoBehaviour
                 if (statistics[i][1] == "" + difficulty)
                 {
                     stats = new List<string>();
-                    for(int j = 2; j < 14; j++) {
+                    for (int j = 2; j < 14; j++)
+                    {
                         stats.Add(statistics[i][j]);
                     }
 
@@ -390,14 +388,13 @@ public class ScoreServer : MonoBehaviour
 
         if (ranking >= 0)
         {
-            for(int i = 0; i < 12; i++) {
+            for (int i = 0; i < 12; i++)
+            {
                 res.Add(stats[ranking][i]);
             }
         }
         return res;
     }
-
-    
 
 
     public List<List<string>> getStatisticsNaamDifficultyTotRank(string naam, int difficulty, int totRank)

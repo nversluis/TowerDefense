@@ -3049,8 +3049,6 @@ GameObject:
   - 114: {fileID: 849373166}
   - 114: {fileID: 849373165}
   - 114: {fileID: 849373169}
-  - 114: {fileID: 849373171}
-  - 114: {fileID: 849373170}
   m_Layer: 5
   m_Name: MainMenu
   m_TagString: Untagged
@@ -3194,28 +3192,6 @@ MonoBehaviour:
   - {fileID: 1840606322}
   - {fileID: 923450935}
   - {fileID: 1481733121}
---- !u!114 &849373170
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 849373164}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2588c1b34f7fbee499db829d0025092b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &849373171
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 849373164}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6598bf6490f73f479b3c30c72f4f29b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &889876356
 GameObject:
   m_ObjectHideFlags: 0
