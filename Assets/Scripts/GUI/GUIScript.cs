@@ -217,9 +217,9 @@ public class GUIScript : MonoBehaviour {
         /* Initialize */
 
         // Player Data
-        player.setGold(resourceManager.startGold);
-        player.setAttack(resourceManager.startSwordDamage);
-        player.setMagic(resourceManager.startMagicDamage);
+        player.setGold(resourceManager.startGold[ResourceManager.Difficulty]);
+        player.setAttack(resourceManager.startSwordDamage[ResourceManager.Difficulty]);
+        player.setMagic(resourceManager.startMagicDamage[ResourceManager.Difficulty]);
         player.setArmor(10);
         player.setAgility(10);
         player.setTower(0);
@@ -965,7 +965,7 @@ public class GUIScript : MonoBehaviour {
                     special.text = "";
                     specialU.text = "";
                     sell.text = "";
-                    upgrade.text = "Build(-" + resourceManager.costMagicTower.ToString() + ")";
+                    upgrade.text = "Build(-" + resourceManager.costMagicTower[ResourceManager.Difficulty].ToString() + ")";
                     attackU.text = "";
                     speedU.text = "";
                     description.text = "A simple tower that shoots magical orbs at enemies, dealing magic damage.\nPlace it on a wall.";
@@ -981,7 +981,7 @@ public class GUIScript : MonoBehaviour {
                     special.text = "";
                     specialU.text = "";
                     sell.text = "";
-                    upgrade.text = "Build(-" + resourceManager.costArrowTower.ToString() + ")";
+                    upgrade.text = "Build(-" + resourceManager.costArrowTower[ResourceManager.Difficulty].ToString() + ")";
                     attackU.text = "";
                     speedU.text = "";
                     description.text = "A simple tower that shoots arrow at enemies, dealing physical damage.\nPlace it on a wall.";
@@ -997,7 +997,7 @@ public class GUIScript : MonoBehaviour {
                     special.text = "";
                     specialU.text = "";
                     sell.text = "";
-                    upgrade.text = "Build(-" + resourceManager.costFireTrap.ToString() + ")";
+                    upgrade.text = "Build(-" + resourceManager.costFireTrap[ResourceManager.Difficulty].ToString() + ")";
                     attackU.text = "";
                     speedU.text = "";
                     description.text = "A trap that makes fire erupt from the ground as soon as enemies step on it, dealing magic damage as long as they stand on it.\nPlace it on the floor.";
@@ -1013,7 +1013,7 @@ public class GUIScript : MonoBehaviour {
                     special.text = "";
                     specialU.text = "";
                     sell.text = "";
-                    upgrade.text = "Build(-" + resourceManager.costPoisonTrap.ToString() + ")";
+                    upgrade.text = "Build(-" + resourceManager.costPoisonTrap[ResourceManager.Difficulty].ToString() + ")";
                     attackU.text = "";
                     speedU.text = "";
                     description.text = "A trap with deadly venom, poisoning enemies the instant they step on it, dealing magic damage over time.\nPlace it on the floor.";
@@ -1029,7 +1029,7 @@ public class GUIScript : MonoBehaviour {
                     special.text = "Slowing Effect: " + towerResources.iceSpecialDamage.ToString();
                     specialU.text = "";
                     sell.text = "";
-                    upgrade.text = "Build(-" + resourceManager.costIceTrap.ToString() + ")";
+                    upgrade.text = "Build(-" + resourceManager.costIceTrap[ResourceManager.Difficulty].ToString() + ")";
                     attackU.text = "";
                     speedU.text = "";
                     description.text = "An ice cold trap, damaging and slowing down all enemies that touch it.\nPlace it on the floor.";
@@ -1045,7 +1045,7 @@ public class GUIScript : MonoBehaviour {
                     special.text = "";
                     specialU.text = "";
                     sell.text = "";
-                    upgrade.text = "Build(-" + resourceManager.costMagicTower.ToString() + ")";
+                    upgrade.text = "Build(-" + resourceManager.costMagicTower[ResourceManager.Difficulty].ToString() + ")";
                     attackU.text = "";
                     speedU.text = "";
                     description.text = "A wall with spikes so that enemies cannot climb it. They can, however, try to smash it. Use it to stall enemies.\nPlace it on the floor.";

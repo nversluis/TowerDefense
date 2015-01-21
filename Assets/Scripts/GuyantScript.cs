@@ -79,7 +79,7 @@ public class GuyantScript : MonoBehaviour
 		grid = resourceManager.Nodes;
 		nodeSize = resourceManager.nodeSize;
 		drawPath = resourceManager.drawPath;
-		normalWalkSpeed = resourceManager.walkSpeed * enemystats.speedMultiplier;
+        normalWalkSpeed = resourceManager.walkSpeed[ResourceManager.Difficulty] * enemystats.speedMultiplier;
 		pathUpdateRate = resourceManager.pathUpdateRate;
 		dfactor = enemystats.dfactor;
 		automaticPathUpdating = resourceManager.automaticPathUpdating;

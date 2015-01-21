@@ -25,19 +25,19 @@ public class TrapScript : MonoBehaviour
 		cost = 9000;
 		if (gameObject.name.Contains ("Fire")) {
 			realTrap = resourceManager.fireTrap;
-			cost = resourceManager.costFireTrap;
+            cost = resourceManager.costFireTrap[ResourceManager.Difficulty];
 		} else if (gameObject.name.Contains ("Poison")) {
 			realTrap = resourceManager.poisonTrap;
-			cost = resourceManager.costPoisonTrap;
+            cost = resourceManager.costPoisonTrap[ResourceManager.Difficulty];
 		} else if (gameObject.name.Contains ("Ice")) {
 			realTrap = resourceManager.iceTrap;
-			cost = resourceManager.costIceTrap;
+            cost = resourceManager.costIceTrap[ResourceManager.Difficulty];
 		} else if (gameObject.name.Contains ("Spear")) {
 			realTrap = resourceManager.spearTrap;
 			//cost = resourceManager.costFireTrap;
 		} else if (gameObject.name.Contains ("arricade")) {
 			realTrap = resourceManager.barricade;
-			cost = resourceManager.costBarricade;
+            cost = resourceManager.costBarricade[ResourceManager.Difficulty];
 			//cost = resourceManager.costFireTrap;
 		} 
 

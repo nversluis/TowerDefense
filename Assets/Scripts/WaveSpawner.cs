@@ -75,10 +75,10 @@ public class WaveSpawner : MonoBehaviour
         EnemyGuyant = resourceManager.enemyGuyant;
         EnemyGwarf = resourceManager.enemyGwarf;
         EnemyGrobble = resourceManager.enemyGrobble;
-        maxWaves = resourceManager.maxWaves;
+        maxWaves = resourceManager.maxWaves[ResourceManager.Difficulty];
         currentWave = resourceManager.currentWave;
 		toenameAantalEnemiesPerWave = (resourceManager.toenameAantalEnemiesPerWave)[ResourceManager.Difficulty];
-        timeBetweenWaves = resourceManager.timeBetweenWaves;
+        timeBetweenWaves = resourceManager.timeBetweenWaves[ResourceManager.Difficulty];
 		currentTotalStatPoints = resourceManager.totalStatPoints[ResourceManager.Difficulty];
 		maxEnemies = resourceManager.maxEnemies[ResourceManager.Difficulty];
 		delta = resourceManager.toenameTotalStatPointsPerWave[ResourceManager.Difficulty];
@@ -90,10 +90,10 @@ public class WaveSpawner : MonoBehaviour
 		resourceManager.maxEnemies[ResourceManager.Difficulty] = maxEnemies;
 		startMaxEnemies = resourceManager.maxEnemies[ResourceManager.Difficulty];
 		startTotalStatPoints = resourceManager.totalStatPoints[ResourceManager.Difficulty];
-        resourceManager.currentSpawnTime = resourceManager.startSpawnTime * Mathf.Pow(resourceManager.AfnameSpawnTimeFactor, (currentWave - 1));
+        resourceManager.currentSpawnTime = resourceManager.startSpawnTime[ResourceManager.Difficulty] * Mathf.Pow(resourceManager.AfnameSpawnTimeFactor[ResourceManager.Difficulty], (currentWave - 1));
         spawnTime = resourceManager.currentSpawnTime;
-        startRewardWave = resourceManager.rewardWave;
-        RewardWaveFactor = resourceManager.rewardWaveFactor;
+        startRewardWave = resourceManager.rewardWave[ResourceManager.Difficulty];
+        RewardWaveFactor = resourceManager.rewardWaveFactor[ResourceManager.Difficulty];
         enemies = new ArrayList();
         enemiesInWave = new ArrayList();
         currentGenDistributions = new List<List<float>>();
@@ -156,7 +156,7 @@ public class WaveSpawner : MonoBehaviour
                 if (waitTime < int.MaxValue && waitTime - timer > 0)
                 {
                     if (counting) {
-                        guiScript.WaveCountdown(resourceManager.timeBetweenWaves);
+                        guiScript.WaveCountdown(resourceManager.timeBetweenWaves[ResourceManager.Difficulty]);
                         counting = false;
                     }
                 }
@@ -199,9 +199,9 @@ public class WaveSpawner : MonoBehaviour
             {
                 if (enemies.Count == 0)
                 {
-                    resourceManager.rewardWave = (int)Mathf.Round((startRewardWave * Mathf.Pow(RewardWaveFactor, (currentWave - 1))));
+                    resourceManager.rewardWave[ResourceManager.Difficulty] = (int)Mathf.Round((startRewardWave * Mathf.Pow(RewardWaveFactor, (currentWave - 1))));
                     // Voeg gold toe voor de speler na elke wave
-                    playerData.addGold(resourceManager.rewardWave);
+                    playerData.addGold(resourceManager.rewardWave[ResourceManager.Difficulty]);
                     // Ga naar de volgende wave
                     currentWave++;
                     resourceManager.currentWave++;
@@ -212,7 +212,7 @@ public class WaveSpawner : MonoBehaviour
                     currentTotalStatPoints = (currentWave - 1) * delta + startTotalStatPoints;
 					resourceManager.totalStatPoints[ResourceManager.Difficulty] = currentTotalStatPoints;
                     //currentTotalStatPoints += delta;
-                    spawnTime = resourceManager.startSpawnTime * Mathf.Pow(resourceManager.AfnameSpawnTimeFactor, (currentWave - 1));
+                    spawnTime = resourceManager.startSpawnTime[ResourceManager.Difficulty] * Mathf.Pow(resourceManager.AfnameSpawnTimeFactor[ResourceManager.Difficulty], (currentWave - 1));
                     resourceManager.currentSpawnTime = spawnTime;
                     // Wave countdown mag weer plaatsvinden
                     counting = true;

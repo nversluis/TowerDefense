@@ -36,8 +36,8 @@ public class MagicTowerScript : MonoBehaviour {
 		TowerStats stats = transform.parent.GetComponent<TowerStats> ();
 		fireRate = stats.speed;
 		InvokeRepeating("Shooting", 0f, 1/fireRate);
-		stats.sellCost = resourceManager.costMagicTower / 2;
-		stats.upgradeCost = resourceManager.costMagicTower;
+        stats.sellCost = resourceManager.costMagicTower[ResourceManager.Difficulty] / 2;
+        stats.upgradeCost = resourceManager.costMagicTower[ResourceManager.Difficulty];
 		stats.attackUpgrade = stats.attack / 2;
         volume = (float)PlayerPrefs.GetInt("SFX") / 100f;
     }

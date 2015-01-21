@@ -33,7 +33,7 @@ public class PlayerHealth : MonoBehaviour {
         playerData.setMaxHP(startingHealth);
         gui = GameObject.Find("GUIMain");
         guiScript = gui.GetComponent<GUIScript>();
-        defence = GameObject.Find("ResourceManager").GetComponent<ResourceManager>().defense;
+        defence = GameObject.Find("ResourceManager").GetComponent<ResourceManager>().defense[ResourceManager.Difficulty];
         InvokeRepeating("RegainHealth",0f,1f);
 	}
 

@@ -24,7 +24,7 @@ public class barricade : MonoBehaviour
 	{
 		ResourceManagerObj = GameObject.Find ("ResourceManager");
 		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
-		cost = resourceManager.costBarricade;
+        cost = resourceManager.costBarricade[ResourceManager.Difficulty];
 		totalCost = cost;
 		playerData = GUIScript.player;
 		bar = resourceManager.barricade;

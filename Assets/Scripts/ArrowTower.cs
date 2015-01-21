@@ -24,8 +24,8 @@ public class ArrowTower : MonoBehaviour {
 		enemyOnTrap=new List<GameObject>();
 		amountOfArrows = 20;
 		stats = transform.parent.gameObject.GetComponent<TowerStats> ();
-		stats.sellCost = resourceManager.costMagicTower / 2;
-		stats.upgradeCost = resourceManager.costMagicTower;
+        stats.sellCost = resourceManager.costMagicTower[ResourceManager.Difficulty] / 2;
+        stats.upgradeCost = resourceManager.costMagicTower[ResourceManager.Difficulty];
 		stats.attackUpgrade = stats.attack / 2;
 	}
 
