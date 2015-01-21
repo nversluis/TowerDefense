@@ -1272,27 +1272,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7321a888faeaae47875ca40443ccd1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Hero
   gateHealth: 50000
-  startGold: 800
-  costMagicTower: 175
-  costArrowTower: 150
-  costIceTrap: 50
-  costFireTrap: 100
-  costPoisonTrap: 75
-  costBarricade: 200
-  rewardenemy: 10
-  rewardWave: 500
-  coolDownSword1Time: .5
-  coolDownSword2Time: 10
-  coolDownMagic1Time: .200000003
-  coolDownMagic2Time: 60
-  defense: 10
-  speed: 10
-  startSwordDamage: 5000
-  startMagicDamage: 3000
-  specialSwordDamage: 15000
-  specialMagicDamage: 30000
+  startGold: e80300002003000058020000f4010000
+  costMagicTower: c8000000c8000000c8000000c8000000
+  costArrowTower: af000000af000000af000000af000000
+  costIceTrap: 64000000640000006400000064000000
+  costFireTrap: c8000000c8000000c8000000c8000000
+  costPoisonTrap: 7d0000007d0000007d0000007d000000
+  costBarricade: fa000000fa000000fa000000fa000000
+  rewardenemy: 0f0000000d0000000c0000000a000000
+  rewardWave: 58020000f4010000c201000090010000
+  coolDownSword1Time:
+  - .300000012
+  - .300000012
+  - .300000012
+  - .300000012
+  coolDownSword2Time:
+  - 10
+  - 10
+  - 10
+  - 10
+  coolDownMagic1Time:
+  - .200000003
+  - .200000003
+  - .200000003
+  - .200000003
+  coolDownMagic2Time:
+  - 60
+  - 60
+  - 60
+  - 60
+  defense: 0a0000000a0000000a0000000a000000
+  speed: 0a0000000a0000000a0000000a000000
+  startSwordDamage: 88130000881300008813000088130000
+  startMagicDamage: dc050000dc050000dc050000dc050000
+  specialSwordDamage: 983a0000983a0000983a0000983a0000
+  specialMagicDamage: 60ea000060ea000060ea000060ea0000
   hitParticles: {fileID: 145544, guid: 9c7b8546eb84bce41a909a9dc0d3f737, type: 2}
   hitExplosionParticles: {fileID: 147396, guid: c675be9dc898e2b4e95ed4ebcbefa4a3,
     type: 2}
@@ -1310,36 +1325,51 @@ MonoBehaviour:
   planewidth: 10
   height: 3
   nodeSize: 2.5
-  NumberOfPaths: 3
-  drawNavigationGrid: 0
+  NumberOfPaths: 03000000030000000400000005000000
+  drawNavigationGrid: 1
   enemyTag: Enemy
   enemyGuyant: {fileID: 100052, guid: 6a25f25271f527644ab0b18b0e7c536e, type: 2}
   enemyGwarf: {fileID: 188948, guid: 37f21c745b6e3ff43942e88e21aba537, type: 2}
   enemyGrobble: {fileID: 142686, guid: 3e58d9d15ddcc37499fb1d10726fb518, type: 2}
-  walkSpeed: 5
+  walkSpeed:
+  - 6
+  - 6
+  - 6
+  - 6
   pathUpdateRate: .5
-  drawPath: 1
+  drawPath: 0
   automaticPathUpdating: 1
   avgProbPainSound: .5
   avgProbDeadSound: 1
   currentWave: 1
-  maxWaves: 20
-  maxEnemies: 0f0000000f0000001400000018000000
+  maxWaves: 080000000a0000000c0000000d000000
+  maxEnemies: 0f000000110000001300000014000000
   toenameAantalEnemiesPerWave: 02000000030000000300000003000000
-  timeBetweenWaves: 5
+  timeBetweenWaves: 05000000050000000500000005000000
   keepType: 0
   keepDistribution: 1
   mutationProbability: .699999988
-  totalStatPoints: 6400000096000000aa000000c8000000
-  toenameTotalStatPointsPerWave: 0a0000000e0000001100000014000000
-  startSpawnTime: .699999988
+  totalStatPoints: 6e00000078000000820000008c000000
+  toenameTotalStatPointsPerWave: 0a0000000a0000000a0000000a000000
+  startSpawnTime:
+  - .699999988
+  - .649999976
+  - .600000024
+  - .550000012
   currentSpawnTime: 0
-  AfnameSpawnTimeFactor: .970000029
-  rewardWaveFactor: 1.04999995
+  AfnameSpawnTimeFactor:
+  - .949999988
+  - .944999993
+  - .942499995
+  - .939999998
+  rewardWaveFactor:
+  - 1.04999995
+  - 1.04999995
+  - 1.04999995
+  - 1.04999995
   maxTowerDistance: 15
   magicTower: {fileID: 100010, guid: 00820a827834982408befc67f6611fe1, type: 2}
   magicTowerBullet: {fileID: 100000, guid: 992585f8d90a7dd4aa9fb58097ade3cd, type: 2}
-  coolDownTimeMagicTower: 1
   arrowTower: {fileID: 195864, guid: e56019d41f993324097d1d5a3ce6c9a6, type: 2}
   arrowTowerArrow: {fileID: 134150, guid: 90771dbe3ba00e64ca4476dc4825925c, type: 2}
   poisonTrap: {fileID: 100004, guid: 00395c20601754c63bd039223cee03ff, type: 2}
@@ -1789,7 +1819,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Priority: 128
   DopplerLevel: 1
@@ -6692,6 +6722,10 @@ Prefab:
       value: 
       objectReference: {fileID: 8300000, guid: ca801931ce5296e45b39fbcd9fa4b899, type: 3}
     - target: {fileID: 8248320, guid: fef73c0f8e9eb834990272028936caed, type: 2}
+      propertyPath: Loop
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8217882, guid: fef73c0f8e9eb834990272028936caed, type: 2}
       propertyPath: Loop
       value: 1
       objectReference: {fileID: 0}
