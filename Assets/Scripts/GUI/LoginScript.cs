@@ -34,7 +34,7 @@ public class LoginScript : MonoBehaviour {
     }
 
     public void Register(){
-        if(login.text != "" && password.text != "" && AccountServer.register(login.text, password.text)) {
+        if(login.text !=  "" && password.text != "" && AccountServer.register(login.text, password.text)) {
             PlayerPrefs.SetString("Login", login.text);
             PlayerPrefs.SetString("Password", password.text);
             PlayerPrefs.SetInt("Online", 1);

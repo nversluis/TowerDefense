@@ -72,7 +72,7 @@ public class Navigator : MonoBehaviour
 		// Add found nodes to destination list of start node if they are visible and set their state to open
 		bool openDestinationsExist = false;
 		List<WayPoint> startNodes = FindWayPointsNear (startPoint, grid, gridSize);
-		int test = startNodes.Count;
+		//int test = startNodes.Count;
 		for (int i = 0; i < startNodes.Count; i++) {
 			WayPoint dest = startNodes [i];
 			dest.setGCost (CalculateGCost (startWP, dest));

@@ -245,6 +245,10 @@ public class GUIScript : MonoBehaviour {
         player.setItems(newItems);
 
         skillset = player.getSkills();
+        foreach(Skill sk in skillset){
+            sk.setCdPercent(0);
+        }
+        player.setSkills(skillset);
         inventory = player.getItems();
 
         // Skills 
@@ -358,6 +362,7 @@ public class GUIScript : MonoBehaviour {
         UpdateStats();
         UpdateShop();
         UpdateItems();
+        ResetCooldowns();
     }
 
     void FixedUpdate() {
@@ -443,6 +448,15 @@ public class GUIScript : MonoBehaviour {
 
             }
 
+        }
+    }
+
+    void ResetCooldowns() {
+        foreach(Image im in skillIconList) {
+            im.fillAmount = 0;
+        }
+        foreach(Text tx in skillCooldownList) {
+            tx.text = "";
         }
     }
 
@@ -762,7 +776,7 @@ public class GUIScript : MonoBehaviour {
 
         if(towerSelected) {
             for(int i = 0; i < towerIconList.Length; i++) {
-                Image tower = towerIconList[i];
+                //Image tower = towerIconList[i];
                 if(i == currentTower) {
                     towerSelectList[i].enabled = true;
                 }
@@ -776,7 +790,7 @@ public class GUIScript : MonoBehaviour {
         }
         else {
             for(int i = 0; i < skillIconList.Length; i++) {
-                Image skill = skillIconList[i];
+                //Image skill = skillIconList[i];
                 if(i == currentSkill) {
                     skillSelectList[i].enabled = true;
                 }
@@ -924,7 +938,7 @@ public class GUIScript : MonoBehaviour {
 
     public void UpgradeSword() {
         int currentTier = inventory[0].getTier();
-        int currentIndex = inventory[0].getTier() - 1;
+        int currentIndex = currentTier - 1;
         inventory[0].setTier(currentTier + 1);
         player.setItems(inventory);
         playerController.addSwordDamage(inventory[0].getValue()[currentIndex]);
@@ -937,8 +951,8 @@ public class GUIScript : MonoBehaviour {
 
     public void UpgradeWand() {
         int currentTier = inventory[1].getTier();
-        int currentIndex = inventory[1].getTier() - 1;
-        inventory[1].setTier(inventory[1].getTier() + 1);
+        int currentIndex = currentTier - 1;
+        inventory[1].setTier(currentTier + 1);
         player.setItems(inventory);
         playerController.addMagicDamage(inventory[1].getValue()[currentIndex]);
         player.removeGold(inventory[1].getCost()[currentIndex]);
@@ -950,8 +964,8 @@ public class GUIScript : MonoBehaviour {
 
     public void UpgradeShield() {
         int currentTier = inventory[2].getTier();
-        int currentIndex = inventory[2].getTier() - 1;
-        inventory[2].setTier(inventory[2].getTier() + 1);
+        int currentIndex = currentTier - 1;
+        inventory[2].setTier(currentTier + 1);
         player.setItems(inventory);
         playerHealth.addPlayerDefense(inventory[2].getValue()[currentIndex]);
         player.removeGold(inventory[2].getCost()[currentIndex]);
@@ -963,8 +977,8 @@ public class GUIScript : MonoBehaviour {
 
     public void UpgradeBoots() {
         int currentTier = inventory[3].getTier();
-        int currentIndex = inventory[3].getTier() - 1;
-        inventory[3].setTier(inventory[3].getTier() + 1);
+        int currentIndex = currentTier - 1;
+        inventory[3].setTier(currentTier + 1);
         player.setItems(inventory);
         playerController.addPlayerSpeed(inventory[3].getValue()[currentIndex]);
         player.removeGold(inventory[3].getCost()[currentIndex]);
