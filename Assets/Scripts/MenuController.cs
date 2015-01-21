@@ -16,6 +16,7 @@ public class MenuController : MonoBehaviour {
     public Sprite logoBG, noLogoBG;
     public Image background;
     public GameObject statsPnl;
+    public Text[] statTextList = new Text[12];
     AudioSource cameraAudioSource;
     AudioSource backingAudio;
     AudioClip menuMusic;
@@ -31,6 +32,7 @@ public class MenuController : MonoBehaviour {
     private List<Text> nameList;
     private List<Text> hiScoreList;
     private List<GameObject> scorePanelList;
+    private List<Button> scoreBtnList;
  
     
     public void ButtonClick()
@@ -60,6 +62,7 @@ public class MenuController : MonoBehaviour {
         if(!PlayerPrefs.HasKey("Difficulty")) {
             PlayerPrefs.SetInt("Difficulty", 1);
         }
+
         
 
         creditsPnl.SetActive(false);
@@ -91,10 +94,14 @@ public class MenuController : MonoBehaviour {
         hiScoreList = new List<Text>();
         scorePanelList = new List<GameObject>();
 
+        Button btn0 = panelPrototype.transform.Find("NameButton").GetComponent<Button>();
+        btn0.onClick.AddListener(() => ToStatistics(0));
+
         scorePanelList.Add(panelPrototype);
         rankList.Add(panelPrototype.transform.Find("Rank").GetComponent<Text>());
         nameList.Add(panelPrototype.transform.Find("NameButton").GetComponentInChildren<Text>());
-        hiScoreList.Add(panelPrototype.transform.Find("Score").GetComponent<Text>());
+        hiScoreList.Add(panelPrototype.transform.Find("Score").GetComponent<Text>()); 
+        scoreBtnList.Add(btn0);
 
         for(int i = 1; i < 11; i++) {
             GameObject newPanel = (GameObject)Instantiate(panelPrototype);
@@ -102,6 +109,7 @@ public class MenuController : MonoBehaviour {
             Text rank = newPanel.transform.Find("Rank").GetComponent<Text>();
             Text name = newPanel.transform.Find("NameButton").GetComponentInChildren<Text>();
             Text score = newPanel.transform.Find("Score").GetComponent<Text>();
+            Button btn = newPanel.transform.Find("NameButton").GetComponent<Button>();
             RectTransform transform = newPanel.GetComponent<RectTransform>();
             transform.localScale = new Vector3(1, 1, 1);
             if(i == 10) {
@@ -110,10 +118,12 @@ public class MenuController : MonoBehaviour {
             else {
                 transform.anchoredPosition = scorePanelList[0].GetComponent<RectTransform>().anchoredPosition + new Vector2(0, -40f * (float)i);
             }
+            btn.onClick.AddListener(() => ToStatistics(i));
             scorePanelList.Add(newPanel);
             rankList.Add(rank);
             nameList.Add(name);
             hiScoreList.Add(score);
+            scoreBtnList.Add(btn);
         }
     }
 
@@ -296,9 +306,14 @@ public class MenuController : MonoBehaviour {
 
     }
 
-    public void ToStatistics(){
+    void UpdateStatistics(int i) {
+        
+    }
+
+    public void ToStatistics(int index){
         scorePnl.SetActive(false);
         statsPnl.SetActive(true);
+        UpdateStatistics(index);
     }
 
     public void BackToScores() {
