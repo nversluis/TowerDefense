@@ -67,7 +67,11 @@ public class ScoreServer : MonoBehaviour
             }
         }
 
+        printMatrix(getStatistics());
+
         //Debug.Log("getPositionOnHiscores(3, Bob) = " + getPositionOnHiscores(3, "Bob"));
+        //Debug.Log("hiscores.Count = " + hiscores.Count);
+        //Debug.Log("getHiscores(0).Count = " + getHiscores().Count);
     }
 
     static public void sendScoreToServer(string naam)
@@ -218,7 +222,7 @@ public class ScoreServer : MonoBehaviour
 
         if (hiscores.Count != 0)
         {
-            for (int i = 0; i < hiscores.Count / 2; i++)
+            for (int i = 0; i < hiscores.Count; i++)
             {
                 if (hiscores[i][1] == "" + difficulty)
                 {
@@ -258,7 +262,7 @@ public class ScoreServer : MonoBehaviour
 
         if (hiscores.Count != 0)
         {
-            for (int i = 0; i < hiscores.Count / 2; i++)
+            for (int i = 0; i < hiscores.Count; i++)
             {
                 if (hiscores[i][1] == "" + difficulty)
                 {
@@ -274,7 +278,7 @@ public class ScoreServer : MonoBehaviour
 
         if (hiscores.Count != 0)
         {
-            for (int i = 0; i < hiscores.Count / 2; i++)
+            for (int i = 0; i < hiscores.Count; i++)
             {
                 if (hiscores[i][1] == "" + difficulty)
                 {
@@ -300,7 +304,7 @@ public class ScoreServer : MonoBehaviour
 
         if (statistics.Count > 0)
         {
-            for (int i = 0; i < statistics.Count / 2; i++)
+            for (int i = 0; i < statistics.Count; i++)
             {
                 res.Add(statistics[i]);
             }
@@ -315,7 +319,7 @@ public class ScoreServer : MonoBehaviour
 
         if (statistics.Count > 0)
         {
-            for (int i = 0; i < statistics.Count / 2; i++)
+            for (int i = 0; i < statistics.Count; i++)
             {
                 if (statistics[i][0] == naam)
                 {
@@ -361,7 +365,7 @@ public class ScoreServer : MonoBehaviour
 
         if (statistics.Count > 0)
         {
-            for (int i = 0; i < statistics.Count / 2; i++)
+            for (int i = 0; i < statistics.Count; i++)
             {
                 if (statistics[i][1] == "" + difficulty)
                 {
