@@ -66,6 +66,8 @@ public class ScoreServer : MonoBehaviour
                 }
             }
         }
+
+        //Debug.Log("getPositionOnHiscores(3, Bob) = " + getPositionOnHiscores(3, "Bob"));
     }
 
     static public void sendScoreToServer(string naam)
@@ -232,20 +234,19 @@ public class ScoreServer : MonoBehaviour
         return hiscoresTotRank;
     }
 
-    public static int getPositionOnHiscores(string naam)
+    public static int getPositionOnHiscores(int difficulty, string naam)
     {
-        if (connected)
-        {
-            getScoreFromServer();
-        }
-
         for (int i = 0; i < hiscores.Count; i++)
         {
-            if (hiscores[i][0] == naam && hiscores[i][2] == "" + Statistics.score)
-                return i + 1;
+            if (hiscores[i][1] == "" + difficulty)
+            {
+                if (hiscores[i][0] == naam)
+                {
+                    return i + 1;
+                }
+            }
         }
         return 0;
-
     }
 
     public List<List<string>> getHiscoresDifficultyTotRank(int difficulty, int totRank)
