@@ -5,7 +5,7 @@ using System.Collections.Generic;
 // The control script for the main menu
 public class MenuController : MonoBehaviour {
     // Objects
-    public Animator startBtnAnim, quitBtnAnim, optionBtnAnim, editorBtnAnim, loadBtnAnim, scoreBtnAnim, creditsBtnAnim, optionPnlAnim, scorePnlAnim;
+    public Animator startBtnAnim, quitBtnAnim, optionBtnAnim, editorBtnAnim, loadBtnAnim, scoreBtnAnim, creditsBtnAnim, optionPnlAnim, scorePnlAnim, statPnlAnim;
     public GameObject optionPnl, scorePnl, creditsPnl;
     public AudioClip click;
     public GameObject mainCamera;
@@ -15,6 +15,7 @@ public class MenuController : MonoBehaviour {
     public GameObject panelPrototype;
     public Sprite logoBG, noLogoBG;
     public Image background;
+    public GameObject statsPnl;
     AudioSource cameraAudioSource;
     AudioSource backingAudio;
     AudioClip menuMusic;
@@ -30,6 +31,7 @@ public class MenuController : MonoBehaviour {
     private List<Text> nameList;
     private List<Text> hiScoreList;
     private List<GameObject> scorePanelList;
+ 
     
     public void ButtonClick()
     {
@@ -72,6 +74,7 @@ public class MenuController : MonoBehaviour {
         creditsBtnAnim.SetBool("Hidden", false);
         optionPnlAnim.SetBool("Hidden", true);
         scorePnlAnim.SetBool("Hidden", true);
+        statPnlAnim.SetBool("Hidden", true);
         // Load user preferences
         val1 = PlayerPrefs.GetInt("BGM");
         val2 = PlayerPrefs.GetInt("SFX");
@@ -81,6 +84,8 @@ public class MenuController : MonoBehaviour {
         sliders[1].value = val2;
         sliders[2].value = val3;
 
+        statsPnl.SetActive(false);
+
         rankList = new List<Text>();
         nameList = new List<Text>();
         hiScoreList = new List<Text>();
@@ -88,14 +93,14 @@ public class MenuController : MonoBehaviour {
 
         scorePanelList.Add(panelPrototype);
         rankList.Add(panelPrototype.transform.Find("Rank").GetComponent<Text>());
-        nameList.Add(panelPrototype.transform.Find("Name").GetComponent<Text>());
+        nameList.Add(panelPrototype.transform.Find("NameButton").GetComponentInChildren<Text>());
         hiScoreList.Add(panelPrototype.transform.Find("Score").GetComponent<Text>());
 
         for(int i = 1; i < 11; i++) {
             GameObject newPanel = (GameObject)Instantiate(panelPrototype);
             newPanel.transform.SetParent(scorePnl.transform);
             Text rank = newPanel.transform.Find("Rank").GetComponent<Text>();
-            Text name = newPanel.transform.Find("Name").GetComponent<Text>();
+            Text name = newPanel.transform.Find("NameButton").GetComponentInChildren<Text>();
             Text score = newPanel.transform.Find("Score").GetComponent<Text>();
             RectTransform transform = newPanel.GetComponent<RectTransform>();
             transform.localScale = new Vector3(1, 1, 1);
@@ -103,7 +108,7 @@ public class MenuController : MonoBehaviour {
                 transform.anchoredPosition = scorePanelList[9].GetComponent<RectTransform>().anchoredPosition + new Vector2(0, -100f);
             }
             else {
-                transform.anchoredPosition = scorePanelList[0].GetComponent<RectTransform>().anchoredPosition + new Vector2(0, -35f * (float)i);
+                transform.anchoredPosition = scorePanelList[0].GetComponent<RectTransform>().anchoredPosition + new Vector2(0, -40f * (float)i);
             }
             scorePanelList.Add(newPanel);
             rankList.Add(rank);
@@ -174,6 +179,7 @@ public class MenuController : MonoBehaviour {
         creditsBtnAnim.SetBool("Hidden", true);
         optionPnlAnim.SetBool("Hidden", false);
         scorePnlAnim.SetBool("Hidden", true);
+        statPnlAnim.SetBool("Hidden", true);
 
         loadBtnAnim.SetTrigger("GoLeft");
         optionBtnAnim.SetTrigger("GoLeft");
@@ -196,6 +202,7 @@ public class MenuController : MonoBehaviour {
         creditsBtnAnim.SetBool("Hidden", true);
         optionPnlAnim.SetBool("Hidden", true);
         scorePnlAnim.SetBool("Hidden", false);
+        statPnlAnim.SetBool("Hidden", false);
 
         loadBtnAnim.SetTrigger("GoRight");
         optionBtnAnim.SetTrigger("GoRight");
@@ -230,6 +237,7 @@ public class MenuController : MonoBehaviour {
         creditsBtnAnim.SetBool("Hidden", false);
         optionPnlAnim.SetBool("Hidden", true);
         scorePnlAnim.SetBool("Hidden", true);
+        statPnlAnim.SetBool("Hidden", true);
     }
 
     public void CloseScoreScreen() {
@@ -266,7 +274,7 @@ public class MenuController : MonoBehaviour {
             scorePanelList[10].SetActive(true);
             rankList[10].text = ScoreServer.getPositionOnHiscores(PlayerPrefs.GetString("Login")).ToString() + ":";
             nameList[10].text = PlayerPrefs.GetString("Login");
-            hiScoreList[10].text = HiScores[ScoreServer.getPositionOnHiscores(PlayerPrefs.GetString("Login"))][1];
+            //hiScoreList[10].text = HiScores[ScoreServer.getPositionOnHiscores(PlayerPrefs.GetString("Login"))][1];
         }
 
         Text diffText = scoreDifficulty.transform.Find("Value").GetComponent<Text>();
@@ -286,6 +294,16 @@ public class MenuController : MonoBehaviour {
                 break;
         }
 
+    }
+
+    public void ToStatistics(){
+        scorePnl.SetActive(false);
+        statsPnl.SetActive(true);
+    }
+
+    public void BackToScores() {
+        scorePnl.SetActive(true);
+        statsPnl.SetActive(false);
     }
 
     public void LoadGameAudio() {
