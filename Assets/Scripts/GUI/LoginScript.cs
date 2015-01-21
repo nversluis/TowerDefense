@@ -22,7 +22,7 @@ public class LoginScript : MonoBehaviour {
 	}
 
     public void Login(){
-        if(AccountServer.usernamePasswordMatch(login.text, password.text)){
+        if(login.text != "" && password.text != "" && AccountServer.usernamePasswordMatch(login.text, password.text)){
             PlayerPrefs.SetString("Login", login.text);
             PlayerPrefs.SetString("Password", password.text);
             PlayerPrefs.SetInt("Online", 1);
@@ -34,19 +34,25 @@ public class LoginScript : MonoBehaviour {
     }
 
     public void Register(){
-        if(AccountServer.register(login.text, password.text)){
+        if(login.text != "" && password.text != "" && AccountServer.register(login.text, password.text)) {
             PlayerPrefs.SetString("Login", login.text);
             PlayerPrefs.SetString("Password", password.text);
             PlayerPrefs.SetInt("Online", 1);
             Application.LoadLevel("Main Menu");
         } else {
-            notification.text = "This username is already in use. Please use another name.";
-            login.text = "";
+            if(login.text != "" && password.text != ""){
+                notification.text = "This username is already in use. Please use another name.";
+                login.text = "";
+            } 
+            else {
+                notification.text = "Please enter both a username and password.";
+            }
         }
     }
 
     public void Offline(){
         PlayerPrefs.SetInt("Online", 0);
+        Application.LoadLevel("Main Menu");
     }
 	
 }
