@@ -35,11 +35,17 @@ public class ScoreServer : MonoBehaviour
 
         urlScores = "http://drproject.twi.tudelft.nl:8087/getScore";
         wwwScores = new WWW(urlScores);
-        StartCoroutine(WaitForRequest(wwwScores));
+        if (getting)
+        {
+            StartCoroutine(WaitForRequest(wwwScores));
+        }
 
         urlStatistics = "http://drproject.twi.tudelft.nl:8087/getStatistics";
         wwwStatistics = new WWW(urlStatistics);
-        StartCoroutine(WaitForRequestStatistics(wwwStatistics));
+        if (getting)
+        {
+            StartCoroutine(WaitForRequestStatistics(wwwStatistics));
+        }
     }
 
     // Update is called once per frame
@@ -48,6 +54,7 @@ public class ScoreServer : MonoBehaviour
         // haal scores van server
         if (getting)
         {
+
             getScoreFromServer();
             getStatisticsFromServer();
             if (hiscores.Count > 0 && statistics.Count > 0)
@@ -66,12 +73,6 @@ public class ScoreServer : MonoBehaviour
                 }
             }
         }
-
-        //printMatrix(getStatistics());
-
-        //Debug.Log("getPositionOnHiscores(3, Bob) = " + getPositionOnHiscores(3, "Bob"));
-        //Debug.Log("hiscores.Count = " + hiscores.Count);
-        //Debug.Log("getHiscores(0).Count = " + getHiscores().Count);
     }
 
     static public void sendScoreToServer(string naam)
@@ -202,7 +203,7 @@ public class ScoreServer : MonoBehaviour
 
         if (hiscores.Count != 0)
         {
-            for (int i = 0; i < hiscores.Count / 2; i++)
+            for (int i = 0; i < hiscores.Count; i++)
             {
                 score = new List<string>();
                 // voeg naam toe
@@ -427,7 +428,7 @@ public class ScoreServer : MonoBehaviour
 
         if (hiscores.Count != 0)
         {
-            for (int i = 0; i < hiscores.Count / 2; i++)
+            for (int i = 0; i < hiscores.Count; i++)
             {
                 if (statistics[i][0] == naam)
                 {
