@@ -67,7 +67,7 @@ public class ScoreServer : MonoBehaviour
             }
         }
 
-        printMatrix(getStatistics());
+        //printMatrix(getStatistics());
 
         //Debug.Log("getPositionOnHiscores(3, Bob) = " + getPositionOnHiscores(3, "Bob"));
         //Debug.Log("hiscores.Count = " + hiscores.Count);
@@ -298,7 +298,7 @@ public class ScoreServer : MonoBehaviour
         return hiscoresTotRank;
     }
 
-    public List<List<string>> getStatistics()
+    public static List<List<string>> getStatistics()
     {
         List<List<string>> res = new List<List<string>>();
 
