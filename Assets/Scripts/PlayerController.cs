@@ -343,15 +343,18 @@ public class PlayerController : MonoBehaviour
                 SetAttackAnimationFalse();
                 idle = false;
                 attackingSword3 = true;
-                coolDownSword2 = true;
-                player.getSkills()[1].startCooldown();
+
                 Invoke("SetAttackAnimationFalse", 1f);
-                Invoke("setCoolDownSword2false", coolDownSword2Time);
 
                 RaycastHit hit;
                 if (Physics.Raycast(transform.position + tijdelijk, transform.forward, out hit, 3f, enemyMask))
                 {
+                    coolDownSword2 = true;
+
+                    Invoke("setCoolDownSword2false", coolDownSword2Time);
                     StartCoroutine(SpecialHitEnemy(hit));
+                    player.getSkills()[1].startCooldown();
+
 
                 }
 
