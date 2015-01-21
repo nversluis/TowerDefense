@@ -67,9 +67,10 @@ public class ScoreServer : MonoBehaviour
             }
         }
 
-        //printMatrix(getStatistics());
+        //Debug.Log(statistics.Count);
+        //Debug.Log(getStatistics().Count);
 
-        //Debug.Log("getPositionOnHiscores(3, Bob) = " + getPositionOnHiscores(3, "Bob"));
+        //Debug.Log("getPositionOnHiscores(3, Niels) = " + getPositionOnHiscores(3, "Niels"));
         //Debug.Log("hiscores.Count = " + hiscores.Count);
         //Debug.Log("getHiscores(0).Count = " + getHiscores().Count);
     }
