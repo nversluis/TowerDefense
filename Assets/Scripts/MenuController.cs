@@ -124,7 +124,39 @@ public class MenuController : MonoBehaviour {
             else {
                 transform.anchoredPosition = scorePanelList[0].GetComponent<RectTransform>().anchoredPosition + new Vector2(0, -40f * (float)i);
             }
-            btn.onClick.AddListener(() => ToStatistics(i));
+            // Dont ask why, but addlistener(function(i)) just WOULD NOT WORK. I blame Unity.
+            switch(i) {
+                case 1:
+                    btn.onClick.AddListener(() => ToStatistics(1));
+                    break;
+                case 2:
+                    btn.onClick.AddListener(() => ToStatistics(2));
+                    break;
+                case 3:
+                    btn.onClick.AddListener(() => ToStatistics(3));
+                    break;
+                case 4:
+                    btn.onClick.AddListener(() => ToStatistics(4));
+                    break;
+                case 5:
+                    btn.onClick.AddListener(() => ToStatistics(5));
+                    break;
+                case 6:
+                    btn.onClick.AddListener(() => ToStatistics(6));
+                    break;
+                case 7:
+                    btn.onClick.AddListener(() => ToStatistics(7));
+                    break;
+                case 8:
+                    btn.onClick.AddListener(() => ToStatistics(8));
+                    break;
+                case 9:
+                    btn.onClick.AddListener(() => ToStatistics(9));
+                    break;
+                default:
+                    break;
+
+            }
             scorePanelList.Add(newPanel);
             rankList.Add(rank);
             nameList.Add(name);
@@ -286,19 +318,17 @@ public class MenuController : MonoBehaviour {
             }
         }
         if(!playerInList) {
-            scorePanelList[10].SetActive(false);
-        }
-        else {
             int index = ScoreServer.getPositionOnHiscores((int)scoreDifficulty.value, PlayerPrefs.GetString("Login"));
             if(index != 0) {
                 scorePanelList[10].SetActive(true);
-                rankList[10].text = ScoreServer.getPositionOnHiscores((int)scoreDifficulty.value, PlayerPrefs.GetString("Login")).ToString() + ":";
+                rankList[10].text = index.ToString() + ":";
                 nameList[10].text = PlayerPrefs.GetString("Login");
-                hiScoreList[10].text = HiScores[ScoreServer.getPositionOnHiscores((int)scoreDifficulty.value, PlayerPrefs.GetString("Login"))][1];
+                hiScoreList[10].text = HiScores[index - 1][1];
+                scoreBtnList[10].onClick.AddListener(() => ToStatistics(index - 1));
             }
-            else {
-                scorePanelList[10].SetActive(false);
-            }
+        }
+        else {
+            scorePanelList[10].SetActive(false);
         }
 
         Text diffText = scoreDifficulty.transform.Find("Value").GetComponent<Text>();
