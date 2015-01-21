@@ -67,6 +67,7 @@ public class GUIScript : MonoBehaviour {
     public Sprite[] resultSprites = new Sprite[2];
 
     private float bufferedScore;
+    private int online = PlayerPrefs.GetInt("Online");
 
     [Header("Crosshair")]
     public GameObject crosshair;
@@ -167,6 +168,10 @@ public class GUIScript : MonoBehaviour {
     float volume;
     float timescale;
     void Start() {
+        if(!PlayerPrefs.HasKey("hiScore")) {
+            PlayerPrefs.SetFloat("hiScore", 0);
+        }
+
         bufferedScore = 0;
 
         volume = (float)PlayerPrefs.GetInt("SFX") / 100f;
@@ -417,6 +422,10 @@ public class GUIScript : MonoBehaviour {
         }
 
         scoreText.text = Statistics.Score().ToString();
+
+        if(online == 0 && Statistics.Score() > PlayerPrefs.GetFloat("hiScore")){
+            PlayerPrefs.SetFloat("hiScore", Statistics.Score());
+        }
 
         if (Time.timeScale != 0)
         {
@@ -853,7 +862,13 @@ public class GUIScript : MonoBehaviour {
     }
 
     public void EndGame(string reason = "none") {
-        int hiScore = int.Parse(ScoreServer.getHiscores(PlayerPrefs.GetInt("Difficulty"))[0][1]);
+        int hiScore;
+        if(online == 1) {
+            hiScore = int.Parse(ScoreServer.getHiscores(PlayerPrefs.GetInt("Difficulty"))[0][1]);
+        }
+        else {
+            hiScore = (int)PlayerPrefs.GetFloat("hiScore");
+        }
         hiScoreText.text = hiScore.ToString();
         result.SetActive(true);
         Screen.showCursor = true;

@@ -62,7 +62,12 @@ public class MenuController : MonoBehaviour {
         if(!PlayerPrefs.HasKey("Difficulty")) {
             PlayerPrefs.SetInt("Difficulty", 1);
         }
-
+        if(PlayerPrefs.GetInt("Online") == 0) {
+            scoreBtnAnim.GetComponentInParent<Button>().interactable = false;
+        }
+        else {
+            scoreBtnAnim.GetComponentInParent<Button>().interactable = true;
+        }
         
 
         creditsPnl.SetActive(false);
@@ -93,6 +98,7 @@ public class MenuController : MonoBehaviour {
         nameList = new List<Text>();
         hiScoreList = new List<Text>();
         scorePanelList = new List<GameObject>();
+        scoreBtnList = new List<Button>();
 
         Button btn0 = panelPrototype.transform.Find("NameButton").GetComponent<Button>();
         btn0.onClick.AddListener(() => ToStatistics(0));
@@ -284,7 +290,7 @@ public class MenuController : MonoBehaviour {
             scorePanelList[10].SetActive(true);
             rankList[10].text = ScoreServer.getPositionOnHiscores(PlayerPrefs.GetString("Login")).ToString() + ":";
             nameList[10].text = PlayerPrefs.GetString("Login");
-            //hiScoreList[10].text = HiScores[ScoreServer.getPositionOnHiscores(PlayerPrefs.GetString("Login"))][1];
+            //hiScoreList[10].text = HiScores[ScoreServer.getPositionOnHiscores(int.Parse(PlayerPrefs.GetString("Difficulty")), PlayerPrefs.GetString("Login"))][1];
         }
 
         Text diffText = scoreDifficulty.transform.Find("Value").GetComponent<Text>();
@@ -307,7 +313,10 @@ public class MenuController : MonoBehaviour {
     }
 
     void UpdateStatistics(int i) {
-        
+        List<string> stats = ScoreServer.getStatisticsDifficulty((int)scoreDifficulty.value,i);
+        for(int j = 0; j < stats.Count; j++) {
+            statTextList[j].text = stats[j];
+        }
     }
 
     public void ToStatistics(int index){
