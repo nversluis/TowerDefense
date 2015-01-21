@@ -286,19 +286,16 @@ public class MenuController : MonoBehaviour {
             }
         }
         if(!playerInList) {
-            scorePanelList[10].SetActive(false);
-        }
-        else {
             int index = ScoreServer.getPositionOnHiscores((int)scoreDifficulty.value, PlayerPrefs.GetString("Login"));
             if(index != 0) {
                 scorePanelList[10].SetActive(true);
-                rankList[10].text = ScoreServer.getPositionOnHiscores((int)scoreDifficulty.value, PlayerPrefs.GetString("Login")).ToString() + ":";
+                rankList[10].text = index.ToString() + ":";
                 nameList[10].text = PlayerPrefs.GetString("Login");
-                hiScoreList[10].text = HiScores[ScoreServer.getPositionOnHiscores((int)scoreDifficulty.value, PlayerPrefs.GetString("Login"))][1];
+                hiScoreList[10].text = HiScores[index - 1][1];
             }
-            else {
-                scorePanelList[10].SetActive(false);
-            }
+        }
+        else {
+            scorePanelList[10].SetActive(false);
         }
 
         Text diffText = scoreDifficulty.transform.Find("Value").GetComponent<Text>();
