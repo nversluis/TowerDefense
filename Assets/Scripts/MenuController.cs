@@ -5,15 +5,17 @@ using System.Collections.Generic;
 // The control script for the main menu
 public class MenuController : MonoBehaviour {
     // Objects
-    public Animator startBtnAnim, quitBtnAnim, optionBtnAnim, editorBtnAnim, loadBtnAnim, scoreBtnAnim, creditsBtnAnim, optionPnlAnim, scorePnlAnim;
+    public Animator startBtnAnim, quitBtnAnim, optionBtnAnim, editorBtnAnim, loadBtnAnim, scoreBtnAnim, creditsBtnAnim, optionPnlAnim, scorePnlAnim, statPnlAnim;
     public GameObject optionPnl, scorePnl, creditsPnl;
     public AudioClip click;
     public GameObject mainCamera;
     public Slider[] sliders = new Slider[3];
+    public Slider scoreDifficulty;
     public Text[] sliderValues = new Text[3];
-    public GameObject hiScoreText;
+    public GameObject panelPrototype;
     public Sprite logoBG, noLogoBG;
     public Image background;
+    public GameObject statsPnl;
     AudioSource cameraAudioSource;
     AudioSource backingAudio;
     AudioClip menuMusic;
@@ -22,9 +24,14 @@ public class MenuController : MonoBehaviour {
     // Slider values
     int val1, val2, val3;
     int old1, old2, old3;
+    bool firstload;
 
     private Text textPrototype;
+    private List<Text> rankList;
+    private List<Text> nameList;
     private List<Text> hiScoreList;
+    private List<GameObject> scorePanelList;
+ 
     
     public void ButtonClick()
     {
@@ -38,10 +45,9 @@ public class MenuController : MonoBehaviour {
         menuMusic = GameObject.Find("ResourceManager").GetComponent<ResourceManager>().menuMusic;
         backingAudio = GameObject.Find("backingAudio").GetComponent<AudioSource>();
         cameraAudioSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
-        textPrototype = hiScoreText.GetComponent<Text>();
         backingAudio.clip = menuMusic;
         backingAudio.volume = musicVolume * 0.5f;
-
+        firstload = true;
         backingAudio.Play();
 
         // Set options on first run
@@ -54,6 +60,7 @@ public class MenuController : MonoBehaviour {
         if(!PlayerPrefs.HasKey("Difficulty")) {
             PlayerPrefs.SetInt("Difficulty", 1);
         }
+        
 
         creditsPnl.SetActive(false);
 
@@ -67,6 +74,7 @@ public class MenuController : MonoBehaviour {
         creditsBtnAnim.SetBool("Hidden", false);
         optionPnlAnim.SetBool("Hidden", true);
         scorePnlAnim.SetBool("Hidden", true);
+        statPnlAnim.SetBool("Hidden", true);
         // Load user preferences
         val1 = PlayerPrefs.GetInt("BGM");
         val2 = PlayerPrefs.GetInt("SFX");
@@ -76,22 +84,36 @@ public class MenuController : MonoBehaviour {
         sliders[1].value = val2;
         sliders[2].value = val3;
 
-        hiScoreList = new List<Text>();
+        statsPnl.SetActive(false);
 
-        hiScoreList.Add(textPrototype);
+        rankList = new List<Text>();
+        nameList = new List<Text>();
+        hiScoreList = new List<Text>();
+        scorePanelList = new List<GameObject>();
+
+        scorePanelList.Add(panelPrototype);
+        rankList.Add(panelPrototype.transform.Find("Rank").GetComponent<Text>());
+        nameList.Add(panelPrototype.transform.Find("NameButton").GetComponentInChildren<Text>());
+        hiScoreList.Add(panelPrototype.transform.Find("Score").GetComponent<Text>());
+
         for(int i = 1; i < 11; i++) {
-            GameObject hiscoretext2 = (GameObject)Instantiate(hiScoreText);
-            hiscoretext2.transform.parent = scorePnl.transform;
-            Text text2 = hiscoretext2.GetComponent<Text>();
-            RectTransform transform = text2.rectTransform;
-            transform.localScale = new Vector3(0.5f, 0.5f, 0);
+            GameObject newPanel = (GameObject)Instantiate(panelPrototype);
+            newPanel.transform.SetParent(scorePnl.transform);
+            Text rank = newPanel.transform.Find("Rank").GetComponent<Text>();
+            Text name = newPanel.transform.Find("NameButton").GetComponentInChildren<Text>();
+            Text score = newPanel.transform.Find("Score").GetComponent<Text>();
+            RectTransform transform = newPanel.GetComponent<RectTransform>();
+            transform.localScale = new Vector3(1, 1, 1);
             if(i == 10) {
-                transform.anchoredPosition = hiScoreList[9].rectTransform.anchoredPosition + new Vector2(0, -100f);
+                transform.anchoredPosition = scorePanelList[9].GetComponent<RectTransform>().anchoredPosition + new Vector2(0, -100f);
             }
             else {
-                transform.anchoredPosition = textPrototype.rectTransform.anchoredPosition + new Vector2(0, -35f * (float)i);
+                transform.anchoredPosition = scorePanelList[0].GetComponent<RectTransform>().anchoredPosition + new Vector2(0, -40f * (float)i);
             }
-            hiScoreList.Add(text2);
+            scorePanelList.Add(newPanel);
+            rankList.Add(rank);
+            nameList.Add(name);
+            hiScoreList.Add(score);
         }
     }
 
@@ -157,6 +179,7 @@ public class MenuController : MonoBehaviour {
         creditsBtnAnim.SetBool("Hidden", true);
         optionPnlAnim.SetBool("Hidden", false);
         scorePnlAnim.SetBool("Hidden", true);
+        statPnlAnim.SetBool("Hidden", true);
 
         loadBtnAnim.SetTrigger("GoLeft");
         optionBtnAnim.SetTrigger("GoLeft");
@@ -179,12 +202,14 @@ public class MenuController : MonoBehaviour {
         creditsBtnAnim.SetBool("Hidden", true);
         optionPnlAnim.SetBool("Hidden", true);
         scorePnlAnim.SetBool("Hidden", false);
+        statPnlAnim.SetBool("Hidden", false);
 
         loadBtnAnim.SetTrigger("GoRight");
         optionBtnAnim.SetTrigger("GoRight");
         editorBtnAnim.SetTrigger("GoRight");
 
         background.sprite = noLogoBG;
+        updateHiScores();
     }
 
     // Undo the changes made to the options
@@ -212,6 +237,7 @@ public class MenuController : MonoBehaviour {
         creditsBtnAnim.SetBool("Hidden", false);
         optionPnlAnim.SetBool("Hidden", true);
         scorePnlAnim.SetBool("Hidden", true);
+        statPnlAnim.SetBool("Hidden", true);
     }
 
     public void CloseScoreScreen() {
@@ -220,11 +246,64 @@ public class MenuController : MonoBehaviour {
         background.sprite = logoBG;
     }
 
-    void updateHiScores() {
-        List<List<string>> HiScores = ScoreServer.getHiscores(0);
-        hiScoreList[0].text = HiScores[0][0] + "," + HiScores[0][1];        
+    public void updateHiScores() {
+        if(firstload) {
+            scoreDifficulty.value = val3;
+            firstload = false;
+        }
+        List<List<string>> HiScores = ScoreServer.getHiscores((int)scoreDifficulty.value);
+        bool playerInList = false;
+        for(int i = 0; i < 10; i++) {
+            try {
+                rankList[i].text = (i + 1).ToString() + ":";
+                nameList[i].text = HiScores[i][0];
+                hiScoreList[i].text = HiScores[i][1];
+                if(HiScores[i][0] == PlayerPrefs.GetString("Login")) {
+                    playerInList = true;
+                }
+                scorePanelList[i].SetActive(true);
+            }
+            catch {
+                scorePanelList[i].SetActive(false);
+            }
+        }
+        if(playerInList) {
+            scorePanelList[10].SetActive(false);
+        }
+        else {
+            scorePanelList[10].SetActive(true);
+            rankList[10].text = ScoreServer.getPositionOnHiscores(PlayerPrefs.GetString("Login")).ToString() + ":";
+            nameList[10].text = PlayerPrefs.GetString("Login");
+            //hiScoreList[10].text = HiScores[ScoreServer.getPositionOnHiscores(PlayerPrefs.GetString("Login"))][1];
+        }
 
-        //hiScoreText.text = ScoreServer.getStatisticsNaam(PlayerPrefs.GetString("Login"));
+        Text diffText = scoreDifficulty.transform.Find("Value").GetComponent<Text>();
+
+        switch((int)scoreDifficulty.value) {
+            case 0:
+                diffText.text = "Beginner";
+                break;
+            case 1:
+                diffText.text = "Average";
+                break;
+            case 2:
+                diffText.text = "Expert";
+                break;
+            case 3:
+                diffText.text = "Godlike";
+                break;
+        }
+
+    }
+
+    public void ToStatistics(){
+        scorePnl.SetActive(false);
+        statsPnl.SetActive(true);
+    }
+
+    public void BackToScores() {
+        scorePnl.SetActive(true);
+        statsPnl.SetActive(false);
     }
 
     public void LoadGameAudio() {

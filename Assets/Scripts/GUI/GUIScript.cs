@@ -61,8 +61,12 @@ public class GUIScript : MonoBehaviour {
     [Header("Result screen canvas")]
     public GameObject result;
     public Image resultImage;
+    public Image scoreBar;
+    public Text hiScoreText;
     public Text resultScoreText;
     public Sprite[] resultSprites = new Sprite[2];
+
+    private float bufferedScore;
 
     [Header("Crosshair")]
     public GameObject crosshair;
@@ -141,9 +145,6 @@ public class GUIScript : MonoBehaviour {
 
     private Animator countAnimator;
 
-    [Header("Score Submit")]
-    public InputField nameInput;
-
     [Header("Click sound")]
     public AudioClip click;
     AudioClip countSound;
@@ -164,7 +165,9 @@ public class GUIScript : MonoBehaviour {
     private ResourceManager resourceManager;
 
     float volume;
+    float timescale;
     void Start() {
+        bufferedScore = 0;
 
         volume = (float)PlayerPrefs.GetInt("SFX") / 100f;
 
@@ -400,20 +403,20 @@ public class GUIScript : MonoBehaviour {
             Screen.lockCursor = !Screen.lockCursor;
             Screen.showCursor = !Screen.showCursor;
             if(Time.timeScale == 0) {
-                Time.timeScale = 1; ;
+                Time.timeScale = timescale; ;
                 paused = false;
                 pauseShop = false;
             }
             else {
                 paused = true;
                 pauseShop = true;
+                timescale = Time.timeScale;
                 Time.timeScale = 0;
             }
 
         }
 
         scoreText.text = Statistics.Score().ToString();
-        resultScoreText.text = Statistics.Score().ToString();
 
         if (Time.timeScale != 0)
         {
@@ -815,6 +818,7 @@ public class GUIScript : MonoBehaviour {
             canvas.SetActive(true);
             paused = true;
             pauseMenu = true;
+            timescale = Time.timeScale;
             Time.timeScale = 0;
         }
         else {
@@ -827,7 +831,7 @@ public class GUIScript : MonoBehaviour {
         paused = false;
         pauseMenu = false;
         canvas.SetActive(false);
-        Time.timeScale = 1;
+        Time.timeScale = timescale;
         crosshair.SetActive(true);
         Screen.showCursor = false;
         Screen.lockCursor = true;
@@ -836,21 +840,22 @@ public class GUIScript : MonoBehaviour {
     }
 
     public void Quit() {
-        Time.timeScale = 1;
+        Time.timeScale = timescale;
         paused = false;
         Application.LoadLevel("Main Menu");
     }
 
     public void QuitAfterEnd() {
-        ScoreServer.sendScoreToServer(nameInput.text);
-        Time.timeScale = 1;
+        ScoreServer.sendScoreToServer(PlayerPrefs.GetString("Login"));
+        Time.timeScale = timescale;
         paused = false;
         Application.LoadLevel("Main Menu");
     }
 
     public void EndGame(string reason = "none") {
+        int hiScore = int.Parse(ScoreServer.getHiscores(PlayerPrefs.GetInt("Difficulty"))[0][1]);
+        hiScoreText.text = hiScore.ToString();
         result.SetActive(true);
-        resultScoreText.text = player.getScore().ToString();
         Screen.showCursor = true;
         Screen.lockCursor = false;
         playerScript.enabled = false;
@@ -868,6 +873,9 @@ public class GUIScript : MonoBehaviour {
         else {
             resultImage.sprite = resultSprites[0];
         }
+        float countScore = Statistics.score;
+        StartCoroutine(ScoreCounter(countScore, hiScore, scoreBar, resultScoreText));
+        timescale = Time.timeScale;
         Time.timeScale = 0;
         paused = true;
         pauseMenu = true;
@@ -1081,6 +1089,33 @@ public class GUIScript : MonoBehaviour {
 
         }
         countdownPanel.SetActive(false);
+    }
+
+    IEnumerator ScoreCounter(float score, int hiScore, Image img, Text txt) {
+        while(bufferedScore != score) {
+            if(bufferedScore < score) {
+                bufferedScore += (score - bufferedScore) / 60f;
+                if(Mathf.Abs(score - bufferedScore) < score / 60f) {
+                    bufferedScore = score;
+                }
+            }
+            txt.text = "" + (int)bufferedScore;
+            Debug.Log("Scale: " + (float)((int)bufferedScore / hiScore));
+            if(bufferedScore < hiScore) {
+                img.rectTransform.localScale = new Vector3((float)(bufferedScore / hiScore), 1, 1);
+            }
+            else {
+                img.rectTransform.localScale = new Vector3(1, 1, 1);
+            }
+            yield return StartCoroutine(WaitForRealSeconds(1 / 1000f));
+        }
+    }
+
+    IEnumerator WaitForRealSeconds(float time) {
+        float start = Time.realtimeSinceStartup;
+        while(Time.realtimeSinceStartup < start + time) {
+            yield return null;
+        }
     }
 
     void DisableNotification() {
