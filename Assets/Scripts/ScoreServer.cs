@@ -46,6 +46,7 @@ public class ScoreServer : MonoBehaviour
         StartCoroutine(WaitForRequest(wwwScores));
         StartCoroutine(WaitForRequestStatistics(wwwStatistics));
 
+
     }
 
     // Update is called once per frame
@@ -326,6 +327,8 @@ public class ScoreServer : MonoBehaviour
                 if (statistics[i][1] == "" + difficulty)
                 {
                     stats = new List<string>();
+                    //stats.Add(statistics[i][0]);
+
                     for (int j = 2; j < 14; j++)
                     {
                         stats.Add(statistics[i][j]);
@@ -340,14 +343,20 @@ public class ScoreServer : MonoBehaviour
 
     public static List<string> getStatisticsDifficulty(int difficulty, int ranking)
     {
+
         List<List<string>> stats = getStatisticsDifficulty(difficulty);
+
+		//Debug.Log (ranking);
+
+        //printMatrix(stats);
 
         List<string> res = new List<string>();
 
-        if (ranking >= 0)
+        if (ranking >= 0 && ranking <= stats.Count)
         {
             for (int i = 0; i < 12; i++)
             {
+				//Debug.Log(stats[ranking][i]);
                 res.Add(stats[ranking][i]);
             }
         }
@@ -406,7 +415,7 @@ public class ScoreServer : MonoBehaviour
         return res;
     }
 
-    public void printMatrix(List<List<string>> matrix)
+    public static void printMatrix(List<List<string>> matrix)
     {
         for (int i = 0; i < matrix.Count; i++)
         {
