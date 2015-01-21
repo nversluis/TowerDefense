@@ -399,6 +399,49 @@ public class ScoreServer : MonoBehaviour
         return res;
     }
 
+    public List<string> getStatisticsDifficulty(int difficulty, int ranking)
+    {
+        List<List<string>> stats = getStatisticsDifficulty(difficulty);
+
+        List<string> res = new List<string>();
+
+        if (ranking >= 0)
+        {
+            // Naam
+            res.Add(stats[ranking][0]);
+            // Difficulty
+            res.Add(stats[ranking][1]);
+            // Score
+            res.Add(stats[ranking][2]);
+            // Waves
+            res.Add(stats[ranking][3]);
+            // Kills
+            res.Add(stats[ranking][4]);
+            // Killstreak
+            res.Add(stats[ranking][5]);
+            // Headshots
+            res.Add(stats[ranking][6]);
+            // Headshotstreak
+            res.Add(stats[ranking][7]);
+            // Firetrapsbuilt
+            res.Add(stats[ranking][8]);
+            // Icetrapsbuilt
+            res.Add(stats[ranking][9]);
+            // Poisontrapsbuilt
+            res.Add(stats[ranking][10]);
+            // Magictowersbuilt
+            res.Add(stats[ranking][11]);
+            // Arrowtowersbuilt
+            res.Add(stats[ranking][12]);
+            // Barricadebuilt
+            res.Add(stats[ranking][13]);
+        }
+        return res;
+    }
+
+    
+
+
     public List<List<string>> getStatisticsNaamDifficultyTotRank(string naam, int difficulty, int totRank)
     {
         List<List<string>> res = new List<List<string>>();
