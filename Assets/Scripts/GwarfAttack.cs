@@ -23,8 +23,6 @@ public class GwarfAttack : MonoBehaviour
 
     LayerMask allowMask = 1 << 10;
 
-	Vector3 endLoc = new Vector3();
-
 	GwarfScript gs;
     float volume;
 

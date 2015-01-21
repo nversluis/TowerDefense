@@ -9,7 +9,6 @@ public class GwarfBulletScript : MonoBehaviour
     Vector3 PrevItLoc;
     public static float maxBulletDistance = 200;
     public static GameObject hitObject;
-    EnemyResources enemyResources;
     public GameObject Boom;
     LayerMask ignoreMask = ~(1 << 13);
 
@@ -51,8 +50,7 @@ public class GwarfBulletScript : MonoBehaviour
 		PrevItLoc = transform.position;
 		//gwarf = gameObject.transform.parent;
 		if (gwarf != null) {
-			//damagePerShot = gwarf.GetComponent<GwarfAttack> ().attackDamage;        
-			enemyResources = gwarf.GetComponent<EnemyResources> ();
+			//damagePerShot = gwarf.GetComponent<GwarfAttack> ().attackDamage;    
 		}
     }
 

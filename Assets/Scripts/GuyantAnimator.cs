@@ -5,7 +5,6 @@ public class GuyantAnimator : MonoBehaviour {
 
     protected Animator animator;
     EnemyResources enemyResources;
-    EnemyHealth enemyHealth;
 
 	// Use this for initialization
     void Start()
@@ -13,7 +12,6 @@ public class GuyantAnimator : MonoBehaviour {
 
         animator = GetComponent<Animator>();
         enemyResources = GetComponent<EnemyResources>();
-        enemyHealth = GetComponent<EnemyHealth>();
 
     }
 

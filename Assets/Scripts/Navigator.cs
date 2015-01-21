@@ -5,10 +5,6 @@ using System.Collections.Generic;
 public class Navigator : MonoBehaviour
 {
 
-	private GameObject ResourceManagerObj;
-	private ResourceManager resourceManager;
-
-	private static List<WayPoint>grid;
 
 	// Create a list containing the open Nodes
 	static List<WayPoint> openNodes = new List<WayPoint> ();
@@ -18,9 +14,6 @@ public class Navigator : MonoBehaviour
 
 	void Start ()
 	{
-		ResourceManagerObj = GameObject.Find ("ResourceManager");
-		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
-		grid = resourceManager.Nodes;
 	}
 
 	public static List<WayPoint> Path (Vector3 startPoint, Vector3 endPoint, float gridSize, List<WayPoint> grid, float D = 0.15f)
@@ -72,7 +65,6 @@ public class Navigator : MonoBehaviour
 		// Add found nodes to destination list of start node if they are visible and set their state to open
 		bool openDestinationsExist = false;
 		List<WayPoint> startNodes = FindWayPointsNear (startPoint, grid, gridSize);
-		int test = startNodes.Count;
 		for (int i = 0; i < startNodes.Count; i++) {
 			WayPoint dest = startNodes [i];
 			dest.setGCost (CalculateGCost (startWP, dest));
@@ -246,7 +238,7 @@ public class Navigator : MonoBehaviour
 	{
 		try {
 			return current.getGCost () + (current.getPosition () - destination.getPosition ()).magnitude + destination.getPenalty ();
-		} catch (System.Exception e) {
+		} catch {
 			return -1;
 		}   
 	}

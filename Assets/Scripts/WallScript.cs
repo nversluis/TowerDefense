@@ -40,15 +40,12 @@ public class WallScript : MonoBehaviour
 			if (player == null) {
 				player = GameObject.Find ("Player");
 			}
-			Vector3 normal = CameraController.hit.normal;
 			//Destroy all objects
 			if (gameObject.transform.childCount != 2) {
 				DestroyHotSpots ();
 			}
 			GameObject TowerPrefab = WeaponController.curTower;
 			if (TowerPrefab != null && gameObject.transform.childCount == 0 && Vector3.Distance (player.transform.position, transform.position) <= maxDistance) { 
-				Vector3 normalToWall = CameraController.hit.normal;
-				Vector3 TowerOffset = new Vector3 (Mathf.Sin (transform.eulerAngles.y / 180 * Mathf.PI), 0, Mathf.Cos (transform.eulerAngles.y / 180 * Mathf.PI)) * planeW / 50;
 				GameObject tower = (GameObject)Instantiate (TowerPrefab, transform.position, transform.rotation);
 
 				tower.gameObject.transform.localScale = new Vector3 (1, 1, 1) * planeW * 10/2;

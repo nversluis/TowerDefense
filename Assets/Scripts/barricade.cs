@@ -52,7 +52,7 @@ public class barricade : MonoBehaviour
 				bluetrap.transform.parent = gameObject.transform.parent;
 				bluetrap.tag = "Tower";
 				bluetrap.layer = 0;
-				bluetrap.SetActiveRecursively (true); 
+				bluetrap.SetActive (true); 
 				foreach (Renderer child in bluetrap.GetComponentsInChildren<Renderer>()) {
 					child.material.color = new Color (0, 0, 255, 0.1f);
 					child.material.shader = Shader.Find ("Transparent/Diffuse");
@@ -79,13 +79,12 @@ public class barricade : MonoBehaviour
 	{
 		if (cost <= playerData.getGold ()) {
 			GameObject trap = (GameObject)Instantiate (bar, transform.position, Quaternion.identity);//Instantiantion of the tower
-			barricade barScript = trap.GetComponent<barricade> ();
 			trap.collider.isTrigger = false;
 			trap.gameObject.transform.localScale = new Vector3 (1, 1, 1) * resourceManager.planewidth * 1.7f / 20;
 			trap.transform.parent = gameObject.transform.parent;
 			trap.tag = "Tower";
 			trap.layer = 8;
-			trap.SetActiveRecursively (true); 
+			trap.SetActive (true); 
 			playerData.addGold (-cost);
 			resourceManager.allBarricades.Add (trap);
 			setPenalties (maxHealth/2);

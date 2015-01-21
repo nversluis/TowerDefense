@@ -44,6 +44,7 @@ GameObject:
   - 4: {fileID: 433172}
   - 33: {fileID: 3333172}
   - 23: {fileID: 2333172}
+  - 114: {fileID: 11487672}
   m_Layer: 9
   m_Name: Sphere
   m_TagString: Untagged
@@ -392,7 +393,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 142686}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 6.57999992}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 442688}
@@ -864,6 +865,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isSlowed: 1
   throughGate: 0
+  test: 0
 --- !u!114 &11450352
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -890,6 +892,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2615b3fa81322314db608486d14e2b6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11487672
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 133172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 593cabf0af333a64bb15e80fbb991af1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!136 &13650354
@@ -1125,7 +1138,7 @@ ParticleSystem:
         rgba: 4294967295
       maxColor:
         serializedVersion: 2
-        rgba: 4278234389
+        rgba: 1677765909
       minMaxState: 0
     startSize:
       scalar: 2
@@ -2177,7 +2190,7 @@ ParticleSystem:
         rgba: 4294967295
       maxColor:
         serializedVersion: 2
-        rgba: 4294234927
+        rgba: 1693766447
       minMaxState: 0
     startSize:
       scalar: 1.5

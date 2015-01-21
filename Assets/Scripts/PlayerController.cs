@@ -22,22 +22,18 @@ public class PlayerController : MonoBehaviour
     AudioClip hitEnemy3;
 
     AudioClip swordSpecial;
-    AudioClip magicSpecial;
 
     float volume;
 
     // initializing some global variables
-    private GameObject camera;
+    private GameObject cameraMain;
     private GameObject Bullet;
 
     private float playerSpeed;
     private float BulletSpeed = 100f;
-    private float camAngleX;
     private float camAngleY;
     public float distortion;
-    private float turnSpeed = 0.5f;
     private float jumpSpeed = 8.78f;
-    private float moveY=0;
 
 
     public static bool moving;
@@ -58,7 +54,6 @@ public class PlayerController : MonoBehaviour
     AudioClip walking;
     private bool jumped;
     public static Vector3 location;
-    Vector3 startPosition;
 	GameObject curFloor;
 
 
@@ -94,7 +89,7 @@ public class PlayerController : MonoBehaviour
 
 
         // determining the camera angle around origin y and the inputs of the user
-        camAngleY = camera.transform.rotation.eulerAngles.y;
+        camAngleY = cameraMain.transform.rotation.eulerAngles.y;
         float inHorz = Input.GetAxisRaw("Horizontal");
         float inVert = Input.GetAxisRaw("Vertical");
 
@@ -348,15 +343,18 @@ public class PlayerController : MonoBehaviour
                 SetAttackAnimationFalse();
                 idle = false;
                 attackingSword3 = true;
-                coolDownSword2 = true;
-                player.getSkills()[1].startCooldown();
+
                 Invoke("SetAttackAnimationFalse", 1f);
-                Invoke("setCoolDownSword2false", coolDownSword2Time);
 
                 RaycastHit hit;
                 if (Physics.Raycast(transform.position + tijdelijk, transform.forward, out hit, 3f, enemyMask))
                 {
+                    coolDownSword2 = true;
+
+                    Invoke("setCoolDownSword2false", coolDownSword2Time);
                     StartCoroutine(SpecialHitEnemy(hit));
+                    player.getSkills()[1].startCooldown();
+
 
                 }
 
@@ -372,9 +370,6 @@ public class PlayerController : MonoBehaviour
                 Invoke("setCoolDownMagic1false", coolDownMagic1Time);
 
                 // determining Angles of the camera with origin
-
-				camAngleX = camera.transform.rotation.eulerAngles.x;
-				camAngleY = camera.transform.rotation.eulerAngles.y;
 				bulletToInst = Bullet;
 
 			
@@ -391,9 +386,6 @@ public class PlayerController : MonoBehaviour
                 Invoke("SetAttackAnimationFalse", .1f);
                 Invoke("setCoolDownMagic2false", coolDownMagic2Time);
 
-                // determining Angles of the camera with origin
-                camAngleX = camera.transform.rotation.eulerAngles.x;
-                camAngleY = camera.transform.rotation.eulerAngles.y;
 
                 // initializing correctionAngle and hit
 
@@ -457,7 +449,7 @@ public class PlayerController : MonoBehaviour
 		AudioSource bulletAudio = bullet.GetComponent<AudioSource>();
 
 		// Casting a ray and storing information to hit
-		if (!Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, Mathf.Infinity, ignoreMaskBullet))
+		if (!Physics.Raycast(cameraMain.transform.position, cameraMain.transform.forward, out hit, Mathf.Infinity, ignoreMaskBullet))
 		{
 			camShootDistance = transform.forward;
 
@@ -481,9 +473,8 @@ public class PlayerController : MonoBehaviour
 		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
         // Do not display cursor
         Screen.showCursor = false;
-        camera = GameObject.Find("Main Camera");
-        cameraAudio = camera.GetComponent<AudioSource>();
-        startPosition = transform.position;
+        cameraMain = GameObject.Find("Main Camera");
+        cameraAudio = cameraMain.GetComponent<AudioSource>();
 		Bullet = resourceManager.magicBullet;
 		magic = resourceManager.magicBulletSound;
         coolDownMagic1Time = resourceManager.coolDownMagic1Time[ResourceManager.Difficulty];
@@ -512,7 +503,6 @@ public class PlayerController : MonoBehaviour
         hitEnemy3 = resourceManager.hitEnemy3;
 
         swordSpecial = resourceManager.swordSpecial;
-        magicSpecial = resourceManager.magicSpecial;
 
         hitExplosionParticles = resourceManager.hitExplosionParticles;
 
@@ -607,7 +597,7 @@ public class PlayerController : MonoBehaviour
     // Updates 60 times per second and not per frame
     void FixedUpdate()
     {
-		Debug.Log (idle);
+		//Debug.Log (idle);
 		checkFloor ();
         // Move player with this method
         playerMovement();
@@ -615,7 +605,7 @@ public class PlayerController : MonoBehaviour
         // Decrease bullet distortion
         DecreaseBulletDistortion();
 
-        transform.rotation = Quaternion.Euler(0f, camera.transform.rotation.eulerAngles.y, 0f);
+        transform.rotation = Quaternion.Euler(0f, cameraMain.transform.rotation.eulerAngles.y, 0f);
 
 
     }

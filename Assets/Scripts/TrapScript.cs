@@ -4,7 +4,6 @@ using System.Collections;
 public class TrapScript : MonoBehaviour
 {
 	//Initizialising
-	float MaxDistance;
 	private GameObject realTrap;
 	private GameObject redTrap;
 	float planeW;
@@ -40,10 +39,6 @@ public class TrapScript : MonoBehaviour
             cost = resourceManager.costBarricade[ResourceManager.Difficulty];
 			//cost = resourceManager.costFireTrap;
 		} 
-
-
-		MaxDistance = resourceManager.maxTowerDistance;
-
 	}
 
 	public void BuildTrap ()
@@ -56,7 +51,7 @@ public class TrapScript : MonoBehaviour
 				float randHoek = 90 * Mathf.Floor (Random.value * 4);
 				trap.transform.RotateAround (transform.position, Vector3.up, randHoek);
 				trap.tag = "Tower";
-				trap.SetActiveRecursively (true); 
+				trap.SetActive (true); 
 				playerData.addGold (-cost);
 				TowerStats stats = trap.GetComponent<TowerStats> ();
 				stats.upgradeCost = cost;
