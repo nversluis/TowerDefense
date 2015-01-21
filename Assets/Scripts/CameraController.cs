@@ -51,8 +51,11 @@ public class CameraController : MonoBehaviour {
     // Method for determining mouse input to calculate the camera position
     private void CamMov()
     {
-        // change camera height according to input from mouse scrollwheel and setting limits
-        camDis = Mathf.Clamp(camDis-Input.GetAxisRaw("Mouse ScrollWheel") * scrollSpeed, minCamHeight, maxCamHeight);
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            // change camera height according to input from mouse scrollwheel and setting limits
+            camDis = Mathf.Clamp(camDis - Input.GetAxisRaw("Mouse ScrollWheel") * scrollSpeed, minCamHeight, maxCamHeight);
+        }
 
         // determining input from mouse axis
         float mousex = Input.GetAxisRaw("Mouse X") * mouseSpeed;
