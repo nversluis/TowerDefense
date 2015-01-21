@@ -819,7 +819,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 188948}
   m_LocalRotation: {x: 0, y: .707106829, z: 0, w: -.707106829}
-  m_LocalPosition: {x: -0, y: 0, z: 11.3999996}
+  m_LocalPosition: {x: -9.75, y: 0, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 488946}
@@ -1003,6 +1003,7 @@ MonoBehaviour:
   attackingGoal: 0
   attackingBar: 0
   throughGate: 0
+  test: 0
 --- !u!114 &11435318
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1319,7 +1320,7 @@ ParticleSystem:
         rgba: 4294967295
       maxColor:
         serializedVersion: 2
-        rgba: 4294234927
+        rgba: 1693766447
       minMaxState: 0
     startSize:
       scalar: 1.5
@@ -2371,7 +2372,7 @@ ParticleSystem:
         rgba: 4294967295
       maxColor:
         serializedVersion: 2
-        rgba: 4278234389
+        rgba: 1677765909
       minMaxState: 0
     startSize:
       scalar: 1.5
