@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class Video2Script : MonoBehaviour {
     Sprite[] image;
-    public AudioClip[] audioM;
+    public AudioClip[] audio;
     public Image videoImage;
     int i;
     AudioSource camAudio;
@@ -22,17 +22,17 @@ public class Video2Script : MonoBehaviour {
 
         if (i == 5)
         {
-            camAudio.PlayOneShot(audioM[0]);
+            camAudio.PlayOneShot(audio[0]);
         }
 
         if (i == 60)
         {
-            camAudio.PlayOneShot(audioM[1]);
+            camAudio.PlayOneShot(audio[1]);
         }
 
         if (i == 125)
         {
-            camAudio.PlayOneShot(audioM[2]);
+            camAudio.PlayOneShot(audio[2]);
         }
 
         i++;
