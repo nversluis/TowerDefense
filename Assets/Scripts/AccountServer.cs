@@ -27,7 +27,7 @@ public class AccountServer : MonoBehaviour {
         if (ScoreServer.getting)
         {
             getAccountFromServer();
-        }
+        }    
 	}
 
     public static bool register(string naam, string password)

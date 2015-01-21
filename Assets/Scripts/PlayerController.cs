@@ -594,7 +594,7 @@ public class PlayerController : MonoBehaviour
     // Updates 60 times per second and not per frame
     void FixedUpdate()
     {
-		// Debug.Log (idle);
+		//Debug.Log (idle);
 		checkFloor ();
         // Move player with this method
         playerMovement();

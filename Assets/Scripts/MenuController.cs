@@ -140,6 +140,8 @@ public class MenuController : MonoBehaviour {
         if(Input.GetKey(KeyCode.Space)) {
             creditsPnl.SetActive(false);
         }
+        //Debug.Log("ScoreServer.getStatistics().Count = " + ScoreServer.getStatistics().Count);
+        //Debug.Log(ScoreServer.getPositionOnHiscores(3, "Niels"));
     }
 
     void UpdateSliderVals() {
@@ -283,7 +285,7 @@ public class MenuController : MonoBehaviour {
                 scorePanelList[i].SetActive(false);
             }
         }
-        if(playerInList) {
+        if(!playerInList) {
             scorePanelList[10].SetActive(false);
         }
         else {
@@ -292,7 +294,7 @@ public class MenuController : MonoBehaviour {
                 scorePanelList[10].SetActive(true);
                 rankList[10].text = ScoreServer.getPositionOnHiscores((int)scoreDifficulty.value, PlayerPrefs.GetString("Login")).ToString() + ":";
                 nameList[10].text = PlayerPrefs.GetString("Login");
-                hiScoreList[10].text = HiScores[ScoreServer.getPositionOnHiscores((int)scoreDifficulty.value, PlayerPrefs.GetString("Login"))][1];
+                hiScoreList[10].text = HiScores[ScoreServer.getPositionOnHiscores((int)scoreDifficulty.value, PlayerPrefs.GetString("Login"))-1][1];
             }
             else {
                 scorePanelList[10].SetActive(false);
