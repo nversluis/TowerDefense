@@ -124,8 +124,38 @@ public class MenuController : MonoBehaviour {
             else {
                 transform.anchoredPosition = scorePanelList[0].GetComponent<RectTransform>().anchoredPosition + new Vector2(0, -40f * (float)i);
             }
-            if(i != 10) {
-                btn.onClick.AddListener(() => ToStatistics(i));
+            // Dont ask why, but addlistener(function(i)) just WOULD NOT WORK. I blame Unity.
+            switch(i) {
+                case 1:
+                    btn.onClick.AddListener(() => ToStatistics(1));
+                    break;
+                case 2:
+                    btn.onClick.AddListener(() => ToStatistics(2));
+                    break;
+                case 3:
+                    btn.onClick.AddListener(() => ToStatistics(3));
+                    break;
+                case 4:
+                    btn.onClick.AddListener(() => ToStatistics(4));
+                    break;
+                case 5:
+                    btn.onClick.AddListener(() => ToStatistics(5));
+                    break;
+                case 6:
+                    btn.onClick.AddListener(() => ToStatistics(6));
+                    break;
+                case 7:
+                    btn.onClick.AddListener(() => ToStatistics(7));
+                    break;
+                case 8:
+                    btn.onClick.AddListener(() => ToStatistics(8));
+                    break;
+                case 9:
+                    btn.onClick.AddListener(() => ToStatistics(9));
+                    break;
+                default:
+                    break;
+
             }
             scorePanelList.Add(newPanel);
             rankList.Add(rank);
