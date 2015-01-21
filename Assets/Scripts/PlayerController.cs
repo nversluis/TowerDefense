@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour
     private float jumpSpeed = 8.78f;
     private float moveY=0;
 
+
     public static bool moving;
     public static bool attackingSword1;
     public static bool attackingSword2;
@@ -47,8 +48,11 @@ public class PlayerController : MonoBehaviour
     public static bool attackMagic2;
     public static bool idle;
 	public static bool jumping;
+	public static bool isDancing;
 
 	bool inAir;
+	public static bool waveEnded;
+
 
     private AudioClip magic;
     AudioClip walking;
@@ -83,7 +87,7 @@ public class PlayerController : MonoBehaviour
 
     bool invoked;
     public static bool started;
-
+	GameObject bulletToInst;
     // Method for getting player input
     private Vector3 playerInput()
     {
@@ -163,12 +167,13 @@ public class PlayerController : MonoBehaviour
     private void playerMovement()
     {
         // Checking if the player is moving
-        if ((Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0) && !jumping)
+        if ((Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0) && !jumping && !isDancing)
         {
             idle = false;
             moving = true;
+
         }
-        else if (!OtherAnimationTrue() && !jumping)
+        else if (!OtherAnimationTrue() && !jumping && !isDancing)
         {
 
             idle = true;
@@ -196,7 +201,7 @@ public class PlayerController : MonoBehaviour
 			Invoke ("SetJumpAnimationFalse", .5f);
         }
 
-		if (inAir && isGrounded ()) {
+		if (inAir && isGrounded () && !isDancing) {
 			inAir = false;
 			jumping = false;
 			moving = false;
@@ -299,7 +304,6 @@ public class PlayerController : MonoBehaviour
                 if (random == 0)
                 {
                     attackingSword1 = true;
-					jumping = false;
                 }
 
                 else
@@ -368,35 +372,14 @@ public class PlayerController : MonoBehaviour
                 Invoke("setCoolDownMagic1false", coolDownMagic1Time);
 
                 // determining Angles of the camera with origin
-                camAngleX = camera.transform.rotation.eulerAngles.x;
-                camAngleY = camera.transform.rotation.eulerAngles.y;
 
-                // initializing correctionAngle and hit
-                Vector3 camShootDistance;
-                RaycastHit hit;
+				camAngleX = camera.transform.rotation.eulerAngles.x;
+				camAngleY = camera.transform.rotation.eulerAngles.y;
+				bulletToInst = Bullet;
 
 			
                 // creating a bullet in front of 1 unit away from Player
-                GameObject bullet = (GameObject)Instantiate(Bullet, transform.position + tijdelijk, Quaternion.identity);
-                AudioSource bulletAudio = bullet.GetComponent<AudioSource>();
-                // Casting a ray and storing information to hit
-                if (!Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, Mathf.Infinity, ignoreMaskBullet))
-                {
-                    camShootDistance = transform.forward;
-
-                }
-                else
-                {
-                    camShootDistance = hit.point - (transform.position + tijdelijk);
-                    camShootDistance = camShootDistance + ((new Vector3(Random.Range(-50, 50), Random.Range(-50, 50), Random.Range(-50, 50)).normalized * distortion) * camShootDistance.magnitude) / 80f; ;
-                }
-
-                // add the force to the bullet
-                bullet.rigidbody.velocity = camShootDistance.normalized * BulletSpeed;
-                AddBulletDistortion();
-               
-                // looking in the direction of the camera
-                bulletAudio.PlayOneShot(magic, 10 * volume);
+				Invoke ("InstBullet", 0.2f);
             }
 
             if (WeaponController.weapon == 4 && !coolDownMagic2)
@@ -413,31 +396,11 @@ public class PlayerController : MonoBehaviour
                 camAngleY = camera.transform.rotation.eulerAngles.y;
 
                 // initializing correctionAngle and hit
-                Vector3 camShootDistance;
-                RaycastHit hit;
 
 			
                 // creating a bullet in front of 1 unit away from Player
-                GameObject bullet = (GameObject)Instantiate(explosionBullet, transform.position + tijdelijk, Quaternion.identity);
-                AudioSource bulletAudio = bullet.GetComponent<AudioSource>();
-
-                // Casting a ray and storing information to hit
-                if (!Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, Mathf.Infinity, ignoreMaskBullet))
-                {
-                    camShootDistance = transform.forward;
-
-                }
-                else
-                {
-                    camShootDistance = hit.point - (transform.position + tijdelijk );
-                }
-
-                // add the force to the bullet
-                bullet.rigidbody.velocity = camShootDistance.normalized * BulletSpeed;
-                AddBulletDistortion();
-               
-                // looking in the direction of the camera
-                bulletAudio.PlayOneShot(magic, 10f * volume);
+				bulletToInst = explosionBullet;
+				Invoke ("InstBullet", 0.2f);
             }
 
         }
@@ -483,6 +446,34 @@ public class PlayerController : MonoBehaviour
     {
         return attackingSword1 || attackingSword2 || attackMagic1 || attackMagic2 || attackingSword3;
     } 
+
+	void InstBullet()
+	{
+		// initializing correctionAngle and hit
+		Vector3 camShootDistance;
+		RaycastHit hit;
+		Vector3 bulletPos = gameObject.transform.Find ("BulletPosition").transform.position;
+		GameObject bullet = (GameObject)Instantiate(bulletToInst, bulletPos, Quaternion.identity);
+		AudioSource bulletAudio = bullet.GetComponent<AudioSource>();
+
+		// Casting a ray and storing information to hit
+		if (!Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, Mathf.Infinity, ignoreMaskBullet))
+		{
+			camShootDistance = transform.forward;
+
+		}
+		else
+		{
+			camShootDistance = hit.point - (bulletPos);
+		}
+
+		// add the force to the bullet
+		bullet.rigidbody.velocity = camShootDistance.normalized * BulletSpeed;
+		AddBulletDistortion();
+
+		// looking in the direction of the camera
+		bulletAudio.PlayOneShot(magic, 10f * volume);
+	}
     // Use this for initialization
     void Start()
     {
@@ -575,7 +566,20 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+
+		if (waveEnded) {
+			waveEnded = false;
+			isDancing = true;
+			idle = false;
+			moving = false;
+			jumping = false;
+			Invoke ("StopDancing", 3.4f);
+		}
     }
+
+	void StopDancing(){
+		isDancing = false;
+	}
 
 	void checkFloor(){
 		RaycastHit hit;
@@ -599,6 +603,7 @@ public class PlayerController : MonoBehaviour
     // Updates 60 times per second and not per frame
     void FixedUpdate()
     {
+		Debug.Log (idle);
 		checkFloor ();
         // Move player with this method
         playerMovement();

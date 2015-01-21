@@ -199,6 +199,7 @@ public class WaveSpawner : MonoBehaviour
             {
                 if (enemies.Count == 0)
                 {
+					PlayerController.waveEnded = true;
                     resourceManager.rewardWave = (int)Mathf.Round((startRewardWave * Mathf.Pow(RewardWaveFactor, (currentWave - 1))));
                     // Voeg gold toe voor de speler na elke wave
                     playerData.addGold(resourceManager.rewardWave);
