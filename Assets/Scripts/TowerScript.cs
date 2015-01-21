@@ -46,7 +46,7 @@ public class TowerScript : MonoBehaviour
 			tower.tag = "Tower"; //Give tower a new tag, so it wont be destroyed because its a hotspot
 			tower.transform.parent = gameObject.transform.parent;
 			//tower.collider.isTrigger = false; //remove the trigger, cant walk trough it
-			tower.SetActiveRecursively (true); //Active its children (the trigger)
+			tower.SetActive (true); //Active its children (the trigger)
 			gameObject.layer = 13;
 			playerData.addGold (-cost);
 			if (gameObject.name.Contains ("magic")) {

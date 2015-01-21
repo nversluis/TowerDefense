@@ -67,6 +67,7 @@ public class GUIScript : MonoBehaviour {
     public Sprite[] resultSprites = new Sprite[2];
 
     private float bufferedScore;
+    private int online = PlayerPrefs.GetInt("Online");
 
     [Header("Crosshair")]
     public GameObject crosshair;
@@ -97,7 +98,7 @@ public class GUIScript : MonoBehaviour {
     public Sprite[] TowerSprites = new Sprite[7];
 
 
-    private GameObject camera;
+    private GameObject cameraMain;
     private RectTransform rect;
     private LayerMask enemyMask = ((1 << 12) | (1 << 10) | (1 << 8));
     private RaycastHit hit;
@@ -167,6 +168,10 @@ public class GUIScript : MonoBehaviour {
     float volume;
     float timescale;
     void Start() {
+        if(!PlayerPrefs.HasKey("hiScore")) {
+            PlayerPrefs.SetFloat("hiScore", 0);
+        }
+
         bufferedScore = 0;
 
         volume = (float)PlayerPrefs.GetInt("SFX") / 100f;
@@ -217,6 +222,7 @@ public class GUIScript : MonoBehaviour {
         goalScript = GameObject.Find("Goal").GetComponent<GoalScript>();
         waveSpawner = GameObject.Find("EnemySpawner(Clone)").GetComponent<WaveSpawner>();
 
+
         /* Initialize */
 
         // Player Data
@@ -240,6 +246,10 @@ public class GUIScript : MonoBehaviour {
         player.setItems(newItems);
 
         skillset = player.getSkills();
+        foreach(Skill sk in skillset){
+            sk.setCdPercent(0);
+        }
+        player.setSkills(skillset);
         inventory = player.getItems();
 
         // Skills 
@@ -288,7 +298,7 @@ public class GUIScript : MonoBehaviour {
         // Enemy Popup
         enemyPanel.SetActive(false);
         rect = HP.GetComponent<RectTransform>();
-        camera = GameObject.Find("Main Camera");
+        cameraMain = GameObject.Find("Main Camera");
 
         // Buffered HP's
         fPlayerBufferedHP = 0;
@@ -353,6 +363,7 @@ public class GUIScript : MonoBehaviour {
         UpdateStats();
         UpdateShop();
         UpdateItems();
+        ResetCooldowns();
     }
 
     void FixedUpdate() {
@@ -373,6 +384,12 @@ public class GUIScript : MonoBehaviour {
         UpdateWaveText();
         UpdateShop();
         UpdateBuildTower();
+
+        scoreText.text = Statistics.Score().ToString();
+
+        if(online == 0 && Statistics.Score() > PlayerPrefs.GetFloat("hiScore")) {
+            PlayerPrefs.SetFloat("hiScore", Statistics.Score());
+        }
     }
 
     void Update() {
@@ -416,8 +433,6 @@ public class GUIScript : MonoBehaviour {
 
         }
 
-        scoreText.text = Statistics.Score().ToString();
-
         if (Time.timeScale != 0)
         {
             if (Time.timeScale < 1.9)
@@ -434,6 +449,15 @@ public class GUIScript : MonoBehaviour {
 
             }
 
+        }
+    }
+
+    void ResetCooldowns() {
+        foreach(Image im in skillIconList) {
+            im.fillAmount = 0;
+        }
+        foreach(Text tx in skillCooldownList) {
+            tx.text = "";
         }
     }
 
@@ -514,7 +538,7 @@ public class GUIScript : MonoBehaviour {
     }
 
     void UpdateEnemyStats() {
-        if(Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, Mathf.Infinity, enemyMask)) {
+        if(Physics.Raycast(cameraMain.transform.position, cameraMain.transform.forward, out hit, Mathf.Infinity, enemyMask)) {
             TowerStats stats = hit.transform.GetComponentInChildren<TowerStats>();
             if(hit.transform.tag == "Enemy") {
                 EnemyHealth enemyHealth = hit.transform.GetComponent<EnemyHealth>();
@@ -753,7 +777,7 @@ public class GUIScript : MonoBehaviour {
 
         if(towerSelected) {
             for(int i = 0; i < towerIconList.Length; i++) {
-                Image tower = towerIconList[i];
+                //Image tower = towerIconList[i];
                 if(i == currentTower) {
                     towerSelectList[i].enabled = true;
                 }
@@ -767,7 +791,7 @@ public class GUIScript : MonoBehaviour {
         }
         else {
             for(int i = 0; i < skillIconList.Length; i++) {
-                Image skill = skillIconList[i];
+                //Image skill = skillIconList[i];
                 if(i == currentSkill) {
                     skillSelectList[i].enabled = true;
                 }
@@ -853,7 +877,14 @@ public class GUIScript : MonoBehaviour {
     }
 
     public void EndGame(string reason = "none") {
-        int hiScore = int.Parse(ScoreServer.getHiscores(PlayerPrefs.GetInt("Difficulty"))[0][1]);
+        int hiScore;
+        scoreText.text = "";
+        if(online == 1) {
+            hiScore = int.Parse(ScoreServer.getHiscores(PlayerPrefs.GetInt("Difficulty"))[0][1]);
+        }
+        else {
+            hiScore = (int)PlayerPrefs.GetFloat("hiScore");
+        }
         hiScoreText.text = hiScore.ToString();
         result.SetActive(true);
         Screen.showCursor = true;
@@ -908,7 +939,7 @@ public class GUIScript : MonoBehaviour {
 
     public void UpgradeSword() {
         int currentTier = inventory[0].getTier();
-        int currentIndex = inventory[0].getTier() - 1;
+        int currentIndex = currentTier - 1;
         inventory[0].setTier(currentTier + 1);
         player.setItems(inventory);
         playerController.addSwordDamage(inventory[0].getValue()[currentIndex]);
@@ -921,8 +952,8 @@ public class GUIScript : MonoBehaviour {
 
     public void UpgradeWand() {
         int currentTier = inventory[1].getTier();
-        int currentIndex = inventory[1].getTier() - 1;
-        inventory[1].setTier(inventory[1].getTier() + 1);
+        int currentIndex = currentTier - 1;
+        inventory[1].setTier(currentTier + 1);
         player.setItems(inventory);
         playerController.addMagicDamage(inventory[1].getValue()[currentIndex]);
         player.removeGold(inventory[1].getCost()[currentIndex]);
@@ -934,8 +965,8 @@ public class GUIScript : MonoBehaviour {
 
     public void UpgradeShield() {
         int currentTier = inventory[2].getTier();
-        int currentIndex = inventory[2].getTier() - 1;
-        inventory[2].setTier(inventory[2].getTier() + 1);
+        int currentIndex = currentTier - 1;
+        inventory[2].setTier(currentTier + 1);
         player.setItems(inventory);
         playerHealth.addPlayerDefense(inventory[2].getValue()[currentIndex]);
         player.removeGold(inventory[2].getCost()[currentIndex]);
@@ -947,8 +978,8 @@ public class GUIScript : MonoBehaviour {
 
     public void UpgradeBoots() {
         int currentTier = inventory[3].getTier();
-        int currentIndex = inventory[3].getTier() - 1;
-        inventory[3].setTier(inventory[3].getTier() + 1);
+        int currentIndex = currentTier - 1;
+        inventory[3].setTier(currentTier + 1);
         player.setItems(inventory);
         playerController.addPlayerSpeed(inventory[3].getValue()[currentIndex]);
         player.removeGold(inventory[3].getCost()[currentIndex]);
@@ -1100,7 +1131,6 @@ public class GUIScript : MonoBehaviour {
                 }
             }
             txt.text = "" + (int)bufferedScore;
-            Debug.Log("Scale: " + (float)((int)bufferedScore / hiScore));
             if(bufferedScore < hiScore) {
                 img.rectTransform.localScale = new Vector3((float)(bufferedScore / hiScore), 1, 1);
             }

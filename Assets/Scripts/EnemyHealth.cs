@@ -32,10 +32,8 @@ public class EnemyHealth : MonoBehaviour {
 	public bool isPoisoned;
 	public float poisonAmount = 0;
 
-	private GameObject textObject;
 	private float nodeSize;
 
-    Animator animator;
 
     float counter;
 
@@ -60,9 +58,7 @@ public class EnemyHealth : MonoBehaviour {
         currentHealth = startingHealth;
         deathPosition = new Vector3(0, 100, 0);
 		InvokeRepeating ("doPoisonDamage", 0, 5);
-		textObject = resourceManager.damageText;
 		nodeSize = resourceManager.nodeSize;
-        animator = GetComponent<Animator>();
         guiMain = GameObject.Find("GUIMain").GetComponent<GUIScript>();
         boxCollider = this.gameObject.GetComponent<BoxCollider>();
         capsuleCollider = this.gameObject.GetComponent<CapsuleCollider>();
@@ -125,21 +121,15 @@ public class EnemyHealth : MonoBehaviour {
 	public void TakeDamage(int amount,string damageType, bool attackedByPlayer)
     {
         int damageDone = amount;
-		Color kleur;
         if (damageType.Equals("magic"))
         {
-            kleur = Color.blue;
             damageDone = amount / magicDefense;
         }
         else if (damageType.Equals("physical"))
         {
-            kleur = Color.red;
             damageDone = amount / defense;
         }
-        else if (damageType.Equals("poison"))
-            kleur = Color.green;
-        else
-            kleur = Color.black;
+
         if (enemyResources.isDead)
         {
             return;
@@ -202,7 +192,7 @@ public class EnemyHealth : MonoBehaviour {
 		if (isPoisoned) {
 			TakeDamage ((int)poisonAmount,"poison", false);
 			poisonAmount *= 0.5f;
-			if (poisonAmount <= 1) {
+			if (poisonAmount <= 50) {
 				isPoisoned = false;
 				transform.Find ("Poison particle").gameObject.SetActive (false);
 			}
@@ -235,6 +225,7 @@ public class EnemyHealth : MonoBehaviour {
             enemyResources.isDead = true;
             enemyResources.walking = false;
             enemyResources.attacking = false;
+			transform.Find ("Poison particle").gameObject.SetActive (false);
 
             int enemyType;
 

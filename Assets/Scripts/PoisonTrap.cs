@@ -8,7 +8,6 @@ public class PoisonTrap : MonoBehaviour
 	private ResourceManager resourceManager;
 	private int damagePerShot;// = 500;
 	private string enemyTag = ("Enemy");
-	private GameObject enemy;
 	private List<GameObject> enemyOnTrap = new List<GameObject> ();
 	private float particleStartSize;
 	private GameObject partSys;
@@ -16,8 +15,6 @@ public class PoisonTrap : MonoBehaviour
 	void OnTriggerEnter (Collider col)
 	{
 		if (col.gameObject.tag == (enemyTag) && !enemyOnTrap.Contains (col.gameObject)) {
-			enemy = col.gameObject;
-			EnemyHealth enemyHealth = enemy.collider.GetComponent<EnemyHealth> ();
 			enemyOnTrap.Add (col.gameObject);
 			if (enemyOnTrap.Count == 1) {
 				InvokeRepeating ("DoDamage", 0.1f, 1/gameObject.GetComponent<TowerStats>().speed);
@@ -32,7 +29,6 @@ public class PoisonTrap : MonoBehaviour
 		}
 	}
 
-	int testint = 0;
 
 	void DoDamage ()
 	{

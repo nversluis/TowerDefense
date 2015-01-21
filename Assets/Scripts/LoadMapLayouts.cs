@@ -73,7 +73,6 @@ public class LoadMapLayouts : MonoBehaviour
 
     AudioSource cameraAudioSource;
 
-    Button currentButSelected;
 
     ResourceManager resourceManager;
 
@@ -254,7 +253,6 @@ public class LoadMapLayouts : MonoBehaviour
 
 
         //create a list with the names of all layouts.
-        BinaryFormatter bf = new BinaryFormatter();
         //FileStream file = File.
         string[] dirFiles = Directory.GetFiles(currentPath, "*.txt");
         int nextpage = filesPerPage * currentPage;
@@ -284,7 +282,6 @@ public class LoadMapLayouts : MonoBehaviour
                     but.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1) / 4;
 
                     but.GetComponentInChildren<Text>().text = dirFiles[i];
-                    string fileName = dirFiles[i];
 
                     but.onClick.AddListener(delegate
                     {
@@ -340,7 +337,6 @@ public class LoadMapLayouts : MonoBehaviour
                 button.colors = cb;
 
             }
-            currentButSelected = but;
             currentFileSelected = but.GetComponentInChildren<Text>().text;
 
             currentButtonsSelected = new List<Button>();
@@ -448,11 +444,9 @@ public class LoadMapLayouts : MonoBehaviour
                         floor1.renderer.material.color = CNotConnected;
                     }
                 }
-                Vector3 panelPos = cam.WorldToScreenPoint(loadMapsPanel.transform.position) / 2;
                 //ChangeTypes camera position and size to fit in load screen
                 cam.transform.position = new Vector3(length - 1, 1, width - 1) * resourceManager.planewidth / 2;
                 cam.orthographicSize = Mathf.Max(length, width + 1) * resourceManager.planewidth / 2;
-                float mincaminfo = loadMapsPanel.GetComponent<RectTransform>().rect.height / 1080f;
                 cam.rect = new Rect(0.4f, 0.3f, .4f, .4f);
                 Recalculate();
                 file.Close();
@@ -551,8 +545,7 @@ public class LoadMapLayouts : MonoBehaviour
     public static void convertAround(GameObject plane)
     {
         // Getting the position of the plane
-        Vector2 planePos = new Vector2(plane.transform.position.x, plane.transform.position.z) / instance.planewidth;
-
+      
         // Getting the index of the plane
         int index = allPos.IndexOf(plane);
 

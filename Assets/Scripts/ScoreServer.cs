@@ -19,6 +19,8 @@ public class ScoreServer : MonoBehaviour
     public static bool getting = true;
     public static bool connected;
 
+    bool activated;
+
     float counter;
     int waitTime = 10;
 
@@ -28,18 +30,20 @@ public class ScoreServer : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        counter = 0;
-
         hiscores = new List<List<string>>();
         statistics = new List<List<string>>();
 
+        counter = 0;
+
         urlScores = "http://drproject.twi.tudelft.nl:8087/getScore";
         wwwScores = new WWW(urlScores);
-        StartCoroutine(WaitForRequest(wwwScores));
 
         urlStatistics = "http://drproject.twi.tudelft.nl:8087/getStatistics";
         wwwStatistics = new WWW(urlStatistics);
+
+        StartCoroutine(WaitForRequest(wwwScores));
         StartCoroutine(WaitForRequestStatistics(wwwStatistics));
+
     }
 
     // Update is called once per frame
@@ -70,7 +74,7 @@ public class ScoreServer : MonoBehaviour
 
     static public void sendScoreToServer(string naam)
     {
-        WWW www = new WWW("http://drproject.twi.tudelft.nl:8087/setStatistics?naam=" + naam + "&difficulty=" + ResourceManager.Difficulty + "&score=" + Statistics.score + "&waves=" + Statistics.currentWave
+       new WWW("http://drproject.twi.tudelft.nl:8087/setStatistics?naam=" + naam + "&difficulty=" + ResourceManager.Difficulty + "&score=" + Statistics.score + "&waves=" + Statistics.currentWave
             + "&kills=" + Statistics.kills + "&killstreak=" + Statistics.killStreak + "&headshots=" + Statistics.headshots + "&headshotstreak=" + Statistics.headShotStreak
             + "&firetrapsbuilt=" + Statistics.fireTrapsBuilt + "&icetrapsbuilt=" + Statistics.iceTrapsBuilt + "&poisontrapsbuilt=" + Statistics.poisonTrapsBuilt + "&magictowersbuilt=" + Statistics.magicTowersBuilt
             + "&arrowtowersbuilt=" + Statistics.arrowTowersBuilt + "&barricadebuilt=" + Statistics.barricadesBuilt);
@@ -196,7 +200,7 @@ public class ScoreServer : MonoBehaviour
 
         if (hiscores.Count != 0)
         {
-            for (int i = 0; i < hiscores.Count / 2; i++)
+            for (int i = 0; i < hiscores.Count; i++)
             {
                 score = new List<string>();
                 // voeg naam toe
@@ -216,7 +220,7 @@ public class ScoreServer : MonoBehaviour
 
         if (hiscores.Count != 0)
         {
-            for (int i = 0; i < hiscores.Count / 2; i++)
+            for (int i = 0; i < hiscores.Count; i++)
             {
                 if (hiscores[i][1] == "" + difficulty)
                 {
@@ -232,20 +236,19 @@ public class ScoreServer : MonoBehaviour
         return hiscoresTotRank;
     }
 
-    public static int getPositionOnHiscores(string naam)
+    public static int getPositionOnHiscores(int difficulty, string naam)
     {
-        if (connected)
-        {
-            getScoreFromServer();
-        }
-
         for (int i = 0; i < hiscores.Count; i++)
         {
-            if (hiscores[i][0] == naam && hiscores[i][2] == "" + Statistics.score)
-                return i + 1;
+            if (hiscores[i][1] == "" + difficulty)
+            {
+                if (hiscores[i][0] == naam)
+                {
+                    return i + 1;
+                }
+            }
         }
         return 0;
-
     }
 
     public List<List<string>> getHiscoresDifficultyTotRank(int difficulty, int totRank)
@@ -257,7 +260,7 @@ public class ScoreServer : MonoBehaviour
 
         if (hiscores.Count != 0)
         {
-            for (int i = 0; i < hiscores.Count / 2; i++)
+            for (int i = 0; i < hiscores.Count; i++)
             {
                 if (hiscores[i][1] == "" + difficulty)
                 {
@@ -273,7 +276,7 @@ public class ScoreServer : MonoBehaviour
 
         if (hiscores.Count != 0)
         {
-            for (int i = 0; i < hiscores.Count / 2; i++)
+            for (int i = 0; i < hiscores.Count; i++)
             {
                 if (hiscores[i][1] == "" + difficulty)
                 {
@@ -293,13 +296,13 @@ public class ScoreServer : MonoBehaviour
         return hiscoresTotRank;
     }
 
-    public List<List<string>> getStatistics()
+    public static List<List<string>> getStatistics()
     {
         List<List<string>> res = new List<List<string>>();
 
         if (statistics.Count > 0)
         {
-            for (int i = 0; i < statistics.Count / 2; i++)
+            for (int i = 0; i < statistics.Count; i++)
             {
                 res.Add(statistics[i]);
             }
@@ -314,7 +317,7 @@ public class ScoreServer : MonoBehaviour
 
         if (statistics.Count > 0)
         {
-            for (int i = 0; i < statistics.Count / 2; i++)
+            for (int i = 0; i < statistics.Count; i++)
             {
                 if (statistics[i][0] == naam)
                 {
@@ -353,44 +356,22 @@ public class ScoreServer : MonoBehaviour
         return res;
     }
 
-    public List<List<string>> getStatisticsDifficulty(int difficulty)
+    public static List<List<string>> getStatisticsDifficulty(int difficulty)
     {
         List<List<string>> res = new List<List<string>>();
         List<string> stats;
 
         if (statistics.Count > 0)
         {
-            for (int i = 0; i < statistics.Count / 2; i++)
+            for (int i = 0; i < statistics.Count; i++)
             {
                 if (statistics[i][1] == "" + difficulty)
                 {
                     stats = new List<string>();
-                    // Naam
-                    stats.Add(statistics[i][0]);
-                    // Score
-                    stats.Add(statistics[i][2]);
-                    // Waves
-                    stats.Add(statistics[i][3]);
-                    // Kills
-                    stats.Add(statistics[i][4]);
-                    // Killstreak
-                    stats.Add(statistics[i][5]);
-                    // Headshots
-                    stats.Add(statistics[i][6]);
-                    // Headshotstreak
-                    stats.Add(statistics[i][7]);
-                    // Firetrapsbuilt
-                    stats.Add(statistics[i][8]);
-                    // Icetrapsbuilt
-                    stats.Add(statistics[i][9]);
-                    // Poisontrapsbuilt
-                    stats.Add(statistics[i][10]);
-                    // Magictowersbuilt
-                    stats.Add(statistics[i][11]);
-                    // Arrowtowersbuilt
-                    stats.Add(statistics[i][12]);
-                    // Barricadebuilt
-                    stats.Add(statistics[i][13]);
+                    for (int j = 2; j < 14; j++)
+                    {
+                        stats.Add(statistics[i][j]);
+                    }
 
                     res.Add(stats);
                 }
@@ -398,6 +379,23 @@ public class ScoreServer : MonoBehaviour
         }
         return res;
     }
+
+    public static List<string> getStatisticsDifficulty(int difficulty, int ranking)
+    {
+        List<List<string>> stats = getStatisticsDifficulty(difficulty);
+
+        List<string> res = new List<string>();
+
+        if (ranking >= 0)
+        {
+            for (int i = 0; i < 12; i++)
+            {
+                res.Add(stats[ranking][i]);
+            }
+        }
+        return res;
+    }
+
 
     public List<List<string>> getStatisticsNaamDifficultyTotRank(string naam, int difficulty, int totRank)
     {
@@ -427,7 +425,7 @@ public class ScoreServer : MonoBehaviour
 
         if (hiscores.Count != 0)
         {
-            for (int i = 0; i < hiscores.Count / 2; i++)
+            for (int i = 0; i < hiscores.Count; i++)
             {
                 if (statistics[i][0] == naam)
                 {

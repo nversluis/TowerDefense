@@ -4,15 +4,15 @@ using System.Collections;
 
 public class ExplosionScript : MonoBehaviour {
 
-    AudioSource audio;
+    AudioSource audioBoom;
     AudioClip kaboom;
 
 	// Use this for initialization
 	void Start () {
         float volume = (float)PlayerPrefs.GetInt("SFX") / 100f;
-        audio = GetComponent<AudioSource>();
+        audioBoom = GetComponent<AudioSource>();
         kaboom = GameObject.Find("ResourceManager").GetComponent<ResourceManager>().kaboom;
-        audio.PlayOneShot(kaboom, volume);
+        audioBoom.PlayOneShot(kaboom, volume);
         StartCoroutine(DestroyExplosion());
         
 	}

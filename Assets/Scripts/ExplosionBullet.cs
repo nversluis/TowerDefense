@@ -9,7 +9,6 @@ public class ExplosionBullet : MonoBehaviour
     Vector3 PrevItLoc;
     public static float maxBulletDistance = 200;
     public static GameObject hitObject;
-    GameObject Explosion;
     LayerMask ignoreMask = ~((1 << 13) | (1 << 2));
     LayerMask enemys = (1 << 12);
     bool headshot;
@@ -20,7 +19,6 @@ public class ExplosionBullet : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(PrevItLoc, transform.position - PrevItLoc, out hit, (PrevItLoc - transform.position).magnitude + 0.2f, ignoreMask))
         {
-            GameObject boom = (GameObject)Instantiate(Explosion, PrevItLoc, Quaternion.identity);
             Collider[] hitCollider = Physics.OverlapSphere(transform.position, 10f, enemys);
             foreach (Collider collide in hitCollider)
             {
@@ -53,7 +51,6 @@ public class ExplosionBullet : MonoBehaviour
         Player = GameObject.Find("Player").transform;
         damagePerShot = Player.GetComponent<PlayerController>().specialMagicDamage;
         PrevItLoc = transform.position;
-        Explosion = GameObject.Find("ResourceManager").GetComponent<ResourceManager>().Explosion;
 
 
     }

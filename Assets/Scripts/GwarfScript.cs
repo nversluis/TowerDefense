@@ -7,7 +7,6 @@ public class GwarfScript : MonoBehaviour
 {
 	public bool showInfo;
 
-	EnemyHealth enemyHealth;
 	private float timeBetweenAttacks = 2.917f / 2f;
 	EnemyStats enemystats;
 	ResourceManager resourceManager;
@@ -28,7 +27,6 @@ public class GwarfScript : MonoBehaviour
 	List<Vector3> Path;
 	List<Vector3> Path2;
 
-	List<float> oldList = new List<float> ();
 
 	float nodeSize;
 	float normalWalkSpeed;
@@ -67,7 +65,6 @@ public class GwarfScript : MonoBehaviour
 	{
 		// Getting other scripts from this enemy
 		enemystats = GetComponent<EnemyStats> ();
-		enemyHealth = GetComponent<EnemyHealth> ();
 		enemyResources = GetComponent<EnemyResources> ();
 
 		// Getting the ResourceManger with script

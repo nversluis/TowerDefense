@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class GrobbleScript : MonoBehaviour
 {
-	EnemyHealth enemyHealth;
 	EnemyStats enemystats;
 	ResourceManager resourceManager;
 	EnemyResources enemyResources;
@@ -28,7 +27,6 @@ public class GrobbleScript : MonoBehaviour
 	List<Vector3> Path;
 	List<Vector3> Path2;
 
-	List<float> oldList = new List<float> ();
 
     AudioClip walking;
     float volume;
@@ -64,7 +62,6 @@ public class GrobbleScript : MonoBehaviour
 	{
 		// Getting other scripts from this enemy
 		enemystats = GetComponent<EnemyStats> ();
-		enemyHealth = GetComponent<EnemyHealth> ();
 		enemyResources = GetComponent<EnemyResources> ();
 
 		// Getting the ResourceManger with script
@@ -189,7 +186,7 @@ public class GrobbleScript : MonoBehaviour
 				else {
 					bool attackingBar = false;
 					foreach (Vector3 barricade in barricades) {
-						if (barricade != null && (barricade - transform.position).magnitude < 5f && !attackingBar) {
+						if ((barricade - transform.position).magnitude < 5f && !attackingBar) {
 							// set speed to zero and attack
 							rigidbody.velocity = Vector3.zero;
 							enemyResources.walking = false;

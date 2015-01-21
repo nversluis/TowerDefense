@@ -27,7 +27,7 @@ public class AccountServer : MonoBehaviour {
         if (ScoreServer.getting)
         {
             getAccountFromServer();
-        }
+        }    
 	}
 
     public static bool register(string naam, string password)
@@ -137,7 +137,6 @@ public class AccountServer : MonoBehaviour {
         bool res = false;
 
         List<string> gebruikersnamen = getUsernames();
-        List<string> wachtwoorden = getPasswords();
 
         if (gebruikersnamen.Contains(naam) && wachtwoord.Contains(wachtwoord))
         {

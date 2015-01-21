@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class GuyantScript : MonoBehaviour
 {
-	EnemyHealth enemyHealth;
 	EnemyStats enemystats;
 	ResourceManager resourceManager;
 	EnemyResources enemyResources;
@@ -16,7 +15,6 @@ public class GuyantScript : MonoBehaviour
 	GameObject Target;
 	List<Vector3> barricades;
 
-	GoalScript goalScript;
 
 	WayPoint collisionWayPointOld;
 	WayPoint collisionWayPoint;
@@ -27,8 +25,6 @@ public class GuyantScript : MonoBehaviour
 
 	List<Vector3> Path;
 	List<Vector3> Path2;
-
-	List<float> oldList = new List<float> ();
 
 	float nodeSize;
 	float normalWalkSpeed;
@@ -63,7 +59,6 @@ public class GuyantScript : MonoBehaviour
 	{
 		// Getting other scripts from this enemy
 		enemystats = GetComponent<EnemyStats> ();
-		enemyHealth = GetComponent<EnemyHealth> ();
 		enemyResources = GetComponent<EnemyResources> ();
 
 		// Getting the ResourceManger with script
@@ -73,7 +68,6 @@ public class GuyantScript : MonoBehaviour
 		// Finding the player and the goal
 		player = GameObject.Find ("Player");
 		goal = GameObject.Find ("Goal");
-		goalScript = goal.GetComponent<GoalScript> ();
 
 		// getting all variables from other scripts
 		grid = resourceManager.Nodes;
@@ -182,7 +176,7 @@ public class GuyantScript : MonoBehaviour
 				} else {
 					bool attackingBar = false;
 					foreach (Vector3 barricade in barricades) {// if the enemy is near the barricade attack the barricade
-						if (barricade != null && (new Vector3 (barricade.x, transform.position.y, barricade.z) - transform.position).magnitude < 5f && !attackingBar) {
+						if ((new Vector3 (barricade.x, transform.position.y, barricade.z) - transform.position).magnitude < 5f && !attackingBar) {
 							// set speed to zero and attack
 							rigidbody.velocity = Vector3.zero;
 							enemyResources.walking = false;
