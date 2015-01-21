@@ -1627,7 +1627,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Statistics
+  m_Text: High Scores
 --- !u!222 &457626480
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3905,7 +3905,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7321a888faeaae47875ca40443ccd1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Hero
   gateHealth: 50000
   startGold: e80300002003000058020000f4010000
   costMagicTower: c8000000c8000000c8000000c8000000

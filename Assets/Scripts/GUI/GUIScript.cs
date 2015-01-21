@@ -880,7 +880,12 @@ public class GUIScript : MonoBehaviour {
         int hiScore;
         scoreText.text = "";
         if(online == 1) {
-            hiScore = int.Parse(ScoreServer.getHiscores(PlayerPrefs.GetInt("Difficulty"))[0][1]);
+            try {
+                hiScore = int.Parse(ScoreServer.getHiscores(PlayerPrefs.GetInt("Difficulty"))[0][1]);
+            }
+            catch {
+                hiScore = 0;
+            }
         }
         else {
             hiScore = (int)PlayerPrefs.GetFloat("hiScore");

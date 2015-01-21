@@ -7,17 +7,30 @@ public class LoginScript : MonoBehaviour {
     public Text notification;
     public Button loginBtn, passBtn;
     public InputField login, password;
+    private bool onlineOnce, offlineOnce;
+
+    void Start() {
+        Time.timeScale = 1;
+        onlineOnce = false;
+        offlineOnce = false;
+    }
 
 	void Update () {
         if(ScoreServer.connected) {
-            notification.text = "Please log in or register to make full use of the statistics in this game. You can play offline, but then only your local highscore will be available.";
-            loginBtn.interactable = true;
-            passBtn.interactable = true;
+            if(!onlineOnce) {
+                notification.text = "Please log in or register to make full use of the statistics in this game. You can play offline, but then only your local highscore will be available.";
+                loginBtn.interactable = true;
+                passBtn.interactable = true;
+                onlineOnce = true;
+            }
         }
         else {
-            notification.text = "No connection to the server. Please check your internet connection or play offline.";
-            loginBtn.interactable = false;
-            passBtn.interactable = false;
+            if(!offlineOnce) {
+                notification.text = "No connection to the server. Please check your internet connection or play offline.";
+                loginBtn.interactable = false;
+                passBtn.interactable = false;
+                offlineOnce = false;
+            }
         }
 	}
 
