@@ -22,7 +22,6 @@ public class GAWaveSpawner : MonoBehaviour
 
     public float maxX = 1;
     public float maxZ = 1;
-    float orcHeigthSpawn = 3.27f;
 
     public int totalStatPointsPerWave = 600;
     public int toenameStatPointsPerWave = 300;
@@ -195,11 +194,9 @@ public class GAWaveSpawner : MonoBehaviour
 
     public void selection(List<float> chances)
     {
-        float randomFloat;
 
         for (int i = 0; i < currentGen.Count; i++)
         {
-            randomFloat = Random.Range(0, 1) * chances[chances.Count - 1];
             int indexOfCurrentGen = 0;
             /*while (randomFloat > chances[indexOfCurrentGen])
             {
@@ -243,7 +240,7 @@ public class GAWaveSpawner : MonoBehaviour
             enemy.GetComponent<EnemyStats>().health = toenameStats[0];
             enemy.GetComponent<EnemyStats>().attack = toenameStats[1];
             enemy.GetComponent<EnemyStats>().defense = toenameStats[2];
-            enemy.GetComponent<EnemyStats>().speedMultiplier = Random.RandomRange(0.80f, 1.20f);
+            enemy.GetComponent<EnemyStats>().speedMultiplier = Random.Range(0.80f, 1.20f);
         }
     }
 

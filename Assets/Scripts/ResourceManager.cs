@@ -8,7 +8,6 @@ public class ResourceManager : MonoBehaviour {
     public static int Difficulty;
 
     [Header("Naam")]
-    public string name;
 	public int gateHealth;
 	//prefabs
 	[Header("Costs")]

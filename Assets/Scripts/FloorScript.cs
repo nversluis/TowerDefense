@@ -6,7 +6,6 @@ public class FloorScript : MonoBehaviour
 
 	Color transparentgreen = new Color (0, 255, 0, 0.1f);
 	Color transparentred = new Color (255, 0, 0, 0.1f);
-	private int i;
 	private GameObject player;
 	private GameObject ResourceManagerObj;
 	private ResourceManager resourceManager;
@@ -17,7 +16,6 @@ public class FloorScript : MonoBehaviour
 
 	void Start ()
 	{
-		i = 0;
 		ResourceManagerObj = GameObject.Find ("ResourceManager");
 		resourceManager = ResourceManagerObj.GetComponent<ResourceManager> ();
 		cost = 0;
@@ -100,7 +98,7 @@ public class FloorScript : MonoBehaviour
 							child.material.color = col;
 							child.material.shader = Shader.Find ("Transparent/Diffuse");
 						}
-					} catch (System.Exception e) {
+					} catch {
 					}
 				}
 				if (gameObject.transform.childCount == 3) { 
@@ -120,7 +118,7 @@ public class FloorScript : MonoBehaviour
 			player = GameObject.Find ("Player");
 		}
 		else if ((player.transform.position - transform.position).magnitude >= 70) {
-			transform.GetChild(0).gameObject.layer = 0;
+			transform.GetChild(0).gameObject.layer = 16;
 		} else {
 			transform.GetChild(0).gameObject.layer = 9;
 		}

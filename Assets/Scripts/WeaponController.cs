@@ -24,7 +24,6 @@ public class WeaponController : MonoBehaviour
 	//First FloorTower prefab
 	private GameObject FloorTower2; //poison
 	private GameObject FloorTower3; //ice
-	private GameObject FloorTower4; //spear
 	private GameObject barricade;
 
 	public static GameObject curTower;
@@ -46,7 +45,6 @@ public class WeaponController : MonoBehaviour
 		FloorTower1 = resourceManager.fireTrapHotspot;
 		FloorTower2 = resourceManager.poisonTrapHotspot;
 		FloorTower3 = resourceManager.iceTrapHotspot;
-		FloorTower4 = resourceManager.spearTrapHotspot;
 		barricade = resourceManager.barricade;
         weapSelected = true;
         curTower = null;

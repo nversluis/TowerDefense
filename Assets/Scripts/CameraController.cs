@@ -30,7 +30,6 @@ public class CameraController : MonoBehaviour {
     public static GameObject hitObject;
 
     public static LayerMask ignoreMask = ~((1 << 11) | (1 << 12) | (1 << 13)); //ignore layer 11 12 & 13
-    LayerMask MaskEnemyStats = ((1 << 12) | (1 << 10));
 
     private Text enemyHealthText;
     private Text enemyStatsText;
@@ -84,7 +83,6 @@ public class CameraController : MonoBehaviour {
         // create a vector from the player to the camera
         Vector3 relativePos = Position  - (Player.transform.position);
 
-        RaycastHit[] hits;
 
         Debug.DrawRay(Player.transform.position+ new Vector3(0f, camOffset, 0f) , relativePos);
 
@@ -92,7 +90,6 @@ public class CameraController : MonoBehaviour {
         // casting a ray from player to camera and checking if it hit something
 		if (Physics.Raycast(Player.transform.position + new Vector3(0f, camOffset, 0f), relativePos, out hit, camDis + 0.5f,ignoreMask))
         {
-			hits = Physics.RaycastAll(Player.transform.position, relativePos, camDis + 0.5f);
             // setting an offset of the camera so it doesnt go through a wall
             distanceOffset = camDis - hit.distance + 0.8f;
             distanceOffset = Mathf.Clamp(distanceOffset, 0f, camDis);

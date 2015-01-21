@@ -12,7 +12,6 @@ public class GUIScript : MonoBehaviour {
     private PlayerController playerController;
 
     private List<Item> inventory;
-    private List<Skill> skillset;
 
     [Header("Player HP")]
     public RectTransform frontPlayerHPBar;
@@ -98,7 +97,7 @@ public class GUIScript : MonoBehaviour {
     public Sprite[] TowerSprites = new Sprite[7];
 
 
-    private GameObject camera;
+    private GameObject cameraMain;
     private RectTransform rect;
     private LayerMask enemyMask = ((1 << 12) | (1 << 10) | (1 << 8));
     private RaycastHit hit;
@@ -244,7 +243,6 @@ public class GUIScript : MonoBehaviour {
         newItems.Add(new Item(1, new float[3] { 300f, 750f, 2000f }, new int[3] { (int)(0.1 * player.getAgility()), (int)(0.3 * player.getAgility()), (int)(0.5 * player.getAgility()) }));
         player.setItems(newItems);
 
-        skillset = player.getSkills();
         inventory = player.getItems();
 
         // Skills 
@@ -293,7 +291,7 @@ public class GUIScript : MonoBehaviour {
         // Enemy Popup
         enemyPanel.SetActive(false);
         rect = HP.GetComponent<RectTransform>();
-        camera = GameObject.Find("Main Camera");
+        cameraMain = GameObject.Find("Main Camera");
 
         // Buffered HP's
         fPlayerBufferedHP = 0;
@@ -523,7 +521,7 @@ public class GUIScript : MonoBehaviour {
     }
 
     void UpdateEnemyStats() {
-        if(Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, Mathf.Infinity, enemyMask)) {
+        if(Physics.Raycast(cameraMain.transform.position, cameraMain.transform.forward, out hit, Mathf.Infinity, enemyMask)) {
             TowerStats stats = hit.transform.GetComponentInChildren<TowerStats>();
             if(hit.transform.tag == "Enemy") {
                 EnemyHealth enemyHealth = hit.transform.GetComponent<EnemyHealth>();
@@ -762,7 +760,6 @@ public class GUIScript : MonoBehaviour {
 
         if(towerSelected) {
             for(int i = 0; i < towerIconList.Length; i++) {
-                Image tower = towerIconList[i];
                 if(i == currentTower) {
                     towerSelectList[i].enabled = true;
                 }
@@ -776,7 +773,6 @@ public class GUIScript : MonoBehaviour {
         }
         else {
             for(int i = 0; i < skillIconList.Length; i++) {
-                Image skill = skillIconList[i];
                 if(i == currentSkill) {
                     skillSelectList[i].enabled = true;
                 }
@@ -935,7 +931,6 @@ public class GUIScript : MonoBehaviour {
     }
 
     public void UpgradeWand() {
-        int currentTier = inventory[1].getTier();
         int currentIndex = inventory[1].getTier() - 1;
         inventory[1].setTier(inventory[1].getTier() + 1);
         player.setItems(inventory);
@@ -948,7 +943,6 @@ public class GUIScript : MonoBehaviour {
     }
 
     public void UpgradeShield() {
-        int currentTier = inventory[2].getTier();
         int currentIndex = inventory[2].getTier() - 1;
         inventory[2].setTier(inventory[2].getTier() + 1);
         player.setItems(inventory);
@@ -961,7 +955,6 @@ public class GUIScript : MonoBehaviour {
     }
 
     public void UpgradeBoots() {
-        int currentTier = inventory[3].getTier();
         int currentIndex = inventory[3].getTier() - 1;
         inventory[3].setTier(inventory[3].getTier() + 1);
         player.setItems(inventory);

@@ -7,7 +7,6 @@ public class enemySpawner : MonoBehaviour
 
     public GameObject Enemy;
     public float SpawnRate = 120f;
-    private float spawnRange = 10;
     public float maxX;
     public float maxZ;
     float orcHeigthSpawn = 3.27f;

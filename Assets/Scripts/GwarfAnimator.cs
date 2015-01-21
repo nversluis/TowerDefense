@@ -6,7 +6,6 @@ public class GwarfAnimator : MonoBehaviour
 
     protected Animator animator;
     EnemyResources enemyResources;
-    EnemyHealth enemyHealth;
 
     // Use this for initialization
     void Start()
@@ -14,7 +13,6 @@ public class GwarfAnimator : MonoBehaviour
 
         animator = GetComponent<Animator>();
         enemyResources = GetComponent<EnemyResources>();
-        enemyHealth = GetComponent<EnemyHealth>();
 
     }
 

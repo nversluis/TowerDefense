@@ -82,7 +82,7 @@ public class MenuController : MonoBehaviour {
         creditsBtnAnim.SetBool("Hidden", false);
         optionPnlAnim.SetBool("Hidden", true);
         scorePnlAnim.SetBool("Hidden", true);
-        statPnlAnim.SetBool("Hidden", true);
+        //statPnlAnim.SetBool("Hidden", true);
         // Load user preferences
         val1 = PlayerPrefs.GetInt("BGM");
         val2 = PlayerPrefs.GetInt("SFX");
@@ -195,7 +195,7 @@ public class MenuController : MonoBehaviour {
         creditsBtnAnim.SetBool("Hidden", true);
         optionPnlAnim.SetBool("Hidden", false);
         scorePnlAnim.SetBool("Hidden", true);
-        statPnlAnim.SetBool("Hidden", true);
+        //statPnlAnim.SetBool("Hidden", true);
 
         loadBtnAnim.SetTrigger("GoLeft");
         optionBtnAnim.SetTrigger("GoLeft");
@@ -218,7 +218,7 @@ public class MenuController : MonoBehaviour {
         creditsBtnAnim.SetBool("Hidden", true);
         optionPnlAnim.SetBool("Hidden", true);
         scorePnlAnim.SetBool("Hidden", false);
-        statPnlAnim.SetBool("Hidden", false);
+        //statPnlAnim.SetBool("Hidden", false);
 
         loadBtnAnim.SetTrigger("GoRight");
         optionBtnAnim.SetTrigger("GoRight");
@@ -253,7 +253,7 @@ public class MenuController : MonoBehaviour {
         creditsBtnAnim.SetBool("Hidden", false);
         optionPnlAnim.SetBool("Hidden", true);
         scorePnlAnim.SetBool("Hidden", true);
-        statPnlAnim.SetBool("Hidden", true);
+        //statPnlAnim.SetBool("Hidden", true);
     }
 
     public void CloseScoreScreen() {

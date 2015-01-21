@@ -14,13 +14,11 @@ public class LevelEditor : MonoBehaviour
 	//Distance between nodepoints
 
 	private GameObject editorPlane;
-	private GameObject planePrefab;
 	//Floor prefab
 	private GameObject wallPrefab;
 	//Wall prefab
 	private GameObject enemySpawner;
 	private GameObject Minimapcamera;
-	private GameObject Gate;
 	private GameObject torch;
 	public Camera cam;
     public GameObject buildingBlocksPanel;
@@ -30,7 +28,6 @@ public class LevelEditor : MonoBehaviour
 
 	public static ArrayList positions = new ArrayList ();
 	//Positions of the floors
-	private List<Vector3> NodesPos = new List<Vector3> ();
 	//Positions of the waypoints/nodes
 	private List<WayPoint> Nodes = new List<WayPoint> ();
 	//List with all Nodes
@@ -42,7 +39,6 @@ public class LevelEditor : MonoBehaviour
 	private bool playing;
 	private int currentPage;
 	private int maxPages;
-	private Button currentButSelected;
     private List<Button> currentButtonsSelected;
 	private string currentFileSelected;
     private List<string> currentFilesSelected;
@@ -52,10 +48,8 @@ public class LevelEditor : MonoBehaviour
     private Color Cend;
 	private Color CConnected;
 	private Color CNotConnected;
-	private Color CHighlighted;
 	public Button prevBut;
 	public Button nextBut;
-	private bool drawNavGrid;
     string tempfilename;
     Camera miniCamera;
     public Camera backGroundCamera;
@@ -92,7 +86,7 @@ public class LevelEditor : MonoBehaviour
     public GameObject loadPanel;
 
 	private GameObject player;
-	private GameObject camera;
+	private GameObject cameraMain;
 	private bool drawNavigationGrid;
 	private string AppPath;
 
@@ -140,13 +134,10 @@ public class LevelEditor : MonoBehaviour
 		height = resourceManager.height;
 		nodeSize = resourceManager.nodeSize;
 		editorPlane = resourceManager.editorPlane;
-		planePrefab = resourceManager.planePrefab;
 		wallPrefab = resourceManager.wallPrefab;
 		enemySpawner = resourceManager.enemySpawner;
 		Minimapcamera = resourceManager.Minimapcamera;
-		Gate = resourceManager.Gate;
 		torch = resourceManager.torch;
-		drawNavGrid = resourceManager.drawNavigationGrid;
 		posConnected = new List<Vector3> ();
 		allPos = new List<GameObject> ();
 		currentPage = 1;
@@ -155,12 +146,11 @@ public class LevelEditor : MonoBehaviour
         Cend = resourceManager.end;
 		CConnected = resourceManager.connected;
 		CNotConnected = resourceManager.notConnected;
-		CHighlighted = resourceManager.highlighted;
         AppPath = Application.dataPath + "/CustomMaps/";
 		type = 0;
 		drawNavigationGrid = resourceManager.drawNavigationGrid;
 		player = resourceManager.player;
-		camera = resourceManager.mainCamera;
+		cameraMain = resourceManager.mainCamera;
         instance = this;
         miniCamera = GameObject.Find("MiniCam").GetComponent<Camera>();
         amountOfEnds = 0;
@@ -851,7 +841,6 @@ public class LevelEditor : MonoBehaviour
     public static void convertAround(GameObject plane)
     {
         // Getting the position of the plane
-        Vector2 planePos = new Vector2(plane.transform.position.x, plane.transform.position.z) / instance.planewidth;
 
         // Getting the index of the plane
         int index = allPos.IndexOf(plane);
@@ -948,7 +937,7 @@ public class LevelEditor : MonoBehaviour
 		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Giving birth to Player...";
 		yield return new WaitForSeconds (0.1f);
         Destroy(backGroundCamera.GetComponent<AudioListener>());
-        RandomMaze.spawnPlayer(player, camera, resourceManager.Goal, enemySpawner, resourceManager.GUI, resourceManager.eventListener, startPos, endPos, Minimapcamera, width, length, planewidth);
+        RandomMaze.spawnPlayer(player, cameraMain, resourceManager.Goal, enemySpawner, resourceManager.GUI, resourceManager.eventListener, startPos, endPos, Minimapcamera, width, length, planewidth);
 		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Lighting torches...";
         //yield return new WaitForSeconds (0.1f);
         //RandomMaze.createSingleObjects (planewidth, enemySpawner, endPos, startPos);
@@ -1194,11 +1183,9 @@ public class LevelEditor : MonoBehaviour
 				}
 			}
 			LevelEditor.positions = positions;
-			Vector3 panelPos = cam.WorldToScreenPoint (loadMapsPanel.transform.position) / 2;
 			//ChangeTypes camera position and size to fit in load screen
 			cam.transform.position = new Vector3 (length - 1, 1, width - 1) * resourceManager.planewidth / 2;
 			cam.orthographicSize = Mathf.Max (length, width + 1) * resourceManager.planewidth / 2;
-            float mincaminfo = loadMapsPanel.GetComponent<RectTransform>().rect.height / 1080f;
             cam.rect = new Rect(0.4f, 0.3f,.4f, .4f);
             Recalculate();
             file.Close();
@@ -1254,7 +1241,6 @@ public class LevelEditor : MonoBehaviour
 
 
 		//create a list with the names of all layouts.
-		BinaryFormatter bf = new BinaryFormatter ();
 		//FileStream file = File.
 		string[] dirFiles = Directory.GetFiles (AppPath, "*.txt"); 
 		maxPages = (int)Mathf.Ceil ((float)dirFiles.Length / (float)filesPerPage);
@@ -1286,7 +1272,6 @@ public class LevelEditor : MonoBehaviour
                     but.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1)/4;
 
                     but.GetComponentInChildren<Text>().text = dirFiles[i];
-                    string fileName = dirFiles[i];
                     
                     but.onClick.AddListener(delegate
                     {
@@ -1349,7 +1334,6 @@ public class LevelEditor : MonoBehaviour
 
                 }
 
-                currentButSelected = but;
                 currentFileSelected = but.GetComponentInChildren<Text>().text;
 
                 currentButtonsSelected = new List<Button>();
@@ -1376,7 +1360,6 @@ public class LevelEditor : MonoBehaviour
                 currentButtonsSelected.Add(but);
                 currentFilesSelected.Add(but.GetComponentInChildren<Text>().text);
 
-                currentButSelected = null;
                 currentFileSelected = null;
 
                 loadMapFromFile(currentFilesSelected[currentFilesSelected.Count-1]);
@@ -1401,7 +1384,6 @@ public class LevelEditor : MonoBehaviour
                 currentButtonsSelected.Remove(but);
                 currentFilesSelected.Remove(but.GetComponentInChildren<Text>().text);
 
-                currentButSelected = null;
                 currentFileSelected = null;
             }
         }
@@ -1425,7 +1407,6 @@ public class LevelEditor : MonoBehaviour
 
 	private void cancelLoadScreen ()
 	{
-		currentButSelected = null;
 		currentFileSelected = null;
 		loadMapsPanel.SetActive (false);
 		Reset ();

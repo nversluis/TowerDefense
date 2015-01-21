@@ -27,12 +27,11 @@ public class RandomMaze : MonoBehaviour
 	//Node prefab
 	private GameObject enemySpawner;
 	private GameObject Minimapcamera;
-	private GameObject Gate;
 	private GameObject torch;
 	public GameObject LoadingScreen;
 
 	private GameObject player;
-	private GameObject camera;
+	private GameObject cameraMain;
 	private Vector2 startPos;
 	private Vector2 endPos;
 	private Vector4 lastPos;
@@ -78,11 +77,10 @@ public class RandomMaze : MonoBehaviour
 		wallPrefab = resourceManager.wallPrefab;
 		enemySpawner = resourceManager.enemySpawner;
 		Minimapcamera = resourceManager.Minimapcamera;
-		Gate = resourceManager.Gate;
 		torch = resourceManager.torch;
 		drawNavigationGrid = resourceManager.drawNavigationGrid;
 		player = resourceManager.player;
-		camera = resourceManager.mainCamera;
+		cameraMain = resourceManager.mainCamera;
 		startPos = new Vector2 (0, 0); //Start position where enemy´s spawn
 		endPos = new Vector2 (length, 0); //End position where enemy´s go
 		resourceManager.startPos = startPos;
@@ -127,9 +125,9 @@ public class RandomMaze : MonoBehaviour
 		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Dwogres wanted a red carpet to walk on, generating..";
 		yield return new WaitForSeconds (0.1f);
 		Nodes = SpawnNodes (positions, nodeSize, planewidth, Nodes, length, width, drawNavigationGrid, false, endPos, startPos);
-		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Giving birth to Player...=";
+		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Giving birth to Player...";
 		yield return new WaitForSeconds (0.1f);
-		spawnPlayer (player, camera, resourceManager.Goal, enemySpawner, resourceManager.GUI, resourceManager.eventListener, startPos * planewidth, endPos, Minimapcamera, width, length, planewidth);
+		spawnPlayer (player, cameraMain, resourceManager.Goal, enemySpawner, resourceManager.GUI, resourceManager.eventListener, startPos * planewidth, endPos, Minimapcamera, width, length, planewidth);
 		LoadingScreen.GetComponentInChildren<Text> ().text = "Loading: Lightning torches..";
 		//yield return new WaitForSeconds(0.1f);
 		//createSingleObjects (planewidth,enemySpawner,endPos,startPos);
@@ -549,13 +547,13 @@ public class RandomMaze : MonoBehaviour
 
 
 
-	public static void spawnPlayer (GameObject player, GameObject camera, GameObject Goal2, GameObject enemySpawner, GameObject Gui, GameObject EventList, Vector2 startPos, Vector2 endPos, GameObject Minimapcamera, int width, int length, float planewidth)
+	public static void spawnPlayer (GameObject player, GameObject cameraMain, GameObject Goal2, GameObject enemySpawner, GameObject Gui, GameObject EventList, Vector2 startPos, Vector2 endPos, GameObject Minimapcamera, int width, int length, float planewidth)
 	{			
 
-		GameObject MainCamera = (GameObject)Instantiate (camera, new Vector3 (0f, 0f, 0f), Quaternion.identity);
+		GameObject MainCamera = (GameObject)Instantiate (cameraMain, new Vector3 (0f, 0f, 0f), Quaternion.identity);
 		MainCamera.name = "Main Camera";
 		if (GameObject.Find ("EventListener") != null) {
-			GameObject EventListener = (GameObject)Instantiate (EventList, new Vector3 (0f, 0f, 0f), Quaternion.identity);
+			Instantiate (EventList, new Vector3 (0f, 0f, 0f), Quaternion.identity);
 		}
         backingAudio = GameObject.Find("backingAudio").GetComponent<AudioSource>();
 

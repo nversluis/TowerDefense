@@ -137,7 +137,6 @@ public class AccountServer : MonoBehaviour {
         bool res = false;
 
         List<string> gebruikersnamen = getUsernames();
-        List<string> wachtwoorden = getPasswords();
 
         if (gebruikersnamen.Contains(naam) && wachtwoord.Contains(wachtwoord))
         {

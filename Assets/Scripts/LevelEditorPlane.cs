@@ -5,7 +5,6 @@ using System.Collections.Generic;
 public class LevelEditorPlane : MonoBehaviour
 {
 
-	private ArrayList positions = new ArrayList ();
 	//Positions of the floors
 
 	private GameObject ResourceManagerObj;
@@ -16,7 +15,6 @@ public class LevelEditorPlane : MonoBehaviour
     private Color Cend;
 	private Color CConnected;
 	private Color CNotConnected;
-	private Color CHighlighted;
     bool highlighted;
 
 	void Start ()
@@ -29,7 +27,6 @@ public class LevelEditorPlane : MonoBehaviour
         Cend = resourceManager.end;
 		CConnected = resourceManager.connected;
 		CNotConnected = resourceManager.notConnected;
-		CHighlighted = resourceManager.highlighted;
 
 	}
 
