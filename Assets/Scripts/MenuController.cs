@@ -272,7 +272,7 @@ public class MenuController : MonoBehaviour {
         }
         else {
             scorePanelList[10].SetActive(true);
-            rankList[10].text = ScoreServer.getPositionOnHiscores(PlayerPrefs.GetString("Login")).ToString() + ":";
+            ///rankList[10].text = ScoreServer.getPositionOnHiscores(PlayerPrefs.GetString("Login")).ToString() + ":";
             nameList[10].text = PlayerPrefs.GetString("Login");
             //hiScoreList[10].text = HiScores[ScoreServer.getPositionOnHiscores(PlayerPrefs.GetString("Login"))][1];
         }
