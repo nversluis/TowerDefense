@@ -202,7 +202,7 @@ public class EnemyHealth : MonoBehaviour {
 		if (isPoisoned) {
 			TakeDamage ((int)poisonAmount,"poison", false);
 			poisonAmount *= 0.5f;
-			if (poisonAmount <= 1) {
+			if (poisonAmount <= 50) {
 				isPoisoned = false;
 				transform.Find ("Poison particle").gameObject.SetActive (false);
 			}
@@ -235,6 +235,7 @@ public class EnemyHealth : MonoBehaviour {
             enemyResources.isDead = true;
             enemyResources.walking = false;
             enemyResources.attacking = false;
+			transform.Find ("Poison particle").gameObject.SetActive (false);
 
             int enemyType;
 
