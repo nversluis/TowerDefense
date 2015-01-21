@@ -294,7 +294,7 @@ public class MenuController : MonoBehaviour {
                 scorePanelList[10].SetActive(true);
                 rankList[10].text = ScoreServer.getPositionOnHiscores((int)scoreDifficulty.value, PlayerPrefs.GetString("Login")).ToString() + ":";
                 nameList[10].text = PlayerPrefs.GetString("Login");
-                hiScoreList[10].text = HiScores[ScoreServer.getPositionOnHiscores((int)scoreDifficulty.value, PlayerPrefs.GetString("Login"))-1][1];
+                hiScoreList[10].text = HiScores[ScoreServer.getPositionOnHiscores((int)scoreDifficulty.value, PlayerPrefs.GetString("Login"))][1];
             }
             else {
                 scorePanelList[10].SetActive(false);
