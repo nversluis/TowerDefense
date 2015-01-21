@@ -222,6 +222,7 @@ public class GUIScript : MonoBehaviour {
         goalScript = GameObject.Find("Goal").GetComponent<GoalScript>();
         waveSpawner = GameObject.Find("EnemySpawner(Clone)").GetComponent<WaveSpawner>();
 
+
         /* Initialize */
 
         // Player Data

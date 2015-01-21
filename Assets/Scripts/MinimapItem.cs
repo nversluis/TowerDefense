@@ -15,9 +15,9 @@ public class MinimapItem : MonoBehaviour {
 			player = GameObject.Find ("Player");
 		}
 		else if ((player.transform.position - transform.position).magnitude >= 70) {
-			transform.GetChild(0).gameObject.layer = 16;
+			gameObject.layer = 16;
 		} else {
-			transform.GetChild(0).gameObject.layer = 9;
+			gameObject.layer = 9;
 		}
 	
 	}
