@@ -378,6 +378,12 @@ public class GUIScript : MonoBehaviour {
         UpdateWaveText();
         UpdateShop();
         UpdateBuildTower();
+
+        scoreText.text = Statistics.Score().ToString();
+
+        if(online == 0 && Statistics.Score() > PlayerPrefs.GetFloat("hiScore")) {
+            PlayerPrefs.SetFloat("hiScore", Statistics.Score());
+        }
     }
 
     void Update() {
@@ -419,12 +425,6 @@ public class GUIScript : MonoBehaviour {
                 Time.timeScale = 0;
             }
 
-        }
-
-        scoreText.text = Statistics.Score().ToString();
-
-        if(online == 0 && Statistics.Score() > PlayerPrefs.GetFloat("hiScore")){
-            PlayerPrefs.SetFloat("hiScore", Statistics.Score());
         }
 
         if (Time.timeScale != 0)
@@ -863,6 +863,7 @@ public class GUIScript : MonoBehaviour {
 
     public void EndGame(string reason = "none") {
         int hiScore;
+        scoreText.text = "";
         if(online == 1) {
             hiScore = int.Parse(ScoreServer.getHiscores(PlayerPrefs.GetInt("Difficulty"))[0][1]);
         }
@@ -1115,7 +1116,6 @@ public class GUIScript : MonoBehaviour {
                 }
             }
             txt.text = "" + (int)bufferedScore;
-            Debug.Log("Scale: " + (float)((int)bufferedScore / hiScore));
             if(bufferedScore < hiScore) {
                 img.rectTransform.localScale = new Vector3((float)(bufferedScore / hiScore), 1, 1);
             }

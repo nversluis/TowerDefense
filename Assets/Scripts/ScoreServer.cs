@@ -299,7 +299,7 @@ public class ScoreServer : MonoBehaviour
         return hiscoresTotRank;
     }
 
-    public List<List<string>> getStatistics()
+    public static List<List<string>> getStatistics()
     {
         List<List<string>> res = new List<List<string>>();
 
