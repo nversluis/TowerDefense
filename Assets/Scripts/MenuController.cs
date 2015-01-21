@@ -124,7 +124,9 @@ public class MenuController : MonoBehaviour {
             else {
                 transform.anchoredPosition = scorePanelList[0].GetComponent<RectTransform>().anchoredPosition + new Vector2(0, -40f * (float)i);
             }
-            btn.onClick.AddListener(() => ToStatistics(i));
+            if(i != 10) {
+                btn.onClick.AddListener(() => ToStatistics(i));
+            }
             scorePanelList.Add(newPanel);
             rankList.Add(rank);
             nameList.Add(name);
@@ -292,6 +294,7 @@ public class MenuController : MonoBehaviour {
                 rankList[10].text = index.ToString() + ":";
                 nameList[10].text = PlayerPrefs.GetString("Login");
                 hiScoreList[10].text = HiScores[index - 1][1];
+                scoreBtnList[10].onClick.AddListener(() => ToStatistics(index - 1));
             }
         }
         else {
