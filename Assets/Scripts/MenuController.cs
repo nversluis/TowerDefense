@@ -297,6 +297,8 @@ public class MenuController : MonoBehaviour {
                 nameList[10].text = PlayerPrefs.GetString("Login");
                 hiScoreList[10].text = HiScores[index - 1][1];
                 scoreBtnList[10].onClick.AddListener(() => ToStatistics(index - 1));
+            } else {
+                scorePanelList[10].SetActive(false);
             }
         }
         else {

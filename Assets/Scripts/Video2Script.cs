@@ -10,6 +10,8 @@ public class Video2Script : MonoBehaviour {
     AudioSource camAudio;
 	// Use this for initialization
 	void Start () {
+        Time.timeScale = 1;
+
         image = Resources.LoadAll<Sprite>("VideoSprites");
         i = 0;
         InvokeRepeating("Video", 1f, 1 / 30f);

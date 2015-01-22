@@ -15,6 +15,7 @@ public class VideoScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        Time.timeScale = 1;
         InvokeRepeating("Video", 1f, 1/30f);
         camAudio = GameObject.Find("Main Camera").GetComponent<AudioSource>();
         image = Resources.LoadAll<Sprite>("Minor Media IMG Sequence");

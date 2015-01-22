@@ -1,40 +1,39 @@
-Wrath of the dwogres version 1.0.0
+Wrath of the dwogres (WOTD) Final Release
 
-Run the application Wrath_of_the_dwogres_v1.0.0 found in the main directory to play the game.
+Run the application WOTD Final Release found in the main directory to play the game.
 
 ===== Main Menu
 
-The game starts with a main menu. The main menu contains 4 options:
+The game starts with a log in screen. The login screen contains 3 options:
 
-1. Start game: this option starts a game with a randomly generated map. Your goal is to defend
-the sphere from being reached by the enemies and to stay alive.
+1. Login: if you already have registered an account, fill in your username and password to continue on to the game.
+2. Register: if you don't have a registered account, fill in a desired username and password to register an account.
+3. Play offline: if there is no connection between the user and the server there will be no other option than playing offline.
 
-2. Options: this option doesn't have any functionality at the moment.
+Once you are logged in or play offline, the game redirects you to the main menu. The main menu contains 7 options:
 
-3. Level editor: This option allows you to build/save/load and generate the custom map. You can
-only place start and end positions of the map on the left and right side of the map, respectively.
+1. Start random map: this option starts a randomly generated map.
+2. Load map: this option allows you to load a predefined or custom made map.
+3. Mep editor: this mode allows you to create custom maps and play them.
+4. Options: Allows you to adjust the volume and the difficulty settings.
+5. Quit Game: Exits play mode
+6. High Scores: Allows the player to check the scores of all the top 10 players around the globe. 
+		Clicking on one of the names allows the player to view their statistics.
+7. Credits: The names of the developpers/designers can be found here.
 
-4. Quit game: Exit play mode with this button.
+===== In game controls
 
-==== In game controls
+In game controls can be found in the loading screen when playing a map.
 
-The player spawns in the sphere it has to protect. If an enemy reaches this sphere, you lose a life. Your job
-as the player is to protect this sphere by preventing enemies to reach it by killing them. Place towers and
-traps to aid the player in surviving all waves.
 
-- Move the player with the WASD-keys
-- Shoot bullets with the left mouse button
-- Move camera view with mouse movement
-- Pressing numbers (2,3,4,5) allows the player to place towers and traps:
-	2 allows you to play towers on the walls and fire traps on the ground
-	3 allows you to play poison traps on the ground
-	4 allows you to play ice traps
-	5 has no functional trap atm
-	Pressing 1 changes the player back to regular shooting
-- All towers and traps cost coins. You gain coins by defeating enemies and completing waves
-- Every wave is harder than the wave before
+The player spawns near the gate it has to protect. 
+If an enemy reaches this gate, the enemy will start attacking it.
+Your job as the player is to protect this gate by preventing enemies to attack it by killing them. 
+Place towers, traps and upgrade your abilities to aid the player in surviving all waves.
 
-Are you up for the challenge to protect the sphere from all 10 waves of enemies?
+
+
+
 
 
 
