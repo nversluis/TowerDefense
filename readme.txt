@@ -17,6 +17,9 @@ Once you are logged in or play offline, the game redirects you to the main menu.
 3. Mep editor: this mode allows you to create custom maps and play them.
 4. Options: Allows you to adjust the volume and the difficulty settings.
 5. Quit Game: Exits play mode
+6. High Scores: Allows the player to check the scores of all the top 10 players around the globe. 
+		Clicking on one of the names allows the player to view their statistics.
+7. Credits: The names of the developpers/designers can be found here.
 
 ===== In game controls
 
