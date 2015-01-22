@@ -181,7 +181,7 @@ public class WeaponController : MonoBehaviour
 
             }
             //If 3 pressed, building tower will be tower 2, cant cast magic.
-            else if ((Input.GetKey(inputManager.tow2Input) || ((int)Mathf.Round(weapon + towerscroller) == 26 || (int)Mathf.Round(weapon + towerscroller) == 44)) && !weapSelected)
+            else if ((Input.GetKey(inputManager.tow2Input) || ((int)Mathf.Round(weapon + towerscroller) == 26 || (int)Mathf.Round(weapon + towerscroller) == 44)) && weapon != 35 && !weapSelected)
             {
                 curTower = Tower2;
                 curFloorTower = null;
@@ -192,7 +192,7 @@ public class WeaponController : MonoBehaviour
                 towerscrollerTop = 1;
                 towerscrollerDown = -1;
             }
-            else if ((Input.GetKey(inputManager.tow3Input) || ((int)Mathf.Round(weapon + towerscroller) == 36 || (int)Mathf.Round(weapon + towerscroller) == 54)) && !weapSelected)
+            else if ((Input.GetKey(inputManager.tow3Input) || ((int)Mathf.Round(weapon + towerscroller) == 36 || (int)Mathf.Round(weapon + towerscroller) == 54)) && weapon != 45 && !weapSelected)
             {
                 curTower = null;
                 curFloorTower = FloorTower1;
@@ -264,6 +264,7 @@ public class WeaponController : MonoBehaviour
             {
                 towerscroller = Mathf.Clamp(weaponscroller + Input.GetAxisRaw("Mouse ScrollWheel") * scrollspeedtower, towerscrollerDown, towerscrollerTop);
             }
+
         }
 	}
 

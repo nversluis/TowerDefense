@@ -50,9 +50,9 @@ public class TowerScript : MonoBehaviour
 			gameObject.layer = 13;
 			playerData.addGold (-cost);
 			if (gameObject.name.Contains ("magic")) {
-				Statistics.magicTowersBuilt = Statistics.magicTowersBuilt++;
+				Statistics.magicTowersBuilt += 1;
 			} else if (gameObject.name.Contains ("Arrow")) {
-				Statistics.arrowTowersBuilt = Statistics.arrowTowersBuilt++;
+                Statistics.arrowTowersBuilt += 1;
 			}
 
 			Destroy (gameObject); // Destroy all hotspots

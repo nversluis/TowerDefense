@@ -199,7 +199,6 @@ public class WaveSpawner : MonoBehaviour
             {
                 if (enemies.Count == 0)
                 {
-					PlayerController.waveEnded = true;
                     resourceManager.rewardWave[ResourceManager.Difficulty] = (int)Mathf.Round((startRewardWave * Mathf.Pow(RewardWaveFactor, (currentWave - 1))));
                     // Voeg gold toe voor de speler na elke wave
                     playerData.addGold(resourceManager.rewardWave[ResourceManager.Difficulty]);
@@ -229,13 +228,19 @@ public class WaveSpawner : MonoBehaviour
 
         if (Won)
         {
-            currentWave = maxWaves;
-            resourceManager.currentWave = maxWaves;
-            guiScript.resultScoreText.text = Statistics.Score().ToString();
-            guiScript.EndGame("You Won!");
-            Won = false; 
+            PlayerController.waveEnded = true;
+            Invoke("Winning", 4f);
 
         }
+    }
+
+    void Winning()
+    {
+        currentWave = maxWaves;
+        resourceManager.currentWave = maxWaves;
+        guiScript.resultScoreText.text = Statistics.Score().ToString();
+        guiScript.EndGame("You Won!");
+        Won = false; 
     }
 
     void Spawnenemy()
