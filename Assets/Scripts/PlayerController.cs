@@ -404,7 +404,7 @@ public class PlayerController : MonoBehaviour
     {
         if (distortion <= 10)
         {
-            distortion = distortion + 4f;
+            distortion = distortion + 5f;
         }
 
     }
@@ -414,7 +414,7 @@ public class PlayerController : MonoBehaviour
     {
         if (distortion > 0 )
         {
-            distortion = distortion / 1.05f;
+            distortion = distortion / 1.07f;
         }
 
     }
@@ -460,7 +460,7 @@ public class PlayerController : MonoBehaviour
 		}
 
 		// add the force to the bullet
-		bullet.rigidbody.velocity = camShootDistance.normalized * BulletSpeed;
+		bullet.rigidbody.velocity = camShootDistance.normalized * BulletSpeed + new Vector3(Random.Range(-1f,1f),Random.Range(-1f,1f),Random.Range(-1f,1f))*distortion;
 		AddBulletDistortion();
 
 		// looking in the direction of the camera
