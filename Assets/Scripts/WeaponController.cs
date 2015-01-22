@@ -265,6 +265,79 @@ public class WeaponController : MonoBehaviour
                 towerscroller = Mathf.Clamp(weaponscroller + Input.GetAxisRaw("Mouse ScrollWheel") * scrollspeedtower, towerscrollerDown, towerscrollerTop);
             }
 
+            if (weapon == 1)
+            {
+                curTower = null;
+                curFloorTower = null;
+                weapon = 1;
+                player.setSkill(0);
+            }
+            else if (weapon == 2)
+            {
+                curTower = null;
+                curFloorTower = null;
+                player.setSkill(1);
+            }
+            else if (weapon == 3)
+            {
+                curTower = null;
+                curFloorTower = null;
+                player.setSkill(2);
+            }
+            else if (weapon == 3)
+            {
+                curTower = null;
+                curFloorTower = null;
+                player.setSkill(3);
+            }
+            else if (weapon == 25)
+            {
+                curTower = Tower1;
+                curFloorTower = null;
+                player.setTower(0);
+            }
+            else if (weapon == 35)
+            {
+                curTower = Tower2;
+                curFloorTower = null;
+                player.setTower(1);
+            }
+            else if (weapon == 45)
+            {
+                curTower = null;
+                curFloorTower = FloorTower1;
+                player.setTower(2);
+
+            }
+            else if (weapon == 55)
+            {
+                curTower = null;
+                curFloorTower = FloorTower2;
+                player.setTower(3);
+
+            }
+            else if (weapon == 65)
+            {
+                curTower = null;
+                curFloorTower = FloorTower3;
+                player.setTower(4);
+
+            }
+            else if (weapon == 85)
+            {
+                curTower = null;
+                curFloorTower = barricade;
+                player.setTower(5);
+
+            }
+            else if (weapon == 50)
+            {
+                curTower = null;
+                curFloorTower = null;
+                player.setTower(6);
+
+            }
+
         }
 	}
 

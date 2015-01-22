@@ -688,7 +688,7 @@ public class LevelEditor : MonoBehaviour
 
             GameObject.Find("YesButton").GetComponent<Button>().onClick.AddListener(delegate
             {
-                Application.LoadLevel(0);
+                Application.LoadLevel("Main menu");
 
             });
 

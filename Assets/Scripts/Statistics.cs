@@ -68,6 +68,12 @@ public class Statistics : MonoBehaviour {
         headShotStreak = 0;
         playerKills = 0;
         towerKills = 0;
+        fireTrapsBuilt = 0;
+        iceTrapsBuilt = 0;
+        poisonTrapsBuilt = 0;
+        magicTowersBuilt = 0;
+        arrowTowersBuilt = 0;
+        barricadesBuilt = 0;
     }
 
     public static void Kill(int enemyType, bool killedByPlayer, bool headShot){

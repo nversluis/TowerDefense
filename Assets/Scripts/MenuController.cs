@@ -51,7 +51,7 @@ public class MenuController : MonoBehaviour {
         backingAudio.volume = musicVolume * 0.5f;
         firstload = true;
         backingAudio.Play();
-
+        LevelEditor.editing = false;
         // Set options on first run
         if(!PlayerPrefs.HasKey("BGM")) {
             PlayerPrefs.SetInt("BGM", 100);
